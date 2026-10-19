@@ -15,7 +15,7 @@
     "parentChatGPT": "oversight and reporting",
     "verifiedWorkbridgeVersion": "0.6.1",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
-    "availableIndependentAiWorkerCount": null,
+    "availableIndependentAiWorkerCount": 4,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
     "managerOwnedPaths": [
       "ROADMAP.md",
@@ -47,8 +47,8 @@
           "docs/agents/c2m.json",
           "tools/agents/c2m/**"
         ],
-        "activeJobId": null,
-        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+        "activeJobId": "rre-resume-worker-c2m-20261019-01",
+        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-3674-75d2-aa04-d998890c08c5 running on task M2-001"
       },
       "follow": {
         "worktree": "C:/work/rre-worker-follow",
@@ -58,8 +58,8 @@
           "docs/agents/follow.json",
           "tools/agents/follow/**"
         ],
-        "activeJobId": null,
-        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+        "activeJobId": "rre-resume-worker-follow-20261019-01",
+        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-3ba6-7a90-b0ae-cbd8d1d1ad71 running on task M2-002"
       },
       "collision": {
         "worktree": "C:/work/rre-worker-collision",
@@ -69,8 +69,8 @@
           "docs/agents/collision.json",
           "tools/agents/collision/**"
         ],
-        "activeJobId": null,
-        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+        "activeJobId": "rre-resume-worker-collision-20261019-01",
+        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-4403-76d0-94cb-5828d4d8d0f7 running on task M3-002"
       },
       "ghidra": {
         "worktree": "C:/work/rre-worker-ghidra",
@@ -91,15 +91,16 @@
           "docs/agents/validation.json",
           "tools/agents/validation/**"
         ],
-        "activeJobId": null,
-        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+        "activeJobId": "rre-resume-worker-validation-20261019-01",
+        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-4d0a-7453-b826-6cc40fb99439 running on task M1-002"
       }
     },
     "oneWriterPerFile": true,
     "noNestedSwarm": true,
     "noLiveInputWithoutSeparateExplicitApproval": true,
     "noUnchangedFullProgramGhidraImport": true,
-    "noRemotePush": true
+    "noRemotePush": true,
+    "availableIndependentAiWorkerCountEvidence": "Four distinct current Codex CLI threads observed through --json thread.started events, not a guaranteed maximum user entitlement; parent conversation acts as sole Manager."
   },
   "statusVocabulary": [
     "integrated",
@@ -140,20 +141,39 @@
       "Dirty files are previous work, not authorized for overwrite/reset.",
       "Six prior specialized reports are integrated into main; do not create a duplicate swarm.",
       "Current worker processes were not demonstrated to be active or inactive by worktree status alone."
-    ]
+    ],
+    "preflight20261019": {
+      "gitHeadAtStart": "d2c309363de86d234bc9c52d7f0306c87805821c",
+      "gitHeadAfterHardening": "81b58648ed04c2d2997af5473d097a224e2b7301",
+      "gameExecutableHashMatched": true,
+      "worktreeStatus": {
+        "c2m": "clean",
+        "follow": "clean",
+        "collision": "clean",
+        "ghidra": "clean",
+        "validation": "clean",
+        "pathfinding": "five preexisting untracked query files; reserved"
+      },
+      "codexProcessCheck": {
+        "totalProcessMatches": 3,
+        "commandLineReferencesToRre": 0,
+        "scope": "No explicit research-worktree reference; command-line check does not establish all process working directories"
+      },
+      "mainExistingDirtyChangesProtected": true
+    }
   },
   "milestones": [
     {
       "id": "M0",
       "title": "Safe state and exclusive ownership",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [],
       "gate": "Confirm main/worktrees/jobs/build and protect dirty changes; no duplicate writers"
     },
     {
       "id": "M1",
       "title": "Research tool validation and provenance",
-      "status": "review",
+      "status": "running",
       "dependsOn": [
         "M0"
       ],
@@ -162,7 +182,7 @@
     {
       "id": "M2",
       "title": "Native movement, C2M and cancellation",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0"
       ],
@@ -171,7 +191,7 @@
     {
       "id": "M3",
       "title": "Native routing and collision reuse",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0"
       ],
@@ -242,7 +262,7 @@
       "milestone": "M0",
       "lane": "manager",
       "title": "Reconcile current owners, uncommitted files and actual jobs",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [],
       "deliverable": "Refresh Git worktree/status and inspect jobs before launching workers",
       "acceptance": [
@@ -252,22 +272,22 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
+      "integratedCommit": "81b58648ed04c2d2997af5473d097a224e2b7301",
       "evidence": [
-        "AGENTS.md",
-        "docs/agent-coordination.md"
+        "git worktree/status checks of all six lanes",
+        "rre-resume-build-sha-20261019-01",
+        "rre-resume-agent-process-check-20261019-01",
+        "rre-resume-codex-cmd-scope-20261019-01"
       ],
-      "blockers": [
-        "Actual running local Codex/worker status not yet established",
-        "Existing main/tool and pathfinding dirty files must be preserved"
-      ]
+      "blockers": [],
+      "acceptanceNotes": "Clean lanes are available for new assignments. Pathfinding retained five untracked query files and is blocked until reconciled; existing untracked Ghidra probes remain main-owned. Codex process identities and current working directories are not fully established; do not start a conflicting writer."
     },
     {
       "id": "M1-001",
       "milestone": "M1",
       "lane": "manager",
       "title": "Review and integrate previously implemented V1-V5 fixes",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -280,27 +300,46 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
+      "integratedCommit": "81b58648ed04c2d2997af5473d097a224e2b7301",
       "evidence": [
-        "docs/navigation-tool-hardening-2026-10-18.md"
+        "docs/navigation-tool-hardening-2026-10-18.md",
+        "artifacts/navigation-m1-resume-20261019-0148.json"
       ],
       "latestReadOnlyValidation": {
         "dateLocal": "2026-10-19",
-        "suite": {"jobId": "rre-roadmap-M1-tests-20261019-01", "testsPassed": 13, "exitCode": 0},
-        "artifactAudit": {"jobId": "rre-roadmap-M1-audit-20261019-01", "exitCode": 0, "pefileWarningsObserved": 825},
-        "nodeSyntax": {"jobId": "rre-roadmap-M1-nodecheck-20261019-01", "exitCode": 0},
-        "interpretation": "Current dirty hardening source passed read-only regression checks. Review ownership/diffs and run the bounded exact-build query before integrating; no claim of a completed code commit."
+        "suite": {
+          "jobId": "rre-resume-m1-regressions-20261019-01",
+          "testsPassed": 13,
+          "exitCode": 0
+        },
+        "exactBuildQuery": {
+          "jobId": "rre-resume-m1-exact-pe-query-20261019-01",
+          "exitCode": 0,
+          "regions": 3,
+          "verifiedCallers": [
+            "0x8a9e6",
+            "0x8efd0"
+          ],
+          "sha256": "d72c03ae46c63adda16cb96bcfceed72270c4999a4fad044d6c9a638a567b7af"
+        },
+        "nodeSyntax": {
+          "jobId": "rre-resume-m1-nodecheck-20261019-01",
+          "exitCode": 0
+        },
+        "whitespace": {
+          "jobId": "rre-resume-m1-git-diffcheck-20261019-01",
+          "exitCode": 0
+        },
+        "meaning": "V1-V5 repaired/committed, synthetic raw driver tested; actual Ghidra import not run"
       },
-      "blockers": [
-        "Main has dirty shared files; do not edit or overwrite them until current owner reconciled"
-      ]
+      "blockers": []
     },
     {
       "id": "M1-002",
       "milestone": "M1",
       "lane": "validation",
       "title": "Investigate V6: pefile chained-unwind warnings",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0-002"
       ],
@@ -309,12 +348,13 @@
         "Count and classify existing 825 warnings with known limitations",
         "No unsupported global unwind coverage claim"
       ],
-      "assignedAgentId": null,
-      "jobId": null,
+      "assignedAgentId": "01a152bb-4d0a-7453-b826-6cc40fb99439",
+      "jobId": "rre-resume-worker-validation-20261019-01",
       "integratedCommit": null,
       "evidence": [
         "docs/agents/validation.md"
-      ]
+      ],
+      "blockers": []
     },
     {
       "id": "M1-003",
@@ -368,7 +408,7 @@
       "milestone": "M2",
       "lane": "c2m",
       "title": "Characterize C2M event owner and native destination handle",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0-002"
       ],
@@ -378,19 +418,20 @@
         "Distinguish event/button inference from verified semantics",
         "Record bounded bytes and exact build"
       ],
-      "assignedAgentId": null,
-      "jobId": null,
+      "assignedAgentId": "01a152bb-3674-75d2-aa04-d998890c08c5",
+      "jobId": "rre-resume-worker-c2m-20261019-01",
       "integratedCommit": null,
       "evidence": [
         "docs/agents/c2m.md"
-      ]
+      ],
+      "blockers": []
     },
     {
       "id": "M2-002",
       "milestone": "M2",
       "lane": "follow",
       "title": "Trace actual cancellation input and relationship to C2M",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0-002"
       ],
@@ -399,12 +440,13 @@
         "Separate native follow-state clear from C2M clear",
         "No claim that any gesture stops movement without runtime observation"
       ],
-      "assignedAgentId": null,
-      "jobId": null,
+      "assignedAgentId": "01a152bb-3ba6-7a90-b0ae-cbd8d1d1ad71",
+      "jobId": "rre-resume-worker-follow-20261019-01",
       "integratedCommit": null,
       "evidence": [
         "docs/agents/follow.md"
-      ]
+      ],
+      "blockers": []
     },
     {
       "id": "M3-001",
@@ -436,7 +478,7 @@
       "milestone": "M3",
       "lane": "collision",
       "title": "Identify usable collision hit/filter/clearance semantics",
-      "status": "queued",
+      "status": "running",
       "dependsOn": [
         "M0-002"
       ],
@@ -445,12 +487,13 @@
         "Document endpoints, filter/result candidates and unknown coordinate frame",
         "Do not call it a player-clearance query without evidence"
       ],
-      "assignedAgentId": null,
-      "jobId": null,
+      "assignedAgentId": "01a152bb-4403-76d0-94cb-5828d4d8d0f7",
+      "jobId": "rre-resume-worker-collision-20261019-01",
       "integratedCommit": null,
       "evidence": [
         "docs/agents/collision.md"
-      ]
+      ],
+      "blockers": []
     },
     {
       "id": "M4-001",
@@ -594,12 +637,24 @@
       "decision": "Protect uncommitted main hardening and pathfinding query files; no duplicate workers until actual job/worktree preflight.",
       "basis": "Observed current Git statuses",
       "date": "2026-10-19"
+    },
+    {
+      "id": "D-003",
+      "date": "2026-10-19",
+      "decision": "Accepted existing V1–V5 hardening and synthetic raw-driver support after 13 regressions and exact-build query; committed as 81b5864.",
+      "basis": "M1-001 verification and selected-file main commit"
+    },
+    {
+      "id": "D-004",
+      "date": "2026-10-19",
+      "decision": "Do not include untracked raw Ghidra probe scripts or preexisting pathfinding queries in M1 hardening commit.",
+      "basis": "File-ownership preservation, clean lane allocation"
     }
   ],
   "nextManagerActions": [
-    "Verify existing Codex/worker processes and existing six worktree states before issuing new jobs.",
-    "Review and independently validate existing V1-V5 hardening, then integrate selected changes; do not rewrite dirty files.",
-    "Release strictly owned, independent offline M2/M3 tasks when worktrees are safe; record real job IDs and checkpoints.",
-    "Enforce separate authorization gate for T0/T1/T2 and never claim live outcomes based on static evidence."
+    "Poll the four real Codex CLI workers; inspect real outputs and preserve partial reports if timeout.",
+    "Review each worker's exclusive paths, verification and commit; integrate only accepted lane-owned work, sequentially.",
+    "Keep M3-001 pathfinding blocked pending five untracked files and M1-004 Ghidra blocked pending main raw-probe state reconciliation.",
+    "Do not issue live game input or full-size Ghidra import."
   ]
 }
