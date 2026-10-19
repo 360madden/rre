@@ -2766,4 +2766,442 @@
     ],
     "baseCommit": "c7815b762dbdfe4d681a96cd14a69f658668595c"
   }
+,
+  "followUps": [
+    {
+      "taskId": "M2-002",
+      "dateLocal": "2026-10-19",
+      "createdAtUtc": "2026-10-19T06:01:59.399990+00:00",
+      "baseCommit": "9375a276b861e46c2dd8f0bde528ee3353bc58bb",
+      "buildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "preferredImageBase": "0x140000000",
+      "addressConvention": "RVA",
+      "verdict": "Normal numeric input actions co-invoke separate follow and C2M clears in that order. The preceding input update can return while follow is still active. Static cleanup and event handling do not demonstrate a physical stop.",
+      "method": "Read-only exact-build PE exception ranges and Capstone via manager hardened inspect-navigation-static.py and pinned original RiftReader helper; depth 0, no recursive callees, no unwind-chain auto-expansion; manual selected continuations. No REA output or decompilation.",
+      "regionBudget": {
+        "maximum": 25,
+        "observedUniqueRegions": 25,
+        "passes": [
+          14,
+          11
+        ],
+        "allQueuesDrained": true,
+        "additionalResearchStopped": true
+      },
+      "dependencies": {
+        "pefile": "2024.8.26",
+        "capstone": "5.0.7"
+      },
+      "preservation": {
+        "jsonSha256": "7722d4b3f2f120b70ce2d1746dbbbcbba89f0c70321960488cee79333b91af28",
+        "jsonPrefixBytes": 83645,
+        "jsonSuffixHex": "0a",
+        "markdownBytes": 12495,
+        "markdownSha256": "489641d2d475aa3dbd0ae1c50077e41bb4d7e3f2e459963ac16f517f2dbf0170"
+      },
+      "guidanceSnapshots": [
+        {
+          "path": "C:\\work\\rre\\ROADMAP.md",
+          "sha256AtRead": "b7cfa7159f4dd588db0f1c414eb979a2cf9e05e68fc029ccd54ad0b8441ad403",
+          "mutableManagerDocument": true
+        },
+        {
+          "path": "C:\\work\\rre\\docs\\roadmap-tasks.json",
+          "sha256AtRead": "ebf52caf3d25e0a6cb011132486cd212bc6957f60c2ffcd33877a2cda8ca5247",
+          "mutableManagerDocument": true
+        }
+      ],
+      "sources": [
+        {
+          "path": "C:\\work\\rre\\tools\\inspect-navigation-static.py",
+          "sha256": "6b9fd1827194d380307fc109bd7b412ffb80a8b93154271f8b17d2cf41046a3c"
+        },
+        {
+          "path": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+          "sha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319"
+        },
+        {
+          "path": "C:\\work\\rre-worker-follow\\docs\\navigation-research-2026-10-18.md",
+          "sha256": "650e6a584b01cce3c234325ac668ad75489b1122361379b841b073f476bc6185"
+        },
+        {
+          "path": "C:\\work\\rre-worker-follow\\docs\\navigation-findings.json",
+          "sha256": "df9f11b98cc0271e2b14bfee4fad77e2ca954157cbce8670dd8e4f6729ba4943"
+        },
+        {
+          "path": "C:\\work\\rre-worker-follow\\docs\\navigation-workflow.md",
+          "sha256": "19c560887166ff227bb9e43a7f78f21d6efdbfa193a7dd6c59d1eab9729e400a"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "tools/agents/follow/m2-002-static-20261019.json",
+          "sha256": "f4878b3c4a94bdc683e716a30afc62da3338e02767ac1124ade7891e311d29fa",
+          "regions": 14,
+          "queueRemaining": 0,
+          "unresolvedAnchors": [
+            {
+              "rva": "0x697c90",
+              "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+            }
+          ]
+        },
+        {
+          "path": "tools/agents/follow/m2-002-continuations-20261019.json",
+          "sha256": "3ac802021a0df4826f573292d535aa5ce0275004091ef60e4b15e469a715884c",
+          "regions": 11,
+          "queueRemaining": 0,
+          "unresolvedAnchors": []
+        }
+      ],
+      "numericActionMap": [
+        {
+          "actionId": 2,
+          "primaryBranchRva": "0x695a58",
+          "secondaryBranchRva": "0x695a8b",
+          "inputBit": 4,
+          "registeredActionName": null,
+          "physicalBinding": null
+        },
+        {
+          "actionId": 3,
+          "primaryBranchRva": "0x695a58",
+          "secondaryBranchRva": "0x695aac",
+          "inputBit": 5,
+          "registeredActionName": null,
+          "physicalBinding": null
+        },
+        {
+          "actionId": 4,
+          "primaryBranchRva": "0x695a68",
+          "secondaryBranchRva": "0x695ae9",
+          "inputBit": 3,
+          "registeredActionName": null,
+          "physicalBinding": null
+        },
+        {
+          "actionId": 5,
+          "primaryBranchRva": "0x695a68",
+          "secondaryBranchRva": "0x695af3",
+          "inputBit": 2,
+          "registeredActionName": null,
+          "physicalBinding": null
+        },
+        {
+          "actionId": 6,
+          "primaryBranchRva": "0x695a68",
+          "secondaryBranchRva": "0x695ad5",
+          "inputBit": 6,
+          "registeredActionName": null,
+          "physicalBinding": null
+        },
+        {
+          "actionId": 7,
+          "primaryBranchRva": "0x695a68",
+          "secondaryBranchRva": "0x695adf",
+          "inputBit": 7,
+          "registeredActionName": null,
+          "physicalBinding": null
+        }
+      ],
+      "orderedCallSites": [
+        {
+          "context": "IDs 2-7; update path may be bypassed by virtual-predicate result zero",
+          "sites": [
+            "0x695b03",
+            "0x695b0f",
+            "0x695b17"
+          ],
+          "targets": [
+            "0x697140",
+            "0x534200",
+            "0x534990"
+          ]
+        },
+        {
+          "context": "ID 9; helper semantics unqualified",
+          "sites": [
+            "0x695b47",
+            "0x695b53",
+            "0x695b5b"
+          ],
+          "targets": [
+            "0x572ef0",
+            "0x534200",
+            "0x534990"
+          ]
+        },
+        {
+          "context": "ID 10; +0x39c toggle calls input update before both clears",
+          "sites": [
+            "0x695b25",
+            "0x695b31",
+            "0x695b39"
+          ],
+          "targets": [
+            "0x572d30",
+            "0x534200",
+            "0x534990"
+          ]
+        },
+        {
+          "context": "Reconciliation; clear pair only if first helper returns nonzero",
+          "sites": [
+            "0x696a19",
+            "0x696a26",
+            "0x696a36",
+            "0x696a3e"
+          ],
+          "targets": [
+            "0x697a40",
+            "0x697140",
+            "0x534200",
+            "0x534990"
+          ]
+        },
+        {
+          "context": "Destination replacement before vector write and bit activation",
+          "sites": [
+            "0x562bd0",
+            "0x562bd8"
+          ],
+          "targets": [
+            "0x534200",
+            "0x534990"
+          ]
+        },
+        {
+          "context": "C2M nonzero-handle path; owner release conditional",
+          "sites": [
+            "0x5349de",
+            "0x5349eb",
+            "0x534a07"
+          ],
+          "targets": [
+            "0x494830",
+            "0x860530",
+            "0x48cea0"
+          ]
+        },
+        {
+          "context": "0x860530 exact key found; cleanup precedes tree-operation helper",
+          "sites": [
+            "0x86058a",
+            "0x8605a1"
+          ],
+          "targets": [
+            "0x860370",
+            "0x85cae0"
+          ]
+        }
+      ],
+      "observations": [
+        {
+          "id": "M2F1",
+          "classification": "directly observed native code",
+          "claim": "0x694333 resolves event+0x124 with third argument (event+0x12c == 0); 0x694377 forwards result as action ID and raw event+0x12c byte. 0x69478b is a second dispatch site using zero for the forwarded byte.",
+          "instructionRvas": [
+            "0x694315",
+            "0x69431c",
+            "0x694322",
+            "0x69432d",
+            "0x694333",
+            "0x694367",
+            "0x694372",
+            "0x694377",
+            "0x694780",
+            "0x69478b"
+          ]
+        },
+        {
+          "id": "M2F2",
+          "classification": "directly observed native code",
+          "claim": "After earlier gates reach the switch, action IDs 2-7 converge on the same saved receiver and follow-clear then C2M-clear. Raw event byte zero additionally clears receiver+0x39c for IDs 2/3; both raw-byte branches still reach the clear pair. No branch here makes the pair release-only.",
+          "instructionRvas": [
+            "0x695847",
+            "0x695853",
+            "0x695a34",
+            "0x695a58",
+            "0x695a5b",
+            "0x695a61",
+            "0x695a68",
+            "0x695a6c",
+            "0x695b08",
+            "0x695b0f",
+            "0x695b17",
+            "0x6967e3"
+          ]
+        },
+        {
+          "id": "M2F3",
+          "classification": "directly observed native code",
+          "claim": "Action update 0x697140 occurs before clears. Its nonzero receiver+0xb60 path sets BL=1 and reaches the return at 0x697634, before downstream mode installation. Other guards include helpers 0x562570 and 0x561be0, whose semantics are not qualified here.",
+          "instructionRvas": [
+            "0x695b03",
+            "0x69716e",
+            "0x697175",
+            "0x697184",
+            "0x697199",
+            "0x697634"
+          ]
+        },
+        {
+          "id": "M2F4",
+          "classification": "directly observed native code",
+          "claim": "0x697a40(false) queries IDs 2,3,6,7,4,5,8,16 through 0x7b78c0; both input-bit set and clear transitions mark its changed result. Reconciliation calls input update first, then both clears only on a nonzero changed result. This is not an unconditional stop handler.",
+          "instructionRvas": [
+            "0x697a63",
+            "0x697a73",
+            "0x697a83",
+            "0x697a94",
+            "0x697aa5",
+            "0x697ab6",
+            "0x697ac7",
+            "0x697adb",
+            "0x697b05",
+            "0x697b09",
+            "0x697b15",
+            "0x697b19",
+            "0x697c75",
+            "0x696a19",
+            "0x696a26",
+            "0x696a2d",
+            "0x696a36",
+            "0x696a3e"
+          ]
+        },
+        {
+          "id": "M2F5",
+          "classification": "directly observed native code",
+          "claim": "0x7b20a0 normalizes modifier-like numeric codes then searches a tuple of event code and two modifier fields; match returns entry+0x14, failure returns -1. 0x7b78c0 searches an action-ID tree then tests binding-like records via untraced helpers. No registered human action names or current bindings were recovered.",
+          "instructionRvas": [
+            "0x7b20b5",
+            "0x7b20c9",
+            "0x7b2152",
+            "0x7b221e",
+            "0x7b2223",
+            "0x7b2229",
+            "0x7b22a8",
+            "0x7b24e4",
+            "0x7b78e1",
+            "0x7b7926",
+            "0x7b7942"
+          ]
+        },
+        {
+          "id": "M2F6",
+          "classification": "directly observed native code",
+          "claim": "C2M clear conditionally copies its +0x70/+0x78 handle/owner pair with reference-count-like operations, calls accessor 0x494830 and helper 0x860530, then releases and zeros the component pair and clears activation bit0. With +0x70 zero, it skips helper/owner work but still clears bit0. It does not overwrite vector +0x60/+0x68.",
+          "instructionRvas": [
+            "0x534996",
+            "0x5349a0",
+            "0x5349a5",
+            "0x5349be",
+            "0x5349cc",
+            "0x5349de",
+            "0x5349eb",
+            "0x534a07",
+            "0x534a0e",
+            "0x534a12",
+            "0x534a29"
+          ]
+        },
+        {
+          "id": "M2F7",
+          "classification": "directly observed native code",
+          "claim": "0x860530 searches a tree by the copied handle key. Exact match calls 0x860370(handle,false) before 0x85cae0. Missing key skips both; either path tail-calls 0x4877d0 on the copied pair. 0x860370 dispatches unknown virtual methods over child arrays, zeroes a child +0x11 byte and resets two array ends. Virtual meanings and navigation connection are unknown.",
+          "instructionRvas": [
+            "0x860555",
+            "0x860560",
+            "0x86057a",
+            "0x86057f",
+            "0x860585",
+            "0x86058a",
+            "0x8605a1",
+            "0x8605b8",
+            "0x8603f1",
+            "0x8603f8",
+            "0x86040e",
+            "0x860441",
+            "0x86046f"
+          ]
+        },
+        {
+          "id": "M2F8",
+          "classification": "directly observed native code",
+          "claim": "0x562bc0 performs follow-clear then C2M-clear before copying the new coordinate vector and setting activation bit0. Cancellation, replacement and manual-input dispatch therefore share clear routines but remain distinct control paths.",
+          "instructionRvas": [
+            "0x562bd0",
+            "0x562bd8",
+            "0x562be8",
+            "0x562bf6",
+            "0x562c08"
+          ]
+        }
+      ],
+      "inferences": [
+        {
+          "claim": "IDs 2-7 are movement-direction-like actions, supported by input bit reconciliation and downstream mode selection. Exact forward/back/turn/strafe names remain unqualified.",
+          "basedOn": [
+            "M2F2",
+            "M2F4"
+          ]
+        },
+        {
+          "claim": "0x860530 and 0x860370 are handle-registration removal/cleanup candidates; the inspected prefix of 0x85cae0 does not prove erase semantics, and cleanup is not established as path-job cancellation.",
+          "basedOn": [
+            "M2F6",
+            "M2F7"
+          ]
+        },
+        {
+          "claim": "An input event marked handled at +0x18 and fields cleared cannot alone certify physical stopping, especially because the update helper runs before the clear pair.",
+          "basedOn": [
+            "M2F2",
+            "M2F3",
+            "M2F4"
+          ]
+        }
+      ],
+      "existingRuntimeEvidence": {
+        "newRuntimeEvidence": false,
+        "recordedNativeFollowOrC2mStopTestLocated": false,
+        "sources": "Prior follow report and navigation baselines document telemetry availability, not a passing native cancellation trial."
+      },
+      "rejectedConclusions": [
+        "IDs 2-7 prove W/A/S/D or named backward/strafe bindings.",
+        "The forwarded zero/nonzero event byte is a qualified physical key-up/key-down mapping.",
+        "Follow-clear alone clears the separate C2M activation state.",
+        "0x860370 virtual calls are proven pathfinding-job cancellation or physical braking.",
+        "Input update necessarily installs a new mode before the clears; active follow takes its early return.",
+        "A handled event, stopped-follow message, key release or cleared activation bit proves world-space motion stopped.",
+        "The native coordinate vector is erased by C2M clear; its writes clear handle/owner and bit, not +0x60/+0x68."
+      ],
+      "coverageLimits": [
+        "Exactly 25 unique PE unwind regions in two depth-0 queries, with no queued items. These are regions, not 25 complete source functions.",
+        "0x695810 linear decode ends at 0x696921 before 0x6969ec. Used dispatch/return sites and tables precede that end.",
+        "0x7b228d linear decode ends at 0x7b2544 before 0x7b255c. 0x7b24fc onward contains switch tables and is not used as executable evidence; the return at 0x7b24f8 precedes them.",
+        "0x697c90 has no containing PE exception entry; no guessed leaf boundary or new decoder was used.",
+        "0x85cae0 prefix only, plus 0x494830 and 0x697d90 entry regions only: follow-on ranges outside the budget remain unknown.",
+        "No global new caller enumeration; qualified callers here are selected PE-aligned local sites plus the preserved prior 16-site report.",
+        "No binding UI capture, live memory, process access, debugger, input, executable launch, injection, installation, network operation or import retry."
+      ],
+      "nextValidation": [
+        "In a future separately budgeted static task, resolve registered action names/current-binding provenance for IDs 2-7; do not infer physical keys from modifier-like constants.",
+        "Trace the active C2M handle producer and child virtual+0x58 implementation before interpreting cleanup as movement or job cancellation.",
+        "Only under separate live authorization, test one reviewed bound movement gesture against follow and C2M independently, away from arrival, with advancing displacement, held/released input logs and no-resume observations."
+      ],
+      "validation": {
+        "verifier": "tools/agents/follow/verify_m2_002.py",
+        "baselineVerifier": "tools/agents/follow/verify_follow.py",
+        "result": "pending execution",
+        "liveValidationPerformed": false
+      },
+      "delivery": {
+        "commitCreated": false,
+        "status": "Validation and normal Git staging pending; final worker response records commit or sandbox blocker.",
+        "onlyOwnedPaths": true
+      }
+    }
+  ]
 }

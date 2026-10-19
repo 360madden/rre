@@ -82,3 +82,68 @@ Do not treat guessed `/stopfollow`, repeated `/follow`, Escape, controller pause
 - Delivery blocked at staging: `git add` could not create `C:/work/rre/.git/worktrees/rre-worker-follow/index.lock` (Permission denied). Shared Git metadata is outside this worker's writable boundary. No permission request or workaround was attempted; no commit SHA exists. Base commit: `c7815b762dbdfe4d681a96cd14a69f658668595c`. Only the three owned follow-lane files remain for manager review/staging. No push, process control, settings change, install or full import occurred.
 
 Next static validation: map action IDs 2-7 to registered action names/bindings, and resolve `0x534990 -> 0x860530`. Next behavior validation: separately qualify the reviewed movement gesture for follow and C2M using advancing displacement evidence.
+
+
+## Follow-up: 2026-10-19 / M2-002 ? normal input and cancellation order
+
+This follow-up preserves the 2026-10-18 report above. **Numeric input actions 2?7, 9 and 10 call follow-clear `0x534200` before separate C2M-clear `0x534990` on their selected dispatch branches. The input update occurs before both clears and can return early while follow is active. None of this proves a physical stop.**
+
+Build rechecked: SHA-256 `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`, preferred base `0x140000000`; every address below is an RVA. Worktree HEAD at start: `9375a276b861e46c2dd8f0bde528ee3353bc58bb`. The current manager roadmap/task board and navigation baselines were read. The machine summary is appended under `follow.json ? followUps[0]`; older findings and historical delivery status are retained.
+
+### Directly observed native code
+
+The event branch at `0x694315` resolves event `+0x124` through `0x7B20A0`, passing `(event+0x12C == 0)` as its third argument. It forwards the returned numeric action ID and the original byte at `+0x12C` into `0x695810` at `0x694377`. Another event path calls that dispatcher at `0x69478B` with forwarded byte zero. The resolver searches a tuple of event code and two modifier-like fields and returns entry `+0x14` or `-1`; it does not supply action names in these inspected regions. A concrete physical key or press/release polarity is therefore still unknown.
+
+After the dispatcher's earlier gates reach its switch, table `0x6968A8` maps actions 2?7 into the following branches. Table `0x6968E4` maps their optional bit writes. These are numeric action IDs, not names or scan codes.
+
+| Action ID | Primary branch | Input-object `+0xC` bit | Clear order |
+| --- | --- | --- | --- |
+| 2 | `0x695A58` | 4 | follow `0x695B0F`, C2M `0x695B17` |
+| 3 | `0x695A58` | 5 | same pair |
+| 4 | `0x695A68` | 3 | same pair |
+| 5 | `0x695A68` | 2 | same pair |
+| 6 | `0x695A68` | 6 | same pair |
+| 7 | `0x695A68` | 7 | same pair |
+
+For IDs 2/3, raw forwarded byte zero also clears receiver `+0x39C` (`0x695A61`); the nonzero branch skips that write. Both paths still converge on the clear pair. A virtual-predicate result captured at `0x6958E0..0x6958ED` can skip the bit-write/update block directly to `0x695B08`; it does not skip that pair. The two calls use the same saved receiver `[inputObject+0x10]`. They finish by marking event `+0x18` handled at `0x6967E3`. This marker is not a motion observation.
+
+On the bit-write path, `0x697140(true)` at `0x695B03` runs **before** both clears. Its guard at `0x69716E..0x697199` checks receiver `+0xB60`; nonzero follow state sets `BL=1` and returns through `0x697634` before downstream mode selection/installation. Other guards call `0x562570` and `0x561BE0`, whose meanings were not qualified in this budget. Thus the input update call is not proof that a manual mode was installed, and there is no second update call between the two clears or their local jump to the handled marker.
+
+| Other selected path | Order in native code | Qualification |
+| --- | --- | --- |
+| Action 9 | `0x572EF0` at `0x695B47` ? follow at `0x695B53` ? C2M at `0x695B5B` | Helper/action name unresolved. |
+| Action 10 | `0x572D30` at `0x695B25` ? follow at `0x695B31` ? C2M at `0x695B39` | Helper toggles `+0x39C` and tail-calls input update before returning to the clear pair; autorun remains an inference. |
+| Reconciliation `0x6969F0` | `0x697A40(false)` at `0x696A19` ? update at `0x696A26` ? conditional follow at `0x696A36` ? C2M at `0x696A3E` | Nonzero changed result gates the pair. |
+| Destination replacement `0x562BC0` | follow at `0x562BD0` ? C2M at `0x562BD8` ? vector writes ? activation bit set | Clears old states before installing the new coordinate request. |
+
+`0x697A40` queries action IDs 2, 3, 6, 7, 4, 5, 8 and 16 through `0x7B78C0`. Both set and clear transitions can mark its changed result (for example bit 4: `0x697B05/0x697B09` and `0x697B15/0x697B19`). `0x7B78C0` looks up an action-ID tree and tests binding-like records through untraced helpers. This strengthens the movement-action interpretation but does not prove a key-up-only cancellation handler. Stable state can return unchanged and skip the pair.
+
+### C2M clear and its downstream handle cleanup
+
+`0x534990` still operates on `[receiver+0xB90]`, independently of follow `receiver+0xB60`. If component `+0x70` is zero it skips handle work and still clears activation bit 0 of `+0x1A8`. Otherwise it copies the `+0x70/+0x78` handle/owner pair, with reference-count-like operations at `0x5349BE..0x5349C9`, then calls `0x494830` and `0x860530` at `0x5349DE/0x5349EB`. After return it conditionally releases the owner through `0x48CEA0`, zeros both component qwords at `0x534A0E/0x534A12`, and clears the activation bit at `0x534A29`. It does **not** erase the stored coordinate vector at `+0x60/+0x68`.
+
+`0x860530` searches a tree rooted through its receiver `+0x38`, comparing node key `+0x20` with the copied handle. An exact match calls **`0x860370(handle, false)` at `0x86058A` before `0x85CAE0` at `0x8605A1`**. A missing key skips both. Both paths tail-call `0x4877D0` on the copied pair. Only the prefix of `0x85CAE0` was inspected, so removal/erase is an inference rather than an established contract.
+
+`0x860370` iterates a child range at handle `+0x330..+0x338`, calls child virtual `+0x58` with a conditionally selected boolean, clears child `+0x11`, and resets that range's end. It then invokes virtual slot zero with argument 1 for non-null entries of a second range `+0x370..+0x378` and resets that end. These are concrete cleanup operations; the child types, virtual implementations, planner ownership and effect on ongoing player motion are unresolved. Passing false into the outer routine does not mean every child receives false.
+
+### Inference, rejection and runtime boundary
+
+The evidence supports a common normal input path that coordinates **two distinct state clears**, with additional handle cleanup on the C2M side. It does not support treating follow-clear alone as a combined stop operation. IDs 2?7 are movement-direction-like from their bit reconciliation and mode selection, but forward/back/turn/strafe names and current bindings remain unqualified. The earlier suggested backward/strafe trial therefore remains conditional on reviewing actual bindings.
+
+Reject these promotions: raw byte zero equals a proven physical release; event handled equals stopped motion; downstream virtual cleanup equals proven path-job cancellation; cleared activation equals immediate braking; a stopped-follow message certifies C2M stopping. No runtime evidence was added. The supplied baseline documents available telemetry but no passing native follow/C2M cancellation test.
+
+### Bounded coverage, evidence and verification
+
+Exactly **25 unique PE unwind regions** were inspected in two depth-zero queries (14 + 11), with automatic unwind-chain expansion disabled and both queues drained. No further research region was decoded. Source hashes, exact commands' anchor lists, complete retained listings and coverage are reproducible from:
+
+- [First query](../../tools/agents/follow/m2-002-static-20261019.json) and [selected continuations](../../tools/agents/follow/m2-002-continuations-20261019.json).
+- [Machine summary](follow.json), appended `followUps[0]`: source/tool hashes, per-claim instruction RVAs, seven ordered call sequences, numeric mappings, failures and rejections.
+- [M2-002 verifier](../../tools/agents/follow/verify_m2_002.py) and unchanged [prior verifier](../../tools/agents/follow/verify_follow.py), run with `C:\work\rre\.venv\Scripts\python.exe -B`.
+
+The query reused the Manager's hardened read-only `C:\work\rre\tools\inspect-navigation-static.py` (SHA-256 `6b9fd1827194d380307fc109bd7b412ffb80a8b93154271f8b17d2cf41046a3c`), not the older worktree copy. Original helper SHA-256 remains `c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319`. Dependencies report pefile `2024.8.26`, Capstone `5.0.7`. No source/tool installation or environment change occurred.
+
+Limitations/failures: `0x695810` linear decoding again ends at `0x696921`, before region end `0x6969EC`; all used action sites precede it. Resolver continuation `0x7B228D` ends decoding at `0x7B2544`, before `0x7B255C`; bytes from `0x7B24FC` are switch tables and were not treated as executable evidence. The resolver's return precedes them at `0x7B24F8`. `0x697C90` has no PE exception entry and was left unresolved without guessing a boundary. Accessor continuations, `0x85CAE0` beyond its prefix and virtual callees were excluded at the region budget. No new global caller enumeration was performed; this follow-up qualifies selected local paths and preserves the prior 16-site inventory. An attempted local lookup of `docs/agents/c2m.md` found it absent in this worktree; no out-of-lane writes followed.
+
+Verification and delivery results are recorded below after execution. No live input, process access/control, native invocation, memory write, debugger, network action, full import, persistent job, main-tree change or out-of-lane change occurred.
+
+Next concrete static validation is to resolve names/binding provenance for IDs 2?7 and identify the C2M handle's child virtual `+0x58` implementation. Future separately authorized behavior validation must test follow and C2M independently, away from arrival, using advancing displacement and no-resume evidence. The static evidence does not authorize that trial.
