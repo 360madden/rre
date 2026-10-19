@@ -50,3 +50,13 @@ First identify where the queue provided to `0x8ECB4` or held at owner `+0x160` i
 Only after establishing a valid type-7 record writer should the analysis follow the pointer at `queue+0x210`, enumerate populated callbacks, and look for a producer whose job **type** is 7. Then determine whether a destination/route appears at the caller or output and whether it connects to player click-to-move, NPC movement or another service.
 
 The scope remains **offline** until live-input and debugger boundaries are separately satisfied.
+
+## Historical query recovery — 2026-10-19 (M3-001 preflight)
+
+The five previously untracked `tools/agents/pathfinding/_query1.json` through `_query5.json` files have been **preserved and verified**, not reinterpreted as new pathfinding functionality. They are original offline exact-build scans made before V7 standardized complete run manifests. Their raw SHA-256s are pinned in `tools/agents/pathfinding/verify_legacy_queries.py`, which does not edit them.
+
+Independent exact-file verification (job `rre-pathfinding-historical-verify-20261019-01`, exit 0) confirmed **30 saved code-region records / 28 distinct regions**, **2,739 decoded instruction rows**, **five instruction-boundary-qualified call sites**, two explicitly unresolved anchors (`0xF3F94`, `0x74490`), zero truncated code windows, and zero pending work queue. File and original helper hashes match the qualified executable `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`. A separate baseline report verifier (job `rre-pathfinding-baseline-verifier-20261019-01`, exit 0) rechecked 17 retained regions and 294 excerpt rows. pefile still reports 825 already-diagnosed duplicate-parent warnings.
+
+These **historical** files have no complete invocation/recorder source manifest, so V7 cannot retroactively certify those run arguments or exhaustive coverage. The previous finding is unchanged: type-7 `TtPathfinding` label and queue slot `+0x210` exist, but registration, populated handlers, actual job producers and player navigation use remain **unknown**.
+
+**Next bounded independent research:** use the current hardened offline caller/reference scanners to identify code or stored pointers referencing the generic dispatcher producers (`0x8ECB4`, `0x8A8D8`). Do not infer that matching a local field displacement proves ownership of `queue+0x210`. New evidence must be captured under a fresh V7 manifest, and any reported runtime/navigation capability must remain unverified without a later separately authorized behavior test.
