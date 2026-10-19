@@ -1,0 +1,79 @@
+# RRE navigation research roadmap
+
+Initialized: 2026-10-19 (America/New_York)  
+Repository: C:\work\rre  
+Mission: produce a **working prototype**, not a production system, that can approach a valid selected target, reuse native movement/pathfinding and collision facilities where verified, recognize obstruction or lack of progress, cancel reliably, and preserve test evidence.
+
+**Reuse first:** Investigate the game's movement, follow, click-to-move, native routing and collision before proposing a custom pathfinder. A profiling label, RTTI name, offset or RVA is a lead, not proof of an active callable interface. An import timeout is not evidence that native pathfinding does not exist.
+
+## Authoritative workflow
+
+- **ROADMAP.md** (this file) defines milestones, gate criteria, priorities, dependencies, and the order of work.
+- **docs/roadmap-tasks.json** is the Manager-owned task register for per-lane statuses, ownership, job/commit evidence, and blockers. It must agree with the actual worktree and job states.
+- **AGENTS.md** and **docs/agent-coordination.md** govern permitted operations, the six established worktrees, branch isolation, and file ownership.
+- Only **one Manager/Coordinator** maintains this roadmap, task register, shared code integration and main. The parent ChatGPT supervises; workers own one narrow worktree/lane. Workers do not spawn subagents, edit main, merge, cherry-pick, push, or edit another lane's files.
+- Verify **actual AI agent runtime capacity** independently from Workbridge's reported limit of **six concurrent command jobs**. If six genuine agent slots exist, use one Manager plus at most five workers, queue the sixth lane, and rotate only when slots free. Do not launch fake/duplicate agents or fill slots with unproductive tasks.
+- A task is complete only when a worker's evidence, validation and owned changes have been accepted and integrated by the Manager. Jobs left unfinished or of unknown status are not successes.
+
+## Ordered milestones
+
+| Stage | Current status (initial snapshot) | Exit criteria | Parallel work |
+| --- | --- | --- | --- |
+| **M0 — Inventory and safe coordination** | Prior six-lane findings integrated; fresh preflight required | Inspect all six worktrees, main's dirty files, current jobs, source hashes, and assigned owners; reserve ownership; identify already-completed tasks | Manager only |
+| **M1 — Trustworthy research tools** | **Review pending** | Review already-written V1–V5 hardening, rerun strict synthetic tests and bounded exact-build query, inspect diffs, integrate only after passing review; characterize V6 parser warnings and V7 reproducibility gaps | Manager owns shared code; Validation and Ghidra research in disjoint lanes |
+| **M2 — Native movement and cancellation contract** | Native static leads; operational behavior unverified | Explain C2M input → segment query → destination setter/consumer, qualify input ownership/coordinates, and identify normal cancellation gestures without inventing contracts | C2M and Follow workers |
+| **M3 — Native pathfinding and obstacle reuse** | Native static leads; active handler/clearance contracts unknown | Identify type-7 handler registration and actual producer/output, route or steering data if present; characterize active ray/linear/shape casts and collision results; record evidence-based native reuse decision | Pathfinding and Collision workers |
+| **M4 — Offline prototype harness** | **Blocked on useful M2/M3 interface clarity** | Reuse RiftReader qualified player and selected-target telemetry; implement narrowly scoped offline trace/replay and synthetic failure tests for stale source, invalid target, no progress, height mismatch, cancellation and state transitions | One integration owner + independent QA |
+| **M5 — Controlled in-game trials T0 → T1 → T2** | **Blocked** | Separately approved supervised gameplay, fresh scene/process binding and proven cancellation. T0 movement-and-stop must pass before T1 clear-ground single destination. T1 must pass before T2 obstacle-with-opening single destination. No custom re-aiming/presteps in diagnostic trials | One game-input owner; read-only observers |
+| **M6 — Stationary target approach** | **Blocked on M4/M5** | Valid selected-target identity/location, reachable approach position, observed progress, arrival, cancellation, and useful failure logs; repeatable in one small test area | Integration owner + QA |
+| **M7 — Optimize and harden after a prototype** | **Deferred** | Measure real bottlenecks before speeding up; expand terrain, cold-restart/patch re-resolution and reliability only after the earlier gates pass | Later |
+
+**Critical path:** Fresh M0 preflight → essential M1 validation → **M2 and M3 may advance in parallel** → M4 synthetic/offline harness → separately authorized M5 live trials → M6 target approach. M7 is deferred. Do not gate all offline research on nonblocking V6/V7 investigations, but never promote unverified data to a working native interface.
+
+## Baseline facts that must survive every handoff
+
+- Qualified Rift executable SHA-256: **7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd**. Research version: STABLE-1-1169-a-1256556. Recheck exact build before new claims; use RVAs and document static/live image-base distinctions.
+- Existing six-lane work is already on main: Ghidra c7131df, C2M 9058e5a, collision 8f2bee1, follow 80fa5b3, pathfinding 40d4fbd, validation e3f0df6, coordination c7815b7. Refresh HEAD before any integration.
+- Pathfinding category **type 7 / TtPathfinding** selects table at queue offset **+0x210**. The two known producers belong to **types 1 and 3**, not 7. Type-7 populated handlers, route output and player use remain **unknown**.
+- The current C2M code has candidate event/segment query, destination setter **RVA 0x562BC0**, and matching consumer. Player ownership, world frame, actual gesture and obstacle behavior are **unverified**.
+- Follow-state clear at **0x534200** and a separate destination-state clear at **0x534990** are static code findings; actual in-world cancellation is **not yet demonstrated**.
+- Havok collision/raycast/linear-cast code provides native candidates, but a player-walkability/clearance contract is **unverified**.
+- Two REA/Ghidra full-program attempts timed out at approximately 450 seconds without analysis results. A small isolated raw probe is a separate proposed experiment, not proof of Ghidra recovery. Do not blindly repeat full imports.
+- The previous QA report identified V1–V7. A **currently uncommitted** hardening draft reports repairs for **V1–V5** with 12 strict synthetic tests passed; Manager must review the exact dirty state before accepting/committing. V6 (825 pefile warnings) and V7 (source/version/run manifest provenance) remain open.
+- Reject old shortcuts: the custom proximity graph is **not** a native navmesh; the +/-40 player-centered box is **not** a fixed goal; cached field **+0xD8** is **not** a proven persistent destination; projected-target delta is **not** actual velocity under wall slide.
+
+Research sources: docs/navigation-research-2026-10-18.md; docs/agents/; docs/navigation-tool-hardening-2026-10-18.md; docs/native-navigation-experiment.json.
+
+## Per-task manager protocol
+
+**Before assigning:** inspect git status/history/worktrees and actual jobs, reconcile docs/roadmap-tasks.json, identify unowned ready tasks, check the milestone gate, assign each lane exclusive paths and a narrow acceptance test. Do not relaunch an active task or overwrite uncommitted results.
+
+**Each worker receives:** task ID, single research question, branch/worktree, allowed writable paths, read-only sources, exact build hash, required outputs, validation command, time/job budget, stop conditions, and forbidden actions. Worker returns commit or blocker plus evidence. Only Manager modifies roadmap/board and shared code.
+
+**After each task:** verify lane-owned changes, tests, source hashes and limitations. Integrate reviewed commits sequentially, verify main, update task status plus next ready task, and record deviations. Use at most the verified available agent/command concurrency; preserve a command slot for supervision when needed.
+
+**After timeout/crash:** check job status, worktree dirty paths and evidence. Mark unknown/blocked until verified. Recover from the last durable checkpoint, never create a second writer in the same lane. Do not promise work continues after this conversation without an actual supported scheduled execution mechanism.
+
+## Hard gates (never bypass)
+
+**G0 — Exclusive ownership:** One writer per file/branch; Manager owns main and roadmap. Existing dirty files are preserved; do not reset, checkout or overwrite them to make the tree look clean.
+
+**G1 — Evidentiary discipline:** Every native conclusion carries build hash, bytes/source or runtime capture, observed-vs-inferred labeling, and explicit uncertainties. Static proof is not gameplay success.
+
+**G2 — Integration discipline:** Reviewed diff, no out-of-lane modifications, relevant tests pass, correct parent/commit, board updated. Never silently mark a failed run successful.
+
+**G3 — Native reuse decision:** A new pathfinder requires a future **explicit** decision after native facility/behavior investigation and documented alternatives. It is not the automatic fallback after inconclusive evidence.
+
+**G4 — Live authorization:** No game input, debugger attachment, process control, memory modifications, injection, or installed-tool changes under this roadmap. RiftReader's separate live-input approval is required before movement trials. No observer time limit substitutes for a verified in-game cancellation. **T0 precedes T1; T1 precedes T2.**
+
+**G5 — Working prototype:** The final claim requires observed target approach/obstacle trial with a replayable trace and controlled stop. Static results, green synthetic tests, or scripts simply starting do not meet the gate.
+
+## Immediate roadmap-driven next actions
+
+1. **Manager M0 refresh:** Reconcile current main and six worktrees. As previously observed, main contains uncommitted V1–V5 hardening/tests and proposed REA raw-probe files; the pathfinding worktree contains five untracked query JSON files. Protect these until assigned owners finish or manager reviews them.
+2. **M1 first:** Validate and integrate the existing tool-hardening changes, not an independent rewrite. Schedule V6/V7 follow-ups separately with unambiguous ownership.
+3. **M2/M3 second, in parallel when unblocked:** Trace type-7 handler writes/producers; qualify the C2M destination's +0x70 handle/event owner; follow normal cancellation gestures; characterize cast return/filter semantics. Do not claim successful navigation.
+4. **M4 offline harness after interface evidence:** Reuse existing telemetry and code; validate synthetic fixtures before any live request.
+5. **M5 authorization gate:** Stop before live trial, report the precise missing approval/control/cancel prerequisite. Execute T0/T1/T2 only after that gate is satisfied.
+
+**Checkpoint:** milestone → task ID / exclusive owner → new evidence → test and exit result → integrated commit or blocker → next unblocked task. The Manager changes task ordering only by documenting the reason and updating dependencies first.

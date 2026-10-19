@@ -2,6 +2,10 @@
 
 Research workspace for reverse engineering older MMO games, starting with RIFT.
 
+## Navigation roadmap and current priorities
+
+Begin at [ROADMAP.md](ROADMAP.md) for the staged prototype plan, dependency gates, and reuse-first decisions. The [manager-owned task register](docs/roadmap-tasks.json) records task IDs, branch ownership, blockers and accepted evidence. Agents must follow both rather than launch independent off-roadmap work. Use the [manager-led multi-agent launch prompt](docs/MULTI_AGENT_PROMPT.md) for new sessions; verify task dependencies and exclusive lanes with `node tools/validate-roadmap.mjs`.
+
 ## Native navigation research
 
 Start with [the current research report](docs/navigation-research-2026-10-18.md) and

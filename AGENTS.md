@@ -2,6 +2,14 @@
 
 This repository researches Rift native navigation and reverse engineering. Current research is offline and **reuse-first**: identify the game's existing pathfinding, movement, click-to-move, follow, and collision implementations before proposing a replacement planner. A string, class name, or RVA is a research lead, not a verified runnable interface.
 
+## Mandatory milestone roadmap
+
+- Read `ROADMAP.md` and `docs/roadmap-tasks.json` before starting a task; follow milestone dependencies and exit gates. This is mandatory, not an optional planning document.
+- Every task must have a board ID, exclusive lane and owned paths, evidence requirements, and completion test. Only the single designated manager updates the roadmap/board, allocates work, integrates, or records deviations. Run `node tools/validate-roadmap.mjs` after every task-board change and before integrating roadmap changes.
+- Before resuming work, reconcile actual command jobs, branch/worktree statuses and uncommitted files. Do not assume an old Codex worker has stopped or create a second writer in its lane.
+- Workbridge's six concurrent command-job slots are not evidence of six independent AI agents. Verify real worker support and capacity, and queue tasks that cannot be assigned without conflicts.
+- The initial roadmap preserves pre-existing dirty hardening/raw-probe changes in main and untracked pathfinding query files; do not overwrite, reset or clean them without explicit ownership review.
+
 ## Authority and scope
 
 - Follow this file, the assigned lane in `docs/agent-coordination.md`, and any applicable source-repository AGENTS.md.

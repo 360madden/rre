@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 1,
+  "project": "RRE native navigation",
+  "asOfLocalDate": "2026-10-19",
+  "timezone": "America/New_York",
+  "repo": "C:/work/rre",
+  "roadmap": "ROADMAP.md",
+  "build": {
+    "manifestVersion": "STABLE-1-1169-a-1256556",
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "relativeAddressConvention": "RVA"
+  },
+  "coordination": {
+    "manager": "single designated coordinator; not a second worker in parallel",
+    "parentChatGPT": "oversight and reporting",
+    "verifiedWorkbridgeVersion": "0.6.1",
+    "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
+    "availableIndependentAiWorkerCount": null,
+    "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
+    "managerOwnedPaths": [
+      "ROADMAP.md",
+      "docs/roadmap-tasks.json",
+      "AGENTS.md",
+      "docs/agent-coordination.md",
+      "README.md",
+      "docs/navigation-workflow.md",
+      "tools/inspect-navigation-static.py",
+      "tools/rea-session.mjs"
+    ],
+    "workerLanes": {
+      "pathfinding": {
+        "worktree": "C:/work/rre-worker-pathfinding",
+        "branch": "research/nav-pathfinding",
+        "owned": [
+          "docs/agents/pathfinding.md",
+          "docs/agents/pathfinding.json",
+          "tools/agents/pathfinding/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      },
+      "c2m": {
+        "worktree": "C:/work/rre-worker-c2m",
+        "branch": "research/nav-c2m",
+        "owned": [
+          "docs/agents/c2m.md",
+          "docs/agents/c2m.json",
+          "tools/agents/c2m/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      },
+      "follow": {
+        "worktree": "C:/work/rre-worker-follow",
+        "branch": "research/nav-follow",
+        "owned": [
+          "docs/agents/follow.md",
+          "docs/agents/follow.json",
+          "tools/agents/follow/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      },
+      "collision": {
+        "worktree": "C:/work/rre-worker-collision",
+        "branch": "research/nav-collision",
+        "owned": [
+          "docs/agents/collision.md",
+          "docs/agents/collision.json",
+          "tools/agents/collision/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      },
+      "ghidra": {
+        "worktree": "C:/work/rre-worker-ghidra",
+        "branch": "research/nav-ghidra",
+        "owned": [
+          "docs/agents/ghidra.md",
+          "docs/agents/ghidra.json",
+          "tools/agents/ghidra/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      },
+      "validation": {
+        "worktree": "C:/work/rre-worker-validation",
+        "branch": "research/nav-validation",
+        "owned": [
+          "docs/agents/validation.md",
+          "docs/agents/validation.json",
+          "tools/agents/validation/**"
+        ],
+        "activeJobId": null,
+        "lastConfirmed": "prior research delivered to main; current running-worker status not established"
+      }
+    },
+    "oneWriterPerFile": true,
+    "noNestedSwarm": true,
+    "noLiveInputWithoutSeparateExplicitApproval": true,
+    "noUnchangedFullProgramGhidraImport": true,
+    "noRemotePush": true
+  },
+  "statusVocabulary": [
+    "integrated",
+    "ready",
+    "running",
+    "review",
+    "blocked",
+    "queued",
+    "deferred",
+    "cancelled"
+  ],
+  "observedRepository": {
+    "checkedFrom": "Workbridge git_status, history, docs and six worktree statuses",
+    "headBeforeRoadmap": "e3f0df66b1573dbff1efbfae2b516f05d08d6723",
+    "mainDirtyPreserve": [
+      "docs/navigation-workflow.md",
+      "tools/agents/validation/test_rea_driver.py",
+      "tools/agents/validation/test_wrappers.py",
+      "tools/inspect-navigation-static.py",
+      "tools/rea-session.mjs",
+      "docs/navigation-tool-hardening-2026-10-18.md",
+      "docs/rea-raw-probe-profile-2026-10-18.json",
+      "tools/agents/ghidra/"
+    ],
+    "workerDirtyPreserve": [
+      {
+        "lane": "pathfinding",
+        "paths": [
+          "tools/agents/pathfinding/_query1.json",
+          "tools/agents/pathfinding/_query2.json",
+          "tools/agents/pathfinding/_query3.json",
+          "tools/agents/pathfinding/_query4.json",
+          "tools/agents/pathfinding/_query5.json"
+        ]
+      }
+    ],
+    "notes": [
+      "Dirty files are previous work, not authorized for overwrite/reset.",
+      "Six prior specialized reports are integrated into main; do not create a duplicate swarm.",
+      "Current worker processes were not demonstrated to be active or inactive by worktree status alone."
+    ]
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "title": "Safe state and exclusive ownership",
+      "status": "review",
+      "dependsOn": [],
+      "gate": "Confirm main/worktrees/jobs/build and protect dirty changes; no duplicate writers"
+    },
+    {
+      "id": "M1",
+      "title": "Research tool validation and provenance",
+      "status": "review",
+      "dependsOn": [
+        "M0"
+      ],
+      "gate": "Review existing V1-V5 changes, strict tests, bounded exact-build evidence; classify V6 and V7"
+    },
+    {
+      "id": "M2",
+      "title": "Native movement, C2M and cancellation",
+      "status": "queued",
+      "dependsOn": [
+        "M0"
+      ],
+      "gate": "Qualified static contracts, unresolved input/ownership called out; no live behavior claims"
+    },
+    {
+      "id": "M3",
+      "title": "Native routing and collision reuse",
+      "status": "queued",
+      "dependsOn": [
+        "M0"
+      ],
+      "gate": "Evidence-backed handler/cast investigation; no automatic custom pathfinder"
+    },
+    {
+      "id": "M4",
+      "title": "Offline prototype harness",
+      "status": "blocked",
+      "dependsOn": [
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "gate": "Deterministic replay/mock tests and qualified existing telemetry, no game input"
+    },
+    {
+      "id": "M5",
+      "title": "Supervised native movement trials",
+      "status": "blocked",
+      "dependsOn": [
+        "M4"
+      ],
+      "gate": "Separate approval and true cancellation demonstrated; T0 then T1 then T2"
+    },
+    {
+      "id": "M6",
+      "title": "Stationary target approach",
+      "status": "blocked",
+      "dependsOn": [
+        "M4",
+        "M5"
+      ],
+      "gate": "Reproducible stationary-target approach, arrival/cancel/error trace"
+    },
+    {
+      "id": "M7",
+      "title": "Measured optimization and patch resilience",
+      "status": "deferred",
+      "dependsOn": [
+        "M6"
+      ],
+      "gate": "Only after a working prototype; optimize measured issues"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "M0-001",
+      "milestone": "M0",
+      "lane": "manager",
+      "title": "Integrate prior six-lane discovery reports",
+      "status": "integrated",
+      "dependsOn": [],
+      "deliverable": "Existing worker reports in docs/agents and history",
+      "acceptance": [
+        "Six research reports are present and integrated"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "e3f0df66b1573dbff1efbfae2b516f05d08d6723",
+      "evidence": [
+        "docs/agents/",
+        "docs/agent-coordination.md"
+      ]
+    },
+    {
+      "id": "M0-002",
+      "milestone": "M0",
+      "lane": "manager",
+      "title": "Reconcile current owners, uncommitted files and actual jobs",
+      "status": "review",
+      "dependsOn": [],
+      "deliverable": "Refresh Git worktree/status and inspect jobs before launching workers",
+      "acceptance": [
+        "No duplicate active writer",
+        "All dirty/untracked files mapped to an owner and preserved",
+        "Exact build hash refreshed"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "AGENTS.md",
+        "docs/agent-coordination.md"
+      ],
+      "blockers": [
+        "Actual running local Codex/worker status not yet established",
+        "Existing main/tool and pathfinding dirty files must be preserved"
+      ]
+    },
+    {
+      "id": "M1-001",
+      "milestone": "M1",
+      "lane": "manager",
+      "title": "Review and integrate previously implemented V1-V5 fixes",
+      "status": "review",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Review existing main dirty diff; run 12 strict synthetic cases and bounded exact-build static query; commit verified specific files",
+      "acceptance": [
+        "Independent strict suite passes",
+        "Node source syntax passes",
+        "Query source hash and output valid",
+        "No unrelated dirty files overwritten"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/navigation-tool-hardening-2026-10-18.md"
+      ],
+      "blockers": [
+        "Main has dirty shared files; do not edit or overwrite them until current owner reconciled"
+      ]
+    },
+    {
+      "id": "M1-002",
+      "milestone": "M1",
+      "lane": "validation",
+      "title": "Investigate V6: pefile chained-unwind warnings",
+      "status": "queued",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Offline bounded diagnosis and independently verifiable warning provenance",
+      "acceptance": [
+        "Count and classify existing 825 warnings with known limitations",
+        "No unsupported global unwind coverage claim"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/validation.md"
+      ]
+    },
+    {
+      "id": "M1-003",
+      "milestone": "M1",
+      "lane": "validation",
+      "title": "Investigate V7: exact-run provenance and version labels",
+      "status": "queued",
+      "dependsOn": [
+        "M1-002"
+      ],
+      "deliverable": "Propose source manifest for relevant hashes, CLI arguments, Capstone dist/module versions",
+      "acceptance": [
+        "Compatible with existing evidence hashes",
+        "No change to historical artifacts"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/validation.md"
+      ]
+    },
+    {
+      "id": "M1-004",
+      "milestone": "M1",
+      "lane": "ghidra",
+      "title": "Assess isolated REA raw probe without full import",
+      "status": "blocked",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Reconcile existing untracked raw probe profile and Ghidra scripts; if permitted, run one bounded 603-byte offline probe",
+      "acceptance": [
+        "No full-program import retry",
+        "Original game and installed tools unchanged",
+        "Provider readiness and failure diagnostics recorded"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/ghidra.md",
+        "docs/rea-raw-probe-profile-2026-10-18.json"
+      ],
+      "blockers": [
+        "Raw-probe files are currently untracked in main; review and preserve owner before any run"
+      ]
+    },
+    {
+      "id": "M2-001",
+      "milestone": "M2",
+      "lane": "c2m",
+      "title": "Characterize C2M event owner and native destination handle",
+      "status": "queued",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Trace 0x6942A0, 0x562BC0, 0x852100, 0x52DD60 and component +0x70 offline",
+      "acceptance": [
+        "Resolve candidate handle owner/contents where possible",
+        "Distinguish event/button inference from verified semantics",
+        "Record bounded bytes and exact build"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/c2m.md"
+      ]
+    },
+    {
+      "id": "M2-002",
+      "milestone": "M2",
+      "lane": "follow",
+      "title": "Trace actual cancellation input and relationship to C2M",
+      "status": "queued",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Trace qualified input-dispatch callers of 0x534200/0x534990, no gameplay interaction",
+      "acceptance": [
+        "Separate native follow-state clear from C2M clear",
+        "No claim that any gesture stops movement without runtime observation"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/follow.md"
+      ]
+    },
+    {
+      "id": "M3-001",
+      "milestone": "M3",
+      "lane": "pathfinding",
+      "title": "Find actual type-7 registration, handlers and producers",
+      "status": "blocked",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Examine queue+0x210 writers and type-7 job input/output; investigate actual player ownership",
+      "acceptance": [
+        "Reject subtype/type confusion",
+        "Evidence for each pointer writer or unresolved result",
+        "No new pathfinder"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/pathfinding.md"
+      ],
+      "blockers": [
+        "Five untracked query JSON files in pathfinding worktree; inspect/preserve and assign ownership before continuing"
+      ]
+    },
+    {
+      "id": "M3-002",
+      "milestone": "M3",
+      "lane": "collision",
+      "title": "Identify usable collision hit/filter/clearance semantics",
+      "status": "queued",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Trace existing ray/linear/shape cast code and caller/return contract offline",
+      "acceptance": [
+        "Document endpoints, filter/result candidates and unknown coordinate frame",
+        "Do not call it a player-clearance query without evidence"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/agents/collision.md"
+      ]
+    },
+    {
+      "id": "M4-001",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Build minimal offline navigation trace harness by reuse",
+      "status": "blocked",
+      "dependsOn": [
+        "M1-001",
+        "M2-001",
+        "M2-002",
+        "M3-001",
+        "M3-002"
+      ],
+      "deliverable": "Deterministic replay/mock using existing qualified RiftReader telemetry and target observation",
+      "acceptance": [
+        "Mock stale target, invalid height, stuck, cancel and arrival tests",
+        "No gameplay input or new route planner"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Interface and evidence prerequisites unresolved"
+      ]
+    },
+    {
+      "id": "M5-T0",
+      "milestone": "M5",
+      "lane": "manager",
+      "title": "Supervised movement activation and true cancellation",
+      "status": "blocked",
+      "dependsOn": [
+        "M4-001"
+      ],
+      "deliverable": "One approved game-issued destination and demonstrated in-game stop",
+      "acceptance": [
+        "Separate explicit live-input approval",
+        "Fresh scene, identity, input receipt and post-cancel stable coordinates"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "evidence": [
+        "docs/native-navigation-experiment.json"
+      ],
+      "blockers": [
+        "Live input not yet separately approved",
+        "Actual in-game cancel mechanism not yet verified"
+      ]
+    },
+    {
+      "id": "M5-T1",
+      "milestone": "M5",
+      "lane": "manager",
+      "title": "Single-request clear-ground native movement",
+      "status": "blocked",
+      "dependsOn": [
+        "M5-T0"
+      ],
+      "deliverable": "One click with no detours or re-aiming, observe movement and arrival",
+      "acceptance": [
+        "Identity-bound trace and endpoint classification"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "T0 not passed"
+      ]
+    },
+    {
+      "id": "M5-T2",
+      "milestone": "M5",
+      "lane": "manager",
+      "title": "Single-request accessible-obstacle trial",
+      "status": "blocked",
+      "dependsOn": [
+        "M5-T1"
+      ],
+      "deliverable": "One destination beyond wall with opening; classify detour vs slide/stall/inconclusive",
+      "acceptance": [
+        "Reproducible route evidence and true cancellation on timeout"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "T1 not passed"
+      ]
+    },
+    {
+      "id": "M6-001",
+      "milestone": "M6",
+      "lane": "manager",
+      "title": "Approach stationary selected target using verified native behavior",
+      "status": "blocked",
+      "dependsOn": [
+        "M4-001",
+        "M5-T2"
+      ],
+      "deliverable": "Target identity, reachable approach distance, progress, arrival, cancellation, failure report",
+      "acceptance": [
+        "Repeatable small-area target approach with capture"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "No approved live navigation prototype yet"
+      ]
+    },
+    {
+      "id": "M7-001",
+      "milestone": "M7",
+      "lane": "manager",
+      "title": "Optimize speed and patch/restart resilience after evidence",
+      "status": "deferred",
+      "dependsOn": [
+        "M6-001"
+      ],
+      "deliverable": "Benchmark actual bottlenecks; only then improve reliability, navigation range and update recovery",
+      "acceptance": [
+        "Measured regression tests",
+        "No production scope creep"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null
+    }
+  ],
+  "decisionLog": [
+    {
+      "id": "D-001",
+      "decision": "Reuse-first native facilities. No default replacement pathfinder.",
+      "basis": "User requirement and existing RRE repository rules",
+      "date": "2026-10-19"
+    },
+    {
+      "id": "D-002",
+      "decision": "Protect uncommitted main hardening and pathfinding query files; no duplicate workers until actual job/worktree preflight.",
+      "basis": "Observed current Git statuses",
+      "date": "2026-10-19"
+    }
+  ],
+  "nextManagerActions": [
+    "Verify existing Codex/worker processes and existing six worktree states before issuing new jobs.",
+    "Review and independently validate existing V1-V5 hardening, then integrate selected changes; do not rewrite dirty files.",
+    "Release strictly owned, independent offline M2/M3 tasks when worktrees are safe; record real job IDs and checkpoints.",
+    "Enforce separate authorization gate for T0/T1/T2 and never claim live outcomes based on static evidence."
+  ]
+}
