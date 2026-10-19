@@ -271,7 +271,7 @@
       "dependsOn": [
         "M0-002"
       ],
-      "deliverable": "Review existing main dirty diff; run 12 strict synthetic cases and bounded exact-build static query; commit verified specific files",
+      "deliverable": "Review existing main dirty diff; run current strict synthetic suite and bounded exact-build static query; commit verified specific files",
       "acceptance": [
         "Independent strict suite passes",
         "Node source syntax passes",
@@ -284,6 +284,13 @@
       "evidence": [
         "docs/navigation-tool-hardening-2026-10-18.md"
       ],
+      "latestReadOnlyValidation": {
+        "dateLocal": "2026-10-19",
+        "suite": {"jobId": "rre-roadmap-M1-tests-20261019-01", "testsPassed": 13, "exitCode": 0},
+        "artifactAudit": {"jobId": "rre-roadmap-M1-audit-20261019-01", "exitCode": 0, "pefileWarningsObserved": 825},
+        "nodeSyntax": {"jobId": "rre-roadmap-M1-nodecheck-20261019-01", "exitCode": 0},
+        "interpretation": "Current dirty hardening source passed read-only regression checks. Review ownership/diffs and run the bounded exact-build query before integrating; no claim of a completed code commit."
+      },
       "blockers": [
         "Main has dirty shared files; do not edit or overwrite them until current owner reconciled"
       ]
