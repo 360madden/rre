@@ -1,0 +1,16 @@
+{
+  "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "expectedSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "expectedReaVersion": "6.5.0",
+  "reaHome": "C:\\work\\tools\\rea",
+  "ghidraHome": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC",
+  "javaHome": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.11.10-hotspot",
+  "outputDirectory": "C:\\work\\rre\\artifacts\\navigation-20261018-01",
+  "durationSeconds": 550,
+  "startupTimeoutMs": 450000,
+  "disabledAnalyzers": [
+    "Stack",
+    "Decompiler Parameter ID"
+  ],
+  "seedFile": "C:\\work\\rre\\tools\\navigation-seeds.tsv"
+}

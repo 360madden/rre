@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-18T23:59:19.727Z",
+  "scope": "Offline research artifacts and local helper workflow; no live navigation validation.",
+  "validationJobs": [
+    {
+      "id": "rre-navigation-final-verification-20261018-01",
+      "startedAt": "2026-10-18T23:59:17.932Z",
+      "endedAt": "2026-10-18T23:59:19.727Z",
+      "exitCode": 0
+    },
+    {
+      "id": "rre-navigation-workflow-powershell-syntax-20261018-01",
+      "startedAt": "2026-10-18T23:59:15.454Z",
+      "endedAt": "2026-10-18T23:59:16.100Z",
+      "exitCode": 0
+    }
+  ],
+  "results": {
+    "jsonFilesParsed": 8,
+    "pythonSyntax": [
+      "inspect-navigation-names.py",
+      "inspect-navigation-static.py"
+    ],
+    "dependencies": {
+      "capstone": "5.0.9",
+      "pefile": "2024.8.26"
+    },
+    "nodeSyntax": "passed",
+    "powershellExamples": {
+      "powershellExampleBlocks": 5,
+      "exampleCommandsExecuted": false,
+      "syntax": "passed"
+    },
+    "targetHashVerified": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "sixStaticArtifactHashesAndSizesVerified": true,
+    "reviewedRiftReaderEntryHelpersUnchanged": true,
+    "readmeEntryPointLinksExist": true,
+    "reaAttempts": [
+      {
+        "attempt": "navigation-20261018-01",
+        "state": "blocked",
+        "elapsedQueryMs": 450728,
+        "evidenceRecords": 0,
+        "exportSucceeded": true,
+        "closeSucceeded": true
+      },
+      {
+        "attempt": "navigation-20261018-02",
+        "state": "blocked",
+        "elapsedQueryMs": 450717,
+        "evidenceRecords": 0,
+        "exportSucceeded": true,
+        "closeSucceeded": true
+      }
+    ]
+  },
+  "artifactManifest": [
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-anchors.json",
+      "sha256": "c8987a6926ad11b4b798d4a795d58da824f64796268ce02ed8544fd0ba22ec73",
+      "bytes": 194084
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-chains.json",
+      "sha256": "b907c9a3e05cc60393ef6cd726a2864159ddbc3e3818b831643112356bf31c54",
+      "bytes": 116983
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-names.json",
+      "sha256": "d918802b05c703f9d4c6fefcf03afaf45bd402b8f9dd86d76848e34e93872411",
+      "bytes": 40767
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-string-references.json",
+      "sha256": "1b31dd5f20d85ccef7f8f17858ae84e3692f3d794607f729336de3a31517c45c",
+      "bytes": 44865
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "sha256": "5f97e078fdea23a3b3a7607c82b77d6bbda30215a016681e6cf0806793b9f5f7",
+      "bytes": 1310267
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-command-callers.json",
+      "sha256": "e23c62b7878ff7541553ba3b5b547d808fb3fe8cf64f83a2c7f90fc6cf043d0d",
+      "bytes": 842323
+    }
+  ],
+  "verifiedSourceFilesBeforeThisRecord": [
+    {
+      "path": "README.md",
+      "sha256": "bab3d472ff2329d952b1a0c94c595867110c2532d630fa5d911e390c7ac8d8ad",
+      "bytes": 1761
+    },
+    {
+      "path": "requirements-static.txt",
+      "sha256": "8a8056c13659165a1df73a3943d56ce67547889cf9a0f89aa5497c1490a6b982",
+      "bytes": 34
+    },
+    {
+      "path": "docs/native-navigation-experiment.json",
+      "sha256": "b7571a86a027dc919ad3223386ff89f55ea90424c21ea39c984ce468c1811f0e",
+      "bytes": 4807
+    },
+    {
+      "path": "docs/navigation-findings.json",
+      "sha256": "653ab5ef5bdb16840c8e1355772b7ebfb3dd2b70bc139a04bcefab17b1ec1a45",
+      "bytes": 7805
+    },
+    {
+      "path": "docs/navigation-investigation.json",
+      "sha256": "b8a01dd12fb41bf61db6d0aa98f2fb15298be6c29e7b534fc4fd6ed677197f54",
+      "bytes": 5007
+    },
+    {
+      "path": "docs/navigation-research-2026-10-18.md",
+      "sha256": "650e6a584b01cce3c234325ac668ad75489b1122361379b841b073f476bc6185",
+      "bytes": 14705
+    },
+    {
+      "path": "docs/navigation-workflow.md",
+      "sha256": "19c560887166ff227bb9e43a7f78f21d6efdbfa193a7dd6c59d1eab9729e400a",
+      "bytes": 14325
+    },
+    {
+      "path": "docs/rea-import-attempt-2026-10-18-02.json",
+      "sha256": "795b2c8125cc43317e414e9864b1444c85ba5f12c0020b6c62b2bfac6bc4739d",
+      "bytes": 2959
+    },
+    {
+      "path": "docs/rea-import-attempt-2026-10-18.json",
+      "sha256": "8e8853b3ffb78dd981a0314ed8a116ee695dc964a6681bae0b77cd385df20616",
+      "bytes": 2085
+    },
+    {
+      "path": "docs/rea-navigation2-requests.json",
+      "sha256": "405dec25a5bdacbb242d04dd44b22b6b896f9b74ff8fc0cf7eac5111a003d871",
+      "bytes": 854
+    },
+    {
+      "path": "docs/rea-session-options-navigation2.json",
+      "sha256": "57b142106d05d5e91ba3fc11ca92d14ebdf64e86043d54cbd9c421e9c57c223f",
+      "bytes": 670
+    },
+    {
+      "path": "docs/rea-session-options.json",
+      "sha256": "461dd8fc21ee1d9fd11c3dfe0625e62731717648646de5cf8d699a66ea4dac6a",
+      "bytes": 636
+    },
+    {
+      "path": "tools/inspect-navigation-names.py",
+      "sha256": "0c96e01934780df95855935c2442fac3bfbac261e7a7f6ba67337d4438d9348b",
+      "bytes": 8719
+    },
+    {
+      "path": "tools/inspect-navigation-static.py",
+      "sha256": "fb56833ef2ed6d1bf624e6a7214909474ac185edd5a584c7bd496ce1eae5e9e8",
+      "bytes": 10704
+    },
+    {
+      "path": "tools/navigation-seeds.tsv",
+      "sha256": "595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5",
+      "bytes": 170
+    },
+    {
+      "path": "tools/rea-session.mjs",
+      "sha256": "19fac50bae523b9b2d4920a7c3f5958db51e4c35bcdfcc53ac1cec13e8431bad",
+      "bytes": 9754
+    }
+  ],
+  "actualQueryRuns": "The two Python tools previously completed real exact-build searches and produced the six artifacts above. Final validation parsed syntax and verified saved evidence; it did not rerun the behavior experiment.",
+  "limitations": [
+    "No gameplay input, native function invocation, live attachment, route validation or cancellation validation was performed.",
+    "REA produced zero analysis evidence records; its connection/admission and cleanup are verified separately.",
+    "The saved static listings have the coverage limitations documented in navigation-findings.json and navigation-research-2026-10-18.md."
+  ]
+}

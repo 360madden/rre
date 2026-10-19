@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "attempt": "navigation-20261018-01",
+  "startedAt": "2026-10-18T23:15:44.852Z",
+  "endedAt": "2026-10-18T23:23:19.491Z",
+  "targetSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "providerVersion": "12.1.2",
+  "reaVersion": "6.5.0",
+  "operation": "resolve_containing_procedure",
+  "address": "0x1406873ef",
+  "elapsedQueryMs": 450728,
+  "timeoutMs": 450000,
+  "result": "provider_timeout",
+  "disabledAnalyzers": [
+    "Stack",
+    "Decompiler Parameter ID"
+  ],
+  "seedSha256": "595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5",
+  "seedReceipt": {
+    "entries": 3,
+    "function_created": 1,
+    "function_existing": 2,
+    "function_failed": 0
+  },
+  "observedStage": "Seeds applied, analyzer-options script executed, whole-program auto-analysis started. No bridge query result before deadline.",
+  "lastAnalysisLog": "hit non-returning function, restarting decompiler switch analyzer later (DecompilerSwitchAnalyzer)",
+  "cause": "Specific slow analyzer not established; last log line is not timing attribution.",
+  "evidenceRecords": 0,
+  "exportSucceeded": true,
+  "closeSucceeded": true,
+  "processTargetExecuted": false,
+  "gameInputSent": false,
+  "diagnosticResponse": "artifacts/navigation-20261018-01/responses/02-update-container.json",
+  "diagnosticResponseSha256": "b1629ab771c2913bca4729c19bec3ba2ad0b3ee7f1e110b5806ad0cf5a0781d6",
+  "retainedDiagnosticBytes": 31574,
+  "interpretation": "REA connection and target admission worked; this profile did not complete whole-program analysis within its startup budget. No pseudocode or pathfinding absence result was obtained.",
+  "next": "Continue exact-build offline call inspection using existing RiftReader helper plus Capstone/pefile. A further REA attempt needs a changed, documented analysis strategy.",
+  "followupAttempt": "docs/rea-import-attempt-2026-10-18-02.json",
+  "followupResult": "A changed profile additionally disabled the verified Decompiler Switch Analysis analyzer. It also timed out; no third automatic import was launched."
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "name": "Native click-to-move obstacle discrimination",
+  "status": "prepared; live execution not started",
+  "buildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "purpose": "Determine whether one game-issued destination causes obstacle-aware routing, and retain the route/collision leads for REA.",
+  "environment": "RIFT-Lab VMware guest; exact current process/session binding required at execution",
+  "reuse": {
+    "observation": "C:\\rift modding\\RiftReader\\tools\\riftreader_workflow\\game_session.py observe",
+    "playerTelemetry": "observation.readback player coordinates, qualified through existing guest readiness checks",
+    "selectedTarget": "observation.readback.typedApi.snapshot.target, entity and per-field status must be ok",
+    "mouseTransportReference": "C:\\rift modding\\RiftReader\\.riftreader-local\\motion-recovery\\20261018\\guest_ui.py",
+    "mouseTransportLimitation": "Existing UI-only helper prohibits game movement; reuse transport through the supervised gameplay flow only after that action is implemented and authorized."
+  },
+  "prerequisites": [
+    "Fresh reviewed in-world screenshot with text entry closed; preserve existing 45-second review and 1.5-second pre-input freshness gates.",
+    "Advancing source sample, exact guest process/build identity, no unresolved pending input.",
+    "A supervised one-click gameplay action with mouse-up recovery and accurate gameInputSent reporting.",
+    "Explicit live-input approval required by RiftReader AGENTS.md; autonomy does not override its stated live-input gate.",
+    "Demonstrate actual in-game cancellation before an obstacle trial; controller pause, mouse-up, key-up and process timeout alone are not cancellation evidence."
+  ],
+  "trials": [
+    {
+      "id": "T0",
+      "name": "Clear-ground activation and cancellation",
+      "goal": "A nearby visible ground destination in an uncluttered area",
+      "stimulus": "One reviewed ground click using the actual Rift movement gesture, then the explicitly approved candidate cancel action",
+      "observe": "Record advancing XYZ before click, during movement and after cancel; require position stability after cancel",
+      "maximumClicks": 1,
+      "obstacleTrialAllowedBeforePass": false
+    },
+    {
+      "id": "T1",
+      "name": "Clear-ground destination baseline",
+      "goal": "Nearby visible ground point on the same surface",
+      "stimulus": "One game-issued destination; no re-aim, W step, route injection or custom detour",
+      "observe": "Record arrival, movement activation, elapsed time and any endpoint mismatch",
+      "maximumClicks": 1
+    },
+    {
+      "id": "T2",
+      "name": "Wall with an accessible opening",
+      "goal": "A verified reachable ground point whose direct route crosses the wall and whose detour is visible",
+      "stimulus": "One game-issued destination, followed only by observation and the verified cancellation if needed",
+      "observe": "Distinguish route through opening, contact-and-slide, persistent contact, wrong destination and no movement",
+      "maximumClicks": 1
+    }
+  ],
+  "observationBudgetSecondsPerTrial": 10,
+  "budgetSemantics": "Observation budget is a stop trigger, not a proven bound on latched game motion; actual cancellation must be available.",
+  "stopConditions": [
+    "unexpected combat",
+    "loading or scene change",
+    "text entry or menu opened",
+    "stale or invalid readback",
+    "guest process or VM identity change",
+    "user intervention",
+    "observation budget reached"
+  ],
+  "trajectoryFields": [
+    "monotonicTime",
+    "UTC",
+    "buildSha256",
+    "processEpoch",
+    "sourceSequence",
+    "captureId",
+    "playerXYZ",
+    "goalDescription",
+    "goalXYZIfQualified",
+    "selectedTargetUnitIdIfQualified",
+    "targetXYZIfQualified",
+    "inputReceipt",
+    "cancelReceipt",
+    "postCancelXYZ"
+  ],
+  "classifications": {
+    "nativeObstacleRoutingObserved": "A single destination request led through the accessible opening without custom steering; supports native routing in that scene, does not prove a general navmesh or client-side planner.",
+    "collisionResponseOnly": "Movement contacted/slid along the wall without reaching the detour; supports local collision handling, not absence of pathfinding elsewhere.",
+    "negativeInconclusive": "No route may be caused by gesture/settings, endpoint mismatch, range, surface, unavailable path data or server behavior; preserve uncertainty."
+  },
+  "followOn": [
+    "Repeat a successful scene before broadening.",
+    "Trace destination setter/update callers and collision queries using exact-build REA/static evidence.",
+    "If native routing is reusable, wrap that behavior first. New pathfinder remains outside this experiment."
+  ]
+}

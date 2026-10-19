@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "attempt": "navigation-20261018-02",
+  "startedAt": "2026-10-18T23:35:53.537Z",
+  "endedAt": "2026-10-18T23:43:28.097Z",
+  "targetSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "providerVersion": "12.1.2",
+  "reaVersion": "6.5.0",
+  "operation": "xrefs",
+  "address": "0x142d51598",
+  "elapsedQueryMs": 450717,
+  "timeoutMs": 450000,
+  "result": "provider_timeout",
+  "disabledAnalyzers": [
+    "Stack",
+    "Decompiler Parameter ID",
+    "Decompiler Switch Analysis"
+  ],
+  "profile": "docs/rea-session-options-navigation2.json",
+  "profileSha256": "57b142106d05d5e91ba3fc11ca92d14ebdf64e86043d54cbd9c421e9c57c223f",
+  "materialChangeFromFirstAttempt": "Added Decompiler Switch Analysis to the disabled analyzers after verifying its exact name/default from installed Ghidra source. The first attempt logged switch-analysis restarts, but that did not establish it as the bottleneck.",
+  "analyzerNameVerification": {
+    "archive": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\Ghidra\\Features\\Decompiler\\lib\\Decompiler-src.zip",
+    "entry": "ghidra/app/plugin/core/analysis/DecompilerSwitchAnalyzer.java",
+    "observedName": "Decompiler Switch Analysis",
+    "defaultEnabled": true,
+    "method": "Python standard-library ZIP read; no source archive extraction or modification.",
+    "workbridgeJob": "rre-ghidra-switch-source-20261018-01"
+  },
+  "seedSha256": "595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5",
+  "seedReceipt": {
+    "entries": 3,
+    "function_created": 1,
+    "function_existing": 2,
+    "function_failed": 0
+  },
+  "observedStage": "Seeds applied, analyzer-options script executed with all three requested names, whole-program auto-analysis started. No xrefs result before deadline.",
+  "diagnosticTailObservations": [
+    "Invalid PNG data at 1427560e8",
+    "Unprocessed TypeDescriptor: void (__cdecl *)(void * __ptr64)"
+  ],
+  "cause": "Unresolved. The final diagnostic lines do not attribute elapsed time or establish a specific slow analyzer.",
+  "completedAnalysisQueries": 0,
+  "evidenceRecords": 0,
+  "exportSucceeded": true,
+  "closeSucceeded": true,
+  "processTargetExecuted": false,
+  "gameInputSent": false,
+  "workbridgeJob": "rre-rea-navigation-session-20261018-02",
+  "workbridgeExitCode": 1,
+  "diagnosticResponse": "artifacts/navigation-20261018-02/responses/02-pathfinding-xrefs.json",
+  "diagnosticResponseSha256": "9b787bec8e2c937696ca64b9e13953ff33cb1f8c79e2d06191fb654f29fbbf54",
+  "interpretation": "Connection and target admission worked. This changed profile also failed to complete whole-program analysis within its startup budget. It produced no native xref, pseudocode, or pathfinding absence result.",
+  "next": "No third automatic import. Continue existing-helper/Capstone/pefile queries and require a documented material setup change before another Ghidra import.",
+  "previousAttempt": "docs/rea-import-attempt-2026-10-18.json"
+}

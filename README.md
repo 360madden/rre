@@ -2,6 +2,18 @@
 
 Research workspace for reverse engineering older MMO games, starting with RIFT.
 
+## Native navigation research
+
+Start with [the current research report](docs/navigation-research-2026-10-18.md) and
+[the reproducible workflow](docs/navigation-workflow.md). The
+[findings record](docs/navigation-findings.json) preserves exact-build evidence and
+artifact hashes. The [experiment specification](docs/native-navigation-experiment.json)
+is prepared for later native-movement validation; it has not been executed.
+
+The current client contains a type-7 job category labeled TtPathfinding. Its handler
+registration and connection to player movement remain unresolved. Reuse of native game
+behavior, routes and collision queries takes priority over writing a new pathfinder.
+
 ## Tracking work
 
 - Keep source code, scripts, research notes, and reproducible instructions in Git.

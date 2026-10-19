@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "buildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "artifacts": [
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-anchors.json",
+      "sha256": "c8987a6926ad11b4b798d4a795d58da824f64796268ce02ed8544fd0ba22ec73",
+      "bytes": 194084,
+      "regions": 25,
+      "allDecoded": true,
+      "queueRemaining": 0
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-chains.json",
+      "sha256": "b907c9a3e05cc60393ef6cd726a2864159ddbc3e3818b831643112356bf31c54",
+      "bytes": 116983,
+      "regions": 11,
+      "allDecoded": true,
+      "queueRemaining": 0
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-names.json",
+      "sha256": "d918802b05c703f9d4c6fefcf03afaf45bd402b8f9dd86d76848e34e93872411",
+      "bytes": 40767,
+      "regions": null,
+      "allDecoded": null,
+      "queueRemaining": null
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-string-references.json",
+      "sha256": "1b31dd5f20d85ccef7f8f17858ae84e3692f3d794607f729336de3a31517c45c",
+      "bytes": 44865,
+      "regions": null,
+      "allDecoded": null,
+      "queueRemaining": null
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "sha256": "5f97e078fdea23a3b3a7607c82b77d6bbda30215a016681e6cf0806793b9f5f7",
+      "bytes": 1310267,
+      "regions": 16,
+      "allDecoded": true,
+      "queueRemaining": 0
+    },
+    {
+      "path": "artifacts/navigation-20261018-01/static-navigation-command-callers.json",
+      "sha256": "e23c62b7878ff7541553ba3b5b547d808fb3fe8cf64f83a2c7f90fc6cf043d0d",
+      "bytes": 842323,
+      "regions": 30,
+      "allDecoded": false,
+      "queueRemaining": 0
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "kind": "exact-build code observation",
+      "claim": "Job type 7 selects TtPathfinding inside generic dispatch routine RVA0xf3fa4. Type3 selects TtRayCast Query.",
+      "source": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "instructionRvas": [
+        "0xf3fd7",
+        "0xf4016",
+        "0xf4019",
+        "0xf4089",
+        "0xf4123"
+      ]
+    },
+    {
+      "id": "F2",
+      "kind": "exact-build data-flow observation",
+      "claim": "Dispatcher indexes a handler table via job[1]*0x20+queue+0x130, then selects callback by job[0]. For type7 this reaches queue+0x210.",
+      "source": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "instructionRvas": [
+        "0xf4184",
+        "0xf4189",
+        "0xf4194",
+        "0xf4198",
+        "0xf41a3"
+      ],
+      "unknowns": [
+        "Whether type7 handler table is populated in Rift",
+        "Handler identities and job payload layout",
+        "Player/NPC/server or unused middleware role"
+      ]
+    },
+    {
+      "id": "F3",
+      "kind": "exact-build code observation",
+      "claim": "Routine rooted at RVA0x534200 references the follow-stop message and clears qword[this+0xb60] at0x53494f.",
+      "source": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "unknowns": [
+        "Receiver object identity",
+        "All cancellation side effects",
+        "Relationship to C2M stopping",
+        "Correct external input gesture"
+      ]
+    },
+    {
+      "id": "F4",
+      "kind": "exact-build data-flow observation",
+      "claim": "Settings UI code associates Misc_EnableClickToMove with a byte read at [[module+0x33136f0]+0x146].",
+      "source": "artifacts/navigation-20261018-01/static-navigation-command-regions.json",
+      "instructionRvas": [
+        "0xbc1d71",
+        "0xbc1d78",
+        "0xbc1d8d",
+        "0xbc1da6"
+      ],
+      "unknowns": [
+        "Current runtime value",
+        "Any setter or persistence contract",
+        "Whether current client scene enables C2M behavior"
+      ]
+    },
+    {
+      "id": "F5",
+      "kind": "exact-build code observation",
+      "claim": "RVA0x687840 updates several cached position and orientation fields through component queries. +0xd8 is not established as a persistent navigation goal.",
+      "source": "artifacts/navigation-20261018-01/static-navigation-chains.json"
+    },
+    {
+      "id": "F6",
+      "kind": "restricted static name search",
+      "claim": "Found 147 matching text strings and Havok character-proxy, world-ray-caster and world-linear-caster RTTI-name patterns.",
+      "source": "artifacts/navigation-20261018-01/static-navigation-names.json",
+      "unknowns": [
+        "Active player physics controller",
+        "Native collision-query contract"
+      ]
+    }
+  ],
+  "inferences": [
+    {
+      "id": "I1",
+      "claim": "The Tt labels and RDTSC event writes are consistent with job profiling; the named branch can exist even if its handlers are unused.",
+      "evidence": [
+        "F1",
+        "F2"
+      ]
+    },
+    {
+      "id": "I2",
+      "claim": "The current position update chain appears to synchronize pose/transform state; it is not yet the obstacle solver.",
+      "evidence": [
+        "F5"
+      ]
+    }
+  ],
+  "decisions": [
+    "Continue native handler registration, C2M behavior and follow cancellation investigation.",
+    "Reuse guest screenshots/player/target readback and existing VNC transport through its supervised gameplay flow.",
+    "Do not build a new pathfinder or reinterpret custom RiftReader proximity graphs as native meshes.",
+    "Do not call native function candidates or write discovered fields based solely on this static evidence."
+  ],
+  "nextStaticQueries": [
+    {
+      "priority": 1,
+      "target": "0xf3fa4 / queue+0x210",
+      "question": "Locate queue construction and registration for type7, resolve handlers, and find producers, payload and route output before attributing them to player navigation."
+    },
+    {
+      "priority": 2,
+      "target": "0x33136f0 -> +0x146",
+      "question": "Trace gameplay consumers of the C2M setting into destination formation; determine whether they submit raycast, pathfinding or another movement request. Current enablement still needs UI or qualified readback."
+    },
+    {
+      "priority": 3,
+      "target": "0x534200 and qualified callers",
+      "question": "Identify the normal user-input path that clears following and establish separately whether it also cancels C2M."
+    },
+    {
+      "priority": 4,
+      "target": "Havok class-name anchors / job type3",
+      "question": "Trace an active ray/sweep query and identify endpoints, shape/radius, layers, hit point/normal and return semantics."
+    }
+  ],
+  "rea": {
+    "attempts": 2,
+    "completedAnalysisQueries": 0,
+    "exportedEvidenceRecords": 0,
+    "startupTimeoutMs": 450000,
+    "observedOutcome": "Both configured profiles reached whole-program analysis but timed out before a primitive result. Export and close succeeded for both.",
+    "furtherRetry": "Requires a documented setup change; no third automatic import was launched."
+  },
+  "liveValidationPerformed": false,
+  "coverageLimits": [
+    "PE exception ranges and linked unwind regions do not establish complete high-level functions or a complete control-flow graph.",
+    "Linear instruction alignment does not establish runtime reachability.",
+    "The broader caller region 0x695810..0x6969ec stops decoding at0x696921; its qualified call-site prefixes occur earlier.",
+    "Direct call candidates are capped at64 per target; common RIP-relative LEA and stored-pointer reference searches are not exhaustive.",
+    "RTTI-name patterns do not establish layouts, active handlers or player controller identity.",
+    "Existing helper field labels are candidates; +0xd8 has no established persistent navigation-goal semantics."
+  ]
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "file": "01-session.json",
+    "tool": "binary_session",
+    "arguments": {},
+    "timeoutMs": 30000
+  },
+  {
+    "file": "02-pathfinding-xrefs.json",
+    "tool": "xrefs",
+    "arguments": {
+      "address": "0x142d51598"
+    }
+  },
+  {
+    "file": "03-raycast-xrefs.json",
+    "tool": "xrefs",
+    "arguments": {
+      "address": "0x142d51560"
+    },
+    "timeoutMs": 30000
+  },
+  {
+    "file": "04-c2m-xrefs.json",
+    "tool": "xrefs",
+    "arguments": {
+      "address": "0x1426851f8"
+    },
+    "timeoutMs": 30000
+  },
+  {
+    "file": "05-follow-stop-xrefs.json",
+    "tool": "xrefs",
+    "arguments": {
+      "address": "0x142646388"
+    },
+    "timeoutMs": 30000
+  },
+  {
+    "file": "06-dispatcher-pseudo.json",
+    "tool": "procedure_pseudo_code",
+    "arguments": {
+      "procedure": "0x140687840"
+    },
+    "timeoutMs": 45000
+  }
+]
