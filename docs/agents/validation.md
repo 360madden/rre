@@ -86,3 +86,107 @@ Local staging was attempted with the five explicit owned paths only. Git failed 
     fatal: Unable to create 'C:/work/rre/.git/worktrees/rre-worker-validation/index.lock': Permission denied
 
 The Git administrative directory is outside this lane's writable source tree. No permission escalation, identity change, alternate index, branch operation or commit retry was attempted. **No new commit SHA exists; all five owned files remain unstaged for manager review/commit.** Starting/current HEAD is recorded above for provenance, not as a delivered worker commit.
+
+## M1-002 follow-up — 2026-10-19: V6 pefile warning diagnosis
+
+**Finding:** all **825** warnings on the qualified executable arise when installed pefile
+2024.8.26 binds an already-bound shared UnwindInfo object to the **same** parent entry.
+No conflicting assignment was observed. This explains these diagnostics; it does not
+establish global unwind correctness. The earlier report above is historical: the manager
+has integrated V1–V5 fixes; this task changed none of those tools or tests.
+
+Starting HEAD: c046e8678973556432a7f640e2bdaeace9f5efc0; branch: research/nav-validation.
+Manager task M1-002 was running when read from C:\work\rre\docs\roadmap-tasks.json.
+Roadmap, coordination, baseline and prior lane reports were read first. No manager
+file was changed.
+
+### Sources and bounded method
+
+Binary C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe was rehashed before
+and after: SHA-256 **7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd**,
+59,963,840 bytes, AMD64, preferred base **0x140000000**. Native addresses are RVAs
+unless explicitly labeled file offsets.
+
+New [audit_pefile_v6.py](../../tools/agents/validation/audit_pefile_v6.py) performs one
+exception-directory parse with a temporary Python observer around the original setter,
+restored in finally. The real-file parse invokes the original setter unchanged and
+preserves every warning. No target execution or process access occurs. Raw checks cover
+**20 unique runtime-function regions**, under the 25-region cap; native instruction
+disassembly regions: **0**. The full-directory census counts metadata objects without
+raw validation of every chain. Five synthetic checks reuse synthetic_pe from the
+unchanged test_wrappers.py.
+
+Installed source C:\work\rre\.venv\Lib\site-packages\pefile.py has SHA-256
+**0d0eb68f0f169182613dc64b3ab50b20855508c1c1d2faafe8fccf23edb6a345**.
+The JSON follow-up retains all 825 exact warnings, raw metadata bytes/locations, source
+hashes, sample relationships, saved roots and six artifact hashes. Pinned original
+RiftReader helper hashes still match the prior report. Worktree wrappers are historical
+copies; main's manager-integrated fixes were not edited or certified by this task.
+
+### Direct observations: source cause and exact-file evidence
+
+- pefile.py lines 3820–3827 cache UnwindInfo by UnwindData; entries can share one object.
+  unpack_in_stages (1873–1932) returns immediately once unpacked, preserving FunctionEntry.
+- The loop at 3845–3871 calls set_chained_function_entry once per runtime entry, including
+  aliases. Lines 2007–2010 reject any second assignment without comparing parent identity.
+- Census: **302,344** runtime entries; **52,424** chain entries/setter calls; **51,599**
+  unique chain-info objects. **631** shared objects serve **1,456** entries.
+  Extra uses, 1456 − 631 = **825**, exactly match the warnings. All 825 reassignments
+  use the identical parent object; conflicts: **0**. No parsed low-bit indirect entry
+  with unwindinfo=None was found.
+- The warning says “UNWIND_INFO at”, but formats rf.struct.get_file_offset(): its number
+  is the **runtime-entry file offset**, not the unwind-info RVA or its own file offset.
+
+| Warning file offset | Later entry RVA | First alias RVA | Shared unwind-info RVA |
+| --- | --- | --- | --- |
+| 0x32DE96C | 0x2B633 | 0x2B5A5 | 0x2E49A04 |
+| 0x32DFC38 | 0x4B26A | 0x4B1F6 | 0x2E4CE34 |
+| 0x32E0A24 | 0x6536B | 0x652CF | 0x2E4EB38 |
+
+Each sample shares its unwind object with its first alias; its cached parent agrees with
+the full raw parent triple. All **11** roots in static-navigation-chains.json also match
+raw chain tails. All six baseline artifacts retain their recorded SHA-256 and size,
+including chains hash **b907c9a3e05cc60393ef6cd726a2864159ddbc3e3818b831643112356bf31c54**.
+No artifact was rewritten. This follow-up rechecks hashes for all six but raw roots only
+for the selected chains artifact; it does not rerun the prior 82-region instruction audit.
+
+### Limits, rejection evidence, and minimal mitigation
+
+pefile reads only the first DWORD (BeginAddress) of the chain tail into FunctionEntry
+and resolves it by begin address. It does not validate the embedded EndAddress and
+UnwindData against the parent entry. The existing wrapper follows that begin-address
+field; successful traversal or an exhausted queue is not full chain/CFG validation.
+The prior auditor's full raw triple checks remain useful for its selected roots.
+
+A synthetic shared-info fixture reproduces one warning. An experimental setter guard
+returns only when get_chained_function_entry() is entry: the duplicate warning disappears,
+while a conflicting entry still raises PEFormatError. A synthetic tail with deliberately
+wrong EndAddress still resolves in ordinary pefile, while raw triple comparison rejects
+it. Therefore **suppressing all chain warnings is rejected** as a completeness fix.
+
+**Minimal manager mitigation:** retain unfiltered pe.get_warnings() and parser
+version/source identity in new receipts; classify same-object duplicates separately;
+validate selected chain tails as full 12-byte triples with explicit missing-parent,
+truncation and cycle states. The tested idempotent guard is an optional narrow parser
+correction, not an installed patch. A reviewed change should pass the alias and conflict
+fixtures while preserving full-triple mismatch rejection. No dependency/shared tool was edited.
+
+Inference: these 825 diagnostics are duplicate bookkeeping on this exact file rather than
+825 missing runtime entries. Unknown: validity of all unsampled tails, OS unwind behavior,
+whole-function/CFG completeness and native movement interfaces. Existing runtime evidence
+was not reacquired. The rejected custom proximity graph, player-centered volume, cached
++0xD8 destination and wall-slide velocity interpretations remain rejected. No game-world
+success, runnable interface or new pathfinder is claimed.
+
+### Verification and delivery
+
+~~~powershell
+& C:\work\rre\.venv\Scripts\python.exe -B tools/agents/validation/audit_pefile_v6.py --synthetic-only
+& C:\work\rre\.venv\Scripts\python.exe -B tools/agents/validation/audit_pefile_v6.py
+~~~
+
+Synthetic verification: **5 checks passed**, exit 0. Exact-build audit: **passed**, exit 0;
+20/25 raw regions, 825/825 diagnostics explained, 11/11 saved roots matched, 6/6 artifact
+hashes/sizes matched. Full JSON is appended under validation.json.followUps[0].
+No existing test file was modified. Python syntax, historical report preservation,
+owned-path diff and staging outcome are recorded with delivery below.
