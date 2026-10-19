@@ -27,7 +27,7 @@ Use one independent worker per lane and exclusive Git worktrees. Workers must ne
 
 ## Agent availability and safe failure
 
-The last observed Codex CLI workers stopped from a shared usage limit; the return message indicated October 24, 2026 at 19:13 as next eligibility. Do not repeatedly launch known-failing Codex processes. Verify real capacity through supported means; when fewer than two independent AI agents can run, perform only safe Manager preflight/contract/documentation tasks, preserve work and clearly report **no multi-agent activity**. Resume G1/G2 when separately reasoning workers really are available.
+**Verified new quota checkpoint:** On October 19, 2026 at 17:17 America/New_York, a genuine Codex CLI worker for task M4A-003 started a thread but failed with exit 1 because of the shared usage limit. The CLI reported retry on October 24, 2026 at 19:13. No code was produced and no other M4A worker was started. Do not repeatedly launch known-failing Codex processes. Verify real capacity through supported means; when fewer than two independent AI agents can run, perform only safe Manager preflight/contract/documentation tasks, preserve work and clearly report **no multi-agent activity**. Resume G1/G2 when separately reasoning workers really are available.
 
 Treat the original RiftReader repository as read-only. All fixture distances are deliberately synthetic X/Z horizontal and Y vertical units, not proven actual game-world metres. Do not infer real native pathfinding from RTTI, type labels, or RVA offsets. All active Rift control remains blocked until separate approval with T0→T1→T2 genuine cancellation proof.
 

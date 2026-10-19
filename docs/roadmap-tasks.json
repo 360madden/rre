@@ -100,7 +100,7 @@
     "noLiveInputWithoutSeparateExplicitApproval": true,
     "noUnchangedFullProgramGhidraImport": true,
     "noRemotePush": true,
-    "availableIndependentAiWorkerCountEvidence": "Four confirmed Codex threads launched this turn; all four stopped exit1 with usage limit message. No current worker jobs; 0 usable Codex slots at this quota checkpoint (not a permanent maximum)."
+    "availableIndependentAiWorkerCountEvidence": "Codex CLI 0.163.0 authenticated but genuine worker thread 01a15606-e9ec-7be0-ac23-6d8348faa47c failed immediately on 2026-10-19 due usage limit until October 24 19:13; other three worker tasks not launched. Zero verified usable independent worker slots, not permanent entitlement."
   },
   "statusVocabulary": [
     "integrated",
@@ -283,7 +283,7 @@
     {
       "id": "M4A",
       "title": "Standalone offline stationary-target approach replay",
-      "status": "ready",
+      "status": "blocked",
       "dependsOn": [
         "M1",
         "M2"
@@ -952,7 +952,7 @@
       "milestone": "M4A",
       "lane": "validation",
       "title": "G1: independent fixture schema and negative tests",
-      "status": "ready",
+      "status": "blocked",
       "dependsOn": [
         "M4A-001"
       ],
@@ -966,19 +966,21 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [],
+      "blockers": [
+        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      ],
       "writeOwnership": [
         "tools/agents/validation/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
+      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
     },
     {
       "id": "M4A-003",
       "milestone": "M4A",
       "lane": "c2m",
       "title": "G2: pure target distance and approach-intent evaluator",
-      "status": "ready",
+      "status": "blocked",
       "dependsOn": [
         "M4A-001"
       ],
@@ -992,19 +994,35 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [],
+      "blockers": [
+        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      ],
       "writeOwnership": [
         "tools/agents/c2m/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
+      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified.",
+      "agentAttempts": [
+        {
+          "jobId": "rre-m4a-c2m-capacity-and-work-20261019-01",
+          "threadId": "01a15606-e9ec-7be0-ac23-6d8348faa47c",
+          "startUtc": "2026-10-19T21:17:35.490Z",
+          "endUtc": "2026-10-19T21:17:39.680Z",
+          "exitCode": 1,
+          "result": "turn.failed",
+          "reason": "You’ve hit your usage limit; CLI offers retry Oct 24th, 2026 7:13 PM",
+          "worktree": "C:/work/rre-worker-c2m",
+          "worktreeClean": true,
+          "filesProduced": 0
+        }
+      ]
     },
     {
       "id": "M4A-004",
       "milestone": "M4A",
       "lane": "follow",
       "title": "G2: freshness, identity, cancellation, terminal latching",
-      "status": "ready",
+      "status": "blocked",
       "dependsOn": [
         "M4A-001"
       ],
@@ -1018,19 +1036,21 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [],
+      "blockers": [
+        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      ],
       "writeOwnership": [
         "tools/agents/follow/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
+      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
     },
     {
       "id": "M4A-005",
       "milestone": "M4A",
       "lane": "collision",
       "title": "G2: sampled progress/no-progress and moving-away classifier",
-      "status": "ready",
+      "status": "blocked",
       "dependsOn": [
         "M4A-001"
       ],
@@ -1044,12 +1064,14 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [],
+      "blockers": [
+        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      ],
       "writeOwnership": [
         "tools/agents/collision/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
+      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
     },
     {
       "id": "M4A-006",
@@ -1199,14 +1221,19 @@
       "date": "2026-10-19",
       "decision": "M4A G0 preflight, contract and 13-case fixture corpus validated and committed. Release independent QA/C2M/Follow/Collision tasks as dependency-ready; zero worker jobs launched with last-known quota exhaustion.",
       "basis": "rre-m4a-seed-afterboard-test-20261019-01 and commit 899a158"
+    },
+    {
+      "id": "D-011",
+      "date": "2026-10-19",
+      "decision": "On explicit 'go' request, one genuine Codex worker admission launched for M4A-003. Model service rejected due usage cap with retry Oct 24 19:13. No worker code produced, other lanes not launched; pause multi-agent G1/G2, preserve clean branches.",
+      "basis": "Workbridge command_status/output of rre-m4a-c2m-capacity-and-work-20261019-01, failed exit 1; git_status worktrees clean."
     }
   ],
   "nextManagerActions": [
-    "Check genuine Codex/subagent capacity and active process ownership; when verified available, launch distinct QA, C2M, Follow and Collision agents on M4A-002..005 in existing exclusive worktrees.",
-    "Workers must treat locked Manager docs/m4a-offline-target-contract.json and docs/m4a-offline-target-fixtures.json as read-only.",
-    "M3-001 native type-7 writer/producer research may continue independently; its incomplete evidence does not block M4A synthetic proof.",
-    "After G1/G2 workers pass, Manager sequentially cherry-picks and assembles offline-only replay CLI M4A-006, and Validation independently verifies M4A-007.",
-    "Manager G5 accepts only 13/13 scenario pass, deterministic no-input replay, reviewed commits, prior RRE regression pass, and accurate roadmap. Full M4/M5 retain separate gating."
+    "After Oct 24 2026 19:13 local, or if usage is independently verified restored sooner, refresh Codex usage and worktree/job ownership before launching real Validation, C2M, Follow and Collision agents on M4A-002..005.",
+    "Until then, preserve G0 locked contract/fixtures and the historical untracked raw probe files; do not quietly simulate multi-agent work or mark G1/G2 done.",
+    "Upon successful worker assignments, integrate sequentially and independently test M4A-006 replay CLI, then G4 QA M4A-007 and Manager G5 acceptance M4A-008.",
+    "Maintain native M3-001 pathfinding research as separate ready milestone; game input remains unauthorised until M5 gates."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
@@ -1235,13 +1262,10 @@
     "completedGates": [
       "M4A-001"
     ],
-    "nextEligibleTasks": [
-      "M4A-002",
-      "M4A-003",
-      "M4A-004",
-      "M4A-005"
-    ],
-    "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165"
+    "nextEligibleTasks": [],
+    "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
+    "currentExternalBlocker": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified.",
+    "status": "blocked-for-independent-workers"
   },
   "preflightM4A": {
     "dateLocal": "2026-10-19",
@@ -1273,6 +1297,25 @@
     "contractValidationStatus": "passed",
     "scenariosLocked": 13,
     "samplesLocked": 24,
-    "g0Completed": true
+    "g0Completed": true,
+    "executionAttempt20261019_1717": {
+      "inputBuildMatched": true,
+      "fixtureValidationPassed": true,
+      "roadmapValidationPassed": true,
+      "existingWorktreesClean": true,
+      "codexLoginStatus": "Logged in using ChatGPT",
+      "codexCliVersion": "0.163.0",
+      "attemptedTask": "M4A-003",
+      "attemptedJobId": "rre-m4a-c2m-capacity-and-work-20261019-01",
+      "actualAgentThreadId": "01a15606-e9ec-7be0-ac23-6d8348faa47c",
+      "attemptExitCode": 1,
+      "reason": "shared Codex usage limit; next eligible 2026-10-24T19:13:00 America/New_York (as reported by CLI)",
+      "workerImplementationCompleted": false,
+      "realWorkersStarted": 1,
+      "realWorkersSucceeded": 0,
+      "remainingWorkerAttemptsSkipped": 3,
+      "allM4aBranchesClean": true,
+      "managerOnlyContinuation": true
+    }
   }
 }
