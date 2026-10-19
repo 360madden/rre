@@ -283,7 +283,7 @@
     {
       "id": "M4A",
       "title": "Standalone offline stationary-target approach replay",
-      "status": "review",
+      "status": "ready",
       "dependsOn": [
         "M1",
         "M2"
@@ -884,7 +884,7 @@
       "milestone": "M4A",
       "lane": "manager",
       "title": "G0: preflight + locked offline contract and fixtures",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [],
       "deliverable": "Manager-owned docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md, docs/m4a-offline-target-contract.json, docs/m4a-offline-target-fixtures.json, tools/validate-m4a-seed.mjs and board gate updates",
       "acceptance": [
@@ -894,8 +894,17 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
+      "integratedCommit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
+      "evidence": [
+        "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md",
+        "docs/m4a-offline-target-contract.json",
+        "docs/m4a-offline-target-fixtures.json",
+        "docs/M4A_LAUNCH_PROMPT.md",
+        "tools/validate-m4a-seed.mjs",
+        "ROADMAP.md",
+        "docs/roadmap-tasks.json",
+        "899a158f0da7ef800f3dfd9a69275aa6106ca165"
+      ],
       "blockers": [],
       "writeOwnership": [
         "ROADMAP.md",
@@ -906,14 +915,44 @@
         "docs/M4A_LAUNCH_PROMPT.md",
         "tools/validate-m4a-seed.mjs"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "managerEvidence": {
+        "preflightJob": "rre-m4a-preflight-20261019-01",
+        "gameBuildHashMatched": true,
+        "worktreeStatuses": "six existing research worktrees clean",
+        "preservedMainUntracked": [
+          "docs/rea-raw-probe-profile-2026-10-18.json",
+          "tools/agents/ghidra/prepare_raw_probe.py"
+        ],
+        "fixtureValidation": {
+          "jobId": "rre-m4a-seed-afterboard-test-20261019-01",
+          "exitCode": 0,
+          "cases": 13,
+          "samples": 24
+        },
+        "roadmapValidation": {
+          "jobId": "rre-m4a-board-seeded-test-20261019-01",
+          "exitCode": 0,
+          "milestones": 9,
+          "tasks": 24
+        },
+        "provenanceValidation": {
+          "jobId": "rre-m4a-history-integrity-20261019-01",
+          "exitCode": 0
+        },
+        "whitespaceCheck": {
+          "jobId": "rre-m4a-main-diffcheck-20261019-01",
+          "exitCode": 0
+        },
+        "mode": "Manager-only preflight and scenario seed; no separate workers launched"
+      }
     },
     {
       "id": "M4A-002",
       "milestone": "M4A",
       "lane": "validation",
       "title": "G1: independent fixture schema and negative tests",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M4A-001"
       ],
@@ -927,20 +966,19 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [
-        "Wait for committed G0 and available genuine agent slot"
-      ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/validation/m4a_*"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
     },
     {
       "id": "M4A-003",
       "milestone": "M4A",
       "lane": "c2m",
       "title": "G2: pure target distance and approach-intent evaluator",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M4A-001"
       ],
@@ -954,20 +992,19 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [
-        "Wait for committed G0 and genuine agent slot"
-      ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/c2m/m4a_*"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
     },
     {
       "id": "M4A-004",
       "milestone": "M4A",
       "lane": "follow",
       "title": "G2: freshness, identity, cancellation, terminal latching",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M4A-001"
       ],
@@ -981,20 +1018,19 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [
-        "Wait for committed G0 and genuine agent slot"
-      ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/follow/m4a_*"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
     },
     {
       "id": "M4A-005",
       "milestone": "M4A",
       "lane": "collision",
       "title": "G2: sampled progress/no-progress and moving-away classifier",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M4A-001"
       ],
@@ -1008,13 +1044,12 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [
-        "Wait for committed G0 and genuine agent slot"
-      ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/collision/m4a_*"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "resourceConstraint": "No genuine independent AI slot verified on October 19; last CLI quota stop indicated October 24, 2026 at 19:13. Task not running."
     },
     {
       "id": "M4A-006",
@@ -1158,14 +1193,20 @@
       "date": "2026-10-19",
       "decision": "Create M4A as independent offline-only rehearsal, preserving full M4/M5 native and live gates. Choose 13 locked synthetic cases and no-game-actuation invariant.",
       "basis": "User's concrete goal + existing RiftReader fail-closed navigation concepts and M1/M2 integrated research."
+    },
+    {
+      "id": "D-010",
+      "date": "2026-10-19",
+      "decision": "M4A G0 preflight, contract and 13-case fixture corpus validated and committed. Release independent QA/C2M/Follow/Collision tasks as dependency-ready; zero worker jobs launched with last-known quota exhaustion.",
+      "basis": "rre-m4a-seed-afterboard-test-20261019-01 and commit 899a158"
     }
   ],
   "nextManagerActions": [
-    "Finish M4A-001 review: verify fixture schema/13 cases and board, commit Manager-owned roadmap, task board, locked contract and launch prompt, then mark G0 integrated.",
-    "When independent AI agent slots genuinely become available, assign disjoint M4A-002 validation, M4A-003 C2M, M4A-004 Follow and M4A-005 Collision tasks in existing lane worktrees.",
-    "Continue M3-001 native type-7 handler / simulation queue writer research independently only when capacity permits; no custom planner by default.",
-    "After worker commits pass independent QA, Manager serially integrates minimal offline CLI M4A-006 and Validation independently tests M4A-007.",
-    "Never treat M4A synthetic success as evidence of real in-game navigation; M5 still needs separate approval for live input."
+    "Check genuine Codex/subagent capacity and active process ownership; when verified available, launch distinct QA, C2M, Follow and Collision agents on M4A-002..005 in existing exclusive worktrees.",
+    "Workers must treat locked Manager docs/m4a-offline-target-contract.json and docs/m4a-offline-target-fixtures.json as read-only.",
+    "M3-001 native type-7 writer/producer research may continue independently; its incomplete evidence does not block M4A synthetic proof.",
+    "After G1/G2 workers pass, Manager sequentially cherry-picks and assembles offline-only replay CLI M4A-006, and Validation independently verifies M4A-007.",
+    "Manager G5 accepts only 13/13 scenario pass, deterministic no-input replay, reviewed commits, prior RRE regression pass, and accurate roadmap. Full M4/M5 retain separate gating."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
@@ -1189,7 +1230,18 @@
     "finalGate": "13 synthetic cases, deterministic replay, no live game/control/IPC, independent QA, reviewed Git, previous suite green",
     "gameInputAuthorized": false,
     "nativePathfindingRecovered": false,
-    "doesNotAdvanceFullM4WithoutM3": true
+    "doesNotAdvanceFullM4WithoutM3": true,
+    "started": true,
+    "completedGates": [
+      "M4A-001"
+    ],
+    "nextEligibleTasks": [
+      "M4A-002",
+      "M4A-003",
+      "M4A-004",
+      "M4A-005"
+    ],
+    "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165"
   },
   "preflightM4A": {
     "dateLocal": "2026-10-19",
@@ -1216,6 +1268,11 @@
     "codexProcessesObserved": 3,
     "workingOnRreConfirmed": false,
     "noIndependentAgentLaunched": true,
-    "interpretation": "Manager-only preflight and contract seed; do not mark worker implementation complete."
+    "interpretation": "Manager-only preflight and contract seed; do not mark worker implementation complete.",
+    "baselineG0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
+    "contractValidationStatus": "passed",
+    "scenariosLocked": 13,
+    "samplesLocked": 24,
+    "g0Completed": true
   }
 }

@@ -6,6 +6,8 @@
 **Priority:** P1 preparatory slice, in parallel with ongoing M3 native-pathfinding research.  
 **Authority:** Manager-only writes to shared plans/contracts; workers write only their assigned existing lane files.
 
+**Current execution checkpoint — 2026-10-19:** G0/M4A-001 is **integrated** in commit `899a158f0da7ef800f3dfd9a69275aa6106ca165` (follow-up task-board status commit recorded in main history). Exact-build and six-worktree preflight passed; all **13 synthetic cases / 24 samples** pass `node tools/validate-m4a-seed.mjs`. The original RRE evidence and roadmap validators passed. G1/G2 tasks M4A-002 through M4A-005 are dependency-ready but **no genuine independent Codex worker was launched** in this manager-only session. The previous known Codex quota stop was until Oct 24, 2026 at 19:13; the actual current entitlement has not been verified. The offline replay CLI does **not** yet exist and M4A is not complete.
+
 ## Achievable target: one bounded, testable deliverable
 
 Create a **deterministic offline target-approach decision/replay prototype**. It consumes a time-ordered sequence of *synthetic or previously saved* player/selected-target telemetry and returns annotated, replayable **decision intents** (approach, arrived, safe-stop reason). It must **never** issue movement commands, interact with a running game/process, attach a debugger, modify memory, or claim a validated native route.
