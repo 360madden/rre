@@ -96,6 +96,28 @@ for (const [lane] of Object.entries(board.coordination.workerLanes || {}))
 check((tasks.get('M5-T1')?.dependsOn || []).includes('M5-T0'), 'T1 must depend on T0.');
 check((tasks.get('M5-T2')?.dependsOn || []).includes('M5-T1'), 'T2 must depend on T1.');
 
+// M4A is a preparatory, replay-only target-approach rehearsal, not M4/M5 approval.
+if (milestones.has('M4A')) {
+  const goal=board.primaryNearTermGoal || {};
+  check(goal.id==='M4A' && goal.gameInputAuthorized===false &&
+        goal.doesNotAdvanceFullM4WithoutM3===true,
+        'M4A must be a no-game-input preparatory goal');
+  for(const id of ['M4A-001','M4A-002','M4A-003','M4A-004','M4A-005','M4A-006','M4A-007','M4A-008'])
+    check(tasks.get(id)?.milestone==='M4A','Missing M4A lane task '+id);
+  for(const id of ['M4A-002','M4A-003','M4A-004','M4A-005'])
+    check((tasks.get(id)?.dependsOn||[]).includes('M4A-001'),id+' must wait for contract gate G0');
+  for(const id of ['M4A-002','M4A-003','M4A-004','M4A-005'])
+    check((tasks.get('M4A-006')?.dependsOn||[]).includes(id),'Integration must await '+id);
+  check((tasks.get('M4A-007')?.dependsOn||[]).includes('M4A-006'),'Independent QA needs integrated replay CLI');
+  check((tasks.get('M4A-008')?.dependsOn||[]).includes('M4A-007'),'Acceptance requires independent QA');
+  check((milestones.get('M4')?.dependsOn||[]).includes('M4A')&&
+        (tasks.get('M4-001')?.dependsOn||[]).includes('M4A-008'),
+        'Native M4 may not bypass offline rehearsal');
+  check(milestones.get('M4A')?.status!=='integrated'||
+        tasks.get('M4A-008')?.status==='integrated',
+        'M4A cannot complete before final independent acceptance');
+}
+
 const statusCounts = {};
 for (const t of tasks.values()) statusCounts[t.status] = (statusCounts[t.status] || 0) + 1;
 const result = {

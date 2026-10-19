@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetId": "rre-m4a-synthetic-v1",
+  "taskId": "M4A-001",
+  "source": {
+    "kind": "synthetic-fixture",
+    "replayOnly": true,
+    "gameInputSent": false,
+    "gameProcessAttached": false
+  },
+  "units": {
+    "horizontal": [
+      "x",
+      "z"
+    ],
+    "vertical": "y",
+    "positionUnit": "synthetic-metre",
+    "timestampUnit": "ms"
+  },
+  "policyRef": "docs/m4a-offline-target-contract.json",
+  "notRuntimeEvidence": true,
+  "gameInputAuthorized": false,
+  "expectedOutputRules": [
+    "Each fixture has one decision entry per sample, even if already terminal; subsequent decisions are tagged ignored-after-terminal.",
+    "Expected terminal state is inferred only from supplied synthetic scenario; never claim observed Rift movement.",
+    "Semantic replay output must be deterministic."
+  ],
+  "cases": [
+    {
+      "id": "already-arrived",
+      "purpose": "Already inside arrival radius",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "arrived"
+      ],
+      "expectedTerminal": "arrived"
+    },
+    {
+      "id": "approach-then-arrive",
+      "purpose": "Tracked sample sequence approaches one fixed target",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 500,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 4,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 1000,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 9,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "approach-intent",
+        "arrived"
+      ],
+      "expectedTerminal": "arrived"
+    },
+    {
+      "id": "no-progress",
+      "purpose": "No movement for complete progress window",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 750,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 1600,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "approach-intent",
+        "no-progress"
+      ],
+      "expectedTerminal": "no-progress"
+    },
+    {
+      "id": "moving-away",
+      "purpose": "Moving farther from unchanged target",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 500,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": -1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "moving-away"
+      ],
+      "expectedTerminal": "moving-away"
+    },
+    {
+      "id": "stale-telemetry",
+      "purpose": "Sample gap exceeds synthetic freshness deadline",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 1501,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "telemetry-stale"
+      ],
+      "expectedTerminal": "telemetry-stale"
+    },
+    {
+      "id": "target-changed",
+      "purpose": "Target identity changes during evaluation",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 300,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-B",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "target-changed"
+      ],
+      "expectedTerminal": "target-changed"
+    },
+    {
+      "id": "operator-cancel",
+      "purpose": "Explicit cancellation latches a safe stop",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 100,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": true
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "cancelled"
+      ],
+      "expectedTerminal": "cancelled"
+    },
+    {
+      "id": "unsafe-height",
+      "purpose": "Synthetic vertical separation exceeds threshold",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 3,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "height-unsafe"
+      ],
+      "expectedTerminal": "height-unsafe"
+    },
+    {
+      "id": "target-unavailable",
+      "purpose": "No selected target",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": null,
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "target-unavailable"
+      ],
+      "expectedTerminal": "target-unavailable"
+    },
+    {
+      "id": "invalid-coordinate",
+      "purpose": "Non-numeric player coordinate is rejected",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": "NaN",
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "invalid-sample"
+      ],
+      "expectedTerminal": "invalid-sample"
+    },
+    {
+      "id": "nonmonotonic-time",
+      "purpose": "Duplicate timestamp refuses continued intent",
+      "samples": [
+        {
+          "tMs": 1000,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 1000,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "invalid-sample"
+      ],
+      "expectedTerminal": "invalid-sample"
+    },
+    {
+      "id": "scene-changed",
+      "purpose": "Scene binding changes",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 300,
+          "sceneId": "fixture-zone-B",
+          "player": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 10,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "approach-intent",
+        "scene-changed"
+      ],
+      "expectedTerminal": "scene-changed"
+    },
+    {
+      "id": "terminal-latched",
+      "purpose": "Previously reached arrival remains terminal even if further sample describes a distant target",
+      "samples": [
+        {
+          "tMs": 0,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-A",
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        },
+        {
+          "tMs": 300,
+          "sceneId": "fixture-zone-A",
+          "player": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "target": {
+            "id": "target-B",
+            "x": 20,
+            "y": 0,
+            "z": 0
+          },
+          "cancelRequested": false
+        }
+      ],
+      "expectedStates": [
+        "arrived",
+        "arrived"
+      ],
+      "expectedTerminal": "arrived",
+      "assertions": {
+        "secondSampleIgnored": true
+      }
+    }
+  ]
+}

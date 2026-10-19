@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M4A-001",
+  "name": "Offline stationary-target approach decision contract",
+  "project": "RRE",
+  "sourceOfTruth": "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md",
+  "exactBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "runMode": "offline-replay-only",
+  "source": {
+    "kind": "synthetic-fixture",
+    "replayOnly": true,
+    "gameProcessAttached": false,
+    "gameInputSent": false
+  },
+  "sampleFields": {
+    "tMs": "nonnegative integer, strictly increasing",
+    "sceneId": "nonempty stable scene identifier",
+    "player": "finite x,y,z",
+    "target": "null or nonempty id and finite x,y,z",
+    "cancelRequested": "boolean"
+  },
+  "coordinateFrame": {
+    "horizontalAxes": [
+      "x",
+      "z"
+    ],
+    "verticalAxis": "y",
+    "distanceUnit": "synthetic-metre",
+    "timeUnit": "millisecond",
+    "qualification": "Fixture-defined frame; not verified game-world distance."
+  },
+  "policy": {
+    "arrivalRadiusM": 1.5,
+    "maximumVerticalDifferenceM": 2,
+    "staleAfterGapMs": 1200,
+    "progressWindowMs": 1500,
+    "minimumProgressM": 0.25,
+    "movingAwayToleranceM": 0.75,
+    "numericTolerance": 1e-9,
+    "meaning": "Synthetic defaults, not experimentally tuned Rift gameplay thresholds"
+  },
+  "stateVocabulary": [
+    "approach-intent",
+    "arrived",
+    "target-unavailable",
+    "target-changed",
+    "scene-changed",
+    "cancelled",
+    "telemetry-stale",
+    "height-unsafe",
+    "no-progress",
+    "moving-away",
+    "invalid-sample",
+    "unqualified-source"
+  ],
+  "terminalStates": [
+    "arrived",
+    "target-unavailable",
+    "target-changed",
+    "scene-changed",
+    "cancelled",
+    "telemetry-stale",
+    "height-unsafe",
+    "no-progress",
+    "moving-away",
+    "invalid-sample",
+    "unqualified-source"
+  ],
+  "priorityRules": [
+    "Reject unqualified provenance or any attempt to emit game commands.",
+    "Check sample field types, finite coordinates and strictly increasing time; invalid -> invalid-sample.",
+    "Operator cancellation -> cancelled.",
+    "Target absent -> target-unavailable; changed identity -> target-changed.",
+    "Scene changed from initial sample -> scene-changed.",
+    "Consecutive sample time gap > staleAfterGapMs -> telemetry-stale.",
+    "Absolute player/target vertical difference > maximumVerticalDifferenceM -> height-unsafe.",
+    "Horizontal XZ separation <= arrivalRadiusM -> arrived.",
+    "Latest separation increases from prior valid distance by > movingAwayToleranceM -> moving-away.",
+    "No sufficient cumulative forward progress after progressWindowMs -> no-progress.",
+    "Otherwise output approach-intent (never a control command)."
+  ],
+  "progressSemantics": {
+    "stale": "time gap > staleAfterGapMs",
+    "movingAway": "current horizontal distance minus previous valid horizontal distance > tolerance",
+    "stalled": "baseline-window distance minus current horizontal distance < minimumProgressM after progressWindowMs",
+    "terminal": "latch terminal state; subsequent samples yield ignored-after-terminal and never emit commands"
+  },
+  "outputContract": {
+    "schemaVersion": 1,
+    "mode": "offline-replay-only",
+    "caseId": "string",
+    "states": "ordered per-sample decisions",
+    "terminalState": "terminal code or null",
+    "commandsIssued": 0,
+    "gameInputSent": false,
+    "inputSource": "synthetic-fixture",
+    "measurements": "horizontal separation, height delta, elapsed time with synthetic units",
+    "reproducibility": "identical fixture + policy yields identical semantic JSON output"
+  },
+  "acceptance": {
+    "minimumCases": 8,
+    "requiredCodes": [
+      "arrived",
+      "approach-intent",
+      "no-progress",
+      "moving-away",
+      "telemetry-stale",
+      "target-changed",
+      "cancelled",
+      "height-unsafe",
+      "target-unavailable",
+      "invalid-sample"
+    ],
+    "fullExistingRegressionSuiteMustPass": true,
+    "independentReviewRequired": true,
+    "noLiveActivity": true,
+    "noAStarOrNewPathfinder": true
+  },
+  "prohibitions": [
+    "no Rift process access",
+    "no inputs or injection",
+    "no memory modifications",
+    "no native navigation calls",
+    "no network",
+    "no A* or waypoint graph",
+    "no changes to RiftReader/RiftReader2",
+    "no installed tool modifications",
+    "do not claim offline tests validate real-world navigation"
+  ],
+  "owner": "Manager only; workers must treat contract read-only"
+}
