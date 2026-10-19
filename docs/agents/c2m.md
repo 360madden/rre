@@ -59,3 +59,61 @@ No live input, live memory read, attach, VM/process control, target modification
 ## Local commit blocker
 
 Git staging failed: sandbox cannot create C:/work/rre/.git/worktrees/rre-worker-c2m/index.lock (Permission denied). Parent: c7815b762dbdfe4d681a96cd14a69f658668595c. No staging or commit completed; no escalation, identity change, integration or push attempted. Manager can commit the four owned files with Git metadata write access.
+
+
+## Follow-up 2026-10-19 - M2-001
+
+**Result:** state `+0x70/+0x78` holds an object/control pair populated by a resource-ID-backed factory and a reference-counted assignment routine. It is **not a verified route handle**. The captured consumer continues steering from its separate destination vector at `+0x60/+0x68`. Callback ownership is distinct from its event argument; current-player ownership remains unresolved.
+
+Earlier findings and the historical commit-blocker note above are preserved. Current branch is `research/nav-c2m`, parent `ca52df618921ac0cdc18c71592b46ec63ed6a25b`. Manager roadmap/task board were read from `C:\work\rre` without writes. Rechecked executable SHA-256: `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`; preferred base `0x140000000`; all addresses here are RVAs. Manifest version remains baseline documentation. No live process access/game input occurred.
+
+### Direct native observations
+
+| Location | Observation and limit |
+| --- | --- |
+| `0x6942C0 / 0x6942C3` | Callback keeps `this` in r14, event in rsi. At `0x694681`, `[r14+0x10]` becomes setter receiver; `0x69468D` calls `0x562BC0`; `0x694692` sets event `+0x18`. The event address itself is not the setter receiver. |
+| `0x694381-0x694424` | Numeric event type 2 / subvalue `+0x120 == 1`, settings/state gates and coordinate validation precede query. Button and press/release meanings remain unproven. |
+| `0x562BD0-0x562C0C` | Reconfirms follow/destination clearing, copying supplied 12 bytes into `[receiver+0xB90]+0x60/+0x68`, and active bit `+0x1A8.0`. No player resolver is established. |
+| `0x576904-0x576957` | Copies destination to local vector; skips factory if `state+0x70` is non-null; initializes descriptor via uninspected `0x84D830`; stores destination at descriptor `+0x24/+0x2C`, literal 4 at `+0x310`. Here `rbp=rsp+0x100`; descriptor starts at `rsp+0x50`. |
+| `0x576974-0x5769B4` | Gets factory receiver from `0x494830`; passes ID from module RVA `0x32EC988`, output-pair address and descriptor to `0x852100`; assigns returned pair to `state+0x70` via `0x52DD60`; cleans local pair/descriptor. Cached ID initializes from another object's `+0x13C` at `0x576C7B-0x576C81`; resource identity unknown. |
+| `0x852100-0x8521BE` | Zeroes output pair, resolves ID through `0x125F27C` and conversions, can return empty on null intermediate; checks descriptor binding pairs `+0x2B8/+0x2EC` and `+0x2C0/+0x2F0` via `0x85A3C0`. Both false checks skip construction. Helper semantics unqualified. |
+| `0x8521C8-0x852295` | Requests `0x400` bytes through `0x77C210`, retains resource-associated value, copies descriptor into object `+8` via `0x84D6D0`, initializes containers/callback-like entries and packages object through `0x864200`. Output can remain empty. |
+| `0x8522A4-0x8523E5` | Inserts pair via receiver containers `+0x30` and optional `+0x270` binding containers; examines object list `+0x370/+0x378`; optionally calls `0x85C8E0`; returns output-pair address. This does not qualify an effect/navigation API. |
+| `0x84D6D0-0x84D829` | Copies descriptor destination `+0x24/+0x2C`, bindings `+0x2B8/+0x2C0`, and dword `+0x310`. Factory destination therefore reaches allocated object `+0x2C/+0x34`: supplied coordinates, not observed route output. Nested `0x84CAC0` not expanded. |
+| `0x52DD60-0x52DDB9` | Compares first pointers, conditionally retains incoming second-pointer counters, releases previous second pointer through `0x48CEA0`, writes incoming pair and returns destination address. No route search in this captured range. |
+| `0x576A21-0x576BCF` | Destination minus queried position, zeroed middle delta in C2M mode, direction/orientation and distance/state transitions. Captured consumer never dereferences `state+0x70` for route points; work elsewhere is not excluded. |
+
+Selected exact bytes (complete query outputs and additional matched rows retained in JSON):
+
+```text
+0x6942c0 4c8bf1 mov r14, rcx
+0x6942c3 488bf2 mov rsi, rdx
+0x694681 498b4e10 mov rcx, qword ptr [r14 + 0x10]
+0x69468d e82ee5ecff call 0x140562bc0
+0x576957 c7856002000004000000 mov dword ptr [rbp + 0x260], 4
+0x576994 e867b72d00 call 0x140852100
+0x57699c 488d4b70 lea rcx, [rbx + 0x70]
+0x5769a0 e8bb73fbff call 0x14052dd60
+0x52dd9f 488937 mov qword ptr [rdi], rsi
+0x52dda2 48895f08 mov qword ptr [rdi + 8], rbx
+```
+
+### Inference, rejection evidence and unknowns
+
+The two-pointer lifetime operations support a reference-counted object/control-pair interpretation. Resource ID, destination descriptor, binding checks and container/callback work are consistent with an auxiliary presentation/effect/marker object. **That role remains a hypothesis:** no resource/class name was recovered, and uninspected callbacks might do more work. Neither a native path nor a visual marker is verified.
+
+The receiver is linked to callback `this+0x10`; current-player identity requires separate provenance. Reused names wrapper search for `0x6942A0` returned exactly `references: []` over common RIP-relative LEA and non-executable stored absolute pointers. No new reference-prefix region was decoded. Prior direct-call search likewise found no callback caller. This rejects a claim that registration was recovered, not the existence of indirect/tail-call dispatch or other encodings.
+
+Unknowns: callback registration and receiver lifetime/player ownership; event schema and vector frame; resource/class/binding identities; work in uninspected callbacks; routing/type-7/obstacle linkage; arrival tolerance, actual cancellation and safe invocation. Historical runtime evidence was not re-audited and establishes no current-build navigation success. Player-centered bounds, cached `+0xD8`, custom graph and runner-assisted obstacle claims remain rejected.
+
+### Reproduction and verification
+
+Full outputs: `tools/agents/c2m/m2-001-query1.json`, `m2-001-query2.json`, `m2-001-references.json`. Dated `followUps` in `docs/agents/c2m.json` retains source/artifact hashes, query parameters, matched assembly, evidence labels and limits; existing top-level report values are unchanged.
+
+Use existing `C:\work\rre\.venv\Scripts\python.exe -B`. Static wrapper common flags: binary path from Identity above, original helper `C:\rift modding\RiftReader\scripts\postupdate_static_access_chain.py`, expected binary hash above, expected helper hash `c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319`, and `--depth 0`. Query 1 anchors: `0x6942A0`, `0x562BC0`, `0x576994`, `0x852100`, `0x52DD60`, with `--follow-unwind-chains`. Query 2: `0x84D6D0`, without chain expansion. Names wrapper uses original `scripts\anti-re\rtti_class_scanner.py`, expected helper hash `3636e5ca9c39318c27a7c5fdbccfd01e3258ef079139a0d9df64f49961448331`, and `--reference-rva 0x6942A0`. Choose fresh output names: wrappers refuse replacement. All sources/wrappers were read-only.
+
+Exactly **25 captured / 25 unique unwind regions** (24 + 1), all decoded through their ends; no truncation, unresolved anchors or queued work. Investigation stopped at this bound. Unwind ranges/linear decoding are not full CFG/data-flow or runtime evidence. No further factory/leaf expansion, environment/network actions, import retry or persistent jobs.
+
+Existing `validate_report.py` passed: 15 sources, 29 prior retained regions, 1,097 instructions. New `verify_m2_001.py` rechecks exact build, source/artifact hashes, all new windows/instructions and matched assembly, plus empty reference results. Validation redecodes already captured windows and adds no research regions. One patch-tool Markdown-write failure was recovered by appending through the allowed interpreter to the same owned file; no external paths were written.
+
+**Single next test:** offline E9-rel32 tail-jump search targeting `0x6942A0`; qualify at most five matched unwind ranges and trace callback `this/+0x10` provenance. Require a concrete player-owner chain before promoting ownership; zero/ambiguous matches leave it unresolved. No game clicks.

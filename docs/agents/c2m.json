@@ -6523,5 +6523,599 @@
     ],
     "escalationAttempted": false,
     "pushed": false
-  }
+  },
+  "followUps": [
+    {
+      "taskId": "M2-001",
+      "date": "2026-10-19",
+      "status": "static-evidence-complete-player-owner-unresolved",
+      "branch": "research/nav-c2m",
+      "parentCommit": "ca52df618921ac0cdc18c71592b46ec63ed6a25b",
+      "build": {
+        "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+        "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+        "preferredImageBase": "0x140000000",
+        "manifestVersionFromBaseline": "STABLE-1-1169-a-1256556",
+        "manifestIndependentlyVerified": false
+      },
+      "preservedPriorReport": {
+        "date": "2026-10-18",
+        "originalJsonSha256": "8179d03bf84b177c1503bff766d9d5900b9d7ced8f1053e6ac17bed6b27b5c5e",
+        "originalMarkdownSha256": "f96c73eda41e6a96ebb3793e15de8a9a4b0ef0b325cce5c789e167b4c111a101",
+        "policy": "Existing top-level report values retained; follow-up appended."
+      },
+      "method": "Existing worktree static/names wrappers, original RiftReader helpers, PE unwind metadata and Capstone. No REA/Ghidra session or live target access.",
+      "sources": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "5e38de8c32d92f7805d77ccaefccd6ab4b995455800bbd97584cedb8b5791342"
+        },
+        {
+          "path": "docs/agent-coordination.md",
+          "sha256": "0bd1e71fec2ce2000fd4e42cfedb7b3a6281f37972e9de1b94868911cd898237"
+        },
+        {
+          "path": "docs/navigation-research-2026-10-18.md",
+          "sha256": "650e6a584b01cce3c234325ac668ad75489b1122361379b841b073f476bc6185"
+        },
+        {
+          "path": "docs/navigation-findings.json",
+          "sha256": "df9f11b98cc0271e2b14bfee4fad77e2ca954157cbce8670dd8e4f6729ba4943"
+        },
+        {
+          "path": "docs/navigation-workflow.md",
+          "sha256": "19c560887166ff227bb9e43a7f78f21d6efdbfa193a7dd6c59d1eab9729e400a"
+        },
+        {
+          "path": "tools/inspect-navigation-static.py",
+          "sha256": "bb01395cd99053239472b3f2986afc8ce0bfc648acb3c528baecdb1c7809ecb3"
+        },
+        {
+          "path": "tools/inspect-navigation-names.py",
+          "sha256": "0370826d4f3dd2445d1a93f59f6d60dae91ea64fd8a4843c5422a654e4ef4ad4"
+        },
+        {
+          "path": "tools/agents/c2m/verify_m2_001.py",
+          "sha256": "530d51119f2a757566cdb1e535229d2ccf20d8ab3ab3939766581681b6344939"
+        },
+        {
+          "path": "C:\\work\\rre\\ROADMAP.md",
+          "sha256": "b7cfa7159f4dd588db0f1c414eb979a2cf9e05e68fc029ccd54ad0b8441ad403"
+        },
+        {
+          "path": "C:\\work\\rre\\docs\\roadmap-tasks.json",
+          "sha256": "ebf52caf3d25e0a6cb011132486cd212bc6957f60c2ffcd33877a2cda8ca5247"
+        },
+        {
+          "path": "C:\\rift modding\\RiftReader\\AGENTS.md",
+          "sha256": "47d7b0d20a8385b7b62cebf7e890f43210b82bfa5a78e813ecdd2d706caf5d3c"
+        },
+        {
+          "path": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+          "sha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319"
+        },
+        {
+          "path": "C:\\rift modding\\RiftReader\\scripts\\anti-re\\rtti_class_scanner.py",
+          "sha256": "3636e5ca9c39318c27a7c5fdbccfd01e3258ef079139a0d9df64f49961448331"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "tools/agents/c2m/m2-001-query1.json",
+          "sha256": "31d6ca7c8d50423a6786ef3c531f8e822d90cae3c16993939bc6deb44301632c",
+          "kind": "static-region-query"
+        },
+        {
+          "path": "tools/agents/c2m/m2-001-query2.json",
+          "sha256": "f6075d12878fc5c4c626e7bcc0169a2fd79b17eba4c5ee47e9780f36e7f30e2e",
+          "kind": "static-region-query"
+        },
+        {
+          "path": "tools/agents/c2m/m2-001-references.json",
+          "sha256": "52acdc2a0b1414e1dfcc2d141d727604329acc048cd467c7b4da189bcd9b008c",
+          "kind": "reference-query"
+        }
+      ],
+      "queries": [
+        {
+          "tool": "tools/inspect-navigation-static.py",
+          "anchors": [
+            "0x6942A0",
+            "0x562BC0",
+            "0x576994",
+            "0x852100",
+            "0x52DD60"
+          ],
+          "depth": 0,
+          "followUnwindChains": true,
+          "output": "tools/agents/c2m/m2-001-query1.json",
+          "regions": 24
+        },
+        {
+          "tool": "tools/inspect-navigation-static.py",
+          "anchors": [
+            "0x84D6D0"
+          ],
+          "depth": 0,
+          "followUnwindChains": false,
+          "output": "tools/agents/c2m/m2-001-query2.json",
+          "regions": 1
+        },
+        {
+          "tool": "tools/inspect-navigation-names.py",
+          "referenceRvas": [
+            "0x6942A0"
+          ],
+          "output": "tools/agents/c2m/m2-001-references.json",
+          "references": [],
+          "codeReferenceRegions": 0
+        }
+      ],
+      "coverage": {
+        "freshCapturedRegions": 25,
+        "freshUniqueRegions": 25,
+        "regionLimit": 25,
+        "allWindowsDecoded": true,
+        "anyWindowTruncated": false,
+        "queueRemaining": 0,
+        "unresolvedAnchors": [],
+        "newRegionResearchStopped": true,
+        "referenceSearchScope": "Common RIP-relative LEA encodings and stored absolute pointers only; no callback reference matches, hence no additional prefix region decoded."
+      },
+      "observations": [
+        {
+          "id": "M2-C1",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x6942c0",
+            "0x6942c3",
+            "0x694381",
+            "0x694681",
+            "0x69468d",
+            "0x694692"
+          ],
+          "claim": "Callback separates this in r14 from event in rsi. The gated type-2/event+0x120==1 branch passes [this+0x10], not the event address, as setter receiver. Event+0x18 becomes 1 only after setter returns."
+        },
+        {
+          "id": "M2-C2",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x562bd0",
+            "0x562bd8",
+            "0x562be8",
+            "0x562bf6",
+            "0x562c0c"
+          ],
+          "claim": "Setter calls follow-stop and destination-clear, stores supplied 12 bytes to receiver+0xB90 state+0x60/+0x68, activates bit 0 of state+0x1A8. This does not establish receiver as current player."
+        },
+        {
+          "id": "M2-C3",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x576904",
+            "0x576916",
+            "0x576941",
+            "0x57694a",
+            "0x576957",
+            "0x576980",
+            "0x576994",
+            "0x57699c",
+            "0x5769a0"
+          ],
+          "claim": "Consumer copies destination into local vector; if state+0x70 null, initializes descriptor via 0x84D830 (callee not inspected), stores destination at descriptor+0x24/+0x2C and literal 4 at descriptor+0x310, passes resource id [module+0x32EC988] and descriptor into 0x852100, then assigns returned pair to state+0x70/+0x78 via 0x52DD60."
+        },
+        {
+          "id": "M2-C4",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x852110",
+            "0x85211a",
+            "0x85213d",
+            "0x85217d",
+            "0x85219b",
+            "0x8521b1",
+            "0x8521be",
+            "0x8521c8",
+            "0x8521ed",
+            "0x852290",
+            "0x8522b0",
+            "0x8523d5"
+          ],
+          "claim": "0x852100 zeroes output pair, resolves caller r8d ID through 0x125F27C and conversions, may return empty when resource result is null, tests two descriptor binding pairs via 0x85A3C0, requests 0x400-byte allocation via 0x77C210, copies descriptor into object+8 with 0x84D6D0, packages object via 0x864200, registers through receiver containers/callback-like entries, and returns output-pair address. Callee names and runtime activation unverified."
+        },
+        {
+          "id": "M2-C5",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x84d6f4",
+            "0x84d6f9",
+            "0x84d6fe",
+            "0x84d705",
+            "0x84d711",
+            "0x84d71f",
+            "0x84d7dc",
+            "0x84d7e2"
+          ],
+          "claim": "Descriptor copy explicitly transfers destination bytes +0x24/+0x2C, optional bindings +0x2B8/+0x2C0, and dword +0x310. In factory destination therefore reaches allocated object+0x2C/+0x34; initial vector is not a decoded route output."
+        },
+        {
+          "id": "M2-C6",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x52dd6f",
+            "0x52dd75",
+            "0x52dd83",
+            "0x52dd8e",
+            "0x52dd9a",
+            "0x52dd9f",
+            "0x52dda2"
+          ],
+          "claim": "0x52DD60 compares first pointers, conditionally retains incoming second pointer counters, releases old second pointer via 0x48CEA0, writes incoming pair to destination, and returns destination address. It does not search for a route in this captured range."
+        },
+        {
+          "id": "M2-C7",
+          "kind": "directly-observed-native-code",
+          "rvas": [
+            "0x576a21",
+            "0x576a39",
+            "0x576a3e",
+            "0x576a44",
+            "0x576a4f",
+            "0x576ad5",
+            "0x576b52",
+            "0x576bcf"
+          ],
+          "claim": "Consumer subtracts queried position from local destination vector, zeroes middle delta in C2M mode, uses direction/orientation and distance gates, and clears destination state near the observed threshold branch. Captured consumer never dereferences the object stored at +0x70 to obtain path points."
+        }
+      ],
+      "inferences": [
+        {
+          "claim": "The +0x70/+0x78 pair is a reference-counted object/control pair, rather than raw destination coordinates. Resource-backed factory and binding/container work are consistent with an auxiliary presentation/effect/marker object, but no class/resource name establishes that role.",
+          "basedOn": [
+            "M2-C3",
+            "M2-C4",
+            "M2-C5",
+            "M2-C6"
+          ]
+        },
+        {
+          "claim": "Event-handler-owner-linked movement state is supported. Local-player identity is still a separate unresolved claim.",
+          "basedOn": [
+            "M2-C1",
+            "M2-C2"
+          ]
+        }
+      ],
+      "rejectionEvidence": [
+        {
+          "claimRejected": "+0x70 is already a verified native path or route handle.",
+          "basis": "Assignment is generic pair retention/release. Factory receives the destination descriptor, while consumer steering uses +0x60/+0x68 independently. No route-point producer/read was observed. This does not prove routing absent elsewhere."
+        },
+        {
+          "claimRejected": "Callback registration/current-player ownership resolved by a vtable pointer.",
+          "basis": "Names wrapper query for 0x6942A0 returned references=[] over its limited LEA/non-executable stored-absolute-pointer scan. Prior report direct-call query also had zero callback caller matches. Indirect dispatch, tail calls and other encodings remain open."
+        },
+        {
+          "claimRejected": "Type 2 / subvalue 1 proves a normal left-button release.",
+          "basis": "Numeric gates and event field accesses observed; producer/schema semantics not traced."
+        }
+      ],
+      "historicalRuntimeEvidence": {
+        "kind": "existing-documented-runtime-evidence",
+        "source": "Preserved 2026-10-18 report historicalEvidence and c2m.md historical section",
+        "newRuntimeCapture": false,
+        "limitations": "No July capture re-audit or current-build player/navigation validation; custom runner detours and player-centered bounds remain rejected."
+      },
+      "unknowns": [
+        "Callback registration and origin/lifetime of callback this+0x10; current-player ownership",
+        "Event type/button/press-release mapping and vector frame",
+        "Resource ID resolved by [module+0x32EC988], factory result class, optional binding identities and callbacks",
+        "Whether +0x70 object performs any additional navigation work outside inspected code; route/type-7 linkage and obstacle contract",
+        "Actual arrival tolerance, safe invocation/resolver contract and genuine user cancellation"
+      ],
+      "nextTest": "Offline only: search E9 rel32 tail-jump candidates targeting 0x6942A0; qualify at most five matched PE unwind ranges and trace the callback this/+0x10 source. Accept player ownership only with a concrete player-owner provenance chain; zero/ambiguous matches leave ownership unresolved.",
+      "failuresAndLimits": [
+        "No query failure; bounded pass stopped at 25 regions.",
+        "Unwind ranges, linear decode and generic reference scans are not complete CFG/dataflow/xref recovery.",
+        "No leaf helpers or further factories disassembled after budget exhaustion. No unchanged Ghidra retry."
+      ],
+      "validation": {
+        "priorReport": "passed: 15 sources, 29 regions, 1097 retained instructions",
+        "command": "C:\\work\\rre\\.venv\\Scripts\\python.exe -B tools/agents/c2m/verify_m2_001.py",
+        "result": "pending"
+      },
+      "git": {
+        "staging": "pending",
+        "commit": null
+      },
+      "safety": {
+        "gameInputSent": false,
+        "liveMemoryRead": false,
+        "gameProcessAttached": false,
+        "memoryModified": false,
+        "targetExecuted": false,
+        "processControlled": false,
+        "networkAction": false,
+        "environmentModified": false,
+        "persistentJobCreated": false
+      },
+      "matchedAssembly": [
+        {
+          "rva": "0x6942c0",
+          "bytes": "4c8bf1",
+          "instruction": "mov r14, rcx"
+        },
+        {
+          "rva": "0x6942c3",
+          "bytes": "488bf2",
+          "instruction": "mov rsi, rdx"
+        },
+        {
+          "rva": "0x694381",
+          "bytes": "8b8a20010000",
+          "instruction": "mov ecx, dword ptr [rdx + 0x120]"
+        },
+        {
+          "rva": "0x694681",
+          "bytes": "498b4e10",
+          "instruction": "mov rcx, qword ptr [r14 + 0x10]"
+        },
+        {
+          "rva": "0x69468d",
+          "bytes": "e82ee5ecff",
+          "instruction": "call 0x140562bc0"
+        },
+        {
+          "rva": "0x694692",
+          "bytes": "c6461801",
+          "instruction": "mov byte ptr [rsi + 0x18], 1"
+        },
+        {
+          "rva": "0x562bd0",
+          "bytes": "e82b16fdff",
+          "instruction": "call 0x140534200"
+        },
+        {
+          "rva": "0x562bd8",
+          "bytes": "e8b31dfdff",
+          "instruction": "call 0x140534990"
+        },
+        {
+          "rva": "0x562be8",
+          "bytes": "f2410f114060",
+          "instruction": "movsd qword ptr [r8 + 0x60], xmm0"
+        },
+        {
+          "rva": "0x562bf6",
+          "bytes": "41894068",
+          "instruction": "mov dword ptr [r8 + 0x68], eax"
+        },
+        {
+          "rva": "0x562c0c",
+          "bytes": "8881a8010000",
+          "instruction": "mov byte ptr [rcx + 0x1a8], al"
+        },
+        {
+          "rva": "0x576904",
+          "bytes": "f20f104160",
+          "instruction": "movsd xmm0, qword ptr [rcx + 0x60]"
+        },
+        {
+          "rva": "0x576916",
+          "bytes": "4c397170",
+          "instruction": "cmp qword ptr [rcx + 0x70], r14"
+        },
+        {
+          "rva": "0x576941",
+          "bytes": "f20f11442474",
+          "instruction": "movsd qword ptr [rsp + 0x74], xmm0"
+        },
+        {
+          "rva": "0x57694a",
+          "bytes": "8944247c",
+          "instruction": "mov dword ptr [rsp + 0x7c], eax"
+        },
+        {
+          "rva": "0x576957",
+          "bytes": "c7856002000004000000",
+          "instruction": "mov dword ptr [rbp + 0x260], 4"
+        },
+        {
+          "rva": "0x576980",
+          "bytes": "448b050160d702",
+          "instruction": "mov r8d, dword ptr [rip + 0x2d76001]"
+        },
+        {
+          "rva": "0x576994",
+          "bytes": "e867b72d00",
+          "instruction": "call 0x140852100"
+        },
+        {
+          "rva": "0x57699c",
+          "bytes": "488d4b70",
+          "instruction": "lea rcx, [rbx + 0x70]"
+        },
+        {
+          "rva": "0x5769a0",
+          "bytes": "e8bb73fbff",
+          "instruction": "call 0x14052dd60"
+        },
+        {
+          "rva": "0x852110",
+          "bytes": "48c70200000000",
+          "instruction": "mov qword ptr [rdx], 0"
+        },
+        {
+          "rva": "0x85211a",
+          "bytes": "48c7420800000000",
+          "instruction": "mov qword ptr [rdx + 8], 0"
+        },
+        {
+          "rva": "0x85213d",
+          "bytes": "e83ad1a000",
+          "instruction": "call 0x14125f27c"
+        },
+        {
+          "rva": "0x85217d",
+          "bytes": "48837c242000",
+          "instruction": "cmp qword ptr [rsp + 0x20], 0"
+        },
+        {
+          "rva": "0x85219b",
+          "bytes": "e820820000",
+          "instruction": "call 0x14085a3c0"
+        },
+        {
+          "rva": "0x8521b1",
+          "bytes": "e80a820000",
+          "instruction": "call 0x14085a3c0"
+        },
+        {
+          "rva": "0x8521be",
+          "bytes": "b900040000",
+          "instruction": "mov ecx, 0x400"
+        },
+        {
+          "rva": "0x8521c8",
+          "bytes": "e843a0f2ff",
+          "instruction": "call 0x14077c210"
+        },
+        {
+          "rva": "0x8521ed",
+          "bytes": "e8deb4ffff",
+          "instruction": "call 0x14084d6d0"
+        },
+        {
+          "rva": "0x852290",
+          "bytes": "e86b1f0100",
+          "instruction": "call 0x140864200"
+        },
+        {
+          "rva": "0x8522b0",
+          "bytes": "e82b160100",
+          "instruction": "call 0x1408638e0"
+        },
+        {
+          "rva": "0x8523d5",
+          "bytes": "488bc3",
+          "instruction": "mov rax, rbx"
+        },
+        {
+          "rva": "0x84d6f4",
+          "bytes": "f20f104224",
+          "instruction": "movsd xmm0, qword ptr [rdx + 0x24]"
+        },
+        {
+          "rva": "0x84d6f9",
+          "bytes": "f20f114124",
+          "instruction": "movsd qword ptr [rcx + 0x24], xmm0"
+        },
+        {
+          "rva": "0x84d6fe",
+          "bytes": "8b422c",
+          "instruction": "mov eax, dword ptr [rdx + 0x2c]"
+        },
+        {
+          "rva": "0x84d705",
+          "bytes": "89412c",
+          "instruction": "mov dword ptr [rcx + 0x2c], eax"
+        },
+        {
+          "rva": "0x84d711",
+          "bytes": "488b87b8020000",
+          "instruction": "mov rax, qword ptr [rdi + 0x2b8]"
+        },
+        {
+          "rva": "0x84d71f",
+          "bytes": "488b87c0020000",
+          "instruction": "mov rax, qword ptr [rdi + 0x2c0]"
+        },
+        {
+          "rva": "0x84d7dc",
+          "bytes": "8b8710030000",
+          "instruction": "mov eax, dword ptr [rdi + 0x310]"
+        },
+        {
+          "rva": "0x84d7e2",
+          "bytes": "898310030000",
+          "instruction": "mov dword ptr [rbx + 0x310], eax"
+        },
+        {
+          "rva": "0x52dd6f",
+          "bytes": "488b32",
+          "instruction": "mov rsi, qword ptr [rdx]"
+        },
+        {
+          "rva": "0x52dd75",
+          "bytes": "488b5a08",
+          "instruction": "mov rbx, qword ptr [rdx + 8]"
+        },
+        {
+          "rva": "0x52dd83",
+          "bytes": "8b13",
+          "instruction": "mov edx, dword ptr [rbx]"
+        },
+        {
+          "rva": "0x52dd8e",
+          "bytes": "ff4304",
+          "instruction": "inc dword ptr [rbx + 4]"
+        },
+        {
+          "rva": "0x52dd9a",
+          "bytes": "e801f1f5ff",
+          "instruction": "call 0x14048cea0"
+        },
+        {
+          "rva": "0x52dd9f",
+          "bytes": "488937",
+          "instruction": "mov qword ptr [rdi], rsi"
+        },
+        {
+          "rva": "0x52dda2",
+          "bytes": "48895f08",
+          "instruction": "mov qword ptr [rdi + 8], rbx"
+        },
+        {
+          "rva": "0x576a21",
+          "bytes": "f3440f105c2420",
+          "instruction": "movss xmm11, dword ptr [rsp + 0x20]"
+        },
+        {
+          "rva": "0x576a39",
+          "bytes": "f3440f5c18",
+          "instruction": "subss xmm11, dword ptr [rax]"
+        },
+        {
+          "rva": "0x576a3e",
+          "bytes": "f3440f5c5004",
+          "instruction": "subss xmm10, dword ptr [rax + 4]"
+        },
+        {
+          "rva": "0x576a44",
+          "bytes": "f3440f5c6008",
+          "instruction": "subss xmm12, dword ptr [rax + 8]"
+        },
+        {
+          "rva": "0x576a4f",
+          "bytes": "450f57d2",
+          "instruction": "xorps xmm10, xmm10"
+        },
+        {
+          "rva": "0x576ad5",
+          "bytes": "e836031100",
+          "instruction": "call 0x140686e10"
+        },
+        {
+          "rva": "0x576b52",
+          "bytes": "e8d9031100",
+          "instruction": "call 0x140686f30"
+        },
+        {
+          "rva": "0x576bcf",
+          "bytes": "e8bcddfbff",
+          "instruction": "call 0x140534990"
+        }
+      ]
+    }
+  ]
 }
