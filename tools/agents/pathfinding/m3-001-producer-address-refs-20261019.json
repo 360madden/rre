@@ -1,0 +1,1787 @@
+{
+  "schemaVersion": 1,
+  "createdAtUtc": "2026-10-19T08:38:16.634315+00:00",
+  "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "imageBase": "0x140000000",
+  "method": "Existing RiftReader RTTI-name matcher plus standard ASCII/UTF-16LE text search",
+  "helper": "C:\\rift modding\\RiftReader\\scripts\\anti-re\\rtti_class_scanner.py",
+  "helperSha256": "3636e5ca9c39318c27a7c5fdbccfd01e3258ef079139a0d9df64f49961448331",
+  "reaDecompilation": false,
+  "gameProcessAttached": false,
+  "gameInputSent": false,
+  "queryTerms": [
+    "pathfind",
+    "navmesh",
+    "navigationmesh",
+    "waypoint",
+    "walkable",
+    "traversable",
+    "clicktomove",
+    "click to move",
+    "click-to-move",
+    "follow",
+    "raycast",
+    "linearcast",
+    "characterproxy",
+    "hkai",
+    "collision",
+    "groundheight"
+  ],
+  "scannedNonExecutableSections": [
+    {
+      "name": ".rdata",
+      "bytes": 9748992
+    },
+    {
+      "name": ".data",
+      "bytes": 4233728
+    },
+    {
+      "name": ".pdata",
+      "bytes": 3628544
+    },
+    {
+      "name": "_RDATA",
+      "bytes": 78848
+    },
+    {
+      "name": ".rsrc",
+      "bytes": 721408
+    },
+    {
+      "name": ".reloc",
+      "bytes": 2175488
+    }
+  ],
+  "referenceTargets": [
+    "0x8a8d8",
+    "0x8ecb4"
+  ],
+  "references": [
+    {
+      "targetRva": "0x8a8d8",
+      "siteRva": "0x27255f8",
+      "kind": "stored absolute pointer",
+      "section": ".rdata"
+    }
+  ],
+  "termCounts": {
+    "pathfind": 1,
+    "navmesh": 0,
+    "navigationmesh": 0,
+    "waypoint": 21,
+    "walkable": 0,
+    "traversable": 0,
+    "clicktomove": 1,
+    "click to move": 0,
+    "click-to-move": 0,
+    "follow": 19,
+    "raycast": 5,
+    "linearcast": 22,
+    "characterproxy": 2,
+    "hkai": 0,
+    "collision": 76,
+    "groundheight": 0
+  },
+  "stringMatches": [
+    {
+      "rva": "0x263e6b0",
+      "fileOffset": "0x263d4b0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Map_Waypoint_Update",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x263f540",
+      "fileOffset": "0x263e340",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Event Map_Waypoint_Update",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2646290",
+      "fileOffset": "0x2645090",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "You must select a target to follow",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26462b8",
+      "fileOffset": "0x26450b8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "You can not follow [%TARGET_TOKEN]",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2646300",
+      "fileOffset": "0x2645100",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "Following in PvP Maps is currently disabled",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2646330",
+      "fileOffset": "0x2645130",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "[%TARGET_TOKEN] is too far away to follow",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2646360",
+      "fileOffset": "0x2645160",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "You are following [%TARGET_TOKEN]",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2646388",
+      "fileOffset": "0x2645188",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "You have stopped following [%TARGET_TOKEN]",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x264ebd0",
+      "fileOffset": "0x264d9d0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "follow",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x264f1a0",
+      "fileOffset": "0x264dfa0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "petfollow",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2651220",
+      "fileOffset": "0x2650020",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "setwaypoint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2651230",
+      "fileOffset": "0x2650030",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Invalid coordinates. /setwaypoint x z.",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2651260",
+      "fileOffset": "0x2650060",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Waypoint set at [%x], [%z].",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26512b8",
+      "fileOffset": "0x26500b8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "clearwaypoint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26512c8",
+      "fileOffset": "0x26500c8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "You have no waypoint to clear!",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26512e8",
+      "fileOffset": "0x26500e8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Waypoint cleared.",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26599d0",
+      "fileOffset": "0x26587d0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "If you leave your guild, you may not be able to follow them to their new shard.",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2665d08",
+      "fileOffset": "0x2664b08",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "setFollowMode",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2668af0",
+      "fileOffset": "0x26678f0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "Follow",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266a260",
+      "fileOffset": "0x2669060",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Command_Map_Waypoint_Clear",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266a280",
+      "fileOffset": "0x2669080",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Command_Map_Waypoint_Set",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266b798",
+      "fileOffset": "0x266a598",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Command.Map.Waypoint.Clear",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266b7c0",
+      "fileOffset": "0x266a5c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Command.Map.Waypoint.Set",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266b7f0",
+      "fileOffset": "0x266a5f0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "x@waypointset",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266b800",
+      "fileOffset": "0x266a600",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "z@waypointset",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x266ef48",
+      "fileOffset": "0x266dd48",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Inspect_Map_Waypoint_Get",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26708a0",
+      "fileOffset": "0x266f6a0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "Inspect.Map.Waypoint.Get",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26708d8",
+      "fileOffset": "0x266f6d8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "x@waypointget",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26708e8",
+      "fileOffset": "0x266f6e8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "z@waypointget",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x267d810",
+      "fileOffset": "0x267c610",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "You have agreed to the following changes to your character:",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2685040",
+      "fileOffset": "0x2683e40",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Camera_WaterCollision",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26851f8",
+      "fileOffset": "0x2683ff8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "clicktomove"
+      ],
+      "text": "Misc_EnableClickToMove",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2692250",
+      "fileOffset": "0x2691050",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "WaypointTitle",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2692260",
+      "fileOffset": "0x2691060",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "WaypointHelp",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2692280",
+      "fileOffset": "0x2691080",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "waypoint"
+      ],
+      "text": "LinkedWaypointTitle",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26ad398",
+      "fileOffset": "0x26ac198",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "The following logged message is too long!",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d6f88",
+      "fileOffset": "0x26d5d88",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "NiCollisionData",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d7068",
+      "fileOffset": "0x26d5e68",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "m_eCollisionMode",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d71d0",
+      "fileOffset": "0x26d5fd0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "NiCollision",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d79d0",
+      "fileOffset": "0x26d67d0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "NiMultiTargetPoseHandler::AddInterpControllerInfos failed to find target with the following identifiers:",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d87a0",
+      "fileOffset": "0x26d75a0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "NiScratchPad::Init failed to find a bind info with the following identifiers:",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26d8850",
+      "fileOffset": "0x26d7650",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "NiScratchPad::Init failed to find a pose buffer handle with the following identifiers:",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26e5be0",
+      "fileOffset": "0x26e49e0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "m_spCollisionObject",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26e6f40",
+      "fileOffset": "0x26e5d40",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "NiCollisionObject",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x26e9850",
+      "fileOffset": "0x26e8650",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "NiCollisionSwitch",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27239b8",
+      "fileOffset": "0x27227b8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CollisionListnr",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2723e30",
+      "fileOffset": "0x2722c30",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionAgentConfig",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2724870",
+      "fileOffset": "0x2723670",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionListeners",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27248a8",
+      "fileOffset": "0x27236a8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "spuCollisionCallback",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2724aa0",
+      "fileOffset": "0x27238a0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "SpuCollisionCallbackEventFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2725118",
+      "fileOffset": "0x2723f18",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpEntitySpuCollisionCallback",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2726b08",
+      "fileOffset": "0x2725908",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": "TthkpAabbPhantom::linearCast",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x272a0cb",
+      "fileOffset": "0x2728ecb",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Maybe the order of registering your collision agent is wrong, make sure you register your alternate type agents first",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x272aee0",
+      "fileOffset": "0x2729ce0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "entitiesNeedingPsiCollisionDetection",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x272b0d8",
+      "fileOffset": "0x2729ed8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionEntries",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27599b0",
+      "fileOffset": "0x27587b0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "follow"
+      ],
+      "text": "Maximum (%ld) redirects followed",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2765830",
+      "fileOffset": "0x2764630",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Use Continuous Collision?",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2765850",
+      "fileOffset": "0x2764650",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Should this sphere use continuous collision detection?",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2768238",
+      "fileOffset": "0x2767038",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionMgr",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276971f",
+      "fileOffset": "0x276851f",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ">CapsuleCollisionConstraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2769740",
+      "fileOffset": "0x2768540",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Capsule Collision Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2769760",
+      "fileOffset": "0x2768560",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Handles collisions between the simulation and capsule-shaped Colliders",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27697b0",
+      "fileOffset": "0x27685b0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "http://support.cloak-works.com/wiki/index.php?title=Capsule_Collision_Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2769888",
+      "fileOffset": "0x2768688",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "SphereCollisionConstraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27698a8",
+      "fileOffset": "0x27686a8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Sphere Collision Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x27698c8",
+      "fileOffset": "0x27686c8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Handles collisions with spheres and ellipses",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2769900",
+      "fileOffset": "0x2768700",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "http://support.cloak-works.com/wiki/index.php?title=Sphere_Collision_Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276a8c0",
+      "fileOffset": "0x27696c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "PlaneCollisionConstraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276a8e0",
+      "fileOffset": "0x27696e0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Plane Collision Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276a900",
+      "fileOffset": "0x2769700",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "Handles collisions with planes",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276a920",
+      "fileOffset": "0x2769720",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "http://support.cloak-works.com/wiki/index.php?title=Plane_Collision_Constraint",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276c5a0",
+      "fileOffset": "0x276b3a0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CollisionInstance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276cc58",
+      "fileOffset": "0x276ba58",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CollisionMgr",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276db20",
+      "fileOffset": "0x276c920",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CollisionControl",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276dbf0",
+      "fileOffset": "0x276c9f0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CapsuleCollisionConstraintInstance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276dc68",
+      "fileOffset": "0x276ca68",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "SphereCollisionInstance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276e258",
+      "fileOffset": "0x276d058",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "PlaneCollisionInstance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276f3b0",
+      "fileOffset": "0x276e1b0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "CollisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276f3c0",
+      "fileOffset": "0x276e1c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "numDisabledCollisions",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x276f3d8",
+      "fileOffset": "0x276e1d8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "disabledCollisions",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d51548",
+      "fileOffset": "0x2d50348",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "TtCollision Query",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d51560",
+      "fileOffset": "0x2d50360",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "raycast"
+      ],
+      "text": "TtRayCast Query",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d51598",
+      "fileOffset": "0x2d50398",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "pathfind"
+      ],
+      "text": "TtPathfinding",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d54fd8",
+      "fileOffset": "0x2d53dd8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "ResetCollisionInformation",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d559c0",
+      "fileOffset": "0x2d547c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionDetails",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d57780",
+      "fileOffset": "0x2d56580",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpSimpleShapePhantomCollisionDetail",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d581f0",
+      "fileOffset": "0x2d56ff0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "toiCollisionResponseRotateNormal",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58298",
+      "fileOffset": "0x2d57098",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "snapCollisionToConcaveEdgeThreshold",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d582c0",
+      "fileOffset": "0x2d570c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "snapCollisionToConvexEdgeThreshold",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58440",
+      "fileOffset": "0x2d57240",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionDispatcher",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58458",
+      "fileOffset": "0x2d57258",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58468",
+      "fileOffset": "0x2d57268",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionInput",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58760",
+      "fileOffset": "0x2d57560",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpUpdateCollisionFilterOnEntityMode",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58788",
+      "fileOffset": "0x2d57588",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpUpdateCollisionFilterOnWorldMode",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58920",
+      "fileOffset": "0x2d57720",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "HK_UPDATE_FILTER_ON_ENTITY_DISABLE_ENTITY_ENTITY_COLLISIONS_ONLY",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d58990",
+      "fileOffset": "0x2d57790",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "HK_UPDATE_FILTER_ON_WORLD_DISABLE_ENTITY_ENTITY_COLLISIONS_ONLY",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d59fa0",
+      "fileOffset": "0x2d58da0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": "iterativeLinearCastMaxIterations",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d59fc8",
+      "fileOffset": "0x2d58dc8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": "iterativeLinearCastEarlyOutDistance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5a0d8",
+      "fileOffset": "0x2d58ed8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionTolerance",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5c370",
+      "fileOffset": "0x2d5b170",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpCollisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5c388",
+      "fileOffset": "0x2d5b188",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "ConvexListCollisionType",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5c8f0",
+      "fileOffset": "0x2d5b6f0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionFilters",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5c9c0",
+      "fileOffset": "0x2d5b7c0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpCollisionFilterList",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5d370",
+      "fileOffset": "0x2d5c170",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "cylBaseRadiusFactorForHeightFieldCollisions",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5dce0",
+      "fileOffset": "0x2d5cae0",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "defaultCollisionFilterInfo",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5dde8",
+      "fileOffset": "0x2d5cbe8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionLookupTable",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5df98",
+      "fileOffset": "0x2d5cd98",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionFilterInfo",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5e628",
+      "fileOffset": "0x2d5d428",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpNullCollisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d5f960",
+      "fileOffset": "0x2d5e760",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "raycast"
+      ],
+      "text": "hkpShapeRayCastInput",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d67c90",
+      "fileOffset": "0x2d66a90",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpDisableEntityCollisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d67d78",
+      "fileOffset": "0x2d66b78",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "raycast"
+      ],
+      "text": "WEAPON_TYPE_RAYCASTGUN",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d68600",
+      "fileOffset": "0x2d67400",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "collisionGroups",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d68610",
+      "fileOffset": "0x2d67410",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "noGroupCollisionEnabled",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d68730",
+      "fileOffset": "0x2d67530",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": "hkpGroupCollisionFilter",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2d6a2a8",
+      "fileOffset": "0x2d690a8",
+      "section": ".rdata",
+      "encoding": "ascii",
+      "terms": [
+        "characterproxy"
+      ],
+      "text": "hkpCharacterProxyCinfo",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x267ab90",
+      "fileOffset": "0x2679990",
+      "section": ".rdata",
+      "encoding": "utf-16-le",
+      "terms": [
+        "follow"
+      ],
+      "text": "Would you like to purchase a bank vault extension for the following amount?",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x268b930",
+      "fileOffset": "0x268a730",
+      "section": ".rdata",
+      "encoding": "utf-16-le",
+      "terms": [
+        "follow"
+      ],
+      "text": "Would you like to purchase Trade Skill Extension for the following amount?",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f18fd0",
+      "fileOffset": "0x2f16fd0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "raycast"
+      ],
+      "text": ".?AVhkpWorldRayCaster@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f19098",
+      "fileOffset": "0x2f17098",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpNullCollisionFilter@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f190c8",
+      "fileOffset": "0x2f170c8",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpCollisionFilter@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f190f8",
+      "fileOffset": "0x2f170f8",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AVhkpWorldLinearCaster@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f19658",
+      "fileOffset": "0x2f17658",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "raycast"
+      ],
+      "text": ".?AVhkpKdTreeCollidableRaycaster@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f196c0",
+      "fileOffset": "0x2f176c0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AVhkpKdTreeWorldLinearCaster@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f1ab90",
+      "fileOffset": "0x2f18b90",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpCollisionDispatcher@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f1abc0",
+      "fileOffset": "0x2f18bc0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpCollisionAgent@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x2f1b1a8",
+      "fileOffset": "0x2f191a8",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "characterproxy"
+      ],
+      "text": ".?AVhkpCharacterProxy@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d8368",
+      "fileOffset": "0x32d6368",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpCollisionFilterList@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9920",
+      "fileOffset": "0x32d7920",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpBvTreeStreamAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9970",
+      "fileOffset": "0x32d7970",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpShapeCollectionAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9ae0",
+      "fileOffset": "0x32d7ae0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpMoppAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9b70",
+      "fileOffset": "0x32d7b70",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpBvTreeAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9c80",
+      "fileOffset": "0x32d7c80",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpHeightFieldAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9da8",
+      "fileOffset": "0x32d7da8",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AVhkpIterativeLinearCastAgent@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9ec0",
+      "fileOffset": "0x32d7ec0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpConvexListAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32d9f80",
+      "fileOffset": "0x32d7f80",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpListAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da050",
+      "fileOffset": "0x32d8050",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpMultiRayConvexAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da0f0",
+      "fileOffset": "0x32d80f0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpMultiSphereTriangleAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da190",
+      "fileOffset": "0x32d8190",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpCapsuleTriangleAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da260",
+      "fileOffset": "0x32d8260",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpSphereBoxAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da2f0",
+      "fileOffset": "0x32d82f0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpSphereTriangleAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da380",
+      "fileOffset": "0x32d8380",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpSphereCapsuleAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da4b0",
+      "fileOffset": "0x32d84b0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpTransformAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da570",
+      "fileOffset": "0x32d8570",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpMultiSphereAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32da630",
+      "fileOffset": "0x32d8630",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "linearcast"
+      ],
+      "text": ".?AV?$hkpSymmetricAgentLinearCast@VhkpBvAgent@@@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32db918",
+      "fileOffset": "0x32d9918",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpDisableEntityCollisionFilter@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32dbbf0",
+      "fileOffset": "0x32d9bf0",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpGroupCollisionFilter@@",
+      "textTruncated": false
+    },
+    {
+      "rva": "0x32dc508",
+      "fileOffset": "0x32da508",
+      "section": ".data",
+      "encoding": "ascii",
+      "terms": [
+        "collision"
+      ],
+      "text": ".?AVhkpCollisionListener@@",
+      "textTruncated": false
+    }
+  ],
+  "matchesTruncated": false,
+  "rttiNamePatternTotal": 363,
+  "rttiNameMatches": [
+    {
+      "decoratedName": "?AVhkpCharacterProxy@@",
+      "rva": "0x2f1b1a8",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpCollisionAgent@@",
+      "rva": "0x2f1abc0",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpCollisionDispatcher@@",
+      "rva": "0x2f1ab90",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpCollisionFilter@@",
+      "rva": "0x2f190c8",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpCollisionFilterList@@",
+      "rva": "0x32d8368",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpCollisionListener@@",
+      "rva": "0x32dc508",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpDisableEntityCollisionFilter@@",
+      "rva": "0x32db918",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpGroupCollisionFilter@@",
+      "rva": "0x32dbbf0",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpIterativeLinearCastAgent@@",
+      "rva": "0x32d9da8",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpKdTreeCollidableRaycaster@@",
+      "rva": "0x2f19658",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpKdTreeWorldLinearCaster@@",
+      "rva": "0x2f196c0",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpNullCollisionFilter@@",
+      "rva": "0x2f19098",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpWorldLinearCaster@@",
+      "rva": "0x2f190f8",
+      "section": ".data"
+    },
+    {
+      "decoratedName": "?AVhkpWorldRayCaster@@",
+      "rva": "0x2f18fd0",
+      "section": ".data"
+    }
+  ],
+  "limitations": [
+    "Names are static leads; no vtable, class layout, caller or actual usage is established.",
+    "Existing RTTI matcher recognizes only a restricted MSVC class-name pattern.",
+    "Text search covers printable ASCII and ASCII-range UTF-16LE in non-executable PE sections.",
+    "Zero matches does not establish absence of a planner or collision implementation.",
+    "Reference search covers common x64 RIP-relative LEA encodings and stored absolute pointers; it is not an exhaustive xref index."
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "project": "RRE",
+  "lane": "pathfinding",
+  "date": "2026-10-19",
+  "status": "partial-static-progress; native type-7 handler registration/producers/player use unresolved",
+  "build": {
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "preferredImageBase": "0x140000000",
+    "architecture": "x64 PE",
+    "addressUnits": "RVA"
+  },
+  "method": "V7 provenance-wrapped existing static/names scanners, original RiftReader helper, direct pefile/MSVC RTTI and Capstone verification",
+  "captures": [
+    {
+      "tag": "type3-producer",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-type3-producer-20261019.json",
+        "sha256": "e7c1d5f6bb5fa8de82177b4bea905003832c126bb7b2d2957eba1d7a58451ff2"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-type3-producer-20261019-manifest.json",
+        "sha256": "884f891a2a35a6a46a06e46e4222f40c4e051651b9117339118ac0fac091432d"
+      },
+      "regions": 2,
+      "retainedNameReferences": 1,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    },
+    {
+      "tag": "type1-producer",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-type1-producer-20261019.json",
+        "sha256": "2f3fee7a0e75b00b5ef9813345e1d80eba1b15700737e2a2cf3b9de13d84f8f8"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-type1-producer-20261019-manifest.json",
+        "sha256": "21ad2c4fcf96b43b85b12ebaf24fa25413a6113c707dbc55158530385aad064e"
+      },
+      "regions": 1,
+      "retainedNameReferences": 0,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    },
+    {
+      "tag": "producer-address-refs",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-producer-address-refs-20261019.json",
+        "sha256": "110599d207b374387f22be5be32ba38b9845cc7a80dbe91313df3b7db98ae3ea"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-producer-address-refs-20261019-manifest.json",
+        "sha256": "c830c1eee61b97179266f60ce391b66b49faebbfb2d4f1bdfbbcb1273cf450bd"
+      },
+      "regions": 0,
+      "retainedNameReferences": 1,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    },
+    {
+      "tag": "wrapper-owner-refs",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-wrapper-owner-refs-20261019.json",
+        "sha256": "37b66c46ed9342df8b2f62f75d69acdb3d431a1c7718b13cdcb90c4bd22d360c"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-wrapper-owner-refs-20261019-manifest.json",
+        "sha256": "f88ef04f1a2300261a3e15cd39b6a2b2dc1208243f3f891c218db1ded53e816e"
+      },
+      "regions": 0,
+      "retainedNameReferences": 0,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    },
+    {
+      "tag": "physics-owner-table-refs",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-physics-owner-table-refs-20261019.json",
+        "sha256": "0b6ce9df4188a8caeb6e46067154db0df8e8976fdef463577e876bd1f5647de5"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-physics-owner-table-refs-20261019-manifest.json",
+        "sha256": "bf4fa3387ed10d19fb2aa25a3559566205885919af185eaa68f6f9e18af1c8ff"
+      },
+      "regions": 0,
+      "retainedNameReferences": 2,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    },
+    {
+      "tag": "simulation-ctor",
+      "artifact": {
+        "path": "tools/agents/pathfinding/m3-001-simulation-ctor-20261019.json",
+        "sha256": "6797a62620e95b7a4ace279bdc23c06ac33c1e8d023f22f433b7f26739a9eca7"
+      },
+      "manifest": {
+        "path": "tools/agents/pathfinding/m3-001-simulation-ctor-20261019-manifest.json",
+        "sha256": "05b5a61bb03f6b70266607baad79835e74bac88ea8a9c8eb4a3b2550ac8e8e8e"
+      },
+      "regions": 3,
+      "retainedNameReferences": 1,
+      "coverageStatus": "bounded-completed",
+      "parserWarningCount": 825
+    }
+  ],
+  "evidence": [
+    {
+      "id": "PF8",
+      "class": "verified original PE bytes + MSVC RTTI interpretation",
+      "claim": "Stored code VA at rdata RVA 0x27255F8 resolves to method RVA 0x8A8D8; the table at 0x2725568 is associated with MSVC RTTI .?AVhkpMultiThreadedSimulation@@ via locator 0x2D75A80, method slot index 18.",
+      "rvas": [
+        "0x2725560",
+        "0x2d75a80",
+        "0x2f193c0",
+        "0x2725568",
+        "0x27255f8"
+      ],
+      "limitation": "Table class association does not prove current runtime construction or that the generic queue's type-7 handlers are populated."
+    },
+    {
+      "id": "PF9",
+      "class": "verified native code; aligned reference",
+      "claim": "At 0x89AE1 and 0x89CB7 separate code regions load vtable VA 0x142725568, followed by instructions installing that value at receiver start at 0x89AEC and 0x89CC1. At 0x89BD7, the constructor-shaped 0x89ABC path initializes receiver +0x160 to zero. At 0x7B0A3 one qualified direct call reaches 0x89ABC.",
+      "rvas": [
+        "0x89ae1",
+        "0x89aec",
+        "0x89cb7",
+        "0x89cc1",
+        "0x89bd7",
+        "0x7b0a3"
+      ],
+      "limitation": "A zero assignment to +0x160 is not a discovered assignment to a nonnull queue pointer."
+    },
+    {
+      "id": "PF10",
+      "class": "verified native code",
+      "claim": "Method RVA 0x8A8D8 reads [rsi+0x160] at 0x8A9DF and calls shared queue dispatcher 0xF3FA4 at 0x8A9E6. Earlier verified job constructed here is type 1, not type 7.",
+      "rvas": [
+        "0x8a8d8",
+        "0x8a9df",
+        "0x8a9e6",
+        "0xf3fa4"
+      ],
+      "limitation": "Register/data-flow connection supports physics simulation queue use only in captured path; no route output observed."
+    },
+    {
+      "id": "PF11",
+      "class": "verified direct code and caller",
+      "claim": "Type-3 producer RVA 0x8ECB4 has one new verified direct caller at 0x8F21C inside 0x8F204; it branches to alternative call 0x8EA08 at 0x8F223 if argument gates fail.",
+      "rvas": [
+        "0x8ecb4",
+        "0x8f204",
+        "0x8f21c",
+        "0x8f223"
+      ],
+      "limitation": "No native type-7 job, handler or path calculation recovered."
+    },
+    {
+      "id": "PF12",
+      "class": "bounded negative evidence",
+      "claim": "Restricted names/pointer scanning found no direct LEA/stored-pointer matches for 0x8F204 or 0x8EA08 and found two verified LEAs to 0x2725568. Other pointer, indirect and dynamic registration encodings remain unsearched.",
+      "rvas": [
+        "0x89ae1",
+        "0x89cb7"
+      ],
+      "limitation": "Zero restricted references does not establish absence of invocation or ability."
+    }
+  ],
+  "rejected": [
+    "Slot 18 of hkpMultiThreadedSimulation vtable is a type-7 pathfinding handler.",
+    "TtPathfinding label guarantees populated handler table or player usage.",
+    "Shared field displacement (+0x160) alone proves a global queue instance.",
+    "0x8F204 or 0x8EA08 lack callbacks because restricted xrefs returned zero.",
+    "A Havok physics update route is usable for autonomous player navigation."
+  ],
+  "unresolved": [
+    "Where simulation +0x160 receives a non-null queue pointer and concrete queue identity",
+    "Who writes typed queue handler entries under queue+0x130 + type*0x20, especially type-7 +0x210",
+    "Whether any valid job has byte type 7 and a populated handler, and if route output exists",
+    "Whether native pathfinding has a separate (possibly server-side) implementation or ties to player C2M",
+    "Runtime identity, reachability, ABI, safe read/query and player applicability"
+  ],
+  "validation": {
+    "command": "C:\\work\\rre\\.venv\\Scripts\\python.exe -B tools/agents/pathfinding/verify_m3_001_followup.py",
+    "job": "rre-resume3-vtable-followup-verification-20261019-01",
+    "exitCode": 0,
+    "verifiedArtifacts": 6,
+    "verifiedManifests": 6,
+    "provenance": [
+      "exact source SHA",
+      "per-run source/recorder manifest",
+      "window byte hashes",
+      "instruction boundaries and calls",
+      "RTTI class/locator/virtual method bytes",
+      "two vtable installation references",
+      "constructor queue-field reset",
+      "bounded negative results"
+    ]
+  },
+  "safety": {
+    "offlineOnly": true,
+    "gameInputSent": false,
+    "gameProcessAttached": false,
+    "targetExecuted": false,
+    "installedToolsModified": false,
+    "remotePublished": false
+  },
+  "nextEvidenceGate": "Find queue owner non-null assignment and a same-receiver type-7 table writer or type-7 job producer before promoting any native pathfinding integration. Avoid new pathfinder without explicit evidence/decision."
+}
