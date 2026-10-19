@@ -15,7 +15,7 @@
     "parentChatGPT": "oversight and reporting",
     "verifiedWorkbridgeVersion": "0.6.1",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
-    "availableIndependentAiWorkerCount": 4,
+    "availableIndependentAiWorkerCount": 0,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
     "managerOwnedPaths": [
       "ROADMAP.md",
@@ -47,8 +47,8 @@
           "docs/agents/c2m.json",
           "tools/agents/c2m/**"
         ],
-        "activeJobId": "rre-resume-worker-c2m-20261019-01",
-        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-3674-75d2-aa04-d998890c08c5 running on task M2-001"
+        "activeJobId": null,
+        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via a7d2c4e"
       },
       "follow": {
         "worktree": "C:/work/rre-worker-follow",
@@ -58,8 +58,8 @@
           "docs/agents/follow.json",
           "tools/agents/follow/**"
         ],
-        "activeJobId": "rre-resume-worker-follow-20261019-01",
-        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-3ba6-7a90-b0ae-cbd8d1d1ad71 running on task M2-002"
+        "activeJobId": null,
+        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via 37a244a"
       },
       "collision": {
         "worktree": "C:/work/rre-worker-collision",
@@ -69,8 +69,8 @@
           "docs/agents/collision.json",
           "tools/agents/collision/**"
         ],
-        "activeJobId": "rre-resume-worker-collision-20261019-01",
-        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-4403-76d0-94cb-5828d4d8d0f7 running on task M3-002"
+        "activeJobId": null,
+        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via b023d66"
       },
       "ghidra": {
         "worktree": "C:/work/rre-worker-ghidra",
@@ -91,8 +91,8 @@
           "docs/agents/validation.json",
           "tools/agents/validation/**"
         ],
-        "activeJobId": "rre-resume-worker-validation-20261019-01",
-        "lastConfirmed": "2026-10-19: genuine Codex CLI thread 01a152bb-4d0a-7453-b826-6cc40fb99439 running on task M1-002"
+        "activeJobId": null,
+        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via a4fac1004bdd20a36d1b5ed73b8f2ed6b9352e11"
       }
     },
     "oneWriterPerFile": true,
@@ -100,7 +100,7 @@
     "noLiveInputWithoutSeparateExplicitApproval": true,
     "noUnchangedFullProgramGhidraImport": true,
     "noRemotePush": true,
-    "availableIndependentAiWorkerCountEvidence": "Four distinct current Codex CLI threads observed through --json thread.started events, not a guaranteed maximum user entitlement; parent conversation acts as sole Manager."
+    "availableIndependentAiWorkerCountEvidence": "Four confirmed Codex threads launched this turn; all four stopped exit1 with usage limit message. No current worker jobs; 0 usable Codex slots at this quota checkpoint (not a permanent maximum)."
   },
   "statusVocabulary": [
     "integrated",
@@ -160,6 +160,50 @@
         "scope": "No explicit research-worktree reference; command-line check does not establish all process working directories"
       },
       "mainExistingDirtyChangesProtected": true
+    },
+    "postIntegration20261019": {
+      "sourceHeadAfterIntegration": "b08590d3237d72d903a55f5417a6286d3231fcd4",
+      "mainWorkingTree": "Only two historical untracked raw probe files remain outside committed work",
+      "cleanWorkers": [
+        "c2m",
+        "follow",
+        "collision",
+        "validation",
+        "ghidra"
+      ],
+      "preservedDirtyWorkers": [
+        {
+          "lane": "pathfinding",
+          "untrackedQueryFiles": 5
+        }
+      ],
+      "realWorkersStarted": 4,
+      "realWorkersStillRunning": 0,
+      "preservedUntrackedMain": [
+        "docs/rea-raw-probe-profile-2026-10-18.json",
+        "tools/agents/ghidra/prepare_raw_probe.py"
+      ],
+      "integratedMainWorkerCommitPrefixes": [
+        "a4fac10",
+        "a7d2c4e",
+        "37a244a",
+        "b023d66"
+      ],
+      "managerReviewCommit": "b08590d3237d72d903a55f5417a6286d3231fcd4",
+      "sharedSyntheticSuite": {
+        "passed": 13,
+        "failed": 0,
+        "mainJobId": "rre-resume-main-validation-suite-20261019-01"
+      },
+      "integratedProvenanceValidator": {
+        "status": "passed",
+        "jobId": "rre-resume-integration-validator-run-20261019-01",
+        "qualification": "19 lane-owned files, 13 historical C2M source hashes, three C2M artifact hashes, Follow preserved prefix; compares historical Git blobs not current changed source versions."
+      },
+      "limitations": [
+        "Original C2M and Follow source-worker verifier runs against current main fail due source-version pinning and CRLF prefix respectively; separately verified in original worktrees and by durable integrated Git-provenance tool.",
+        "No game input, attached process, or functioning navigation route API."
+      ]
     }
   },
   "milestones": [
@@ -173,7 +217,7 @@
     {
       "id": "M1",
       "title": "Research tool validation and provenance",
-      "status": "running",
+      "status": "ready",
       "dependsOn": [
         "M0"
       ],
@@ -182,7 +226,7 @@
     {
       "id": "M2",
       "title": "Native movement, C2M and cancellation",
-      "status": "running",
+      "status": "integrated",
       "dependsOn": [
         "M0"
       ],
@@ -191,7 +235,7 @@
     {
       "id": "M3",
       "title": "Native routing and collision reuse",
-      "status": "running",
+      "status": "blocked",
       "dependsOn": [
         "M0"
       ],
@@ -339,7 +383,7 @@
       "milestone": "M1",
       "lane": "validation",
       "title": "Investigate V6: pefile chained-unwind warnings",
-      "status": "running",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -348,20 +392,39 @@
         "Count and classify existing 825 warnings with known limitations",
         "No unsupported global unwind coverage claim"
       ],
-      "assignedAgentId": "01a152bb-4d0a-7453-b826-6cc40fb99439",
-      "jobId": "rre-resume-worker-validation-20261019-01",
-      "integratedCommit": null,
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "a4fac1004bdd20a36d1b5ed73b8f2ed6b9352e11",
       "evidence": [
         "docs/agents/validation.md"
       ],
-      "blockers": []
+      "blockers": [],
+      "sourceWorkerCommit": "d1668fd72ece9a571cf1922ed39056c1c24b1f97",
+      "workerRunOutcome": {
+        "status": "failed",
+        "exitCode": 1,
+        "reason": "Codex shared usage limit exhausted; files independently recovered and verified by Manager",
+        "jobId": "rre-resume-worker-validation-20261019-01",
+        "originalAgentId": "01a152bb-4d0a-7453-b826-6cc40fb99439"
+      },
+      "managerEvidence": {
+        "localQaJobIds": [
+          "rre-resume-qa-v6-synthetic-20261019-01",
+          "rre-resume-qa-v6-exactbuild-20261019-01",
+          "rre-resume-main-v6-20261019-01"
+        ],
+        "managerCheckpoint": "docs/navigation-integration-2026-10-19.md",
+        "validationMode": "source worktree exact-build verifier plus integrated lane Git-blobs/provenance QA",
+        "summary": "825 same-parent UnwindInfo aliases accounted for; no conflicting parent writes observed; global unwind correctness not established."
+      },
+      "acceptanceNotes": "Manager accepted verified offline code/data evidence and merged only lane-owned files. No successful live navigation behavior is claimed."
     },
     {
       "id": "M1-003",
       "milestone": "M1",
       "lane": "validation",
       "title": "Investigate V7: exact-run provenance and version labels",
-      "status": "queued",
+      "status": "ready",
       "dependsOn": [
         "M1-002"
       ],
@@ -375,14 +438,15 @@
       "integratedCommit": null,
       "evidence": [
         "docs/agents/validation.md"
-      ]
+      ],
+      "blockers": []
     },
     {
       "id": "M1-004",
       "milestone": "M1",
       "lane": "ghidra",
       "title": "Assess isolated REA raw probe without full import",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -394,21 +458,31 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
+      "integratedCommit": "b08590d3237d72d903a55f5417a6286d3231fcd4",
       "evidence": [
         "docs/agents/ghidra.md",
-        "docs/rea-raw-probe-profile-2026-10-18.json"
+        "docs/rea-raw-probe-profile-2026-10-18.json",
+        "docs/rea-small-pe-probe-2026-10-19.md",
+        "artifacts/navigation-pe-slice-probe-20261018-01/session/status.json",
+        "artifacts/navigation-pe-slice-probe-20261018-01/session/responses/01-resolve.json"
       ],
-      "blockers": [
-        "Raw-probe files are currently untracked in main; review and preserve owner before any run"
-      ]
+      "blockers": [],
+      "managerEvidence": {
+        "realReaJobId": "rre-resume-mini-pe-rea-20261019-01",
+        "exitCode": 0,
+        "elapsedMs": 19574,
+        "records": 1,
+        "subject": "Synthetic 2560-byte x64 PE holding verified 603-byte source slice",
+        "rawX64": "unsupported on Windows Ghidra P0",
+        "fullBinary": "still not decompiled, previous 450s startup failures"
+      }
     },
     {
       "id": "M2-001",
       "milestone": "M2",
       "lane": "c2m",
       "title": "Characterize C2M event owner and native destination handle",
-      "status": "running",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -418,20 +492,39 @@
         "Distinguish event/button inference from verified semantics",
         "Record bounded bytes and exact build"
       ],
-      "assignedAgentId": "01a152bb-3674-75d2-aa04-d998890c08c5",
-      "jobId": "rre-resume-worker-c2m-20261019-01",
-      "integratedCommit": null,
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "a7d2c4e0ffc4695188acd311c866947abec6c12c",
       "evidence": [
         "docs/agents/c2m.md"
       ],
-      "blockers": []
+      "blockers": [],
+      "sourceWorkerCommit": "40554843379ea937321c13f115554ec950fbd759",
+      "workerRunOutcome": {
+        "status": "failed",
+        "exitCode": 1,
+        "reason": "Codex shared usage limit exhausted; files independently recovered and verified by Manager",
+        "jobId": "rre-resume-worker-c2m-20261019-01",
+        "originalAgentId": "01a152bb-3674-75d2-aa04-d998890c08c5"
+      },
+      "managerEvidence": {
+        "localQaJobIds": [
+          "rre-resume-qa-c2m-new-20261019-01",
+          "rre-resume-qa-c2m-base-20261019-01",
+          "rre-resume-integration-validator-run-20261019-01"
+        ],
+        "managerCheckpoint": "docs/navigation-integration-2026-10-19.md",
+        "validationMode": "source worktree exact-build verifier plus integrated lane Git-blobs/provenance QA",
+        "summary": "Candidate C2M state+0x70 object is resource-backed auxiliary pair, not proven route handle; steering vector remains +0x60/+0x68. Direct main original verifier fails because its historic source pin differs from newer main."
+      },
+      "acceptanceNotes": "Manager accepted verified offline code/data evidence and merged only lane-owned files. No successful live navigation behavior is claimed."
     },
     {
       "id": "M2-002",
       "milestone": "M2",
       "lane": "follow",
       "title": "Trace actual cancellation input and relationship to C2M",
-      "status": "running",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -440,13 +533,32 @@
         "Separate native follow-state clear from C2M clear",
         "No claim that any gesture stops movement without runtime observation"
       ],
-      "assignedAgentId": "01a152bb-3ba6-7a90-b0ae-cbd8d1d1ad71",
-      "jobId": "rre-resume-worker-follow-20261019-01",
-      "integratedCommit": null,
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "37a244ad2181cc7d2e117fd5d002b26032f06f37",
       "evidence": [
         "docs/agents/follow.md"
       ],
-      "blockers": []
+      "blockers": [],
+      "sourceWorkerCommit": "2042ebc592a533b5bdf463e5e8e0ff49270481d6",
+      "workerRunOutcome": {
+        "status": "failed",
+        "exitCode": 1,
+        "reason": "Codex shared usage limit exhausted; files independently recovered and verified by Manager",
+        "jobId": "rre-resume-worker-follow-20261019-01",
+        "originalAgentId": "01a152bb-3ba6-7a90-b0ae-cbd8d1d1ad71"
+      },
+      "managerEvidence": {
+        "localQaJobIds": [
+          "rre-resume-qa-follow-new-20261019-01",
+          "rre-resume-follow-verifier-rerun-20261019-01",
+          "rre-resume-integration-validator-run-20261019-01"
+        ],
+        "managerCheckpoint": "docs/navigation-integration-2026-10-19.md",
+        "validationMode": "source worktree exact-build verifier plus integrated lane Git-blobs/provenance QA",
+        "summary": "Native input paths coordinate two separate follow/C2M state-clears and handle cleanup; actual in-game cancellation not demonstrated. Direct main original verifier fails its raw previous-prefix hash under CRLF checkout; normalized historic prefix verified."
+      },
+      "acceptanceNotes": "Manager accepted verified offline code/data evidence and merged only lane-owned files. No successful live navigation behavior is claimed."
     },
     {
       "id": "M3-001",
@@ -478,7 +590,7 @@
       "milestone": "M3",
       "lane": "collision",
       "title": "Identify usable collision hit/filter/clearance semantics",
-      "status": "running",
+      "status": "integrated",
       "dependsOn": [
         "M0-002"
       ],
@@ -487,13 +599,32 @@
         "Document endpoints, filter/result candidates and unknown coordinate frame",
         "Do not call it a player-clearance query without evidence"
       ],
-      "assignedAgentId": "01a152bb-4403-76d0-94cb-5828d4d8d0f7",
-      "jobId": "rre-resume-worker-collision-20261019-01",
-      "integratedCommit": null,
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "b023d66c54a85a9d1d5974f58199efb357e9198f",
       "evidence": [
         "docs/agents/collision.md"
       ],
-      "blockers": []
+      "blockers": [],
+      "sourceWorkerCommit": "21a1d204dc7560adcba2276d381caf9767779097",
+      "workerRunOutcome": {
+        "status": "failed",
+        "exitCode": 1,
+        "reason": "Codex shared usage limit exhausted; files independently recovered and verified by Manager",
+        "jobId": "rre-resume-worker-collision-20261019-01",
+        "originalAgentId": "01a152bb-4403-76d0-94cb-5828d4d8d0f7"
+      },
+      "managerEvidence": {
+        "localQaJobIds": [
+          "rre-resume-qa-collision-new-20261019-01",
+          "rre-resume-main-collision-20261019-01",
+          "rre-resume-integration-validator-run-20261019-01"
+        ],
+        "managerCheckpoint": "docs/navigation-integration-2026-10-19.md",
+        "validationMode": "source worktree exact-build verifier plus integrated lane Git-blobs/provenance QA",
+        "summary": "All-hit and closest-contact collector code qualified; result scalar semantics and player clearance interface remain unknown."
+      },
+      "acceptanceNotes": "Manager accepted verified offline code/data evidence and merged only lane-owned files. No successful live navigation behavior is claimed."
     },
     {
       "id": "M4-001",
@@ -649,12 +780,25 @@
       "date": "2026-10-19",
       "decision": "Do not include untracked raw Ghidra probe scripts or preexisting pathfinding queries in M1 hardening commit.",
       "basis": "File-ownership preservation, clean lane allocation"
+    },
+    {
+      "id": "D-005",
+      "date": "2026-10-19",
+      "decision": "Retained and cherry-picked four Codex workers' verified partial results after all four ended at quota limit; independent QA and historical Git source checks recorded.",
+      "basis": "docs/navigation-integration-2026-10-19.md; main commits a4fac10,a7d2c4e,37a244a,b023d66"
+    },
+    {
+      "id": "D-006",
+      "date": "2026-10-19",
+      "decision": "REA raw-x64 probe explicitly unsupported on installed REA Windows Ghidra provider; small synthetic PE bridge ready. No full-program timeout conclusion changed.",
+      "basis": "docs/rea-small-pe-probe-2026-10-19.md and real REA job rre-resume-mini-pe-rea-20261019-01"
     }
   ],
   "nextManagerActions": [
-    "Poll the four real Codex CLI workers; inspect real outputs and preserve partial reports if timeout.",
-    "Review each worker's exclusive paths, verification and commit; integrate only accepted lane-owned work, sequentially.",
-    "Keep M3-001 pathfinding blocked pending five untracked files and M1-004 Ghidra blocked pending main raw-probe state reconciliation.",
-    "Do not issue live game input or full-size Ghidra import."
+    "Do not spawn more Codex workers while usage allowance remains exhausted; refresh capacity at a later eligible session.",
+    "Run V7 run-manifest/source/version provenance task in clean validation worktree when capacity returns or with bounded Manager-owned tools.",
+    "Inspect and preserve pathfinding worktree's five preexisting query JSON files; then resume only type-7 handler registration/producer research with exact-build evidence.",
+    "Native obstacle/target proof remains unverified. Build M4 offline replay only after evidence supports the interface; no live game input without separate permission.",
+    "Use ROADMAP.md and docs/roadmap-tasks.json to refresh statuses and retain all rejected assumptions."
   ]
 }
