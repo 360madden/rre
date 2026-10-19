@@ -6,6 +6,8 @@ import bisect
 import hashlib
 import importlib
 import json
+import re
+import struct
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -91,30 +93,63 @@ def main():
     decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_64)
     decoder.detail = True
     pending = [(int(value, 0), 0, "requested anchor") for value in args.rva]
-    caller_references = []
+    caller_references, caller_search_summary = [], []
+    # The existing helper's max_sites cap applies BEFORE instruction verification:
+    # false E8 bytes inside immediates can hide later genuine call sites.
+    # Reuse its PE sections and Capstone; limit retained candidates only AFTER
+    # checking instruction boundaries. Read-only, exact-build scan.
+    boundary_cache = {}
     for value in args.caller_rva:
         target = int(value, 0)
-        candidates = helper.find_direct_call_sites(sections, target, max_sites=64)
-        for candidate in candidates:
-            site = int(candidate["callRva"], 0)
-            bounds = containing(site)
-            verified = False
-            if bounds and site-bounds[0] < 65536:
-                prefix = helper.read_section_bytes(sections, bounds[0], site-bounds[0]+5)
-                for insn in decoder.disasm(prefix, image_base+bounds[0]):
-                    if int(insn.address)-image_base == site:
-                        verified = (insn.mnemonic == "call" and bool(insn.operands)
-                                    and insn.operands[0].type == X86_OP_IMM
-                                    and int(insn.operands[0].imm)-image_base == target)
-                        break
-            caller_references.append({
-                "targetRva":hex(target), "siteRva":hex(site),
-                "instructionBoundaryVerifiedFromPeRange":verified,
-                "containingPeRange":[hex(x) for x in bounds] if bounds else None,
-                "candidateLimit":64
-            })
-            if verified:
-                pending.append((site,0,"verified direct caller of "+hex(target)))
+        verified_sites, rejected_sites = [], []
+        raw_hits = 0
+        for section in sections:
+            for match in re.finditer(b"\xe8", section.data):
+                off = match.start()
+                if off + 5 > len(section.data):
+                    continue
+                site = section.rva + off
+                if site + 5 + struct.unpack_from("<i", section.data, off + 1)[0] != target:
+                    continue
+                raw_hits += 1
+                bounds = containing(site)
+                verified = False
+                if bounds and 0 <= site - bounds[0] < 65536:
+                    key = tuple(bounds)
+                    if key not in boundary_cache:
+                        span = min(bounds[1] - bounds[0], 65536)
+                        code = helper.read_section_bytes(sections, bounds[0], span)
+                        boundary_cache[key] = {
+                            int(insn.address) - image_base: insn
+                            for insn in decoder.disasm(code, image_base + bounds[0])
+                            if insn.mnemonic == "call" and insn.operands
+                        }
+                    insn = boundary_cache[key].get(site)
+                    verified = bool(insn and insn.operands[0].type == X86_OP_IMM
+                                    and int(insn.operands[0].imm) - image_base == target)
+                row = {
+                    "targetRva":hex(target), "siteRva":hex(site),
+                    "instructionBoundaryVerifiedFromPeRange":verified,
+                    "containingPeRange":[hex(x) for x in bounds] if bounds else None,
+                    "candidateLimit":64
+                }
+                (verified_sites if verified else rejected_sites).append(row)
+        kept_verified = verified_sites[:64]
+        caller_references.extend(kept_verified)
+        caller_references.extend(rejected_sites[:max(0, 64 - len(kept_verified))])
+        for row in kept_verified:
+            pending.append((int(row["siteRva"], 16), 0,
+                            "verified direct caller of " + hex(target)))
+        caller_search_summary.append({
+            "targetRva":hex(target), "rawCandidatesScanned":raw_hits,
+            "qualifiedCandidates":len(verified_sites),
+            "unqualifiedCandidates":len(rejected_sites),
+            "qualifiedRetained":len(kept_verified),
+            "retainedTotal":len(kept_verified) + min(len(rejected_sites), max(0, 64-len(kept_verified))),
+            "qualifiedResultsTruncated":len(verified_sites)>64,
+            "scanComplete":True,
+            "limitations":"All raw E8 candidates scanned; linear PE-unwind decoding may miss leaf, indirect, tail, or data-interrupted calls."
+        })
     functions, unresolved, visited = [], [], set()
     while pending and len(functions) < 40:
         anchor, depth, reason = pending.pop(0)
@@ -163,7 +198,7 @@ def main():
             "beginRva":hex(begin), "endRvaExclusive":hex(end), "depth":depth, "reason":reason,
             "windowTruncated":requested_size > len(data),
             "decodedThroughRvaExclusive":hex(decoded_end),
-            "instructionDecodingCoversWindow":decoded_end == begin + len(data),
+            "instructionDecodingCoversWindow":bool(data) and decoded_end == begin + len(data),
             "windowSha256":hashlib.sha256(data).hexdigest(),
             "directAndIndirectCalls":calls, "ripRelativeReferences":rip_refs,
             "existingHelperSummary":helper.summarize_function_window(
@@ -182,6 +217,7 @@ def main():
         "functions":functions,
         "unresolvedAnchors":unresolved, "queueRemaining":len(pending),
         "callerReferences":caller_references,
+        "callerSearchSummary":caller_search_summary,
         "limitations":[
             "PE runtime-function ranges are unwind regions, not a guarantee of complete high-level function boundaries.",
             "Linear disassembly does not establish every instruction as runtime-reachable.",

@@ -1,4 +1,4 @@
-"""Synthetic PE-only checks of unchanged wrappers; expected failures document bugs.
+"""Synthetic PE-only regression checks for the navigation wrappers.
 
 Run with C:/work/rre/.venv/Scripts/python.exe -B this_file.py -v.
 No target execution, attach, REA/Ghidra invocation, or external-tree writes.
@@ -134,7 +134,6 @@ class WrapperChecks(unittest.TestCase):
         self.assertFalse(data["functions"][0]["instructionDecodingCoversWindow"])
         self.assertEqual(data["unresolvedAnchors"][0]["rva"], "0x2000")
 
-    @unittest.expectedFailure
     def test_bug_v1_valid_caller_after_64_unaligned_candidates_is_reported(self):
         target = 0x1800
         text = bytearray()
@@ -152,7 +151,6 @@ class WrapperChecks(unittest.TestCase):
         self.assertEqual(len(data["callerReferences"]), 64)
         self.assertTrue(any(r["siteRva"] == hex(valid_site) and r["instructionBoundaryVerifiedFromPeRange"] for r in data["callerReferences"]))
 
-    @unittest.expectedFailure
     def test_bug_v2_empty_unmapped_window_is_not_complete(self):
         run, data = self.run_wrapper("static", synthetic_pe(ranges=((0x2000, 0x2010, 0x3100),)), "--rva", "0x2000", "--depth", "0")
         self.assertEqual(run.returncode, 0, run.stderr)

@@ -26,7 +26,7 @@ export class Client {
     fs.appendFileSync(cfg.fakeCalls, name+'\\n');
     if (name==='open_binary') return {structuredContent:{result:{
       path:cfg.binary,sha256:cfg.syntheticScenario==='wrong-hash' ? '1'.repeat(64) : cfg.expectedSha256,
-      architecture:'x86_64',format:'pe',kind:'executable'}}};
+      architecture:'x86_64',format:args.format??'pe',kind:'executable'}}};
     if (name==='xrefs') return {isError:true,content:[{type:'text',text:'synthetic failure'}]};
     if (name==='export_evidence_bundle') {
       fs.writeFileSync(args.path, '{"records":[]}');
@@ -103,6 +103,20 @@ class DriverChecks(unittest.TestCase):
         for line in run.stdout.splitlines():
             json.loads(line)
 
+    def test_small_raw_probe_contract_uses_existing_driver(self):
+        source = self.folder / "tiny-raw.bin"
+        source.write_bytes(bytes([0xC3]))
+        self.cfg.update({"binary": str(source),
+                         "expectedSha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                         "format": "raw-binary", "architecture": "x86_64",
+                         "entryPoint": "0x1400f3fa4"})
+        run, status, calls = self.run_driver()
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertEqual(status["state"], "completed")
+        self.assertEqual(status["identity"]["imageBase"], "0x1400f3fa4")
+        self.assertEqual(status["identity"]["format"], "raw-binary")
+        self.assertEqual(calls, ["open_binary", "export_evidence_bundle", "close_binary"])
+
     def test_tool_error_stops_without_second_open(self):
         (self.out / "requests/01-query.json").write_text('{"tool":"xrefs","arguments":{"address":"0x140001000"}}')
         run, status, calls = self.run_driver()
@@ -111,26 +125,30 @@ class DriverChecks(unittest.TestCase):
         self.assertEqual(calls, ["open_binary", "xrefs", "export_evidence_bundle", "close_binary"])
         self.assertTrue(json.loads((self.out / "responses/01-query.json").read_text())["result"]["isError"])
 
-    @unittest.expectedFailure
     def test_bug_v3_provider_admission_hash_mismatch_is_rejected(self):
         self.cfg["syntheticScenario"] = "wrong-hash"
         run, status, calls = self.run_driver()
-        self.assertEqual(status["state"], "completed")
+        self.assertEqual(status["state"], "failed")
         self.assertNotEqual(run.returncode, 0, "driver accepted a different provider target hash")
+        self.assertEqual(calls, ["open_binary", "export_evidence_bundle", "close_binary"])
+        self.assertIn("identity mismatch", str(status["failures"]))
 
-    @unittest.expectedFailure
     def test_bug_v4_unfinished_budget_is_nonzero_exit(self):
         self.cfg["durationSeconds"] = 0
         run, status, calls = self.run_driver(finish=False)
         self.assertEqual(status["state"], "time-budget-reached")
         self.assertNotEqual(run.returncode, 0, "unfinished session exited successfully")
 
-    @unittest.expectedFailure
     def test_bug_v5_existing_evidence_without_status_is_preserved(self):
         identity = self.out / "identity.json"
         identity.write_text('{"sentinel":"prior-evidence"}')
-        run, status, calls = self.run_driver()
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"),
+                              str(config)], capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0, "prior evidence must block the session")
         self.assertEqual(json.loads(identity.read_text()), {"sentinel": "prior-evidence"})
+        self.assertFalse((self.out / "status.json").exists())
 
 
 if __name__ == "__main__":

@@ -119,8 +119,9 @@ instructionBoundaryVerifiedFromPeRange field before treating it as an aligned in
 
 ### Native dispatch, follow clearing and their callers
 
-This imports the existing RiftReader executable-section reader, summary helper and direct
-call candidate generator. Capstone and pefile supply established decoding and PE metadata.
+This imports the existing RiftReader executable-section reader and summary helper.
+The caller scanner now qualifies direct CALL boundaries with Capstone before retaining
+up to 64 verified candidates; pefile supplies PE metadata. It is not an exhaustive xref index.
 
 ~~~powershell
 $riftNavStaticBase = @('C:\work\rre\tools\inspect-navigation-static.py') + $riftNavCommonArgs + @(
@@ -172,7 +173,9 @@ if ($LASTEXITCODE -ne 0) { throw 'Navigation pose/settings query failed.' }
 Use depth 1 or 2 only when the next direct callees answer a specific question. The wrapper
 limits each run to 40 unwind regions and 16 KiB per region and records queueRemaining,
 unresolvedAnchors, windowTruncated and instructionDecodingCoversWindow. Direct-call
-candidate generation is capped at 64 per requested target.
+retention is capped at 64 verified caller sites per requested target, after scanning all
+raw direct-call candidates. Inspect callerSearchSummary for qualifiedResultsTruncated and
+scanComplete before making any coverage claim.
 
 PE exception entries describe unwind regions, not guaranteed complete source functions.
 Following UNW_FLAG_CHAININFO improves coverage of split routines but does not recover a
@@ -189,7 +192,9 @@ They refuse to replace an existing output file.
 C:\work\rre\tools\rea-session.mjs uses the official MCP client already installed with REA.
 One local Node process keeps one REA stdio session, reads a sorted request queue, saves full
 tool responses, exports the evidence bundle, requests a snapshot and closes the binary.
-It verifies the target hash, x64 PE identity and installed REA version first.
+It verifies the target hash, x64 PE identity and installed REA version first. It also
+checks the REA provider's admitted path, hash, architecture and format against that target
+before analysis, preserves prior receipts, and treats incomplete time-budget runs as failures.
 
 The saved REA 6.5.0 profiles are historical failed attempts:
 
@@ -211,7 +216,8 @@ Seed functions do not restrict whole-program analysis, and an exported query sna
 not a warm Ghidra database.
 
 After a justified setup change, copy a profile to a new file, choose a new outputDirectory,
-and record the reason for the change. The runner refuses an existing status.json.
+and record the reason for the change. The runner refuses an output directory containing
+prior evidence, even if status.json is absent; only new request files may be prepopulated.
 Its executable invocation is:
 
 ~~~text

@@ -16,8 +16,15 @@ const cfg = JSON.parse(fs.readFileSync(optionsPath, 'utf8'));
 const out = path.resolve(cfg.outputDirectory);
 const queue = path.join(out, 'requests');
 const replies = path.join(out, 'responses');
-if (fs.existsSync(path.join(out, 'status.json'))) {
-  throw new Error('Session output already exists; choose a new outputDirectory.');
+if (fs.existsSync(out)) {
+  // The caller may prepopulate requests, but previous immutable evidence must
+  // never be overwritten merely because a status file is absent.
+  const unexpected = fs.readdirSync(out).filter(name =>
+    name !== 'requests' && name !== 'responses');
+  if (unexpected.length ||
+      (fs.existsSync(replies) && fs.readdirSync(replies).length)) {
+    throw new Error('Session output contains prior evidence; choose a new outputDirectory.');
+  }
 }
 const started = Date.now();
 const deadline = started + Math.min(550, cfg.durationSeconds ?? 550) * 1000;
@@ -41,7 +48,9 @@ const status = {
   gameInputSent:false, gameProcessAttached:false, targetExecuted:false
 };
 function save(file, value) {
-  fs.writeFileSync(path.join(out, file), JSON.stringify(value, null, 2) + '\n', 'utf8');
+  // Status is mutable progress; all other evidence/receipts are write-once.
+  fs.writeFileSync(path.join(out, file), JSON.stringify(value, null, 2) + '\n',
+    {encoding:'utf8',flag:file === 'status.json' ? 'w' : 'wx'});
 }
 function progress(phase, detail = {}) {
   status.phase = phase;
@@ -59,13 +68,32 @@ try {
   const originalBytes = fs.readFileSync(cfg.binary);
   const digest = crypto.createHash('sha256').update(originalBytes).digest('hex');
   if (digest !== expected) throw new Error('Target SHA256 does not match qualified build.');
-  const pe = originalBytes.readUInt32LE(0x3c);
-  if (originalBytes.toString('ascii',0,2) !== 'MZ' ||
-      originalBytes.readUInt32LE(pe) !== 0x4550 ||
-      originalBytes.readUInt16LE(pe+4) !== 0x8664) throw new Error('Expected x64 PE.');
-  const imageBase = originalBytes.readBigUInt64LE(pe+24+24);
+  const loadFormat = cfg.format ?? 'pe';
+  let imageBase;
+  if (loadFormat === 'pe') {
+    if (originalBytes.length < 128) throw new Error('PE file too small.');
+    const pe = originalBytes.readUInt32LE(0x3c);
+    if (pe + 56 > originalBytes.length ||
+        originalBytes.toString('ascii',0,2) !== 'MZ' ||
+        originalBytes.readUInt32LE(pe) !== 0x4550 ||
+        originalBytes.readUInt16LE(pe+4) !== 0x8664) throw new Error('Expected x64 PE.');
+    imageBase = originalBytes.readBigUInt64LE(pe+24+24);
+  } else if (loadFormat === 'raw-binary') {
+    if (cfg.architecture !== 'x86_64' ||
+        typeof cfg.entryPoint !== 'string' ||
+        !/^0x[0-9a-fA-F]{1,16}$/.test(cfg.entryPoint) ||
+        originalBytes.length < 1 || originalBytes.length > 65536) {
+      throw new Error('Raw probe requires x86_64, valid entryPoint and 1..65536 bytes.');
+    }
+    imageBase = BigInt(cfg.entryPoint);
+    if (imageBase + BigInt(originalBytes.length) > (1n << 64n)) {
+      throw new Error('Raw probe address range exceeds 64-bit space.');
+    }
+  } else {
+    throw new Error('Unsupported analysis input format.');
+  }
   status.identity = {sha256:digest, size:originalBytes.length,
-    imageBase:'0x'+imageBase.toString(16), sourcePath:cfg.binary};
+    format:loadFormat, imageBase:'0x'+imageBase.toString(16), sourcePath:cfg.binary};
   save('identity.json', status.identity);
   const reaRequire = createRequire(path.join(cfg.reaHome, 'package.json'));
   const {Client} = await import(pathToFileURL(reaRequire.resolve('@modelcontextprotocol/client')).href);
@@ -119,10 +147,23 @@ try {
   }
   progress('open-binary');
   const openTimeout = Math.min((cfg.startupTimeoutMs ?? 450000) + 20000, deadline-Date.now()-60000);
-  const open = await call('open_binary',{path:cfg.binary,provider_id:'ghidra'},openTimeout);
+  const openArgs = loadFormat === 'raw-binary'
+    ? {path:cfg.binary,format:'raw-binary',architecture:'x86_64',
+       entry_point:cfg.entryPoint,provider_id:'ghidra'}
+    : {path:cfg.binary,provider_id:'ghidra'};
+  const open = await call('open_binary',openArgs,openTimeout);
   save('open-binary.json',open);
   if (open.isError) throw new Error('REA rejected open_binary; inspect open-binary.json.');
-  opened = true;
+  opened = true; // Still close provider resources if admission identity is wrong.
+  const admitted = open.structuredContent?.result;
+  if (!admitted || typeof admitted.sha256 !== 'string' ||
+      admitted.sha256.toLowerCase() !== expected ||
+      admitted.architecture !== 'x86_64' || admitted.format !== loadFormat ||
+      typeof admitted.path !== 'string' ||
+      path.win32.normalize(admitted.path).toLowerCase() !==
+        path.win32.normalize(cfg.binary).toLowerCase()) {
+    throw new Error('REA provider target identity mismatch; no analysis queries allowed.');
+  }
   status.state = 'running';
   progress('ready');
   timer = setInterval(()=>progress(status.phase),15000);
@@ -194,5 +235,5 @@ try {
   status.endedAt = new Date().toISOString();
   status.elapsedMs = Date.now()-started;
   progress('finished',{current:null});
-  process.exitCode = status.failures.length ? 1 : 0;
+  process.exitCode = status.failures.length || status.state !== 'completed' ? 1 : 0;
 }
