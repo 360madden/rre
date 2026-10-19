@@ -1,0 +1,522 @@
+{
+  "schemaVersion": 1,
+  "lane": "validation",
+  "createdAtUtc": "2026-10-19T00:32:34.959839+00:00",
+  "branch": "research/nav-validation",
+  "worktree": "C:\\work\\rre-worker-validation",
+  "startingCommit": "c7815b762dbdfe4d681a96cd14a69f658668595c",
+  "scope": {
+    "offlineOnly": true,
+    "liveGameInput": false,
+    "targetExecution": false,
+    "attach": false,
+    "memoryModification": false,
+    "fullImport": false,
+    "dependencyInstall": false,
+    "remotePublishing": false,
+    "nestedAgents": false,
+    "sharedSourceModified": false
+  },
+  "evidenceKinds": {
+    "directObservedNativeCode": "Byte/PE metadata validation and Capstone replay of saved offline instruction listings only.",
+    "syntheticObservation": "Unchanged wrappers use synthetic PE fixtures; unchanged REA driver uses fake SDK and transport modules.",
+    "existingDocumentedRuntimeEvidence": "Attributed to baseline/RiftReader reports; not reacquired or promoted.",
+    "inference": "Manager fix priorities and possible consequences of incomplete coverage.",
+    "unresolved": "Runtime reachability, handler registration, player navigation, destination/cancellation/collision contracts."
+  },
+  "audit": {
+    "binary": {
+      "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+      "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "bytes": 59963840,
+      "imageBase": "0x140000000"
+    },
+    "dependencies": {
+      "pefile": "2024.8.26",
+      "capstoneModuleVersion": "5.0.7",
+      "capstoneDistributionVersion": "5.0.9",
+      "capstoneEngineVersion": [
+        5,
+        0,
+        1280
+      ]
+    },
+    "peParser": {
+      "runtimeEntries": 302344,
+      "warningCount": 825,
+      "firstWarnings": [
+        "Failed parsing FunctionEntry of UNWIND_INFO at 32de96c: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at 32dfc38: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at 32e0a24: 'Chained function entry cannot be changed'"
+      ]
+    },
+    "artifacts": [
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-anchors.json",
+        "sha256": "c8987a6926ad11b4b798d4a795d58da824f64796268ce02ed8544fd0ba22ec73",
+        "bytes": 194084,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+        "helperSha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319",
+        "regions": 25,
+        "chainRootsRecorded": false,
+        "instructions": 967,
+        "calls": 74,
+        "ripReferences": 35,
+        "callerCandidates": 0,
+        "verifiedCallers": 0,
+        "callersByTarget": {},
+        "emptyWindows": 0,
+        "incompleteWindows": [],
+        "queueRemaining": 0,
+        "unresolvedAnchors": [
+          {
+            "rva": "0x74a570",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x249f1ff",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x112fe30",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x697c90",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x694c90",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x697c90",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x694cb0",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x6864b0",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x686520",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x686ef0",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x686ef0",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          },
+          {
+            "rva": "0x686ef0",
+            "reason": "No containing PE runtime-function entry; no guessed function boundary used."
+          }
+        ]
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-chains.json",
+        "sha256": "b907c9a3e05cc60393ef6cd726a2864159ddbc3e3818b831643112356bf31c54",
+        "bytes": 116983,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+        "helperSha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319",
+        "regions": 11,
+        "chainRootsRecorded": true,
+        "instructions": 620,
+        "calls": 46,
+        "ripReferences": 22,
+        "callerCandidates": 0,
+        "verifiedCallers": 0,
+        "callersByTarget": {},
+        "emptyWindows": 0,
+        "incompleteWindows": [],
+        "queueRemaining": 0,
+        "unresolvedAnchors": []
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-names.json",
+        "sha256": "d918802b05c703f9d4c6fefcf03afaf45bd402b8f9dd86d76848e34e93872411",
+        "bytes": 40767,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\anti-re\\rtti_class_scanner.py",
+        "helperSha256": "3636e5ca9c39318c27a7c5fdbccfd01e3258ef079139a0d9df64f49961448331",
+        "strings": 147,
+        "namePatterns": 14,
+        "references": 0,
+        "boundaryVerifiedReferences": 0,
+        "unverifiedReferenceSites": [],
+        "matchesTruncated": false,
+        "capstoneVersionRecorded": false
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-string-references.json",
+        "sha256": "1b31dd5f20d85ccef7f8f17858ae84e3692f3d794607f729336de3a31517c45c",
+        "bytes": 44865,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\anti-re\\rtti_class_scanner.py",
+        "helperSha256": "3636e5ca9c39318c27a7c5fdbccfd01e3258ef079139a0d9df64f49961448331",
+        "strings": 147,
+        "namePatterns": 14,
+        "references": 12,
+        "boundaryVerifiedReferences": 11,
+        "unverifiedReferenceSites": [
+          "0x6ada60"
+        ],
+        "matchesTruncated": false,
+        "capstoneVersionRecorded": false
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-command-regions.json",
+        "sha256": "5f97e078fdea23a3b3a7607c82b77d6bbda30215a016681e6cf0806793b9f5f7",
+        "bytes": 1310267,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+        "helperSha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319",
+        "regions": 16,
+        "chainRootsRecorded": true,
+        "instructions": 6343,
+        "calls": 898,
+        "ripReferences": 1134,
+        "callerCandidates": 0,
+        "verifiedCallers": 0,
+        "callersByTarget": {},
+        "emptyWindows": 0,
+        "incompleteWindows": [],
+        "queueRemaining": 0,
+        "unresolvedAnchors": []
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-command-callers.json",
+        "sha256": "e23c62b7878ff7541553ba3b5b547d808fb3fe8cf64f83a2c7f90fc6cf043d0d",
+        "bytes": 842323,
+        "helperHashVerified": true,
+        "helper": "C:\\rift modding\\RiftReader\\scripts\\postupdate_static_access_chain.py",
+        "helperSha256": "c62d729ea027c271c8b4113c927ab039ae760d6db20f479166e7769dd4891319",
+        "regions": 30,
+        "chainRootsRecorded": true,
+        "instructions": 4500,
+        "calls": 634,
+        "ripReferences": 258,
+        "callerCandidates": 18,
+        "verifiedCallers": 18,
+        "callersByTarget": {
+          "0x534200": 16,
+          "0xf3fa4": 2
+        },
+        "emptyWindows": 0,
+        "incompleteWindows": [
+          {
+            "begin": "0x695810",
+            "end": "0x6969ec",
+            "decodedEnd": "0x696921"
+          }
+        ],
+        "queueRemaining": 0,
+        "unresolvedAnchors": []
+      }
+    ],
+    "reaAttempt01": {
+      "admissionAndSnapshotHashMatch": true,
+      "records": 0,
+      "diagnosticSha256Verified": true,
+      "closeExportByteCountsVerified": true,
+      "profileSeedHash": "595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5",
+      "seedLineEndings": {
+        "mainBytes": 170,
+        "worktreeBytes": 173,
+        "mainSha256": "595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5",
+        "worktreeSha256": "ded1e9b6475f415895c96dcd79f9ad7db0204147e99f9adab523af81d1aa883e",
+        "normalizedBytesEqual": true
+      }
+    },
+    "sourceHashes": [
+      {
+        "path": "C:\\work\\rre-worker-validation\\tools\\inspect-navigation-static.py",
+        "sha256": "bb01395cd99053239472b3f2986afc8ce0bfc648acb3c528baecdb1c7809ecb3"
+      },
+      {
+        "path": "C:\\work\\rre-worker-validation\\tools\\inspect-navigation-names.py",
+        "sha256": "0370826d4f3dd2445d1a93f59f6d60dae91ea64fd8a4843c5422a654e4ef4ad4"
+      },
+      {
+        "path": "C:\\work\\rre-worker-validation\\tools\\rea-session.mjs",
+        "sha256": "e150882c6554ce11c3fa6fad2f051ea73628a77c3a779be484b5efa528c0dc57"
+      },
+      {
+        "path": "C:\\work\\rre-worker-validation\\requirements-static.txt",
+        "sha256": "cd6866db41b9bdb83325970aff7a35de7be6525d1aa78490222f113fca61f09f"
+      },
+      {
+        "path": "C:\\work\\rre-worker-validation\\tools\\navigation-seeds.tsv",
+        "sha256": "ded1e9b6475f415895c96dcd79f9ad7db0204147e99f9adab523af81d1aa883e"
+      },
+      {
+        "path": "C:\\rift modding\\RiftReader\\scripts\\workflow_common.py",
+        "sha256": "112bb497c4c36934bc469556d9681d253536592a6cc01ab84b60bb63b8e2f900"
+      },
+      {
+        "path": "C:\\rift modding\\RiftReader\\scripts\\postupdate_owner_root_rediscovery.py",
+        "sha256": "dd2a605a5757ec2b8939aa0af20f7df12fe40eadfc67283d06612c9afaa1ebf2"
+      }
+    ],
+    "currentWrapperCopies": [
+      {
+        "name": "inspect-navigation-static.py",
+        "worktreeSha256": "bb01395cd99053239472b3f2986afc8ce0bfc648acb3c528baecdb1c7809ecb3",
+        "mainSha256": "fb56833ef2ed6d1bf624e6a7214909474ac185edd5a584c7bd496ce1eae5e9e8",
+        "normalizedBytesEqual": true
+      },
+      {
+        "name": "inspect-navigation-names.py",
+        "worktreeSha256": "0370826d4f3dd2445d1a93f59f6d60dae91ea64fd8a4843c5422a654e4ef4ad4",
+        "mainSha256": "0c96e01934780df95855935c2442fac3bfbac261e7a7f6ba67337d4438d9348b",
+        "normalizedBytesEqual": true
+      },
+      {
+        "name": "rea-session.mjs",
+        "worktreeSha256": "e150882c6554ce11c3fa6fad2f051ea73628a77c3a779be484b5efa528c0dc57",
+        "mainSha256": "19fac50bae523b9b2d4920a7c3f5958db51e4c35bcdfcc53ac1cec13e8431bad",
+        "normalizedBytesEqual": true
+      }
+    ],
+    "reaSourceHashes": [
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\identity.json",
+        "sha256": "b61ac34d16b13f255f8336b117cc3f98a0729e70e4d0088ebf38aa8f54360bb6"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\open-binary.json",
+        "sha256": "dd3906e4a3a5adbf9c843f42fc36eb94b44cd3371dd440693994230f9ae434ff"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\analysis-snapshot.json",
+        "sha256": "aa29e2fc0c3cfe1d021e70dcb38c58d36abcd8a324f1c6c89d2c4b77b62c4a8c"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\evidence.json",
+        "sha256": "000bef2a45fbd4b17adc4e2ab0acd65b076ef5c25f0d8479244c8088730de9cd"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\status.json",
+        "sha256": "d05e6ea903e918c8189cf20219917c75cdc60fcbc44b2f52ffc5e7c856e5eeaa"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\close-receipt.json",
+        "sha256": "076007d6cf6066a7c37eecead6cdefc8c47a19c9071a3e3143b658a92dc6a2f7"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\export-receipt.json",
+        "sha256": "0c6c14514b22afd07fbcc413f24baec6d44919c08a326074e3c5eb2d6d74a429"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\responses\\02-update-container.json",
+        "sha256": "b1629ab771c2913bca4729c19bec3ba2ad0b3ee7f1e110b5806ad0cf5a0781d6"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "V3",
+      "priority": "P1",
+      "classification": "reproduced synthetic defect",
+      "title": "Provider-admission identity is not compared with prequalified input",
+      "sources": [
+        "tools/rea-session.mjs:122-125"
+      ],
+      "test": "test_rea_driver.DriverChecks.test_bug_v3_provider_admission_hash_mismatch_is_rejected",
+      "actual": {
+        "providerHash": "1111111111111111111111111111111111111111111111111111111111111111",
+        "state": "completed",
+        "exitCode": 0
+      },
+      "expected": "Reject a missing or mismatched admission identity before any queued analysis.",
+      "savedArtifactImpact": "No mismatch observed in attempt 01; its admission, local identity and snapshot agree.",
+      "managerFix": "Validate provider path/hash/architecture against prequalified bytes; retain checked receipt."
+    },
+    {
+      "id": "V1",
+      "priority": "P1",
+      "classification": "reproduced synthetic defect",
+      "title": "First 64 unqualified call-byte matches can hide a real caller",
+      "sources": [
+        "tools/inspect-navigation-static.py:93-115",
+        "C:/rift modding/RiftReader/scripts/postupdate_static_access_chain.py:162-190"
+      ],
+      "test": "test_wrappers.WrapperChecks.test_bug_v1_valid_caller_after_64_unaligned_candidates_is_reported",
+      "actual": {
+        "byteCandidates": 64,
+        "qualifiedCallers": 0,
+        "omittedValidSiteRva": "0x1280",
+        "targetRva": "0x1800"
+      },
+      "expected": "Report the bounded search as incomplete and/or continue bounded qualification past false positives.",
+      "savedArtifactImpact": "Neither baseline target reaches the cap; 2 and 16 saved callers revalidate.",
+      "managerFix": "Use incremental bounded candidate/qualification work and explicit per-target scan/truncation metadata."
+    },
+    {
+      "id": "V2",
+      "priority": "P2",
+      "classification": "reproduced synthetic defect",
+      "title": "Empty unmapped executable window reports complete decoding",
+      "sources": [
+        "tools/inspect-navigation-static.py:137-166"
+      ],
+      "test": "test_wrappers.WrapperChecks.test_bug_v2_empty_unmapped_window_is_not_complete",
+      "actual": {
+        "rangeRva": [
+          "0x2000",
+          "0x2010"
+        ],
+        "instructions": 0,
+        "instructionDecodingCoversWindow": true,
+        "windowTruncated": true
+      },
+      "expected": "Nonempty executable-backed bytes are required for a complete decoding claim.",
+      "savedArtifactImpact": "No empty windows in the six audited artifacts.",
+      "managerFix": "Flag unreadable/empty windows as blocked and propagate helper failure."
+    },
+    {
+      "id": "V4",
+      "priority": "P2",
+      "classification": "reproduced synthetic defect",
+      "title": "Budget exhaustion exits successfully without completion",
+      "sources": [
+        "tools/rea-session.mjs:23,130,167,197"
+      ],
+      "test": "test_rea_driver.DriverChecks.test_bug_v4_unfinished_budget_is_nonzero_exit",
+      "actual": {
+        "durationSeconds": 0,
+        "state": "time-budget-reached",
+        "exitCode": 0
+      },
+      "expected": "Reject invalid duration and make unfinished terminal state distinguishable by exit status.",
+      "savedArtifactImpact": "Attempt 01 recorded an explicit error; no false completion inferred.",
+      "managerFix": "Validate duration and map terminal states to documented exit codes."
+    },
+    {
+      "id": "V5",
+      "priority": "P2",
+      "classification": "reproduced synthetic defect",
+      "title": "Existing receipt can be overwritten if status.json is absent",
+      "sources": [
+        "tools/rea-session.mjs:19-20,43-44,69"
+      ],
+      "test": "test_rea_driver.DriverChecks.test_bug_v5_existing_evidence_without_status_is_preserved",
+      "actual": "Preexisting sentinel identity.json replaced after driver checks only status.json existence.",
+      "expected": "Preserve immutable existing evidence files.",
+      "savedArtifactImpact": "No original evidence was modified; overwrite reproduced only in temporary fixture.",
+      "managerFix": "Reserve fresh output namespace or create immutable receipts exclusively."
+    },
+    {
+      "id": "V6",
+      "priority": "P2",
+      "classification": "direct observed parser diagnostics omitted by wrappers",
+      "title": "825 pefile warnings are not retained",
+      "sources": [
+        "tools/inspect-navigation-static.py:46-48",
+        "tools/inspect-navigation-names.py:81-83",
+        "C:/work/rre/.venv/Lib/site-packages/pefile.py:3852-3868"
+      ],
+      "actual": {
+        "warningCount": 825,
+        "runtimeEntries": 302344,
+        "sample": "Chained function entry cannot be changed"
+      },
+      "savedArtifactImpact": "Selected recorded roots match raw parent triples; warnings do not prove those roots are wrong.",
+      "managerFix": "Persist parser warnings and investigate shared unwind-info bookkeeping before global completeness claims."
+    },
+    {
+      "id": "V7",
+      "priority": "P2",
+      "classification": "direct source/artifact provenance observation",
+      "title": "Historical producer/config/dependency identity and stdout completion are incomplete",
+      "sources": [
+        "tools/inspect-navigation-static.py:172-203",
+        "tools/inspect-navigation-names.py:139-163",
+        "C:/rift modding/RiftReader/scripts/postupdate_static_access_chain.py:34-35",
+        "tools/rea-session.mjs:87-91"
+      ],
+      "actual": [
+        "No wrapper source hashes or complete CLI parameters in baseline static outputs.",
+        "Names outputs omit decoder dependency versions.",
+        "Top-level static helper hash does not pin its two imported local modules.",
+        "SchemaVersion 1 spans outputs with different chain/reference fields.",
+        "Static stdout summary omits incomplete/truncated-window flags.",
+        "Worktree CRLF seed raw hash differs from main LF seed while normalized bytes agree.",
+        "Capstone distribution is 5.0.9; module self-version is 5.0.7."
+      ],
+      "managerFix": "Retain source/config/import hashes, raw seed identity, query targets/coverage, parser warnings and version facets; surface completeness in stdout.",
+      "savedArtifactImpact": "Manifest hashes and saved byte listings revalidate; historical exact producer versions cannot be fully recovered from output fields alone."
+    }
+  ],
+  "validation": {
+    "syntheticSuite": {
+      "cases": 12,
+      "ordinaryPasses": 7,
+      "expectedFailures": 5,
+      "unexpectedFailures": 0,
+      "unexpectedSuccesses": 0,
+      "exitCode": 0
+    },
+    "strictWrapperSuite": {
+      "cases": 7,
+      "passes": 5,
+      "assertionFailures": 2,
+      "exitCode": 1
+    },
+    "strictDriverSuite": {
+      "cases": 5,
+      "passes": 2,
+      "assertionFailures": 3,
+      "exitCode": 1
+    },
+    "strictFailuresAreUnfixedDesiredAssertions": true,
+    "savedArtifactAudit": "pass; all six manifest hashes/sizes and saved bytes verified",
+    "pythonSyntax": "compile(source, filename, 'exec'); no bytecode writes",
+    "nodeSyntax": "node --check tools/rea-session.mjs",
+    "commands": [
+      "C:/work/rre/.venv/Scripts/python.exe -B -m unittest discover -s tools/agents/validation -p test_*.py -v",
+      "C:/work/rre/.venv/Scripts/python.exe -B tools/agents/validation/audit_saved_evidence.py",
+      "C:/work/rre/.venv/Scripts/python.exe -B tools/agents/validation/test_wrappers.py --strict -v",
+      "C:/work/rre/.venv/Scripts/python.exe -B tools/agents/validation/test_rea_driver.py --strict -v"
+    ],
+    "interpreter": {
+      "path": "C:\\work\\rre\\.venv\\Scripts\\python.exe",
+      "version": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]"
+    }
+  },
+  "limitations": [
+    "Synthetic defects are not observations of corruption in the retained baseline artifacts.",
+    "Sequential instruction alignment is not runtime reachability or complete control flow.",
+    "Name-pattern and string searches, common LEA encodings, and E8 direct-call candidates are incomplete by design.",
+    "Attempt 02 was reviewed via tracked report only; its outside artifacts were not independently audited.",
+    "No in-game navigation, native handler or cancellation contract is certified."
+  ],
+  "nextValidation": [
+    "Manager fixes V3 and V1 on an authorized tool branch, then reruns strict synthetic tests.",
+    "Persist and investigate V6 parser diagnostics without a full import.",
+    "Run a single bounded offline query with explicit source/config and coverage receipts."
+  ],
+  "ownedFiles": [
+    "docs/agents/validation.md",
+    "docs/agents/validation.json",
+    "tools/agents/validation/test_wrappers.py",
+    "tools/agents/validation/test_rea_driver.py",
+    "tools/agents/validation/audit_saved_evidence.py"
+  ],
+  "delivery": {
+    "status": "complete_reports_and_validation_commit_blocked",
+    "staging": "failed before staging",
+    "commitSha": null,
+    "gitError": "fatal: Unable to create 'C:/work/rre/.git/worktrees/rre-worker-validation/index.lock': Permission denied",
+    "boundaryResponse": "No escalation, alternate index, Git identity change, or retry outside writable scope.",
+    "managerAction": "Review the five owned files, then stage and commit them from an authorized context."
+  }
+}
