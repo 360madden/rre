@@ -227,3 +227,21 @@ Git-identity change or alternative index/worktree workaround was attempted.
 The manager can stage/commit the three files from its authorized context.
 Temporary collection and negative-test files were removed; no persistent jobs
 were started. No outside source files were changed.
+
+## Follow-up 2026-10-19 — M3-002 (manager-verified worker evidence)
+
+The assigned Codex worker stopped with exit code 1 when its usage allowance was exhausted. It saved a dated `followUps` evidence record in [collision.json](collision.json), and the manager independently ran [m3_002.py](../../tools/agents/collision/m3_002.py) successfully (job `rre-resume-qa-collision-new-20261019-01`, exit 0). The historical report above is unchanged.
+
+**Exact build:** SHA-256 `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`, base `0x140000000`; addresses below are RVAs. Evidence covers **12 PE unwind regions / 613 instruction rows**, **two 96-byte fixed leaf windows** without asserted function boundaries, and **ten data reads**. The two captured queries and all source/byte hashes are retained under `tools/agents/collision/_m3_002_query1.json`, `_m3_002_query2.json` and the JSON report.
+
+### Qualified findings and limits
+
+- The phantom-cast caller around RVA `0x13D2400` stages a destination-like vector, tolerances and a filtered cast. Caller ownership, world frame and applicability to player movement are unknown.
+- Candidate filtering includes a virtual callback and rejection of null shapes or the source object. The observed shape-type dispatch is **not** a qualified Rift walkability-layer mask.
+- The all-hit collector appends **0x40-byte records** and sorts by a scalar at `+0x1C`; a separate closest-contact collector retains a smaller scalar and copies two vectors. Point/normal identities, direction and scalar units remain hypothetical.
+- The all-hit and external-collector caller branches expose **different scalar behavior**. A universal hit-fraction result contract is rejected by these code paths.
+- No complete route, player-owned clearance query, native navigation invocation or in-game success was established.
+
+**Independent verification:** `C:\work\rre\.venv\Scripts\python.exe -B tools/agents/collision/m3_002.py --verify docs/agents/collision.json` returned `verified: true`, 12 regions, 613 rows, two leaves and ten reads. It validates the exact saved bytes and provenance, not active game behavior.
+
+**Next focused task:** identify the actual caller/object owner for `0x13D2400`, then qualify filter implementation, layer values and output consumers. Do not connect this cast to type-3 job dispatch without evidence; do not build a replacement pathfinder as an automatic fallback.
