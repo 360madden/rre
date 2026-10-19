@@ -1,0 +1,678 @@
+{
+  "schemaVersion": 1,
+  "lane": "ghidra",
+  "researchDate": "2026-10-18",
+  "inspectedAtUtc": "2026-10-19T00:27:49.246630+00:00",
+  "branch": "research/nav-ghidra",
+  "baseCommit": "c7815b762dbdfe4d681a96cd14a69f658668595c",
+  "scope": {
+    "readOnlyExternalInspection": true,
+    "newReaOrGhidraImport": false,
+    "gameInputSent": false,
+    "gameProcessAttached": false,
+    "targetExecuted": false,
+    "processInspectionOrControl": false,
+    "installationOrConfigurationChanged": false,
+    "networkUsed": false,
+    "outsideFilesWritten": false
+  },
+  "target": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "bytes": 59963840,
+    "architecture": "x86_64",
+    "format": "pe",
+    "preferredImageBase": "0x140000000",
+    "verification": "SHA-256 and PE header remeasured in this pass"
+  },
+  "versions": {
+    "rea": "6.5.0",
+    "ghidra": "12.1.2",
+    "java": "Temurin 21.0.11 selected in saved profiles; not executed in this pass"
+  },
+  "attempts": [
+    {
+      "id": "navigation-20261018-01",
+      "responseSource": "S06",
+      "operation": "resolve_containing_procedure",
+      "arguments": {
+        "address": "0x1406873ef"
+      },
+      "elapsedMs": 450728,
+      "timeoutMs": 450000,
+      "errorCode": "provider_timeout",
+      "failureKind": "timeout",
+      "failureMessage": "Ghidra startup deadline elapsed",
+      "providerVersion": "12.1.2",
+      "profileDigest": "9cf19fe67f35d7b7d75197b8d1e79a92205abe5fd853783f06a5ccb5736c2f72",
+      "diagnosticTruncated": false,
+      "stdoutBytes": 31574,
+      "stdoutRetainedBytes": 31574,
+      "stderrBytes": 1232,
+      "exitCode": null,
+      "exitSignal": null,
+      "runtimeRoot": "C:\\Users\\mrkoo\\AppData\\Local\\Temp\\rea-ghidra-bbdb8189ed192ef3e3b65ccf92579fca",
+      "runtimeRootExistsAtInspection": false,
+      "projectRoot": "C:\\Users\\mrkoo\\AppData\\Local\\Temp\\rea-ghidra-bbdb8189ed192ef3e3b65ccf92579fca\\project",
+      "projectRootExistsAtInspection": false,
+      "selectedStdoutLines": {
+        "12": "INFO  Headless startup complete (2166 ms) (AnalyzeHeadless)  ",
+        "348": "INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  ",
+        "351": "INFO  ReaGhidraApplySeeds.java> REA seeds applied: {\"format\":\"rea-ghidra-seeds-v1\",\"sha256\":\"595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5\",\"entries\":3,\"function_created\":1,\"function_existing\":2,\"function_failed\":0,\"code_decoded\":0,\"code_failed\":0,\"label_applied\":0,\"label_failed\":0,\"unmapped\":0} (GhidraScript)  ",
+        "352": "INFO  REPORT: Execute script: C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraAnalysisOptions.java 'Stack,Decompiler Parameter ID'  (HeadlessAnalyzer)  ",
+        "353": "INFO  SCRIPT: C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraAnalysisOptions.java (HeadlessAnalyzer)  ",
+        "354": "INFO  ANALYZING all memory and code: file:///C:/Users/mrkoo/AppData/Local/Temp/rea-ghidra-bbdb8189ed192ef3e3b65ccf92579fca/target-7c356c9dde9e.exe (HeadlessAnalyzer)  ",
+        "364": "ERROR Invalid PNG data at 1427560e8 (PngDataType)  ",
+        "365": "INFO  hit non-returning function, restarting decompiler switch analyzer later (DecompilerSwitchAnalyzer)  "
+      }
+    },
+    {
+      "id": "navigation-20261018-02",
+      "responseSource": "S07",
+      "operation": "xrefs",
+      "arguments": {
+        "address": "0x142d51598"
+      },
+      "elapsedMs": 450717,
+      "timeoutMs": 450000,
+      "errorCode": "provider_timeout",
+      "failureKind": "timeout",
+      "failureMessage": "Ghidra startup deadline elapsed",
+      "providerVersion": "12.1.2",
+      "profileDigest": "b17a6a3a94bc01163940bc564c6533ea3f8e6f7f28155b42bb04a1a4fc69169e",
+      "diagnosticTruncated": false,
+      "stdoutBytes": 31677,
+      "stdoutRetainedBytes": 31677,
+      "stderrBytes": 1232,
+      "exitCode": null,
+      "exitSignal": null,
+      "runtimeRoot": "C:\\Users\\mrkoo\\AppData\\Local\\Temp\\rea-ghidra-e00d9a53223aa805049b1d491b9063f9",
+      "runtimeRootExistsAtInspection": false,
+      "projectRoot": "C:\\Users\\mrkoo\\AppData\\Local\\Temp\\rea-ghidra-e00d9a53223aa805049b1d491b9063f9\\project",
+      "projectRootExistsAtInspection": false,
+      "selectedStdoutLines": {
+        "12": "INFO  Headless startup complete (1880 ms) (AnalyzeHeadless)  ",
+        "348": "INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  ",
+        "351": "INFO  ReaGhidraApplySeeds.java> REA seeds applied: {\"format\":\"rea-ghidra-seeds-v1\",\"sha256\":\"595a104e79b264f716f64f4ea9898e0dca6b868c0cbbc301264a63edd7b6aba5\",\"entries\":3,\"function_created\":1,\"function_existing\":2,\"function_failed\":0,\"code_decoded\":0,\"code_failed\":0,\"label_applied\":0,\"label_failed\":0,\"unmapped\":0} (GhidraScript)  ",
+        "352": "INFO  REPORT: Execute script: C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraAnalysisOptions.java 'Stack,Decompiler Parameter ID,Decompiler Switch Analysis'  (HeadlessAnalyzer)  ",
+        "353": "INFO  SCRIPT: C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraAnalysisOptions.java (HeadlessAnalyzer)  ",
+        "354": "INFO  ANALYZING all memory and code: file:///C:/Users/mrkoo/AppData/Local/Temp/rea-ghidra-e00d9a53223aa805049b1d491b9063f9/target-7c356c9dde9e.exe (HeadlessAnalyzer)  ",
+        "364": "ERROR Invalid PNG data at 1427560e8 (PngDataType)  ",
+        "365": "INFO  Unprocessed TypeDescriptor: void (__cdecl *)(void * __ptr64) (TypeDescriptorModel)  ",
+        "366": "INFO  Unprocessed TypeDescriptor: void (__cdecl *)(void * __ptr64) (TypeDescriptorModel)  "
+      }
+    }
+  ],
+  "observations": [
+    {
+      "id": "O01",
+      "kind": "existing_documented_tool_runtime_evidence",
+      "claim": "Both first analysis requests reached whole-program analysis and exhausted the outer startup deadline before any primitive result.",
+      "sources": [
+        "S06",
+        "S07",
+        "S32",
+        "S33"
+      ]
+    },
+    {
+      "id": "O02",
+      "kind": "installed_source_observation",
+      "claim": "Headless analysis runs before post-scripts; REA bridge is a post-script. Smaller query results do not restrict import/analysis.",
+      "sources": [
+        "S08",
+        "S16",
+        "S27"
+      ]
+    },
+    {
+      "id": "O03",
+      "kind": "filesystem_and_source_observation",
+      "claim": "Both recorded runtime/project roots are absent. Launcher uses fresh import/readOnly/deleteProject; cleanup releases runtime roots. No persisted project from these two runs is available.",
+      "sources": [
+        "S06",
+        "S07",
+        "S08",
+        "S10",
+        "S14"
+      ]
+    },
+    {
+      "id": "O04",
+      "kind": "retained_snapshot_observation",
+      "claim": "Both snapshots and exported bundles have zero query/evidence records; they are not warm Ghidra databases.",
+      "sources": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ]
+    },
+    {
+      "id": "O05",
+      "kind": "installed_source_observation",
+      "claim": "Analyzer disable list is supported; pre-script validates names and false readback. Windows x86 PE RTTI Analyzer is the exact default-enabled RTTI analyzer name.",
+      "sources": [
+        "S09",
+        "S11",
+        "S12",
+        "S17",
+        "S34"
+      ]
+    },
+    {
+      "id": "O06",
+      "kind": "installed_source_observation",
+      "claim": "Unprocessed TypeDescriptor is an INFO message for an unsupported demangled type shape, followed by false return; it is not itself a thrown failure.",
+      "sources": [
+        "S18"
+      ]
+    },
+    {
+      "id": "O07",
+      "kind": "installed_documentation_observation",
+      "claim": "Standalone Ghidra supports process/noanalysis/persistence; installed REA launch arguments and input/environment schema expose no persistent-project or noanalysis switch. Per-file timed-out analysis is rejected by REA handshake.",
+      "sources": [
+        "S08",
+        "S12",
+        "S14",
+        "S15",
+        "S23"
+      ]
+    },
+    {
+      "id": "O08",
+      "kind": "installed_source_observation",
+      "claim": "Explicit raw-binary input is supported; x86_64 maps to x86:LE:64:default with generic gcc compiler spec and seeded entry. This still auto-analyzes the smaller raw input.",
+      "sources": [
+        "S08",
+        "S23",
+        "S24",
+        "S25",
+        "S26"
+      ]
+    },
+    {
+      "id": "O09",
+      "kind": "exact_build_byte_observation",
+      "claim": "603 bytes at RVA [0xf3fa4,0xf41ff) map to file offset 0xf33a4 and hash to the saved helper window hash. No new instruction decoding was performed.",
+      "sources": [
+        "S01",
+        "S19"
+      ]
+    }
+  ],
+  "inferences": [
+    {
+      "id": "I01",
+      "claim": "The observed failure boundary is cold startup including whole-program analysis rather than the focused query body. The relative duration of loading versus analysis is unmeasured.",
+      "basedOn": [
+        "O01",
+        "O02"
+      ]
+    },
+    {
+      "id": "I02",
+      "claim": "RTTI ablation is a source-supported future coverage tradeoff, not a confirmed bottleneck fix. Tail messages do not identify the only caller or elapsed-time consumer.",
+      "basedOn": [
+        "O05",
+        "O06"
+      ]
+    },
+    {
+      "id": "I03",
+      "claim": "A small raw input is a materially smaller supported readiness test; success would not diagnose or fix the full PE timeout.",
+      "basedOn": [
+        "O08",
+        "O09"
+      ]
+    }
+  ],
+  "unresolved": [
+    "Specific slow task and phase timings",
+    "CPU versus GC versus blocking",
+    "Effective heap size in the historical JVMs",
+    "Full PE eventual completion time",
+    "Whether RTTI ablation improves completion",
+    "Whether a raw probe succeeds on this installation",
+    "Whether any separate user-created persistent project exists; no broad disk search was performed",
+    "Native navigation behavior and runnable interface; not investigated by this tooling lane"
+  ],
+  "rejectedConclusions": [
+    "Decompiler Switch Analysis is the demonstrated cause",
+    "PNG or TypeDescriptor tail proves hang/crash",
+    "Missing game DLLs prove analysis failure",
+    "More memory is a verified remedy",
+    "A focused address or seeds prevent whole-program analysis",
+    "Exported query JSON can resume these imports",
+    "A timeout establishes absence of native pathfinding"
+  ],
+  "supportedRoutes": [
+    {
+      "route": "same-session reuse",
+      "status": "supported_after_successful_startup",
+      "sources": [
+        "S27"
+      ],
+      "availableForTheseAttempts": false
+    },
+    {
+      "route": "resume historical imports",
+      "status": "no_retained_project_at_recorded_paths",
+      "sources": [
+        "S08",
+        "S10",
+        "S14"
+      ]
+    },
+    {
+      "route": "persistent standalone Ghidra process/noanalysis",
+      "status": "documented_by_ghidra_not_exposed_by_installed_rea_launcher",
+      "sources": [
+        "S08",
+        "S14",
+        "S23"
+      ],
+      "requiresSeparateManagerDirection": true
+    },
+    {
+      "route": "RTTI-disabled PE profile",
+      "status": "configuration_supported_benefit_unverified",
+      "disabledAnalyzers": [
+        "Stack",
+        "Decompiler Parameter ID",
+        "Decompiler Switch Analysis",
+        "Windows x86 PE RTTI Analyzer"
+      ],
+      "sources": [
+        "S09",
+        "S17",
+        "S34"
+      ],
+      "executed": false
+    },
+    {
+      "route": "startup budget or heap change",
+      "status": "supported_knobs_no_measured_resource_diagnosis",
+      "sources": [
+        "S13",
+        "S20",
+        "S21",
+        "S22"
+      ],
+      "executed": false
+    },
+    {
+      "route": "per-file timeout partial REA results",
+      "status": "not_accepted_by_rea_handshake",
+      "sources": [
+        "S15"
+      ]
+    },
+    {
+      "route": "raw-binary bounded input",
+      "status": "supported_by_installed_source_runtime_unverified",
+      "sources": [
+        "S23",
+        "S24",
+        "S25",
+        "S26"
+      ],
+      "executed": false
+    }
+  ],
+  "nextTest": {
+    "status": "proposed_not_executed",
+    "requiresManagerDirection": true,
+    "purpose": "One small-input bridge readiness and procedure-recovery test; retain offline helpers for native research.",
+    "sourceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "rvaStart": "0xf3fa4",
+    "rvaEndExclusive": "0xf41ff",
+    "sourceFileOffset": "0xf33a4",
+    "byteLength": 603,
+    "sliceSha256": "6f31c492e5028ed20758e711746dc3152406e6db9b0273336f2b5224d6636e8b",
+    "sliceHashRecomputedAndMatchedSavedArtifact": true,
+    "openBinaryArguments": {
+      "path": "C:\\work\\rre-worker-ghidra\\tools\\agents\\ghidra\\probe-f3fa4.bin",
+      "format": "raw-binary",
+      "architecture": "x86_64",
+      "entry_point": "0x1400f3fa4",
+      "provider_id": "ghidra"
+    },
+    "query": {
+      "tool": "resolve_containing_procedure",
+      "arguments": {
+        "address": "0x1400f3fa4"
+      }
+    },
+    "startupTimeoutMs": 60000,
+    "requestTimeoutMs": 75000,
+    "overallLimitSeconds": 120,
+    "clearChildOnlySettings": [
+      "REA_GHIDRA_SEED_FILE",
+      "REA_GHIDRA_DISABLED_ANALYZERS"
+    ],
+    "runnerCaveat": "Existing rea-session.mjs rejects non-PE targets. Future lane-owned adaptation must preserve bounded request/export/close/error-stop logic. Do not edit shared runner.",
+    "successCriteria": [
+      "Ready bridge and nonempty procedure Evidence within budget",
+      "Raw hash/language/load address recorded",
+      "Export/close and private-runtime cleanup verified"
+    ],
+    "limitations": [
+      "Raw input has a new target hash; preserve original hash/range lineage",
+      "Generic gcc compiler spec is not the original PE ABI",
+      "External callees, RIP-relative data, RTTI, unwind metadata and caller context are absent",
+      "PE exception range is not guaranteed complete source function",
+      "No full-PE diagnosis or navigation success follows from this smoke test"
+    ],
+    "rollback": [
+      "Export diagnostics and evidence locally",
+      "Call close_binary and close owning stdio session",
+      "Verify REA-owned temporary runtime removal; report incomplete cleanup to manager",
+      "Retain scratch and provenance for review; any later deletion only exact scratch directory",
+      "No manual process termination, installed config changes, shared-project deletion, retry, or publishing"
+    ]
+  },
+  "validation": {
+    "newAnalysisEngineRuns": 0,
+    "checks": [
+      "Exact executable SHA-256 and x64 PE/base/size match",
+      "Both raw response hashes match tracked attempt summaries",
+      "Nested error diagnostic fields and full retained stream sizes checked",
+      "Both snapshots and bundles empty",
+      "Historical recorded roots absent",
+      "603-byte candidate slice matches saved window SHA-256",
+      "Installed package and Ghidra version fields checked",
+      "Source files and ZIP entry bytes hashed",
+      "JSON syntax/source manifest validation and git diff --check before commit"
+    ],
+    "knownDiscrepancy": "Attempt-01 summary elapsedQueryMs=450728; raw response/status elapsedMs=450729.",
+    "result": "passed"
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+      "kind": "native_executable",
+      "bytes": 59963840,
+      "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd"
+    },
+    {
+      "id": "S02",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\package.json",
+      "kind": "installed_package",
+      "bytes": 23946,
+      "sha256": "a500302319c1214a8bb6c9a8b4a4a090806e95eef884204a9d9fbb4003050a6c",
+      "locator": "version"
+    },
+    {
+      "id": "S03",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\Ghidra\\application.properties",
+      "kind": "installed_version",
+      "bytes": 659,
+      "sha256": "80890f309379ef60ecbb376a95448bd79e874145544ffcfabb5ba1835ac8a2cf",
+      "locator": "application.version"
+    },
+    {
+      "id": "S04",
+      "path": "C:\\work\\rre-worker-ghidra\\docs\\rea-import-attempt-2026-10-18.json",
+      "kind": "tracked_attempt_summary",
+      "bytes": 2125,
+      "sha256": "866fd1625ca1c82b6a41e603bd588cb40e8869c445f67916e88bc71c78e24b34"
+    },
+    {
+      "id": "S05",
+      "path": "C:\\work\\rre-worker-ghidra\\docs\\rea-import-attempt-2026-10-18-02.json",
+      "kind": "tracked_attempt_summary",
+      "bytes": 3015,
+      "sha256": "c8b38b73f69f4031c4974d038161eb30b65e231cf30d90f9755f743b1a948f10"
+    },
+    {
+      "id": "S06",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\responses\\02-update-container.json",
+      "kind": "retained_tool_response",
+      "bytes": 41493,
+      "sha256": "b1629ab771c2913bca4729c19bec3ba2ad0b3ee7f1e110b5806ad0cf5a0781d6",
+      "locator": "result.content[0].text -> JSON error.details.diagnostics"
+    },
+    {
+      "id": "S07",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-02\\responses\\02-pathfinding-xrefs.json",
+      "kind": "retained_tool_response",
+      "bytes": 41554,
+      "sha256": "9b787bec8e2c937696ca64b9e13953ff33cb1f8c79e2d06191fb654f29fbbf54",
+      "locator": "result.content[0].text -> JSON error.details.diagnostics"
+    },
+    {
+      "id": "S08",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraLauncher.js",
+      "kind": "installed_source",
+      "bytes": 26006,
+      "sha256": "739676ebc64bd7b23ed1bc4a9395d596efe7bf8080eb67af1ff3e00d86609a67",
+      "locator": "315-438; 518-540"
+    },
+    {
+      "id": "S09",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraAnalysisOptions.java",
+      "kind": "installed_source",
+      "bytes": 1721,
+      "sha256": "14200fb685d88c91b38f955ad360fe2e11b9a83a53cc69f87fd229c2e784e936",
+      "locator": "run"
+    },
+    {
+      "id": "S10",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraClient.js",
+      "kind": "installed_source",
+      "bytes": 33059,
+      "sha256": "6bc731f26d6d92cf4cf442385a35fd11405675b033bdcadffdc9d1f59feea3ce",
+      "locator": "375-475; 563-668; 707-716"
+    },
+    {
+      "id": "S11",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraAnalysisProfile.js",
+      "kind": "installed_source",
+      "bytes": 13558,
+      "sha256": "b263b099680fb6c4c9543b2220f36a9e03180ead6a702a54834c1ee84deb30ec",
+      "locator": "41-55; ghidraProfileDisabledAnalyzers"
+    },
+    {
+      "id": "S12",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\config\\environment.js",
+      "kind": "installed_source",
+      "bytes": 5233,
+      "sha256": "8e076813b705316d11393ce445d72b756160121b7283d9111999ada689247992",
+      "locator": "GHIDRA-related environment schema"
+    },
+    {
+      "id": "S13",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\config\\providerStartupTimeout.js",
+      "kind": "installed_source",
+      "bytes": 923,
+      "sha256": "266f1fe016d7d8c49b7b1945b43c395a2421523daa85d375c8c258b26b87504f",
+      "locator": "absolute startup deadline, default 330000 ms"
+    },
+    {
+      "id": "S14",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\support\\analyzeHeadlessREADME.html",
+      "kind": "installed_documentation",
+      "bytes": 102339,
+      "sha256": "b9ada94e27e689111e5cf0919671cf0113c903e7861ae0fbbf00246fa7b687cf",
+      "locator": "175-194; 274-287; 324-332"
+    },
+    {
+      "id": "S15",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraClientStartup.js",
+      "kind": "installed_source",
+      "bytes": 1130,
+      "sha256": "4daf416f8febbd0d945b6c491d43552d7e2c974a8fe04c42e85903abd6a72565",
+      "locator": "completeGhidraStartupHandshake"
+    },
+    {
+      "id": "S16",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\Ghidra\\Features\\Base\\lib\\Base-src.zip",
+      "kind": "installed_source_archive_entry",
+      "bytes": 61211,
+      "sha256": "f9775dc44dbe49d2bce2341d16bbb4c0bb973509ed05329883745d8c2eff97f3",
+      "locator": "1045-1098",
+      "zipEntry": "ghidra/app/util/headless/HeadlessAnalyzer.java",
+      "archiveSha256": "544a9fa144afc9a1e9999835f99e39c175c32ecfa6e9f9af3dfc4bc4c3c99884"
+    },
+    {
+      "id": "S17",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\Ghidra\\Features\\MicrosoftCodeAnalyzer\\lib\\MicrosoftCodeAnalyzer-src.zip",
+      "kind": "installed_source_archive_entry",
+      "bytes": 12342,
+      "sha256": "f5e2cce65e5aa17d46c106c760c549f7cbff844829dad3f2a7544c0b6e6c254e",
+      "locator": "35-95",
+      "zipEntry": "ghidra/app/plugin/prototype/MicrosoftCodeAnalyzerPlugin/RttiAnalyzer.java",
+      "archiveSha256": "27d9e9ce6a2389efab978678e814e87ea2efc994ce7ffdab804e23aa8cbdd579"
+    },
+    {
+      "id": "S18",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\Ghidra\\Features\\MicrosoftCodeAnalyzer\\lib\\MicrosoftCodeAnalyzer-src.zip",
+      "kind": "installed_source_archive_entry",
+      "bytes": 23398,
+      "sha256": "e4d153f622771042c4033abe383ec28a75e045f8d612b255c21972217f53949f",
+      "locator": "639-667",
+      "zipEntry": "ghidra/app/cmd/data/TypeDescriptorModel.java",
+      "archiveSha256": "27d9e9ce6a2389efab978678e814e87ea2efc994ce7ffdab804e23aa8cbdd579"
+    },
+    {
+      "id": "S19",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\static-navigation-command-regions.json",
+      "kind": "retained_static_helper_output",
+      "bytes": 1310267,
+      "sha256": "5f97e078fdea23a3b3a7607c82b77d6bbda30215a016681e6cf0806793b9f5f7",
+      "locator": "functions[beginRva=0xf3fa4]"
+    },
+    {
+      "id": "S20",
+      "path": "C:\\work\\tools\\ghidra_12.1.2_PUBLIC\\support\\analyzeHeadless.bat",
+      "kind": "installed_source",
+      "bytes": 2930,
+      "sha256": "dd7b9d17d32ed70a71df82a43a21cdaed6c4ce67064e30f8642c149f81c2ae07",
+      "locator": "22-44; final launch.bat call"
+    },
+    {
+      "id": "S21",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraInstallation.js",
+      "kind": "installed_source",
+      "bytes": 30107,
+      "sha256": "0ff09f1350ade169db156c8d987cca0929a98d4b2337c78efc2bceba839a203a",
+      "locator": "ghidraJavaEnvironment"
+    },
+    {
+      "id": "S22",
+      "path": "C:\\work\\rre\\tools\\rea-session.mjs",
+      "kind": "existing_research_runner",
+      "bytes": 9754,
+      "sha256": "19fac50bae523b9b2d4920a7c3f5958db51e4c35bcdfcc53ac1cec13e8431bad",
+      "locator": "PE-only guard; childEnv; request and cleanup budgets"
+    },
+    {
+      "id": "S23",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\contracts\\sessionLifecycleInputs.js",
+      "kind": "installed_source",
+      "bytes": 3056,
+      "sha256": "78ab899e18d30951e67fd3432b75be252e13ea1ed93a11cda37b6a6230e02c94",
+      "locator": "openBinaryInputSchema"
+    },
+    {
+      "id": "S24",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraRawBinaryLanguage.js",
+      "kind": "installed_source",
+      "bytes": 1337,
+      "sha256": "901400d3c9d5b35efe315384e985844b124ab4219501e64e65129bf040fd84e7",
+      "locator": "x86_64 -> gcc compiler spec"
+    },
+    {
+      "id": "S25",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\bridge\\ghidra\\ReaGhidraPrepareRaw.java",
+      "kind": "installed_source",
+      "bytes": 2289,
+      "sha256": "e858b93df3c23f1407fb79ad2abe20f05c52687ba5d082ccefb824ece92a3953",
+      "locator": "run"
+    },
+    {
+      "id": "S26",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\domain\\rawBinary.js",
+      "kind": "installed_source",
+      "bytes": 3996,
+      "sha256": "4fe52e1a65eb3d7c561535daf7bd8904f2bae9090e4668f68ff4460f4a63b4f5",
+      "locator": "admitRawBinary"
+    },
+    {
+      "id": "S27",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\ghidra\\GhidraProviderClient.js",
+      "kind": "installed_source",
+      "bytes": 37987,
+      "sha256": "54ab59ce21c3f2329d5e0fbeb3b0a8117527a68b2d9776cc2c24635ec1373184",
+      "locator": "459-505"
+    },
+    {
+      "id": "S28",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\analysis-snapshot.json",
+      "kind": "retained_query_snapshot",
+      "bytes": 2434,
+      "sha256": "aa29e2fc0c3cfe1d021e70dcb38c58d36abcd8a324f1c6c89d2c4b77b62c4a8c",
+      "locator": "entries; evidence_bundle.records"
+    },
+    {
+      "id": "S29",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-02\\analysis-snapshot.json",
+      "kind": "retained_query_snapshot",
+      "bytes": 2490,
+      "sha256": "428c1cf0deaa98e1f93d62bcf69bde22455baa64a8e47b20e69969ba9c1f7829",
+      "locator": "entries; evidence_bundle.records"
+    },
+    {
+      "id": "S30",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\evidence.json",
+      "kind": "exported_evidence_bundle",
+      "bytes": 105,
+      "sha256": "000bef2a45fbd4b17adc4e2ab0acd65b076ef5c25f0d8479244c8088730de9cd"
+    },
+    {
+      "id": "S31",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-02\\evidence.json",
+      "kind": "exported_evidence_bundle",
+      "bytes": 105,
+      "sha256": "000bef2a45fbd4b17adc4e2ab0acd65b076ef5c25f0d8479244c8088730de9cd"
+    },
+    {
+      "id": "S32",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-01\\status.json",
+      "kind": "retained_session_status",
+      "bytes": 1390,
+      "sha256": "d05e6ea903e918c8189cf20219917c75cdc60fcbc44b2f52ffc5e7c856e5eeaa"
+    },
+    {
+      "id": "S33",
+      "path": "C:\\work\\rre\\artifacts\\navigation-20261018-02\\status.json",
+      "kind": "retained_session_status",
+      "bytes": 1323,
+      "sha256": "f66d2a2223ccfb4f61372c0ba84d79b158c2929072b3ddc0b8856f252a902df6"
+    },
+    {
+      "id": "S34",
+      "path": "C:\\work\\tools\\rea\\node_modules\\rea-agents\\dist\\config\\ghidraDisabledAnalyzers.js",
+      "kind": "installed_source",
+      "bytes": 1669,
+      "sha256": "b0b99a5b4f479cdfc0b31d6ecc3ce4f4d4535fa6aed8f00b2a9a9bf61b8698ad",
+      "locator": "at most 32 names; comma-separated schema"
+    }
+  ],
+  "delivery": {
+    "files": [
+      "docs/agents/ghidra.md",
+      "docs/agents/ghidra.json"
+    ],
+    "commitSha": null,
+    "commitStatus": "blocked_before_staging",
+    "attemptedCommand": "git add -- docs/agents/ghidra.md docs/agents/ghidra.json",
+    "exitCode": 128,
+    "error": "Unable to create C:/work/rre/.git/worktrees/rre-worker-ghidra/index.lock: Permission denied",
+    "explanation": "Git worktree metadata is outside writable worktree boundary; stopped without permission request or workaround.",
+    "pushed": false
+  }
+}
