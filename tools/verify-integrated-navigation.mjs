@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { isDeepStrictEqual } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -41,11 +42,40 @@ for (const item of SUCCESS) {
   for (const p of names) {
     const historical=gitBlob(item.worker,p);
     const integrated=gitBlob(item.main,p);
+    const current=gitBlob('HEAD',p);
     const local=readRel(p);
-    fail(LF(historical).equals(LF(integrated)),item.lane+' changed during cherry-pick: '+p);
-    fail(LF(integrated).equals(LF(local)),item.lane+' worktree data differs from merged Git blob: '+p);
+    fail(LF(historical).equals(LF(integrated)),item.lane+' changed during original cherry-pick: '+p);
+    fail(LF(current).equals(LF(local)),item.lane+' current checkout differs from HEAD: '+p);
+    let laterCommits=[];
+    if(!LF(integrated).equals(LF(current))) {
+      laterCommits=git('log','--format=%H',item.main+'..HEAD','--',p)
+        .toString('utf8').split(/\r?\n/).filter(Boolean);
+      fail(laterCommits.length>0,'Path changed without later committed provenance: '+p);
+      if(p.endsWith('.md')) {
+        const previous=LF(integrated), now=LF(current);
+        fail(now.subarray(0,previous.length).equals(previous),
+             'Historical Markdown prefix changed instead of an additive report: '+p);
+      } else if(p.endsWith('.json')) {
+        const previous=JSON.parse(LF(integrated).toString('utf8'));
+        const now=JSON.parse(LF(current).toString('utf8'));
+        for(const [key,value] of Object.entries(previous)) {
+          if(key==='followUps' && Array.isArray(value)) {
+            fail(Array.isArray(now[key]) && now[key].length>=value.length,
+                 'Historic JSON follow-up list removed: '+p);
+            for(let i=0;i<value.length;i++) fail(isDeepStrictEqual(value[i],now[key][i]),
+                  'Historic JSON follow-up modified: '+p);
+          } else {
+            fail(isDeepStrictEqual(value,now[key]),
+                 'Historic JSON evidence overwritten: '+p+' key '+key);
+          }
+        }
+      } else {
+        fail(false,'Unexpected post-integration code mutation needs separate review: '+p);
+      }
+    }
     paths.push({path:p,workerBlobSha256:sha(historical),mainBlobSha256:sha(integrated),
-      currentRawSha256:sha(local),eolOnlyTransformed:!historical.equals(local)&&LF(historical).equals(LF(local))});
+      currentGitBlobSha256:sha(current),currentRawSha256:sha(local),
+      laterCommits,eolOnlyTransformed:!current.equals(local)&&LF(current).equals(LF(local))});
   }
   records.push({lane:item.lane,originalWorkerCommit:item.worker,integratedCommit:item.main,
     validatedPaths:paths.length,paths});
@@ -100,6 +130,7 @@ const output={result:'passed',scope:'historical Git provenance and cherry-pick p
   c2mHistoricalSources:sources.length,c2mArtifacts:f.artifacts.length,
   followPrefixIntegrity:true,
   warnings:['Versioned historical source hashes are intentionally different from newer main; recovered from pinned Git blobs.',
+    'Later committed append-only Markdown and JSON findings preserve earlier Git evidence; checkout bytes are compared to HEAD.',
     'Git EOL conversion is normalized for content equivalence without redefining original raw SHA256.',
     'Instruction decoding/semantic evidence independently checked by lane-specific Python verifiers in source worktrees.']
 };
