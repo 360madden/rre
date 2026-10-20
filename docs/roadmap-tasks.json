@@ -37,7 +37,7 @@
           "tools/agents/pathfinding/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19: five untracked historical query files byte-verified, archived and integrated via f11bbb3; no worker process running. M3-001 ready for new bounded offline research."
+        "lastConfirmed": "2026-10-19 23:38 EDT: independent OpenCode worker timed out leaving flawed draft; Manager recovered, independently tested 18 triage cases, exact PE/RTTI verifier and original evidence; accepted partial M3-001 research in commit 22b9f13. Worktree clean, no running job."
       },
       "c2m": {
         "worktree": "C:/work/rre-worker-c2m",
@@ -258,6 +258,21 @@
       "previousUntrackedRawProbeFilesPreserved": 2,
       "syntheticOnly": true,
       "liveInputSent": false
+    },
+    "m3WorldRttiCheckpoint20261019": {
+      "mainCommit": "22b9f138e1b3e558b027742997e95de9095c424f",
+      "sourceBuildMatched": true,
+      "archivedArtifacts": 11,
+      "uniqueCandidates": 91,
+      "field160Candidates": 9,
+      "field210Candidates": 3,
+      "nativeType7HandlerProven": false,
+      "simulationNonNullQueueWriterProven": false,
+      "genuineIndependentAgentLaunched": 1,
+      "genuineIndependentAgentsSucceeded": 0,
+      "managerRecoverySucceeded": true,
+      "researchNoLiveProcess": true,
+      "preservedUntrackedMainFiles": 2
     }
   },
   "milestones": [
@@ -673,7 +688,15 @@
         "tools/agents/pathfinding/_query2.json",
         "tools/agents/pathfinding/_query3.json",
         "tools/agents/pathfinding/_query4.json",
-        "tools/agents/pathfinding/_query5.json"
+        "tools/agents/pathfinding/_query5.json",
+        "tools/agents/pathfinding/m3_001_verify_world_owner.py",
+        "tools/agents/pathfinding/m3_001_offset_triage.py",
+        "tools/agents/pathfinding/m3_001_test_offset_triage.py",
+        "tools/agents/pathfinding/m3_001_world_owner_findings.json",
+        "artifacts/m3-001-owner-caller-20261019-01.json",
+        "artifacts/m3-001-owner-caller-20261019-01-manifest.json",
+        "artifacts/m3-001-offset-archive-triage-20261019-01.json",
+        "artifacts/m3-001-qualified-world-owner-20261019-01.json"
       ],
       "blockers": [],
       "historicalRecovery": {
@@ -719,9 +742,71 @@
             "No type-7 populated handler, queue table writer, job producer, native route output, or player-use linkage identified."
           ],
           "remainingGate": "Identify same queue actual non-null pointer writer and a handler table entry at queue+0x210 plus a type-7 job producer; preserve inconclusive results and reuse native capability if proven."
+        },
+        {
+          "checkpointId": "M3-001-hkpWorld-type7-alias-disambiguation-2026-10-19",
+          "state": "ACCEPTED BOUNDED NEGATIVE EVIDENCE; native type-7 handler/producer and player use still unknown",
+          "originalWorkerAttempt": {
+            "job": "rre-m3-type7-independent-offset-triage-agent-20261019-01",
+            "model": "OpenCode 1.18.4 OpenRouter/Cohere north-mini-code:free",
+            "status": "timed_out",
+            "partialOutputRejected": "Original parser misclassified access directions and falsified offset labels; Manager replaced the code and wrote tests",
+            "filesSuccessfullyValidatedByWorker": 0
+          },
+          "managerRecovery": {
+            "sourceBranch": "research/nav-pathfinding",
+            "workerLaneCommit": "5ec6ae72709f8792c10a9c116491f3bf9c5069e9",
+            "integratedMainCommit": "22b9f138e1b3e558b027742997e95de9095c424f",
+            "mode": "Manager rewrite and independent verification after worker stopped"
+          },
+          "method": "Pinned offline PE, exact instruction bytes, separate MSVC RTTI class-owner verification, V7 exact-run manifest, eleven prior byte-verified saved code captures",
+          "sourceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+          "evidence": [
+            "docs/agents/pathfinding.md",
+            "tools/agents/pathfinding/m3_001_verify_world_owner.py",
+            "tools/agents/pathfinding/m3_001_offset_triage.py",
+            "tools/agents/pathfinding/m3_001_test_offset_triage.py",
+            "tools/agents/pathfinding/m3_001_world_owner_findings.json",
+            "artifacts/m3-001-owner-caller-20261019-01.json",
+            "artifacts/m3-001-owner-caller-20261019-01-manifest.json",
+            "artifacts/m3-001-offset-archive-triage-20261019-01.json",
+            "artifacts/m3-001-qualified-world-owner-20261019-01.json"
+          ],
+          "newVerifiedFacts": [
+            "MSVC RTTI hkpWorld vtable RVA 0x2724038, self-consistent COL 0x2D755A0; hkpMultiThreadedSimulation distinct VFT 0x2725568.",
+            "RVA 0x7A384 zeros hkpWorld+0x210 (r15 zero from 0x7A261, straight-line path), not a qualified queue type-7 handler registration.",
+            "RVA 0x7AF8D writes 32-bit scalar to hkpWorld+0x160, sourced from byte at rsi+0xD9, not same simulation queue pointer.",
+            "At RVA 0x7B0A3 World constructs simulation; RVA 0x7B0A8 stores simulation object pointer in world+0x10.",
+            "At RVA 0x89BD7 simulation+0x160 zeros; at 0x8A9DF its method reads field and 0x8A9E6 dispatches type1.",
+            "Eleven existing artifacts expose 91 deduped references: 9 at +0x160, 3 at +0x210; all bounded archived windows only.",
+            "Other +0x210 occurrences: stack-local 0x8AC30, unqualified repeated initialization 0xAF8485; no qualified type7 handler or true type7 job type."
+          ],
+          "provenance": {
+            "newV7ArtifactSha256": "445c8025bceb6f639847c1170e09161c9c0d8eca362e3475b11e73c2fc0d3046",
+            "newV7ManifestSha256": "99872594de03085c316ed966965c6cc21b3fe8020fc8d13b21cdbab93240d54c",
+            "archiveTriageCaptureSha256": "83c80d351ae9f782bbf24952824fadf0a4a42b9616084054831711279f24c7c4",
+            "worldRttiCaptureSha256": "99ef13047e14266a0a8787adcc4c05a5260b95ba5cbca6f61ca1082de03ee32f",
+            "fileEolRewritesPossible": "Compare original artifact byte hashes to immutable originals; Git checkout CRLF may change raw bytes without semantic changes."
+          },
+          "verification": {
+            "archiveUnitJob": "rre-m3-new-main-18-regressions-20261019-01",
+            "unitTestsPassed": 18,
+            "exit": 0,
+            "worldRttiJob": "rre-m3-new-main-rtti-verifier-20261019-01",
+            "worldRttiExit": 0,
+            "originalSixV7Job": "rre-m3-new-main-existing-proof-check-20261019-01",
+            "exitCode": 0,
+            "originalFiveHistoricalJob": "rre-m3-offset-legacy-real-proof-20261019-01",
+            "integrationLineageJob": "rre-m3-new-main-evidence-lineage-20261019-01",
+            "lineageExitCode": 0,
+            "priorRREUnitSuiteJob": "rre-m3-new-main-validation-regressions-20261019-01",
+            "suiteExitCode": 0,
+            "suitePassed": 71
+          },
+          "remainingGate": "Find a nonnull assignment to the same Havok simulation +0x160 pointer; qualify populated typed handler queue+0x210 on same queue; identify true job type7 producer and route output; no game control authorized."
         }
       ],
-      "acceptanceNotes": "Task remains READY: new static Havok simulation ownership finding accepted on main, but full type-7 handler/producer/reuse decision not yet satisfied."
+      "acceptanceNotes": "Ready/incomplete. New PF13-PF20 world/simulation RTTI disambiguation and 11-artifact triage integrated on main 22b9f13; strong false-positive rejection but no nonnull simulation queue writer, type-7 handler/producer, or player route found. Do not mark M3-001 integrated."
     },
     {
       "id": "M3-002",
@@ -1487,13 +1572,20 @@
       "date": "2026-10-19",
       "decision": "ACCEPT M4A G0–G5 preparatory offline synthetic stationary-target approach replay. 13/13 locked cases, 24 samples, SHA-stable output, independently authored golden QA, 206 real passing tests and clean exclusive worker trees. Return priority to ready M3-001 native pathfinding research. Do not promote M4/M5/M6.",
       "basis": "Accepted report commit 138ad1ca70fc4f619bfb615c2b937bdeed303578; docs/m4a-acceptance-report.md; G4 main 39b1356 and 206-test jobs; G5 exact build/output provenance and roadmap/integration validators."
+    },
+    {
+      "id": "D-021",
+      "date": "2026-10-19",
+      "decision": "M3-001 remains ready: exact MSVC RTTI proves +0x210 and +0x160 misleading writes belong to hkpWorld rather than hkpMultiThreadedSimulation queue, and bounded archive triage identifies no qualified type7 registration. One independent agent timed out with flawed output; Manager recovered and validated partial evidence without granting native pathfinder status.",
+      "basis": "Main commit 22b9f13; original byte verifier, 18 unit tests, V7 manifest and machine-readable PF13-PF20 report."
     }
   ],
   "nextManagerActions": [
-    "PRIORITY M3-001 (ready): determine actual non-null writer for Havok hkpMultiThreadedSimulation +0x160 queue pointer, same queue handler table writer queue+0x210, and a genuine type-7 TtPathfinding job producer. Use existing V7 wrapped offline scanners and source data; do not invent native routing interface.",
-    "Refresh current model/backend capacity, all six worktree statuses, game SHA and running jobs before assigning next independent Pathfinding worker. Avoid repeated research from previously integrated M3-001 static Havok owner checkpoint (fe63ab2).",
-    "Only after a native owner/request/cancel/route contract is demonstrated, unblock full M4 integration. Supervised M5 T0 -> T1 -> T2 requires separate explicit live-input approval, proven stop and no hidden steering.",
-    "Preserve completed M4A code/fixtures and all hashes, historical raw x64 probes, and report source; do not redelegate accepted M4A G0-G5 or call synthetic results in-game navigation."
+    "Continue M3-001 ready: target 64-bit non-null assignments to the SAME hkpMultiThreadedSimulation receiver field +0x160. Exclude the hkpWorld integer field at 0x7AF8D and null initializer at 0x7A384; do not spend cycles reclassifying these refuted candidates.",
+    "Only after original object identity and queue pointer are proven, search for genuine typed queue handler writers at queue+0x210 and a job with actual type byte 7, not vtable method slot18, literal7, or type3 subtype7.",
+    "Reuse V7 bounded exact-run scanner and 11 archived sources; preserve all source/raw SHA and register data-flow evidence. A matching memory displacement alone is never valid proof.",
+    "M4A remains accepted as synthetic-only (206 tests); full M4, M5 live T0->T1->T2 and M6 real approach are blocked. Never add input sender, attach to Rift or write memory without separate applicable authorization.",
+    "Resume with actual Git/worktree/job preflight; only count independently reasoning workers that completed substantive accepted tasks. Original raw x64 probe files remain untracked and preserved."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
