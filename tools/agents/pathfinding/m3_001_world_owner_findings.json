@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "dateLocal": "2026-10-19",
+  "lane": "pathfinding",
+  "scope": "offline exact-source static partial; type-7 pathfinding handler, producer, route and player use unverified",
+  "source": {
+    "binarySha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "preferredImageBase": "0x140000000",
+    "type": "Rift x64 pinned original PE; local read-only"
+  },
+  "newV7Capture": {
+    "artifact": "artifacts/m3-001-owner-caller-20261019-01.json",
+    "artifactSha256": "445c8025bceb6f639847c1170e09161c9c0d8eca362e3475b11e73c2fc0d3046",
+    "manifest": "artifacts/m3-001-owner-caller-20261019-01-manifest.json",
+    "manifestSha256": "99872594de03085c316ed966965c6cc21b3fe8020fc8d13b21cdbab93240d54c",
+    "queryRvas": [
+      "0x7b0a3",
+      "0x8a54c"
+    ],
+    "callerTargets": [
+      "0x89abc",
+      "0x8a54c"
+    ],
+    "unwindRegions": 2,
+    "qualifiedDirectCallTo89abc": 1,
+    "qualifiedDirectCallTo8a54c": 0,
+    "boundedComplete": true,
+    "pefileParserWarningsRetained": 825
+  },
+  "newProof": {
+    "classOwners": [
+      {
+        "owner": "hkpWorld",
+        "rttiName": ".?AVhkpWorld@@",
+        "vtableRva": "0x2724038",
+        "completeObjectLocatorRva": "0x2d755a0",
+        "typeDescriptorRva": "0x2f19118",
+        "method": "RIP-relative LEA at 0x7a28e, pointer write to rcx at 0x7a295, qualified MSVC RTTI locator with self-RVA"
+      },
+      {
+        "owner": "hkpMultiThreadedSimulation",
+        "rttiName": ".?AVhkpMultiThreadedSimulation@@",
+        "vtableRva": "0x2725568",
+        "completeObjectLocatorRva": "0x2d75a80",
+        "virtualSlotIndex18Rva": "0x8a8d8",
+        "method": "Original PE RTTI and address-taken type-1 method"
+      }
+    ],
+    "instructions": [
+      {
+        "id": "PF13",
+        "rva": "0x7a261",
+        "asm": "xor r15d, r15d",
+        "bytes": "4533ff",
+        "interpretation": "Sets r15 zero along the straight-line constructor prefix"
+      },
+      {
+        "id": "PF14",
+        "rva": "0x7a384",
+        "asm": "mov qword ptr [rcx + 0x210], r15",
+        "bytes": "4c89b910020000",
+        "interpretation": "Zeros hkpWorld+0x210; not a verified queue handler registration"
+      },
+      {
+        "id": "PF15",
+        "rva": "0x7af8d",
+        "asm": "mov dword ptr [rdi + 0x160], ecx",
+        "bytes": "898f60010000",
+        "interpretation": "hkpWorld 32-bit state copied from movsx ecx, byte ptr [rsi+0xd9] at 0x7af81"
+      },
+      {
+        "id": "PF16",
+        "rva": "0x7b0a3",
+        "asm": "call 0x140089abc",
+        "bytes": "e814ea0000",
+        "interpretation": "World constructs a Havok simulation object"
+      },
+      {
+        "id": "PF17",
+        "rva": "0x7b0a8",
+        "asm": "mov qword ptr [rdi + 0x10], rax",
+        "bytes": "48894710",
+        "interpretation": "World stores constructed simulation pointer at +0x10"
+      },
+      {
+        "id": "PF18",
+        "rva": "0x89bd7",
+        "asm": "and qword ptr [r13 + 0x160], 0",
+        "bytes": "4983a56001000000",
+        "interpretation": "hkpMultiThreadedSimulation field +0x160 zero init, not a non-null queue assignment"
+      },
+      {
+        "id": "PF19",
+        "rva": "0x8a9df",
+        "asm": "mov rcx, qword ptr [rsi + 0x160]",
+        "bytes": "488b8e60010000",
+        "interpretation": "hkpMultiThreadedSimulation type-1 method reads its own queue candidate"
+      },
+      {
+        "id": "PF20",
+        "rva": "0x8a9e6",
+        "asm": "call 0x1400f3fa4",
+        "bytes": "e8b9950600",
+        "interpretation": "Shared job dispatcher reached from type-1 method"
+      }
+    ]
+  },
+  "localArchiveTriage": {
+    "sourceFiles": 11,
+    "recordedRegionRecords": 36,
+    "uniqueDecodedInstructionRvas": 3890,
+    "candidateRecords": 91,
+    "fieldReferencesByOffset": {
+      "0x130": 9,
+      "0x160": 9,
+      "0x210": 3,
+      "0x48": 38,
+      "0x50": 32
+    },
+    "memoryAccessClasses": {
+      "address-only": 6,
+      "read": 44,
+      "read-modify-write": 3,
+      "write": 38
+    },
+    "contradictedLeads": [
+      {
+        "rva": "0x8ac30",
+        "why": "movss dword ptr [rsp+0x210],xmm0 uses stack, not queue table"
+      },
+      {
+        "rva": "0xaf8485",
+        "why": "A +0x210 write is part of repeated data initialization around 0xAF840E..0xAF84B0 with adjacent immediate 7 values; receiver not matched to Havok queue, zero source not proven"
+      },
+      {
+        "rva": "0xaf8396",
+        "why": "movups [rbp+0x160],xmm0 next to repeated XMM zero vector rows; not qualified 64-bit simulation queue pointer"
+      },
+      {
+        "rva": "0x1638115",
+        "why": "mov dword ptr [r14+0x160],eax follows indirect call; adjacent scalar fields, no same-object queue link"
+      }
+    ]
+  },
+  "independentChecks": {
+    "archivedEvidence": "rre-m3-offset-legacy-real-proof-20261019-01 exit0, 30 old regions 2739 rows verified",
+    "triageUnitTests": "rre-m3-offset-triage-test-20261019-01 exit0, 18 tests",
+    "worldOwnerExactByteAndRTTI": "rre-m3-world-owner-independent-byte-verifier-20261019-01 exit0",
+    "v7Capture": "rre-m3-v7-owner-caller-fresh-capture-20261019-01 exit0",
+    "sourceAST": "rre-m3-three-code-astcheck-20261019-01 exit0"
+  },
+  "agentRecovery": {
+    "independentAgentId": "ses_ea8aab67cffeS37oXQAq7mP4Zm",
+    "backend": "OpenCode 1.18.4 OpenRouter/Cohere north-mini-code:free",
+    "jobId": "rre-m3-type7-independent-offset-triage-agent-20261019-01",
+    "result": "timed_out",
+    "workerOutput": "one inaccurate initial scanner file, no tests",
+    "managerCorrection": "Manager replaced inaccurate scanner; wrote 18 deterministic unit tests and exact-build RTTI/code verifier; agent not credited with finished verified code"
+  },
+  "safety": {
+    "offlineOnly": true,
+    "gameInputSent": false,
+    "processAttached": false,
+    "installedGameModified": false,
+    "pythonDepsInstalled": false,
+    "gameMemoryModified": false
+  },
+  "remainingGates": [
+    "Identify nonnull assignment to hkpMultiThreadedSimulation+0x160 on SAME simulation receiver, not hkpWorld+0x160",
+    "Verify typed queue handler entry queue+0x210 holds registered nonnull callback and same queue identity",
+    "Find producer where JOB TYPE==7; type-3 producer SUBTYPE==7 or adjacent literal 7 does not qualify",
+    "Link handler output to route/waypoints and selected player, then separately demonstrate safe stop before any live trial"
+  ],
+  "status": "partial static disproof and bounded evidence; M3-001 still READY; no native pathfinder established"
+}
