@@ -4,6 +4,10 @@ Goal: finish the existing file-only inspector acceptance, then advance the colli
 
 ## Current execution checkpoint
 
+**Latest follow-up:** Inspector 1.1.1, commit `c651fb9`, fixes output-size expansion and invalid Unicode in ignored fields. Nine new regression tests, 66 inspector tests and the 377-test unified gate passed; both new reports verified and old reports stayed unchanged. Independent QA is still blocked: A/C timed out, B attempted tools and returned rejected claims, and the proposed Codex launcher was tool-blocked before creation. Do not repeat these unchanged failed attempts or retry the blocked launcher through another route. See [the exact resumption checkpoint](inspector-qa-resumption-2026-10-20.md) and the task board. No native capture or game action was added.
+
+**Earlier tooling checkpoint:**
+
 Joey clarified that tooling gaps across the entire RRE workflow must be identified and resolved. The five TG fixes in [the tooling register](TOOLING_GAP_REGISTER.md) are implemented and the unified gate passed 357 tests (144 validation, 30 C2M, 73 follow, 47 collision, 46 pathfinding, 17 adapter) with unchanged source hashes. Both new inspector 1.1 reports passed publication verification. The 357 count includes existing suites selected more completely, not 357 newly written tests.
 
 R0 preflight and the local tooling/acceptance work completed. Independent review C produced a structured response; its incorrect claims were checked and rejected. A/B responses remain inadequate, and C has no independent delta review of the final publication-schema guard, so overall independent QA is not claimed complete. WA-007 retained seven native regions/469 rows and a stronger property-to-lookup link before the next capture was tool-blocked; it was not retried. Real-scene WA-006 is still unqualified. All eleven review packets were archived byte-identically under `artifacts/wa2-review-packets-20261020/`; the six worker worktrees are clean.

@@ -21,6 +21,12 @@ TG-001..005 are implemented. The final unified run `rre-tools-20261020-unified-g
 
 This acceptance covers the five bounded tooling fixes, not every possible toolchain feature. Independent A/B review quality, a C delta review, actual multi-object/physics/camera observations, and the blocked next native capture remain explicit open gates. The global Workbridge job-list API is not implemented; RRE-specific run receipts mitigate this workflow's resumption gap. No Workbridge runtime or pre-existing dirty source was changed.
 
+## Inspector QA boundary follow-up
+
+Commit `c651fb9` adds two verified fixes to the existing consumer: pre-publication UTF-8 byte limits that agree with TG-005's bounded verifier, and rejection of invalid Unicode scalars throughout decoded JSON, including ignored fields. Nine new regression tests were added. The current unified gate passed **377 tests**, including eleven Pathfinding tests integrated after the earlier 357-test tooling checkpoint. Both 1.1.1 report receipts verified, while old reports and original inputs stayed unchanged. Details: [inspector QA resumption](inspector-qa-resumption-2026-10-20.md).
+
+Review quality/availability remains unresolved. The refreshed A/C model requests timed out, B attempted a tool and produced rejected counterexamples, and a proposed Codex review-launcher write was tool-blocked before creation. No Codex review ran, no blocked action was retried, and no new review driver is claimed implemented. These outcomes do not establish a Workbridge core defect or current Codex quota. Existing Workbridge source/runtime and native-capture boundaries remain unchanged.
+
 ## Current implementation model
 
 The current ChatGPT session is the sole Manager and source writer. Independent reviewers return bounded assessments only; all their findings are checked. Tooling fixes stay in RRE unless a reproducible Workbridge defect requires a core change. No game process/input, external repo overwrite, dependency installation, public publishing, or silent permission change.
