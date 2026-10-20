@@ -15,7 +15,7 @@
     "parentChatGPT": "oversight and reporting",
     "verifiedWorkbridgeVersion": "0.6.1",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
-    "availableIndependentAiWorkerCount": 0,
+    "availableIndependentAiWorkerCount": 4,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
     "managerOwnedPaths": [
       "ROADMAP.md",
@@ -48,7 +48,7 @@
           "tools/agents/c2m/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via a7d2c4e"
+        "lastConfirmed": "2026-10-19 independent OpenCode worker finished and Manager integrated 091a494567b7bbacdfd6061203b0c55ea5a1175e; 30 standalone tests passed."
       },
       "follow": {
         "worktree": "C:/work/rre-worker-follow",
@@ -59,7 +59,7 @@
           "tools/agents/follow/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via 37a244a"
+        "lastConfirmed": "2026-10-19 independent OpenCode worker finished and Manager integrated 1b8addbb46c86e1e97070d67a3639e8414da7ab6; 73 standalone tests passed."
       },
       "collision": {
         "worktree": "C:/work/rre-worker-collision",
@@ -70,7 +70,7 @@
           "tools/agents/collision/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via b023d66"
+        "lastConfirmed": "2026-10-19 independent OpenCode worker finished and Manager integrated 7adeeaf3673baf89786f67fdb397b94332d9f163; 32 standalone tests passed."
       },
       "ghidra": {
         "worktree": "C:/work/rre-worker-ghidra",
@@ -92,7 +92,7 @@
           "tools/agents/validation/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19: worker stopped exit1 from usage limit; Manager integrated accepted research via a4fac1004bdd20a36d1b5ed73b8f2ed6b9352e11"
+        "lastConfirmed": "2026-10-19: independent OpenCode/OpenRouter G4 golden QA repaired by author after Manager review, committed dc315de and integrated 39b1356, 14 independent authored tests passed on main, no agent active."
       }
     },
     "oneWriterPerFile": true,
@@ -100,7 +100,7 @@
     "noLiveInputWithoutSeparateExplicitApproval": true,
     "noUnchangedFullProgramGhidraImport": true,
     "noRemotePush": true,
-    "availableIndependentAiWorkerCountEvidence": "Codex CLI 0.163.0 authenticated but genuine worker thread 01a15606-e9ec-7be0-ac23-6d8348faa47c failed immediately on 2026-10-19 due usage limit until October 24 19:13; other three worker tasks not launched. Zero verified usable independent worker slots, not permanent entitlement."
+    "availableIndependentAiWorkerCountEvidence": "Four distinct OpenCode 1.18.4 sessions ran in isolated worktrees; C2M, Follow, Collision stopped and integrated, Validation task M4A-002 undergoing reviewer correction after bounded initial job timeout. Earlier Codex quota still exhausted; free OpenCode model admitted."
   },
   "statusVocabulary": [
     "integrated",
@@ -283,7 +283,7 @@
     {
       "id": "M4A",
       "title": "Standalone offline stationary-target approach replay",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M1",
         "M2"
@@ -952,7 +952,7 @@
       "milestone": "M4A",
       "lane": "validation",
       "title": "G1: independent fixture schema and negative tests",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-001"
       ],
@@ -962,25 +962,54 @@
         "All fixture declarations reconciled with the locked M4A contract; no old evidence modified",
         "Worker tests passed with real agent ID, job and reviewed commit"
       ],
-      "assignedAgentId": null,
+      "assignedAgentId": "opencode:ses_ea9abb91affeo53Q3pWVOx4Emi",
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "integratedCommit": "ae8fbeeb773ff48d50d192ed68361869924b4756",
+      "evidence": [
+        "tools/agents/validation/m4a_fixture_audit.py",
+        "tools/agents/validation/m4a_test_fixture_audit.py",
+        "ae8fbeeb773ff48d50d192ed68361869924b4756"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/validation/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "resourceConstraint": null,
+      "workerBackend": "OpenCode 1.18.4 (opencode/nemotron-3-ultra-free)",
+      "attempts": [
+        {
+          "jobId": "rre-m4a-opencode-validation-embedded-20261019-01",
+          "sessionId": "ses_ea9abb91affeo53Q3pWVOx4Emi",
+          "status": "timed_out",
+          "reason": "Original source/test draft was saved but failed against real locked corpus: wrong hardcoded state vocabulary; resumed same agent for reviewer correction.",
+          "realCorpusAuditJob": "rre-m4a-validation-locked-real-fixtures-20261019-01",
+          "realCorpusAuditExitCode": 1
+        }
+      ],
+      "workerCommit": "88925b89bcf5fe41d0f42fcfb662bd8a473035fc",
+      "validation": {
+        "unitTests": {
+          "jobId": "rre-m4a-validation-recovered-independent-suite-20261019-01",
+          "exitCode": 0,
+          "passed": 36
+        },
+        "lockedCorpus": {
+          "jobId": "rre-m4a-validation-recovered-real-corpus-cli-20261019-01",
+          "exitCode": 0,
+          "caseCount": 13,
+          "sampleCount": 24,
+          "errors": 0
+        },
+        "recovery": "Original independent OpenCode M4A-002 job timed out; its partial code was reviewed and Manager corrected status vocabulary after a second independent OpenCode continuation timed out without writes. No claim of completed independent reviewer correction. Real full locked corpus and 36 tests passed under Manager supervision."
+      }
     },
     {
       "id": "M4A-003",
       "milestone": "M4A",
       "lane": "c2m",
       "title": "G2: pure target distance and approach-intent evaluator",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-001"
       ],
@@ -990,18 +1019,21 @@
         "Pure functions only: no I/O, game process, actuation or route generation",
         "Worker records source and test results under exclusive paths"
       ],
-      "assignedAgentId": null,
+      "assignedAgentId": "opencode:ses_ea9ac99ffffeeCmsH5hUCUkByC",
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "integratedCommit": "091a494567b7bbacdfd6061203b0c55ea5a1175e",
+      "evidence": [
+        "tools/agents/c2m/m4a_*",
+        "60e14c39d3c7c220481b6774d42f161bb3bab3dc",
+        "091a494567b7bbacdfd6061203b0c55ea5a1175e",
+        "rre-m4a-c2m-independent-tests-20261019-01"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/c2m/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified.",
+      "resourceConstraint": null,
       "agentAttempts": [
         {
           "jobId": "rre-m4a-c2m-capacity-and-work-20261019-01",
@@ -1015,14 +1047,24 @@
           "worktreeClean": true,
           "filesProduced": 0
         }
-      ]
+      ],
+      "workerBackend": "OpenCode 1.18.4 (opencode/nemotron-3-ultra-free)",
+      "workerCommit": "60e14c39d3c7c220481b6774d42f161bb3bab3dc",
+      "validation": {
+        "jobId": "rre-m4a-c2m-independent-tests-20261019-01",
+        "exitCode": 0,
+        "unittestPassed": 30,
+        "smoke": "not_applicable",
+        "commit": "091a494567b7bbacdfd6061203b0c55ea5a1175e",
+        "reviewCorrection": null
+      }
     },
     {
       "id": "M4A-004",
       "milestone": "M4A",
       "lane": "follow",
       "title": "G2: freshness, identity, cancellation, terminal latching",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-001"
       ],
@@ -1032,25 +1074,38 @@
         "Terminal states never reenter approach-intent within one replay",
         "No game inputs; worker tests and commit independently reviewed"
       ],
-      "assignedAgentId": null,
+      "assignedAgentId": "opencode:ses_ea9abc633ffepk0W5FFQpT7MMI",
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "integratedCommit": "1b8addbb46c86e1e97070d67a3639e8414da7ab6",
+      "evidence": [
+        "tools/agents/follow/m4a_*",
+        "0967b96158dd2e18fd0fb78480e92136aa0fc9b9",
+        "1b8addbb46c86e1e97070d67a3639e8414da7ab6",
+        "rre-m4a-follow-independent-reviewed-tests-20261019-01"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/follow/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "resourceConstraint": null,
+      "workerBackend": "OpenCode 1.18.4 (opencode/nemotron-3-ultra-free)",
+      "workerCommit": "0967b96158dd2e18fd0fb78480e92136aa0fc9b9",
+      "validation": {
+        "jobId": "rre-m4a-follow-independent-reviewed-tests-20261019-01",
+        "exitCode": 0,
+        "unittestPassed": 73,
+        "smoke": "rre-m4a-follow-locked-fixture-corrected-20261019-01",
+        "commit": "1b8addbb46c86e1e97070d67a3639e8414da7ab6",
+        "reviewCorrection": "Original sample nested agent.position/target.position and disallowed tMs=0. Reviewer rejected; model corrected to locked flat player/target schema and tests/smoke repassed."
+      }
     },
     {
       "id": "M4A-005",
       "milestone": "M4A",
       "lane": "collision",
       "title": "G2: sampled progress/no-progress and moving-away classifier",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-001"
       ],
@@ -1060,25 +1115,38 @@
         "States explicitly distinguish observed displacement from guessed velocity/obstacle contact",
         "No native cast/route integration or geometry planner introduced"
       ],
-      "assignedAgentId": null,
+      "assignedAgentId": "opencode:ses_ea9abc02affeg28mUf1jctOsFc",
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "integratedCommit": "7adeeaf3673baf89786f67fdb397b94332d9f163",
+      "evidence": [
+        "tools/agents/collision/m4a_*",
+        "01a061833c17770b2abea5010192b2a4713e2a59",
+        "7adeeaf3673baf89786f67fdb397b94332d9f163",
+        "rre-m4a-collision-independent-reviewed-test-20261019-01"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/collision/m4a_*"
       ],
       "executionMode": "real worker agent except manager tasks; no simulated subagents",
-      "resourceConstraint": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified."
+      "resourceConstraint": null,
+      "workerBackend": "OpenCode 1.18.4 (opencode/nemotron-3-ultra-free)",
+      "workerCommit": "01a061833c17770b2abea5010192b2a4713e2a59",
+      "validation": {
+        "jobId": "rre-m4a-collision-independent-reviewed-test-20261019-01",
+        "exitCode": 0,
+        "unittestPassed": 32,
+        "smoke": "not_applicable",
+        "commit": "7adeeaf3673baf89786f67fdb397b94332d9f163",
+        "reviewCorrection": "Original status strings used underscores. Reviewer rejected; OpenCode corrected to hyphens and tests repassed."
+      }
     },
     {
       "id": "M4A-006",
       "milestone": "M4A",
       "lane": "manager",
       "title": "G3: integrate reviewed components into offline replay CLI",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-002",
         "M4A-003",
@@ -1093,23 +1161,41 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Await all independently verified G1/G2 worker deliverables"
+      "integratedCommit": "c0ada6124cac73b7e44f7f2acd90a0be6d87002e",
+      "evidence": [
+        "tools/offline-target-approach.py",
+        "artifacts/m4a-replay-integration-20261019-01.json",
+        "artifacts/m4a-replay-integration-20261019-02.json"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/offline-target-approach.py",
         "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "validation": {
+        "replayJob": "rre-m4a-g3-replay-13-fixtures-20261019-01",
+        "exitCode": 0,
+        "casesPassed": 13,
+        "casesFailed": 0,
+        "samples": 24,
+        "outputSha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7",
+        "repeatedOutputSameRawSha256": true,
+        "secondReplayJob": "rre-m4a-g3-determinism-second-replay-20261019-01",
+        "negativeUnqualifiedSourceJob": "rre-m4a-g3-unqualified-source-negative-20261019-01",
+        "priorRegressionTests": 21,
+        "priorRegressionJob": "rre-m4a-g3-previous21-regression-20261019-01",
+        "allExitCodes": 0,
+        "gameInputSent": false,
+        "commandsIssued": 0
+      }
     },
     {
       "id": "M4A-007",
       "milestone": "M4A",
       "lane": "validation",
       "title": "G4: independent replay golden tests and safety QA",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "M4A-006"
       ],
@@ -1119,24 +1205,79 @@
         "No keyboard/mouse/PID/HWND/IPC paths or memory writes under replay mode",
         "All prior RRE validations pass; exact exit codes and failure cases recorded"
       ],
-      "assignedAgentId": null,
+      "assignedAgentId": "opencode:ses_ea9930d74ffeqocBOntwkyZ1ba",
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
-      "blockers": [
-        "Await integrated replay CLI"
+      "integratedCommit": "39b13568e94f8316e5dc85129ec2fb4d0a405493",
+      "evidence": [
+        "tools/agents/validation/m4a_test_replay_integration.py",
+        "dc315de28ad0e67a65b95c3811232a95de87e2fe",
+        "39b13568e94f8316e5dc85129ec2fb4d0a405493",
+        "rre-m4a-resume-g4-independent-golden-tests-20261019-01",
+        "rre-m4a-resume-g4-validation-all-tests-20261019-01"
       ],
+      "blockers": [],
       "writeOwnership": [
         "tools/agents/validation/m4a_*"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "workerBackend": "OpenCode 1.18.4 using OpenRouter/cohere/north-mini-code:free",
+      "acceptanceNotes": "Independent OpenCode/OpenRouter QA authored 14 validated golden, negative and no-actuation tests, including Manager-requested exact trace assertions. Original and second free-model attempts timed out; successful third author/revision was reviewed and independently run on main. This is offline-only evidence.",
+      "attempts": [
+        {
+          "jobId": "rre-m4a-g4-independent-qa-agent-20261019-01",
+          "agentId": "opencode:ses_ea99b7385ffeltS0JoLhOyDwzp",
+          "status": "timed_out",
+          "reason": "Mimo free-model agent explored unrelated historical reports and created no G4 QA files, timed out after 235 seconds",
+          "filesProduced": 0
+        },
+        {
+          "jobId": "rre-m4a-g4-nemotron-qa-onefile-20261019-01",
+          "agentId": "opencode:await-session-id",
+          "status": "timed_out",
+          "reason": "OpenCode Nemotron-3-ultra-free model timed out after 195 seconds with zero model events and no files produced; worker worktree remained clean",
+          "filesProduced": 0
+        },
+        {
+          "jobId": "rre-m4a-g4-openrouter-north-qa-20261019-01",
+          "agentId": "opencode:ses_ea9930d74ffeqocBOntwkyZ1ba",
+          "status": "review",
+          "reason": "OpenRouter independent QA completed one 10-test file, but Manager review rejected vacuous malformed-input test, missing golden states and terminal latch assertions",
+          "filesProduced": 1
+        }
+      ],
+      "workerCommit": "dc315de28ad0e67a65b95c3811232a95de87e2fe",
+      "validation": {
+        "workerSessionId": "ses_ea9930d74ffeqocBOntwkyZ1ba",
+        "independentAuthorJobs": [
+          "rre-m4a-g4-openrouter-north-qa-20261019-01",
+          "rre-m4a-g4-openrouter-qa-review-revision-20261019-01",
+          "rre-m4a-g4-openrouter-qa-trace-fix-20261019-01"
+        ],
+        "workerCommit": "dc315de28ad0e67a65b95c3811232a95de87e2fe",
+        "integratedMain": "39b13568e94f8316e5dc85129ec2fb4d0a405493",
+        "independentQATestJob": "rre-m4a-resume-g4-independent-golden-tests-20261019-01",
+        "qaTests": 14,
+        "qaFailures": 0,
+        "qaSkips": 0,
+        "integratedValidationJob": "rre-m4a-resume-g4-validation-all-tests-20261019-01",
+        "validationTests": 71,
+        "validationFailures": 0,
+        "componentTests": {
+          "c2m": 30,
+          "follow": 73,
+          "collision": 32
+        },
+        "uniqueTotalTests": 206,
+        "noGameInput": true,
+        "notes": "14 QA + 36 earlier fixture-audit + 21 RRE tests = 71 in validation discovery; 135 C2M/Follow/Collision = 206 total. All reported suites actual exit code 0."
+      }
     },
     {
       "id": "M4A-008",
       "milestone": "M4A",
       "lane": "manager",
       "title": "G5: demo acceptance and roadmap handoff",
-      "status": "blocked",
+      "status": "ready",
       "dependsOn": [
         "M4A-007"
       ],
@@ -1150,9 +1291,7 @@
       "jobId": null,
       "integratedCommit": null,
       "evidence": [],
-      "blockers": [
-        "Await independent replay QA"
-      ],
+      "blockers": [],
       "writeOwnership": [
         "docs/m4a-acceptance-report.md",
         "ROADMAP.md",
@@ -1227,13 +1366,61 @@
       "date": "2026-10-19",
       "decision": "On explicit 'go' request, one genuine Codex worker admission launched for M4A-003. Model service rejected due usage cap with retry Oct 24 19:13. No worker code produced, other lanes not launched; pause multi-agent G1/G2, preserve clean branches.",
       "basis": "Workbridge command_status/output of rre-m4a-c2m-capacity-and-work-20261019-01, failed exit 1; git_status worktrees clean."
+    },
+    {
+      "id": "D-012",
+      "date": "2026-10-19",
+      "decision": "Recovered from Codex quota using preinstalled OpenCode 1.18.4 free model. Four independent sessions started in disjoint worktrees after correcting external-directory permission denials by embedding contract guidance in assignments. Tasks M4A-002..005 running; Manager reviewing.",
+      "basis": "OpenCode admission exit0, distinct four session IDs, Workbridge job statuses, C2M initial untracked lane files."
+    },
+    {
+      "id": "D-013",
+      "date": "2026-10-19",
+      "decision": "Accepted three genuine independent OpenCode M4A G2 workers after Manager review and source-lane tests (30 C2M, 73 Follow, 32 Collision). Two wrong-contract draft versions were sent back and corrected before cherry-pick; G1 Validation still pending. No live actuation.",
+      "basis": "Worker commits 60e14c3, 0967b96, 01a0618; integrated 091a494, 1b8addb, 7adeeaf; independent test jobs."
+    },
+    {
+      "id": "D-014",
+      "date": "2026-10-19",
+      "decision": "M4A G1/2 worker-owned contributions integrated in separate commits. Recovery of timed-out Validation worker required Manager correction of wrong status vocabulary; actual locked corpus accepted 13/13 and 36 local tests passed. Begin Manager G3 offline replay integration without relaxing M4/M5 gates.",
+      "basis": "G1 source commit 88925b8/integration ae8fbee, actual corpus job rre-m4a-validation-recovered-real-corpus-cli-20261019-01 (exit 0)."
+    },
+    {
+      "id": "D-015",
+      "date": "2026-10-19",
+      "decision": "Manager assembled accepted four disjoint pure M4A worker contributions into replay-only CLI, matched 13/13 locked cases and 24 samples, reproduced identical 12,248-byte output hash twice, rejected live source, and kept prior 21 tests green. G3 accepted; release independent G4 QA.",
+      "basis": "main commit c0ada61; artifact SHA256 289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7; output validation jobs."
+    },
+    {
+      "id": "D-016",
+      "date": "2026-10-19",
+      "decision": "G4 initial OpenCode Mimo independent agent timed out after reading unrelated legacy evidence without writing tests. Worktree clean; launched replacement Nemotron independent agent with explicit one-file/no-read scope; no double-writer.",
+      "basis": "Workbridge job rre-m4a-g4-independent-qa-agent-20261019-01 timed_out; validation git_status clean; new job rre-m4a-g4-nemotron-qa-onefile-20261019-01."
+    },
+    {
+      "id": "D-017",
+      "date": "2026-10-19",
+      "decision": "G4 Nemotron free backend timed out with no response after 195s. A distinct OpenRouter connected free coding model passed admission exit 0; launched one independent QA file-author session; earlier two stopped, no overlapping writers.",
+      "basis": "Workbridge timed_out job rre-m4a-g4-nemotron-qa-onefile-20261019-01; OpenRouter free admission rre-m4a-g4-alternative-openrouter-admission-20261019-01 (exit0)."
+    },
+    {
+      "id": "D-018",
+      "date": "2026-10-19",
+      "decision": "Independent OpenRouter G4 agent produced 10 tests but reviewer rejected incomplete/vacuous data mutation and missing golden states. Same agent was assigned revision on identical exclusive file; no competing writer.",
+      "basis": "Read-only inspection of tools/agents/validation/m4a_test_replay_integration.py and G4 job rre-m4a-g4-openrouter-north-qa-20261019-01 exit 0."
+    },
+    {
+      "id": "D-019",
+      "date": "2026-10-19",
+      "decision": "Accepted corrected independent OpenRouter G4 QA: 14 golden/no-actuation tests pass on main; 71 Validation and 135 component tests pass, 206 total. Released G5 Manager acceptance. No original game interface or live inputs validated.",
+      "basis": "QA author commit dc315de, integrated 39b1356, jobs rre-m4a-resume-g4-independent-golden-tests-20261019-01 and rre-m4a-resume-g4-validation-all-tests-20261019-01."
     }
   ],
   "nextManagerActions": [
-    "After Oct 24 2026 19:13 local, or if usage is independently verified restored sooner, refresh Codex usage and worktree/job ownership before launching real Validation, C2M, Follow and Collision agents on M4A-002..005.",
-    "Until then, preserve G0 locked contract/fixtures and the historical untracked raw probe files; do not quietly simulate multi-agent work or mark G1/G2 done.",
-    "Upon successful worker assignments, integrate sequentially and independently test M4A-006 replay CLI, then G4 QA M4A-007 and Manager G5 acceptance M4A-008.",
-    "Maintain native M3-001 pathfinding research as separate ready milestone; game input remains unauthorised until M5 gates."
+    "Complete M4A-008 Manager acceptance only after running final exact-build/source hashes, 13-case deterministic replay, all 206 tests, task-roadmap and historical integrity validators, all six worktree statuses, and fail-closed no-input evidence.",
+    "Write docs/m4a-acceptance-report.md with exact testing, source provenance, limitations and recovery commands, update ROADMAP.md and micro-roadmap, commit accepted report before final board status.",
+    "Mark G5/M4A integrated referencing the reviewed acceptance report commit and preserve both existing historical untracked raw-probe files.",
+    "After M4A is verified complete, return to M3-001 native type-7 handler/producer critical path. Full M4 native integration, M5 supervised live game trials, M6 in-game target approach remain blocked; no live input authorised."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
@@ -1260,12 +1447,20 @@
     "doesNotAdvanceFullM4WithoutM3": true,
     "started": true,
     "completedGates": [
-      "M4A-001"
+      "M4A-001",
+      "M4A-002",
+      "M4A-003",
+      "M4A-004",
+      "M4A-005",
+      "M4A-006",
+      "M4A-007"
     ],
-    "nextEligibleTasks": [],
+    "nextEligibleTasks": [
+      "M4A-008"
+    ],
     "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
-    "currentExternalBlocker": "Verified Codex CLI usage limit (Oct 19, 2026, 17:17 America/New_York); CLI reports retry at Oct 24, 2026, 19:13 local. No alternative independent AI worker capacity verified.",
-    "status": "blocked-for-independent-workers"
+    "currentExternalBlocker": null,
+    "status": "G4-independently-authored-QA-tested-G5-ready"
   },
   "preflightM4A": {
     "dateLocal": "2026-10-19",
@@ -1316,6 +1511,39 @@
       "remainingWorkerAttemptsSkipped": 3,
       "allM4aBranchesClean": true,
       "managerOnlyContinuation": true
+    },
+    "alternativeAgent20261019_1834": {
+      "executable": "OpenCode 1.18.4",
+      "model": "opencode/nemotron-3-ultra-free",
+      "admissionJob": "rre-m4a-opencode-free-model-admission-20261019-01",
+      "admissionExit": 0,
+      "independentWorkerSessions": [
+        {
+          "taskId": "M4A-003",
+          "lane": "c2m",
+          "jobId": "rre-m4a-opencode-c2m-embedded-20261019-01",
+          "agentSessionId": "ses_ea9ac99ffffeeCmsH5hUCUkByC"
+        },
+        {
+          "taskId": "M4A-004",
+          "lane": "follow",
+          "jobId": "rre-m4a-opencode-follow-embedded-20261019-01",
+          "agentSessionId": "ses_ea9abc633ffepk0W5FFQpT7MMI"
+        },
+        {
+          "taskId": "M4A-005",
+          "lane": "collision",
+          "jobId": "rre-m4a-opencode-collision-embedded-20261019-01",
+          "agentSessionId": "ses_ea9abc02affeg28mUf1jctOsFc"
+        },
+        {
+          "taskId": "M4A-002",
+          "lane": "validation",
+          "jobId": "rre-m4a-opencode-validation-embedded-20261019-01",
+          "agentSessionId": "ses_ea9abb91affeo53Q3pWVOx4Emi"
+        }
+      ],
+      "note": "Initial four attempts were auto-rejected for reading external Manager-owned files; worktree-only embedded-contract retrials succeeded. Do not infer work completed until independent tests and Git commits."
     }
   }
 }
