@@ -1,10 +1,12 @@
-# RRE M4A launch prompt — bounded autonomous multi-agent work
+# RRE M4A launch prompt — archived implementation assignment
+
+> **COMPLETED / DO NOT REASSIGN (October 19, 2026):** M4A G0–G5 was accepted as a synthetic offline target-approach replay. All 13 locked scenarios and 206 regression/QA tests pass, with no game input. See `docs/m4a-acceptance-report.md`, `ROADMAP.md` and the machine task board for commits and evidence. **The next ready critical-path task is M3-001 native type-7 pathfinding research**, not another M4A coding wave. This document is kept for historical reproducibility.
 
 Use this file together with the user's full "RRE Autonomous Multi-Agent Research Team" prompt. This file defines the current achievable goal, completion tests, and division of authority.
 
 You are the **single accountable Engineering Manager**. The parent ChatGPT session supervises. Assign genuine separately reasoning AI workers only after checking actual capacity; Workbridge's six command-job slots do NOT establish six independent AI agents. Never simulate a worker or create competing managers.
 
-## Goal: finish M4A, not general navigation
+## Historical goal: M4A implemented and accepted
 
 Produce a **deterministic, offline-only stationary-target approach replay CLI**. It consumes 13 Manager-approved synthetic player/target telemetry cases, classifies arrival/progress and safe stops, and emits replayable JSON. The output is intent only; no keyboard/mouse/game input, process attach, memory modification, network IPC, installed-tool changes, or new custom pathfinder.
 
