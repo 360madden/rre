@@ -43,6 +43,39 @@ def classify(mnemonic: str, op_index: int, immediate_zero: bool) -> tuple[str, b
     return "unknown", False
 
 
+# Conservative qword source tracking: an adjacent same-register XOR/SUB clears
+# a GPR on the normal fall-through path, but is not global reachability proof.
+ZERO_ALIASES_32_TO_64 = {
+    "eax": "rax", "ebx": "rbx", "ecx": "rcx", "edx": "rdx",
+    "esi": "rsi", "edi": "rdi", "ebp": "rbp", "esp": "rsp",
+    **{f"r{i}d": f"r{i}" for i in range(8, 16)},
+}
+
+
+def adjacent_zero_source_rva(previous, current, decoder, direct_entry_targets=()):
+    """Adjacent zeroing instruction RVA feeding a qword MOV, or None."""
+    from capstone.x86_const import X86_OP_REG
+    if previous is None or current.mnemonic != "mov" or len(current.operands) < 2:
+        return None
+    source = current.operands[1]
+    if source.type != X86_OP_REG or source.size != 8:
+        return None
+    if current.address - IMAGE_BASE in direct_entry_targets:
+        return None
+    if previous.address + previous.size != current.address:
+        return None
+    if previous.mnemonic not in ("xor", "sub") or len(previous.operands) != 2:
+        return None
+    first, second = previous.operands
+    if first.type != X86_OP_REG or second.type != X86_OP_REG or first.reg != second.reg:
+        return None
+    cleared = decoder.reg_name(first.reg)
+    consumed = decoder.reg_name(source.reg)
+    if cleared != consumed and ZERO_ALIASES_32_TO_64.get(cleared) != consumed:
+        return None
+    return hex(previous.address - IMAGE_BASE)
+
+
 def scan(start: int, end: int, max_ranges: int = 5000,
          max_bytes: int = 7500000) -> dict:
     import pefile
@@ -116,6 +149,14 @@ def scan(start: int, end: int, max_ranges: int = 5000,
             scanned+=1
             total_bytes+=span
             decoded_rows+=len(instructions)
+            # A direct local branch/call to a store can bypass its immediate
+            # preceding zeroing instruction. Do not filter that store.
+            direct_entries = {
+                int(x.operands[0].imm) - IMAGE_BASE
+                for x in instructions
+                if (x.operands and x.operands[0].type == X86_OP_IMM and
+                    (x.mnemonic.startswith("j") or x.mnemonic == "call"))
+            }
             # Track RBP only after a concrete same-region definition deriving it
             # from RSP. A later write invalidates the frame-alias qualification.
             # This is narrower than blindly labeling every RBP operand local.
@@ -139,6 +180,9 @@ def scan(start: int, end: int, max_ranges: int = 5000,
                     rhs = ins.operands[1] if len(ins.operands)>1 else None
                     immediate_zero = bool(rhs and rhs.type==X86_OP_IMM and rhs.imm==0)
                     access,null = classify(ins.mnemonic,op_index,immediate_zero)
+                    adjacent_clear = (adjacent_zero_source_rva(
+                        instructions[ix-1] if ix else None, ins, md, direct_entries)
+                        if op_index == 0 and access == "write" else None)
                     key=(ins.address-IMAGE_BASE,value)
                     if key in records:
                         if records[key]["bytes"]!=bytes(ins.bytes).hex():
@@ -156,6 +200,7 @@ def scan(start: int, end: int, max_ranges: int = 5000,
                         "operandIndex":op_index,
                         "accessClass":access,
                         "immediateZeroStore":null,
+                        "adjacentZeroSourceRva":adjacent_clear,
                         "baseRegister":reg,
                         "indexRegister":idx,
                         "qwordBytes":8,
@@ -175,7 +220,7 @@ def scan(start: int, end: int, max_ranges: int = 5000,
         # Never present a stack-based write or read as a queue-pointer writer.
         potential=[r for r in ordered if
                    r["field"]=="0x160" and r["accessClass"] in ("write","read-modify-write")
-                   and not r["stackBaseQualified"] and not r["immediateZeroStore"]]
+                   and not r["stackBaseQualified"] and not r["immediateZeroStore"] and not r["adjacentZeroSourceRva"]]
         return {
             "schemaVersion":1,"taskId":"M3-001",
             "scope":"bounded original binary x64 PE-unwind code-source index (not complete dataflow)",
@@ -194,6 +239,7 @@ def scan(start: int, end: int, max_ranges: int = 5000,
             "byAccessClass":dict(sorted(Counter(x["accessClass"] for x in ordered).items())),
             "byField":dict(sorted(Counter(x["field"] for x in ordered).items())),
             "qualifiedStackFrameMatches":sum(x["stackBaseQualified"] for x in ordered),
+            "adjacentZeroRegisterWrites":sum(x["adjacentZeroSourceRva"] is not None for x in ordered),
             "potentialNonnullField160Writes":potential,
             "records":ordered,
             "type7HandlerQualified":False,
@@ -204,6 +250,7 @@ def scan(start: int, end: int, max_ranges: int = 5000,
                 "PE unwind metadata can miss leaf, indirect and alternate owner paths.",
                 "A memory-first CMP is a read, not a write. RBP is marked stack-derived only after an exact RSP-relative definition in the same decoded unwind region with no intervening RBP overwrite.",
                 "An unqualified RBP may still point to a stack frame or another object; lack of frame proof does not establish heap ownership.",
+                "An adjacent XOR/SUB same-register source proves a zero fall-through store when no direct local call/jump targets the store; unknown indirect entries remain unresolved.",
                 "A syntactically nonzero register operand does not prove register value nonzero.",
                 "Same hkpMultiThreadedSimulation receiver pointer is never inferred from matching +0x160 displacement alone.",
                 "No player control, game process access, native execution, or actual type-7 producer is established.",

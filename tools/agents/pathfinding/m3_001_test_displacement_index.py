@@ -6,7 +6,7 @@ import unittest
 import sys
 
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
-from m3_001_displacement_index import classify, scan, BUILD_SHA
+from m3_001_displacement_index import classify, scan, BUILD_SHA, IMAGE_BASE, adjacent_zero_source_rva
 
 
 class DisplacementIndexTests(unittest.TestCase):
@@ -81,6 +81,38 @@ class DisplacementIndexTests(unittest.TestCase):
                             not r["stackBaseQualified"] for r in rows))
         self.assertFalse(result["type7HandlerQualified"])
         self.assertFalse(result["nonNullSimulationQueueWriterQualified"])
+
+    def test_adjacent_zero_reg_store_is_not_queued_as_nonnull_candidate(self):
+        # Exact original PE and complete 0x6BA30..0x6BC69 unwind method.
+        result=scan(0x6ba00,0x6bd00)
+        rows=[r for r in result["records"] if r["rva"]=="0x6bb83"]
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]["asm"],"mov qword ptr [rsi + 0x160], rdx")
+        self.assertEqual(rows[0]["adjacentZeroSourceRva"],"0x6bb81")
+        self.assertFalse(rows[0]["immediateZeroStore"])
+        self.assertEqual(result["adjacentZeroRegisterWrites"],1)
+        self.assertTrue(result["scanCompleteWithinPeUnwindMethod"])
+        self.assertFalse(any(r["rva"]=="0x6bb83"
+                             for r in result["potentialNonnullField160Writes"]))
+        self.assertFalse(result["nonNullSimulationQueueWriterQualified"])
+        self.assertFalse(result["type7HandlerQualified"])
+
+    def test_adjacent_clear_is_conservative_and_requires_identical_source(self):
+        import capstone
+        md=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_64)
+        md.detail=True
+        source=bytes.fromhex("33d248899660010000")  # xor edx,edx; mov [rsi+160],rdx
+        rows=list(md.disasm(source, IMAGE_BASE+0x2000))
+        self.assertEqual(len(rows),2)
+        self.assertEqual(adjacent_zero_source_rva(rows[0],rows[1],md),"0x2000")
+        self.assertIsNone(adjacent_zero_source_rva(rows[0],rows[1],md,{0x2002}))
+        mismatch=list(md.disasm(bytes.fromhex("33c948899660010000"),
+                                IMAGE_BASE+0x2000))  # xor ecx,ecx; RDX store
+        self.assertIsNone(adjacent_zero_source_rva(mismatch[0],mismatch[1],md))
+        gap=list(md.disasm(bytes.fromhex("33d29048899660010000"),
+                           IMAGE_BASE+0x2000))  # NOP between clear/store
+        self.assertEqual(len(gap),3)
+        self.assertIsNone(adjacent_zero_source_rva(gap[1],gap[2],md))
 
     def test_repeatable_window_output_ignoring_time(self):
         first=scan(0x70000,0xA0000)

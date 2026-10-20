@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "checkpointId": "M3-001-adjacent-register-zero-source-2026-10-20",
+  "status": "accepted bounded negative evidence; type-7 handler/producer unverified",
+  "build": {
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "imageBase": "0x140000000",
+    "source": "original installed on-disk rift_x64.exe; read-only"
+  },
+  "scope": {
+    "windows": [
+      {
+        "begin": "0x1ce73",
+        "endExclusive": "0x1cf07",
+        "decodedInstructions": 37,
+        "complete": true
+      },
+      {
+        "begin": "0x6b500",
+        "endExclusive": "0x6b626",
+        "decodedInstructions": 79,
+        "complete": true
+      },
+      {
+        "begin": "0x6ba30",
+        "endExclusive": "0x6bc69",
+        "decodedInstructions": 133,
+        "complete": true
+      }
+    ],
+    "notWholeProgram": true,
+    "oldThreeBandScanNotRepeated": true
+  },
+  "findings": [
+    {
+      "id": "PF28",
+      "rva": "0x6bb83",
+      "instructionBytes": "48899660010000",
+      "instruction": "mov qword ptr [rsi + 0x160], rdx",
+      "adjacentSourceRva": "0x6bb81",
+      "adjacentSourceBytes": "33d2",
+      "adjacentSourceInstruction": "xor edx, edx",
+      "normalFallthroughValue": "zero",
+      "directLocalJumpOrCallIntoStoreFound": false,
+      "owner": "not established",
+      "interpretation": "not a non-null simulation queue pointer on the verified straight-line predecessor path",
+      "classificationScope": "method-local direct control flow; indirect/tail alternate entry unresolved"
+    },
+    {
+      "id": "PF29",
+      "rva": "0x1cee6",
+      "instructionBytes": "48898360010000",
+      "instruction": "mov qword ptr [rbx + 0x160], rax",
+      "sourceContext": [
+        "0x1cedb mov rax, rdx",
+        "0x1cee0 add rax, r8",
+        "0x1cee3 test rax, rax"
+      ],
+      "interpretation": "conditional computed value, may be zero; RBX class and same-hkpMultiThreadedSimulation receiver not qualified"
+    },
+    {
+      "id": "PF30",
+      "rva": "0x6b602",
+      "instructionBytes": "48898360010000",
+      "instruction": "mov qword ptr [rbx + 0x160], rax",
+      "sourceContext": [
+        "0x6b515 mov rbx, rcx",
+        "0x6b5d3 mov rcx, qword ptr [rbx + 0x1d8]",
+        "0x6b5ef mov rax, r10",
+        "0x6b5f4 add rax, rcx"
+      ],
+      "interpretation": "receiver aliases method RCX; value calculated from a lookup, not validated queue pointer; receiver RTTI/class identity absent"
+    }
+  ],
+  "method": {
+    "source": "tools/agents/pathfinding/m3_001_displacement_index.py",
+    "regression": "tools/agents/pathfinding/m3_001_test_displacement_index.py",
+    "change": "Recognize strictly adjacent same-GPR XOR/SUB source register clears on normal fall-through, unless a direct local call/jump targets the store.",
+    "preservedHistoricalSourceIndex": "artifacts/m3-001-three-band-index-rbp-qualified-20261020-01.json",
+    "historicalPotentialCandidates": 43,
+    "freshAggregateCountNotClaimed": true
+  },
+  "constraints": {
+    "simulationQueuePointerWriterProven": false,
+    "type7HandlerProven": false,
+    "type7ProducerProven": false,
+    "gameInputSent": false,
+    "gameProcessAttached": false,
+    "binaryModified": false,
+    "reportIsNotGameNavigationProof": true
+  },
+  "nextGate": "Find same-object nonnull hkpMultiThreadedSimulation+0x160 writer, populated type7 queue+0x210 handler, true type7 job producer with route/player use; no full scans unless new evidence justifies."
+}
