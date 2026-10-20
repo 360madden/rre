@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "RRE native navigation",
-  "asOfLocalDate": "2026-10-19",
+  "asOfLocalDate": "2026-10-20",
   "timezone": "America/New_York",
   "repo": "C:/work/rre",
   "roadmap": "ROADMAP.md",
@@ -37,7 +37,7 @@
           "tools/agents/pathfinding/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-20 00:59 EDT: Workbridge Manager directly verified and integrated 40ac23a from 2a338b1, no independent AI workers launched, 44 M3 tests pass and 71 RRE Validation tests pass; source index improved by RBP frame alias tracking; task M3-001 remains READY."
+        "lastConfirmed": "2026-10-20 05:00 EDT: Manager integrated reviewed pathfinding commit 53d987d as main e8ba95f after 46/46 M3 regressions pass; adjacent XOR EDX proves RVA 0x6BB83 zero-source on straight-line path. Two OpenCode attempted sessions delivered no code; no independent worker results accepted. M3-001 stays READY."
       },
       "c2m": {
         "worktree": "C:/work/rre-worker-c2m",
@@ -886,9 +886,52 @@
           "offlineOnly": true,
           "gameInputSent": false,
           "gameProcessAttached": false
+        },
+        {
+          "checkpointId": "M3-001-adjacent-zero-register-source-2026-10-20",
+          "status": "accepted bounded negative/static evidence; M3-001 remains ready",
+          "authorship": "Manager direct Workbridge after two independent OpenCode starts failed to deliver code; no independent worker success claimed",
+          "sourceWorkerCommit": "53d987dd6942a0da6f0b96478b80bc6f9234afed",
+          "integratedMainCommit": "e8ba95fd5099a67a2b5352df3ab926955e626653",
+          "sourceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+          "offlineEvidence": [
+            "Original x64 PE fully decoded unwind windows 0x1CE73..0x1CF07 (37 instructions), 0x6B500..0x6B626 (79) and 0x6BA30..0x6BC69 (133); no game process attachment.",
+            "RVA 0x6BB81 xor edx,edx feeds adjacent RVA 0x6BB83 mov [rsi+0x160],rdx: direct fall-through zero, not a proven nonnull simulation queue writer.",
+            "RVA 0x1CEE6 and 0x6B602 are computed +0x160 writes with no qualified same-hkpMultiThreadedSimulation receiver identity.",
+            "Scanner now conservatively excludes adjacent same-GPR XOR/SUB zero-source stores lacking an alternate direct local edge. Historical three-band artifact still records 43 unqualified candidates; NO new aggregate count and NO broad rescan.",
+            "True job type 7 producer, same-queue populated +0x210 handler and route/player use are still unknown."
+          ],
+          "evidence": [
+            "docs/agents/pathfinding.md",
+            "tools/agents/pathfinding/m3_001_adjacent_zero_source_findings.json",
+            "tools/agents/pathfinding/m3_001_displacement_index.py",
+            "tools/agents/pathfinding/m3_001_test_displacement_index.py"
+          ],
+          "validation": {
+            "workerPathfindingTestsJob": "rre-m3-20261020-pf-tests-46-after-zero-fix",
+            "workerPathfindingTestsPassed": 46,
+            "workerPathfindingTestsExitCode": 0,
+            "mainPathfindingTestsJob": "rre-m3-20261020-main-46-after-worker-integration",
+            "mainPathfindingTestsPassed": 46,
+            "mainPathfindingTestsExitCode": 0,
+            "roadmapValidatorJob": "rre-m3-20261020-board-validator-postcheckpoint",
+            "roadmapValidatorExitCode": 0,
+            "jsonEvidenceJob": "rre-m3-20261020-json-proof-check",
+            "jsonEvidenceExitCode": 0,
+            "originalPeBoundedDisassemblyJob": "rre-20261020-m3-pe-three-writer-readonly-disasm",
+            "originalPeBoundedDisassemblyExitCode": 0
+          },
+          "constraints": {
+            "gameInputSent": false,
+            "processAttached": false,
+            "sameSimulationQueueWriterProven": false,
+            "type7HandlerProven": false,
+            "type7ProducerProven": false
+          },
+          "nextTarget": "Qualify a nonnull same-hkpMultiThreadedSimulation receiver +0x160 pointer write, then SAME-queue populated type-7 handler at +0x210, then true job type 7 producer; preserve negative evidence."
         }
       ],
-      "acceptanceNotes": "READY/incomplete: 40ac23a accepted partial +0x160 allocation lifecycle analysis and frame-alias-filtered source index; 44 Pathfinding tests passed on main. Separate global 0x1D8 factory is NOT qualified as hkpMultiThreadedSimulation object; type-7 handler/producer unverified."
+      "acceptanceNotes": "READY/incomplete: main e8ba95f incorporates PF28–PF30 bounded zero-source qualification and safe source-index refinement, 46/46 tests on worker lane AND on integrated main (both exit 0); previous 40ac23a separate-factory lifetime remains accepted. Historic 43 syntactic index candidates are NOT proven same-simulation writes. Real non-null simulation+0x160 queue writer, populated +0x210 type-7 handler and type-7 producer/player route are unverified."
     },
     {
       "id": "M3-002",
