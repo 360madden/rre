@@ -32,11 +32,11 @@ def source_inventory():
     files=sorted(p for p in (ROOT/'tools').rglob('*') if p.is_file() and p.suffix in ('.py','.mjs'))
     return {str(p.relative_to(ROOT)).replace('\\','/'):sha(p.read_bytes()) for p in files}
 
-def run(output:Path):
+def run(output:Path, image_python:Path | None = None):
     output.mkdir(parents=False,exist_ok=False)
     before=source_inventory()
     state={'schemaVersion':1,'startedAt':now(),'status':'running','sourceHashes':before,'groups':[],
-           'scope':'RRE lane Python tests matching *test*.py, review-adapter Node tests and roadmap validator',
+           'scope':'RRE lane Python tests, separate screenshot image-runtime tests, review-adapter Node tests and roadmap validator',
            'excludes':'Other repositories, model inference, live game observation and unrelated hardware/runtime acceptance'}
     def checkpoint():
         temp=output/'state.tmp';temp.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8');temp.replace(output/'validation.json')
@@ -44,6 +44,11 @@ def run(output:Path):
     commands=[]
     for lane in ('validation','c2m','follow','collision','pathfinding'):
         commands.append((lane,[sys.executable,'-B','-c',TEST_SCRIPT,'tools/agents/'+lane],'python',150))
+    # Reuse an existing image runtime without installing packages or altering environments.
+    default_image = ROOT.parent/'riftreader2/artifacts/tools/control-python/Scripts/python.exe'
+    image_executable = str(image_python or (default_image if default_image.is_file() else Path(sys.executable)))
+    image_script = "import json,sys,PIL; print('RRE_IMAGE_RUNTIME '+json.dumps({'python':sys.version,'executable':sys.executable,'pillow':PIL.__version__}))\n" + TEST_SCRIPT
+    commands.append(('visual-evidence',[image_executable,'-B','-c',image_script,'tools/tests_visual'],'python',150))
     commands.extend([('review-adapter',['node','--test','--test-reporter=tap','tools/agents/validation/test_agent_review_runner.mjs'],'node',60),
                      ('roadmap',['node','tools/validate-roadmap.mjs'],'roadmap',30)])
     ok=True;count=0;all_ids=[]
@@ -86,9 +91,11 @@ def run(output:Path):
     return state
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output-dir',required=True,type=Path);args=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output-dir',required=True,type=Path)
+    p.add_argument('--image-python',type=Path,help='Existing interpreter with Pillow; missing runtime fails, never silently skips')
+    args=p.parse_args()
     try:
-        state=run(args.output_dir.resolve());print(json.dumps({'status':state['status'],'totalTests':state['totalTests'],'sourcesUnchanged':state['sourcesUnchanged']}));return 0 if state['status']=='passed' else 1
+        state=run(args.output_dir.resolve(),args.image_python);print(json.dumps({'status':state['status'],'totalTests':state['totalTests'],'sourcesUnchanged':state['sourcesUnchanged']}));return 0 if state['status']=='passed' else 1
     except (OSError,ValueError,TypeError) as exc:
         print(json.dumps({'status':'failed','error':str(exc)}),file=sys.stderr);return 2
 if __name__=='__main__':raise SystemExit(main())
