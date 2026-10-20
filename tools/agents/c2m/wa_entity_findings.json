@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "taskId": "WA-002",
+  "status": "source-audited; current nearby enumeration unverified",
+  "authorship": "Manager through Workbridge; independent entity reviewer was blocked before delivering a review",
+  "source": {
+    "path": "C:/rift modding/RiftReader/addon/ReaderBridgeExport/main.lua",
+    "sha256": "45b5c820a9001cf2adfa963bfa0c24fe2bc41b476b49af9494c3d5aede8b91fa"
+  },
+  "findings": [
+    {"lines":[6,9],"observation":"Update interval 0.5; maximum nearby rows 10 and party slots 5. Limits are source constants, not proof of actual API coverage."},
+    {"lines":[233,244],"observation":"Unit.List is explicitly marked unverified; Lookup and Detail wrappers exist. API absence or failure can return nil."},
+    {"lines":[258,275],"observation":"buildCoord returns nil if all coordinates absent but can otherwise emit partial XYZ; consumer must not substitute zero."},
+    {"lines":[480,530],"observation":"readUnit uses detail.id or unitSpecOrId; the fallback can be a unit specifier instead of a qualified object identity."},
+    {"lines":[533,555],"observation":"DirectAPI nearby enumeration excludes player and target, iterates unordered pairs, retains at most 10, and returns nil both for no retained rows and unavailable list. No exhaustive or distance-sorted census established."},
+    {"lines":[558,572],"observation":"Party collection is a separate bounded scope; absent or empty result likewise becomes nil."},
+    {"lines":[613,658],"observation":"DirectAPI snapshot combines independent player/target/party/nearby observations without a proven atomic scene snapshot; target may be self."},
+    {"lines":[889,913],"observation":"Alternate sourceMode is ReaderBridge, not JSHUD; this branch explicitly sets nearbyUnits=nil while retaining player/target and party."}
+  ],
+  "retainedObservation": {
+    "path": "C:/work/riftreader2/artifacts/live-validation/live-fresh-receipt.json",
+    "sha256": "a7cddc62cd66a14f943e0bc2de82666fcd7de0013c5e6db12780518e726329d5",
+    "capturedAtUtc": "2026-10-19T02:26:11.3567755+00:00",
+    "typedPlayerPath": "observation.riftReader2.observation.player",
+    "typedCoordinatesPath": "observation.riftReader2.observation.fields.coordX/coordY/coordZ",
+    "playerId": "u035400012FA2D207",
+    "xyz": [7308.330078125,875.6599731445312,3050.909912109375],
+    "coverage": "player-only; no nearby entities, geometry or camera fields",
+    "currentFreshness": "unverified; old bound/fresh flags never promoted",
+    "processTargetIsNotSelectedGameEntity": true
+  },
+  "consumerDecisions": [
+    "Merge matching actual IDs only within one input hash; retain source roles, exact observations and conflicts.",
+    "Reject specifier/address IDs, mismatched root IDs, invalid numeric/partial coordinate data and unsupported envelopes.",
+    "Never interpret names, identical coordinates, missing nearby data or old freshness flags as verified world recognition.",
+    "Retain recorded versus synthetic labels; all collision, support, visibility and reachability stay unknown."
+  ],
+  "reviewAttempt": {
+    "jobId": "rre-wa-20261020-entity-review-agent-01",
+    "processExitCode": 0,
+    "semanticOutcome": "blocked by external_directory permission rejection; no findings returned",
+    "acceptedIndependentContribution": false
+  },
+  "nextEvidence": "Fresh simultaneously identified player plus at least two distinct non-self units; prove actual API enumeration scope, list cap behavior, units/scene and load-unload identity. Then correlate a native hit backlink with an independently identified object.",
+  "gameInputSent": false,
+  "gameProcessAttached": false,
+  "externalSourcesModified": false
+}

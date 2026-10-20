@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceMode": "SyntheticFixture",
+  "generatedAtRealtime": 10.0,
+  "note": "Synthetic identity/coordinate demonstration, NOT RIFT capture, native scenery, collision or route evidence.",
+  "playerId": "demo-player-001",
+  "targetId": "demo-player-001",
+  "player": {"id":"demo-player-001","name":"Demo player","player":true,"zone":"synthetic-zone","coord":{"x":0,"y":0,"z":0.5}},
+  "target": {"id":"demo-player-001","name":"Demo player","player":true,"zone":"synthetic-zone","coord":{"x":0,"y":0,"z":0.5}},
+  "nearbyUnits": [
+    {"id":"demo-unit-002","name":"Same-name unit","player":false,"zone":"synthetic-zone","coord":{"x":-0.5,"y":0,"z":0.4}},
+    {"id":"demo-unit-003","name":"Same-name unit","player":false,"zone":"synthetic-zone","coord":{"x":0.6,"y":0,"z":0.7}},
+    {"id":"demo-unit-004","name":"Upper position","player":null,"zone":"synthetic-zone","coord":{"x":0.6,"y":2,"z":0.7}},
+    {"id":"demo-unit-005","name":"Missing position","player":null,"zone":"synthetic-zone","coord":null}
+  ],
+  "partyUnits": []
+}
