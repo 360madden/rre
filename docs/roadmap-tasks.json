@@ -15,7 +15,7 @@
     "parentChatGPT": "oversight and reporting",
     "verifiedWorkbridgeVersion": "0.6.1",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
-    "availableIndependentAiWorkerCount": 4,
+    "availableIndependentAiWorkerCount": null,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
     "managerOwnedPaths": [
       "ROADMAP.md",
@@ -100,7 +100,7 @@
     "noLiveInputWithoutSeparateExplicitApproval": true,
     "noUnchangedFullProgramGhidraImport": true,
     "noRemotePush": true,
-    "availableIndependentAiWorkerCountEvidence": "Four distinct OpenCode 1.18.4 sessions ran in isolated worktrees; C2M, Follow, Collision stopped and integrated, Validation task M4A-002 undergoing reviewer correction after bounded initial job timeout. Earlier Codex quota still exhausted; free OpenCode model admitted."
+    "availableIndependentAiWorkerCountEvidence": "Peak 4 independent OpenCode coding sessions verified on October 19; their owned contributions integrated. No active M4A AI worker job remains. Capacity for *future* M3-001 assignment must be refreshed; Codex quota still historically limited."
   },
   "statusVocabulary": [
     "integrated",
@@ -243,6 +243,21 @@
       ],
       "workersLaunchedThisPhase": 0,
       "noLiveInput": true
+    },
+    "m4aG5Acceptance": {
+      "acceptedDateLocal": "2026-10-19",
+      "reportCommit": "138ad1ca70fc4f619bfb615c2b937bdeed303578",
+      "report": "docs/m4a-acceptance-report.md",
+      "source": "tools/offline-target-approach.py",
+      "sourceSha256": "5b940d5bdca4b80b8940cb357bb1d2f677e9397df96fc056ab3752fc3e7e6a12",
+      "finalArtifact": "artifacts/m4a-g5-acceptance-20261019-01.json",
+      "finalArtifactSha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7",
+      "sourceBuildHashMatched": true,
+      "worktreesClean": 6,
+      "activeWorkers": 0,
+      "previousUntrackedRawProbeFilesPreserved": 2,
+      "syntheticOnly": true,
+      "liveInputSent": false
     }
   },
   "milestones": [
@@ -283,7 +298,7 @@
     {
       "id": "M4A",
       "title": "Standalone offline stationary-target approach replay",
-      "status": "ready",
+      "status": "integrated",
       "dependsOn": [
         "M1",
         "M2"
@@ -1277,7 +1292,7 @@
       "milestone": "M4A",
       "lane": "manager",
       "title": "G5: demo acceptance and roadmap handoff",
-      "status": "ready",
+      "status": "integrated",
       "dependsOn": [
         "M4A-007"
       ],
@@ -1289,15 +1304,67 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "evidence": [],
+      "integratedCommit": "138ad1ca70fc4f619bfb615c2b937bdeed303578",
+      "evidence": [
+        "docs/m4a-acceptance-report.md",
+        "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md",
+        "tools/offline-target-approach.py",
+        "tools/agents/validation/m4a_test_replay_integration.py",
+        "artifacts/m4a-g5-acceptance-20261019-01.json",
+        "ROADMAP.md",
+        "138ad1ca70fc4f619bfb615c2b937bdeed303578"
+      ],
       "blockers": [],
       "writeOwnership": [
         "docs/m4a-acceptance-report.md",
         "ROADMAP.md",
         "docs/roadmap-tasks.json"
       ],
-      "executionMode": "real worker agent except manager tasks; no simulated subagents"
+      "executionMode": "real worker agent except manager tasks; no simulated subagents",
+      "acceptanceNotes": "ACCEPTED strictly as offline synthetic M4A target-approach replay; NOT M4 native integration, NOT supervised M5 game motion or M6 in-game target approach. Independent QA generated 14 tests and Manager verified 206 unique tests, 13/13 golden states, 24 samples, deterministic identical bytes, no game actuation. All six research worktrees clean, unrelated raw-x64 probe files preserved.",
+      "validation": {
+        "testMatrix": {
+          "independentG4Golden": 14,
+          "fixtureAudit": 36,
+          "originalRRE": 21,
+          "C2M": 30,
+          "followCancellation": 73,
+          "collisionProgress": 32,
+          "distinctPassingTotal": 206,
+          "failures": 0,
+          "skips": 0
+        },
+        "jobs": {
+          "golden": "rre-m4a-resume-g4-independent-golden-tests-20261019-01",
+          "validationFull": "rre-m4a-resume-g4-validation-all-tests-20261019-01",
+          "C2M": "rre-m4a-resume-g4-c2m-geometry-tests-20261019-01",
+          "follow": "rre-m4a-resume-g4-follow-safety-tests-20261019-01",
+          "collision": "rre-m4a-resume-g4-collision-progress-tests-20261019-01",
+          "replay": "rre-m4a-resume-g5-final-replay-20261019-01",
+          "roadmap": "rre-m4a-resume-g5-roadmap-validate-20261019-01",
+          "historical": "rre-m4a-resume-g5-integrity-validate-20261019-01",
+          "lockedFixture": "rre-m4a-resume-g5-locked-fixtures-validate-20261019-01",
+          "binarySHA": "rre-m4a-resume-g5-native-binary-hash-20261019-01"
+        },
+        "allJobExitCodes": 0,
+        "caseCount": 13,
+        "sampleCount": 24,
+        "goldenCasesPassed": 13,
+        "replaySha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7",
+        "replayBytes": 12248,
+        "repeatOutputsSameRawSha256": true,
+        "noGameInput": true,
+        "commandsIssued": 0,
+        "sourceBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+        "nativeType7HandlerKnown": false,
+        "milestonesNotAdvanced": [
+          "M4",
+          "M5",
+          "M6",
+          "M7"
+        ],
+        "sourceReportCommittedAt": "138ad1ca70fc4f619bfb615c2b937bdeed303578"
+      }
     }
   ],
   "decisionLog": [
@@ -1414,13 +1481,19 @@
       "date": "2026-10-19",
       "decision": "Accepted corrected independent OpenRouter G4 QA: 14 golden/no-actuation tests pass on main; 71 Validation and 135 component tests pass, 206 total. Released G5 Manager acceptance. No original game interface or live inputs validated.",
       "basis": "QA author commit dc315de, integrated 39b1356, jobs rre-m4a-resume-g4-independent-golden-tests-20261019-01 and rre-m4a-resume-g4-validation-all-tests-20261019-01."
+    },
+    {
+      "id": "D-020",
+      "date": "2026-10-19",
+      "decision": "ACCEPT M4A G0–G5 preparatory offline synthetic stationary-target approach replay. 13/13 locked cases, 24 samples, SHA-stable output, independently authored golden QA, 206 real passing tests and clean exclusive worker trees. Return priority to ready M3-001 native pathfinding research. Do not promote M4/M5/M6.",
+      "basis": "Accepted report commit 138ad1ca70fc4f619bfb615c2b937bdeed303578; docs/m4a-acceptance-report.md; G4 main 39b1356 and 206-test jobs; G5 exact build/output provenance and roadmap/integration validators."
     }
   ],
   "nextManagerActions": [
-    "Complete M4A-008 Manager acceptance only after running final exact-build/source hashes, 13-case deterministic replay, all 206 tests, task-roadmap and historical integrity validators, all six worktree statuses, and fail-closed no-input evidence.",
-    "Write docs/m4a-acceptance-report.md with exact testing, source provenance, limitations and recovery commands, update ROADMAP.md and micro-roadmap, commit accepted report before final board status.",
-    "Mark G5/M4A integrated referencing the reviewed acceptance report commit and preserve both existing historical untracked raw-probe files.",
-    "After M4A is verified complete, return to M3-001 native type-7 handler/producer critical path. Full M4 native integration, M5 supervised live game trials, M6 in-game target approach remain blocked; no live input authorised."
+    "PRIORITY M3-001 (ready): determine actual non-null writer for Havok hkpMultiThreadedSimulation +0x160 queue pointer, same queue handler table writer queue+0x210, and a genuine type-7 TtPathfinding job producer. Use existing V7 wrapped offline scanners and source data; do not invent native routing interface.",
+    "Refresh current model/backend capacity, all six worktree statuses, game SHA and running jobs before assigning next independent Pathfinding worker. Avoid repeated research from previously integrated M3-001 static Havok owner checkpoint (fe63ab2).",
+    "Only after a native owner/request/cancel/route contract is demonstrated, unblock full M4 integration. Supervised M5 T0 -> T1 -> T2 requires separate explicit live-input approval, proven stop and no hidden steering.",
+    "Preserve completed M4A code/fixtures and all hashes, historical raw x64 probes, and report source; do not redelegate accepted M4A G0-G5 or call synthetic results in-game navigation."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
@@ -1453,14 +1526,20 @@
       "M4A-004",
       "M4A-005",
       "M4A-006",
-      "M4A-007"
+      "M4A-007",
+      "M4A-008"
     ],
     "nextEligibleTasks": [
-      "M4A-008"
+      "M3-001"
     ],
     "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
     "currentExternalBlocker": null,
-    "status": "G4-independently-authored-QA-tested-G5-ready"
+    "status": "accepted-offline-only",
+    "finalAcceptanceReport": "docs/m4a-acceptance-report.md",
+    "finalAcceptanceCommit": "138ad1ca70fc4f619bfb615c2b937bdeed303578",
+    "implementation": "tools/offline-target-approach.py",
+    "testCount": 206,
+    "finalReplaySha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7"
   },
   "preflightM4A": {
     "dateLocal": "2026-10-19",
