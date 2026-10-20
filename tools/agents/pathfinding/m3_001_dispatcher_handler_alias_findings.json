@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "checkpointId": "M3-001-dispatch-handler-table-rtti-alias-2026-10-20",
+  "dateLocal": "2026-10-20",
+  "ownerLane": "pathfinding",
+  "status": "qualified-offline-dispatcher-indexing-and-false-positive-RTTI; native type7 registration/producer unresolved",
+  "build": {
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "preferredImageBase": "0x140000000",
+    "source": "installed original rift_x64.exe read-only"
+  },
+  "directProof": {
+    "dispatcher": {
+      "entryRva": "0xf3fa4",
+      "receiverAlias": {
+        "rva": "0xf3fbe",
+        "assembly": "mov rdi, rcx"
+      },
+      "typeByte": {
+        "rva": "0xf4184",
+        "assembly": "movzx ecx, byte ptr [rsp + 0x21]"
+      },
+      "subtypeByte": {
+        "rva": "0xf4189",
+        "assembly": "movzx r8d, byte ptr [rsp + 0x20]"
+      },
+      "typeShift": {
+        "rva": "0xf4194",
+        "assembly": "shl rcx, 5"
+      },
+      "handlerArray": {
+        "rva": "0xf4198",
+        "assembly": "mov rax, qword ptr [rcx + rdi + 0x130]",
+        "meaning": "reads a pointer at queue + 0x130 + jobType*32"
+      },
+      "callback": {
+        "rva": "0xf41a3",
+        "assembly": "call qword ptr [rax + r8*8]",
+        "meaning": "indirect callback selected by a separate subtype index"
+      },
+      "computedType7Slot": "0x210",
+      "qualification": "exact native bytes from four bounded, completely decoded PE-unwind regions in dedicated verifier",
+      "unknowns": [
+        "No non-null registered callback proven at queue+0x210",
+        "No verified producer with job TYPE 7",
+        "No native route output or player-use contract"
+      ]
+    }
+  },
+  "hkpMaxSizeMotionFalsePositive": {
+    "sourceRva": "0x7635c",
+    "assembly": "lea rax, [rip + 0x26ad0b5]",
+    "targetVtableRva": "0x2723418",
+    "receiverStore": {
+      "rva": "0x76363",
+      "assembly": "mov qword ptr [rbx + 0x150], rax"
+    },
+    "rtti": {
+      "className": ".?AVhkpMaxSizeMotion@@",
+      "completeObjectLocatorRva": "0x2d745c8",
+      "validSelfRva": true,
+      "typeDescriptorRva": "0x2f18c20"
+    },
+    "conclusion": "An embedded motion-object vtable is installed at +0x150; this is not a qualified type-1 queue callback registration."
+  },
+  "otherUnqualifiedCandidates": [
+    {
+      "rva": "0x268ab",
+      "assembly": "mov qword ptr [rbx + 0x130], rax",
+      "observed": "one qword copied from a temporary local aggregate; receiver class not established",
+      "status": "unqualified"
+    },
+    {
+      "rva": "0x40179",
+      "assembly": "mov qword ptr [rax + 0x130], rbx",
+      "observed": "global receiver unknown; RBX may hold allocation result or zero along alternate branches",
+      "status": "unqualified"
+    }
+  ],
+  "boundedRegisterSearches": [
+    {
+      "rvaRange": [
+        "0x1000",
+        "0x70000"
+      ],
+      "memoryDisplacement": "0x130",
+      "qualifiedUnwindRegions": 56,
+      "candidates": 31,
+      "unqualifiedDecodeRegions": 1,
+      "qualifiedIndexedNonStackWriters": 0
+    },
+    {
+      "rvaRange": [
+        "0x70000",
+        "0x140000"
+      ],
+      "memoryDisplacement": "0x130",
+      "qualifiedUnwindRegions": 93,
+      "candidatesFor130": 69,
+      "unqualifiedDecodeRegions": 0,
+      "qualifiedIndexedNonStackWriters": 0,
+      "dispatcherReadFound": true
+    },
+    {
+      "rvaRange": [
+        "0x140000",
+        "0x400000"
+      ],
+      "memoryDisplacement": "0x130",
+      "qualifiedUnwindRegions": 21,
+      "candidates": 25,
+      "unqualifiedDecodeRegions": 0,
+      "qualifiedIndexedNonStackWriters": 0
+    },
+    {
+      "rvaRange": [
+        "0x70000",
+        "0x160000"
+      ],
+      "memoryDisplacements": [
+        "0x150",
+        "0x170",
+        "0x210"
+      ],
+      "qualifiedNonStackWrites": 3,
+      "disprovedExample": "0x76363 pointer points to hkpMaxSizeMotion vtable"
+    }
+  ],
+  "savedV7Artifacts": [
+    {
+      "type": "base130-writers",
+      "artifact": "artifacts/m3-001-handler130-initial-writers-20261020-0927.json",
+      "artifactSha256": "29ceddb0766ced16f3b1dd7df356395e421455a91006c08d82ea9f28116b0d5d",
+      "manifest": "artifacts/m3-001-handler130-initial-writers-20261020-0927-manifest.json",
+      "manifestSha256": "0bef942cd52277aa3f0fe5f47adf92f9807070494d1c897dfaddf7dcb170a82e"
+    },
+    {
+      "type": "motion-vtable-store",
+      "artifact": "artifacts/m3-001-handler150-source-20261020-0930.json",
+      "artifactSha256": "ecf7a85cfd239667d122169bac8d5216364da9155477dbe7046376cea663ee59",
+      "manifest": "artifacts/m3-001-handler150-source-20261020-0930-manifest.json",
+      "manifestSha256": "c9c1a7d5a8a06a39c3d126476b24dc65558200359877a97bdc5e809afdc973ea"
+    }
+  ],
+  "validation": {
+    "source": "tools/agents/pathfinding/m3_001_verify_dispatcher_handler_aliases.py",
+    "tests": "tools/agents/pathfinding/m3_001_test_dispatcher_handler_aliases.py",
+    "sourceJob": "rre-m3-resume-type7-dispatcher-aliases-first-20261020-01",
+    "testsJob": "rre-m3-resume-dispatcher-alias-11tests-20261020-01",
+    "testsPassed": 11,
+    "exitCode": 0,
+    "sourceByteCodeAndRttiVerified": true,
+    "fourPeUnwindRegionsComplete": true
+  },
+  "limitations": [
+    "Offset/indexing evidence alone never proves callback registration or runtime execution.",
+    "Register-set source may be filled without an explicit displacement, e.g. computed base/address plus indexed store.",
+    "All scans are bounded to supplied RVA windows; PE-unwind omissions, dynamic linking, and indirect writers remain unexamined.",
+    "The type-7 category is a distinct job-type field; subtype 7, method slot 18 or literal 7 do not qualify a producer.",
+    "Full M4/M5/M6 game navigation remains blocked; no game process used."
+  ],
+  "remainingCriticalPath": [
+    "Identify non-null writer of hkpMultiThreadedSimulation+0x160 on same object (not world/factory/stack).",
+    "Identify registered non-null callback for type 7 at same actual queue+0x210.",
+    "Trace a true type-7 job producer and route output with player binding.",
+    "Require separate live approval and verified stop before any in-game motion test."
+  ],
+  "safety": {
+    "offlineOnly": true,
+    "gameInputSent": false,
+    "gameProcessAttached": false,
+    "gameMemoryModified": false,
+    "gameFilesModified": false,
+    "customPathfinderAdded": false
+  }
+}
