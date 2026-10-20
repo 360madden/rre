@@ -2,6 +2,10 @@
 
 Authorized by Joey on October 20, 2026 after proposing entity identity, collision-hit ownership, camera projection, player clearance and native-navigation reuse. Repository: `C:/work/rre`. The Manager is this ChatGPT session; independent reviewers may work only in their assigned lanes. Model reported by the Manager: GPT-6 Astra Pro. Reasoning level: not available (leave blank in machine records).
 
+## Current checkpoint
+
+WA-001..004 are integrated as contract `02fbcc1` and implementation/research `5478207`. The file-only inspector has a real historical player-only report and a separately labeled synthetic multi-object report. The final regression run passed 80 distinct tests. WA-005 is blocked on unfinished independent full-code review, not on failing tests. WA-006 still needs actual simultaneous non-self entities, a qualified physical hit/owner and camera calibration. Read [the research/validation record](world-awareness-research-2026-10-20.md) and the machine task board before resuming; do not redo the accepted consumer or treat it as live recognition.
+
 ## Goal and non-goals
 
 Build a read-only inspector for one small RIFT scene, retaining object identity, source coordinates, source age and uncertainty; eventually associate physics hits with scene objects and independently validate camera projection. A rendered label, memory offset or positive unit test is not live recognition or navigability proof.

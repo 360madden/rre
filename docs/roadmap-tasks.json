@@ -5,6 +5,33 @@
   "timezone": "America/New_York",
   "repo": "C:/work/rre",
   "roadmap": "ROADMAP.md",
+  "worldAwarenessCheckpoint": {
+    "dateLocal": "2026-10-20",
+    "implementationCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
+    "report": "docs/world-awareness-research-2026-10-20.md",
+    "managerModel": "GPT-6 Astra Pro",
+    "reasoningLevel": "",
+    "workMode": "Manager direct code/research; one completed independent excerpt review, no accepted independent implementation or full-code QA",
+    "testJob": "rre-wa-20261020-final-validation-reports-02",
+    "testExitCode": 0,
+    "testCounts": {"inspector":50,"existingValidation":21,"nativeHitVerifier":9,"totalDistinct":80},
+    "sourceIntegrityJob": "rre-wa-20261020-source-report-integrity-01",
+    "sourceIntegrityExitCode": 0,
+    "realInput": "Retained October 19 receipt: one player, no current nearby-world/camera/collision capture",
+    "demoInput": "Synthetic six records, five IDs, four known positions; not real world recognition",
+    "newNativeLead": "Hit-associated collector+0x60 pointer to signed-relative owner candidate, 0xFFFF keyed record, two dereferences and -8 adjustment; final gameplay entity not established",
+    "remaining": ["WA-005 independent full-code QA", "WA-006 actual multi-object/physics/camera qualification", "M3-001 native type7 handler/producer remains unresolved"],
+    "reviewJobs": [
+      {"id":"rre-wa-20261020-entity-review-agent-01","state":"permission-blocked","processExitCode":0,"acceptedReview":false},
+      {"id":"rre-wa-20261020-hit-review-agent-01","state":"completed-excerpt-review","processExitCode":0,"acceptedReview":"Cautions only; incorrect unwind and initialization claims rejected"},
+      {"id":"rre-wa-20261020-inspector-review-agent-01","state":"failed-command-parse","processExitCode":1,"acceptedReview":false},
+      {"id":"rre-wa-20261020-inspector-review-agent-02","state":"timed_out","processExitCode":null,"acceptedReview":false}
+    ],
+    "noGameInput": true,
+    "noGameProcessAttachment": true,
+    "noExternalRepoChanges": true,
+    "preservedUntrackedMain": ["docs/rea-raw-probe-profile-2026-10-18.json","tools/agents/ghidra/prepare_raw_probe.py"]
+  },
   "build": {
     "manifestVersion": "STABLE-1-1169-a-1256556",
     "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -18,6 +45,11 @@
     "availableIndependentAiWorkerCount": null,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
     "managerOwnedPaths": [
+      "tools/world-inspector.py",
+      "docs/WORLD_AWARENESS_ROADMAP.md",
+      "docs/world-awareness-contract.md",
+      "docs/world-awareness-demo.json",
+      "docs/world-awareness-research-2026-10-20.md",
       "ROADMAP.md",
       "docs/roadmap-tasks.json",
       "AGENTS.md",
@@ -391,11 +423,11 @@
     }
   ],
   "tasks": [
-    {"id":"WA-001","milestone":"WA","lane":"manager","title":"World-awareness contract and roadmap","status":"ready","dependsOn":["M0-002"],"deliverable":"Explicit source/identity/coverage/camera contract and exclusive ownership","acceptance":["Roadmap validator passes","No game input or type7 dependency introduced"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
-    {"id":"WA-002","milestone":"WA","lane":"c2m","title":"Entity API and identity evidence audit","status":"ready","dependsOn":["WA-001"],"deliverable":"Source-pinned player/target/party/nearby audit, ambiguity and capture gaps","acceptance":["Actual source lines and hashes","Unavailable is not empty; self-target not duplicate","Independent review or explicit reviewer blocker"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
-    {"id":"WA-003","milestone":"WA","lane":"collision","title":"Collision hit result and owner investigation","status":"ready","dependsOn":["WA-001"],"deliverable":"Bounded exact-build query/result evidence with ownership limitations","acceptance":["Original PE hash and V7 receipt","Geometric result is not presumed entity ID","Reviewed exact bytes or explicit unresolved finding"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
-    {"id":"WA-004","milestone":"WA","lane":"manager","title":"File-only local world inspector","status":"queued","dependsOn":["WA-001","WA-002"],"deliverable":"Read-only saved-observation CLI producing provenance-aware HTML and JSON","acceptance":["Distinct IDs, merged roles, explicit conflicts","No invented scenery/visibility/reachability","No-clobber output and no live process/network/control path"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
-    {"id":"WA-005","milestone":"WA","lane":"validation","title":"Inspector regression and independent QA","status":"queued","dependsOn":["WA-003","WA-004"],"deliverable":"Negative-input, identity, provenance and projection tests plus saved-evidence review","acceptance":["Inspected actual exit codes","Synthetic and historical evidence distinguished","Independent review findings resolved or documented"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-001","milestone":"WA","lane":"manager","title":"World-awareness contract and roadmap","status":"integrated","dependsOn":["M0-002"],"deliverable":"Explicit source/identity/coverage/camera contract and exclusive ownership","acceptance":["Roadmap validator passes","No game input or type7 dependency introduced"],"assignedAgentId":null,"jobId":null,"integratedCommit":"02fbcc127eec835e98c22943a4e89978a83ea541","validationJob":"rre-wa-20261020-contract-board-check-01","validationExitCode":0},
+    {"id":"WA-002","milestone":"WA","lane":"c2m","title":"Entity API and identity evidence audit","status":"integrated","dependsOn":["WA-001"],"deliverable":"Source-pinned player/target/party/nearby audit, ambiguity and capture gaps","acceptance":["Actual source lines and hashes","Unavailable is not empty; self-target not duplicate","Independent review or explicit reviewer blocker"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/agents/c2m/wa_entity_findings.json"],"acceptanceNotes":"Manager source/hash audit accepted; independent entity review permission-blocked and explicitly recorded. No current nearby-unit enumeration proof."},
+    {"id":"WA-003","milestone":"WA","lane":"collision","title":"Collision hit result and owner investigation","status":"integrated","dependsOn":["WA-001"],"deliverable":"Bounded exact-build query/result evidence with ownership limitations","acceptance":["Original PE hash and V7 receipt","Geometric result is not presumed entity ID","Reviewed exact bytes or explicit unresolved finding"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/agents/collision/wa_hit_result_verify.py","tools/agents/collision/test_wa_hit_result.py","artifacts/wa-hit-result-qualified-20261020-01.json"],"acceptanceNotes":"Two exact PE-unwind windows, three bounded direct-entry windows, local closest-ray collector RTTI and optional 0xFFFF-record backlink path verified. Final entity identity remains unresolved; peer excerpt-review errors rejected using native bytes."},
+    {"id":"WA-004","milestone":"WA","lane":"manager","title":"File-only local world inspector","status":"integrated","dependsOn":["WA-001","WA-002"],"deliverable":"Read-only saved-observation CLI producing provenance-aware HTML and JSON","acceptance":["Distinct IDs, merged roles, explicit conflicts","No invented scenery/visibility/reachability","No-clobber output and no live process/network/control path"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/world-inspector.py","docs/world-awareness-demo.json","artifacts/world-inspector-release-20261020-recorded/report.json","artifacts/world-inspector-release-20261020-demo/report.json"],"acceptanceNotes":"File-only implementation validated with 50 inspector tests and real historical player-only receipt; synthetic 6-record/5-ID demonstration kept separate. Independent full-code QA remains WA-005."},
+    {"id":"WA-005","milestone":"WA","lane":"validation","title":"Inspector regression and independent QA","status":"blocked","dependsOn":["WA-003","WA-004"],"deliverable":"Negative-input, identity, provenance and projection tests plus saved-evidence review","acceptance":["Inspected actual exit codes","Synthetic and historical evidence distinguished","Independent review findings resolved or documented"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"partialTestCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","blockers":["Manager regression suite passed 80 tests, but the independent full-code review timed out without findings. Do not mark independent QA complete from test count or process start."],"validationJob":"rre-wa-20261020-final-validation-reports-02","validationExitCode":0,"testsPassed":80},
     {"id":"WA-006","milestone":"WA","lane":"manager","title":"Qualify real small-scene world observations","status":"blocked","dependsOn":["WA-005"],"deliverable":"Current bound player and distinct objects, known physical hit and camera landmark calibration","acceptance":["Real simultaneous distinct IDs","Qualified shape/owner and world coordinates","Camera-only and scene/restart checks"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Current multi-object enumeration, hit-owner binding and camera calibration are not established; historical player data and synthetic tests cannot substitute"]},
     {
       "id": "M0-001",
@@ -1727,7 +1759,7 @@
     }
   ],
   "nextManagerActions": [
-    "Joey approved world awareness on October 20: execute WA-001..005 under docs/WORLD_AWARENESS_ROADMAP.md alongside M3-001. The first consumer is file-only; WA-006 real multi-object/physics/camera qualification remains blocked until evidence exists.",
+    "World-awareness implementation checkpoint 5478207: WA-001..004 accepted as bounded source research/file-only consumer. Obtain independent WA-005 code review without rerunning failed external-path/CLI workflows; all 80 Manager tests already pass. WA-006 real multi-object/physics/camera qualification remains blocked; do not reimplement the inspector or mistake historical/synthetic outputs for live recognition.",
     "Manager owns shared inspector and roadmap. C2M audits entity identity; Collision audits hit ownership; Validation reviews tests. Preserve all existing commits/dirty files; do not retry unavailable models or external-directory permissions unchanged.",
     "Continue parallel M3-001: find same-object non-null simulation+0x160 queue-pointer assignment using exact PE instructions and full receiver/data-flow provenance. Global factory 0x89E5D0 allocates 0x1D8, separate world simulation request 0x200 via 0x089ABC; do not conflate with 0x89Cxxx code.",
     "Use current tools/agents/pathfinding/m3_001_displacement_index.py with qualified RBP stack-frame exclusions. Source index covers only three partial RVA bands 0x1000..0xC00000 and may miss indirect/leaf/dataflow writes; do not infer absence from missing matches.",
