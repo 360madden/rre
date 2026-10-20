@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "dateLocal": "2026-10-20",
+  "status": "accepted static partial; same-simulation queue pointer/type7 handler/producer unverified",
+  "source": {
+    "executableSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "preferredImageBase": "0x140000000",
+    "method": "Pinned original PE, V7 immutable captures, Capstone instruction boundaries, direct-call graph evidence; no runtime attach"
+  },
+  "findings": [
+    {
+      "id": "PF22",
+      "kind": "direct source proof",
+      "rvas": [
+        "0x89c4f0",
+        "0x89c600",
+        "0x89c605"
+      ],
+      "claim": "A method stores result of allocator call RVA 0x77C230 at +0x160 of its RDI receiver; value is potentially nonnull, not guaranteed nonnull.",
+      "limitation": "Receiver class identity not qualified as hkpMultiThreadedSimulation."
+    },
+    {
+      "id": "PF23",
+      "kind": "direct source proof",
+      "rvas": [
+        "0x89c990",
+        "0x89c9d5",
+        "0x89ca17",
+        "0x89ca1e",
+        "0x89ca2a"
+      ],
+      "claim": "Matching-looking release routine reads +0x160 of RDI, calls 0x77C240, then zeroes field using RSI (zeroed at 0x89C9D5; RSI is Win64 nonvolatile).",
+      "limitation": "Static call graph suggests common lifecycle convention but dynamic object identity is not captured."
+    },
+    {
+      "id": "PF24",
+      "kind": "boundary-qualified direct calls",
+      "rvas": [
+        "0x89ea8d",
+        "0x89e89d",
+        "0x89eb20",
+        "0xfb524e"
+      ],
+      "claim": "Verified wrappers call init at 0x89C4F0 and cleanup at 0x89C990. A caller passes global factory return 0x89E5D0 directly to wrapper 0x89EA80.",
+      "limitation": "Virtual, indirect and tail-callers are not exhaustively enumerated."
+    },
+    {
+      "id": "PF25",
+      "kind": "source comparison",
+      "rvas": [
+        "0x89e5d0",
+        "0x89e5e4",
+        "0x89e5ee",
+        "0x7b087",
+        "0x7b0a3",
+        "0x7b0a8"
+      ],
+      "claim": "Factory at 0x89E5D0 requests 0x1D8 bytes (472) for a globally held object. Separately, hkpWorld requests 0x200 bytes and constructs hkpMultiThreadedSimulation via 0x089ABC, storing pointer at world+0x10.",
+      "limitation": "These are separate construction paths; static evidence does not establish a pointer alias between them. Note 0x089ABC and 0x89C605 differ by over 8 MiB and must not be conflated."
+    },
+    {
+      "id": "PF26",
+      "kind": "bounded negative evidence",
+      "rvas": [
+        "0x892c41",
+        "0x868113",
+        "0x8dda75"
+      ],
+      "claim": "Nearby-looking +0x160 64-bit writes at these RVAs use an RBP frame pointer derived from RSP and are stack-local, not qualified heap queue writes.",
+      "limitation": "RBP alias qualification is per unwind region; unqualified RBP may point to heap or stack and is not promoted."
+    },
+    {
+      "id": "PF27",
+      "kind": "non-exhaustive source triage",
+      "rvas": [],
+      "claim": "Three bounded .text bands (RVA 0x1000..0xC00000) each had incomplete PE-unwind coverage. Summed decoded instruction rows across band runs: 282257 (not necessarily unique). Initial 52 syntactic non-RSP +0x160 writers reduced to 43 when RBP aliases with proven RSP ancestry were excluded.",
+      "limitation": "No exhaustive code coverage is claimed. Only three bands were checked; indirect writes, leaf methods, unqualified RBP registers and incomplete unwind decodes remain unresolved."
+    }
+  ],
+  "sourceIndex": {
+    "code": "tools/agents/pathfinding/m3_001_displacement_index.py",
+    "tests": "tools/agents/pathfinding/m3_001_test_displacement_index.py",
+    "qualifiedRbpStackAliasTracking": true,
+    "bandCoverage": [
+      {
+        "rvas": [
+          "0x1000",
+          "0x400000"
+        ],
+        "decodedInstructionRows": 72625,
+        "complete": false,
+        "preFrameAliasCandidateCount": 5,
+        "postQualifiedFrameAliasCandidateCount": 3
+      },
+      {
+        "rvas": [
+          "0x400000",
+          "0x800000"
+        ],
+        "decodedInstructionRows": 94801,
+        "complete": false,
+        "preFrameAliasCandidateCount": 33,
+        "postQualifiedFrameAliasCandidateCount": 28
+      },
+      {
+        "rvas": [
+          "0x800000",
+          "0xc00000"
+        ],
+        "decodedInstructionRows": 114831,
+        "complete": false,
+        "preFrameAliasCandidateCount": 14,
+        "postQualifiedFrameAliasCandidateCount": 12
+      }
+    ],
+    "finalWriteOnceArtifact": "artifacts/m3-001-three-band-index-rbp-qualified-20261020-01.json",
+    "historicalPreRbpAliasArtifact": "artifacts/m3-001-3band-displacement-index-20261020-01.json",
+    "note": "Historical pre-RBP artifact is preserved unchanged; the current index includes qualified RBP-from-RSP frame-exclusion. Field offset comparisons are only syntactic leads."
+  },
+  "verifiedLifecycle": {
+    "source": "tools/agents/pathfinding/m3_001_verify_field160_lifecycle.py",
+    "tests": "tools/agents/pathfinding/m3_001_test_field160_lifecycle.py",
+    "writeOnceResult": "artifacts/m3-001-field160-lifecycle-qualified-20261020-01.json",
+    "writeOnceResultSHA256": "b88f4a368db482cf4c90fb5ed72f26e40f10fd4a895ad89b8137fbadc48cdfaa",
+    "v7Captures": [
+      {
+        "tag": "m3-001-near-simulation-160-writers-20261020-01",
+        "artifactSha256": "3ae128a9683de6d02e8297970761c921245ddb6b51fa56fdd2c3bf790c2002e2",
+        "manifestSha256": "1e983d9ef5de1d79c0067a0639ee396c400a6e4748b135073e3666f2162e5ee1"
+      },
+      {
+        "tag": "m3-001-havok-simulation-field160-callers-20261020-01",
+        "artifactSha256": "4b9f9f0652fbabe6ecab224789445f66d95b175020eb91ce4cf3462fe84439b2",
+        "manifestSha256": "f0691d0a0981fa10a39f791bb2b06b2d095400d117b5a0dd701631abe1f5da5d"
+      },
+      {
+        "tag": "m3-001-havok160-wrapper-owner-calls-20261020-01",
+        "artifactSha256": "5cbe58516c22367a752daf53ebaf9f2d8c2328b5941c01524d94780054df6dc8",
+        "manifestSha256": "c03332511484e0fbcd2c0b77f3bd4194e590414f0c3e6617f493588a5f57ff5f"
+      },
+      {
+        "tag": "m3-001-havok-field160-wrapper-factory-20261020-01",
+        "artifactSha256": "f9d93856493db511c2f70028a0a58d84085c4ebe1e911d47dae9bc09b21365f4",
+        "manifestSha256": "055c911cd4d499f0db9aa31312893ae6a8b8a6be60457c9a496451ada6c47ad5"
+      }
+    ]
+  },
+  "additionalV7": {
+    "tag": "m3-001-nearby-other-field160-writers-20261020-01",
+    "artifactSha256": "c8948e2807b2ba82c63166cf7c4e779b0018dd66fda632b2a7aafef5faf7cfab",
+    "manifestSha256": "fba1c4ae94b610ab2f01dfa760538003e416454d7b827b9881a71bb80e474447",
+    "scannedRvas": [
+      "0x892c41",
+      "0x868113",
+      "0x8dda75"
+    ]
+  },
+  "validation": {
+    "lifecycleExactBuildJob": "rre-m3-next-field160-lifecycle-proof-fixed-20261020-01",
+    "lifecycleTestsJob": "rre-m3-next-field160-10tests-20261020-01",
+    "lifecycleTestsPassed": 10,
+    "indexTestsJob": "rre-m3-next-index-12tests-correct-band-20261020-01",
+    "indexTestsPassed": 12,
+    "testsFailingDuringDevelopment": [
+      "rre-m3-next-index-rbp-12tests-20261020-01 failed from wrong RVA band expectation; corrected without changing data or silently dropping the test"
+    ],
+    "sourceIndexWriteOnceJob": "rre-m3-next-three-band-index-rbp-qualified-writeonce-20261020-01",
+    "allFinalValidatedCommandsExit0": true
+  },
+  "nextGates": [
+    "Do NOT conflate global 0x1D8 factory +0x160 buffers with separately constructed hkpMultiThreadedSimulation at RVA 0x089ABC without owner proof.",
+    "Locate a same-object non-null simulation+0x160 queue pointer assignment using qualified receiver/dataflow, possibly outside scanned bands.",
+    "Find a non-null type-7 callback at the actual queue+0x210 with matched queue identity; then a job with TYPE byte7 (not subtype7), route output/player linkage.",
+    "Until proven, keep M3-001 READY/incomplete, full M4/M5/M6 blocked, no game input, process attachment or memory modification."
+  ],
+  "constraints": {
+    "actualIndependentWorkersLaunchedThisCheckpoint": 0,
+    "managerDirectWork": true,
+    "offlineOnly": true,
+    "gameProcessAttached": false,
+    "gameInputSent": false,
+    "noNewPathfinder": true,
+    "installedToolsNotModified": true
+  }
+}
