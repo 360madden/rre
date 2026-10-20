@@ -18,6 +18,10 @@ The current client contains a type-7 job category labeled TtPathfinding. Its han
 registration and connection to player movement remain unresolved. Reuse of native game
 behavior, routes and collision queries takes priority over writing a new pathfinder.
 
+## Screenshot evidence and visual validation
+
+The [visual-evidence contract and commands](docs/visual-evidence.md) define a reusable saved-screenshot package, recorded VM/game/action checks, bounded image diagnostics and side-by-side HTML/JSON reports. Use `tools/visual-evidence.py` with the existing Pillow runtime. Original images, metadata and source hashes are preserved. The unified research gate includes a separate image test group. A successful command is not proof of a visible game response; ambiguous images remain inconclusive. See [the integration roadmap](docs/VISUAL_EVIDENCE_ROADMAP.md). No live recorder or independent AI image reviewer is launched by this offline consumer.
+
 ## Tracking work
 
 - Keep source code, scripts, research notes, and reproducible instructions in Git.

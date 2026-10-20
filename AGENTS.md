@@ -33,6 +33,7 @@ Manager owns `main`, integration, cross-lane edits, cherry-picks, and final veri
 - Read `docs/navigation-research-2026-10-18.md`, `docs/navigation-findings.json`, and `docs/navigation-workflow.md` as baseline.
 - Never equate the historical custom proximity graph with a native Rift navmesh, the rejected player-centered volume with a fixed goal, or cached +0xD8 with a verified navigation destination.
 - Report concrete next validation, failures, and what cannot yet be concluded. Do not claim an in-game navigation success without a recorded game-world test.
+- For visual game-behavior claims, retain screenshot evidence tied to the exact VM/game/action and use `docs/visual-evidence.md`. Reuse the existing RR2 capture path; the RRE consumer is offline. Keep command delivery, visual diagnostics, telemetry and gameplay conclusions separate. Preserve original images; ambiguous or unbound evidence is inconclusive. A text-only source review is not visual validation, and a generated image review packet is not proof of image delivery to a reviewer. Screenshot integration grants no new live-input authority.
 
 ## Completion
 
