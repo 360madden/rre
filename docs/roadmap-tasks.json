@@ -37,7 +37,7 @@
           "tools/agents/pathfinding/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-19 23:38 EDT: independent OpenCode worker timed out leaving flawed draft; Manager recovered, independently tested 18 triage cases, exact PE/RTTI verifier and original evidence; accepted partial M3-001 research in commit 22b9f13. Worktree clean, no running job."
+        "lastConfirmed": "2026-10-20 00:59 EDT: Workbridge Manager directly verified and integrated 40ac23a from 2a338b1, no independent AI workers launched, 44 M3 tests pass and 71 RRE Validation tests pass; source index improved by RBP frame alias tracking; task M3-001 remains READY."
       },
       "c2m": {
         "worktree": "C:/work/rre-worker-c2m",
@@ -273,6 +273,25 @@
       "managerRecoverySucceeded": true,
       "researchNoLiveProcess": true,
       "preservedUntrackedMainFiles": 2
+    },
+    "m3Field160LifecycleCheckpoint20261020": {
+      "headAfterPartialLaneIntegration": "40ac23aee1d2b7c28481d256e19b339517cf788a",
+      "pinnedSourceMatches": true,
+      "hasFourV7Manifests": true,
+      "globalFactoryObjectRequestedBytes": 472,
+      "worldConstructedSimulationObjectRequestedBytes": 512,
+      "simulationQueueWriterProven": false,
+      "type7CallbackProven": false,
+      "type7ProducerProven": false,
+      "partialIndexBands": 3,
+      "bandTotalInstructionRows": 282257,
+      "firstPassSyntacticCandidateCount": 52,
+      "postRBPSourceFilterCandidateCount": 43,
+      "onMainPathfindingTestsPassing": 44,
+      "onMainValidationTestsPassing": 71,
+      "independentWorkersThisCheckpoint": 0,
+      "noLiveGameActivity": true,
+      "unrelatedMainUntrackedRawProbesPreserved": true
     }
   },
   "milestones": [
@@ -696,7 +715,16 @@
         "artifacts/m3-001-owner-caller-20261019-01.json",
         "artifacts/m3-001-owner-caller-20261019-01-manifest.json",
         "artifacts/m3-001-offset-archive-triage-20261019-01.json",
-        "artifacts/m3-001-qualified-world-owner-20261019-01.json"
+        "artifacts/m3-001-qualified-world-owner-20261019-01.json",
+        "tools/agents/pathfinding/m3_001_field160_lifecycle_findings.json",
+        "tools/agents/pathfinding/m3_001_displacement_index.py",
+        "tools/agents/pathfinding/m3_001_test_displacement_index.py",
+        "tools/agents/pathfinding/m3_001_verify_field160_lifecycle.py",
+        "tools/agents/pathfinding/m3_001_test_field160_lifecycle.py",
+        "artifacts/m3-001-field160-lifecycle-qualified-20261020-01.json",
+        "artifacts/m3-001-three-band-index-rbp-qualified-20261020-01.json",
+        "artifacts/m3-001-nearby-other-field160-writers-20261020-01.json",
+        "four V7 exact-run artifact and manifest pairs pinned in m3_001_verify_field160_lifecycle.py"
       ],
       "blockers": [],
       "historicalRecovery": {
@@ -804,9 +832,63 @@
             "suitePassed": 71
           },
           "remainingGate": "Find a nonnull assignment to the same Havok simulation +0x160 pointer; qualify populated typed handler queue+0x210 on same queue; identify true job type7 producer and route output; no game control authorized."
+        },
+        {
+          "checkpointId": "M3-001-field160-lifecycle-global-factory-disambiguation-2026-10-20",
+          "status": "accepted exact-code partial research; hkpMultiThreadedSimulation+0x160 non-null writer and true type-7 handler remain UNKNOWN",
+          "integratedMainCommit": "40ac23aee1d2b7c28481d256e19b339517cf788a",
+          "researchWorkerLaneCommit": "2a338b1d27104b1b700eaddb430729ee867ef9e2",
+          "authorship": "Manager via direct Workbridge tools; NO independent AI workers launched during this checkpoint",
+          "buildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+          "observations": [
+            "RVA 0x89C600 calls allocator 0x77C230; next RVA 0x89C605 writes allocator-returned RAX into receiver+0x160. Success/nonzero value is not proven.",
+            "RVA 0x89CA17 loads that receiver's +0x160; 0x89CA1E calls release 0x77C240; 0x89CA2A stores the zero value of RSI into that field.",
+            "Direct qualified wrappers 0x89EA8D -> 0x89C4F0 and 0x89E89D -> 0x89C990; factory return from 0x89E5D0 is passed at 0xFB524E to 0x89EA80.",
+            "Factory 0x89E5D0 allocates 0x1D8 bytes. Separately, hkpWorld requests 0x200 bytes and constructs hkpMultiThreadedSimulation at RVA 0x089ABC, later storing its pointer in world+0x10.",
+            "RVA 0x089ABC and 0x89C605 differ by over 8 MiB. Similar address digits led to an incorrect proximity hypothesis, explicitly corrected in code/tests/doc.",
+            "Three exact V7 candidate windows 0x892C41, 0x868113 and 0x8DDA75 use RBP as a stack frame derived from RSP, not qualified heap queue fields.",
+            "Three bounded RVA source bands covering 0x1000..0xC00000 together decoded 282257 band-total rows, with documented incomplete PE-unwind coverage. Initial 52 syntactic non-RSP +0x160 writes were reduced to 43 by nine qualified frame-local exclusions. Remaining 43 are NOT qualified same-object simulation writers."
+          ],
+          "evidence": [
+            "docs/agents/pathfinding.md",
+            "tools/agents/pathfinding/m3_001_field160_lifecycle_findings.json",
+            "tools/agents/pathfinding/m3_001_displacement_index.py",
+            "tools/agents/pathfinding/m3_001_test_displacement_index.py",
+            "tools/agents/pathfinding/m3_001_verify_field160_lifecycle.py",
+            "tools/agents/pathfinding/m3_001_test_field160_lifecycle.py",
+            "artifacts/m3-001-field160-lifecycle-qualified-20261020-01.json",
+            "artifacts/m3-001-three-band-index-rbp-qualified-20261020-01.json",
+            "artifacts/m3-001-nearby-other-field160-writers-20261020-01.json",
+            "four V7 exact-run artifact and manifest pairs pinned in m3_001_verify_field160_lifecycle.py"
+          ],
+          "validation": {
+            "pathfindingUnittestJob": "rre-m3-resume-main-44-pathfinding-tests-20261020-01",
+            "pathfindingTestsPassed": 44,
+            "exitCode": 0,
+            "legacyValidationSuite": "rre-m3-resume-main-71-validation-regressions-20261020-01",
+            "legacyTestsPassed": 71,
+            "legacyExitCode": 0,
+            "provenanceVerifierJob": "rre-m3-resume-main-lifecycle-provenance-20261020-01",
+            "provenanceVerifierExitCode": 0,
+            "historicalNavigationIntegrityJob": "rre-m3-resume-main-historical-integrity-20261020-01",
+            "historicalExitCode": 0,
+            "preUpdateRoadmapValidatorJob": "rre-m3-resume-main-board-validator-beforeupdate-20261020-01",
+            "roadmapExitCode": 0,
+            "failedDuringDevelopment": "Original source-index test scanned RVA 0x89A000 expecting constructor RVA 0x089BD7, a different range; test was corrected and retained. All final applicable commands passed."
+          },
+          "criticalUnknowns": [
+            "Actual runtime class and pointer aliases of 0x89E5D0 global factory object remain unqualified.",
+            "Same-hkpMultiThreadedSimulation+0x160 non-null queue pointer writer NOT found; do not relabel the separate allocator result.",
+            "No populated typed handler at the same queue+0x210 demonstrated.",
+            "No actual job TYPE 7 producer or verified route output/player ownership demonstrated."
+          ],
+          "nextTarget": "Prioritize original PE same-object data flow from world-created hkpMultiThreadedSimulation and its job-queue setup, not reuse of similarly addressed 0x89Cxxx singleton buffers. Keep strict V7 capture/read-only limits.",
+          "offlineOnly": true,
+          "gameInputSent": false,
+          "gameProcessAttached": false
         }
       ],
-      "acceptanceNotes": "Ready/incomplete. New PF13-PF20 world/simulation RTTI disambiguation and 11-artifact triage integrated on main 22b9f13; strong false-positive rejection but no nonnull simulation queue writer, type-7 handler/producer, or player route found. Do not mark M3-001 integrated."
+      "acceptanceNotes": "READY/incomplete: 40ac23a accepted partial +0x160 allocation lifecycle analysis and frame-alias-filtered source index; 44 Pathfinding tests passed on main. Separate global 0x1D8 factory is NOT qualified as hkpMultiThreadedSimulation object; type-7 handler/producer unverified."
     },
     {
       "id": "M3-002",
@@ -1578,14 +1660,19 @@
       "date": "2026-10-19",
       "decision": "M3-001 remains ready: exact MSVC RTTI proves +0x210 and +0x160 misleading writes belong to hkpWorld rather than hkpMultiThreadedSimulation queue, and bounded archive triage identifies no qualified type7 registration. One independent agent timed out with flawed output; Manager recovered and validated partial evidence without granting native pathfinder status.",
       "basis": "Main commit 22b9f13; original byte verifier, 18 unit tests, V7 manifest and machine-readable PF13-PF20 report."
+    },
+    {
+      "id": "D-022",
+      "date": "2026-10-20",
+      "decision": "Keep M3-001 ready: exact-build V7 source and code verified 0x89C605+0x160 allocation and 0x89CA2A cleanup, but caller graph reaches a separate 0x1D8 global factory, not a proven hkpMultiThreadedSimulation queue-pointer setter. Qualified RBP frame aliases pruned 9 false positives from bounded source index. Corrected 0x089ABC vs 0x89C605 mistaken address proximity. 44 tests pass and no game actions occurred.",
+      "basis": "Accepted main 40ac23a; tools/agents/pathfinding/m3_001_field160_lifecycle_findings.json; main proof/test jobs."
     }
   ],
   "nextManagerActions": [
-    "Continue M3-001 ready: target 64-bit non-null assignments to the SAME hkpMultiThreadedSimulation receiver field +0x160. Exclude the hkpWorld integer field at 0x7AF8D and null initializer at 0x7A384; do not spend cycles reclassifying these refuted candidates.",
-    "Only after original object identity and queue pointer are proven, search for genuine typed queue handler writers at queue+0x210 and a job with actual type byte 7, not vtable method slot18, literal7, or type3 subtype7.",
-    "Reuse V7 bounded exact-run scanner and 11 archived sources; preserve all source/raw SHA and register data-flow evidence. A matching memory displacement alone is never valid proof.",
-    "M4A remains accepted as synthetic-only (206 tests); full M4, M5 live T0->T1->T2 and M6 real approach are blocked. Never add input sender, attach to Rift or write memory without separate applicable authorization.",
-    "Resume with actual Git/worktree/job preflight; only count independently reasoning workers that completed substantive accepted tasks. Original raw x64 probe files remain untracked and preserved."
+    "Continue the ONLY ready M3-001: find same-object non-null simulation+0x160 queue-pointer assignment using exact PE instructions and full receiver/data-flow provenance. Global factory 0x89E5D0 allocates 0x1D8, separate world simulation request 0x200 via 0x089ABC; do not conflate with 0x89Cxxx code.",
+    "Use current tools/agents/pathfinding/m3_001_displacement_index.py with qualified RBP stack-frame exclusions. Source index covers only three partial RVA bands 0x1000..0xC00000 and may miss indirect/leaf/dataflow writes; do not infer absence from missing matches.",
+    "Only after a same-object queue identity is established inspect a populated type-7 entry at queue+0x210 and an actual type byte 7 job producer/route output/player link. No custom pathfinder or game interaction permitted by this roadmap.",
+    "Preflight workspace/job/build hashes, one writer per lane, preserve all original artifacts and two pre-existing untracked raw-probe files. M4A synthetic prototype is finished; full M4, M5 live T0/T1/T2, M6 and M7 remain separately gated."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
