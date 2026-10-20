@@ -1,5 +1,7 @@
 # RRE navigation research roadmap
 
+**Latest dated handoff:** [October 20, 2026, 1:53:39 PM EDT](docs/HANDOFF-2026-10-20-1353-EDT.md). Start there for the verified repository state, 435-test checkpoint, screenshot findings, open review gates and exact resume steps. Refresh current state before new work; this link does not change milestone acceptance.
+
 Initialized: 2026-10-19 (America/New_York)  
 Repository: C:\work\rre  
 Mission: produce a **working prototype**, not a production system, that can approach a valid selected target, reuse native movement/pathfinding and collision facilities where verified, recognize obstruction or lack of progress, cancel reliably, and preserve test evidence.
