@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "taskId": "M3-001",
+  "dateLocal": "2026-10-19",
+  "scope": "new bounded exact-build hkpWorld ctor alias rejection, not native pathfinding registration proof",
+  "pinnedBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "worldTypeRtti": {
+    "name": ".?AVhkpWorld@@",
+    "vtableRva": "0x2724038",
+    "completeObjectLocatorRva": "0x2d755a0",
+    "selfRva": true
+  },
+  "newConstructor": {
+    "rvaRange": [
+      "0x799a4",
+      "0x79b41"
+    ],
+    "capturedDecodedInstructionRows": 79,
+    "peUnwindWindowDecodedCompletely": true,
+    "rvas": [
+      {
+        "rva": "0x799b9",
+        "bytes": "488bd9",
+        "asm": "mov rbx, rcx",
+        "meaning": "receiver/this alias"
+      },
+      {
+        "rva": "0x799bc",
+        "bytes": "488d0575a66a02",
+        "asm": "lea rax, [rip + 0x26aa675]",
+        "meaning": "hkpWorld vtable RVA 0x2724038"
+      },
+      {
+        "rva": "0x799c9",
+        "bytes": "488901",
+        "asm": "mov qword ptr [rcx], rax",
+        "meaning": "install hkpWorld vtable"
+      },
+      {
+        "rva": "0x799d1",
+        "bytes": "33c9",
+        "asm": "xor ecx,ecx",
+        "meaning": "zero the register for repeated field initialization"
+      },
+      {
+        "rva": "0x79a9f",
+        "bytes": "48898b10020000",
+        "asm": "mov qword ptr [rbx + 0x210], rcx",
+        "meaning": "hkpWorld+0x210 zero assignment, NOT nonzero typed handler"
+      }
+    ],
+    "registerFlowProof": "Exact source PE bytes; no call and no RCX alias rewrite from xor at 0x799D1 to field store at 0x79A9F; hkpWorld vtable verified by complete object locator."
+  },
+  "freshV7Capture": {
+    "artifact": "artifacts/m3-001-second-world-ctor-20261019-01.json",
+    "sha256": "a79b857fbf997411a463ebcd6cad79119942ac1543ad7a2c664494d5c5f13443",
+    "manifest": "artifacts/m3-001-second-world-ctor-20261019-01-manifest.json",
+    "manifestSha256": "74bf45db06e6a04d4a88e4ba02a3011acb9e1a61bc531ae9186a371ac2495600",
+    "requestedAnchors": [
+      "0x79a9f"
+    ],
+    "callerTargets": [
+      "0x799a4"
+    ],
+    "status": "completed",
+    "parserWarningsRetained": 825
+  },
+  "writeOnceVerification": {
+    "path": "artifacts/m3-001-second-world-ctor-qualified-20261019-01.json",
+    "sha256": "d95a802962f729f274580a15ad9e5f40a01ebb543017c2f85ddcd05d310432f7",
+    "sourceCode": "tools/agents/pathfinding/m3_001_verify_second_world_ctor.py",
+    "testCode": "tools/agents/pathfinding/m3_001_test_second_world_ctor.py",
+    "verifyJobId": "rre-m3-second-hkpworld-constructor-exact-verifier-20261019-01",
+    "exitCode": 0,
+    "syntheticRegressions": {
+      "jobId": "rre-m3-second-ctor-four-verifier-regressions-20261019-01",
+      "passed": 4,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "previousOffsetTriage": {
+      "jobId": "rre-m3-second-ctor-preintegration-archive-tests-20261019-01",
+      "passed": 18,
+      "exitCode": 0
+    }
+  },
+  "candidateBandSurvey": {
+    "rvaStart": "0x70000",
+    "rvaEndExclusive": "0xf7000",
+    "rawLiteralByteMatches": 176,
+    "peUnwindRegionsExamined": 78,
+    "decodedInstructions": 27224,
+    "qwordMemoryDestinationOffsetMatches": 7,
+    "limitations": [
+      "PE-unwind-selected source subset in RVA band only; not whole client, not every call/data-flow path.",
+      "Count of 7 includes qword CMP memory-first operands that READ, not WRITE. Do not treat as 7 valid writes.",
+      "Matching qword +0x160/+0x210 offset does not identify queue pointer receiver or registered callback."
+    ],
+    "qualifiedRelevant": [
+      {
+        "rva": "0x79a9f",
+        "interpretation": "hkpWorld+0x210 qword ZERO"
+      },
+      {
+        "rva": "0x7a384",
+        "interpretation": "hkpWorld+0x210 qword ZERO"
+      },
+      {
+        "rva": "0x89bd7",
+        "interpretation": "simulation+0x160 qword ZERO"
+      },
+      {
+        "rva": "0x8a576",
+        "interpretation": "simulation+0x160 qword CMP READ"
+      },
+      {
+        "rva": "0x8a904",
+        "interpretation": "simulation+0x160 qword CMP READ"
+      },
+      {
+        "rva": "0x9377e",
+        "interpretation": "RSP stack-local +0x160"
+      },
+      {
+        "rva": "0x9a757",
+        "interpretation": "RSP stack-local +0x160"
+      }
+    ]
+  },
+  "conclusion": {
+    "verified": "Second hkpWorld ctor initializes world+0x210 to zero. Same type7 handler offset on generic queue is not thereby shown populated.",
+    "type7Registration": false,
+    "nonnullSimQueuePointer": false,
+    "type7JobProducer": false,
+    "nextGate": "Prove nonnull writer to same hkpMultiThreadedSimulation+0x160 receiver, then same queue's populated type7 handler at queue+0x210, then job TYPE 7 producer and route output."
+  },
+  "safety": {
+    "offlineOnly": true,
+    "noGameInput": true,
+    "noProcessAttached": true,
+    "noMemoryWrite": true
+  }
+}
