@@ -16,7 +16,7 @@ import re
 import sys
 from typing import Any
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 MAX_BYTES = 8 * 1024 * 1024
 MAX_UNITS = 512
 NUMBER_LIMIT = 1e12
@@ -203,8 +203,8 @@ def read_rr2_receipt(data: dict) -> tuple[list[dict], dict, dict, str]:
                 "recordedExecutableSha256": digest.lower(),
                 "recordedAddonEpoch": integer(obs.get("epoch"), "epoch"),
                 "recordedAddonSequence": integer(obs.get("sequence"), "sequence"),
-                "recordedBindingClaim": rr2.get("bindingStatus"),
-                "recordedFreshnessClaim": rr2.get("freshnessStatus"),
+                "recordedBindingClaim": text(rr2.get("bindingStatus"), "recorded binding claim"),
+                "recordedFreshnessClaim": text(rr2.get("freshnessStatus"), "recorded freshness claim"),
                 "coordinateFieldStatuses": [status for status, _ in coords],
                 "currentValidity": "not-revalidated", "snapshotCoherence": "not-established"}
     return records, {"allEntities": "player-only", "nearbyUnits": "not-exported",
@@ -354,13 +354,14 @@ def render_html(report: dict) -> str:
                      f"<td>{esc(row['status'])}<br>{esc(', '.join(row['conflicts']))}<br>"
                      f"<small>{esc('; '.join(row['sourcePaths']))}</small></td></tr>")
     parts.append("</tbody></table></section>")
-    zones = sorted({r["zone"] or "unknown" for r in report["entities"] if r["position"] is not None})
+    zones = sorted({r["zone"] for r in report["entities"] if r["position"] is not None},
+                   key=lambda zone: (zone is None, zone or ""))
     for zone in zones:
-        rows = [r for r in report["entities"] if r["position"] is not None and (r["zone"] or "unknown") == zone]
+        rows = [r for r in report["entities"] if r["position"] is not None and r["zone"] == zone]
         xs = [r["position"][0] for r in rows]; zs = [r["position"][2] for r in rows]
         x0, x1, z0, z1 = min(xs), max(xs), min(zs), max(zs)
         span = max(x1 - x0, z1 - z0, 1.0)
-        parts.append(f"<section><h2>Raw X/Z diagnostic — {esc(zone)}</h2><p>Source units and ground orientation unqualified. "
+        parts.append(f"<section><h2>Raw X/Z diagnostic — {esc('zone unavailable' if zone is None else 'zone: ' + zone)}</h2><p>Source units and ground orientation unqualified. "
                      "Dots are coordinate markers, not collision bounds. Heights remain separate.</p><svg viewBox='0 0 800 460' role='img' aria-label='Raw coordinate markers'>")
         for index, row in enumerate(rows):
             x, y, z = row["position"]
@@ -391,6 +392,7 @@ def inspect_file(input_path: Path, input_format: str, output_directory: Path,
     data, raw = strict_load(input_path)
     camera, camera_raw = strict_load(camera_path) if camera_path is not None else (None, None)
     report = inspect_data(data, input_format, hashlib.sha256(raw).hexdigest(), camera)
+    report["publication"] = {"requiresReceipt": "complete.json", "receiptWrittenLast": True}
     report["inputByteCount"] = len(raw)
     report["inspectorSourceSha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     report["cameraSourceSha256"] = hashlib.sha256(camera_raw).hexdigest() if camera_raw else None
@@ -402,17 +404,66 @@ def inspect_file(input_path: Path, input_format: str, output_directory: Path,
         stream.write(json_text)
     with (output_directory / "report.html").open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(html_text)
+    # A final marker distinguishes two complete files from interrupted partial output.
+    # Partial directories are retained, never deleted or silently reused.
+    files = {}
+    for name in ("report.json", "report.html"):
+        saved = (output_directory / name).read_bytes()
+        files[name] = {"sha256": hashlib.sha256(saved).hexdigest(), "bytes": len(saved)}
+    receipt = {"schemaVersion": 1, "kind": "rre-world-inspector-publication",
+               "sourceSha256": report["sourceSha256"], "inspectorVersion": VERSION, "files": files}
+    with (output_directory / "complete.json").open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(receipt, stream, indent=2, sort_keys=True)
+        stream.write("\n")
     return report
+
+
+def verify_publication(output_directory: Path) -> dict:
+    receipt, _ = strict_load(output_directory / "complete.json")
+    schema_one(receipt, "publication")
+    require(receipt.get("kind") == "rre-world-inspector-publication", "Wrong publication kind")
+    source_hash = receipt.get("sourceSha256")
+    require(isinstance(source_hash, str) and re.fullmatch(r"[0-9a-f]{64}", source_hash) is not None,
+            "Invalid publication source SHA256")
+    version = text(receipt.get("inspectorVersion"), "publication inspector version", nullable=False)
+    files = object_value(receipt.get("files"), "publication files")
+    require(set(files) == {"report.json", "report.html"}, "Unexpected publication files")
+    for name in ("report.json", "report.html"):
+        item = object_value(files[name], "publication file entry")
+        size = integer(item.get("bytes"), "publication file size", 1, MAX_BYTES)
+        digest = item.get("sha256")
+        require(isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) is not None,
+                "Invalid publication file hash")
+        with (output_directory / name).open("rb") as stream:
+            raw = stream.read(MAX_BYTES + 1)
+        require(len(raw) == size and hashlib.sha256(raw).hexdigest() == digest,
+                "Publication file size/hash mismatch: " + name)
+    report, _ = strict_load(output_directory / "report.json")
+    schema_one(report, "published report")
+    require(source_hash == report.get("sourceSha256"), "Publication source mismatch")
+    require(version == report.get("inspectorVersion"), "Publication inspector version mismatch")
+    return {"schemaVersion": 1, "publicationComplete": True,
+            "sourceSha256": receipt["sourceSha256"], "live": False,
+            "meaning": "File-set integrity only; not current game validity"}
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, required=True)
-    parser.add_argument("--input-format", choices=("readerbridge", "rr2-receipt"), required=True)
-    parser.add_argument("--output-dir", type=Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--input", type=Path)
+    source.add_argument("--verify-output", type=Path)
+    parser.add_argument("--input-format", choices=("readerbridge", "rr2-receipt"))
+    parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--camera", type=Path)
     args = parser.parse_args(argv)
     try:
+        if args.verify_output is not None:
+            require(args.input_format is None and args.output_dir is None and args.camera is None,
+                    "Verification does not accept generation options")
+            print(json.dumps(verify_publication(args.verify_output), sort_keys=True))
+            return 0
+        require(args.input_format is not None and args.output_dir is not None,
+                "Generation requires --input-format and --output-dir")
         report = inspect_file(args.input, args.input_format, args.output_dir, args.camera)
         print(json.dumps({"status": "completed", "sourceKind": report["sourceKind"],
                           "live": False, "counts": report["counts"],

@@ -287,6 +287,58 @@ class FileAndPresentationTests(unittest.TestCase):
             p = Path(folder)/"big.json"; p.write_bytes(b' '*(M.MAX_BYTES+1))
             with self.assertRaises(ValueError): M.strict_load(p)
 
+    def test_completed_publication_has_verified_receipt(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'in.json';p.write_text(json.dumps(snapshot()),encoding='utf-8');out=Path(folder)/'new'
+            M.inspect_file(p,'readerbridge',out)
+            self.assertTrue((out/'complete.json').exists())
+            self.assertTrue(M.verify_publication(out)['publicationComplete'])
+
+    def test_failed_second_write_never_has_completion_marker(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'in.json';p.write_text(json.dumps(snapshot()),encoding='utf-8');out=Path(folder)/'new'
+            original=Path.open
+            def failing_open(path,*args,**kwargs):
+                if path.name=='report.html' and args and args[0]=='x': raise OSError('injected second-write failure')
+                return original(path,*args,**kwargs)
+            with patch.object(Path,'open',failing_open), self.assertRaises(OSError):M.inspect_file(p,'readerbridge',out)
+            self.assertTrue((out/'report.json').exists())
+            self.assertFalse((out/'complete.json').exists())
+
+    def test_receipt_requires_a_valid_source_hash(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'in.json';p.write_text(json.dumps(snapshot()),encoding='utf-8');out=Path(folder)/'new'
+            M.inspect_file(p,'readerbridge',out)
+            r=json.loads((out/'report.json').read_text());r.pop('sourceSha256');raw=json.dumps(r).encode();(out/'report.json').write_bytes(raw)
+            marker=json.loads((out/'complete.json').read_text());marker.pop('sourceSha256');marker['files']['report.json']={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
+            (out/'complete.json').write_text(json.dumps(marker),encoding='utf-8')
+            with self.assertRaises(ValueError):M.verify_publication(out)
+
+    def test_receipt_rejects_unsupported_report_schema(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'in.json';p.write_text(json.dumps(snapshot()),encoding='utf-8');out=Path(folder)/'new'
+            M.inspect_file(p,'readerbridge',out)
+            r=json.loads((out/'report.json').read_text());r['schemaVersion']=2;raw=json.dumps(r).encode();(out/'report.json').write_bytes(raw)
+            marker=json.loads((out/'complete.json').read_text());marker['files']['report.json']={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
+            (out/'complete.json').write_text(json.dumps(marker),encoding='utf-8')
+            with self.assertRaises(ValueError):M.verify_publication(out)
+
+    def test_changed_report_is_not_verified_as_complete(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'in.json';p.write_text(json.dumps(snapshot()),encoding='utf-8');out=Path(folder)/'new'
+            M.inspect_file(p,'readerbridge',out);(out/'report.html').write_text('changed',encoding='utf-8')
+            with self.assertRaises(ValueError):M.verify_publication(out)
+
+    def test_literal_unknown_zone_and_missing_zone_not_combined(self):
+        x=snapshot();x['player']['zone']=None;x['nearbyUnits']=[actor('u-other')];x['nearbyUnits'][0]['zone']='unknown'
+        rendered=M.render_html(M.inspect_data(x,'readerbridge',SHA))
+        self.assertEqual(rendered.count("viewBox='0 0 800 460'"),2)
+
+    def test_historical_claim_requires_scalar_text(self):
+        x=receipt();x['observation']['riftReader2']['bindingStatus']={'untrusted':'object'}
+        with self.assertRaises(ValueError):M.inspect_data(x,'rr2-receipt',SHA)
+
     def test_new_outputs_and_input_immutability(self):
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder)/"in.json"; raw = json.dumps(snapshot()).encode(); p.write_bytes(raw)

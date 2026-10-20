@@ -6,6 +6,12 @@ Authorized by Joey on October 20, 2026 after proposing entity identity, collisio
 
 WA-001..004 are integrated as contract `02fbcc1` and implementation/research `5478207`. The file-only inspector has a real historical player-only report and a separately labeled synthetic multi-object report. The final regression run passed 80 distinct tests. WA-005 is blocked on unfinished independent full-code review, not on failing tests. WA-006 still needs actual simultaneous non-self entities, a qualified physical hit/owner and camera calibration. Read [the research/validation record](world-awareness-research-2026-10-20.md) and the machine task board before resuming; do not redo the accepted consumer or treat it as live recognition.
 
+### Latest tooling and research continuation
+
+The [completion plan](WORLD_AWARENESS_COMPLETION_PLAN.md) now includes Joey's whole-toolchain scope. TG-001..005 implement a bounded review runner with validated outcomes, a compact V7 coverage summary, retained raw-key candidates, one durable validation command, and inspector 1.1 completion receipts. The unified named-lane gate passed **357 tests** with source hashes unchanged; this includes earlier suites previously omitted by narrower test patterns. Both historical and synthetic 1.1 reports passed file-set verification.
+
+Review C returned a structured assessment, but its incorrect findings were rejected by the Manager. A/B still lack acceptable independent reviews and C needs a delta review of the final publication guard, so WA-005 remains blocked. WA-007 added a collision-property-to-container-lookup link from seven retained native regions/469 rows; the actual keyed-record producer and gameplay ID are not established. Further native capture was tool-blocked and was not retried. See [the exact checkpoint](tooling-and-world-awareness-checkpoint-2026-10-20.md) and [tooling register](TOOLING_GAP_REGISTER.md). Do not turn these tooling successes into a live-world recognition claim.
+
 ## Goal and non-goals
 
 Build a read-only inspector for one small RIFT scene, retaining object identity, source coordinates, source age and uncertainty; eventually associate physics hits with scene objects and independently validate camera projection. A rendered label, memory offset or positive unit test is not live recognition or navigability proof.
