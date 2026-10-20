@@ -296,6 +296,14 @@
   },
   "milestones": [
     {
+      "id": "WA",
+      "title": "Read-only local world awareness",
+      "status": "ready",
+      "dependsOn": ["M0", "M1"],
+      "gate": "Source-pinned entity/physics research, tested file-only inspector, then separately qualified real multi-object/geometry/camera observations; no live recognition claim from fixtures",
+      "roadmap": "docs/WORLD_AWARENESS_ROADMAP.md"
+    },
+    {
       "id": "M0",
       "title": "Safe state and exclusive ownership",
       "status": "integrated",
@@ -383,6 +391,12 @@
     }
   ],
   "tasks": [
+    {"id":"WA-001","milestone":"WA","lane":"manager","title":"World-awareness contract and roadmap","status":"ready","dependsOn":["M0-002"],"deliverable":"Explicit source/identity/coverage/camera contract and exclusive ownership","acceptance":["Roadmap validator passes","No game input or type7 dependency introduced"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-002","milestone":"WA","lane":"c2m","title":"Entity API and identity evidence audit","status":"ready","dependsOn":["WA-001"],"deliverable":"Source-pinned player/target/party/nearby audit, ambiguity and capture gaps","acceptance":["Actual source lines and hashes","Unavailable is not empty; self-target not duplicate","Independent review or explicit reviewer blocker"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-003","milestone":"WA","lane":"collision","title":"Collision hit result and owner investigation","status":"ready","dependsOn":["WA-001"],"deliverable":"Bounded exact-build query/result evidence with ownership limitations","acceptance":["Original PE hash and V7 receipt","Geometric result is not presumed entity ID","Reviewed exact bytes or explicit unresolved finding"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-004","milestone":"WA","lane":"manager","title":"File-only local world inspector","status":"queued","dependsOn":["WA-001","WA-002"],"deliverable":"Read-only saved-observation CLI producing provenance-aware HTML and JSON","acceptance":["Distinct IDs, merged roles, explicit conflicts","No invented scenery/visibility/reachability","No-clobber output and no live process/network/control path"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-005","milestone":"WA","lane":"validation","title":"Inspector regression and independent QA","status":"queued","dependsOn":["WA-003","WA-004"],"deliverable":"Negative-input, identity, provenance and projection tests plus saved-evidence review","acceptance":["Inspected actual exit codes","Synthetic and historical evidence distinguished","Independent review findings resolved or documented"],"assignedAgentId":null,"jobId":null,"integratedCommit":null},
+    {"id":"WA-006","milestone":"WA","lane":"manager","title":"Qualify real small-scene world observations","status":"blocked","dependsOn":["WA-005"],"deliverable":"Current bound player and distinct objects, known physical hit and camera landmark calibration","acceptance":["Real simultaneous distinct IDs","Qualified shape/owner and world coordinates","Camera-only and scene/restart checks"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Current multi-object enumeration, hit-owner binding and camera calibration are not established; historical player data and synthetic tests cannot substitute"]},
     {
       "id": "M0-001",
       "milestone": "M0",
@@ -1578,6 +1592,7 @@
     }
   ],
   "decisionLog": [
+    {"date":"2026-10-20","decision":"Add WA world-awareness track following Joey's explicit approval; entity identity and physical-space research may advance independently from unresolved type7 dispatch.","reason":"Object recognition, collision and camera projection are distinct prerequisites useful even before native routing is qualified.","scope":"Offline/source/saved-observation work; no live actuation or changes to external repos; current ChatGPT is the sole Manager.","model":"GPT-6 Astra Pro","reasoningLevel":""},
     {
       "id": "D-001",
       "decision": "Reuse-first native facilities. No default replacement pathfinder.",
@@ -1712,7 +1727,9 @@
     }
   ],
   "nextManagerActions": [
-    "Continue the ONLY ready M3-001: find same-object non-null simulation+0x160 queue-pointer assignment using exact PE instructions and full receiver/data-flow provenance. Global factory 0x89E5D0 allocates 0x1D8, separate world simulation request 0x200 via 0x089ABC; do not conflate with 0x89Cxxx code.",
+    "Joey approved world awareness on October 20: execute WA-001..005 under docs/WORLD_AWARENESS_ROADMAP.md alongside M3-001. The first consumer is file-only; WA-006 real multi-object/physics/camera qualification remains blocked until evidence exists.",
+    "Manager owns shared inspector and roadmap. C2M audits entity identity; Collision audits hit ownership; Validation reviews tests. Preserve all existing commits/dirty files; do not retry unavailable models or external-directory permissions unchanged.",
+    "Continue parallel M3-001: find same-object non-null simulation+0x160 queue-pointer assignment using exact PE instructions and full receiver/data-flow provenance. Global factory 0x89E5D0 allocates 0x1D8, separate world simulation request 0x200 via 0x089ABC; do not conflate with 0x89Cxxx code.",
     "Use current tools/agents/pathfinding/m3_001_displacement_index.py with qualified RBP stack-frame exclusions. Source index covers only three partial RVA bands 0x1000..0xC00000 and may miss indirect/leaf/dataflow writes; do not infer absence from missing matches.",
     "Only after a same-object queue identity is established inspect a populated type-7 entry at queue+0x210 and an actual type byte 7 job producer/route output/player link. No custom pathfinder or game interaction permitted by this roadmap.",
     "Preflight workspace/job/build hashes, one writer per lane, preserve all original artifacts and two pre-existing untracked raw-probe files. M4A synthetic prototype is finished; full M4, M5 live T0/T1/T2, M6 and M7 remain separately gated."
