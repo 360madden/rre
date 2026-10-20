@@ -16,7 +16,7 @@ import re
 import sys
 from typing import Any
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 MAX_BYTES = 8 * 1024 * 1024
 MAX_UNITS = 512
 NUMBER_LIMIT = 1e12
@@ -98,6 +98,24 @@ def strict_load(path: Path) -> tuple[dict, bytes]:
                           parse_constant=reject_constant, parse_float=parse_float)
     except (UnicodeDecodeError, json.JSONDecodeError, RecursionError) as exc:
         raise ValueError(f"Invalid UTF-8 JSON: {exc}") from exc
+    # JSON escapes can decode to lone surrogates even when the raw UTF-8 is valid.
+    # Validate keys and values, including ignored legacy fields and camera extras.
+    # Iterator-based traversal uses space proportional to nesting, not list width.
+    pending = [iter((data,))]
+    while pending:
+        try:
+            value = next(pending[-1])
+        except StopIteration:
+            pending.pop()
+            continue
+        if isinstance(value, str):
+            require(not any(0xD800 <= ord(c) <= 0xDFFF for c in value),
+                    "Invalid Unicode scalar in JSON string")
+        elif isinstance(value, dict):
+            pending.append(iter(value.values()))
+            pending.append(iter(value))
+        elif isinstance(value, list):
+            pending.append(iter(value))
     return object_value(data, "input"), raw
 
 
@@ -398,6 +416,11 @@ def inspect_file(input_path: Path, input_format: str, output_directory: Path,
     report["cameraSourceSha256"] = hashlib.sha256(camera_raw).hexdigest() if camera_raw else None
     json_text = json.dumps(report, indent=2, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n"
     html_text = render_html(report)
+    # Escaping and retained observations can expand a valid bounded input. Check
+    # the actual UTF-8 output sizes against the verifier's cap before publication.
+    for name, rendered in (("report.json", json_text), ("report.html", html_text)):
+        require(0 < len(rendered.encode("utf-8")) <= MAX_BYTES,
+                f"Rendered {name} is empty or exceeds 8 MiB publication limit")
     # Atomic directory creation rejects existing outputs. Parents are not created implicitly.
     output_directory.mkdir(parents=False, exist_ok=False)
     with (output_directory / "report.json").open("x", encoding="utf-8", newline="\n") as stream:
