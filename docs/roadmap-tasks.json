@@ -77,7 +77,7 @@
           "tools/agents/pathfinding/**"
         ],
         "activeJobId": null,
-        "lastConfirmed": "2026-10-20 05:00 EDT: Manager integrated reviewed pathfinding commit 53d987d as main e8ba95f after 46/46 M3 regressions pass; adjacent XOR EDX proves RVA 0x6BB83 zero-source on straight-line path. Two OpenCode attempted sessions delivered no code; no independent worker results accepted. M3-001 stays READY."
+        "lastConfirmed": "2026-10-20 09:39 EDT: Manager integrated Pathfinding branch 2d3c089 as main 8b46800; 57/57 Pathfinding tests pass on branch and main. PF31–PF33 typed dispatch + hkpMaxSizeMotion vtable alias verified from exact PE/RTTI; type7 registration/producer still unknown, worktree clean, zero new independent AI workers. M3-001 remains READY."
       },
       "c2m": {
         "worktree": "C:/work/rre-worker-c2m",
@@ -993,9 +993,57 @@
             "type7ProducerProven": false
           },
           "nextTarget": "Qualify a nonnull same-hkpMultiThreadedSimulation receiver +0x160 pointer write, then SAME-queue populated type-7 handler at +0x210, then true job type 7 producer; preserve negative evidence."
+        },
+        {
+          "checkpointId": "M3-001-typed-handler-dispatch-and-motion-rtti-2026-10-20",
+          "status": "ACCEPTED BOUNDED STATIC PROOF; native type-7 registration, producer and player use still unresolved",
+          "authorship": "Manager direct Workbridge; zero separately reasoning independent agents launched in this slice",
+          "sourceWorkerCommit": "2d3c08934be0c3f033917a78ee963a7c272c8e3a",
+          "integratedMainCommit": "8b46800331f682afb274ffc6b10f4cdb71ba97cf",
+          "sourceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+          "offlineEvidence": [
+            "Generic dispatcher 0xF3FA4: job type byte at 0xF4184, subtype byte at 0xF4189, type shift by five at 0xF4194, handler pointer dereference at 0xF4198 (queue+0x130+type*32), subtype-indexed indirect call at 0xF41A3.",
+            "Job type7 computes queue+0x210, but no populated callback or actual job type7 producer has been identified.",
+            "RVA 0x76363 stores an RTTI-qualified hkpMaxSizeMotion virtual table RVA 0x2723418 (COL RVA 0x2D745C8) into an embedded +0x150 field, not a proven type1 job-queue handler.",
+            "RVA 0x268AB copies a qword from a temporary aggregate into +0x130 with unknown receiver; RVA 0x40179 writes an allocated-or-zero value to unknown globally sourced object+0x130.",
+            "Qualified literal +0x130 qword reader scans covered three bounded RVA windows: 0x1000..0x70000 (1 incompletely decoded region), 0x70000..0x140000, and 0x140000..0x400000; no indexed nonstack write to literal +0x130 qualified in decoded windows. Dynamic/address-synthesized/indirect/leaf writers remain unresolved."
+          ],
+          "evidence": [
+            "docs/agents/pathfinding.md",
+            "tools/agents/pathfinding/m3_001_verify_dispatcher_handler_aliases.py",
+            "tools/agents/pathfinding/m3_001_test_dispatcher_handler_aliases.py",
+            "tools/agents/pathfinding/m3_001_dispatcher_handler_alias_findings.json",
+            "artifacts/m3-001-handler130-initial-writers-20261020-0927.json",
+            "artifacts/m3-001-handler130-initial-writers-20261020-0927-manifest.json",
+            "artifacts/m3-001-handler150-source-20261020-0930.json",
+            "artifacts/m3-001-handler150-source-20261020-0930-manifest.json"
+          ],
+          "validation": {
+            "workerNarrowTestJob": "rre-m3-resume-dispatcher-alias-11tests-20261020-01",
+            "workerNarrowTestsPassed": 11,
+            "workerNarrowExitCode": 0,
+            "workerFullPathfindingJob": "rre-m3-resume-full-pathfinding-regression-20261020-0934",
+            "workerFullTestsPassed": 57,
+            "workerFullExitCode": 0,
+            "mainFullPathfindingJob": "rre-m3-resume-main-pathfinding-57test-20261020-0938",
+            "mainFullTestsPassed": 57,
+            "mainFullExitCode": 0,
+            "roadmapValidatorJob": "rre-m3-resume-main-board-validator-20261020-0938",
+            "roadmapValidatorExitCode": 0,
+            "historicalIntegrationValidatorJob": "rre-m3-resume-main-provenance-validator-20261020-0938",
+            "historicalIntegrationValidatorExitCode": 0
+          },
+          "constraints": {
+            "gameInputSent": false,
+            "gameProcessAttached": false,
+            "gameMemoryModified": false,
+            "qualifiedType7Handler": false,
+            "qualifiedType7Producer": false
+          },
+          "nextTarget": "Identify hkpMultiThreadedSimulation+0x160 nonnull same-object queue assignment; discover actual type7 handler registration using reaching definitions and indirect/indexed setters; then job TYPE7 producer, route output and player binding. Do not claim absence from bounded scans."
         }
       ],
-      "acceptanceNotes": "READY/incomplete: main e8ba95f incorporates PF28–PF30 bounded zero-source qualification and safe source-index refinement, 46/46 tests on worker lane AND on integrated main (both exit 0); previous 40ac23a separate-factory lifetime remains accepted. Historic 43 syntactic index candidates are NOT proven same-simulation writes. Real non-null simulation+0x160 queue writer, populated +0x210 type-7 handler and type-7 producer/player route are unverified."
+      "acceptanceNotes": "READY/incomplete: main e8ba95f incorporates PF28–PF30 bounded zero-source qualification and safe source-index refinement, 46/46 tests on worker lane AND on integrated main (both exit 0); previous 40ac23a separate-factory lifetime remains accepted. Historic 43 syntactic index candidates are NOT proven same-simulation writes. Latest PF31–PF33 exact-byte/RTTI checkpoint (main 8b46800, 57/57 Pathfinding tests) qualifies job type/subtype indexing and rejects hkpMaxSizeMotion vtable alias at +0x150; no operational type7 callback has been established. Real non-null simulation+0x160 queue writer, populated +0x210 type-7 handler and type-7 producer/player route are unverified."
     },
     {
       "id": "M3-002",
@@ -1774,6 +1822,12 @@
       "date": "2026-10-20",
       "decision": "Keep M3-001 ready: exact-build V7 source and code verified 0x89C605+0x160 allocation and 0x89CA2A cleanup, but caller graph reaches a separate 0x1D8 global factory, not a proven hkpMultiThreadedSimulation queue-pointer setter. Qualified RBP frame aliases pruned 9 false positives from bounded source index. Corrected 0x089ABC vs 0x89C605 mistaken address proximity. 44 tests pass and no game actions occurred.",
       "basis": "Accepted main 40ac23a; tools/agents/pathfinding/m3_001_field160_lifecycle_findings.json; main proof/test jobs."
+    },
+    {
+      "id": "D-023",
+      "date": "2026-10-20",
+      "decision": "Accept bounded PF31–PF33 original-byte proof of generic job type/subtype table indexing and hkpMaxSizeMotion vtable alias. Preserve nonnull simulation queue, populated type7 handler, actual type7 producer, route and player-use as unresolved. No new game input or independent agent task success claimed.",
+      "basis": "Main 8b46800, Pathfinding branch 2d3c089; tool/agents/pathfinding/m3_001_dispatcher_handler_alias_findings.json; 57/57 integrated test job rre-m3-resume-main-pathfinding-57test-20261020-0938."
     }
   ],
   "nextManagerActions": [
