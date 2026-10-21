@@ -2573,6 +2573,35 @@
       "validationExitCode": 0,
       "totalTests": 514,
       "noLiveInput": true
+    },
+    {
+      "id": "NAV-005",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Verify saved RR2 screenshot/action association without promoting camera evidence to navigation",
+      "status": "integrated",
+      "dependsOn": [
+        "NAV-004"
+      ],
+      "deliverable": "Offline hash and identity-bound inspection of saved capture/action and original BMP; explicit rejection of unqualified destination input",
+      "acceptance": [
+        "Original BMP SHA256 and target identity verified",
+        "Historical camera action cannot yield a navigation trace",
+        "No invented reviewed click coordinates, current telemetry or live state",
+        "Focused tests and full gate complete"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "a93b08bccb61d89fda5ef4dc6da31eda7e510276",
+      "evidence": [
+        "docs/navigation-evidence-bridge.md",
+        "tools/navigation_evidence_bridge.py",
+        "artifacts/research-gate-nav005-20261021-01/validation.json"
+      ],
+      "validationJob": "rre-nav005-full-gate-20261021-01",
+      "validationExitCode": 0,
+      "totalTests": 523,
+      "gameInputSent": false
     }
   ],
   "decisionLog": [
@@ -2961,5 +2990,14 @@
     "testCount": 514,
     "liveReady": false,
     "next": "NAV-002 still needs original gesture, reviewed click point, aligned samples and approved exclusive live owner."
+  },
+  "latestSavedEvidenceBridge": {
+    "dateLocal": "2026-10-21",
+    "task": "NAV-005",
+    "commit": "a93b08bccb61d89fda5ef4dc6da31eda7e510276",
+    "totalTests": 523,
+    "actualGameInput": false,
+    "liveReady": false,
+    "next": "Resolve NAV-B01..B04 with current RR2 owner; no static or historic camera evidence substitutes for the actual ground-click and synchronized player-position stream."
   }
 }
