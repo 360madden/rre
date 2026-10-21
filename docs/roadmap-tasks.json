@@ -1712,7 +1712,7 @@
       "jobId": null,
       "integratedCommit": null,
       "blockers": [
-        "NAV-001/NAV-002 must identify one evidence-backed input/telemetry route and a bounded cancellation test protocol. No type-7 dependency; native response and actual stopping remain for separately authorized T0/T1."
+        "NAV-001 audit is accepted. NAV-002 has a drafted ground-request/stop packet but lacks current binding/gesture evidence, location-bound delivery, qualified time-aligned reference coverage and execution ownership/approval. Resolve these route-specific contracts; do not restore type7 or full-world-recognition dependencies."
       ],
       "scopeQualification": "Minimum route-specific offline adapter; review M4A's synthetic moving-away policy because a genuine native detour can temporarily increase target distance. Do not require complete WA recognition unless the chosen consumer actually depends on it."
     },
@@ -2378,7 +2378,7 @@
       "milestone": "M4",
       "lane": "manager",
       "title": "Audit the minimum player-facing navigation evidence and choose one discriminating test",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [
         "M1-001",
         "M2-001",
@@ -2410,15 +2410,33 @@
         "semanticAssertions": 3,
         "rr2StartingHead": "5263615cae38f58fedb9b15ba358aee68ec5f8ad",
         "rr2DirtyWorkPreserved": true,
-        "scope": "Saved source/evidence audit and offline packet preparation; no game/native access or external edits."
-      }
+        "scope": "Saved source/evidence audit and offline packet preparation; no game/native access or external edits.",
+        "packetValidation": {
+          "job": "rre-nav001-packet-check-20261021-01",
+          "exitCode": 0,
+          "consistencyChecksPassed": 37,
+          "sourcesHashVerified": 15,
+          "preservedFilesHashVerified": 13,
+          "artifact": "artifacts/navigation-capability-audit-20261021-01/packet-validation.json",
+          "artifactSha256": "1042a5dd5682b18dc33cde9baf7a560965f270b2ebebd64d1eed1a461f1a63d2",
+          "newFullResearchGateRun": false
+        }
+      },
+      "integratedCommit": "6c8a566f2be6b95830e86e334c0162ab576ac0b2",
+      "evidence": [
+        "docs/navigation-capability-audit.md",
+        "docs/navigation-capability-audit.json",
+        "artifacts/navigation-capability-audit-20261021-01/semantic-counterexamples.json",
+        "artifacts/navigation-capability-audit-20261021-01/packet-validation.json"
+      ],
+      "acceptanceNotes": "Accepted Manager source/evidence audit and reproduced synthetic interpretation limits. Ordinary ground-destination route selected for readiness design, not live qualified. No independent reviewer, new native capture, original pixel review or game input."
     },
     {
       "id": "NAV-002",
       "milestone": "M4",
       "lane": "manager",
       "title": "Prepare one route-specific movement-and-stop observation protocol",
-      "status": "queued",
+      "status": "blocked",
       "dependsOn": [
         "NAV-001"
       ],
@@ -2436,7 +2454,20 @@
         "docs/navigation-first-behavior-test.md",
         "docs/navigation-first-behavior-test.json"
       ],
-      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md"
+      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
+      "draftCommit": "6c8a566f2be6b95830e86e334c0162ab576ac0b2",
+      "evidence": [
+        "docs/navigation-first-behavior-test.md",
+        "docs/navigation-first-behavior-test.json",
+        "artifacts/navigation-capability-audit-20261021-01/packet-validation.json"
+      ],
+      "blockers": [
+        "NAV-B01: Current exact lab C2M setting/gesture and backward-action binding evidence missing; historical Q/E contradiction is not resolved by prose.",
+        "NAV-B02: Reviewed-location-bound one-request transport or equivalent explicitly approved physical-action recording not yet qualified; do not repurpose camera actions or overwrite the other RR2 owner's unfinished dispatch work.",
+        "NAV-B03: Current advancing baseline/during/post-cancel reference samples, acquisition time alignment and measured stationary tolerance missing; saved player-only receipt is not current.",
+        "NAV-B04: Separate live approval, sole actual input ownership and reviewed operator takeover not established by this offline packet."
+      ],
+      "acceptanceNotes": "Draft protocol and machine packet are committed and passed consistency checks; overall readiness is NOT accepted. No need for type7, full world awareness, target entity or calibrated W2S for the proposed T0."
     }
   ],
   "decisionLog": [
@@ -2604,22 +2635,19 @@
     }
   ],
   "nextManagerActions": [
-    "Resume NAV-001: audit saved C2M/follow/player-observation/cancellation evidence and choose the smallest discriminating test. Do not begin with another type-7 scan.",
-    "M3-001 is DEFERRED. Preserve its two untracked Pathfinding scripts and reconcile ownership before later writes; this does not block unrelated navigation evidence work.",
-    "Prepare NAV-002, then the minimum M4 offline adapter. M4 no longer depends on type-7 or complete world recognition; it still requires an evidence-backed selected-route contract.",
-    "After two distinct probes without decision-changing evidence, park the lead. Reopen only with a recorded new player-linked source/behavior or a specifically resolved blocker; never retry an unchanged blocked route.",
-    "Keep WA-005 independent QA and WA-006/WA-007 qualification honest, but do not make unrelated navigation tests depend on unused inspector/ownership/camera features.",
-    "T0 then T1 then T2 still require separate live approval. Use actual binding evidence, fresh screenshots/telemetry and independently observed stopping; no custom pathfinder or new gameplay authority is implied.",
-    "Preserve all original evidence and the two historical main probe files. Do not redo M4A or VE-001/VE-002. Run the full research gate after validator/source changes and record actual results."
+    "NAV-001 is accepted in 6c8a566. Read docs/navigation-capability-audit.md/.json and recheck only relevant source deltas; do not recreate the audit or rerun unchanged old baselines.",
+    "Resolve NAV-002's four explicit prerequisites with the existing RR2 execution/control/observation owner. Its draft is docs/navigation-first-behavior-test.md/.json; no current gesture, key or position tolerance is assumed.",
+    "Preserve the unfinished RR2 queue/dispatch-fence changes and all Pathfinding scripts. Do not duplicate control frameworks or assume source-only fencing is enabled. Shared live access needs actual ownership and separate approval.",
+    "Retain the reproduced M4A limits: cancelled is intention state, not physical stopping; a detour can initially increase distance. Preserve original synthetic source/fixtures and keep collecting independent observations after cancellation.",
+    "M3-001 stays deferred. Two distinct non-decisive probes park a lead; new player-linked evidence or resolution of the exact blocker is needed to reopen it. No bypass of recorded review/capture restrictions.",
+    "Prepare the minimum route-specific adapter only after its input/telemetry contract is resolved. Actual T0 stopping then T1 destination then T2 obstacle behavior still require their own observations; full object recognition and type7 are not prerequisites."
   ],
   "primaryNearTermGoal": {
-    "id": "NAV-001",
-    "status": "review",
-    "purpose": "Identify the smallest testable existing player-facing movement-and-cancellation route using retained evidence; classify exact missing links before further scans.",
-    "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
-    "nextEligibleTasks": [
-      "NAV-001"
-    ],
+    "id": "NAV-002",
+    "status": "blocked",
+    "purpose": "Resolve the four concrete route/observation prerequisites in the committed ground-request activation-and-stop packet; do not repeat NAV-001 or resume type7 scanning.",
+    "plan": "docs/navigation-first-behavior-test.md",
+    "nextEligibleTasks": [],
     "gameInputAuthorized": false,
     "nativePathfindingRecovered": false,
     "type7IsPrerequisite": false,
@@ -2752,6 +2780,17 @@
       "fullGateArtifact": "artifacts/research-gate-navigation-pivot-20261021-01/validation.json",
       "sourcesUnchanged": true,
       "noNewGameplayValidation": true
+    },
+    "latestCapabilityAudit": {
+      "dateLocal": "2026-10-21",
+      "task": "NAV-001",
+      "integratedCommit": "6c8a566f2be6b95830e86e334c0162ab576ac0b2",
+      "sourcesVerified": 15,
+      "consistencyChecksPassed": 37,
+      "semanticAssertions": 3,
+      "nextTask": "NAV-002",
+      "nextState": "draft-blocked-on-route-specific-evidence",
+      "newFullResearchGateRun": false
     }
   },
   "historicalM4A": {

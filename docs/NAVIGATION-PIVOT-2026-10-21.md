@@ -1,5 +1,7 @@
 # Navigation research pivot — October 21, 2026
 
+**Latest checkpoint:** NAV-001 is accepted in `6c8a566`; reuse the [source-pinned capability audit](navigation-capability-audit.md). The [NAV-002 ground-request/stop packet](navigation-first-behavior-test.md) is drafted and consistency-checked but not execution-ready. Current gesture/binding evidence, location-bound delivery, time-aligned reference observations and execution ownership/approval remain explicit prerequisites. The initial NAV-001 READY/NAV-002 queued statements below describe the pivot's earlier checkpoint, not current scheduling. See `roadmap-tasks.json` for current states. No type-7 dependency, new live authority or independent review was introduced by this follow-up.
+
 Adopted following Joey's direction to repivot navigation research so it does not stall on dead ends. This supersedes the priority order in ROADMAP-UPDATE-2026-10-21.md. ROADMAP.md and roadmap-tasks.json remain authoritative. Model: GPT-6 Astra Pro. Reasoning level: unavailable; machine metadata stays blank.
 
 ## Decision
