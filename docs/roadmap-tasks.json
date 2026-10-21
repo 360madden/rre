@@ -2,13 +2,106 @@
   "schemaVersion": 1,
   "project": "RRE native navigation",
   "asOfLocalDate": "2026-10-20",
-  "latestHandoff": {"path":"docs/HANDOFF-2026-10-20-1353-EDT.md","asOfLocal":"2026-10-20T13:53:39-04:00","asOfUtc":"2026-10-20T17:53:39Z","timezone":"America/New_York","startingHead":"682007dfa1679238e927508827e18bcd2c199d78","verificationJob":"rre-handoff-20261020-1352-preflight","verificationExitCode":0,"model":"GPT-6 Astra Pro","reasoningLevel":"","scope":"Documentation-only dated resumption handoff; no new implementation or game actions","lastFullGateTests":435,"validatedToolHashesRechecked":64,"originalEvidenceFilesRechecked":15,"hashMismatches":0},
-  "inspectorQaResumption": {"plan":"docs/inspector-qa-resumption-2026-10-20.md","startHead":"a442cd2174f5a4baae9b898fbeb4e1764fb4cfaf","manager":"current ChatGPT session","model":"GPT-6 Astra Pro","reasoningLevel":"","status":"fixes-committed-validated-independent-qa-blocked","tasks":["WA-005A","WA-005B","WA-005C","WA-005"],"preflightJob":"rre-wa3-20261020-preflight-01","packetManifest":"artifacts/wa3-packets-20261020/manifest.json","sourceSha256":"77e487b942e58731a961ca9af79c8badf46e8843101ce7df0ddfcd8953146e02","baselineSourceSha256":"7f0473230020e9103a0956d2e974cca754cf13f4cc76cd0f30b43cbb5a287acc","oneSourceWriter":true,"noNewNativeCapture":true,"noLiveGameActions":true,"unrelatedCodexProcessesPreserved":true,"reviewJobs":["rre-wa3-20261020-review-A-01","rre-wa3-20261020-review-B-01","rre-wa3-20261020-review-C-01"],"reviewOutcome":"A/C deadline exhausted; B attempted tools and contains rejected counterexamples; none accepted","codexReviewerLauncher":"Tool-blocked before file creation; UNKNOWN_CHANGE confirmed; not retried","independentFullQaComplete":false,"redRegressionJob":"rre-wa3-20261020-boundaries-red-01","redRegressionExitCode":1,"targetedValidationJob":"rre-wa3-20261020-inspector-green-01","targetedValidationExitCode":0,"targetedTests":66,"implementationCommit":"c651fb99619c345bdf910e2abd81f6b606de3bb1","inspectorVersion":"1.1.1","newRegressionTests":9,"validationJob":"rre-wa3-20261020-unified-gate-01","validationExitCode":0,"totalTests":377,"validationArtifact":"artifacts/research-gate-wa3-20261020-01/validation.json","releaseVerificationJob":"rre-wa3-20261020-release-verification-01","releaseVerificationExitCode":0,"releaseArtifact":"artifacts/wa3-release-verification-20261020-01.json","priorReportsByteIdentical":true},
+  "latestHandoff": {
+    "path": "docs/HANDOFF-2026-10-20-1353-EDT.md",
+    "asOfLocal": "2026-10-20T13:53:39-04:00",
+    "asOfUtc": "2026-10-20T17:53:39Z",
+    "timezone": "America/New_York",
+    "startingHead": "682007dfa1679238e927508827e18bcd2c199d78",
+    "verificationJob": "rre-handoff-20261020-1352-preflight",
+    "verificationExitCode": 0,
+    "model": "GPT-6 Astra Pro",
+    "reasoningLevel": "",
+    "scope": "Documentation-only dated resumption handoff; no new implementation or game actions",
+    "lastFullGateTests": 435,
+    "validatedToolHashesRechecked": 64,
+    "originalEvidenceFilesRechecked": 15,
+    "hashMismatches": 0
+  },
+  "inspectorQaResumption": {
+    "plan": "docs/inspector-qa-resumption-2026-10-20.md",
+    "startHead": "a442cd2174f5a4baae9b898fbeb4e1764fb4cfaf",
+    "manager": "current ChatGPT session",
+    "model": "GPT-6 Astra Pro",
+    "reasoningLevel": "",
+    "status": "fixes-committed-validated-independent-qa-blocked",
+    "tasks": [
+      "WA-005A",
+      "WA-005B",
+      "WA-005C",
+      "WA-005"
+    ],
+    "preflightJob": "rre-wa3-20261020-preflight-01",
+    "packetManifest": "artifacts/wa3-packets-20261020/manifest.json",
+    "sourceSha256": "77e487b942e58731a961ca9af79c8badf46e8843101ce7df0ddfcd8953146e02",
+    "baselineSourceSha256": "7f0473230020e9103a0956d2e974cca754cf13f4cc76cd0f30b43cbb5a287acc",
+    "oneSourceWriter": true,
+    "noNewNativeCapture": true,
+    "noLiveGameActions": true,
+    "unrelatedCodexProcessesPreserved": true,
+    "reviewJobs": [
+      "rre-wa3-20261020-review-A-01",
+      "rre-wa3-20261020-review-B-01",
+      "rre-wa3-20261020-review-C-01"
+    ],
+    "reviewOutcome": "A/C deadline exhausted; B attempted tools and contains rejected counterexamples; none accepted",
+    "codexReviewerLauncher": "Tool-blocked before file creation; UNKNOWN_CHANGE confirmed; not retried",
+    "independentFullQaComplete": false,
+    "redRegressionJob": "rre-wa3-20261020-boundaries-red-01",
+    "redRegressionExitCode": 1,
+    "targetedValidationJob": "rre-wa3-20261020-inspector-green-01",
+    "targetedValidationExitCode": 0,
+    "targetedTests": 66,
+    "implementationCommit": "c651fb99619c345bdf910e2abd81f6b606de3bb1",
+    "inspectorVersion": "1.1.1",
+    "newRegressionTests": 9,
+    "validationJob": "rre-wa3-20261020-unified-gate-01",
+    "validationExitCode": 0,
+    "totalTests": 377,
+    "validationArtifact": "artifacts/research-gate-wa3-20261020-01/validation.json",
+    "releaseVerificationJob": "rre-wa3-20261020-release-verification-01",
+    "releaseVerificationExitCode": 0,
+    "releaseArtifact": "artifacts/wa3-release-verification-20261020-01.json",
+    "priorReportsByteIdentical": true
+  },
   "timezone": "America/New_York",
   "repo": "C:/work/rre",
   "roadmap": "ROADMAP.md",
-  "activeCompletionPlan": {"path":"docs/WORLD_AWARENESS_COMPLETION_PLAN.md","dateLocal":"2026-10-20","manager":"current ChatGPT session","model":"GPT-6 Astra Pro","reasoningLevel":"","scope":"Finish independent inspector QA and bounded hit-backlink producer research; retain WA-006 real-scene gate","startHead":"67c0a3bf1afce3992a5605e8311ccd296382b214","oneSourceWriter":true,"reviewerTools":"Per-process write/command restrictions; supplied packets only; any tool event disqualifies automatic review acceptance"},
-  "toolingAcceptance": {"dateLocal":"2026-10-20","scope":"Entire RRE toolchain, per Joey's clarification; Workbridge inspected but runtime unchanged","register":"docs/TOOLING_GAP_REGISTER.md","report":"docs/tooling-and-world-awareness-checkpoint-2026-10-20.md","implementationCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","reviewPacketArchive":"artifacts/wa2-review-packets-20261020/archive-manifest.json","validationJob":"rre-tools-20261020-unified-gate-02","validationExitCode":0,"validationArtifact":"artifacts/research-gate-20261020-tools-02/validation.json","totalTests":357,"groups":{"validation":144,"c2m":30,"follow":73,"collision":47,"pathfinding":46,"reviewAdapter":17},"sourceFilesUnchangedDuringValidation":true,"nativeCaptureExpansionBlocked":true,"blockedNativeCaptureRetried":false,"independentFullQaComplete":false},
+  "activeCompletionPlan": {
+    "path": "docs/WORLD_AWARENESS_COMPLETION_PLAN.md",
+    "dateLocal": "2026-10-20",
+    "manager": "current ChatGPT session",
+    "model": "GPT-6 Astra Pro",
+    "reasoningLevel": "",
+    "scope": "Finish independent inspector QA and bounded hit-backlink producer research; retain WA-006 real-scene gate",
+    "startHead": "67c0a3bf1afce3992a5605e8311ccd296382b214",
+    "oneSourceWriter": true,
+    "reviewerTools": "Per-process write/command restrictions; supplied packets only; any tool event disqualifies automatic review acceptance"
+  },
+  "toolingAcceptance": {
+    "dateLocal": "2026-10-20",
+    "scope": "Entire RRE toolchain, per Joey's clarification; Workbridge inspected but runtime unchanged",
+    "register": "docs/TOOLING_GAP_REGISTER.md",
+    "report": "docs/tooling-and-world-awareness-checkpoint-2026-10-20.md",
+    "implementationCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+    "reviewPacketArchive": "artifacts/wa2-review-packets-20261020/archive-manifest.json",
+    "validationJob": "rre-tools-20261020-unified-gate-02",
+    "validationExitCode": 0,
+    "validationArtifact": "artifacts/research-gate-20261020-tools-02/validation.json",
+    "totalTests": 357,
+    "groups": {
+      "validation": 144,
+      "c2m": 30,
+      "follow": 73,
+      "collision": 47,
+      "pathfinding": 46,
+      "reviewAdapter": 17
+    },
+    "sourceFilesUnchangedDuringValidation": true,
+    "nativeCaptureExpansionBlocked": true,
+    "blockedNativeCaptureRetried": false,
+    "independentFullQaComplete": false
+  },
   "worldAwarenessCheckpoint": {
     "dateLocal": "2026-10-20",
     "implementationCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
@@ -18,23 +111,55 @@
     "workMode": "Manager direct code/research; one completed independent excerpt review, no accepted independent implementation or full-code QA",
     "testJob": "rre-wa-20261020-final-validation-reports-02",
     "testExitCode": 0,
-    "testCounts": {"inspector":50,"existingValidation":21,"nativeHitVerifier":9,"totalDistinct":80},
+    "testCounts": {
+      "inspector": 50,
+      "existingValidation": 21,
+      "nativeHitVerifier": 9,
+      "totalDistinct": 80
+    },
     "sourceIntegrityJob": "rre-wa-20261020-source-report-integrity-01",
     "sourceIntegrityExitCode": 0,
     "realInput": "Retained October 19 receipt: one player, no current nearby-world/camera/collision capture",
     "demoInput": "Synthetic six records, five IDs, four known positions; not real world recognition",
     "newNativeLead": "Hit-associated collector+0x60 pointer to signed-relative owner candidate, 0xFFFF keyed record, two dereferences and -8 adjustment; final gameplay entity not established",
-    "remaining": ["WA-005 independent full-code QA", "WA-006 actual multi-object/physics/camera qualification", "M3-001 native type7 handler/producer remains unresolved"],
+    "remaining": [
+      "WA-005 independent full-code QA",
+      "WA-006 actual multi-object/physics/camera qualification",
+      "M3-001 native type7 handler/producer remains unresolved"
+    ],
     "reviewJobs": [
-      {"id":"rre-wa-20261020-entity-review-agent-01","state":"permission-blocked","processExitCode":0,"acceptedReview":false},
-      {"id":"rre-wa-20261020-hit-review-agent-01","state":"completed-excerpt-review","processExitCode":0,"acceptedReview":"Cautions only; incorrect unwind and initialization claims rejected"},
-      {"id":"rre-wa-20261020-inspector-review-agent-01","state":"failed-command-parse","processExitCode":1,"acceptedReview":false},
-      {"id":"rre-wa-20261020-inspector-review-agent-02","state":"timed_out","processExitCode":null,"acceptedReview":false}
+      {
+        "id": "rre-wa-20261020-entity-review-agent-01",
+        "state": "permission-blocked",
+        "processExitCode": 0,
+        "acceptedReview": false
+      },
+      {
+        "id": "rre-wa-20261020-hit-review-agent-01",
+        "state": "completed-excerpt-review",
+        "processExitCode": 0,
+        "acceptedReview": "Cautions only; incorrect unwind and initialization claims rejected"
+      },
+      {
+        "id": "rre-wa-20261020-inspector-review-agent-01",
+        "state": "failed-command-parse",
+        "processExitCode": 1,
+        "acceptedReview": false
+      },
+      {
+        "id": "rre-wa-20261020-inspector-review-agent-02",
+        "state": "timed_out",
+        "processExitCode": null,
+        "acceptedReview": false
+      }
     ],
     "noGameInput": true,
     "noGameProcessAttachment": true,
     "noExternalRepoChanges": true,
-    "preservedUntrackedMain": ["docs/rea-raw-probe-profile-2026-10-18.json","tools/agents/ghidra/prepare_raw_probe.py"]
+    "preservedUntrackedMain": [
+      "docs/rea-raw-probe-profile-2026-10-18.json",
+      "tools/agents/ghidra/prepare_raw_probe.py"
+    ]
   },
   "build": {
     "manifestVersion": "STABLE-1-1169-a-1256556",
@@ -334,15 +459,46 @@
       "independentWorkersThisCheckpoint": 0,
       "noLiveGameActivity": true,
       "unrelatedMainUntrackedRawProbesPreserved": true
+    },
+    "ve002ReviewedOldWheel20261021": {
+      "date": "2026-10-21",
+      "mainReviewCommit": "0d4826eee76325de286d17844b266795deada019",
+      "originalBundleVerified": true,
+      "sourceFilesChecked": 10,
+      "derivedFilesChecked": 4,
+      "wheelDeliverySucceeded": true,
+      "gameResponseVerified": false,
+      "temporalConfoundSeconds": 25.031753,
+      "reviewStatus": "inconclusive",
+      "visualInspectionPerformed": true,
+      "externalVisionModelUsed": false,
+      "thresholdsChanged": false,
+      "noNewGameActions": true,
+      "noToolSourcesChanged": true,
+      "historicalUnifiedTestCount": 435,
+      "gateNotRerunBecauseDocsOnly": true
     }
   },
   "milestones": [
-    {"id":"TG","title":"RRE toolchain reliability gaps","status":"integrated","dependsOn":["M0"],"gate":"Reproduced gaps, narrowly scoped fixes, actual full-gate results and durable receipts; no silent Workbridge runtime changes","integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","scope":"Five registered RRE fixes accepted; independent review quality, live-scene evidence and global Workbridge job-list API remain distinct limitations"},
+    {
+      "id": "TG",
+      "title": "RRE toolchain reliability gaps",
+      "status": "integrated",
+      "dependsOn": [
+        "M0"
+      ],
+      "gate": "Reproduced gaps, narrowly scoped fixes, actual full-gate results and durable receipts; no silent Workbridge runtime changes",
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "scope": "Five registered RRE fixes accepted; independent review quality, live-scene evidence and global Workbridge job-list API remain distinct limitations"
+    },
     {
       "id": "WA",
       "title": "Read-only local world awareness",
       "status": "ready",
-      "dependsOn": ["M0", "M1"],
+      "dependsOn": [
+        "M0",
+        "M1"
+      ],
       "gate": "Source-pinned entity/physics research, tested file-only inspector, then separately qualified real multi-object/geometry/camera observations; no live recognition claim from fixtures",
       "roadmap": "docs/WORLD_AWARENESS_ROADMAP.md"
     },
@@ -434,22 +590,441 @@
     }
   ],
   "tasks": [
-    {"id":"VE-001","milestone":"WA","lane":"manager","title":"Integrate screenshot evidence and bounded visual validation","status":"integrated","dependsOn":["WA-004","TG-004"],"deliverable":"Reusable saved-image manifest/CLI, VM-session-action checks, visual report, bundle verification and unified image test group","acceptance":["Actual saved capture replay with original hashes preserved","Synthetic positive/negative image and identity tests pass","Image results remain separate from input delivery and full gameplay qualification","No new game input or dependency installation","Scoped commit and durable evidence checkpoint"],"assignedAgentId":null,"jobId":null,"integratedCommit":"843c2f4b35dc166c4303a75a3a11564141819757","plan":"docs/VISUAL_EVIDENCE_ROADMAP.md","checkpoint":"docs/visual-evidence-checkpoint-2026-10-20.md","managerModel":"GPT-6 Astra Pro","reasoningLevel":"","workMode":"Manager implementation and deterministic image checks; not independent source-code QA","validationJob":"rre-ve-20261020-unified-gate-01","validationExitCode":0,"totalTests":435,"newVisualTests":58,"releaseJob":"rre-ve-20261020-release-acceptance-01","releaseExitCode":0,"releaseArtifact":"artifacts/visual-evidence-release-20261020/acceptance.json","savedZoomResults":"Two diagnostic predicates passed with exact recorded linkage; portable replay identical","oldWheelResult":"Inconclusive: one poor match, three displacement candidates; historical no-visible-zoom note needs review","independentAiImageReview":"not-attempted","liveActions":false,"sourceFilesPreserved":15},
-    {"id":"TG-001","milestone":"TG","lane":"manager","title":"Reliable independent review adapter","status":"integrated","dependsOn":["WA-004"],"deliverable":"Pinned packets, literal argv, raw logs and semantic outcome validation","acceptance":["17 adapter tests pass","Zero process exit alone cannot qualify a review","Source-specific result still requires Manager acceptance"],"assignedAgentId":null,"jobId":null,"integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","evidence":["tools/agent-review-runner.mjs","tools/agents/validation/test_agent_review_runner.mjs","artifacts/wa2-review-reclassification-20261020-01.json"]},
-    {"id":"TG-002","milestone":"TG","lane":"manager","title":"Compact evidence coverage summary","status":"integrated","dependsOn":["WA-003"],"deliverable":"Saved V7 summary separates recording success and decoded anchor coverage","acceptance":["Hash mismatch and invalid schema rejected","Actual 5-anchor capture reports only 2 decoded and 3 unresolved"],"assignedAgentId":null,"jobId":null,"integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","evidence":["tools/evidence-summary.py","artifacts/wa2-initial-hit-coverage-summary-20261020-01.json"]},
-    {"id":"TG-003","milestone":"TG","lane":"manager","title":"Reusable complete raw-key index","status":"integrated","dependsOn":["WA-003"],"deliverable":"All bounded raw literal hits retained for offline reuse","acceptance":["777 observed raw matches retained","Raw candidates never promoted as instruction or entity proof","Locator regression tests pass"],"assignedAgentId":null,"jobId":null,"integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","evidence":["tools/agents/collision/wa_backlink_literal_index.py","artifacts/wa2-complete-key-index-20261020-01.json"]},
-    {"id":"TG-005","milestone":"TG","lane":"manager","title":"Verified inspector report publication","status":"integrated","dependsOn":["WA-004"],"deliverable":"Last-written completion receipt and bounded integrity verifier","acceptance":["Partial second-write failure has no completion receipt","Report tampering rejected","Historical and synthetic report receipts independently verify"],"assignedAgentId":null,"jobId":null,"integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","evidence":["tools/world-inspector.py","artifacts/world-inspector-v11-final-20261020-recorded/complete.json","artifacts/world-inspector-v11-final-20261020-demo/complete.json"],"validationJob":"rre-tools-20261020-final-v11-reports-02","validationExitCode":0},
-    {"id":"TG-004","milestone":"TG","lane":"manager","title":"Unified durable research validation gate","status":"integrated","dependsOn":["TG-001","TG-002","TG-003","TG-005"],"deliverable":"One command with explicit test inventory, actual counts and durable logs","acceptance":["357 tests pass with exit 0","All source hashes unchanged during run","Roadmap validator passes"],"assignedAgentId":null,"jobId":null,"integratedCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","evidence":["tools/validate-research.py","artifacts/research-gate-20261020-tools-02/validation.json"],"validationJob":"rre-tools-20261020-unified-gate-02","validationExitCode":0},
-    {"id":"WA-005A","milestone":"WA","lane":"c2m","title":"Independent parsing and identity review","status":"blocked","dependsOn":["WA-004"],"deliverable":"Pinned-source review with concrete counterexamples and source locations","acceptance":["Actual completed independent model response","All findings independently checked by Manager"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Inspector 1.1.1 still lacks acceptable independent parsing review; preserve earlier failed reviews and do not repeat unchanged launches."],"previousReview":"artifacts/wa2-final-WA-005A-20261020-01/result.json","latestReview":"artifacts/wa3-review-WA-005A-20261020-01/result.json","lastReviewJob":"rre-wa3-20261020-review-A-01","lastSessionId":"ses_ea6057b66ffeK01RmIP1R0kqgW","lastAdapterExitCode":2,"lastChildExitCode":1,"lastTimedOut":true,"managerCounterexamples":"artifacts/wa2-review-counterexamples-20261020-01.json"},
-    {"id":"WA-005B","milestone":"WA","lane":"follow","title":"Independent numerical and projection review","status":"blocked","dependsOn":["WA-004"],"deliverable":"Pinned-source numerical/projection and evidence-semantics review","acceptance":["Actual completed independent model response","Mathematical findings reproduced or rejected with evidence"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Latest Nemotron response attempted a tool; its four alleged defects were checked and rejected as public-path defects. No acceptable independent final-source numerical review. Tests and a process exit do not satisfy this gate."],"previousReview":"artifacts/wa2-final-WA-005B-20261020-01/result.json","latestReview":"artifacts/wa3-review-WA-005B-20261020-01/result.json","lastReviewJob":"rre-wa3-20261020-review-B-01","lastSessionId":"ses_ea60565b7ffe4gI70W47dSJyEj","lastAdapterExitCode":2,"lastChildExitCode":0,"managerDisposition":"artifacts/wa3-release-verification-20261020-01.json"},
-    {"id":"WA-005C","milestone":"WA","lane":"validation","title":"Independent presentation and IO review","status":"blocked","dependsOn":["WA-004"],"deliverable":"Pinned-source HTML/CLI/IO and cross-module review","acceptance":["Actual completed independent model response","Regression tests for accepted defects"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Version 1.1.1 publication/Unicode changes lack independent final-source review. The proposed Codex launcher was tool-blocked before creation and was not retried."],"priorSourceReview":"artifacts/wa2-final-WA-005C-20261020-01/result.json","latestReview":"artifacts/wa3-review-WA-005C-20261020-01/result.json","lastReviewJob":"rre-wa3-20261020-review-C-01","lastSessionId":"ses_ea605404fffem5j6LR7zM02jll","lastAdapterExitCode":2,"lastChildExitCode":1,"lastTimedOut":true,"reviewedSourceSha256":"f0a32bbdff112da4b9bf27ead5db365ffc4be1d19a07c23face0769f72f13bbb","currentSourceSha256":"77e487b942e58731a961ca9af79c8badf46e8843101ce7df0ddfcd8953146e02"},
-    {"id":"WA-007","milestone":"WA","lane":"collision","title":"Trace hit backlink keyed-record producer","status":"blocked","dependsOn":["WA-003"],"deliverable":"Bounded original-PE producer/ownership evidence and exact-byte verifier","acceptance":["Exact build and reproducible capture receipt","No logical entity claim without verified mapping","Positive/negative findings and next target recorded"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Further native capture was blocked by tool safeguards and was not retried. The actual property writer and logical entity identity remain unresolved."],"partialEvidence":"artifacts/wa2-backlink-saved-verification-20261020-01.json","partialCommit":"234e63de989ea898aba4cae2699fd5e36f2a97f3","retainedRegions":7,"retainedInstructionRows":469,"newVerifiedLead":"0xf674e0 reads the 0xffff property value and passes it through 0x491320 to 0x68e150; receiver+0x50 container and possible node+0x10 output identified, not a qualified gameplay entity"},
-    {"id":"WA-001","milestone":"WA","lane":"manager","title":"World-awareness contract and roadmap","status":"integrated","dependsOn":["M0-002"],"deliverable":"Explicit source/identity/coverage/camera contract and exclusive ownership","acceptance":["Roadmap validator passes","No game input or type7 dependency introduced"],"assignedAgentId":null,"jobId":null,"integratedCommit":"02fbcc127eec835e98c22943a4e89978a83ea541","validationJob":"rre-wa-20261020-contract-board-check-01","validationExitCode":0},
-    {"id":"WA-002","milestone":"WA","lane":"c2m","title":"Entity API and identity evidence audit","status":"integrated","dependsOn":["WA-001"],"deliverable":"Source-pinned player/target/party/nearby audit, ambiguity and capture gaps","acceptance":["Actual source lines and hashes","Unavailable is not empty; self-target not duplicate","Independent review or explicit reviewer blocker"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/agents/c2m/wa_entity_findings.json"],"acceptanceNotes":"Manager source/hash audit accepted; independent entity review permission-blocked and explicitly recorded. No current nearby-unit enumeration proof."},
-    {"id":"WA-003","milestone":"WA","lane":"collision","title":"Collision hit result and owner investigation","status":"integrated","dependsOn":["WA-001"],"deliverable":"Bounded exact-build query/result evidence with ownership limitations","acceptance":["Original PE hash and V7 receipt","Geometric result is not presumed entity ID","Reviewed exact bytes or explicit unresolved finding"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/agents/collision/wa_hit_result_verify.py","tools/agents/collision/test_wa_hit_result.py","artifacts/wa-hit-result-qualified-20261020-01.json"],"acceptanceNotes":"Two exact PE-unwind windows, three bounded direct-entry windows, local closest-ray collector RTTI and optional 0xFFFF-record backlink path verified. Final entity identity remains unresolved; peer excerpt-review errors rejected using native bytes."},
-    {"id":"WA-004","milestone":"WA","lane":"manager","title":"File-only local world inspector","status":"integrated","dependsOn":["WA-001","WA-002"],"deliverable":"Read-only saved-observation CLI producing provenance-aware HTML and JSON","acceptance":["Distinct IDs, merged roles, explicit conflicts","No invented scenery/visibility/reachability","No-clobber output and no live process/network/control path"],"assignedAgentId":null,"jobId":null,"integratedCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","evidence":["tools/world-inspector.py","docs/world-awareness-demo.json","artifacts/world-inspector-release-20261020-recorded/report.json","artifacts/world-inspector-release-20261020-demo/report.json"],"acceptanceNotes":"File-only implementation validated with 50 inspector tests and real historical player-only receipt; synthetic 6-record/5-ID demonstration kept separate. Independent full-code QA remains WA-005."},
-    {"id":"WA-005","milestone":"WA","lane":"validation","title":"Inspector regression and independent QA","status":"blocked","dependsOn":["WA-003","WA-004","WA-005A","WA-005B","WA-005C"],"deliverable":"Negative-input, identity, provenance and projection tests plus saved-evidence review","acceptance":["Inspected actual exit codes","Synthetic and historical evidence distinguished","Independent review findings resolved or documented"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"partialTestCommit":"5478207f1d85db1793179d0d95a5cd7926ddc1ba","blockers":["Inspector 1.1.1 fixes passed 66 inspector tests and the 377-test unified gate, but independent final-source QA remains incomplete. Latest A/C attempts timed out, B attempted tools and contained rejected claims, and the Codex launcher was tool-blocked before creation. Do not repeat these blocked/unchanged attempts or mark this gate complete from test counts."],"previousValidation":{"job":"rre-wa-20261020-final-validation-reports-02","exitCode":0,"testsPassed":80},"previousUnifiedValidation":{"job":"rre-tools-20261020-unified-gate-02","exitCode":0,"testsPassed":357},"validationJob":"rre-wa3-20261020-unified-gate-01","validationExitCode":0,"testsPassed":377,"partialFixCommit":"c651fb99619c345bdf910e2abd81f6b606de3bb1","checkpoint":"docs/inspector-qa-resumption-2026-10-20.md"},
-    {"id":"WA-006","milestone":"WA","lane":"manager","title":"Qualify real small-scene world observations","status":"blocked","dependsOn":["WA-005"],"deliverable":"Current bound player and distinct objects, known physical hit and camera landmark calibration","acceptance":["Real simultaneous distinct IDs","Qualified shape/owner and world coordinates","Camera-only and scene/restart checks"],"assignedAgentId":null,"jobId":null,"integratedCommit":null,"blockers":["Current multi-object enumeration, hit-owner binding and camera calibration are not established; historical player data and synthetic tests cannot substitute"]},
+    {
+      "id": "VE-001",
+      "milestone": "WA",
+      "lane": "manager",
+      "title": "Integrate screenshot evidence and bounded visual validation",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-004",
+        "TG-004"
+      ],
+      "deliverable": "Reusable saved-image manifest/CLI, VM-session-action checks, visual report, bundle verification and unified image test group",
+      "acceptance": [
+        "Actual saved capture replay with original hashes preserved",
+        "Synthetic positive/negative image and identity tests pass",
+        "Image results remain separate from input delivery and full gameplay qualification",
+        "No new game input or dependency installation",
+        "Scoped commit and durable evidence checkpoint"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "843c2f4b35dc166c4303a75a3a11564141819757",
+      "plan": "docs/VISUAL_EVIDENCE_ROADMAP.md",
+      "checkpoint": "docs/visual-evidence-checkpoint-2026-10-20.md",
+      "managerModel": "GPT-6 Astra Pro",
+      "reasoningLevel": "",
+      "workMode": "Manager implementation and deterministic image checks; not independent source-code QA",
+      "validationJob": "rre-ve-20261020-unified-gate-01",
+      "validationExitCode": 0,
+      "totalTests": 435,
+      "newVisualTests": 58,
+      "releaseJob": "rre-ve-20261020-release-acceptance-01",
+      "releaseExitCode": 0,
+      "releaseArtifact": "artifacts/visual-evidence-release-20261020/acceptance.json",
+      "savedZoomResults": "Two diagnostic predicates passed with exact recorded linkage; portable replay identical",
+      "oldWheelResult": "Inconclusive: one poor match, three displacement candidates; historical no-visible-zoom note needs review",
+      "independentAiImageReview": "not-attempted",
+      "liveActions": false,
+      "sourceFilesPreserved": 15
+    },
+    {
+      "id": "TG-001",
+      "milestone": "TG",
+      "lane": "manager",
+      "title": "Reliable independent review adapter",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-004"
+      ],
+      "deliverable": "Pinned packets, literal argv, raw logs and semantic outcome validation",
+      "acceptance": [
+        "17 adapter tests pass",
+        "Zero process exit alone cannot qualify a review",
+        "Source-specific result still requires Manager acceptance"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "evidence": [
+        "tools/agent-review-runner.mjs",
+        "tools/agents/validation/test_agent_review_runner.mjs",
+        "artifacts/wa2-review-reclassification-20261020-01.json"
+      ]
+    },
+    {
+      "id": "TG-002",
+      "milestone": "TG",
+      "lane": "manager",
+      "title": "Compact evidence coverage summary",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-003"
+      ],
+      "deliverable": "Saved V7 summary separates recording success and decoded anchor coverage",
+      "acceptance": [
+        "Hash mismatch and invalid schema rejected",
+        "Actual 5-anchor capture reports only 2 decoded and 3 unresolved"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "evidence": [
+        "tools/evidence-summary.py",
+        "artifacts/wa2-initial-hit-coverage-summary-20261020-01.json"
+      ]
+    },
+    {
+      "id": "TG-003",
+      "milestone": "TG",
+      "lane": "manager",
+      "title": "Reusable complete raw-key index",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-003"
+      ],
+      "deliverable": "All bounded raw literal hits retained for offline reuse",
+      "acceptance": [
+        "777 observed raw matches retained",
+        "Raw candidates never promoted as instruction or entity proof",
+        "Locator regression tests pass"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "evidence": [
+        "tools/agents/collision/wa_backlink_literal_index.py",
+        "artifacts/wa2-complete-key-index-20261020-01.json"
+      ]
+    },
+    {
+      "id": "TG-005",
+      "milestone": "TG",
+      "lane": "manager",
+      "title": "Verified inspector report publication",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-004"
+      ],
+      "deliverable": "Last-written completion receipt and bounded integrity verifier",
+      "acceptance": [
+        "Partial second-write failure has no completion receipt",
+        "Report tampering rejected",
+        "Historical and synthetic report receipts independently verify"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "evidence": [
+        "tools/world-inspector.py",
+        "artifacts/world-inspector-v11-final-20261020-recorded/complete.json",
+        "artifacts/world-inspector-v11-final-20261020-demo/complete.json"
+      ],
+      "validationJob": "rre-tools-20261020-final-v11-reports-02",
+      "validationExitCode": 0
+    },
+    {
+      "id": "TG-004",
+      "milestone": "TG",
+      "lane": "manager",
+      "title": "Unified durable research validation gate",
+      "status": "integrated",
+      "dependsOn": [
+        "TG-001",
+        "TG-002",
+        "TG-003",
+        "TG-005"
+      ],
+      "deliverable": "One command with explicit test inventory, actual counts and durable logs",
+      "acceptance": [
+        "357 tests pass with exit 0",
+        "All source hashes unchanged during run",
+        "Roadmap validator passes"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "evidence": [
+        "tools/validate-research.py",
+        "artifacts/research-gate-20261020-tools-02/validation.json"
+      ],
+      "validationJob": "rre-tools-20261020-unified-gate-02",
+      "validationExitCode": 0
+    },
+    {
+      "id": "WA-005A",
+      "milestone": "WA",
+      "lane": "c2m",
+      "title": "Independent parsing and identity review",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-004"
+      ],
+      "deliverable": "Pinned-source review with concrete counterexamples and source locations",
+      "acceptance": [
+        "Actual completed independent model response",
+        "All findings independently checked by Manager"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Inspector 1.1.1 still lacks acceptable independent parsing review; preserve earlier failed reviews and do not repeat unchanged launches."
+      ],
+      "previousReview": "artifacts/wa2-final-WA-005A-20261020-01/result.json",
+      "latestReview": "artifacts/wa3-review-WA-005A-20261020-01/result.json",
+      "lastReviewJob": "rre-wa3-20261020-review-A-01",
+      "lastSessionId": "ses_ea6057b66ffeK01RmIP1R0kqgW",
+      "lastAdapterExitCode": 2,
+      "lastChildExitCode": 1,
+      "lastTimedOut": true,
+      "managerCounterexamples": "artifacts/wa2-review-counterexamples-20261020-01.json"
+    },
+    {
+      "id": "WA-005B",
+      "milestone": "WA",
+      "lane": "follow",
+      "title": "Independent numerical and projection review",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-004"
+      ],
+      "deliverable": "Pinned-source numerical/projection and evidence-semantics review",
+      "acceptance": [
+        "Actual completed independent model response",
+        "Mathematical findings reproduced or rejected with evidence"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Latest Nemotron response attempted a tool; its four alleged defects were checked and rejected as public-path defects. No acceptable independent final-source numerical review. Tests and a process exit do not satisfy this gate."
+      ],
+      "previousReview": "artifacts/wa2-final-WA-005B-20261020-01/result.json",
+      "latestReview": "artifacts/wa3-review-WA-005B-20261020-01/result.json",
+      "lastReviewJob": "rre-wa3-20261020-review-B-01",
+      "lastSessionId": "ses_ea60565b7ffe4gI70W47dSJyEj",
+      "lastAdapterExitCode": 2,
+      "lastChildExitCode": 0,
+      "managerDisposition": "artifacts/wa3-release-verification-20261020-01.json"
+    },
+    {
+      "id": "WA-005C",
+      "milestone": "WA",
+      "lane": "validation",
+      "title": "Independent presentation and IO review",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-004"
+      ],
+      "deliverable": "Pinned-source HTML/CLI/IO and cross-module review",
+      "acceptance": [
+        "Actual completed independent model response",
+        "Regression tests for accepted defects"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Version 1.1.1 publication/Unicode changes lack independent final-source review. The proposed Codex launcher was tool-blocked before creation and was not retried."
+      ],
+      "priorSourceReview": "artifacts/wa2-final-WA-005C-20261020-01/result.json",
+      "latestReview": "artifacts/wa3-review-WA-005C-20261020-01/result.json",
+      "lastReviewJob": "rre-wa3-20261020-review-C-01",
+      "lastSessionId": "ses_ea605404fffem5j6LR7zM02jll",
+      "lastAdapterExitCode": 2,
+      "lastChildExitCode": 1,
+      "lastTimedOut": true,
+      "reviewedSourceSha256": "f0a32bbdff112da4b9bf27ead5db365ffc4be1d19a07c23face0769f72f13bbb",
+      "currentSourceSha256": "77e487b942e58731a961ca9af79c8badf46e8843101ce7df0ddfcd8953146e02"
+    },
+    {
+      "id": "WA-007",
+      "milestone": "WA",
+      "lane": "collision",
+      "title": "Trace hit backlink keyed-record producer",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-003"
+      ],
+      "deliverable": "Bounded original-PE producer/ownership evidence and exact-byte verifier",
+      "acceptance": [
+        "Exact build and reproducible capture receipt",
+        "No logical entity claim without verified mapping",
+        "Positive/negative findings and next target recorded"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Further native capture was blocked by tool safeguards and was not retried. The actual property writer and logical entity identity remain unresolved."
+      ],
+      "partialEvidence": "artifacts/wa2-backlink-saved-verification-20261020-01.json",
+      "partialCommit": "234e63de989ea898aba4cae2699fd5e36f2a97f3",
+      "retainedRegions": 7,
+      "retainedInstructionRows": 469,
+      "newVerifiedLead": "0xf674e0 reads the 0xffff property value and passes it through 0x491320 to 0x68e150; receiver+0x50 container and possible node+0x10 output identified, not a qualified gameplay entity"
+    },
+    {
+      "id": "WA-001",
+      "milestone": "WA",
+      "lane": "manager",
+      "title": "World-awareness contract and roadmap",
+      "status": "integrated",
+      "dependsOn": [
+        "M0-002"
+      ],
+      "deliverable": "Explicit source/identity/coverage/camera contract and exclusive ownership",
+      "acceptance": [
+        "Roadmap validator passes",
+        "No game input or type7 dependency introduced"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "02fbcc127eec835e98c22943a4e89978a83ea541",
+      "validationJob": "rre-wa-20261020-contract-board-check-01",
+      "validationExitCode": 0
+    },
+    {
+      "id": "WA-002",
+      "milestone": "WA",
+      "lane": "c2m",
+      "title": "Entity API and identity evidence audit",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-001"
+      ],
+      "deliverable": "Source-pinned player/target/party/nearby audit, ambiguity and capture gaps",
+      "acceptance": [
+        "Actual source lines and hashes",
+        "Unavailable is not empty; self-target not duplicate",
+        "Independent review or explicit reviewer blocker"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
+      "evidence": [
+        "tools/agents/c2m/wa_entity_findings.json"
+      ],
+      "acceptanceNotes": "Manager source/hash audit accepted; independent entity review permission-blocked and explicitly recorded. No current nearby-unit enumeration proof."
+    },
+    {
+      "id": "WA-003",
+      "milestone": "WA",
+      "lane": "collision",
+      "title": "Collision hit result and owner investigation",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-001"
+      ],
+      "deliverable": "Bounded exact-build query/result evidence with ownership limitations",
+      "acceptance": [
+        "Original PE hash and V7 receipt",
+        "Geometric result is not presumed entity ID",
+        "Reviewed exact bytes or explicit unresolved finding"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
+      "evidence": [
+        "tools/agents/collision/wa_hit_result_verify.py",
+        "tools/agents/collision/test_wa_hit_result.py",
+        "artifacts/wa-hit-result-qualified-20261020-01.json"
+      ],
+      "acceptanceNotes": "Two exact PE-unwind windows, three bounded direct-entry windows, local closest-ray collector RTTI and optional 0xFFFF-record backlink path verified. Final entity identity remains unresolved; peer excerpt-review errors rejected using native bytes."
+    },
+    {
+      "id": "WA-004",
+      "milestone": "WA",
+      "lane": "manager",
+      "title": "File-only local world inspector",
+      "status": "integrated",
+      "dependsOn": [
+        "WA-001",
+        "WA-002"
+      ],
+      "deliverable": "Read-only saved-observation CLI producing provenance-aware HTML and JSON",
+      "acceptance": [
+        "Distinct IDs, merged roles, explicit conflicts",
+        "No invented scenery/visibility/reachability",
+        "No-clobber output and no live process/network/control path"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
+      "evidence": [
+        "tools/world-inspector.py",
+        "docs/world-awareness-demo.json",
+        "artifacts/world-inspector-release-20261020-recorded/report.json",
+        "artifacts/world-inspector-release-20261020-demo/report.json"
+      ],
+      "acceptanceNotes": "File-only implementation validated with 50 inspector tests and real historical player-only receipt; synthetic 6-record/5-ID demonstration kept separate. Independent full-code QA remains WA-005."
+    },
+    {
+      "id": "WA-005",
+      "milestone": "WA",
+      "lane": "validation",
+      "title": "Inspector regression and independent QA",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-003",
+        "WA-004",
+        "WA-005A",
+        "WA-005B",
+        "WA-005C"
+      ],
+      "deliverable": "Negative-input, identity, provenance and projection tests plus saved-evidence review",
+      "acceptance": [
+        "Inspected actual exit codes",
+        "Synthetic and historical evidence distinguished",
+        "Independent review findings resolved or documented"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "partialTestCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
+      "blockers": [
+        "Inspector 1.1.1 fixes passed 66 inspector tests and the 377-test unified gate, but independent final-source QA remains incomplete. Latest A/C attempts timed out, B attempted tools and contained rejected claims, and the Codex launcher was tool-blocked before creation. Do not repeat these blocked/unchanged attempts or mark this gate complete from test counts."
+      ],
+      "previousValidation": {
+        "job": "rre-wa-20261020-final-validation-reports-02",
+        "exitCode": 0,
+        "testsPassed": 80
+      },
+      "previousUnifiedValidation": {
+        "job": "rre-tools-20261020-unified-gate-02",
+        "exitCode": 0,
+        "testsPassed": 357
+      },
+      "validationJob": "rre-wa3-20261020-unified-gate-01",
+      "validationExitCode": 0,
+      "testsPassed": 377,
+      "partialFixCommit": "c651fb99619c345bdf910e2abd81f6b606de3bb1",
+      "checkpoint": "docs/inspector-qa-resumption-2026-10-20.md"
+    },
+    {
+      "id": "WA-006",
+      "milestone": "WA",
+      "lane": "manager",
+      "title": "Qualify real small-scene world observations",
+      "status": "blocked",
+      "dependsOn": [
+        "WA-005"
+      ],
+      "deliverable": "Current bound player and distinct objects, known physical hit and camera landmark calibration",
+      "acceptance": [
+        "Real simultaneous distinct IDs",
+        "Qualified shape/owner and world coordinates",
+        "Camera-only and scene/restart checks"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "blockers": [
+        "Current multi-object enumeration, hit-owner binding and camera calibration are not established; historical player data and synthetic tests cannot substitute"
+      ]
+    },
     {
       "id": "M0-001",
       "milestone": "M0",
@@ -1690,10 +2265,98 @@
         ],
         "sourceReportCommittedAt": "138ad1ca70fc4f619bfb615c2b937bdeed303578"
       }
+    },
+    {
+      "id": "VE-002",
+      "milestone": "WA",
+      "lane": "manager",
+      "title": "Directly review pinned old-wheel original images and recorded timing",
+      "status": "integrated",
+      "dependsOn": [
+        "VE-001"
+      ],
+      "deliverable": "Visual inspection of immutable before/after RIFT image pair, four exact native-resolution sample-region crops, original action/source timing, provenance-preserving write-once review packet and unchanged diagnostic status",
+      "acceptance": [
+        "Original 13-file screenshot bundle and before/after/action/journal hashes verify without original modification",
+        "Actually inspect source-derived image pixels and all four native-resolution patch regions; retain observed versus inferred distinction",
+        "Calculate wheel-event versus frame timing from recorded metadata, identify pre-action animation confound",
+        "Preserve the original INCONCLUSIVE zoom verdict and fixed texture-quality thresholds",
+        "Write new non-overwriting review images/JSON and a last-written SHA-bound receipt; no game inputs, runtime changes or external repository edits",
+        "Distinguish this Manager visual review from external vision-service delivery, WA-005 independent source QA and native camera calibration"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "0d4826eee76325de286d17844b266795deada019",
+      "plan": "docs/VISUAL_EVIDENCE_ROADMAP.md",
+      "checkpoint": "docs/old-wheel-image-review-2026-10-21.md",
+      "managerModel": "GPT-6",
+      "reasoningLevel": "",
+      "workMode": "Manager direct review of actual compressed source-derived images, original BMP source hashes pinned; not an independent external vision-model or code-review session",
+      "originalBundle": "artifacts/visual-evidence-release-20261020/recorded-old-wheel-baseline",
+      "reviewArtifact": "artifacts/visual-old-wheel-review-20261021-01/review.json",
+      "reviewSha256": "678273e497214a2f15a603c1442a9b0506cabaed399e19b061df5d19e0dddead",
+      "completionReceipt": "artifacts/visual-old-wheel-review-20261021-01/complete.json",
+      "completionReceiptSha256": "5d83a062c953b2d27108612d305c6d240926961058f223c1d20a6abaf1f2196c",
+      "originalBeforeSha256": "7d54573e10ccea632ece29ae933f6686b37f605b03e25fb3b3b4e3f1e32eb385",
+      "originalAfterSha256": "c154b72ef61734e8b1471c122bbc16f57d383f572ce77c902760c11f3ceb1dfe",
+      "validationJobs": [
+        {
+          "jobId": "rre-20261021-wheel-original-bundle-verify-01",
+          "exitCode": 0,
+          "scope": "verify original 13-file publication"
+        },
+        {
+          "jobId": "rre-20261021-wheel-action-frame-timing-01",
+          "exitCode": 0,
+          "scope": "read-only original source/action/journal binding and time"
+        },
+        {
+          "jobId": "rre-20261021-old-wheel-manual-review-publish-01",
+          "exitCode": 0,
+          "scope": "publish fresh derived packet only"
+        },
+        {
+          "jobId": "rre-20261021-old-wheel-review-independent-hash-check-01",
+          "exitCode": 0,
+          "scope": "10 immutable originals and 4 new publication file hashes, original classification"
+        }
+      ],
+      "result": {
+        "status": "inconclusive",
+        "inputDelivered": true,
+        "responseVerified": false,
+        "beforeToWheelSeconds": 25.031753,
+        "wheelToAfterSeconds": 0.95734,
+        "qualifiedPatchCount": 3,
+        "unqualifiedPatchCount": 1,
+        "recordedMaxMseUnchanged": 100,
+        "upperLeftPoorMatchMse": 144.28571428571428,
+        "conclusion": "Small outward texture shifts are consistent with but do not prove subtle zoom. A 25-s before-action gap, moving actors/animation, and a poor match prevent causal confirmation or reliable no-zoom claim."
+      },
+      "independentAiImageReview": "not-attempted; direct assistant inspection is not an independent service review",
+      "independentCodeReview": "not performed; WA-005 remains blocked",
+      "liveActions": false,
+      "gameProcessAttached": false,
+      "sourceFilesPreserved": 10,
+      "evidence": [
+        "docs/old-wheel-image-review-2026-10-21.md",
+        "artifacts/visual-old-wheel-review-20261021-01/review.json",
+        "artifacts/visual-old-wheel-review-20261021-01/complete.json",
+        "artifacts/visual-old-wheel-review-20261021-01/full-frame-side-by-side.jpg",
+        "artifacts/visual-old-wheel-review-20261021-01/original-pixel-patches-upper.jpg",
+        "artifacts/visual-old-wheel-review-20261021-01/original-pixel-patches-lower.jpg"
+      ]
     }
   ],
   "decisionLog": [
-    {"date":"2026-10-20","decision":"Add WA world-awareness track following Joey's explicit approval; entity identity and physical-space research may advance independently from unresolved type7 dispatch.","reason":"Object recognition, collision and camera projection are distinct prerequisites useful even before native routing is qualified.","scope":"Offline/source/saved-observation work; no live actuation or changes to external repos; current ChatGPT is the sole Manager.","model":"GPT-6 Astra Pro","reasoningLevel":""},
+    {
+      "date": "2026-10-20",
+      "decision": "Add WA world-awareness track following Joey's explicit approval; entity identity and physical-space research may advance independently from unresolved type7 dispatch.",
+      "reason": "Object recognition, collision and camera projection are distinct prerequisites useful even before native routing is qualified.",
+      "scope": "Offline/source/saved-observation work; no live actuation or changes to external repos; current ChatGPT is the sole Manager.",
+      "model": "GPT-6 Astra Pro",
+      "reasoningLevel": ""
+    },
     {
       "id": "D-001",
       "decision": "Reuse-first native facilities. No default replacement pathfinder.",
@@ -1831,16 +2494,21 @@
       "date": "2026-10-20",
       "decision": "Accept bounded PF31–PF33 original-byte proof of generic job type/subtype table indexing and hkpMaxSizeMotion vtable alias. Preserve nonnull simulation queue, populated type7 handler, actual type7 producer, route and player-use as unresolved. No new game input or independent agent task success claimed.",
       "basis": "Main 8b46800, Pathfinding branch 2d3c089; tool/agents/pathfinding/m3_001_dispatcher_handler_alias_findings.json; 57/57 integrated test job rre-m3-resume-main-pathfinding-57test-20261020-0938."
+    },
+    {
+      "id": "D-024",
+      "date": "2026-10-21",
+      "decision": "Accepted VE-002 direct review of saved old-wheel frames and one-notch action: verified original package, actually viewed source-derived pixels and native-resolution crops, rechecked 25.032s before/action gap and 0.957s after/action gap. Three qualified outward-shift candidates plus one poor match do not prove camera zoom; preserved INCONCLUSIVE result and unchanged thresholds. This Manager review is not independent external image-model delivery or WA-005 code QA.",
+      "basis": "Main review commit 0d4826eee76325de286d17844b266795deada019; docs/old-wheel-image-review-2026-10-21.md; review/complete SHA-bound artifacts; four actual passed verification/publication jobs."
     }
   ],
   "nextManagerActions": [
-    "VE-001 offline screenshot integration accepted at 843c2f4: 435-test gate includes 58 new visual tests, immutable image packages and exact VM/game/action journal checks. Read docs/visual-evidence.md and the visual checkpoint. Final reversible zoom passed; the old-wheel pair is inconclusive and disagrees with a blanket no-motion narrative. Inspect saved evidence before revising that conclusion; do not lower thresholds to force agreement. No external vision model received pixels, no live capture orchestration was added, and WA-005/WA-006 gates remain unchanged.",
-    "RRE toolchain TG-001..005 fixes pass the 357-test unified gate and inspector 1.1 publication checks. Read the tooling acceptance record and completion plan; do not reimplement accepted tools or repeat unchanged failed reviewer workflows. Independent A/B reviews and C's final delta remain pending; archived model claims were not blindly applied. WA-006 current multi-object/physics/camera proof is still absent.",
-    "WA-007 has seven retained regions/469 rows linking collision-property value to a container lookup, but the writer/actual entity ID is unresolved. The next native capture was tool-blocked and must not be retried through another route. Preserve saved-only evidence. Workbridge core/runtime stayed unchanged; its missing global job-ID listing is documented and this workflow uses durable RRE run receipts.",
-    "Continue parallel M3-001: find same-object non-null simulation+0x160 queue-pointer assignment using exact PE instructions and full receiver/data-flow provenance. Global factory 0x89E5D0 allocates 0x1D8, separate world simulation request 0x200 via 0x089ABC; do not conflate with 0x89Cxxx code.",
-    "Use current tools/agents/pathfinding/m3_001_displacement_index.py with qualified RBP stack-frame exclusions. Source index covers only three partial RVA bands 0x1000..0xC00000 and may miss indirect/leaf/dataflow writes; do not infer absence from missing matches.",
-    "Only after a same-object queue identity is established inspect a populated type-7 entry at queue+0x210 and an actual type byte 7 job producer/route output/player link. No custom pathfinder or game interaction permitted by this roadmap.",
-    "Preflight workspace/job/build hashes, one writer per lane, preserve all original artifacts and two pre-existing untracked raw-probe files. M4A synthetic prototype is finished; full M4, M5 live T0/T1/T2, M6 and M7 remain separately gated."
+    "VE-002 original old-wheel review is complete, its quality thresholds and inconclusive source result preserved; do not repeat the same historical wheel action, reinterpret input delivery as camera response or rebuild VE-001.",
+    "M3-001 is the ready static-native critical-path task: recover a same-object nonnull hkpMultiThreadedSimulation+0x160 queue pointer and same-queue registered type-7 handler/producer. Do not redo the already accepted typed dispatcher or separate global-factory evidence.",
+    "WA-005A/B/C independent inspector source QA remains blocked on acceptable reviewer results; do not repeat identical failed/blocked attempts. WA-006 requires actual separately authorized and bound multi-object/physics/camera observations.",
+    "WA-007's further native capture was tool-blocked; do not route around that block. Reuse saved immutable source and inspect only permitted research leads.",
+    "For any future camera experiment require separately approved fresh immediate-before/after/settled screenshots bound to same game/scene and independent stable landmarks. No live input was authorized by this VE-002 review.",
+    "Preserve the two historical untracked raw probe files, six clean worker worktrees, 15 original accepted RR2 evidence files, and the 435-test gate checkpoint. Run a fresh full gate only after source changes."
   ],
   "primaryNearTermGoal": {
     "id": "M4A",
