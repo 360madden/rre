@@ -98,7 +98,8 @@ check((tasks.get('M5-T2')?.dependsOn || []).includes('M5-T1'), 'T2 must depend o
 
 // M4A is a preparatory, replay-only target-approach rehearsal, not M4/M5 approval.
 if (milestones.has('M4A')) {
-  const goal=board.primaryNearTermGoal || {};
+  // Preserve accepted M4A evidence without forcing it to remain the active goal.
+  const goal=board.historicalM4A || board.primaryNearTermGoal || {};
   check(goal.id==='M4A' && goal.gameInputAuthorized===false &&
         goal.doesNotAdvanceFullM4WithoutM3===true,
         'M4A must be a no-game-input preparatory goal');
@@ -116,6 +117,39 @@ if (milestones.has('M4A')) {
   check(milestones.get('M4A')?.status!=='integrated'||
         tasks.get('M4A-008')?.status==='integrated',
         'M4A cannot complete before final independent acceptance');
+}
+
+// The behavior-first pivot must change the real dependency graph, not just prose.
+if (board.navigationPivot) {
+  const pivot = board.navigationPivot;
+  function reaches(nodes, from, target, seen = new Set()) {
+    if (from === target) return true;
+    if (seen.has(from)) return false;
+    seen.add(from);
+    return (nodes.get(from)?.dependsOn || []).some(dep => reaches(nodes, dep, target, seen));
+  }
+  check(Array.isArray(pivot.primaryTasks) &&
+        pivot.primaryTasks.includes(board.primaryNearTermGoal?.id) &&
+        tasks.has(board.primaryNearTermGoal?.id) &&
+        board.primaryNearTermGoal.gameInputAuthorized === false,
+        'Navigation pivot must select a registered behavior-first goal without granting input.');
+  check(pivot.type7IsPrerequisite === false && pivot.gameInputAuthorized === false,
+        'Navigation pivot may not require type-7 or grant game input.');
+  check(pivot.maxUnproductiveProbes === 2 && pivot.reviewAfterEachProbe === true &&
+        pivot.reentryRequiresNewEvidence === true,
+        'Navigation pivot is missing bounded probe/reentry rules.');
+  check(tasks.has('NAV-001') && tasks.has('NAV-002'), 'Navigation readiness tasks missing.');
+  check(reaches(tasks, 'NAV-002', 'NAV-001') && reaches(tasks, 'M4-001', 'NAV-002'),
+        'M4 must retain route-specific evidence and readiness gates.');
+  for (const id of ['NAV-001', 'NAV-002', 'M4-001', 'M5-T0']) {
+    check(!reaches(tasks, id, 'M3-001'), id + ' must not depend on deferred type-7 research.');
+    check(!reaches(tasks, id, 'WA-006'), id + ' must not universally require full world recognition.');
+  }
+  check(!reaches(milestones, 'M4', 'M3'), 'M4 milestone must not restore the deep-engine prerequisite.');
+  check((tasks.get('M5-T0')?.dependsOn || []).includes('M4-001'),
+        'T0 still requires the reviewed offline adapter.');
+  check(roadmap.includes('NAV-001') && roadmap.includes('docs/NAVIGATION-PIVOT-2026-10-21.md'),
+        'Roadmap does not expose the active navigation pivot.');
 }
 
 const statusCounts = {};

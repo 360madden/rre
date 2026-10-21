@@ -5,6 +5,7 @@ This repository researches Rift native navigation and reverse engineering. Curre
 ## Mandatory milestone roadmap
 
 - Read `ROADMAP.md` and `docs/roadmap-tasks.json` before starting a task; follow milestone dependencies and exit gates. This is mandatory, not an optional planning document.
+- Active navigation priority is the behavior-first pivot in `docs/NAVIGATION-PIVOT-2026-10-21.md`: start with NAV-001/NAV-002, not deferred M3-001. Park a lead after two distinct probes without decision-changing evidence; reopening needs a recorded new trigger. Do not recreate old type-7 or complete-world-recognition dependencies, repeat blocked routes, or infer input bindings from convention.
 - Every task must have a board ID, exclusive lane and owned paths, evidence requirements, and completion test. Only the single designated manager updates the roadmap/board, allocates work, integrates, or records deviations. Run `node tools/validate-roadmap.mjs` after every task-board change and before integrating roadmap changes.
 - Before resuming work, reconcile actual command jobs, branch/worktree statuses and uncommitted files. Do not assume an old Codex worker has stopped or create a second writer in its lane.
 - Workbridge's six concurrent command-job slots are not evidence of six independent AI agents. Verify real worker support and capacity, and queue tasks that cannot be assigned without conflicts.

@@ -69,11 +69,11 @@
   "roadmap": "ROADMAP.md",
   "latestRoadmapUpdate": {
     "dateLocal": "2026-10-21",
-    "path": "docs/ROADMAP-UPDATE-2026-10-21.md",
-    "startingHead": "c84a67b3162e326f5bbe3e172d9a5c7af190326a",
+    "path": "docs/NAVIGATION-PIVOT-2026-10-21.md",
+    "startingHead": "1ecd1d059d5197210ea9ad4cdf98fb5616a9dd21",
     "lastFullGateTests": 435,
-    "newFullGateRun": false,
-    "workbridgeVersionObserved": "0.16.2-dev",
+    "newFullGateRun": true,
+    "workbridgeVersionObserved": "0.16.3-dev",
     "workbridgeCommandCapacity": 6,
     "availableIndependentAiWorkerCount": null,
     "pathfindingWorktreeUntrackedPreserve": [
@@ -81,7 +81,10 @@
       "tools/agents/pathfinding/m3_001_verify_jobtype_stack_encoding.py"
     ],
     "pathfindingLaneRequiresOwnershipReconciliation": true,
-    "noNewGameInput": true
+    "noNewGameInput": true,
+    "validationJob": "rre-nav-pivot-full-gate-20261021-01",
+    "validationExitCode": 0,
+    "validationArtifact": "artifacts/research-gate-navigation-pivot-20261021-01/validation.json"
   },
   "activeCompletionPlan": {
     "path": "docs/WORLD_AWARENESS_COMPLETION_PLAN.md",
@@ -185,7 +188,7 @@
   "coordination": {
     "manager": "single designated coordinator; not a second worker in parallel",
     "parentChatGPT": "oversight and reporting",
-    "verifiedWorkbridgeVersion": "0.16.2-dev",
+    "verifiedWorkbridgeVersion": "0.16.3-dev",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
     "availableIndependentAiWorkerCount": null,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
@@ -546,11 +549,12 @@
     {
       "id": "M3",
       "title": "Native routing and collision reuse",
-      "status": "ready",
+      "status": "deferred",
       "dependsOn": [
         "M0"
       ],
-      "gate": "Evidence-backed handler/cast investigation; no automatic custom pathfinder"
+      "gate": "Evidence-backed handler/cast investigation; no automatic custom pathfinder",
+      "priorityReason": "Deep type-7/queue internals removed from the primary path; reopen only on a new evidence bridge to a specific player-behavior test. Existing collision and static evidence remain preserved."
     },
     {
       "id": "M4A",
@@ -571,10 +575,9 @@
       "dependsOn": [
         "M1",
         "M2",
-        "M3",
         "M4A"
       ],
-      "gate": "Deterministic replay/mock tests and qualified existing telemetry, no game input"
+      "gate": "NAV-001/NAV-002 readiness and qualified selected-route input/telemetry contract, reusable deterministic M4A tests; no type-7 or full-world-recognition prerequisite and no game input."
     },
     {
       "id": "M5",
@@ -1345,7 +1348,7 @@
       "milestone": "M3",
       "lane": "pathfinding",
       "title": "Find actual type-7 registration, handlers and producers",
-      "status": "ready",
+      "status": "deferred",
       "dependsOn": [
         "M0-002"
       ],
@@ -1637,7 +1640,14 @@
           "nextTarget": "Identify hkpMultiThreadedSimulation+0x160 nonnull same-object queue assignment; discover actual type7 handler registration using reaching definitions and indirect/indexed setters; then job TYPE7 producer, route output and player binding. Do not claim absence from bounded scans."
         }
       ],
-      "acceptanceNotes": "READY/incomplete: main e8ba95f incorporates PF28–PF30 bounded zero-source qualification and safe source-index refinement, 46/46 tests on worker lane AND on integrated main (both exit 0); previous 40ac23a separate-factory lifetime remains accepted. Historic 43 syntactic index candidates are NOT proven same-simulation writes. Latest PF31–PF33 exact-byte/RTTI checkpoint (main 8b46800, 57/57 Pathfinding tests) qualifies job type/subtype indexing and rejects hkpMaxSizeMotion vtable alias at +0x150; no operational type7 callback has been established. Real non-null simulation+0x160 queue writer, populated +0x210 type-7 handler and type-7 producer/player route are unverified."
+      "acceptanceNotes": "READY/incomplete: main e8ba95f incorporates PF28–PF30 bounded zero-source qualification and safe source-index refinement, 46/46 tests on worker lane AND on integrated main (both exit 0); previous 40ac23a separate-factory lifetime remains accepted. Historic 43 syntactic index candidates are NOT proven same-simulation writes. Latest PF31–PF33 exact-byte/RTTI checkpoint (main 8b46800, 57/57 Pathfinding tests) qualifies job type/subtype indexing and rejects hkpMaxSizeMotion vtable alias at +0x150; no operational type7 callback has been established. Real non-null simulation+0x160 queue writer, populated +0x210 type-7 handler and type-7 producer/player route are unverified.",
+      "deferral": {
+        "reason": "Low-yield deep-engine branch is no longer the navigation critical path.",
+        "preserveUntrackedWork": true,
+        "reentry": "New observed player behavior, direct player-linked caller/data flow, or newly qualified source that makes a bounded discriminating test worthwhile.",
+        "maxUnproductiveProbes": 2,
+        "doesNotMean": "Not disproved, completed, or proof that native pathfinding is absent."
+      }
     },
     {
       "id": "M3-002",
@@ -1690,9 +1700,8 @@
         "M1-001",
         "M2-001",
         "M2-002",
-        "M3-001",
-        "M3-002",
-        "M4A-008"
+        "M4A-008",
+        "NAV-002"
       ],
       "deliverable": "Deterministic replay/mock using existing qualified RiftReader telemetry and target observation",
       "acceptance": [
@@ -1703,8 +1712,9 @@
       "jobId": null,
       "integratedCommit": null,
       "blockers": [
-        "Interface and evidence prerequisites unresolved"
-      ]
+        "NAV-001/NAV-002 must identify one evidence-backed input/telemetry route and a bounded cancellation test protocol. No type-7 dependency; native response and actual stopping remain for separately authorized T0/T1."
+      ],
+      "scopeQualification": "Minimum route-specific offline adapter; review M4A's synthetic moving-away policy because a genuine native detour can temporarily increase target distance. Do not require complete WA recognition unless the chosen consumer actually depends on it."
     },
     {
       "id": "M5-T0",
@@ -2362,6 +2372,57 @@
         "artifacts/visual-old-wheel-review-20261021-01/original-pixel-patches-upper.jpg",
         "artifacts/visual-old-wheel-review-20261021-01/original-pixel-patches-lower.jpg"
       ]
+    },
+    {
+      "id": "NAV-001",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Audit the minimum player-facing navigation evidence and choose one discriminating test",
+      "status": "ready",
+      "dependsOn": [
+        "M1-001",
+        "M2-001",
+        "M2-002",
+        "M4A-008"
+      ],
+      "deliverable": "One compact C2M/follow capability matrix with exact retained sources, confidence/contradictions, player/target observation coverage, cancellation evidence and the next cheapest test or blocker.",
+      "acceptance": [
+        "Use saved source/evidence first; no game input or new native capture.",
+        "Do not infer player routing or actual stopping from RVAs, labels, key-up or command acknowledgements.",
+        "Identify the actual lab binding/gesture evidence rather than assume conventional keys.",
+        "Choose one decision-relevant next test, exact missing inputs, one owner and a bounded probe budget.",
+        "Do not touch the preserved Pathfinding scripts or restart the deferred type-7 branch."
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "ownedPaths": [
+        "docs/navigation-capability-audit.md"
+      ],
+      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md"
+    },
+    {
+      "id": "NAV-002",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Prepare one route-specific movement-and-stop observation protocol",
+      "status": "queued",
+      "dependsOn": [
+        "NAV-001"
+      ],
+      "deliverable": "Source-reviewed and offline-checked readiness packet for one native player-facing input route, observation contract, bounded activation, cancellation/recovery protocol and independently measured stop criterion.",
+      "acceptance": [
+        "Exact VM/game/scene and source-freshness requirements, gesture/coordinates, abort/recovery conditions and missing authorization are explicit.",
+        "Immediate-before/after/settled frames plus time-aligned reference samples; latched movement cancellation is not confused with input release.",
+        "No circular requirement for T0 already to pass before preparing T0; actual stop qualification occurs only in authorized T0.",
+        "Use the existing M4A replay and RR2 capture path without external-repository changes or duplicate tooling.",
+        "Park unresolved leads after two distinct probes without decision-changing evidence; preserve source hashes and the exact blocker."
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "ownedPaths": [
+        "docs/navigation-first-behavior-test.md"
+      ],
+      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md"
     }
   ],
   "decisionLog": [
@@ -2516,62 +2577,39 @@
       "date": "2026-10-21",
       "decision": "Accepted VE-002 direct review of saved old-wheel frames and one-notch action: verified original package, actually viewed source-derived pixels and native-resolution crops, rechecked 25.032s before/action gap and 0.957s after/action gap. Three qualified outward-shift candidates plus one poor match do not prove camera zoom; preserved INCONCLUSIVE result and unchanged thresholds. This Manager review is not independent external image-model delivery or WA-005 code QA.",
       "basis": "Main review commit 0d4826eee76325de286d17844b266795deada019; docs/old-wheel-image-review-2026-10-21.md; review/complete SHA-bound artifacts; four actual passed verification/publication jobs."
+    },
+    {
+      "id": "D-NAV-PIVOT-20261021",
+      "date": "2026-10-21",
+      "decision": "Adopt behavior-first bounded navigation research; defer M3-001 and remove it from M4's dependency graph, replacing it with NAV-001/NAV-002 route-specific evidence/readiness tasks.",
+      "reason": "Joey identified stalling on dead ends; the previous parallel-research wording still left a mandatory type-7 dependency.",
+      "evidence": "Actual pre-pivot M4-001 depended on M3-001; C2M/follow have separate saved player-facing leads; no native route is claimed qualified.",
+      "scope": "Planning and validator consistency only. Reuse-first, independent QA, preserved evidence and live-authorization gates remain unchanged.",
+      "model": "GPT-6 Astra Pro",
+      "reasoningLevel": ""
     }
   ],
   "nextManagerActions": [
-    "October 21 M0: preserve and identify the owner/progress of two untracked Pathfinding jobtype-stack-encoding scripts before assigning M3-001; refresh actual independent worker count and Workbridge paged job inventory. No duplicate writer.",
-    "VE-002 original old-wheel review is complete, its quality thresholds and inconclusive source result preserved; do not repeat the same historical wheel action, reinterpret input delivery as camera response or rebuild VE-001.",
-    "M3-001 is the ready static-native critical-path task: recover a same-object nonnull hkpMultiThreadedSimulation+0x160 queue pointer and same-queue registered type-7 handler/producer. Do not redo the already accepted typed dispatcher or separate global-factory evidence.",
-    "WA-005A/B/C independent inspector source QA remains blocked on acceptable reviewer results; do not repeat identical failed/blocked attempts. WA-006 requires actual separately authorized and bound multi-object/physics/camera observations.",
-    "WA-007's further native capture was tool-blocked; do not route around that block. Reuse saved immutable source and inspect only permitted research leads.",
-    "For any future camera experiment require separately approved fresh immediate-before/after/settled screenshots bound to same game/scene and independent stable landmarks. No live input was authorized by this VE-002 review.",
-    "Preserve the two historical untracked raw probe files, six clean worker worktrees, 15 original accepted RR2 evidence files, and the 435-test gate checkpoint. Run a fresh full gate only after source changes."
+    "Resume NAV-001: audit saved C2M/follow/player-observation/cancellation evidence and choose the smallest discriminating test. Do not begin with another type-7 scan.",
+    "M3-001 is DEFERRED. Preserve its two untracked Pathfinding scripts and reconcile ownership before later writes; this does not block unrelated navigation evidence work.",
+    "Prepare NAV-002, then the minimum M4 offline adapter. M4 no longer depends on type-7 or complete world recognition; it still requires an evidence-backed selected-route contract.",
+    "After two distinct probes without decision-changing evidence, park the lead. Reopen only with a recorded new player-linked source/behavior or a specifically resolved blocker; never retry an unchanged blocked route.",
+    "Keep WA-005 independent QA and WA-006/WA-007 qualification honest, but do not make unrelated navigation tests depend on unused inspector/ownership/camera features.",
+    "T0 then T1 then T2 still require separate live approval. Use actual binding evidence, fresh screenshots/telemetry and independently observed stopping; no custom pathfinder or new gameplay authority is implied.",
+    "Preserve all original evidence and the two historical main probe files. Do not redo M4A or VE-001/VE-002. Run the full research gate after validator/source changes and record actual results."
   ],
   "primaryNearTermGoal": {
-    "id": "M4A",
-    "purpose": "A reproducible, synthetic offline stationary-target approach decision simulator, not gameplay movement",
-    "scope": "13 fixed synthetic scenarios, pure decision intents, terminal fail-closed reasons, reproducible JSON",
-    "roadmap": "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md",
-    "contract": "docs/m4a-offline-target-contract.json",
-    "fixtures": "docs/m4a-offline-target-fixtures.json",
-    "launcher": "docs/M4A_LAUNCH_PROMPT.md",
-    "validator": "tools/validate-m4a-seed.mjs",
-    "gates": [
-      "M4A-001",
-      "M4A-002",
-      "M4A-003",
-      "M4A-004",
-      "M4A-005",
-      "M4A-006",
-      "M4A-007",
-      "M4A-008"
+    "id": "NAV-001",
+    "status": "ready",
+    "purpose": "Identify the smallest testable existing player-facing movement-and-cancellation route using retained evidence; classify exact missing links before further scans.",
+    "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
+    "nextEligibleTasks": [
+      "NAV-001"
     ],
-    "finalGate": "13 synthetic cases, deterministic replay, no live game/control/IPC, independent QA, reviewed Git, previous suite green",
     "gameInputAuthorized": false,
     "nativePathfindingRecovered": false,
-    "doesNotAdvanceFullM4WithoutM3": true,
-    "started": true,
-    "completedGates": [
-      "M4A-001",
-      "M4A-002",
-      "M4A-003",
-      "M4A-004",
-      "M4A-005",
-      "M4A-006",
-      "M4A-007",
-      "M4A-008"
-    ],
-    "nextEligibleTasks": [
-      "M3-001"
-    ],
-    "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
-    "currentExternalBlocker": null,
-    "status": "accepted-offline-only",
-    "finalAcceptanceReport": "docs/m4a-acceptance-report.md",
-    "finalAcceptanceCommit": "138ad1ca70fc4f619bfb615c2b937bdeed303578",
-    "implementation": "tools/offline-target-approach.py",
-    "testCount": 206,
-    "finalReplaySha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7"
+    "type7IsPrerequisite": false,
+    "fullWorldRecognitionRequired": false
   },
   "preflightM4A": {
     "dateLocal": "2026-10-19",
@@ -2656,5 +2694,98 @@
       ],
       "note": "Initial four attempts were auto-rejected for reading external Manager-owned files; worktree-only embedded-contract retrials succeeded. Do not infer work completed until independent tests and Git commits."
     }
+  },
+  "navigationPivot": {
+    "dateLocal": "2026-10-21",
+    "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
+    "basis": "Joey directed navigation research to pivot away from stalling on dead ends.",
+    "startingHead": "1ecd1d059d5197210ea9ad4cdf98fb5616a9dd21",
+    "strategy": "Behavior-first, reuse-first, evidence-bounded; investigate only the smallest missing link for the next test.",
+    "primaryTasks": [
+      "NAV-001",
+      "NAV-002",
+      "M4-001",
+      "M5-T0",
+      "M5-T1",
+      "M5-T2",
+      "M6-001"
+    ],
+    "type7IsPrerequisite": false,
+    "fullWorldRecognitionIsUniversalPrerequisite": false,
+    "maxUnproductiveProbes": 2,
+    "reviewAfterEachProbe": true,
+    "reentryRequiresNewEvidence": true,
+    "gameInputAuthorized": false,
+    "nativePathfindingRecovered": false,
+    "model": "GPT-6 Astra Pro",
+    "reasoningLevel": "",
+    "preflightJob": "rre-nav-pivot-20261021-preflight-01",
+    "preflightExitCode": 0,
+    "workbridgeVersionObserved": "0.16.3-dev",
+    "pathfindingUntrackedFilesPreserved": true,
+    "scope": "Research prioritization, documentation and roadmap-consistency checks only; no native or game operation.",
+    "validation": {
+      "initialValidatorJob": "rre-nav-pivot-validator-red-20261021-01",
+      "initialValidatorExitCode": 1,
+      "initialFailure": "Old checker hard-coded M4A as the active goal; corrected to preserve M4A as historical acceptance while checking current dependencies.",
+      "focusedJob": "rre-nav-pivot-checks-20261021-01",
+      "focusedExitCode": 0,
+      "focusedCases": 12,
+      "focusedArtifact": "artifacts/navigation-pivot-validation-20261021-01.json",
+      "fullGateJob": "rre-nav-pivot-full-gate-20261021-01",
+      "fullGateExitCode": 0,
+      "fullGateTests": 435,
+      "fullGateArtifact": "artifacts/research-gate-navigation-pivot-20261021-01/validation.json",
+      "sourcesUnchanged": true,
+      "noNewGameplayValidation": true
+    }
+  },
+  "historicalM4A": {
+    "id": "M4A",
+    "purpose": "A reproducible, synthetic offline stationary-target approach decision simulator, not gameplay movement",
+    "scope": "13 fixed synthetic scenarios, pure decision intents, terminal fail-closed reasons, reproducible JSON",
+    "roadmap": "docs/M4A_OFFLINE_TARGET_APPROACH_ROADMAP.md",
+    "contract": "docs/m4a-offline-target-contract.json",
+    "fixtures": "docs/m4a-offline-target-fixtures.json",
+    "launcher": "docs/M4A_LAUNCH_PROMPT.md",
+    "validator": "tools/validate-m4a-seed.mjs",
+    "gates": [
+      "M4A-001",
+      "M4A-002",
+      "M4A-003",
+      "M4A-004",
+      "M4A-005",
+      "M4A-006",
+      "M4A-007",
+      "M4A-008"
+    ],
+    "finalGate": "13 synthetic cases, deterministic replay, no live game/control/IPC, independent QA, reviewed Git, previous suite green",
+    "gameInputAuthorized": false,
+    "nativePathfindingRecovered": false,
+    "doesNotAdvanceFullM4WithoutM3": true,
+    "started": true,
+    "completedGates": [
+      "M4A-001",
+      "M4A-002",
+      "M4A-003",
+      "M4A-004",
+      "M4A-005",
+      "M4A-006",
+      "M4A-007",
+      "M4A-008"
+    ],
+    "nextEligibleTasks": [
+      "M3-001"
+    ],
+    "g0Commit": "899a158f0da7ef800f3dfd9a69275aa6106ca165",
+    "currentExternalBlocker": null,
+    "status": "accepted-offline-only",
+    "finalAcceptanceReport": "docs/m4a-acceptance-report.md",
+    "finalAcceptanceCommit": "138ad1ca70fc4f619bfb615c2b937bdeed303578",
+    "implementation": "tools/offline-target-approach.py",
+    "testCount": 206,
+    "finalReplaySha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7",
+    "historicalOnly": true,
+    "schedulingSupersededBy": "navigationPivot; old M3 dependency and nextEligibleTasks are preserved as history, not active instructions."
   }
 }

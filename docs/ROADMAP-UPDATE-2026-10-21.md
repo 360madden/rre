@@ -1,5 +1,7 @@
 # RRE updated roadmap and resumption checkpoint — October 21, 2026
 
+**Superseded priority order:** Joey subsequently directed a behavior-first navigation pivot. Use [the active pivot](NAVIGATION-PIVOT-2026-10-21.md) and the current task board. M3-001 is now deferred; NAV-001/NAV-002 replace it on the primary path. The state and priorities below are the earlier morning checkpoint, not current scheduling instructions.
+
 This dated plan supplements `ROADMAP.md` and `docs/roadmap-tasks.json`; those files remain the canonical milestone/ownership definitions. Preserve accepted evidence and existing task IDs. This checkpoint is a **read-only research-state review**, not an approval for new game input, process attachment, native capture, external-repository modification or deployment.
 
 ## Objective and project split
@@ -60,7 +62,7 @@ All workers own distinct files and worktrees, return actual process/model/sessio
 
 ## Screenshot and live-evidence checklist
 
-For a future separately approved input trial, record **(1) identity-bound scene and input binding, (2) immediate pre-action frame, (3) action delivery/key release/stop, (4) immediate after and settled frames, (5) independently acquired player/target XYZ or heading where available, (6) image matcher diagnostic and direct reviewer pixels, (7) contradiction/uncertainty and output hashes**. A filename in a packet does not prove images were delivered to a reviewer. Correct RIFT-Lab-1 bindings documented October 20: **W forward, S backward, A/D turn, Q/E strafe**. Never silently swap turning and strafing.
+For a future separately approved input trial, record **(1) identity-bound scene and input binding, (2) immediate pre-action frame, (3) action delivery/key release/stop, (4) immediate after and settled frames, (5) independently acquired player/target XYZ or heading where available, (6) image matcher diagnostic and direct reviewer pixels, (7) contradiction/uncertainty and output hashes**. A filename in a packet does not prove images were delivered to a reviewer. The earlier keybinding summary was not reliable in light of Joey's correction. Verify the actual active lab's bindings from bound evidence; do not assume Q/E or A/D semantics or silently swap turning and strafing.
 
 ## Resume sequence
 
