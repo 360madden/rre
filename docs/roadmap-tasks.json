@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "RRE native navigation",
-  "asOfLocalDate": "2026-10-20",
+  "asOfLocalDate": "2026-10-21",
   "latestHandoff": {
     "path": "docs/HANDOFF-2026-10-20-1353-EDT.md",
     "asOfLocal": "2026-10-20T13:53:39-04:00",
@@ -67,6 +67,22 @@
   "timezone": "America/New_York",
   "repo": "C:/work/rre",
   "roadmap": "ROADMAP.md",
+  "latestRoadmapUpdate": {
+    "dateLocal": "2026-10-21",
+    "path": "docs/ROADMAP-UPDATE-2026-10-21.md",
+    "startingHead": "c84a67b3162e326f5bbe3e172d9a5c7af190326a",
+    "lastFullGateTests": 435,
+    "newFullGateRun": false,
+    "workbridgeVersionObserved": "0.16.2-dev",
+    "workbridgeCommandCapacity": 6,
+    "availableIndependentAiWorkerCount": null,
+    "pathfindingWorktreeUntrackedPreserve": [
+      "tools/agents/pathfinding/m3_001_test_jobtype_stack_encoding.py",
+      "tools/agents/pathfinding/m3_001_verify_jobtype_stack_encoding.py"
+    ],
+    "pathfindingLaneRequiresOwnershipReconciliation": true,
+    "noNewGameInput": true
+  },
   "activeCompletionPlan": {
     "path": "docs/WORLD_AWARENESS_COMPLETION_PLAN.md",
     "dateLocal": "2026-10-20",
@@ -169,7 +185,7 @@
   "coordination": {
     "manager": "single designated coordinator; not a second worker in parallel",
     "parentChatGPT": "oversight and reporting",
-    "verifiedWorkbridgeVersion": "0.6.1",
+    "verifiedWorkbridgeVersion": "0.16.2-dev",
     "verifiedWorkbridgeConcurrentCommandJobLimit": 6,
     "availableIndependentAiWorkerCount": null,
     "rule": "Never derive AI-agent count from command-job capacity; verify installed Codex/subagent capability and existing jobs before launch.",
@@ -2503,6 +2519,7 @@
     }
   ],
   "nextManagerActions": [
+    "October 21 M0: preserve and identify the owner/progress of two untracked Pathfinding jobtype-stack-encoding scripts before assigning M3-001; refresh actual independent worker count and Workbridge paged job inventory. No duplicate writer.",
     "VE-002 original old-wheel review is complete, its quality thresholds and inconclusive source result preserved; do not repeat the same historical wheel action, reinterpret input delivery as camera response or rebuild VE-001.",
     "M3-001 is the ready static-native critical-path task: recover a same-object nonnull hkpMultiThreadedSimulation+0x160 queue pointer and same-queue registered type-7 handler/producer. Do not redo the already accepted typed dispatcher or separate global-factory evidence.",
     "WA-005A/B/C independent inspector source QA remains blocked on acceptable reviewer results; do not repeat identical failed/blocked attempts. WA-006 requires actual separately authorized and bound multi-object/physics/camera observations.",
