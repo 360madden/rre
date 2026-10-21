@@ -36,7 +36,7 @@ def run(output:Path, image_python:Path | None = None):
     output.mkdir(parents=False,exist_ok=False)
     before=source_inventory()
     state={'schemaVersion':1,'startedAt':now(),'status':'running','sourceHashes':before,'groups':[],
-           'scope':'RRE lane Python tests, separate screenshot image-runtime tests, review-adapter Node tests and roadmap validator',
+           'scope':'RRE lane Python tests, navigation evidence tests, separate screenshot image-runtime tests, review-adapter Node tests and roadmap validator',
            'excludes':'Other repositories, model inference, live game observation and unrelated hardware/runtime acceptance'}
     def checkpoint():
         temp=output/'state.tmp';temp.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8');temp.replace(output/'validation.json')
@@ -44,6 +44,7 @@ def run(output:Path, image_python:Path | None = None):
     commands=[]
     for lane in ('validation','c2m','follow','collision','pathfinding'):
         commands.append((lane,[sys.executable,'-B','-c',TEST_SCRIPT,'tools/agents/'+lane],'python',150))
+    commands.append(('navigation-evidence',[sys.executable,'-B','-c',TEST_SCRIPT,'tools/tests_navigation'],'python',60))
     # Reuse an existing image runtime without installing packages or altering environments.
     default_image = ROOT.parent/'riftreader2/artifacts/tools/control-python/Scripts/python.exe'
     image_executable = str(image_python or (default_image if default_image.is_file() else Path(sys.executable)))

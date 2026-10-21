@@ -2468,6 +2468,35 @@
         "NAV-B04: Separate live approval, sole actual input ownership and reviewed operator takeover not established by this offline packet."
       ],
       "acceptanceNotes": "Draft protocol and machine packet are committed and passed consistency checks; overall readiness is NOT accepted. No need for type7, full world awareness, target entity or calibrated W2S for the proposed T0."
+    },
+    {
+      "id": "NAV-003",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Implement file-only single-request and physical-stop evidence evaluation",
+      "status": "review",
+      "dependsOn": [
+        "NAV-001",
+        "M4A-008"
+      ],
+      "deliverable": "Bounded deterministic evaluator of reviewed-point delivery metadata and baseline/during/post-cancel position samples, with regression tests; no controller or capture implementation.",
+      "acceptance": [
+        "Reject stale, replayed, wrong-identity, mixed-clock, ambiguous or insufficient samples without a false stop pass.",
+        "Continue evaluating all retained post-cancel samples; distinguish motion from stationary evidence without treating command release as stop.",
+        "Check exact reviewed client point and dimensions against the single recorded activation; do not issue inputs.",
+        "Keep synthetic and normalized recorded evidence distinct; never automatically accept a live T0 trial or native route.",
+        "Preserve M4A and other-owner RR2/Pathfinding changes; run focused tests and the full RRE gate."
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": null,
+      "ownedPaths": [
+        "tools/navigation_stop_evidence.py",
+        "tools/tests_navigation/test_navigation_stop_evidence.py",
+        "tools/validate-research.py",
+        "docs/navigation-stop-evidence.md"
+      ],
+      "scope": "Manager implementation only; preparatory evaluator does not satisfy NAV-002 live prerequisites or M4/M5 acceptance."
     }
   ],
   "decisionLog": [
@@ -2632,6 +2661,12 @@
       "scope": "Planning and validator consistency only. Reuse-first, independent QA, preserved evidence and live-authorization gates remain unchanged.",
       "model": "GPT-6 Astra Pro",
       "reasoningLevel": ""
+    },
+    {
+      "date": "2026-10-21",
+      "decision": "Advance NAV-003 file-only request/stop evidence evaluator without editing concurrently evolving RR2 control/queue/watchdog sources.",
+      "reason": "User continued implementation. Physical-stop evaluation is an identified missing component and can be verified offline without granting input or bypassing NAV-002; avoid another planning-only iteration.",
+      "scope": "RRE Manager-owned files, focused tests and full gate; no live control, new capture or independent-agent claim."
     }
   ],
   "nextManagerActions": [
@@ -2643,11 +2678,13 @@
     "Prepare the minimum route-specific adapter only after its input/telemetry contract is resolved. Actual T0 stopping then T1 destination then T2 obstacle behavior still require their own observations; full object recognition and type7 are not prerequisites."
   ],
   "primaryNearTermGoal": {
-    "id": "NAV-002",
-    "status": "blocked",
-    "purpose": "Resolve the four concrete route/observation prerequisites in the committed ground-request activation-and-stop packet; do not repeat NAV-001 or resume type7 scanning.",
+    "id": "NAV-003",
+    "status": "review",
+    "purpose": "Implement the non-conflicting file-only evidence evaluator while another workflow owns unfinished RR2 control/watchdog changes. NAV-002 readiness and live gates remain blocked.",
     "plan": "docs/navigation-first-behavior-test.md",
-    "nextEligibleTasks": [],
+    "nextEligibleTasks": [
+      "NAV-003"
+    ],
     "gameInputAuthorized": false,
     "nativePathfindingRecovered": false,
     "type7IsPrerequisite": false,
@@ -2750,7 +2787,8 @@
       "M5-T0",
       "M5-T1",
       "M5-T2",
-      "M6-001"
+      "M6-001",
+      "NAV-003"
     ],
     "type7IsPrerequisite": false,
     "fullWorldRecognitionIsUniversalPrerequisite": false,
