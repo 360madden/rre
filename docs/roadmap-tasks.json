@@ -2544,6 +2544,35 @@
         "concurrentExternalChangesObserved": 6
       },
       "acceptanceNotes": "Accepted preparatory file-only evaluator and 67 new regression tests, not live navigation acceptance. Exact metadata matching, conservative acquisition timing and all retained post-cancel positions checked; t0Accepted/provenanceAuthenticated/imageBytesVerified remain false. Existing M4A, historical probes and Pathfinding scripts unchanged. Six RR2 files changed externally during this session; no RR2 edits or commits were made here."
+    },
+    {
+      "id": "NAV-004",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Audit saved RR2 receipts without promoting historical observations to live readiness",
+      "status": "integrated",
+      "dependsOn": [
+        "NAV-003"
+      ],
+      "deliverable": "File-only bounded receipt readiness audit separating historical player XYZ from current gesture/click/time-alignment/control prerequisites",
+      "acceptance": [
+        "Duplicate/nonstandard JSON rejected and original source unchanged",
+        "Historical player-only receipt cannot become a current navigation trial",
+        "At least 12 focused tests and full unified gate pass",
+        "No game control, native input or RR2 edits"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "c308bbb88bba23e9868df7a6d4cb45714520822c",
+      "evidence": [
+        "docs/navigation-receipt-readiness.md",
+        "tools/navigation_receipt_readiness.py",
+        "artifacts/research-gate-nav004-20261021-01/validation.json"
+      ],
+      "validationJob": "rre-nav004-full-gate-20261021-01",
+      "validationExitCode": 0,
+      "totalTests": 514,
+      "noLiveInput": true
     }
   ],
   "decisionLog": [
@@ -2924,5 +2953,13 @@
     "finalReplaySha256": "289c1f5bdace882c0b4665ed4b6b61ec86aad459bfff12849e66fbf6d4cddda7",
     "historicalOnly": true,
     "schedulingSupersededBy": "navigationPivot; old M3 dependency and nextEligibleTasks are preserved as history, not active instructions."
+  },
+  "latestReceiptReadinessCheckpoint": {
+    "dateLocal": "2026-10-21",
+    "task": "NAV-004",
+    "commit": "c308bbb88bba23e9868df7a6d4cb45714520822c",
+    "testCount": 514,
+    "liveReady": false,
+    "next": "NAV-002 still needs original gesture, reviewed click point, aligned samples and approved exclusive live owner."
   }
 }
