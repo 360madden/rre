@@ -2378,7 +2378,7 @@
       "milestone": "M4",
       "lane": "manager",
       "title": "Audit the minimum player-facing navigation evidence and choose one discriminating test",
-      "status": "ready",
+      "status": "review",
       "dependsOn": [
         "M1-001",
         "M2-001",
@@ -2396,9 +2396,22 @@
       "assignedAgentId": null,
       "jobId": null,
       "ownedPaths": [
-        "docs/navigation-capability-audit.md"
+        "docs/navigation-capability-audit.md",
+        "docs/navigation-capability-audit.json"
       ],
-      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md"
+      "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
+      "managerEvidence": {
+        "owner": "current ChatGPT Manager; no independent worker launched",
+        "preflightJob": "rre-nav001-preflight-20261021-01",
+        "preflightExitCode": 0,
+        "semanticJob": "rre-nav001-semantics-20261021-01",
+        "semanticExitCode": 0,
+        "semanticArtifact": "artifacts/navigation-capability-audit-20261021-01/semantic-counterexamples.json",
+        "semanticAssertions": 3,
+        "rr2StartingHead": "5263615cae38f58fedb9b15ba358aee68ec5f8ad",
+        "rr2DirtyWorkPreserved": true,
+        "scope": "Saved source/evidence audit and offline packet preparation; no game/native access or external edits."
+      }
     },
     {
       "id": "NAV-002",
@@ -2420,7 +2433,8 @@
       "assignedAgentId": null,
       "jobId": null,
       "ownedPaths": [
-        "docs/navigation-first-behavior-test.md"
+        "docs/navigation-first-behavior-test.md",
+        "docs/navigation-first-behavior-test.json"
       ],
       "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md"
     }
@@ -2600,7 +2614,7 @@
   ],
   "primaryNearTermGoal": {
     "id": "NAV-001",
-    "status": "ready",
+    "status": "review",
     "purpose": "Identify the smallest testable existing player-facing movement-and-cancellation route using retained evidence; classify exact missing links before further scans.",
     "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
     "nextEligibleTasks": [
