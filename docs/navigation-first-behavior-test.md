@@ -1,5 +1,7 @@
 # NAV-002 — One ground request, observed activation, observed stop
 
+**Implementation checkpoint:** [NAV-003's file-only request/stop evaluator](navigation-stop-evidence.md) is accepted in `31d25e6`, with 67 new tests and a 502-test full gate. Reuse it for normalized observations; no live source normalizer, current binding qualification or actual reviewed-point input is supplied by that component. The four readiness blockers below remain open.
+
 Date: October 21, 2026. This is a **draft observation protocol, not an executable plan or live approval**. The [machine packet](navigation-first-behavior-test.json) is deliberately not ready: current identity, gesture, input point, cancellation key, timing evidence and measured position tolerance are unset. The [NAV-001 audit](navigation-capability-audit.md) explains why this route was selected.
 
 ## Question and minimum scope

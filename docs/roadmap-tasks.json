@@ -2467,14 +2467,22 @@
         "NAV-B03: Current advancing baseline/during/post-cancel reference samples, acquisition time alignment and measured stationary tolerance missing; saved player-only receipt is not current.",
         "NAV-B04: Separate live approval, sole actual input ownership and reviewed operator takeover not established by this offline packet."
       ],
-      "acceptanceNotes": "Draft protocol and machine packet are committed and passed consistency checks; overall readiness is NOT accepted. No need for type7, full world awareness, target entity or calibrated W2S for the proposed T0."
+      "acceptanceNotes": "Draft protocol and machine packet are committed and passed consistency checks; overall readiness is NOT accepted. No need for type7, full world awareness, target entity or calibrated W2S for the proposed T0.",
+      "observationEvaluator": {
+        "task": "NAV-003",
+        "commit": "31d25e694f45b65fcd44f848ad6450829275906a",
+        "guide": "docs/navigation-stop-evidence.md",
+        "state": "accepted-offline-only",
+        "realCaptureNormalizerImplemented": false,
+        "livePrerequisitesResolved": false
+      }
     },
     {
       "id": "NAV-003",
       "milestone": "M4",
       "lane": "manager",
       "title": "Implement file-only single-request and physical-stop evidence evaluation",
-      "status": "review",
+      "status": "integrated",
       "dependsOn": [
         "NAV-001",
         "M4A-008"
@@ -2489,14 +2497,53 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
+      "integratedCommit": "31d25e694f45b65fcd44f848ad6450829275906a",
       "ownedPaths": [
         "tools/navigation_stop_evidence.py",
         "tools/tests_navigation/test_navigation_stop_evidence.py",
         "tools/validate-research.py",
         "docs/navigation-stop-evidence.md"
       ],
-      "scope": "Manager implementation only; preparatory evaluator does not satisfy NAV-002 live prerequisites or M4/M5 acceptance."
+      "scope": "Manager implementation only; preparatory evaluator does not satisfy NAV-002 live prerequisites or M4/M5 acceptance.",
+      "evidence": [
+        "docs/navigation-stop-evidence.md",
+        "tools/navigation_stop_evidence.py",
+        "tools/tests_navigation/test_navigation_stop_evidence.py",
+        "artifacts/nav003-stop-evidence-20261021-01/full-gate/validation.json",
+        "artifacts/nav003-stop-evidence-20261021-01/acceptance.json"
+      ],
+      "validation": {
+        "focusedJob": "rre-nav003-focused-20261021-03",
+        "focusedExitCode": 0,
+        "focusedTests": 67,
+        "fullGateJob": "rre-nav003-full-gate-20261021-01",
+        "fullGateExitCode": 0,
+        "fullGateTests": 502,
+        "fullGateSha256": "89afcafe7246a96b075eb4732c45940de173f02f7322781f6a1910cd9014429d",
+        "toolSourcesUnchangedDuringGate": true,
+        "sourceFilesRecheckedAfterGate": 66,
+        "cliAcceptanceJob": "rre-nav003-cli-acceptance-20261021-01",
+        "cliAcceptanceExitCode": 0,
+        "cliAcceptanceSha256": "f1cd18280ecce4bdbdf72d1224827b308254f6f6e1b2a7858d2f83099b83c1da",
+        "syntheticChildExits": {
+          "stopped": 0,
+          "resumed": 4,
+          "wrong-point": 4,
+          "wrong-clock": 4
+        },
+        "historicalReceiptChildExit": 2,
+        "publicationReceiptsVerified": 4,
+        "timingRegressionRedJob": "rre-nav003-timing-red-20261021-01",
+        "timingRegressionFailures": 4,
+        "testFixtureCorrection": "After conservative interval checks, one synthetic acquisition was moved one millisecond earlier to meet the unchanged 1000ms gap bound. Failed focused-02 run retained.",
+        "independentReviewPerformed": false,
+        "gameInputSent": false,
+        "externalRepositoriesModifiedByThisTask": false,
+        "preservationBaselineFiles": 19,
+        "unchangedAtPrecommit": 13,
+        "concurrentExternalChangesObserved": 6
+      },
+      "acceptanceNotes": "Accepted preparatory file-only evaluator and 67 new regression tests, not live navigation acceptance. Exact metadata matching, conservative acquisition timing and all retained post-cancel positions checked; t0Accepted/provenanceAuthenticated/imageBytesVerified remain false. Existing M4A, historical probes and Pathfinding scripts unchanged. Six RR2 files changed externally during this session; no RR2 edits or commits were made here."
     }
   ],
   "decisionLog": [
@@ -2670,6 +2717,7 @@
     }
   ],
   "nextManagerActions": [
+    "NAV-003 accepted in 31d25e6: reuse the file-only request/post-cancel evaluator and 502-test gate. The current RR2 workflow owns evolving control/watchdog files; recheck its actual state before any producer/normalizer integration. NAV-002 and live gates remain blocked on real route-specific evidence, not type7.",
     "NAV-001 is accepted in 6c8a566. Read docs/navigation-capability-audit.md/.json and recheck only relevant source deltas; do not recreate the audit or rerun unchanged old baselines.",
     "Resolve NAV-002's four explicit prerequisites with the existing RR2 execution/control/observation owner. Its draft is docs/navigation-first-behavior-test.md/.json; no current gesture, key or position tolerance is assumed.",
     "Preserve the unfinished RR2 queue/dispatch-fence changes and all Pathfinding scripts. Do not duplicate control frameworks or assume source-only fencing is enabled. Shared live access needs actual ownership and separate approval.",
@@ -2678,13 +2726,11 @@
     "Prepare the minimum route-specific adapter only after its input/telemetry contract is resolved. Actual T0 stopping then T1 destination then T2 obstacle behavior still require their own observations; full object recognition and type7 are not prerequisites."
   ],
   "primaryNearTermGoal": {
-    "id": "NAV-003",
-    "status": "review",
-    "purpose": "Implement the non-conflicting file-only evidence evaluator while another workflow owns unfinished RR2 control/watchdog changes. NAV-002 readiness and live gates remain blocked.",
+    "id": "NAV-002",
+    "status": "blocked",
+    "purpose": "Connect source-reviewed request/observation records to the accepted NAV-003 evaluator through the existing RR2 owner; resolve current gesture, location-bound delivery, time/identity qualification and live ownership. Do not rebuild the evaluator or restart deep engine scans.",
     "plan": "docs/navigation-first-behavior-test.md",
-    "nextEligibleTasks": [
-      "NAV-003"
-    ],
+    "nextEligibleTasks": [],
     "gameInputAuthorized": false,
     "nativePathfindingRecovered": false,
     "type7IsPrerequisite": false,
