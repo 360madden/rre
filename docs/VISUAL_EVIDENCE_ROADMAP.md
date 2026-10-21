@@ -26,6 +26,12 @@ Implementation commit `843c2f4b35dc166c4303a75a3a11564141819757`. The full gate 
 
 This accepts the reusable offline consumer and workflow/test integration only. Automatic live capture orchestration, strafe/turn/object interpretation and an external vision-review transport remain unimplemented. WA-005 independent code QA is not satisfied by the pixel checker.
 
+## VE-002 — direct old-wheel image evidence review (October 21)
+
+The saved before/after images, four native-resolution sample regions and recorded one-notch wheel action were inspected and independently rehashed. A **25.032-second gap between the before image and the wheel event** materially limits causation. The after image follows the inserted event by **0.957 seconds**. Three original texture-patch displacement candidates are consistent with a small radial change, while a fourth has MSE 144.286 against the unchanged limit 100. The result stays **inconclusive**: neither an observed successful zoom nor a supported no-visible-motion claim.
+
+The original package was successfully verified without modification. A separate read-only-derived contact-image packet and SHA-bound final receipt are at `artifacts/visual-old-wheel-review-20261021-01/`; full observations are in `docs/old-wheel-image-review-2026-10-21.md`. The Manager actually viewed derived pixels; **no independent external vision-provider review, camera calibration, game action or code QA** occurred. Subsequent controlled captures would require separate authorization and immediate pre-action/after/settled frames bound to fixed landmarks. Do not repeat or tune the old-wheel experiment to force a different verdict.
+
 ## Runtime discovery
 
 RRE's virtual environment and global Python do not contain Pillow; the example `artifacts/native-vm-control/venv` directory is absent. Actual existing image runtime is `C:/work/riftreader2/artifacts/tools/control-python/Scripts/python.exe`, Python 3.14.6, Pillow 12.3.0. Verified by `rre-ve-20261020-pillow-and-identity-01`. Reuse it read-only; no installation or environment changes.
