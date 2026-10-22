@@ -2602,6 +2602,35 @@
       "validationExitCode": 0,
       "totalTests": 523,
       "gameInputSent": false
+    },
+    {
+      "id": "NAV-006",
+      "milestone": "M4",
+      "lane": "manager",
+      "title": "Assemble complete hash-pinned normalized navigation evidence offline",
+      "status": "integrated",
+      "dependsOn": [
+        "NAV-005"
+      ],
+      "deliverable": "Strict six-fragment manifest assembler into existing NAV-003 evaluator; no invented fields or live input",
+      "acceptance": [
+        "All six source hashes match and manifest validates",
+        "Missing, changed or unsafe sources fail closed",
+        "No historical source automatically becomes live trial",
+        "Full RRE gate passed"
+      ],
+      "assignedAgentId": null,
+      "jobId": null,
+      "integratedCommit": "7d6428c712c0c8479054084c834d3bf340f42b1b",
+      "evidence": [
+        "docs/navigation-evidence-assemble.md",
+        "tools/navigation_evidence_assemble.py",
+        "artifacts/research-gate-nav006-20261021-01/validation.json"
+      ],
+      "validationJob": "rre-nav006-full-gate-20261021-01",
+      "validationExitCode": 0,
+      "totalTests": 530,
+      "gameInputSent": false
     }
   ],
   "decisionLog": [
@@ -2999,5 +3028,13 @@
     "actualGameInput": false,
     "liveReady": false,
     "next": "Resolve NAV-B01..B04 with current RR2 owner; no static or historic camera evidence substitutes for the actual ground-click and synchronized player-position stream."
+  },
+  "latestEvidenceAssemblyCheckpoint": {
+    "dateLocal": "2026-10-21",
+    "task": "NAV-006",
+    "commit": "7d6428c712c0c8479054084c834d3bf340f42b1b",
+    "totalTests": 530,
+    "liveReady": false,
+    "next": "Require real screenshot-bound ground request and synchronized actual player movement/cancellation observations; no new broad RE scans."
   }
 }

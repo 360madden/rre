@@ -1,5 +1,7 @@
 # RRE navigation research roadmap
 
+**Latest offline increment — NAV-006:** [Hash-pinned evidence assembler](docs/navigation-evidence-assemble.md), commit `7d6428c`. The full RRE gate passed **530 tests**. Six complete source files are required for a trace; none of the missing ground-request, timing or cancellation fields are generated. NAV-002 remains blocked on live-source readiness and separate approval.
+
 **Latest offline increment — NAV-005:** [RR2 screenshot/action association bridge](docs/navigation-evidence-bridge.md), commit `a93b08b`. Full gate **523 tests**. Original BMP hashes and game identity can match while the action is camera-only, stale for the planned experiment or missing reviewed destination coordinates. NAV-002 remains blocked on genuine current ground-click and time-aligned movement/stop evidence; no game input was performed.
 
 **Latest offline increment — NAV-004:** [Saved RR2 receipt readiness audit](docs/navigation-receipt-readiness.md), commit `c308bbb`. Full validation passed **514 tests**. Historical player XYZ and process identity can be present while the current click/gesture, time-aligned observation, and trial approval remain unverified. This is not a normalizer or live trial; NAV-002 remains blocked on actual current source evidence.
