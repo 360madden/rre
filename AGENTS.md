@@ -1,5 +1,7 @@
 # RRE agent coordination (2026-10-18)
 
+**Patch hold (October 22):** Read `docs/RIFT-UPDATE-IMPACT-2026-10-22.md` before future native or NAV-002/M5 work. A new RIFT client update was reported; the physical-host executable has the old SHA, but the VM guest executable is not yet requalified and the RR2 status endpoint was unreachable. Do not copy old-build RVAs/offsets/absolute pointers into the current guest, change expected hashes, restart receivers or issue game inputs on this evidence. First establish the actual guest build and use the current RR2 control owner for status recovery.
+
 This repository researches Rift native navigation and reverse engineering. Current research is offline and **reuse-first**: identify the game's existing pathfinding, movement, click-to-move, follow, and collision implementations before proposing a replacement planner. A string, class name, or RVA is a research lead, not a verified runnable interface.
 
 ## Mandatory milestone roadmap

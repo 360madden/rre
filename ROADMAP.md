@@ -1,5 +1,7 @@
 # RRE navigation research roadmap
 
+**Current update-compatibility gate — October 22:** [RIFT client update impact and requalification](docs/RIFT-UPDATE-IMPACT-2026-10-22.md). The user reported a new game update. The **host** RIFT executable still matches the old pinned SHA, but the **RIFT-Lab-1 guest's actual SHA is unverified** and the existing RR2 status endpoint refused its read-only check. Treat updated-guest native offsets, current session/reader identity and live navigation as **unverified** pending a fresh exact-guest hash and controlled status/scene review; preserve the RR2 owner's ongoing work. Do not assume that the report proves a binary patch or that it authorizes recovery/input.
+
 **Latest offline increment — NAV-006:** [Hash-pinned evidence assembler](docs/navigation-evidence-assemble.md), commit `7d6428c`. The full RRE gate passed **530 tests**. Six complete source files are required for a trace; none of the missing ground-request, timing or cancellation fields are generated. NAV-002 remains blocked on live-source readiness and separate approval.
 
 **Latest offline increment — NAV-005:** [RR2 screenshot/action association bridge](docs/navigation-evidence-bridge.md), commit `a93b08b`. Full gate **523 tests**. Original BMP hashes and game identity can match while the action is camera-only, stale for the planned experiment or missing reviewed destination coordinates. NAV-002 remains blocked on genuine current ground-click and time-aligned movement/stop evidence; no game input was performed.
