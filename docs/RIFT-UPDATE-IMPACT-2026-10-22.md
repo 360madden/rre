@@ -47,3 +47,29 @@ No fresh guest `rift_x64.exe` bytes, current game version, addon telemetry recei
 Use Workbridge/RR2 existing read-only functionality and the current image review path. Do not install a new scanner, agent scheduler, screenshot service or patch watcher. First compare immutable bytes and restore an authorized read-only receiver/status channel through the current RR2 owner; then return to NAV-002 P0/P1.
 
 **Validation performed:** host file SHA-256, on-disk metadata, host changed-file count, one VMware running-list query, benign RR2 status request, physical-host process/listener inventory, and Workbridge/Git preflight. These are runtime observations, not unit-test counts. No source code, user settings, game files, RR2 source, control grants or VM state was modified.
+
+## Follow-up — October 22, 2026, 5:28 p.m. EDT: current VM visual recovery
+
+**New observed result:** the current RIFT-Lab-1 VMware console is visibly **in the game world**, not on the earlier historical disconnect/loading screen. This establishes only a **visually playable frame** for this VM at the capture instant; the game's foreground/input readiness, executable bytes, addon telemetry, and movement are still unverified.
+
+- Read-only command: existing `C:\work\riftreader2\scripts\vm_console_native.py` with the **capture** subcommand and existing RR2 Python environment; no keyboard/mouse events. The helper independently verifies VM membership, log/process/listener identity and shared console mutex before and after capture, and exits if an unrelated owner holds the lock.
+- Source files: `C:\work\rre\artifacts\rift-update-guest-capture-20261022-01\screen.png` and `identity.json`. Screenshot original SHA-256 **`7e8ea95fb40a040a64afa4daee47db2d38712bfbeb033d1b6e1b40f88b36af8a`**; source image **1211 × 757**. Metadata captured **2026-10-22T21:28:21–21:28:22Z**. Screenshot preview was inspected from the original hash-pinned PNG, without modifying its bytes.
+- VM identity matched before/after: VMX `c:\rift modding\vms\rift-lab\rift-lab.vmx`, log epoch **2026-10-22T20:41:22.372Z** (4:41 p.m. EDT), VMware PID **31884**, process start ticks **134371752823274925**, and VNC listener `5905`. Recorded `inputSent:false` and `inputMayHaveBeenSent:false`. These identifiers are **session-specific** and must not be reused in a later turn without re-detection.
+- Visual review: RIFT's game world, player avatar, action bar, chat and minimap are displayed, with no obvious disconnection/loading modal in this frame. This is **not** a guest executable-hash check, a proof of animation/foreground, or a new physical movement/cancellation result.
+- Previously accepted RR2 native host receipt at `riftreader2/artifacts/receiver-startup-20261022-01/evidence-a03/restored-host-process.json` was tied to **an older VM epoch** `2026-10-22T00:58:03.378Z` (VM PID 52872, host PID 6560 as of the 07:29Z receipt). The VM restarted after that receipt. The existing RR2 native status endpoint refused a read-only request in this investigation, and its protected service ports were not listening at that observation. This does **not** establish why or exactly when the host exited.
+- Canonical authority `riftreader2/artifacts/native-coordination-live/queue.sqlite3` and its journal exist; neither was opened, mutated, reset nor deleted. The old coordination shutdown marker has an earlier timestamp and does **not** establish a current shutdown reason. Resume ownership through the RR2 owner's fresh epoch-bound preflight, not by reproducing an old single-use launch.
+- Focused exact-build source inventory shows RRE's native C2M/collision/follow/pathfinding analyzers deliberately pin the **old** SHA; these are historical evidence and must **not** be mass-rewritten for an unknown updated guest binary. RR2's `WindowsControlDesktop.Inspect` checks the actual on-disk executable hash against the configured hash at session binding (plus path and unique process); `RevalidateTarget` checks it again. The optional guest Startup helper also checks the configured game file hash. Do not weaken these guards to regain connectivity.
+
+**Next decision-changing fact remains the new guest executable's SHA-256 and file metadata.** The read-only console screenshot cannot provide it. Guest-local authorized PowerShell should first resolve the currently running process's actual path rather than assume the historical `C:\RIFT_TRANSFER\RIFT\rift_x64.exe`:
+
+```powershell
+$game = @(Get-CimInstance Win32_Process -Filter "Name = 'rift_x64.exe'")
+if ($game.Count -ne 1 -or -not $game[0].ExecutablePath) {
+    throw 'Unable to uniquely identify the running RIFT executable'
+}
+$path = $game[0].ExecutablePath
+Get-Item -LiteralPath $path | Select-Object FullName, Length, LastWriteTimeUtc
+Get-FileHash -LiteralPath $path -Algorithm SHA256
+```
+
+Run inside the identified guest under an authorized normal-user session. This report does **not** authorize any agent to type/paste/run the command in VMware, transfer a payload, start a host, or bypass blocked guest credentials. On a same-SHA guest binary, preserve old byte-qualified native findings but still refresh live identities and controls. On a different SHA, isolate a new build record, compare selected C2M/follow anchors and test only the actually required interfaces. On unavailable hash, keep the compatibility hold.
