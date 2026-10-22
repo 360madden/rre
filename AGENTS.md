@@ -5,7 +5,7 @@ This repository researches Rift native navigation and reverse engineering. Curre
 ## Mandatory milestone roadmap
 
 - Read `ROADMAP.md` and `docs/roadmap-tasks.json` before starting a task; follow milestone dependencies and exit gates. This is mandatory, not an optional planning document.
-- Active navigation priority is the behavior-first pivot in `docs/NAVIGATION-PIVOT-2026-10-21.md`: start with NAV-001/NAV-002, not deferred M3-001. Park a lead after two distinct probes without decision-changing evidence; reopening needs a recorded new trigger. Do not recreate old type-7 or complete-world-recognition dependencies, repeat blocked routes, or infer input bindings from convention.
+- Active navigation is **NAV-002/P0–P4** under `docs/NAVIGATION-WORKFLOW-OPTIMIZATION-2026-10-22.md`. Do not build another generic NAV evidence tool when the missing evidence is a fresh visually verified playable scene, an actual bound ground click, advancing player samples or real cancellation. NAV-001 and NAV-003..006 are accepted offline; type-7 M3 is deferred. Park a lead after two distinct probes without decision-changing evidence; never bypass blocked routes or guess controls.
 - Every task must have a board ID, exclusive lane and owned paths, evidence requirements, and completion test. Only the single designated manager updates the roadmap/board, allocates work, integrates, or records deviations. Run `node tools/validate-roadmap.mjs` after every task-board change and before integrating roadmap changes.
 - Before resuming work, reconcile actual command jobs, branch/worktree statuses and uncommitted files. Do not assume an old Codex worker has stopped or create a second writer in its lane.
 - Workbridge's six concurrent command-job slots are not evidence of six independent AI agents. Verify real worker support and capacity, and queue tasks that cannot be assigned without conflicts.
@@ -19,6 +19,7 @@ This repository researches Rift native navigation and reverse engineering. Curre
 - Read-only research on the matching native Rift executable and the prior RiftReader evidence is allowed. All claims must state exact build identity, sources, method, and uncertainty.
 - No full-program REA/Ghidra import retry without the manager's explicit direction. Two recorded attempts exceeded 450 seconds; repeated unchanged attempts add no value.
 - Avoid long-running work and resource contention. Do not install dependencies or change shared environments; use the preexisting RRE virtual environment read-only if needed.
+- Tooling efficiency: first demonstrate that an existing Workbridge, RR2 or installed imaging capability actually fails before writing a replacement. Use hash-bound original saved images and visual inspection when behavior depends on screen state; a saved capture from a disconnected/loading screen cannot prove a playable scene. For code edits run focused tests first and the full gate **once per coherent source integration**; for documentation/board edits run the roadmap validator, link/diff checks and no redundant 500+ test rerun. Keep one short current handoff and exact observed job exits.
 
 ## File ownership / isolation
 
