@@ -208,7 +208,56 @@ For every candidate create a small immutable dossier with `taskId`, `buildSha256
 - **SC5:** classify representative failure/outcome states (rejected, queued, interrupted, dodged/missed/resisted/immune, target-changed and normal hit/heal) by actual saved events and supported semantics. Missing event coverage does not establish absence.
 - **Never block SC1 catalog usability or SC2/SC3 behavioral analysis solely because Ghidra's whole-client import is slow.** They can advance from game API/observations while native attribution remains pending.
 
-<!-- REA-CAST-NEXT-PASS -->
+## Pass 5 — ChatGPT Chat-mode survival, frequent commits and durable resume (SC6)
 
+**This is a first-class requirement**, not optional process overhead. Most work is in ordinary Chat mode; individual Chat/tool sessions can terminate, and a long Ghidra job or multi-stage plan may lose conversational state. The durable unit is **a reviewed Git commit plus a small on-disk evidence receipt**, not the assistant's promise to "continue" later.
 
+### The short-cycle research transaction
 
+**One Chat turn = one narrow REA question and one useful durable result.** Do not attempt to finish the whole roadmap in a single session. A suggested transaction:
+
+| Point | Required action | What survives if Chat times out immediately afterward |
+| --- | --- | --- |
+| **0. Resume preflight** | Read `docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md` (~one page), this roadmap's `TASKS.json`, actual RRE Git HEAD/status and known job IDs. Confirm tool/target SHA and protect other worktrees. | The last accepted commit and old receipt; no need to rebuild context from chat logs |
+| **1. Claim one task** | Select the first `ready` task with satisfied dependencies; write its hypothesis, inputs, owner, target file and bounded acceptance to a **small tracked task checkpoint** and commit it *before* a risky/slow probe. | The exact next action and source version are already in Git |
+| **2. Execute one bounded probe** | Prefer existing API/UI/evidence; only when needed run one source-pinned REA query with a unique deterministic Workbridge request ID. Write raw immutable result into a new `artifacts/rea-casting/<task>/<probe>/` directory (not a shared overwrite). | Partial result/job ID remains in local artifacts/Workbridge journal |
+| **3. Validate at the smallest scale** | Check source hashes, status/exit code, contradicting evidence and task acceptance. Run focused regressions for a code change. Mark `inconclusive` as a valid negative-result outcome if the evidence cannot support a positive claim. | Evidence remains honest even when a tool is unavailable |
+| **4. Commit the finding** | Commit **the task's bounded finding + any changed research source + the updated task status and documentation**, with exact file hashes and expected HEAD. Preserve unrelated dirty/untracked files. Do not wait for several large tasks before committing. | Fully repeatable milestone; downstream work can begin next turn |
+| **5. Write the resumption receipt** | Update the small handoff: result, Git hash, immutable artifact hashes/paths, exact unfinished job IDs, blocked hypotheses, one next command, and whether any inputs or live controls were used. Commit the handoff with the milestone or an immediate separate lightweight documentation commit. | The next chat reads only handoff+task register, not an entire prior conversation |
+
+**Cadence:** target a Git checkpoint after **each completed submilestone or source-backed fact**, including a bounded *negative* result. No more than **one unresolved research lead** and **one or two code/document edits** should accumulate uncommitted before checkpointing. For unusually long work, commit the preflight/plan first; checkpoint between independent source-range probes. Every commit must be internally truthful; incomplete results are labelled `partial`, not `accepted`.
+
+### Hard operational budgets (not promised wall-clock completion times)
+
+- **Per Chat turn:** choose at most **1–3 focused read/analysis commands**, one hypothesis, and one validation/commit cycle. Cross-project handoffs count as their own task. If work becomes extensive, split at the next exact evidence boundary and commit the partial result now.
+- **Tool job limits:** default ≤ **60 s** for focused reads/tests; ≤ **90 s** for ordinary REA analysis; no single Ghidra/provider attempt over **120 s** without a separately reviewed resumable execution strategy. Existing historic >450-second imports are explicitly non-default.
+- **Cost gate:** if a task needs >one long import, unknown third-party agent support, installation, guest deployment or dozens of new screenshots, first produce an evidence-led split plan rather than launch everything from Chat.
+- **No imaginary workers or background execution:** Workbridge has bounded command-job slots, not independent AI agents. Ordinary Chat calls do not create continuous unattended work between conversations. If an actual job persists, record its ID and status; never claim it continues unless the tool reports it.
+- **No repeating blocked tools:** tool safeguard denial ends that route. If a job returns `unknown`, first inspect its saved job status/artifacts. Reusing the exact request ID is reserved for the same uncertain invocation; do not create a new ID to duplicate an in-flight request. If a provider fails after two distinct probes, park it and advance another independent task.
+- **Validation budget:** for documentation-only findings, check task-register JSON, links, source hashes and `git diff --check`—**do not** rerun the entire 530+ RRE navigation suite. For actual research/source changes, run narrow tests immediately, and one complete relevant gate at a cohesive integration milestone.
+- **Patch/ABI safety:** source SHA and current client identity are gating inputs, not incidental metadata. If a newer binary does not match, pause only the affected native task. The API-level spellbook research can still proceed if its own game/session evidence is qualified.
+- **External ownership:** only RR2's established owner may prepare its live evidence; REA requests named observations/hashes and makes no changes in RR2/Workbridge repositories. No user permission to type/cast/attach follows from writing this roadmap.
+
+### One-page resume packet fields
+
+`HEAD`; `taskId` / state; `question / falsifier`; exact source/probe hashes; the **last passed check** and job ID/exit; immutable evidence paths; one next action; what **not** to redo; exact blockers and needed owner; cross-project boundary; `gameInputSent=false` unless separately and factually observed. A claim not represented in this packet should not become an accepted result.
+
+The handoff file begins with the single next task: **SC-000 inventory of existing RIFT ability API and casting evidence, without new client input**. The first real research session should publish a compact baseline mapping before trying the GCD timing hypotheses.
+
+### Milestone reporting and final useful outputs
+
+A summary should show **knowledge gained**, not just tests or commits: current spellbook catalog coverage, unresolved *learnable-at-level* sources, lifecycle states mapped, GCD-vs-cooldown evidence, source-verified native dossiers, blocked questions and next experiment. Maintain a small `spellbook-catalog.jsonl`, `ability-availability.csv`, `cast-event-timeline.jsonl`, `timing-comparison.md`, `native-dossiers/` and `research-uncertainties.md` only **as each deliverable becomes real**. Do not precreate empty schemas/tools to simulate progress.
+
+For every result label **source type** (`original PE`, `actual Lua API`, `UI image`, `live event`, `synthetic test`, `external documentation`), build/session identity, source-hash and known caveats. Source evidence may stay in ignored `artifacts/` if too large/private; tracked conclusions must include immutable digest and a recoverable path, and a portable sanitized export can be prepared later if necessary.
+
+**Completion of this roadmap is not "all spells figured out."** Completion of an initial research tranche requires: (a) one verified known-ability list and explicit learnability gap, (b) a supported casting lifecycle from attempts to outcomes, (c) a testable GCD/queue model with qualified time uncertainties, (d) at least one genuinely useful native REA dossier *or* a named provider/data blocker, and (e) durable handoff/commits allowing a fresh Chat session to reproduce the result. Deeper per-soul and server-side mechanics become later evidence-gated increments.
+
+### Five-pass review decision summary
+
+1. **Scope:** distinguish *known / learnable / locked / usable / bound*, plus REA ownership and role/rank provenance.
+2. **Existing evidence:** reuse RR2's actual modern ability APIs/events and grounded outcomes; no redundant binary-only spellbook scanner.
+3. **Timing:** cross-ability GCD identification, cast vs channel vs effect, queue-mode and keypress/release controls, clock-domain uncertainty.
+4. **Native RE:** concrete API-linked hypotheses, bounded original-build source probes and provider-stop rules; neither huge imports nor synthetic PE evidence can stall the catalog.
+5. **Chat durability:** one useful result per short turn, **checkpoint commit before risky work** and **commit after every verified milestone**, exact job/artifact receipts, concise resume file and no silent background work.
+
+**Next action:** begin `SC-000` in an ordinary Chat turn; existing source evidence first, no game input. Check this handoff and register, then commit the first source-backed inventory baseline.

@@ -4,8 +4,8 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "planning-five-pass-review",
-  "completedReviewPasses": 4,
+  "status": "five-pass-roadmap-reviewed; SC-000 ready",
+  "completedReviewPasses": 5,
   "nextTaskId": "SC-000",
   "gameInputAuthorized": false,
   "binaryTarget": {
@@ -396,14 +396,83 @@
         "One observed class at a time",
         "No automated rotation or health-loss prerequisite"
       ]
+    },
+    {
+      "id": "SC-601",
+      "milestone": "SC6",
+      "title": "Publish evidence-backed spellbook and casting mechanism synthesis",
+      "state": "planned",
+      "dependsOn": [
+        "SC-102",
+        "SC-201",
+        "SC-301"
+      ],
+      "owner": "REA Manager",
+      "sourceInputs": [
+        "Source-pinned catalog, event timeline, timestamp compare and native dossiers if qualified"
+      ],
+      "deliverable": "Spellbook/availability, cast lifecycle and timing findings, with limitations",
+      "acceptance": [
+        "Every claim identifies source and build/session",
+        "Unknown server/native details remain unknown",
+        "No invented full spellbook or universal GCD"
+      ]
+    },
+    {
+      "id": "SC-602",
+      "milestone": "SC6",
+      "title": "Sanitized, reproducible research export and regression/checks",
+      "state": "planned",
+      "dependsOn": [
+        "SC-601"
+      ],
+      "owner": "REA Manager",
+      "sourceInputs": [
+        "Immutable local source hashes and curated findings"
+      ],
+      "deliverable": "Portable metadata/evidence manifest excluding secrets",
+      "acceptance": [
+        "Raw private controls or credentials excluded",
+        "Source hashes and relative paths verified",
+        "One command or documented manual procedure replays exact research selection"
+      ]
+    },
+    {
+      "id": "SC-603",
+      "milestone": "SC6",
+      "title": "Resumable Chat-mode handoff and commit checkpoint per milestone",
+      "state": "ready",
+      "dependsOn": [],
+      "owner": "REA Manager",
+      "sourceInputs": [
+        "REA spelling casting roadmap/task register and Workbridge Git/job metadata"
+      ],
+      "deliverable": "One-page handoff per accepted/blocked task with exact job IDs, source hashes and Git HEAD",
+      "acceptance": [
+        "Future Chat can resume without old chat transcript",
+        "Before slow probe, checkpoint hypothesis and selected inputs",
+        "After each task, result status and docs are committed; no unrelated files staged"
+      ]
     }
   ],
   "checkpointPolicy": {
     "chatMode": true,
-    "checkpointEachMilestone": true,
-    "commitEachBoundedFinding": true,
+    "oneResearchQuestionPerTurn": true,
+    "commitBeforeRiskyProbe": true,
+    "commitEveryMeaningfulFinding": true,
+    "commitNegativeOrBlockedFindings": true,
     "restoreFromLastCommit": true,
-    "fullSuiteForDocsOnly": false
+    "persistArtifactsWithSourceHashes": true,
+    "recordKnownJobIds": true,
+    "defaultToolLimitSeconds": 60,
+    "defaultReaLimitSeconds": 90,
+    "maximumSingleJobSecondsWithoutSpecialApproval": 120,
+    "maxNondecisiveDistinctProbes": 2,
+    "fullSuiteForDocsOnly": false,
+    "sourceCodeFullGateOnlyAtCohesiveIntegration": true,
+    "unsafeGameActionsAuthorized": false,
+    "unrelatedRepoEditsAuthorized": false,
+    "handoff": "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md"
   },
   "passReview": [
     {
@@ -425,6 +494,11 @@
       "pass": 4,
       "label": "REA-native bounded tool strategy",
       "result": "Existing REA+Ghidra retained; native probes only for concrete API/UI discrepancy; synthetic PE/whole import caveats and 120-second maximum job budget added."
+    },
+    {
+      "pass": 5,
+      "label": "Chat-mode resilience and milestone durability",
+      "result": "Short one-task turns, hypothesis commits before expensive probes, finding/handoff commits, bounded jobs and exact source/job receipts. Five-pass review documented."
     }
   ]
 }
