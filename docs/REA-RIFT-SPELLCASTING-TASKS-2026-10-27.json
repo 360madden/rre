@@ -5,7 +5,7 @@
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
   "status": "planning-five-pass-review",
-  "completedReviewPasses": 1,
+  "completedReviewPasses": 2,
   "nextTaskId": "SC-000",
   "gameInputAuthorized": false,
   "binaryTarget": {
@@ -68,6 +68,82 @@
         "One bounded evidenced conclusion; no live input"
       ],
       "nextAction": "Compare saved complete API ability list against one role-specific game spellbook/UI snapshot, if available; otherwise report exact missing UI evidence."
+    },
+    {
+      "id": "SC-101",
+      "milestone": "SC1",
+      "title": "One role-scoped complete known-ability API catalog",
+      "state": "planned",
+      "dependsOn": [
+        "SC-000"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Existing RiftReader2Casting ability inventory; source hashes"
+      ],
+      "deliverable": "Ability ID inventory with metadata and null-preserving completeness accounting",
+      "acceptance": [
+        "Preserve all raw API IDs and passives",
+        "No assumption List covers unlearned spells",
+        "Tie sample to build, character, role and source timestamp"
+      ]
+    },
+    {
+      "id": "SC-102",
+      "milestone": "SC1",
+      "title": "Spellbook UI and soul-tree/trainer eligibility reconciliation",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-101"
+      ],
+      "owner": "REA researcher; RR2 owner supplies saved UI evidence",
+      "sourceInputs": [
+        "Current spellbook and role/point UI screenshots or existing stored evidence"
+      ],
+      "deliverable": "Known-vs-learnable-vs-locked comparison with explicit UI evidence",
+      "acceptance": [
+        "At least one eligible-but-not-known example OR precise insufficient-coverage reason",
+        "Never infer eligibility solely from character level",
+        "No new game controls owned by REA"
+      ]
+    },
+    {
+      "id": "SC-103",
+      "milestone": "SC1",
+      "title": "Rank/variant/role ID reconciliation",
+      "state": "planned",
+      "dependsOn": [
+        "SC-101"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Two saved role or rank snapshots if available"
+      ],
+      "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
+      "acceptance": [
+        "Stable IDs used rather than ability names",
+        "Role/source and rank variant distinguished",
+        "Unknown cases retained"
+      ]
+    },
+    {
+      "id": "SC-104",
+      "milestone": "SC1",
+      "title": "Readiness classification distinct from ability knowledge",
+      "state": "planned",
+      "dependsOn": [
+        "SC-101"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "RiftReader2 model.lua and existing cast/readiness receipts"
+      ],
+      "deliverable": "Tri-state, reason-coded known/usable/available matrix",
+      "acceptance": [
+        "Cooldown/out-of-range/resource shortage never treated as unlearned",
+        "Cast-time missing is unknown not instant",
+        "No live automation requirement"
+      ]
     }
   ],
   "checkpointPolicy": {
@@ -82,6 +158,11 @@
       "pass": 1,
       "label": "Scope and ownership",
       "result": "Separate known/learnable/future/usable/bound spell sets and REA/Workbridge/RR2 boundaries."
+    },
+    {
+      "pass": 2,
+      "label": "Existing evidence and catalog truth",
+      "result": "Grounded current-known API list and actual RR2 casting results; split character known from eligible/unlearned, rank and role."
     }
   ]
 }
