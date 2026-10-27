@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "task": "SC-305",
+  "date": "2026-10-27",
+  "host": "physical-Windows-PC",
+  "sourceExe": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sourceExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "sourceProcess": {
+    "pid": 66436,
+    "moduleBase": "0x7ff720420000",
+    "volatile": true,
+    "sourceCodeSamplesMatchedDisk": true
+  },
+  "queueSetting": {
+    "label": "ActionBars_AbilityQueue",
+    "labelRva": "0x26ecc70",
+    "settingStorageGlobalRva": "0x33958c0",
+    "liveSettingsObjectPresent": true,
+    "valueFieldOffset": "0xa4",
+    "rawUnsignedLiveValue": 1,
+    "uiModeFromValue": null,
+    "uiValueMappingQualified": false,
+    "validAt": "local session sampled only",
+    "memoryReadsOnly": true
+  },
+  "instructions": {
+    "settingLabelRva": "0xbd2d6f",
+    "settingLabelBytes": "488d0dfa9eb101",
+    "settingStoreRva": "0xbd2dba",
+    "settingStoreBytes": "8999a4000000",
+    "settingUiLabelRva": "0xbd71a2",
+    "settingUiLabelBytes": "488d15c75ab101",
+    "settingGetterRva": "0xbd7153",
+    "settingGetterBytes": "8b98a4000000",
+    "sourceMemoryMatches": [
+      {
+        "rva": "0xbd2d6f",
+        "liveRead": true,
+        "identicalToDisk": true,
+        "bytes": "488d0dfa9eb101"
+      },
+      {
+        "rva": "0xbd2dba",
+        "liveRead": true,
+        "identicalToDisk": true,
+        "bytes": "8999a4000000"
+      },
+      {
+        "rva": "0xbd71a2",
+        "liveRead": true,
+        "identicalToDisk": true,
+        "bytes": "488d15c75ab101"
+      },
+      {
+        "rva": "0xbd7153",
+        "liveRead": true,
+        "identicalToDisk": true,
+        "bytes": "8b98a4000000"
+      },
+      {
+        "rva": "0x9b0567",
+        "liveRead": true,
+        "identicalToDisk": true,
+        "bytes": "488d0dba275b02"
+      }
+    ],
+    "containerRelatedRva": "0x9b0567",
+    "containerInstructionBytes": "488d0dba275b02"
+  },
+  "nativeSourceFunctions": [
+    {
+      "roleHypothesis": "queue-key setter",
+      "begin": "0xbd2b70",
+      "end": "0xbd3179",
+      "sha256": "1572b1bb9ef05d57d07b028b165d426753484bd877b14ef96b2b2107722d2679"
+    },
+    {
+      "roleHypothesis": "queue-key UI representation",
+      "begin": "0xbd6732",
+      "end": "0xbd7f84",
+      "sha256": "7ca055f421ed13d08083d6196ee7c23d1055555e307ec14c7bfe59e2acc056f4"
+    }
+  ],
+  "readOnlyAccess": {
+    "openProcessRights": "PROCESS_VM_READ|PROCESS_QUERY_LIMITED_INFORMATION",
+    "write": false,
+    "debugPrivilege": false,
+    "inject": false,
+    "input": false,
+    "gameMemoryBytesWritten": 0
+  },
+  "limits": [
+    "Field stores current numeric setting, not independently mapped to Full/Short/None",
+    "No proof of actual cast queue behavior or GCD duration",
+    "Single local process observation; PID and field value may change",
+    "Client source code dataflow to actual queue consumer not yet traced"
+  ],
+  "workbridgeJobs": [
+    "rea-localpc-game-module-readonly-20261027-01",
+    "rea-localpc-queue-setting-riprefs-20261027-01",
+    "rea-localpc-queue-function-context-20261027-01",
+    "rea-localpc-queue-config-scan-20261027-01",
+    "rea-localpc-abilityqueue-current-field-read-20261027-01",
+    "rea-localpc-code-memory-match-20261027-01"
+  ]
+}

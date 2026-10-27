@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "REA spellcasting now targets the locally installed and running PC RIFT executable, not VMware; SC401 next source-backed local PE call/handler research; independent GCD/learnability not yet established.",
+  "status": "Physical PC RIFT only; native AbilityQueue setting +0xA4 verified, local raw value=1, enum meaning unknown; SC-401 metadata branch parked after two non-decisive probes; SC-306 queue setting mapping next. SC1 and SC3 phases not completed.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-401",
+  "nextTaskId": "SC-306",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -286,7 +286,7 @@
       "id": "SC-401",
       "milestone": "SC4",
       "title": "Bounded REA native identity and known-ability storage hypothesis",
-      "state": "ready",
+      "state": "parked",
       "dependsOn": [
         "SC-101"
       ],
@@ -474,6 +474,54 @@
         "Future Chat can resume without old chat transcript",
         "Before slow probe, checkpoint hypothesis and selected inputs",
         "After each task, result status and docs are committed; no unrelated files staged"
+      ]
+    },
+    {
+      "id": "SC-305",
+      "milestone": "SC3",
+      "title": "Qualify local RIFT AbilityQueue native config field and raw live value",
+      "state": "completed",
+      "dependsOn": [
+        "SC-304"
+      ],
+      "owner": "REA research",
+      "sourceInputs": [
+        "Physical-PC RIFT x64 SHA 1935a05c...",
+        "ActionBars_AbilityQueue source code",
+        "Bounded standard read-only local process observation"
+      ],
+      "deliverable": "Source-hash-pinned key-to-field +0xA4 and read-only raw value 1 with label mapping unknown",
+      "acceptance": [
+        "Original instruction bytes match source and loaded process",
+        "Correct field offset and changed-value store verified",
+        "No Full/Short/None enum value invented",
+        "No memory writes, game input or VMware used"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-FIELD-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md"
+      ],
+      "validationJob": "rea-localpc-code-memory-match-20261027-01",
+      "validationExitCode": 0
+    },
+    {
+      "id": "SC-306",
+      "milestone": "SC3",
+      "title": "Map local client AbilityQueue numeric value to Full/Short/None without guessing",
+      "state": "ready",
+      "dependsOn": [
+        "SC-305"
+      ],
+      "owner": "REA research",
+      "sourceInputs": [
+        "Saved local native setting field and original game UI resources/verified label evidence"
+      ],
+      "deliverable": "Defensible enum mapping or precise evidence gap and next read-only experiment",
+      "acceptance": [
+        "Each proposed mode mapped by source or exact-time UI comparison",
+        "Do not steal desktop/game focus or input when RIFT is background",
+        "No assumption raw 1 corresponds to any particular label",
+        "SC3 GCD not declared complete"
       ]
     }
   ],
@@ -673,5 +721,34 @@
     "lastExitCode": 0,
     "next": "Trace whether metadata registration code reaches a native ability enumeration callback; no whole-image import or old RVA transplant"
   },
-  "currentExecutionLocation": "physical-pc-host-only"
+  "currentExecutionLocation": "physical-pc-host-only",
+  "sc305Evidence": {
+    "status": "completed",
+    "buildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "document": "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-FIELD-2026-10-27.json",
+    "machineSha256": "d2eb1dd0bb1b28f817817628ad205fb675ffca0201e5ce6941ab2342ca763485",
+    "key": "ActionBars_AbilityQueue",
+    "keyRva": "0x26ecc70",
+    "settingsGlobalRva": "0x33958c0",
+    "fieldOffset": "0xa4",
+    "localSampleValue": 1,
+    "currentLabel": null,
+    "referenceLocalPid": 66436,
+    "loadedCodeMatchesDisk": true,
+    "gameInputSent": false,
+    "codeModified": false,
+    "probeJobs": [
+      "rea-localpc-queue-setting-riprefs-20261027-01",
+      "rea-localpc-queue-function-context-20261027-01",
+      "rea-localpc-code-memory-match-20261027-01"
+    ]
+  },
+  "sc401Parked": {
+    "status": "parked",
+    "reason": "Two distinct source-backed probes of Inspect.Ability.New.List metadata/data region led to generic container/allocator/tree maintenance, not an actual player ability enumeration callback. Stop speculative recursion.",
+    "resumeTrigger": "A new direct runtime API callback pointer or native code link to an exact player ability result, or new export proving handler registration linkage",
+    "sourceHash": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "gameInputSent": false
+  }
 }

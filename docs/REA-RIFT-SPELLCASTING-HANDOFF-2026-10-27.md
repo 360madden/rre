@@ -1,9 +1,9 @@
 # CURRENT HANDOFF — REA RIFT spellcasting research
 
-**IMPORTANT TARGET SWITCH (user instruction Oct 27):** REA uses **RIFT installed and running on this physical PC**, **not VMware**. [Confirmed local target](REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md), path `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Read-only process inspection at 13:21:39 UTC showed **one local running RIFT process**, PID 66436; recheck volatile PID before runtime use. Continue SC-401 on this local binary, not Lab-2. No need for a VMware guest hash to study local game executable.
+**IMPORTANT TARGET SWITCH (user instruction Oct 27):** REA uses **RIFT installed and running on this physical PC**, **not VMware**. [Confirmed local target](REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md), path `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Read-only process inspection at 13:21:39 UTC showed **one local running RIFT process**, PID 66436; recheck volatile PID before runtime use. Current SC-401 schema-name branch is parked after two nondecisive probes; continue SC-306 on this local binary, not Lab-2. No VMware guest hash is needed for this REA work.
 
-**Updated:** October 27, 2026. **Next REA task:** `SC-401` — targeted client-side enumeration-handler/xref investigation from the NEW build's `Inspect.Ability.New.List` descriptor; no whole-PE import.
-**Scope:** REA research only; RR2/Workbridge implementation and live controls remain separately owned. All tasks through this handoff were **file-based** with no new gameplay input or REA binary import.
+**Updated:** October 27, 2026. **Next REA task:** `SC-306` — map the raw local `ActionBars_AbilityQueue` value `1` to the in-game Full/Short/None setting, with evidence rather than guessing. SC-305 setting-storage discovery is accepted; SC-401 generic metadata branch is parked.
+**Scope:** REA research only; RR2/Workbridge implementation remains separate. SC-305 used bounded **read-only live local process memory** to inspect one numeric setting (no writes/input/VM); no full REA/Ghidra import.
 
 ## Last accepted checkpoints
 
@@ -14,19 +14,20 @@
 | **SC-104 COMPLETE** | `4c29597` | 10/55 API-listed abilities have explicit `unusable=true`; listing ≠ readiness |
 | **SC2 PHASE COMPLETE** | `41e7fc6` | [Observed cast lifecycle](REA-RIFT-SPELLCASTING-SC2-LIFECYCLE-2026-10-27.md): cooldown Begin → target dodge/hit → cooldown End, host input remains a separate receipt |
 | **SC-303 COMPLETE** | `e7937a0` | [Cast/channel metadata and cadence](REA-RIFT-SPELLCASTING-SC303-TIMING-METADATA-2026-10-27.md): 9 cast-time entries, 2 channel flags, no sampled active castbar in 1,125 real samples; SC3 GCD still open |
-| **October 27 RIFT host build PINNED** | `6a8c0ae` | [New x64 host executable](REA-RIFT-BUILD-UPDATE-2026-10-27.md), SHA `1935a05c…be8`; 7 PE section hashes verified; current running VM is **Lab-2**, guest build unknown |
+| **October 27 LOCAL RIFT build PINNED** | `6a8c0ae` | [New x64 executable](REA-RIFT-BUILD-UPDATE-2026-10-27.md), SHA `1935a05c…be8`; local process path and sampled mapped code bytes later matched disk; VM is no longer a prerequisite |
 | **SC-304 COMPLETE** | `9adc7cd` | [Clock-domain precision audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md): 565/560 samples, same-clock event order and source bracketing, but **no RTT or independently proven GCD** |
 | **SC-404 COMPLETE (new-build data anchors)** | `d8ba4fa` | [New build source dossier](REA-RIFT-SPELLCASTING-SC404-NATIVE-DOSSIER-2026-10-27.md): `New.List`, `New.Detail`, `Unit.Castbar` strings and `.data` pointers; **no handler or guest compatibility proven** |
-| **SC-401 PARTIAL (code xrefs)** | See latest Git log | [New-build code xrefs](REA-RIFT-SPELLCASTING-SC401-NATIVE-XREFS-2026-10-27.md): three `.pdata`-bounded functions reference metadata regions; **enumeration and cast implementations remain unverified** |
+| **SC-401 PARKED** | `d4dc272` | [Native code xrefs](REA-RIFT-SPELLCASTING-SC401-NATIVE-XREFS-2026-10-27.md) led into generic allocator/tree/container management; enumeration callback remains unverified; reopen only on new evidence |
+| **SC-305 COMPLETE** | See latest Git log | [Local RIFT ability-queue setting field](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md): source-backed `ActionBars_AbilityQueue` at settings-object offset `+0xA4`; currently numeric **1**, user-facing mode not yet qualified |
 
 **Phase handoffs:** [SC0](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) · [SC2](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). [Task register](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) is authoritative for the next ready task.
 
 ## Current blockers and next work
 
 - **SC1 NOT COMPLETE:** the native RIFT spellbook/soul-tree/trainer UI and matching character level, active Role, points/rank are absent. SC-102 cannot claim "learnable at current level"; SC-103 names with multiple IDs cannot yet be mapped confidently to roles/ranks.
-- **SC3 NOT COMPLETE:** shared GCD and client queue require cross-ability readiness and verified Full/Short/None queue setting. One 1.5s melee recovery or 12s ranged recovery alone is not GCD proof.
+- **SC3 NOT COMPLETE:** SC-305 recovered the local native ability-queue setting storage and raw **1**, but the mapping to Full/Short/None and actual queue/cast behavior is unverified. Cross-ability shared GCD also remains unverified.
 - **SC4 native REA active, no phase completion:** patched local PC binary source has confirmed RIP-relative code references to ability/castbar descriptor regions, with three bounded function SHA fingerprints. These are **not** verified native enumeration/casting handlers. Do not launch old >450s whole-PE imports.
 
-**SC-401 next:** continue from the [source-backed instruction dossier](REA-RIFT-SPELLCASTING-SC401-NATIVE-XREFS-2026-10-27.md), not a repeated whole-image scan. New-host SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; candidate ability-descriptor function `0x9b0376–0x9b0776` references `.data` around `0x2f62d00`, plus castbar region `0x9b84f0–0x9b88cd`. Follow one source-backed call target (e.g. `0x12942a0`) or caller to determine whether this is only schema initialization or a real enumeration handler. **No callable ability implementation proven.** Preserve historical pins and do not assume current Lab-2 game equals new host build.
+**SC-306 next:** [SC-305 finding](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md) qualifies native name `ActionBars_AbilityQueue` at `.rdata` `0x26ecc70`, settings global RVA `0x33958c0`, and 32-bit field offset `+0xA4`. The **local process returned raw `1`**, which has *no verified Full/Short/None mapping*. Seek safe, bounded native UI-value resources or an independent current local UI observation; do not change game focus blindly (it was background in the last check), guess enum meaning or repeat old SC-401 allocator branch. Next queue behavior still requires distinct cross-ability cast evidence.
 
 **Resume:** check latest RRE Git HEAD/status and the SC task register, then one bounded read-only query. Existing RR2 remains clean and unmodified by REA; two historical untracked RRE raw-probe files must be preserved. This project has no promise of background work between Chat turns.
