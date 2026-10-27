@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "Physical PC RIFT only; native AbilityQueue setting +0xA4 verified, local raw value=1, enum meaning unknown; SC-401 metadata branch parked after two non-decisive probes; SC-306 queue setting mapping next. SC1 and SC3 phases not completed.",
+  "status": "REA local PC: SC305 verified ability queue field+raw1; SC306 label mapping blocked on matched UI; SC401 descriptor branch parked; now SC402 bounded native castbar/readiness, with SC3 GCD not proven",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-306",
+  "nextTaskId": "SC-402",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -305,7 +305,7 @@
       "id": "SC-402",
       "milestone": "SC4",
       "title": "Selective castbar/readiness/cooldown native data-flow",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-201",
         "SC-303"
@@ -508,7 +508,7 @@
       "id": "SC-306",
       "milestone": "SC3",
       "title": "Map local client AbilityQueue numeric value to Full/Short/None without guessing",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-305"
       ],
@@ -750,5 +750,26 @@
     "resumeTrigger": "A new direct runtime API callback pointer or native code link to an exact player ability result, or new export proving handler registration linkage",
     "sourceHash": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
     "gameInputSent": false
+  },
+  "sc306Evidence": {
+    "status": "blocked",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md",
+    "sourceSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "settingRva": "0x33958c0",
+    "settingFieldOffset": "0xa4",
+    "localFieldValue": 1,
+    "currentMode": null,
+    "rawXrefCandidates": 329,
+    "boundedXrefFunctions": 27,
+    "foregroundRIFT": false,
+    "enumMappingKnown": false,
+    "reopenTrigger": "verified local in-game queue-setting UI and simultaneous numeric read; or source-native proven label-to-value enum",
+    "next": "SC-402 native castbar/readiness",
+    "noInput": true,
+    "jobs": [
+      "rea-localpc-queue-config-scan-20261027-01",
+      "rea-localpc-queue-global-xrefs-20261027-01",
+      "rea-localpc-game-foreground-windows-20261027-01"
+    ]
   }
 }
