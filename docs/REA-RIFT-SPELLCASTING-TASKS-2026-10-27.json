@@ -857,5 +857,14 @@
     },
     "newTriggerRequired": true,
     "gameInputSent": false
+  },
+  "sc501Partial": {
+    "state": "partial",
+    "sourceBuildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md",
+    "knownError": "Could not cast unknown ability: [%ABILITY]",
+    "unknownGuardsStillUnknown": true,
+    "job": "rea-localpc-sc501-cast-error-literals-20261027-01",
+    "gameInputSent": false
   }
 }
