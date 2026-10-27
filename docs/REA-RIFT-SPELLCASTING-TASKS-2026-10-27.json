@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "October 27 new RIFT PE pinned; SC404 native API metadata complete, SC401 first xrefs/disassembly partially resolved; SC1/SC3 data gaps unchanged, no handler claimed",
+  "status": "REA spellcasting now targets the locally installed and running PC RIFT executable, not VMware; SC401 next source-backed local PE call/handler research; independent GCD/learnability not yet established.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-401",
   "gameInputAuthorized": false,
@@ -18,6 +18,20 @@
       "reportedSource": "docs/REA-RIFT-BUILD-INVENTORY-2026-10-27.json",
       "guestFileSha256": null,
       "nativeOldOffsetsQualified": false
+    },
+    "researchTarget": {
+      "kind": "physical-pc-local-RIFT",
+      "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+      "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "scope": "host-installed PE plus independently confirmed local running process",
+      "lastObservedProcessId": 66436,
+      "lastObservedAtUtc": "2026-10-27T13:21:39.2796550Z",
+      "processIdIsVolatile": true,
+      "hostLocalGameObservedRunning": true,
+      "gameInputSent": false,
+      "vmwareRequired": false,
+      "nativeCodeSemanticsQualified": false,
+      "policy": "docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md"
     }
   },
   "milestones": [
@@ -658,5 +672,6 @@
     "lastJob": "rea-oct27-sc401-limited-functions-03",
     "lastExitCode": 0,
     "next": "Trace whether metadata registration code reaches a native ability enumeration callback; no whole-image import or old RVA transplant"
-  }
+  },
+  "currentExecutionLocation": "physical-pc-host-only"
 }

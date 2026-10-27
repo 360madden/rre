@@ -1,5 +1,7 @@
 # CURRENT HANDOFF — REA RIFT spellcasting research
 
+**IMPORTANT TARGET SWITCH (user instruction Oct 27):** REA uses **RIFT installed and running on this physical PC**, **not VMware**. [Confirmed local target](REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md), path `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Read-only process inspection at 13:21:39 UTC showed **one local running RIFT process**, PID 66436; recheck volatile PID before runtime use. Continue SC-401 on this local binary, not Lab-2. No need for a VMware guest hash to study local game executable.
+
 **Updated:** October 27, 2026. **Next REA task:** `SC-401` — targeted client-side enumeration-handler/xref investigation from the NEW build's `Inspect.Ability.New.List` descriptor; no whole-PE import.
 **Scope:** REA research only; RR2/Workbridge implementation and live controls remain separately owned. All tasks through this handoff were **file-based** with no new gameplay input or REA binary import.
 
@@ -23,7 +25,7 @@
 
 - **SC1 NOT COMPLETE:** the native RIFT spellbook/soul-tree/trainer UI and matching character level, active Role, points/rank are absent. SC-102 cannot claim "learnable at current level"; SC-103 names with multiple IDs cannot yet be mapped confidently to roles/ranks.
 - **SC3 NOT COMPLETE:** shared GCD and client queue require cross-ability readiness and verified Full/Short/None queue setting. One 1.5s melee recovery or 12s ranged recovery alone is not GCD proof.
-- **SC4 native REA active, no phase completion:** patched binary source now has confirmed RIP-relative code references to ability/castbar descriptor regions, with three bounded function SHA fingerprints. These are **not** verified native enumeration/casting handlers; no runtime semantics or live guest build is qualified. Do not launch old >450s whole-PE imports.
+- **SC4 native REA active, no phase completion:** patched local PC binary source has confirmed RIP-relative code references to ability/castbar descriptor regions, with three bounded function SHA fingerprints. These are **not** verified native enumeration/casting handlers. Do not launch old >450s whole-PE imports.
 
 **SC-401 next:** continue from the [source-backed instruction dossier](REA-RIFT-SPELLCASTING-SC401-NATIVE-XREFS-2026-10-27.md), not a repeated whole-image scan. New-host SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; candidate ability-descriptor function `0x9b0376–0x9b0776` references `.data` around `0x2f62d00`, plus castbar region `0x9b84f0–0x9b88cd`. Follow one source-backed call target (e.g. `0x12942a0`) or caller to determine whether this is only schema initialization or a real enumeration handler. **No callable ability implementation proven.** Preserve historical pins and do not assume current Lab-2 game equals new host build.
 
