@@ -2,7 +2,7 @@
 
 **Updated October 27, 2026. Target: LOCAL physical-PC RIFT, NOT VMware.** This handoff supersedes previous SC-401/SC-402 schema searches.
 
-**Current task: SC-501 (READY).** SC-408's two bounded downstream probes were inconclusive and the branch is parked. [SC-408 negative finding](REA-RIFT-SPELLCASTING-SC408-DOWNSTREAM-2026-10-27.md) preserves exact hashes and jobs. Study source-backed readiness rejection classes next; do not rerun generic native callees without new discriminating evidence.
+**Current task: SC-502 (READY).** [SC-501 offline source-backed failure taxonomy](REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md) is completed; the apparent ASCII `A` was actually UTF-16LE `ABILITY` used near an error template. Next analyze modern caster/ability/target IDs across saved hit, dodge and area events; retain missing heal/overheal evidence as unknown. No live RIFT input.
 
 ## Build, target and ownership
 
@@ -27,13 +27,14 @@ Original selected `cast` native body `0x6C7450–0x6C7B71`, SHA `31c02f4e68ac0c8
 - [SC-407 machine data](REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.json)
 - Recent Workbridge jobs (passed): `rea-localpc-cast-handler-trace-20261027-01` and `rea-localpc-cast-command-runtime-code-20261027-01`. The earlier `rea-localpc-cast-dispatch-pointers-20261027-01` contains **wrong provisional labels**, corrected in SC-407; never reuse those labels.
 
-**SC-408 branch result:** `0x5A5FF0` is a 189-byte bounded native callee with shared numeric/state references but no demonstrated ability resolver; `0x7DE6F0` is an argument-forwarding jump stub to `0x137FC80` with no qualified cast request semantics. Park these two inconclusive paths. Next independent SC-501 readiness rejection analysis uses existing local-source evidence.
+**SC-408 remains parked. SC-501 completed at bounded evidence scope:** native error text `Could not cast unknown ability: [%ABILITY]` is linked to a **UTF-16LE `ABILITY` formatting key** at RVA `0x26b6030`, disproving the provisional `A`-prefix inference. Historical RR2 `unusable=true` and out-of-range diagnostics are distinct from a real target Dodge. Full native/server rejection mechanics remain unverified. Source QA 16/16; see [SC-501 record](REA-RIFT-SPELLCASTING-SC501-OFFLINE-2026-10-27.json).
 
 ## What remains open
 
 - **SC1** native full spellbook/learnable-at-level/role and souls: no current local on-screen UI or role-scoped API baseline.
 - **SC3** independent shared GCD, actual ability queue Full/Short/None mapping (raw setting `+0xA4` was `1` only), cast delay and server clock: unresolved. [SC-305](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md) is completed, [SC-306](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md) blocked until matching UI evidence.
-- **SC4** active but **NOT major-phase complete**: SC-401 schema tree and SC-402 `Inspect.Unit.Castbar` metadata code are **parked** as generic initialization/descriptor leads. SC-403 full request/queue remains blocked on specific context. SC-407 actual command entry is verified; SC-408 is parked after two inconclusive bounded branches.
+- **SC4** active, not complete: SC-407 native `/cast` command entry verified; SC-408 generic callees parked. SC-501 corrected error-format evidence does not yet identify the native ability resolver or server acknowledgement.
+- **SC5** active, not complete: SC-501 rejection taxonomy accepted; SC-502 outcome attribution is next; SC-503 proc/channel/interrupt research still needs qualifying source observations.
 - No background work assumed: checkpoint each bounded finding and commit.
 
 ## Resume in next Chat mode

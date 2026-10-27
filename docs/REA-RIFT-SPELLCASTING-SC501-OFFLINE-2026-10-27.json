@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-501",
+  "date": "2026-10-27",
+  "scope": "offline native error-template analysis plus historical RIFT API negative evidence",
+  "newHostBuildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "oldRecordedBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "nativeCastSlice": {
+    "startRva": "0x6c7450",
+    "endRva": "0x6c7b71",
+    "sha256": "31c02f4e68ac0c8157ad4e8fd1f813fe724b02f607d9c67649bcd777d0890d85"
+  },
+  "nativeErrorTemplate": {
+    "keyRva": "0x26b6030",
+    "keyEncoding": "utf-16le",
+    "key": "ABILITY",
+    "keyNullTerminatedHex": "4100420049004c004900540059000000",
+    "keyInstructionRva": "0x6c7750",
+    "templateRva": "0x26b6040",
+    "template": "Could not cast unknown ability: [%ABILITY]",
+    "templateReferences": [
+      "0x6c78b2",
+      "0x6c78dd",
+      "0x6c7922"
+    ],
+    "conclusion": "error substitution formatting lead; not an A-prefixed ability ID"
+  },
+  "limitedHelper": {
+    "rva": "0x4cb3d0",
+    "endRva": "0x4cb48e",
+    "sha256": "768115115ca1cffbc39c5ea3dcc5addf3c5d89439177162a18a861e9f7a83ea0",
+    "bytes": 190,
+    "instructionCount": 47,
+    "calledAtRva": "0x6c7788",
+    "nestedCallRva": "0x499cc0",
+    "semanticsQualified": false
+  },
+  "historicalSources": {
+    "savedApiAbilities": {
+      "sha256": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630",
+      "source": "C:\\work\\riftreader2\\artifacts\\casting-20261025-01\\ranged-evidence-04\\evidence.json",
+      "count": 55,
+      "explicitUnusableTrue": 10,
+      "missingUnusableFlag": 45,
+      "dischargeId": "A23A6E91642EDEA34"
+    },
+    "supervisedHandoff": {
+      "sha256": "b1f7125715cc29584c43d99321b900ff6365fbbd2d5c3da66468a3725c9340b5",
+      "source": "C:\\work\\riftreader2\\docs\\workflows\\casting-handoff-2026-10-26.md",
+      "dischargeNoCast": true,
+      "aggressiveBlockInitiallyOutOfRange": true
+    },
+    "exactTargetOutcomes": {
+      "sha256": "bca100aeb70f9bb6f95afd927971103909c45826f68fa1223e5f57f6d888372e",
+      "abilityId": "A6B8B16CD6F8B3DB9",
+      "first": "dodge",
+      "second": "damage 402"
+    }
+  },
+  "labels": [
+    {
+      "type": "native unknown-ability text",
+      "source": "new physical host PE",
+      "runtimeErrorObserved": false
+    },
+    {
+      "type": "RIFT API contextual unusable",
+      "source": "historical guest ability detail",
+      "reported": true,
+      "underlyingReasonUnknown": true
+    },
+    {
+      "type": "out-of-range pre-activation",
+      "source": "historical RR2 ability diagnostic",
+      "reported": true,
+      "serverRejectionUnknown": true
+    },
+    {
+      "type": "dodge target outcome",
+      "source": "historical exact-ID combat event",
+      "observed": true,
+      "notPreActivationFailure": true
+    }
+  ],
+  "currentNativeFailureMatrixComplete": false,
+  "gameInputSent": false,
+  "liveProcessAttached": false,
+  "jobs": [
+    "rea-offline-sc501-cast-controlflow-20261027-01",
+    "rea-offline-sc501-argument-path-20261027-01",
+    "rea-offline-sc501-cast-lookup-helper-20261027-01",
+    "rea-offline-sc501-local-literal-encoding-20261027-01",
+    "rea-offline-sc501-cast-use-template-parity-20261027-01"
+  ]
+}
