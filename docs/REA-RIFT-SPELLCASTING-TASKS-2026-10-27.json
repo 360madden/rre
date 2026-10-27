@@ -5,7 +5,7 @@
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
   "status": "planning-five-pass-review",
-  "completedReviewPasses": 3,
+  "completedReviewPasses": 4,
   "nextTaskId": "SC-000",
   "gameInputAuthorized": false,
   "binaryTarget": {
@@ -259,6 +259,143 @@
         "Sampling errors/intervals documented",
         "Unknown server acknowledgements stay unknown"
       ]
+    },
+    {
+      "id": "SC-401",
+      "milestone": "SC4",
+      "title": "Bounded REA native identity and known-ability storage hypothesis",
+      "state": "planned",
+      "dependsOn": [
+        "SC-101"
+      ],
+      "owner": "REA only",
+      "sourceInputs": [
+        "Exact SHA PE and a concrete API/UI discrepancy or ID"
+      ],
+      "deliverable": "Source-bound client-side ability identity/list function dossier or park rationale",
+      "acceptance": [
+        "No full-client import as default",
+        "Original RVA/assembly verified against exact PE",
+        "Distinguish observed bytes from inferred semantics"
+      ]
+    },
+    {
+      "id": "SC-402",
+      "milestone": "SC4",
+      "title": "Selective castbar/readiness/cooldown native data-flow",
+      "state": "planned",
+      "dependsOn": [
+        "SC-201",
+        "SC-303"
+      ],
+      "owner": "REA only",
+      "sourceInputs": [
+        "Source-clock-aligned real readiness transitions and pinned game binary"
+      ],
+      "deliverable": "One candidate cooldown or castbar function dossier with alternative explanations",
+      "acceptance": [
+        "Per-ability vs shared lockout not assumed",
+        "Retained Evidence ID reused rather than repeated heavy producer",
+        "Time limit and probe budget recorded"
+      ]
+    },
+    {
+      "id": "SC-403",
+      "milestone": "SC4",
+      "title": "Trace client-side secure cast request/queue candidate",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-201",
+        "SC-302"
+      ],
+      "owner": "REA only",
+      "sourceInputs": [
+        "Exact-ID request events, queue state and pinned executable"
+      ],
+      "deliverable": "Source-backed call/data-flow candidate or explicit unknown-server boundary",
+      "acceptance": [
+        "No client-only claim about authoritative server rules",
+        "One function/region per bounded probe",
+        "No process write/injection/network control"
+      ]
+    },
+    {
+      "id": "SC-404",
+      "milestone": "SC4",
+      "title": "Build compatibility and reuse of historic REA evidence",
+      "state": "planned",
+      "dependsOn": [
+        "SC-000"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Exact RIFT PE and existing REA evidence IDs/doc hashes"
+      ],
+      "deliverable": "Old/new SHA applicability ledger and retained native evidence index",
+      "acceptance": [
+        "Same build static results reused only with exact bytes",
+        "Different build always requalified before an RVA claim",
+        "Synthetic PE analysis never used as full program proof"
+      ]
+    },
+    {
+      "id": "SC-501",
+      "milestone": "SC5",
+      "title": "Availability rejection and different target state cases",
+      "state": "planned",
+      "dependsOn": [
+        "SC-104",
+        "SC-201"
+      ],
+      "owner": "REA analysis; RR2 live evidence separately owned",
+      "sourceInputs": [
+        "Real API unusable/out-of-range/resource/castbar snapshots"
+      ],
+      "deliverable": "Failure reason matrix with positive/negative discriminants",
+      "acceptance": [
+        "At least one negative observation independently qualified",
+        "Missing events not proof of no cast",
+        "No private credentials or controls in research exports"
+      ]
+    },
+    {
+      "id": "SC-502",
+      "milestone": "SC5",
+      "title": "Hit, dodge/miss, heal/overheal and multi-target attribution",
+      "state": "planned",
+      "dependsOn": [
+        "SC-201"
+      ],
+      "owner": "REA analysis",
+      "sourceInputs": [
+        "Saved Aggressive Block / Light's Decree and combat event examples"
+      ],
+      "deliverable": "Outcome attribution report keyed by modern caster/target/ability IDs",
+      "acceptance": [
+        "Dodge not mistaken for input failure",
+        "Other targets excluded from intended-target hit",
+        "Spell name fallback never authoritative"
+      ]
+    },
+    {
+      "id": "SC-503",
+      "milestone": "SC5",
+      "title": "Conditional ability types and interruption edge cases",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-303",
+        "SC-501"
+      ],
+      "owner": "REA hypotheses; RR2 supplies supervised evidence",
+      "sourceInputs": [
+        "Approved channel/ground/proc/stealth or movement-cancel trace"
+      ],
+      "deliverable": "Special ability decision tree with unresolved variants",
+      "acceptance": [
+        "No assumption all abilities share GCD/castbar rules",
+        "One observed class at a time",
+        "No automated rotation or health-loss prerequisite"
+      ]
     }
   ],
   "checkpointPolicy": {
@@ -283,6 +420,11 @@
       "pass": 3,
       "label": "Cast lifecycle and timing discrimination",
       "result": "Separated command, castbar, effect, GCD, cooldown, queue policy, channel ticks and clock domains; no universal delay inferred."
+    },
+    {
+      "pass": 4,
+      "label": "REA-native bounded tool strategy",
+      "result": "Existing REA+Ghidra retained; native probes only for concrete API/UI discrepancy; synthetic PE/whole import caveats and 120-second maximum job budget added."
     }
   ]
 }

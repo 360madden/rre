@@ -163,6 +163,52 @@ Start with T1/T2/T3 and the smallest abilities available in the **existing RR2 c
 - **SC3:** two independent ability-readiness traces with a predeclared clock mapping and sample bounds support or refute a *candidate* shared GCD; queue-mode observations are tagged by actual UI setting. Never universalize from the existing ~1.5 s and ~12 s historical recoveries.
 - **Timing confidence:** one trial = observation; several comparable trials under explicitly constant conditions = repeatability evidence; timing distribution/model needs outlier, jitter and source-freshness accounting. Unknown server path cannot be promoted to client-native proof.
 
+## Pass 4 — REA-native investigation without whole-client dead ends (SC4–SC5)
+
+### Use the working software and historical findings correctly
+
+REA is already installed as `rea-agents@6.5.0` at `C:\work\tools\rea` with Ghidra 12.1.2; the current browser ChatGPT mode typically reaches it through the **existing** Workbridge CLI/MCP bridge. No new installation or agent framework is needed for planning.
+
+Prior source-bound tool result: two original **large RIFT PE** investigations exceeded ~450 seconds during startup/import. A separately assembled **2,560-byte synthetic PE slice** was analyzed by REA/Ghidra in ~19.6 s, but it has relocated code with missing external callers/RTTI/data and does **not** prove original-program behavior. Raw headerless x64 was rejected by this Windows provider. Do not repeat the raw-x64 path or infer that a synthetic slice proves a real client call chain. See `docs/rea-small-pe-probe-2026-10-19.md`. When full context matters, prefer already-saved source-backed static byte scans and a justified bounded full-PE analysis; large binary jobs need explicit cost/exit criteria.
+
+### Three selective native targets — only after an observed discrepancy
+
+| Focus | Research question | Minimal anchor | Credible native evidence |
+| --- | --- | --- | --- |
+| N1: Ability identity and catalog | Is `Inspect.Ability.New.List/Detail` a projection of client-owned known-ability state, a UI catalogue, or another source? | Exact modern/legacy IDs and a role-scoped API-vs-UI mismatch | Reference to matching build-local code/data with a function caller/callee trail and input/output validation, not a text-name hit |
+| N2: Cooldown, castbar and readiness | Where are effective cooldown, shared lockout, cast/channel and resource rules computed or exposed? | Same-session cross-ability readiness/castbar transitions from SC3 | Exact-build value-flow candidate tied to observed field changes or event emission; prove that it is per-ability versus common if claimed |
+| N3: Cast attempt and queue path | What handles secure action or macro submission, stores any pending action and emits outcomes? | One cast, one rejection/queue decision, source-timed event IDs | Function/data-flow trace from input or game-API boundary to a local queue/dispatcher/state update; server acceptance remains unknown without separate proof |
+
+Only after one of these anchors is qualified should we investigate:
+
+- Shared cooldown groups, charge counters, procs/conditional abilities, Soul/Role change invalidation or rank/variant replacement.
+- Ground-target confirmation, movement/facing/LOS and target identity.
+- Client/server request protocol, sequencing and prediction/correction, **only if a separately authorized and lawful data source makes this observable**; do not derive a purported server rule solely from the client binary.
+- Possible GCD/vs cast restrictions for PvP or different class/soul families; no generalization from one Warrior/dummy sample.
+
+**Failure-case research must be discriminating.** `unusable=true` with full Power and cooldown zero (already seen for Discharge) is a useful hypothesis for another missing gate; it does not prove which one. In a native follow-up, formulate two competing explanations (e.g., proc prerequisite vs effect target restriction), locate the least expensive source-observable discriminant, and stop if neither source can answer. Do not scan all "cast" strings as progress.
+
+### REA query ladder and stop rule
+
+1. **Prepare target:** pin original shipped executable path, SHA-256, PE sections/arch, build version, RVA/image-base mapping, user supplied state/source evidence, already indexed native research. A user-reported update is not a new binary until bytes differ; do not import stale V1 pointer chains.
+2. **Form one falsifiable hypothesis:** specify the exact ability ID and observed transition, proposed code/data anchor, source file, expected positive AND negative signatures, and result that would change the model. If only name-based folklore exists, stay API/UI-first.
+3. **Cheapest answer first:** search existing REA evidence IDs/bundles, saved RRE native indexes/strings/RTTI/disassembly, then narrowly bounded REA `search_strings` / `search_procedures` / `xrefs` / `read_bytes` / function views **when supported by the active provider**. Do not assume every 207 MCP tool works on Windows Ghidra.
+4. **Escalate exactly one function/region:** decompile a supported bounded procedure, record pseudocode *and* assembly source ranges, references, callers/callees and ambiguity. Use `inspect_analysis_view` on a retained Evidence ID instead of rerunning expensive analysis to retrieve another facet. If a native call's arguments/receiver ownership are unknown, report the unknown.
+5. **Cross-check and decide:** check source PE bytes in the named RVA window and (where already authorized) compare saved RR2 API observations; classify `supported`, `disproved` or `unresolved`. Synthetic probe success is a tooling property only. Never equate source-backed code references with a successfully invoked game ability.
+6. **Timebox and park:** one bounded narrow attempt per Chat turn, usually **30–90 s per tool job**, hard job limit **120 s** for this research track unless an expressly reviewed durable/resumable workflow exists. If import/startup exceeds the budget, retain the last artifact, label `provider-timeout` and switch to *existing* static evidence or a smaller question. **Two materially different non-decisive probes** park a hypothesis until new observed IDs, bytes or changes arrive. No retry loops or entire binary rescans as a default.
+7. **Patch handling:** same original SHA permits reuse of **static byte-qualified** RVAs only (runtime ABI, ASLR, pointer lifetimes and code semantics still need proof). Different SHA starts an isolated build comparison and requalification of the selected spellbook/casting anchors, **not** a blanket update of prior offsets or identical function names.
+
+### Required native function dossier
+
+For every candidate create a small immutable dossier with `taskId`, `buildSha256`, `sourceFileSha256`, `RVA/start-end`, `virtual image base`, provider/revision, exact query/job ID, original machine bytes/range, method, pseudocode snippet references, caller/callee hypotheses, event/API observation IDs, competing interpretations, evidence confidence, failed attempts, reopening trigger and **one next bounded query**. Keep observed values and inferred meanings in separate fields.
+
+### SC4–SC5 acceptance
+
+- **SC4:** at least one source-pinned native finding that answers a **specific** unresolved catalog/readiness/request question OR a clearly qualified provider/target blocker with preserved evidence. An RVA/string match alone fails.
+- **SC5:** classify representative failure/outcome states (rejected, queued, interrupted, dodged/missed/resisted/immune, target-changed and normal hit/heal) by actual saved events and supported semantics. Missing event coverage does not establish absence.
+- **Never block SC1 catalog usability or SC2/SC3 behavioral analysis solely because Ghidra's whole-client import is slow.** They can advance from game API/observations while native attribution remains pending.
+
 <!-- REA-CAST-NEXT-PASS -->
+
 
 
