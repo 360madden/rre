@@ -1,21 +1,25 @@
-# REA RIFT spellcasting — current Chat-mode handoff
+# CURRENT HANDOFF — REA RIFT spellcasting research
 
-**As of:** October 27, 2026. **Current phase:** SC1 partially underway; **next task:** `SC-104` readiness vs catalog knowledge.  
-**Owner:** REA research only. No RR2/Workbridge source edits or live-game actions.
+**Updated:** October 27, 2026. **Next REA task:** `SC-303` — characterize saved cast-time/channel/cooldown metadata and sampling limits.  
+**Scope:** REA research only; RR2/Workbridge implementation and live controls remain separately owned. All tasks through this handoff were **file-based** with no new gameplay input or REA binary import.
 
-### Completed and committed
+## Last accepted checkpoints
 
-- **SC0 COMPLETE:** validated source baseline, 55 matching unique lookup IDs in two historical RR2 captures, 9 SHA checks, 17/17 acceptance. Commit `e76e6b2`. [Phase handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md).
-- **SC-101 COMPLETE:** [55-ID API catalog JSONL](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.jsonl) and [CSV](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.csv), exact ID/raw metadata and unknown-field preservation, 12/12 checks. Commit `4eea4e9`. [Source notes](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-NOTES-2026-10-27.md).
+| Result | Local commit | What is actually established |
+| --- | --- | --- |
+| **SC0 PHASE COMPLETE** | `e76e6b2` | Two source-hash-verified RR2 snapshots contain identical 55 API-returned ability lookup IDs; learnability UI still unknown |
+| **SC-101 COMPLETE** | `4eea4e9` | [55-row JSONL](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.jsonl) and [CSV](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.csv), unknown fields preserved |
+| **SC-104 COMPLETE** | `4c29597` | 10/55 API-listed abilities have explicit `unusable=true`; listing ≠ readiness |
+| **SC2 PHASE COMPLETE** | `41e7fc6` | [Observed cast lifecycle](REA-RIFT-SPELLCASTING-SC2-LIFECYCLE-2026-10-27.md): cooldown Begin → target dodge/hit → cooldown End, host input remains a separate receipt |
 
-### Next bounded task
+**Phase handoffs:** [SC0](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) · [SC2](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). [Task register](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) is authoritative for the next ready task.
 
-Read `C:\work\riftreader2\addon\RiftReader2Casting\model.lua` (SHA `82aa8395a36fbc2c3f83ff32392dcb4bbc43aa6bd18fd39a4339ab01c264a812`) and historical saved `ranged-evidence-04/evidence.json` (SHA `9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630`). Deliver SC-104 as a source-backed matrix distinguishing `apiListed`, `learnableNow`, `known` and `usableNow` at a specific observation time. The 55-ID list is **not** an independently qualified list of unlearned/current-level skills. A 12s Light's Decree timer or 1.5s Aggressive Block effective cooldown does not independently prove GCD.
+## Current blockers and next work
 
-**SC1 remains NOT COMPLETE:** SC-102 needs the native RIFT spellbook/soul-tree/trainer UI and the same character's current level, role and soul point allocation. The saved UI screen is only RR2's ability picker. SC-103 rank/variant role association is also unresolved; preserve duplicate names and distinct IDs.
+- **SC1 NOT COMPLETE:** the native RIFT spellbook/soul-tree/trainer UI and matching character level, active Role, points/rank are absent. SC-102 cannot claim "learnable at current level"; SC-103 names with multiple IDs cannot yet be mapped confidently to roles/ranks.
+- **SC3 NOT COMPLETE:** shared GCD and client queue require cross-ability readiness and verified Full/Short/None queue setting. One 1.5s melee recovery or 12s ranged recovery alone is not GCD proof.
+- **SC4 native REA:** deferred until a concrete source-linked hypothesis; don't launch old >450s whole PE imports.
 
-If SC-104 is accepted, proceed to SC-201 (observed cast lifecycle from actual hit/dodge/input receipts) or SC-103 as evidence permits. Do not start huge REA PE imports, repeat SC0, or make live input through this research lane.
+**SC-303 immediate input:** inspect the already-exported [55-ID catalog](REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.jsonl), original RR2 `ranged-evidence-04/evidence.json` and existing castbar/cooldown event source. Determine how many abilities have explicit cast/channel metadata, which recorded samples actually show an active castbar, and what sampling intervals permit. Write one concise source-pinned finding, focused validation, commit it; do not invent game events or change live controls.
 
-### Resume safely
-
-Use Workbridge `git_status(rre)` + latest RRE HEAD and [independent task register](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) as authority. Workbridge request IDs for accepted checks: `rea-sc0-source-check-v2-20261027-01` and `rea-sc101-catalog-acceptance-20261027-01`. Commit one bounded finding and refresh this handoff immediately; preserved unrelated untracked raw-probe files remain untouched. No work continues asynchronously after a Chat turn.
+**Resume:** check latest RRE Git HEAD/status and the SC task register, then one bounded read-only query. Existing RR2 remains clean and unmodified by REA; two historical untracked RRE raw-probe files must be preserved. This project has no promise of background work between Chat turns.
