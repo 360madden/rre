@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "project": "REA RIFT spellcasting reverse-engineering",
+  "owner": "REA research; no RR2/Workbridge code ownership",
+  "createdDate": "2026-10-27",
+  "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
+  "status": "planning-five-pass-review",
+  "completedReviewPasses": 1,
+  "nextTaskId": "SC-000",
+  "gameInputAuthorized": false,
+  "binaryTarget": {
+    "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "currentSessionProof": false
+  },
+  "milestones": [
+    {
+      "id": "SC0",
+      "name": "Baseline and evidence inventory",
+      "status": "ready"
+    },
+    {
+      "id": "SC1",
+      "name": "Spellbook availability taxonomy",
+      "status": "planned"
+    },
+    {
+      "id": "SC2",
+      "name": "Cast request lifecycle",
+      "status": "planned"
+    },
+    {
+      "id": "SC3",
+      "name": "GCD queue cooldown and latency",
+      "status": "planned"
+    },
+    {
+      "id": "SC4",
+      "name": "Selective native REA tracing",
+      "status": "planned"
+    },
+    {
+      "id": "SC5",
+      "name": "Failure/exception semantics",
+      "status": "planned"
+    },
+    {
+      "id": "SC6",
+      "name": "Model and reproducible outputs",
+      "status": "planned"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "SC-000",
+      "milestone": "SC0",
+      "title": "Inventory available RR2/API, historical native and official game evidence without live input",
+      "state": "ready",
+      "dependsOn": [],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "riftreader2/docs/reference/spelldump-api-reuse.md",
+        "riftreader2/docs/validation/casting-ranged-2026-10-26.md"
+      ],
+      "deliverable": "source-pinned baseline and a Known/Eligible/Usable classification hypothesis",
+      "acceptance": [
+        "Distinguish acquired from eligible/current-level spells",
+        "Capture source hashes and build/session limits",
+        "One bounded evidenced conclusion; no live input"
+      ],
+      "nextAction": "Compare saved complete API ability list against one role-specific game spellbook/UI snapshot, if available; otherwise report exact missing UI evidence."
+    }
+  ],
+  "checkpointPolicy": {
+    "chatMode": true,
+    "checkpointEachMilestone": true,
+    "commitEachBoundedFinding": true,
+    "restoreFromLastCommit": true,
+    "fullSuiteForDocsOnly": false
+  },
+  "passReview": [
+    {
+      "pass": 1,
+      "label": "Scope and ownership",
+      "result": "Separate known/learnable/future/usable/bound spell sets and REA/Workbridge/RR2 boundaries."
+    }
+  ]
+}
