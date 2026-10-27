@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC0 complete; SC1 catalog/readiness supported, learnability UI blocked; SC2 cast-lifecycle evidence task ready",
+  "status": "SC0 and SC2 observed-evidence phases completed; SC1 catalog/readiness partial awaiting native UI, SC3 timing hypotheses next",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-201",
+  "nextTaskId": "SC-303",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -26,12 +26,12 @@
     {
       "id": "SC2",
       "name": "Cast request lifecycle",
-      "status": "active"
+      "status": "completed"
     },
     {
       "id": "SC3",
       "name": "GCD queue cooldown and latency",
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "SC4",
@@ -149,7 +149,7 @@
       "id": "SC-201",
       "milestone": "SC2",
       "title": "Define trace vocabulary for cast requests and outcomes",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [
         "SC-000"
       ],
@@ -168,7 +168,7 @@
       "id": "SC-202",
       "milestone": "SC2",
       "title": "Compare normal, rejected and target-avoidance cases",
-      "state": "blocked",
+      "state": "completed",
       "dependsOn": [
         "SC-201"
       ],
@@ -226,7 +226,7 @@
       "id": "SC-303",
       "milestone": "SC3",
       "title": "Differentiate cast-time, channel ticks, cooldown groups and charge recovery",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-201"
       ],
@@ -245,7 +245,7 @@
       "id": "SC-304",
       "milestone": "SC3",
       "title": "Qualify latency and measurement precision",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-201"
       ],
@@ -342,7 +342,7 @@
       "id": "SC-501",
       "milestone": "SC5",
       "title": "Availability rejection and different target state cases",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-104",
         "SC-201"
@@ -362,7 +362,7 @@
       "id": "SC-502",
       "milestone": "SC5",
       "title": "Hit, dodge/miss, heal/overheal and multi-target attribution",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-201"
       ],
@@ -544,5 +544,17 @@
     "validationExitCode": 0,
     "gameInputSent": false,
     "nativeFunctionQualified": false
+  },
+  "sc2Evidence": {
+    "report": "docs/REA-RIFT-SPELLCASTING-SC2-LIFECYCLE-2026-10-27.md",
+    "timeline": "docs/REA-RIFT-SPELLCASTING-SC2-TIMELINE-2026-10-27.json",
+    "timelineSha256": "1236f5eb182b38df50daa1f237070ea21ea9cfc94ac490908ace1b53a5f5e728",
+    "phaseHandoff": "docs/REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md",
+    "result": "Observed input receipt, per-ability cooldown Begin/End, exact target dodge or hit; no native/server/GCD attribution",
+    "validationJob": "rea-sc2-event-acceptance-20261027-01",
+    "validationExitCode": 0,
+    "gameInputSentByREA": false,
+    "reaNativeClientPathProven": false,
+    "independentGcdProven": false
   }
 }
