@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "task": "SC-404",
+  "asOfDate": "2026-10-27",
+  "buildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "previousBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "sourceFile": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sourceBytes": 60493640,
+  "guestBuildQualified": false,
+  "oldInstructionRvasApplicable": false,
+  "evidenceSource": "offline-original-shipped-pe",
+  "sourceMethod": "literal byte searches + static full-width .rdata pointer matches into .data",
+  "newBuildAnchors": [
+    {
+      "name": "Inspect.Ability.New.List",
+      "fileOffset": 40720920,
+      "rva": "0x26d6618",
+      "section": ".rdata",
+      "dataRefs": [
+        {
+          "fileOffset": 49681248,
+          "mappedLocation": ".data",
+          "prevWord": null,
+          "nextWord": {
+            "rva": "0x26d6640",
+            "section": ".rdata",
+            "fileOffset": 40720960
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inspect.Ability.New.Detail",
+      "fileOffset": 40720976,
+      "rva": "0x26d6650",
+      "section": ".rdata",
+      "dataRefs": [
+        {
+          "fileOffset": 49681272,
+          "mappedLocation": ".data",
+          "prevWord": null,
+          "nextWord": {
+            "rva": "0x26d6680",
+            "section": ".rdata",
+            "fileOffset": 40721024
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inspect.Unit.Castbar",
+      "fileOffset": 40730976,
+      "rva": "0x26d8d60",
+      "section": ".rdata",
+      "dataRefs": [
+        {
+          "fileOffset": 49688560,
+          "mappedLocation": ".data",
+          "prevWord": null,
+          "nextWord": {
+            "rva": "0x26d42b4",
+            "section": ".rdata",
+            "fileOffset": 40711860
+          }
+        }
+      ]
+    },
+    {
+      "name": "ActionBars_AbilityQueue",
+      "fileOffset": 40812656,
+      "rva": "0x26ecc70",
+      "section": ".rdata",
+      "dataRefs": []
+    }
+  ],
+  "hypotheses": [
+    ".data pointers to Inspect.Ability.New.List and Detail literals suggest a native client API metadata descriptor; function implementation NOT located",
+    "Inspect.Unit.Castbar has another .data pointer indicating related metadata region; executable path not qualified",
+    "ActionBars_AbilityQueue literal is a UI settings lead; no same-name full-width pointer found"
+  ],
+  "conclusions": [
+    "Static name/data anchor addresses on NEW host PE only",
+    "No native cast request handler, GCD routine, network packet, queue semantics or original old-build RVA equivalence proven"
+  ],
+  "jobs": [
+    "rea-oct27-sc404-native-string-probe-01",
+    "rea-oct27-sc404-api-anchors-02",
+    "rea-oct27-sc404-registration-context-03",
+    "rea-oct27-sc404-castbar-queue-pointer-04"
+  ],
+  "oldBuildOriginalBytesAvailableForComparison": false,
+  "newGameInputSent": false,
+  "processAttached": false,
+  "ghidraImportAttempted": false
+}
