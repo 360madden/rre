@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "Physical host RIFT PE updated October 27, new SHA pinned; old native RVAs quarantined; SC-304 historical clock research ready; SC-404 targeted build compare ready",
+  "status": "SC0 and observational SC2 complete; October 27 new host RIFT PE pinned; SC-304 clock precision qualified historically; SC3 pending shared GCD/queue evidence; SC-404 native build requalification next",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-304",
+  "nextTaskId": "SC-404",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -253,7 +253,7 @@
       "id": "SC-304",
       "milestone": "SC3",
       "title": "Qualify latency and measurement precision",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [
         "SC-201"
       ],
@@ -600,5 +600,26 @@
       "rea-oct27-running-vm-inventory-01",
       "rea-oct27-new-pe-sections-01"
     ]
+  },
+  "sc304Evidence": {
+    "document": "docs/REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md",
+    "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC304-CLOCK-EVIDENCE-2026-10-27.json",
+    "machineSha256": "c6f6f59b71de3a12d844dbf45723c52a80d8762b9fa985777c2a1cc3e2ff5fab",
+    "sourceBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "timingSourceDomain": "RIFT Inspect.Time.Frame",
+    "unqualifiedHostUtcToFrameMapping": true,
+    "independentGcdMeasured": false,
+    "trialSampleCounts": [
+      565,
+      560
+    ],
+    "trialMedianStepMs": [
+      105.46875,
+      107.421875
+    ],
+    "validationJob": "rea-oct27-sc304-clock-audit-01",
+    "validationExitCode": 0,
+    "newHostBuildHash": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "gameInputSent": false
   }
 }

@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "task": "SC-304",
+  "researchKind": "historical-observation-clock-audit",
+  "referenceExeSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "observedNewHostExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "newHostExeQualifiedForSamples": false,
+  "pinnedSources": {
+    "rangedSummarySha256": "bca100aeb70f9bb6f95afd927971103909c45826f68fa1223e5f57f6d888372e",
+    "hostInputSha256": "e4530baaa6d2dfdd9615109de5a669161c92d5037be55e364b361040ea2524d2",
+    "trial1Sha256": "1bd8694f91abb17704cd7a769b4cb63f2f334b5d00853b220f040a627c63e695",
+    "trial2Sha256": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630"
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "originalSha256": "1bd8694f91abb17704cd7a769b4cb63f2f334b5d00853b220f040a627c63e695",
+      "count": 565,
+      "clockDomain": "RIFT Inspect.Time.Frame",
+      "sampleFrom": 19175.0859375,
+      "sampleTo": 19235.005859375,
+      "allStrictlyAdvancing": true,
+      "dtSeconds": {
+        "min": 0.029296875,
+        "p05": 0.1015625,
+        "median": 0.10546875,
+        "p95": 0.11328125,
+        "max": 0.142578125,
+        "gapsOverQuarterSecond": 0
+      },
+      "allEventTimes": [
+        {
+          "type": "cooldown-Begin",
+          "clock": 19204.921875,
+          "sampleBracket": {
+            "previous": 19204.83203125,
+            "next": 19204.9453125,
+            "offsetFromPrevious": 0.08984375,
+            "leadToNext": 0.0234375
+          }
+        },
+        {
+          "type": "dodge",
+          "clock": 19205.107421875,
+          "sampleBracket": {
+            "previous": 19205.05859375,
+            "next": 19205.201171875,
+            "offsetFromPrevious": 0.048828125,
+            "leadToNext": 0.09375
+          }
+        },
+        {
+          "type": "cooldown-End",
+          "clock": 19216.931640625,
+          "sampleBracket": {
+            "previous": 19216.89453125,
+            "next": 19217,
+            "offsetFromPrevious": 0.037109375,
+            "leadToNext": 0.068359375
+          }
+        }
+      ],
+      "beginToOutcomeSeconds": 0.185546875,
+      "cooldownBeginToEndSeconds": 12.009765625,
+      "observedCasterMatchesTarget": true,
+      "castbarActiveSamples": 0
+    },
+    {
+      "trial": 2,
+      "originalSha256": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630",
+      "count": 560,
+      "clockDomain": "RIFT Inspect.Time.Frame",
+      "sampleFrom": 19750.6171875,
+      "sampleTo": 19810.517578125,
+      "allStrictlyAdvancing": true,
+      "dtSeconds": {
+        "min": 0.03515625,
+        "p05": 0.1015625,
+        "median": 0.107421875,
+        "p95": 0.11328125,
+        "max": 0.1640625,
+        "gapsOverQuarterSecond": 0
+      },
+      "allEventTimes": [
+        {
+          "type": "cooldown-Begin",
+          "clock": 19790.83984375,
+          "sampleBracket": {
+            "previous": 19790.783203125,
+            "next": 19790.892578125,
+            "offsetFromPrevious": 0.056640625,
+            "leadToNext": 0.052734375
+          }
+        },
+        {
+          "type": "damage",
+          "clock": 19791.587890625,
+          "sampleBracket": {
+            "previous": 19791.525390625,
+            "next": 19791.638671875,
+            "offsetFromPrevious": 0.0625,
+            "leadToNext": 0.05078125
+          }
+        },
+        {
+          "type": "cooldown-End",
+          "clock": 19802.845703125,
+          "sampleBracket": {
+            "previous": 19802.79296875,
+            "next": 19802.90234375,
+            "offsetFromPrevious": 0.052734375,
+            "leadToNext": 0.056640625
+          }
+        }
+      ],
+      "beginToOutcomeSeconds": 0.748046875,
+      "cooldownBeginToEndSeconds": 12.005859375,
+      "observedCasterMatchesTarget": true,
+      "castbarActiveSamples": 0
+    }
+  ],
+  "hostAction": {
+    "startUtc": "2026-10-26T06:37:56.882443+00:00",
+    "completedUtc": "2026-10-26T06:37:57.0838804+00:00",
+    "inputInserted": true,
+    "inputReleased": true,
+    "responseVerified": false
+  },
+  "limits": [
+    "RIFT frame-clock and host UTC cannot be directly subtracted",
+    "Cooldown Begin-to-outcome intervals not measured input latency",
+    "No cross-ability GCD or queue observation",
+    "No new-build runtime observation",
+    "Quantile computed from consecutive saved frame times; no native clock precision claim"
+  ],
+  "gameInputSentByREA": false,
+  "processAttachedByREA": false
+}
