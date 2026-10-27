@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC0 verified source baseline complete; SC1 SC-101 ready; UI learnability blocked",
+  "status": "SC0 completed; SC-101 55-ID API catalog accepted; SC1 not complete pending native UI and role/rank eligibility",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-101",
+  "nextTaskId": "SC-104",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -73,7 +73,7 @@
       "id": "SC-101",
       "milestone": "SC1",
       "title": "One role-scoped complete known-ability API catalog",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [
         "SC-000"
       ],
@@ -111,7 +111,7 @@
       "id": "SC-103",
       "milestone": "SC1",
       "title": "Rank/variant/role ID reconciliation",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-101"
       ],
@@ -130,7 +130,7 @@
       "id": "SC-104",
       "milestone": "SC1",
       "title": "Readiness classification distinct from ability knowledge",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-101"
       ],
@@ -515,5 +515,21 @@
     "reaGhidraOpened": false,
     "validationJob": "rea-sc0-source-check-20261027-01",
     "acceptedLimit": "Only saved API-returned ability inventory; not learnable or locked list"
+  },
+  "sc101Evidence": {
+    "report": "docs/REA-RIFT-SPELLCASTING-SC1-API-CATALOG-NOTES-2026-10-27.md",
+    "jsonl": "docs/REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.jsonl",
+    "jsonlSha256": "ee8fd5ac7576fe0f1adf0611db7086328289f6f8a21acca12f31afc4c3eeceb6",
+    "csv": "docs/REA-RIFT-SPELLCASTING-SC1-API-CATALOG-2026-10-27.csv",
+    "csvSha256": "231ec91a2d092ab6588af157c6789aa125500dc7578511c71f0a9bce8cd4fd01",
+    "sourceSha256": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630",
+    "rowCount": 55,
+    "distinctNames": 50,
+    "metadataUnknownPreserved": true,
+    "nativeSpellbookVerified": false,
+    "roleAllocationVerified": false,
+    "validationJob": "rea-sc101-catalog-acceptance-20261027-01",
+    "validationExitCode": 0,
+    "gameInputSent": false
   }
 }
