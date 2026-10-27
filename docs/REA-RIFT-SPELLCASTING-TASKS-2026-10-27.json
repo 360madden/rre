@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "REA local PC: SC305 verified ability queue field+raw1; SC306 label mapping blocked on matched UI; SC401 descriptor branch parked; now SC402 bounded native castbar/readiness, with SC3 GCD not proven",
+  "status": "REA physical-PC RIFT new build: verified native /cast command table and cast handler RVA 0x6c7450 with exact source+live code evidence; SC407 complete; SC4 active, SC402 schema branch parked; SC408 trace downstream request next; GCD/queue-label/learnability unresolved",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-402",
+  "nextTaskId": "SC-408",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -305,7 +305,7 @@
       "id": "SC-402",
       "milestone": "SC4",
       "title": "Selective castbar/readiness/cooldown native data-flow",
-      "state": "ready",
+      "state": "parked",
       "dependsOn": [
         "SC-201",
         "SC-303"
@@ -522,6 +522,55 @@
         "Do not steal desktop/game focus or input when RIFT is background",
         "No assumption raw 1 corresponds to any particular label",
         "SC3 GCD not declared complete"
+      ]
+    },
+    {
+      "id": "SC-407",
+      "milestone": "SC4",
+      "title": "Identify RIFT native /cast command table entry and live loaded callback",
+      "state": "completed",
+      "dependsOn": [
+        "SC-404"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "New local PE SHA 1935a05c...be8",
+        "Original command-table pointer bytes and error-string xrefs",
+        "Read-only local process pointer and code samples"
+      ],
+      "deliverable": "Native /cast entry pointer to 0x6c7450, source-bounded handler error path and nine runtime checks",
+      "acceptance": [
+        "Correct cast/use/stopattack pointer-before-label assignments",
+        "Error strings linked to respective code regions",
+        "Original source SHA, instruction bytes and live source samples matched",
+        "No server acceptance/GCD claim, no game input or memory write"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.md",
+        "docs/REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.json"
+      ],
+      "validationJob": "rea-localpc-cast-command-runtime-code-20261027-01",
+      "validationExitCode": 0
+    },
+    {
+      "id": "SC-408",
+      "milestone": "SC4",
+      "title": "Follow one bounded native /cast downstream call to ability lookup/request transition",
+      "state": "ready",
+      "dependsOn": [
+        "SC-407"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Cast handler RVA 0x6c7450",
+        "Direct call sites 0x6c752c / 0x6c7a10 and saved xref/error evidence"
+      ],
+      "deliverable": "One original-bytes verified callee/branch dossier with supported/rejected/unresolved semantics",
+      "acceptance": [
+        "One bounded call/data-flow hypothesis",
+        "Source-bound instruction and function SHA evidence",
+        "No generic helper recursion or costly full PE import",
+        "No claimed server action or input without independent proof"
       ]
     }
   ],
@@ -771,5 +820,25 @@
       "rea-localpc-queue-global-xrefs-20261027-01",
       "rea-localpc-game-foreground-windows-20261027-01"
     ]
+  },
+  "sc407Evidence": {
+    "status": "completed-narrow-native-command-entry",
+    "document": "docs/REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.md",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.json",
+    "machineSha256": "acdfe68737fceb673d5945e4b6efce936137f8639315df12c17b918570c94311",
+    "originalBinarySha": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "nativeCastHandlerRva": "0x6c7450",
+    "castCommandLiteralRva": "0x26b6598",
+    "castSourceHandlerSha256": "31c02f4e68ac0c8157ad4e8fd1f813fe724b02f607d9c67649bcd777d0890d85",
+    "nineRuntimeChecksPassed": true,
+    "serverAcceptanceProven": false,
+    "actualCastActionRequestedByREA": false,
+    "fullSC4PhaseCompleted": false
+  },
+  "sc402Parked": {
+    "status": "parked",
+    "reason": "Two independent bounded reads of Inspect.Unit.Castbar original .data names and its metadata register function found descriptor schema member names and generic helper calls, not a live castbar status producer.",
+    "reopenTrigger": "Direct runtime/native value-flow link to a castbar sample or handler callback; no re-scan of same schema without a new trigger",
+    "buildSha": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8"
   }
 }

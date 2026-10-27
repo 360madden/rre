@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "id": "SC-407",
+  "taskTitle": "Source-verified local native /cast command entry",
+  "date": "2026-10-27",
+  "originalExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "sourceFile": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sourceOnly": {
+    "castLiteralRva": "0x26b6598",
+    "castName": "cast",
+    "castFunctionPointerStoredRva": "0x26b6570",
+    "castFunctionRva": "0x6c7450",
+    "castAuxiliaryFunctionPointerStoredRva": "0x26b6578",
+    "castAuxiliaryFunctionRva": "0x6c7440",
+    "useLiteralRva": "0x26b65d8",
+    "useFunctionPointerStoredRva": "0x26b65b0",
+    "useFunctionRva": "0x6c7b90",
+    "stopattackLiteralRva": "0x26b6550",
+    "stopattackFunctionRva": "0x6c73f0"
+  },
+  "sourceCode": {
+    "handlerStartRva": "0x6c7450",
+    "analyzedThroughRva": "0x6c7b71",
+    "analyzedByteLength": 1825,
+    "sourceRegionSha256": "31c02f4e68ac0c8157ad4e8fd1f813fe724b02f607d9c67649bcd777d0890d85",
+    "linearInstructionCount": 429,
+    "pdataSubregions": {
+      "0x6c7450": [
+        "0x6c7450",
+        "0x6c74d7"
+      ],
+      "0x6c74d7": [
+        "0x6c74d7",
+        "0x6c7b54"
+      ],
+      "0x6c78b2": [
+        "0x6c74d7",
+        "0x6c7b54"
+      ],
+      "0x6c7b70": [
+        "0x6c7b54",
+        "0x6c7b75"
+      ]
+    },
+    "directCallTotal": 39,
+    "indirectCallSites": [
+      {
+        "rva": "0x6c7765",
+        "asm": "call qword ptr [rip + 0x1f28f3d]"
+      },
+      {
+        "rva": "0x6c77fb",
+        "asm": "call qword ptr [rip + 0x1f28bef]"
+      },
+      {
+        "rva": "0x6c79ec",
+        "asm": "call qword ptr [rip + 0x1f289fe]"
+      },
+      {
+        "rva": "0x6c7a74",
+        "asm": "call qword ptr [rip + 0x1f28976]"
+      },
+      {
+        "rva": "0x6c7b36",
+        "asm": "call qword ptr [rip + 0x1f288b4]"
+      }
+    ],
+    "selectedDirectCallSites": [
+      {
+        "rva": "0x6c7519",
+        "target": "0x6e7550"
+      },
+      {
+        "rva": "0x6c752c",
+        "target": "0x5a5ff0"
+      },
+      {
+        "rva": "0x6c75a8",
+        "target": "0x57cda0"
+      },
+      {
+        "rva": "0x6c7958",
+        "target": "0x7ddd00"
+      },
+      {
+        "rva": "0x6c7a10",
+        "target": "0x7de6f0"
+      },
+      {
+        "rva": "0x6c7a29",
+        "target": "0x7078e0"
+      }
+    ],
+    "typedErrorString": {
+      "text": "Could not cast unknown ability: [%ABILITY]",
+      "literalRva": "0x26b6040",
+      "castFunctionReferences": [
+        {
+          "instructionRva": "0x6c78b2",
+          "textRva": "0x26b6040"
+        },
+        {
+          "instructionRva": "0x6c78dd",
+          "textRva": "0x26b6040"
+        },
+        {
+          "instructionRva": "0x6c7922",
+          "textRva": "0x26b6040"
+        }
+      ]
+    },
+    "otherCommandErrorString": {
+      "text": "Could not use unknown item: [%ITEM]",
+      "literalRva": "0x26b65e0",
+      "useBranchReferencedAt": [
+        "0x6c86a7",
+        "0x6c86d2",
+        "0x6c8716"
+      ]
+    }
+  },
+  "runtimeValidation": {
+    "targetPid": 66436,
+    "volatilePid": true,
+    "imageBase": "0x7ff720420000",
+    "allNineSamplesMatched": true,
+    "samples": [
+      {
+        "rva": "0x26b6598",
+        "size": 8,
+        "readOk": true,
+        "loadedBytesMatchDisk": true,
+        "exactCastCommandLiteral": true
+      },
+      {
+        "rva": "0x26b6570",
+        "size": 8,
+        "readOk": true,
+        "loadedTargetRva": "0x6c7450",
+        "expectedDiskPointerRva": "0x6c7450",
+        "matchesRebasedDiskValue": true
+      },
+      {
+        "rva": "0x26b6578",
+        "size": 8,
+        "readOk": true,
+        "loadedTargetRva": "0x6c7440",
+        "expectedDiskPointerRva": "0x6c7440",
+        "matchesRebasedDiskValue": true
+      },
+      {
+        "rva": "0x26b65d8",
+        "size": 8,
+        "readOk": true,
+        "loadedBytesMatchDisk": true
+      },
+      {
+        "rva": "0x26b65b0",
+        "size": 8,
+        "readOk": true,
+        "loadedTargetRva": "0x6c7b90",
+        "expectedDiskPointerRva": "0x6c7b90",
+        "matchesRebasedDiskValue": true
+      },
+      {
+        "rva": "0x6c7450",
+        "size": 16,
+        "readOk": true,
+        "loadedBytesMatchDisk": true
+      },
+      {
+        "rva": "0x6c78b2",
+        "size": 7,
+        "readOk": true,
+        "loadedBytesMatchDisk": true
+      },
+      {
+        "rva": "0x6c7b90",
+        "size": 16,
+        "readOk": true,
+        "loadedBytesMatchDisk": true
+      },
+      {
+        "rva": "0x6c86a7",
+        "size": 7,
+        "readOk": true,
+        "loadedBytesMatchDisk": true
+      }
+    ],
+    "readOnly": true,
+    "memoryWritten": false,
+    "gameInputSent": false
+  },
+  "findings": [
+    "Corrected command table: specialized handler function pointers appear BEFORE each short command string; previous draft labels are unreliable",
+    "Cast handler at exact new-build RVA 0x6c7450 versus use at 0x6c7b90, corroborated by their distinct unknown-ability/unknown-item literal references",
+    "Cast handler references unknown-ability text at 0x6c78b2,0x6c78dd,0x6c7922",
+    "Nine live read-only source samples confirm rebased cast command-pointer and native-code identity",
+    "No proof of server acceptance, outgoing game request, queue behavior or GCD"
+  ],
+  "taskStatus": "completed-source-bounded-native-entry-only",
+  "majorPhase": "SC4-not-yet-complete",
+  "jobs": [
+    "rea-localpc-cast-handler-trace-20261027-01",
+    "rea-localpc-cast-command-runtime-code-20261027-01",
+    "rea-localpc-cast-handler-errors-xrefs-20261027-01",
+    "rea-localpc-cast-dispatch-pointers-20261027-01"
+  ],
+  "gameInputSentByREA": false,
+  "processAttachedReadOnly": true,
+  "processMemoryWritten": false
+}
