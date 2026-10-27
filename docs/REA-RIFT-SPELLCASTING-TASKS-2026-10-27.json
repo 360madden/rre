@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC0 completed; SC-101 55-ID API catalog accepted; SC1 not complete pending native UI and role/rank eligibility",
+  "status": "SC0 complete; SC1 catalog/readiness supported, learnability UI blocked; SC2 cast-lifecycle evidence task ready",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-104",
+  "nextTaskId": "SC-201",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -26,7 +26,7 @@
     {
       "id": "SC2",
       "name": "Cast request lifecycle",
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "SC3",
@@ -130,7 +130,7 @@
       "id": "SC-104",
       "milestone": "SC1",
       "title": "Readiness classification distinct from ability knowledge",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [
         "SC-101"
       ],
@@ -149,7 +149,7 @@
       "id": "SC-201",
       "milestone": "SC2",
       "title": "Define trace vocabulary for cast requests and outcomes",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-000"
       ],
@@ -531,5 +531,18 @@
     "validationJob": "rea-sc101-catalog-acceptance-20261027-01",
     "validationExitCode": 0,
     "gameInputSent": false
+  },
+  "sc104Evidence": {
+    "report": "docs/REA-RIFT-SPELLCASTING-SC104-READINESS-2026-10-27.md",
+    "sourceSha256": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630",
+    "modelSha256": "82aa8395a36fbc2c3f83ff32392dcb4bbc43aa6bd18fd39a4339ab01c264a812",
+    "apiListCount": 55,
+    "explicitUnusableTrue": 10,
+    "missingUnusableField": 45,
+    "conclusion": "API listed does not imply usable now; neither establishes learnt/trainer eligibility",
+    "validationJob": "rea-sc104-readiness-check-20261027-01",
+    "validationExitCode": 0,
+    "gameInputSent": false,
+    "nativeFunctionQualified": false
   }
 }
