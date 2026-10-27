@@ -1,0 +1,494 @@
+{
+  "schemaVersion": 1,
+  "task": "SC-401",
+  "status": "partial-confirmed-code-refs",
+  "asOf": "2026-10-27",
+  "sourceBinarySha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "source": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "referenceEvidence": "docs/REA-RIFT-SPELLCASTING-SC404-NATIVE-ANCHORS-2026-10-27.json",
+  "method": "Capstone bounded three .pdata regions; no target execution",
+  "functions": [
+    {
+      "label": "Ability descriptor referencing function",
+      "functionRvaStart": "0x9b0376",
+      "functionRvaEnd": "0x9b0776",
+      "sourceBytes": 1024,
+      "sourceSha256": "5e474301f73f561abb8d2f1d023d42f556eb7311eec5085099e9494d11a9dc52",
+      "decodedInstructions": 269,
+      "decodedThroughEnd": true,
+      "directCallTargetsSample": [
+        "0x16894e0",
+        "0xa08790",
+        "0x12942a0",
+        "0x1294588",
+        "0x16893b0",
+        "0x1689660"
+      ],
+      "directCallCount": 10,
+      "descriptorDataReferences": [
+        {
+          "insRva": "0x9b03a1",
+          "assembly": "mov rbx, qword ptr [rip + 0x25b2960]",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x9b0427",
+          "assembly": "lea rcx, [rip + 0x25b28fa]",
+          "targetRva": "0x2f62d28"
+        },
+        {
+          "insRva": "0x9b046f",
+          "assembly": "mov qword ptr [rip + 0x25b2892], rax",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x9b0476",
+          "assembly": "mov qword ptr [rip + 0x25b2893], rax",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b049b",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b286e]",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b04a4",
+          "assembly": "mov qword ptr [rip + 0x25b2865], rbx",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b04b1",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b2860]",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x9b04ba",
+          "assembly": "mov qword ptr [rip + 0x25b2857], rbx",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x9b04d5",
+          "assembly": "inc qword ptr [rip + 0x25b2844]",
+          "targetRva": "0x2f62d20"
+        },
+        {
+          "insRva": "0x9b0567",
+          "assembly": "lea rcx, [rip + 0x25b27ba]",
+          "targetRva": "0x2f62d28"
+        },
+        {
+          "insRva": "0x9b05af",
+          "assembly": "mov qword ptr [rip + 0x25b2752], rax",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x9b05b6",
+          "assembly": "mov qword ptr [rip + 0x25b2753], rax",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b05db",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b272e]",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b05e4",
+          "assembly": "mov qword ptr [rip + 0x25b2725], rbx",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b05f1",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b2720]",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x9b05fa",
+          "assembly": "mov qword ptr [rip + 0x25b2717], rbx",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x9b0615",
+          "assembly": "inc qword ptr [rip + 0x25b2704]",
+          "targetRva": "0x2f62d20"
+        },
+        {
+          "insRva": "0x9b0697",
+          "assembly": "lea rcx, [rip + 0x25b268a]",
+          "targetRva": "0x2f62d28"
+        },
+        {
+          "insRva": "0x9b06df",
+          "assembly": "mov qword ptr [rip + 0x25b2622], rax",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x9b06e6",
+          "assembly": "mov qword ptr [rip + 0x25b2623], rax",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b070b",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b25fe]",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b0714",
+          "assembly": "mov qword ptr [rip + 0x25b25f5], rbx",
+          "targetRva": "0x2f62d10"
+        },
+        {
+          "insRva": "0x9b0721",
+          "assembly": "cmp rdi, qword ptr [rip + 0x25b25f0]",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x9b072a",
+          "assembly": "mov qword ptr [rip + 0x25b25e7], rbx",
+          "targetRva": "0x2f62d18"
+        }
+      ],
+      "descriptorRefCount": 25,
+      "focusInstructions": [
+        {
+          "rva": "0x9b0543",
+          "asm": "jne 0x1409b0550"
+        },
+        {
+          "rva": "0x9b0545",
+          "asm": "cmp word ptr [rbx + 0x22], r9w"
+        },
+        {
+          "rva": "0x9b054a",
+          "asm": "je 0x1409b0621"
+        },
+        {
+          "rva": "0x9b0550",
+          "asm": "setl cl"
+        },
+        {
+          "rva": "0x9b0553",
+          "asm": "test cl, cl"
+        },
+        {
+          "rva": "0x9b0555",
+          "asm": "je 0x1409b0621"
+        },
+        {
+          "rva": "0x9b055b",
+          "asm": "mov rbx, qword ptr [rbx + 0x18]"
+        },
+        {
+          "rva": "0x9b055f",
+          "asm": "test rbx, rbx"
+        },
+        {
+          "rva": "0x9b0562",
+          "asm": "jne 0x1409b0510"
+        },
+        {
+          "rva": "0x9b0564",
+          "asm": "xor r8d, r8d"
+        },
+        {
+          "rva": "0x9b0567",
+          "asm": "lea rcx, [rip + 0x25b27ba]"
+        },
+        {
+          "rva": "0x9b056e",
+          "asm": "mov edx, 0x30"
+        },
+        {
+          "rva": "0x9b0573",
+          "asm": "call 0x1412942a0"
+        },
+        {
+          "rva": "0x9b0578",
+          "asm": "mov ecx, dword ptr [rbp + 0x48]"
+        },
+        {
+          "rva": "0x9b057b",
+          "asm": "mov rbx, rax"
+        },
+        {
+          "rva": "0x9b057e",
+          "asm": "mov dword ptr [rax + 0x20], ecx"
+        },
+        {
+          "rva": "0x9b0581",
+          "asm": "mov ecx, dword ptr [rbp + 0x48]"
+        },
+        {
+          "rva": "0x9b0584",
+          "asm": "mov r8d, ecx"
+        },
+        {
+          "rva": "0x9b0587",
+          "asm": "mov qword ptr [rax + 0x28], r12"
+        },
+        {
+          "rva": "0x9b058b",
+          "asm": "mov edx, ecx"
+        },
+        {
+          "rva": "0x9b058d",
+          "asm": "shr r8d, 0x10"
+        },
+        {
+          "rva": "0x9b0591",
+          "asm": "shr edx, 8"
+        },
+        {
+          "rva": "0x9b0594",
+          "asm": "mov dword ptr [rax], 1"
+        }
+      ]
+    },
+    {
+      "label": "Unit.Castbar descriptor referencing function",
+      "functionRvaStart": "0x9b84f0",
+      "functionRvaEnd": "0x9b88cd",
+      "sourceBytes": 989,
+      "sourceSha256": "abab568192a29d07ba21efd8252a4c1f1efb3c2f339ea338840036aa75c611c0",
+      "decodedInstructions": 218,
+      "decodedThroughEnd": true,
+      "directCallTargetsSample": [
+        "0x979ea0",
+        "0x168a1e0",
+        "0x1688380",
+        "0x16893b0",
+        "0x1689020",
+        "0x1689da0",
+        "0x16894e0",
+        "0xa17da0",
+        "0xa1aaa0",
+        "0x94cdd0",
+        "0x946180",
+        "0x915520",
+        "0x91ded0",
+        "0x16893d0",
+        "0x1689a60",
+        "0x1689190"
+      ],
+      "directCallCount": 42,
+      "descriptorDataReferences": [
+        {
+          "insRva": "0x9b8519",
+          "assembly": "mov r8, qword ptr [rip + 0x25ac4d0]",
+          "targetRva": "0x2f649f0"
+        },
+        {
+          "insRva": "0x9b8520",
+          "assembly": "lea rax, [rip + 0x25ac519]",
+          "targetRva": "0x2f64a40"
+        },
+        {
+          "insRva": "0x9b854c",
+          "assembly": "lea rax, [rip + 0x25ac4c5]",
+          "targetRva": "0x2f64a18"
+        },
+        {
+          "insRva": "0x9b856c",
+          "assembly": "lea rax, [rip + 0x25ac485]",
+          "targetRva": "0x2f649f8"
+        }
+      ],
+      "descriptorRefCount": 4,
+      "focusInstructions": [
+        {
+          "rva": "0x9b84f7",
+          "asm": "push rdi"
+        },
+        {
+          "rva": "0x9b84f8",
+          "asm": "sub rsp, 0x100"
+        },
+        {
+          "rva": "0x9b84ff",
+          "asm": "movaps xmmword ptr [rax - 0x18], xmm6"
+        },
+        {
+          "rva": "0x9b8503",
+          "asm": "movaps xmmword ptr [rax - 0x28], xmm7"
+        },
+        {
+          "rva": "0x9b8507",
+          "asm": "mov rax, qword ptr [rip + 0x299d5b2]"
+        },
+        {
+          "rva": "0x9b850e",
+          "asm": "xor rax, rsp"
+        },
+        {
+          "rva": "0x9b8511",
+          "asm": "mov qword ptr [rsp + 0xd0], rax"
+        },
+        {
+          "rva": "0x9b8519",
+          "asm": "mov r8, qword ptr [rip + 0x25ac4d0]"
+        },
+        {
+          "rva": "0x9b8520",
+          "asm": "lea rax, [rip + 0x25ac519]"
+        },
+        {
+          "rva": "0x9b8527",
+          "asm": "mov qword ptr [rsp + 0x48], 0"
+        },
+        {
+          "rva": "0x9b8530",
+          "asm": "lea r9, [rip + 0x1d20841]"
+        },
+        {
+          "rva": "0x9b8537",
+          "asm": "mov dword ptr [rsp + 0x40], 0"
+        },
+        {
+          "rva": "0x9b853f",
+          "asm": "lea rdx, [rsp + 0x50]"
+        },
+        {
+          "rva": "0x9b8544",
+          "asm": "mov qword ptr [rsp + 0x38], rax"
+        },
+        {
+          "rva": "0x9b8549",
+          "asm": "mov rbx, rcx"
+        }
+      ]
+    },
+    {
+      "label": "Ability state/cleanup candidate",
+      "functionRvaStart": "0x255f5c0",
+      "functionRvaEnd": "0x255f63d",
+      "sourceBytes": 125,
+      "sourceSha256": "07a631965b4bcef261d5c1a515c427c36ec3f5f6256dc87a4eb17d8698250837",
+      "decodedInstructions": 27,
+      "decodedThroughEnd": true,
+      "directCallTargetsSample": [
+        "0x58c650",
+        "0x12942a8"
+      ],
+      "directCallCount": 3,
+      "descriptorDataReferences": [
+        {
+          "insRva": "0x255f5ca",
+          "assembly": "mov rbx, qword ptr [rip + 0xa03737]",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x255f5d1",
+          "assembly": "lea rdi, [rip + 0xa03728]",
+          "targetRva": "0x2f62d00"
+        },
+        {
+          "insRva": "0x255f5fb",
+          "assembly": "lea rcx, [rip + 0xa03726]",
+          "targetRva": "0x2f62d28"
+        },
+        {
+          "insRva": "0x255f611",
+          "assembly": "mov qword ptr [rip + 0xa03708], rax",
+          "targetRva": "0x2f62d20"
+        },
+        {
+          "insRva": "0x255f618",
+          "assembly": "mov qword ptr [rip + 0xa036e9], rax",
+          "targetRva": "0x2f62d08"
+        },
+        {
+          "insRva": "0x255f61f",
+          "assembly": "mov dword ptr [rip + 0xa036d7], 1",
+          "targetRva": "0x2f62d00"
+        },
+        {
+          "insRva": "0x255f629",
+          "assembly": "mov qword ptr [rip + 0xa036e8], rdi",
+          "targetRva": "0x2f62d18"
+        },
+        {
+          "insRva": "0x255f630",
+          "assembly": "mov qword ptr [rip + 0xa036d9], rdi",
+          "targetRva": "0x2f62d10"
+        }
+      ],
+      "descriptorRefCount": 8,
+      "focusInstructions": [
+        {
+          "rva": "0x255f5c0",
+          "asm": "mov qword ptr [rsp + 8], rbx"
+        },
+        {
+          "rva": "0x255f5c5",
+          "asm": "push rdi"
+        },
+        {
+          "rva": "0x255f5c6",
+          "asm": "sub rsp, 0x20"
+        },
+        {
+          "rva": "0x255f5ca",
+          "asm": "mov rbx, qword ptr [rip + 0xa03737]"
+        },
+        {
+          "rva": "0x255f5d1",
+          "asm": "lea rdi, [rip + 0xa03728]"
+        },
+        {
+          "rva": "0x255f5d8",
+          "asm": "test rbx, rbx"
+        },
+        {
+          "rva": "0x255f5db",
+          "asm": "je 0x14255f60a"
+        },
+        {
+          "rva": "0x255f5dd",
+          "asm": "mov rdx, qword ptr [rbx + 0x10]"
+        },
+        {
+          "rva": "0x255f5e1",
+          "asm": "mov rcx, rdi"
+        },
+        {
+          "rva": "0x255f5e4",
+          "asm": "call 0x14058c650"
+        },
+        {
+          "rva": "0x255f5e9",
+          "asm": "mov rdx, qword ptr [rbx + 0x18]"
+        },
+        {
+          "rva": "0x255f5ed",
+          "asm": "mov rcx, rdi"
+        },
+        {
+          "rva": "0x255f5f0",
+          "asm": "call 0x14058c650"
+        },
+        {
+          "rva": "0x255f5f5",
+          "asm": "mov r8d, 0x30"
+        },
+        {
+          "rva": "0x255f5fb",
+          "asm": "lea rcx, [rip + 0xa03726]"
+        }
+      ]
+    }
+  ],
+  "accuracy": "X64 instruction decode, RIP-relative operand resolutions and .pdata interval bounds are source-backed; no native handler semantics assigned",
+  "guestBuildVerified": false,
+  "abilityEnumerationHandlerRecovered": false,
+  "castbarRuntimeHandlerRecovered": false,
+  "interfaceSourceReceiverQualified": false,
+  "usedExistingRreCapstone": true,
+  "reaGhidraFullImportAttempted": false,
+  "gameInputSent": false,
+  "jobs": [
+    "rea-oct27-sc401-ripdisp-candidates-01",
+    "rea-oct27-sc401-disassembler-capability-01",
+    "rea-oct27-sc401-xref-disasm-02",
+    "rea-oct27-sc401-limited-functions-03"
+  ],
+  "nextQuestion": "In new original PE, do callers/callees of 0x9b0376 link to one native implementation invoked by Inspect.Ability.New.List, rather than only registering its schema? Start with 0x12942a0, 0x16894e0 and nearby shared targets; preserve inconclusive outcome."
+}

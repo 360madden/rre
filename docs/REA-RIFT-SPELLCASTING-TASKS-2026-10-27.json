@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "New Oct27 host RIFT PE built/pinned; SC-404 native API metadata anchor inventory complete; SC-401 next narrow handler xref; SC3 GCD and SC1 level eligibility remain blocked",
+  "status": "October 27 new RIFT PE pinned; SC404 native API metadata complete, SC401 first xrefs/disassembly partially resolved; SC1/SC3 data gaps unchanged, no handler claimed",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-401",
   "gameInputAuthorized": false,
@@ -639,5 +639,24 @@
     "validationJob": "rea-oct27-sc404-castbar-queue-pointer-04",
     "validationExitCode": 0,
     "gameInputSent": false
+  },
+  "sc401Partial": {
+    "status": "partial-native-reference-discovery; continue at same task",
+    "document": "docs/REA-RIFT-SPELLCASTING-SC401-NATIVE-XREFS-2026-10-27.md",
+    "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC401-XREF-2026-10-27.json",
+    "machineSha256": "7b77128995c2b86018a461ba69bd3e5f213cfa57a2759815b1b803a780e583fd",
+    "sourceBuildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "functionRanges": [
+      "0x9b0376-0x9b0776",
+      "0x9b84f0-0x9b88cd",
+      "0x255f5c0-0x255f63d"
+    ],
+    "validatedRIPReferences": true,
+    "nativeHandlerRecovered": false,
+    "liveGuestBuildQualified": false,
+    "gameInputSent": false,
+    "lastJob": "rea-oct27-sc401-limited-functions-03",
+    "lastExitCode": 0,
+    "next": "Trace whether metadata registration code reaches a native ability enumeration callback; no whole-image import or old RVA transplant"
   }
 }
