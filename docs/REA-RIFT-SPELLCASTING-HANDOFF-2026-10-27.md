@@ -2,7 +2,7 @@
 
 **Updated October 27, 2026. Target: LOCAL physical-PC RIFT, NOT VMware.** This handoff supersedes previous SC-401/SC-402 schema searches.
 
-**Current task: SC-408 (READY)** — [source-pinned native `/cast` entry](REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.md) is verified; follow exactly one downstream source-backed call to qualify ability-name/ID resolution or request submission, then commit. Do not decompile whole PE or assume client code proves server acceptance.
+**Current task: SC-501 (READY).** SC-408's two bounded downstream probes were inconclusive and the branch is parked. [SC-408 negative finding](REA-RIFT-SPELLCASTING-SC408-DOWNSTREAM-2026-10-27.md) preserves exact hashes and jobs. Study source-backed readiness rejection classes next; do not rerun generic native callees without new discriminating evidence.
 
 ## Build, target and ownership
 
@@ -27,13 +27,13 @@ Original selected `cast` native body `0x6C7450–0x6C7B71`, SHA `31c02f4e68ac0c8
 - [SC-407 machine data](REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.json)
 - Recent Workbridge jobs (passed): `rea-localpc-cast-handler-trace-20261027-01` and `rea-localpc-cast-command-runtime-code-20261027-01`. The earlier `rea-localpc-cast-dispatch-pointers-20261027-01` contains **wrong provisional labels**, corrected in SC-407; never reuse those labels.
 
-**Next bounded hypothesis:** start at direct call site `0x6C752C`→`0x5A5FF0` or later `0x6C7A10`→`0x7DE6F0`, inspect one small callee and a discriminating input/output caller context. If not actionable, park after two different probes with exact source evidence.
+**SC-408 branch result:** `0x5A5FF0` is a 189-byte bounded native callee with shared numeric/state references but no demonstrated ability resolver; `0x7DE6F0` is an argument-forwarding jump stub to `0x137FC80` with no qualified cast request semantics. Park these two inconclusive paths. Next independent SC-501 readiness rejection analysis uses existing local-source evidence.
 
 ## What remains open
 
 - **SC1** native full spellbook/learnable-at-level/role and souls: no current local on-screen UI or role-scoped API baseline.
 - **SC3** independent shared GCD, actual ability queue Full/Short/None mapping (raw setting `+0xA4` was `1` only), cast delay and server clock: unresolved. [SC-305](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md) is completed, [SC-306](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md) blocked until matching UI evidence.
-- **SC4** active but **NOT major-phase complete**: SC-401 schema tree and SC-402 `Inspect.Unit.Castbar` metadata code are **parked** as generic initialization/descriptor leads. SC-403 full request/queue remains blocked on specific context. SC-407 actual command entry is verified, SC-408 next.
+- **SC4** active but **NOT major-phase complete**: SC-401 schema tree and SC-402 `Inspect.Unit.Castbar` metadata code are **parked** as generic initialization/descriptor leads. SC-403 full request/queue remains blocked on specific context. SC-407 actual command entry is verified; SC-408 is parked after two inconclusive bounded branches.
 - No background work assumed: checkpoint each bounded finding and commit.
 
 ## Resume in next Chat mode

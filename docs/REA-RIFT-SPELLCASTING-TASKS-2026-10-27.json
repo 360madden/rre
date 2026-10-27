@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "REA physical-PC RIFT new build: verified native /cast command table and cast handler RVA 0x6c7450 with exact source+live code evidence; SC407 complete; SC4 active, SC402 schema branch parked; SC408 trace downstream request next; GCD/queue-label/learnability unresolved",
+  "status": "Local-PC SC408 two bounded cast-command callees checked; no verified ability resolver/submit; parked by stopping rule; SC501 next independent source question",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-408",
+  "nextTaskId": "SC-501",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -556,7 +556,7 @@
       "id": "SC-408",
       "milestone": "SC4",
       "title": "Follow one bounded native /cast downstream call to ability lookup/request transition",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-407"
       ],
@@ -840,5 +840,22 @@
     "reason": "Two independent bounded reads of Inspect.Unit.Castbar original .data names and its metadata register function found descriptor schema member names and generic helper calls, not a live castbar status producer.",
     "reopenTrigger": "Direct runtime/native value-flow link to a castbar sample or handler callback; no re-scan of same schema without a new trigger",
     "buildSha": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8"
+  },
+  "sc408Evidence": {
+    "status": "blocked-unresolved-two-distinct-probes",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC408-DOWNSTREAM-2026-10-27.md",
+    "buildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "first": {
+      "rva": "0x5a5ff0",
+      "sourceSha256": "b0a76bde02791107c0236013235a3ca63542dd86f3d3f45dbbf1f1877f03c073",
+      "status": "unresolved"
+    },
+    "second": {
+      "rva": "0x7de6f0",
+      "sourceSliceSha256": "1e200856bcff965891f51629442962fd1d42fdc2b62efc28b66c1f36cbd44b93",
+      "status": "short-wrapper-to-0x137fc80; semantics-unresolved"
+    },
+    "newTriggerRequired": true,
+    "gameInputSent": false
   }
 }
