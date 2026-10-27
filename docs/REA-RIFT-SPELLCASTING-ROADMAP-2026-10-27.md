@@ -94,5 +94,75 @@ Export the original observations plus a derived `catalog.csv` and `availability-
 
 A small real catalog sample with exact IDs, a provenance label for each availability dimension, a bounded list of unlearned/locked examples **or a specific UI-data blocker**, and a discrepancy report. No magic "100% spellbook complete" claim. Publish a minimal source-verified inventory even if the broader eligibility model is incomplete.
 
+## Pass 3 — Causal cast lifecycle and timing experiments (SC2–SC3)
+
+### Candidate state machine (hypothesis, not yet native-verified)
+
+`Known ability` → `current availability inspected` → `input/secure action attempted` → `locally accepted / queued / rejected / unknown` → `cast start / instant activation / channel start` → `cast end, interruption, cancellation or unknown` → `effect(s), miss/dodge/immune/resist or no observed outcome` → `readiness and resource recovery`.
+
+Alternative paths must remain explicit:
+
+- An **instant** ability may produce no visible castbar. Missing `castingTime` metadata must not be labelled instant.
+- A **channeled** ability can have periodic ticks and interruption semantics different from a cast-time windup.
+- A **passive/proc/toggle/continuous** ability can change state without the same active cast request or event structure.
+- **Ground targeted** and other positioned abilities may require a second targeting confirmation. Do not reduce this to a single ordinary targeted click.
+- A **melee-weapon-labelled ability** can still affect a target beyond melee distance (already seen with Light's Decree); `weapon`, `rangeMax` and actual hitbox geometry are independent.
+- A successful cast request can yield a **dodge, miss, resist, immune** or no damage; this is distinct from the cast command never being admitted. Compare exact `abilityNew`, source/target and result type.
+- Separate **client/UI/secure-action** admission from **server acceptance or validation**; the last two cannot automatically be inferred from API/UI frames, and actual packet/authority boundaries remain hypotheses.
+
+### Define timing landmarks before any measurement
+
+| Landmark | Evidence | Common trap |
+| --- | --- | --- |
+| `t_input_press` and `t_input_release` | Bound supervised operator/guest control receipt, with actual keypress-vs-release setting | Treat host delivery time as the instant the client acted |
+| `t_local_admission / t_queue_offer` | UI/API change if exposed; otherwise **unknown** | Queue setting declared `Full` is not proof the command actually queued |
+| `t_cast_start` and `t_cast_end` | Castbar begin/duration/remaining or relevant events, with source-time bounds | Castbar animation start is not independently proven server acknowledgement |
+| `t_channel_tick[n]` | Exact caster+ability+target outcome sequence | Counting DoT ticks as repeated casts |
+| `t_gcd_begin / t_gcd_end` | Correlated cross-ability readiness changes after a known activation | A 1.5 s *effective* ability cooldown is not itself proof of global GCD |
+| `t_ability_cd_begin/end` | Ability-specific remaining and cooldown Begin/End events | Assuming base cooldown and observed effective cooldown are identical |
+| `t_resource_change` | Ordered player Power/Mana/Energy/etc. samples | Resource regeneration after the ability makes the final value look unchanged |
+| `t_effect / t_result` | Modern ability ID + caster/target + typed combat event; aura/buff/proc separately | Arrival after a projectile or channel tick mistaken for cast start |
+| `t_host_receive / t_export` | Host receive/flush/save time, not the game frame clock | Subtracting guest `Inspect.Time.Frame` from host wall-clock time without calibration |
+
+Each landmark carries `clockDomain`, `earliest/latest source time` (or null), event/sample ID, source hash, sampling precision and confidence. Use monotonic frame intervals for intervals **within the same source**, not absolute guest-vs-host subtraction. A 60-second capture with ~560 samples gives roughly 100 ms nominal spacing in previously saved evidence, **not** 1 ms timing precision. Missing intermediate frames widen the interval; no interpolation disguised as measurement.
+
+**Minimal outcome claims:** `attempted`, `input-delivered`, `castbar-start-observed`, `cooldown-change-observed`, `target-hit-observed`, `target-avoidance-observed`, `source-unavailable`. The word `cast succeeded` requires a named acceptance definition, not just one changed timer.
+
+### Distinguishing GCD from ability cooldown and other delay
+
+Compare readiness of **at least two independent already-known abilities** with verified effective targets, costs and cooldown metadata. After one approved activation of A, observe whether B acquires a simultaneous/shared lockout even though its base cooldown is absent or separately known. Repeat against a third ordinary ability and, if the current catalog supplies a valid candidate, an off-GCD/control ability. Treat any observed shared pause as a **candidate GCD**, not necessarily its native timer.
+
+Keep these variables separated in the evidence:
+
+- `GCD policy` / ability family (possibly varying by ability or buffs).
+- `Ability cooldown` / shared cooldown group / charge recharge / internal proc cooldown.
+- `Cast-time windup` and haste or interrupt effects; instant and on/off-GCD are not synonyms.
+- `Client ability queue` `Full / Short / None` and whether a queued command replaces an earlier queued request.
+- `Input policy` "Use abilities on keypress" vs release, operator and transport timing.
+- `Server/network RTT`, latency and time-of-day variability, visually delayed feedback, framerate/UI sampling; unknown until actual source timestamps permit an estimate.
+- `Effect delay` from projectile travel, animation, ground placement, DoT/channel ticks and target outcome.
+
+**Controlled contrast matrix** (each requires a separate supervised RR2 authorization and one-action ownership; REA only designs/reviews saved evidence):
+
+| Trial | Single variable/question | Positive evidence / falsifier |
+| --- | --- | --- |
+| T1: ordinary instant ability | Effective cooldown vs independently observed shared lockout | A cooldown receipt plus B/C readiness snapshots; no claim of GCD without B/C |
+| T2: `Full / Short / None` queue | Does next cast begin before, at or after active cast/cooldown completion? | Queue-mode screenshot, one bounded next-ability attempt, ordered cast transitions; mode alone is insufficient |
+| T3: cast-time ability | Does predeclared cast time match castbar interval? | Explicit nonzero metadata, castbar start/end, event clock bounds; absent castbar is inconclusive |
+| T4: channeled ability | Tick cadence and interrupt behavior | One channel start, each exact-ID tick, channel end/abort; no inferred packet clock |
+| T5: distinct cooldown / charge | When do base timer, charge readiness and any shared lockout differ? | Two ability clocks plus recharge/resource traces, not just initial/final states |
+| T6: negative readiness | Do range, resource, target or movement suppress request, cast, effect or cooldown? | Validated negative UI reason plus retained event absence under complete observation coverage |
+| T7: hit vs avoidance | Can request reach target without damage? | Exact typed dodge/miss/resist/immune; separate from absent cast request |
+| T8: proc/buff/ground effect | Does dynamic availability or repeated outcome map to one or multiple casts? | Proc/aura and exact caster/target/ability sequence; unknown if source lacks it |
+
+Start with T1/T2/T3 and the smallest abilities available in the **existing RR2 catalog**. Use safe training targets, one action per reviewed attempt, bounded recording and physical STOP/recovery by RR2's owner. Later T4–T8 only after necessary source/event clocks are qualified. No unattended rotation, cooldown-spam loop, PVP target or health-loss requirement. Stop after two distinct non-decisive probes and record a new evidence trigger to reopen.
+
+### SC2–SC3 acceptance
+
+- **SC2:** at least one successfully observed outcome and one **different failure class** linked by immutable modern caster/target/ability IDs; label request, start, effect and cooldown as separate events.
+- **SC3:** two independent ability-readiness traces with a predeclared clock mapping and sample bounds support or refute a *candidate* shared GCD; queue-mode observations are tagged by actual UI setting. Never universalize from the existing ~1.5 s and ~12 s historical recoveries.
+- **Timing confidence:** one trial = observation; several comparable trials under explicitly constant conditions = repeatability evidence; timing distribution/model needs outlier, jitter and source-freshness accounting. Unknown server path cannot be promoted to client-native proof.
+
 <!-- REA-CAST-NEXT-PASS -->
+
 

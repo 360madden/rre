@@ -5,7 +5,7 @@
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
   "status": "planning-five-pass-review",
-  "completedReviewPasses": 2,
+  "completedReviewPasses": 3,
   "nextTaskId": "SC-000",
   "gameInputAuthorized": false,
   "binaryTarget": {
@@ -144,6 +144,121 @@
         "Cast-time missing is unknown not instant",
         "No live automation requirement"
       ]
+    },
+    {
+      "id": "SC-201",
+      "milestone": "SC2",
+      "title": "Define trace vocabulary for cast requests and outcomes",
+      "state": "planned",
+      "dependsOn": [
+        "SC-000"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "RR2 known dummy damage and dodge traces"
+      ],
+      "deliverable": "Cause-labeled state transitions with exact modern ability+caster+target IDs and clock bounds",
+      "acceptance": [
+        "Do not infer cast success from input receipt",
+        "No outcome is distinct from an avoidance event",
+        "Castbar/effect/cooldown tracked separately"
+      ]
+    },
+    {
+      "id": "SC-202",
+      "milestone": "SC2",
+      "title": "Compare normal, rejected and target-avoidance cases",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-201"
+      ],
+      "owner": "REA analysis; RR2 owns any actual input",
+      "sourceInputs": [
+        "Approved saved observations with exact process/build and identity"
+      ],
+      "deliverable": "Decision tree of admission and outcome failure classes",
+      "acceptance": [
+        "At least two distinct failure classes or named evidence blockers",
+        "No name-only matching",
+        "No live controls performed by REA"
+      ]
+    },
+    {
+      "id": "SC-301",
+      "milestone": "SC3",
+      "title": "Measure candidate shared GCD independently from a single ability cooldown",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-201",
+        "SC-104"
+      ],
+      "owner": "REA analysis; RR2 owns approved capture",
+      "sourceInputs": [
+        "Two distinct current known abilities and correlated readiness observations"
+      ],
+      "deliverable": "Cross-ability GCD candidate interval bounds with inconclusive category",
+      "acceptance": [
+        "At least two independent ability readiness traces",
+        "Do not use effective cooldown of A alone as a GCD",
+        "Preserve sample period and clock domain"
+      ]
+    },
+    {
+      "id": "SC-302",
+      "milestone": "SC3",
+      "title": "Contrast Full, Short and None client ability queue modes",
+      "state": "blocked",
+      "dependsOn": [
+        "SC-301"
+      ],
+      "owner": "REA analysis; RR2 operator changes settings only if approved",
+      "sourceInputs": [
+        "Current queue-mode UI and clock-aligned ordered casts"
+      ],
+      "deliverable": "Queue admission/replace/expiration observations by setting",
+      "acceptance": [
+        "No input automation loops",
+        "Only one setting variable changed per comparison",
+        "Queue setting alone not native proof"
+      ]
+    },
+    {
+      "id": "SC-303",
+      "milestone": "SC3",
+      "title": "Differentiate cast-time, channel ticks, cooldown groups and charge recovery",
+      "state": "planned",
+      "dependsOn": [
+        "SC-201"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Catalog ability metadata and event/castbar samples"
+      ],
+      "deliverable": "Timing landmark table and family-specific hypotheses",
+      "acceptance": [
+        "Missing castingTime remains unknown, not instant",
+        "Tick events not counted as new cast",
+        "Cooldown source separate from shared GCD"
+      ]
+    },
+    {
+      "id": "SC-304",
+      "milestone": "SC3",
+      "title": "Qualify latency and measurement precision",
+      "state": "planned",
+      "dependsOn": [
+        "SC-201"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Event clocks and guest/host receive times from saved receipts"
+      ],
+      "deliverable": "Clock-domain table with interval bounds and unqualified network delay",
+      "acceptance": [
+        "Never subtract unrelated clocks directly",
+        "Sampling errors/intervals documented",
+        "Unknown server acknowledgements stay unknown"
+      ]
     }
   ],
   "checkpointPolicy": {
@@ -163,6 +278,11 @@
       "pass": 2,
       "label": "Existing evidence and catalog truth",
       "result": "Grounded current-known API list and actual RR2 casting results; split character known from eligible/unlearned, rank and role."
+    },
+    {
+      "pass": 3,
+      "label": "Cast lifecycle and timing discrimination",
+      "result": "Separated command, castbar, effect, GCD, cooldown, queue policy, channel ticks and clock domains; no universal delay inferred."
     }
   ]
 }
