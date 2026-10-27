@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "task": "REA-CAST-PATCH-2026-10-27",
+  "observation": "physical-host-installation-offline",
+  "observedAtLocalDate": "2026-10-27",
+  "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "oldReference": {
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "fileBytes": 59963840,
+    "qualifiedOn": "2026-10-26",
+    "scope": "historical RIFT guest spellcasting evidence and previous RRE native research"
+  },
+  "newObservedHost": {
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "fileBytes": 60493640,
+    "lastWriteUtc": "2026-10-27T10:56:49.6396025Z",
+    "peMachine": "0x8664",
+    "peTimestamp": 1792755468,
+    "imageBase": "0x140000000",
+    "imageSize": 63164416,
+    "entryRva": "0x24e1a24",
+    "sections": [
+      {
+        "name": ".text",
+        "rva": "0x1000",
+        "virtualBytes": 39771667,
+        "rawFileOffset": 1024,
+        "rawBytes": 39772160,
+        "characteristics": "0x60000020",
+        "sha256": "76e504d8f26ba7b01cb97bb9741efb158b15f4324d8db5ea094866d9a4884d7c"
+      },
+      {
+        "name": ".rdata",
+        "rva": "0x25ef000",
+        "virtualBytes": 9855226,
+        "rawFileOffset": 39773184,
+        "rawBytes": 9855488,
+        "characteristics": "0x40000040",
+        "sha256": "76b9083d6bcb051640362de1012cb35f6cdae7bcbdeafce311ed64605a10de73"
+      },
+      {
+        "name": ".data",
+        "rva": "0x2f56000",
+        "virtualBytes": 6903392,
+        "rawFileOffset": 49628672,
+        "rawBytes": 4242432,
+        "characteristics": "0xc0000040",
+        "sha256": "06901300740996e10289a7d81108a1aad312589ed9ffea79e99125c16f87cfbe"
+      },
+      {
+        "name": ".pdata",
+        "rva": "0x35ec000",
+        "virtualBytes": 3637716,
+        "rawFileOffset": 53871104,
+        "rawBytes": 3637760,
+        "characteristics": "0x40000040",
+        "sha256": "3ee349b700d4ac0a2c1dd4c83cf248c4de86fc35cb99ee5b8f4fd1d0b4754935"
+      },
+      {
+        "name": "_RDATA",
+        "rva": "0x3965000",
+        "virtualBytes": 78352,
+        "rawFileOffset": 57508864,
+        "rawBytes": 78848,
+        "characteristics": "0x40000040",
+        "sha256": "ccceb7b4f2e1c740bccc65c0486889a66aff4fb06183eb0a697ba990cae0c1db"
+      },
+      {
+        "name": ".rsrc",
+        "rva": "0x3979000",
+        "virtualBytes": 721044,
+        "rawFileOffset": 57587712,
+        "rawBytes": 721408,
+        "characteristics": "0x40000040",
+        "sha256": "79c1bdfa8b9007784e6c84acf3cc60bca0962ababaee77b8c7234c8a0ca61fdd"
+      },
+      {
+        "name": ".reloc",
+        "rva": "0x3a2a000",
+        "virtualBytes": 2173736,
+        "rawFileOffset": 58309120,
+        "rawBytes": 2173952,
+        "characteristics": "0x42000040",
+        "sha256": "1a1795b6d8675c09b1da409a5c12486540e6c9f3df76a058d77de87e2c227314"
+      }
+    ]
+  },
+  "differenceBytes": 529800,
+  "hostModifiedDirectoryFilesSinceUtc": "2026-10-26T00:00:00Z",
+  "hostModifiedDirectoryFileCount": 14,
+  "vmwareRunning": [
+    "C:\\rift modding\\VMs\\RIFT-Lab-2\\RIFT-Lab.vmx"
+  ],
+  "guestFileSha256": null,
+  "guestBuildQualified": false,
+  "reasolvingCurrentGameClient": false,
+  "previousNativeRvasQualifiedOnNewBuild": false,
+  "compatibility": "NEW_HOST_PE_REQUIRES_NATIVE_REQUALIFICATION; historical APIs/cast results remain pinned to old bytes",
+  "workbridgeJobs": [
+    "rea-oct27-patch-host-exe-sha-01",
+    "rea-oct27-host-rift-recent-files-01",
+    "rea-oct27-running-vm-inventory-01",
+    "rea-oct27-new-pe-sections-01"
+  ],
+  "gameInputSent": false,
+  "gameProcessAttached": false,
+  "gameFilesModified": false,
+  "reaVersionChanged": false
+}

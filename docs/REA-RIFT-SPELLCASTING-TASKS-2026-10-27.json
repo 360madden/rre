@@ -4,13 +4,21 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC0 and observational SC2 completed; SC1 blocked on UI, SC3 source timing metadata accepted; next SC-304 precision model",
+  "status": "Physical host RIFT PE updated October 27, new SHA pinned; old native RVAs quarantined; SC-304 historical clock research ready; SC-404 targeted build compare ready",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-304",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
-    "currentSessionProof": false
+    "currentSessionProof": false,
+    "observedPhysicalHost20261027": {
+      "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "length": 60493640,
+      "lastWriteUtc": "2026-10-27T10:56:49.6396025Z",
+      "reportedSource": "docs/REA-RIFT-BUILD-INVENTORY-2026-10-27.json",
+      "guestFileSha256": null,
+      "nativeOldOffsetsQualified": false
+    }
   },
   "milestones": [
     {
@@ -323,7 +331,7 @@
       "id": "SC-404",
       "milestone": "SC4",
       "title": "Build compatibility and reuse of historic REA evidence",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-000"
       ],
@@ -570,5 +578,27 @@
     "validationJob": "rea-sc303-timing-acceptance-20261027-01",
     "validationExitCode": 0,
     "gameInputSent": false
+  },
+  "october27PatchAudit": {
+    "status": "host-binary-change-confirmed; guest-VM2-unverified",
+    "priorHostSha": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "newHostSha": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "newHostFileBytes": 60493640,
+    "oldHostFileBytes": 59963840,
+    "newBuildNote": "docs/REA-RIFT-BUILD-UPDATE-2026-10-27.md",
+    "machineRecord": "docs/REA-RIFT-BUILD-INVENTORY-2026-10-27.json",
+    "vmwareRunning": [
+      "C:\\rift modding\\VMs\\RIFT-Lab-2\\RIFT-Lab.vmx"
+    ],
+    "guestHashVerified": false,
+    "gameInputSent": false,
+    "reaVersionChanged": false,
+    "selectedNativeRequalificationRequired": true,
+    "jobs": [
+      "rea-oct27-patch-host-exe-sha-01",
+      "rea-oct27-host-rift-recent-files-01",
+      "rea-oct27-running-vm-inventory-01",
+      "rea-oct27-new-pe-sections-01"
+    ]
   }
 }
