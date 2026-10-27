@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "five-pass-roadmap-reviewed; SC-000 ready",
+  "status": "SC0 verified source baseline complete; SC1 SC-101 ready; UI learnability blocked",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-000",
+  "nextTaskId": "SC-101",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -16,12 +16,12 @@
     {
       "id": "SC0",
       "name": "Baseline and evidence inventory",
-      "status": "ready"
+      "status": "completed"
     },
     {
       "id": "SC1",
       "name": "Spellbook availability taxonomy",
-      "status": "planned"
+      "status": "active"
     },
     {
       "id": "SC2",
@@ -54,7 +54,7 @@
       "id": "SC-000",
       "milestone": "SC0",
       "title": "Inventory available RR2/API, historical native and official game evidence without live input",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [],
       "owner": "REA researcher",
       "sourceInputs": [
@@ -73,7 +73,7 @@
       "id": "SC-101",
       "milestone": "SC1",
       "title": "One role-scoped complete known-ability API catalog",
-      "state": "planned",
+      "state": "ready",
       "dependsOn": [
         "SC-000"
       ],
@@ -500,5 +500,20 @@
       "label": "Chat-mode resilience and milestone durability",
       "result": "Short one-task turns, hypothesis commits before expensive probes, finding/handoff commits, bounded jobs and exact source/job receipts. Five-pass review documented."
     }
-  ]
+  ],
+  "sc0Evidence": {
+    "report": "docs/REA-RIFT-SPELLCASTING-SC0-BASELINE-2026-10-27.md",
+    "apiListCount": 55,
+    "uniqueLookupIdCount": 55,
+    "sameIdSetAcrossTwoTrials": true,
+    "abiBuildHistorical": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "source03Sha": "1bd8694f91abb17704cd7a769b4cb63f2f334b5d00853b220f040a627c63e695",
+    "source04Sha": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630",
+    "roleAndSoulAllocationKnown": false,
+    "nativeSpellbookUiReviewed": false,
+    "gameInputSent": false,
+    "reaGhidraOpened": false,
+    "validationJob": "rea-sc0-source-check-20261027-01",
+    "acceptedLimit": "Only saved API-returned ability inventory; not learnable or locked list"
+  }
 }
