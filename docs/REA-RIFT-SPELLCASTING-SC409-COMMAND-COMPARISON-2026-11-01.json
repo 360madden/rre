@@ -1,0 +1,633 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-409",
+  "date": "2026-11-01",
+  "sourceExecutable": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sourceSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "analyses": {
+    "cast": {
+      "startRva": "0x6c7450",
+      "endRvaExclusive": "0x6c7b75",
+      "sourceSha256": "13c27e22dd45d0c3251efe145fb39887db4bf4461d73599a983132f418122731",
+      "originalFileByteLength": 1829,
+      "pdataSpans": [
+        [
+          "0x6c7450",
+          "0x6c74d7"
+        ],
+        [
+          "0x6c74d7",
+          "0x6c7b54"
+        ],
+        [
+          "0x6c7b54",
+          "0x6c7b75"
+        ]
+      ],
+      "decodedInstructionCount": 431,
+      "decodedThroughPdataEnd": true,
+      "directCallSites": [
+        {
+          "site": "0x6c7464",
+          "target": "0x24e1160"
+        },
+        {
+          "site": "0x6c7480",
+          "target": "0x49a020"
+        },
+        {
+          "site": "0x6c7494",
+          "target": "0x54ed40"
+        },
+        {
+          "site": "0x6c74a5",
+          "target": "0x54ed40"
+        },
+        {
+          "site": "0x6c7519",
+          "target": "0x6e7550"
+        },
+        {
+          "site": "0x6c752c",
+          "target": "0x5a5ff0"
+        },
+        {
+          "site": "0x6c753f",
+          "target": "0x5affe0"
+        },
+        {
+          "site": "0x6c75a8",
+          "target": "0x57cda0"
+        },
+        {
+          "site": "0x6c75ce",
+          "target": "0x126edc4"
+        },
+        {
+          "site": "0x6c760f",
+          "target": "0x1272c18"
+        },
+        {
+          "site": "0x6c7636",
+          "target": "0x126edc4"
+        },
+        {
+          "site": "0x6c7748",
+          "target": "0x494590"
+        },
+        {
+          "site": "0x6c777a",
+          "target": "0x493850"
+        },
+        {
+          "site": "0x6c7788",
+          "target": "0x4cb3d0"
+        },
+        {
+          "site": "0x6c77ae",
+          "target": "0x4ec0a0"
+        },
+        {
+          "site": "0x6c7802",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7816",
+          "target": "0x2504857"
+        },
+        {
+          "site": "0x6c785a",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c7882",
+          "target": "0x4936d0"
+        },
+        {
+          "site": "0x6c78a6",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c78be",
+          "target": "0x2504857"
+        },
+        {
+          "site": "0x6c78f2",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c7915",
+          "target": "0x4936d0"
+        },
+        {
+          "site": "0x6c7939",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c7942",
+          "target": "0x49a110"
+        },
+        {
+          "site": "0x6c7958",
+          "target": "0x7ddd00"
+        },
+        {
+          "site": "0x6c7991",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c79f3",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c79f8",
+          "target": "0x49a110"
+        },
+        {
+          "site": "0x6c7a10",
+          "target": "0x7de6f0"
+        },
+        {
+          "site": "0x6c7a29",
+          "target": "0x7078e0"
+        },
+        {
+          "site": "0x6c7a7b",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7aa3",
+          "target": "0x499c20"
+        },
+        {
+          "site": "0x6c7ab0",
+          "target": "0x499c20"
+        },
+        {
+          "site": "0x6c7ab9",
+          "target": "0x499a40"
+        },
+        {
+          "site": "0x6c7ac2",
+          "target": "0x499a40"
+        },
+        {
+          "site": "0x6c7aea",
+          "target": "0x494590"
+        },
+        {
+          "site": "0x6c7b3d",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7b5e",
+          "target": "0x24e11c0"
+        }
+      ],
+      "indirectCallSites": [
+        "0x6c7765",
+        "0x6c77fb",
+        "0x6c79ec",
+        "0x6c7a74",
+        "0x6c7b36"
+      ],
+      "boundedDiagnosticRefs": [
+        {
+          "sourceInsnRva": "0x6c7750",
+          "targetStringRva": "0x26b6030",
+          "textMeaning": "UTF16LE ABILITY"
+        },
+        {
+          "sourceInsnRva": "0x6c776e",
+          "targetStringRva": "0x26b6030",
+          "textMeaning": "UTF16LE ABILITY"
+        },
+        {
+          "sourceInsnRva": "0x6c78b2",
+          "targetStringRva": "0x26b6040",
+          "textMeaning": "unknown ability diagnostic"
+        },
+        {
+          "sourceInsnRva": "0x6c78dd",
+          "targetStringRva": "0x26b6040",
+          "textMeaning": "unknown ability diagnostic"
+        },
+        {
+          "sourceInsnRva": "0x6c7922",
+          "targetStringRva": "0x26b6040",
+          "textMeaning": "unknown ability diagnostic"
+        }
+      ]
+    },
+    "use": {
+      "startRva": "0x6c7b90",
+      "endRvaExclusive": "0x6c892d",
+      "sourceSha256": "a57d0ee6234c49cb4321c8b34e258416d8189341257e9c0c314d9302d717d513",
+      "originalFileByteLength": 3485,
+      "pdataSpans": [
+        [
+          "0x6c7b90",
+          "0x6c7be5"
+        ],
+        [
+          "0x6c7be5",
+          "0x6c890c"
+        ],
+        [
+          "0x6c890c",
+          "0x6c892d"
+        ]
+      ],
+      "decodedInstructionCount": 817,
+      "decodedThroughPdataEnd": true,
+      "directCallSites": [
+        {
+          "site": "0x6c7ba4",
+          "target": "0x24e1160"
+        },
+        {
+          "site": "0x6c7bc0",
+          "target": "0x49a020"
+        },
+        {
+          "site": "0x6c7bd4",
+          "target": "0x54ee30"
+        },
+        {
+          "site": "0x6c7c42",
+          "target": "0x6e7550"
+        },
+        {
+          "site": "0x6c7c55",
+          "target": "0x54eca0"
+        },
+        {
+          "site": "0x6c7c73",
+          "target": "0x5e77e0"
+        },
+        {
+          "site": "0x6c7c7d",
+          "target": "0x4a4750"
+        },
+        {
+          "site": "0x6c7c97",
+          "target": "0x6a0040"
+        },
+        {
+          "site": "0x6c7cd7",
+          "target": "0x634e30"
+        },
+        {
+          "site": "0x6c7cf8",
+          "target": "0x4a4750"
+        },
+        {
+          "site": "0x6c7d15",
+          "target": "0x6a0040"
+        },
+        {
+          "site": "0x6c7d44",
+          "target": "0x62f650"
+        },
+        {
+          "site": "0x6c7d53",
+          "target": "0x1299a8c"
+        },
+        {
+          "site": "0x6c7d68",
+          "target": "0x129ad68"
+        },
+        {
+          "site": "0x6c7d7f",
+          "target": "0x129ad68"
+        },
+        {
+          "site": "0x6c7db7",
+          "target": "0x49a220"
+        },
+        {
+          "site": "0x6c7dfd",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7e47",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7e92",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c7edb",
+          "target": "0x12942a8"
+        },
+        {
+          "site": "0x6c7f61",
+          "target": "0x632580"
+        },
+        {
+          "site": "0x6c7f72",
+          "target": "0x656990"
+        },
+        {
+          "site": "0x6c7f80",
+          "target": "0x8ee040"
+        },
+        {
+          "site": "0x6c7f98",
+          "target": "0x57db60"
+        },
+        {
+          "site": "0x6c7ff8",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c8018",
+          "target": "0x4936d0"
+        },
+        {
+          "site": "0x6c803a",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c8046",
+          "target": "0x6e9690"
+        },
+        {
+          "site": "0x6c8063",
+          "target": "0x57db60"
+        },
+        {
+          "site": "0x6c80e3",
+          "target": "0x650e70"
+        },
+        {
+          "site": "0x6c80ed",
+          "target": "0x4a4750"
+        },
+        {
+          "site": "0x6c8109",
+          "target": "0x6a0040"
+        },
+        {
+          "site": "0x6c8149",
+          "target": "0x634e30"
+        },
+        {
+          "site": "0x6c816a",
+          "target": "0x4a4750"
+        },
+        {
+          "site": "0x6c8187",
+          "target": "0x6a0040"
+        },
+        {
+          "site": "0x6c81b6",
+          "target": "0x62f650"
+        },
+        {
+          "site": "0x6c81c5",
+          "target": "0x1299a8c"
+        },
+        {
+          "site": "0x6c81da",
+          "target": "0x129ad68"
+        },
+        {
+          "site": "0x6c81f1",
+          "target": "0x129ad68"
+        },
+        {
+          "site": "0x6c8229",
+          "target": "0x49a220"
+        },
+        {
+          "site": "0x6c826f",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c82b4",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c82fb",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c833d",
+          "target": "0x8ee040"
+        },
+        {
+          "site": "0x6c8394",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c83d0",
+          "target": "0x12942a8"
+        },
+        {
+          "site": "0x6c84cb",
+          "target": "0x494590"
+        },
+        {
+          "site": "0x6c84fa",
+          "target": "0x493850"
+        },
+        {
+          "site": "0x6c8524",
+          "target": "0x499cc0"
+        },
+        {
+          "site": "0x6c857f",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c85ad",
+          "target": "0x4ec0a0"
+        },
+        {
+          "site": "0x6c85ff",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c8613",
+          "target": "0x2504857"
+        },
+        {
+          "site": "0x6c864d",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c8675",
+          "target": "0x4936d0"
+        },
+        {
+          "site": "0x6c8699",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c86b3",
+          "target": "0x2504857"
+        },
+        {
+          "site": "0x6c86e6",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c8709",
+          "target": "0x4936d0"
+        },
+        {
+          "site": "0x6c872c",
+          "target": "0x25047a9"
+        },
+        {
+          "site": "0x6c8735",
+          "target": "0x49a110"
+        },
+        {
+          "site": "0x6c874b",
+          "target": "0x7ddd00"
+        },
+        {
+          "site": "0x6c8783",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c87e5",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c87ea",
+          "target": "0x49a110"
+        },
+        {
+          "site": "0x6c8802",
+          "target": "0x7de6f0"
+        },
+        {
+          "site": "0x6c881b",
+          "target": "0x7078e0"
+        },
+        {
+          "site": "0x6c886d",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c888c",
+          "target": "0x499c20"
+        },
+        {
+          "site": "0x6c8899",
+          "target": "0x499c20"
+        },
+        {
+          "site": "0x6c88a2",
+          "target": "0x499a40"
+        },
+        {
+          "site": "0x6c88ab",
+          "target": "0x499a40"
+        },
+        {
+          "site": "0x6c88d3",
+          "target": "0x494590"
+        },
+        {
+          "site": "0x6c88dd",
+          "target": "0x24e0d50"
+        },
+        {
+          "site": "0x6c8916",
+          "target": "0x24e11c0"
+        }
+      ],
+      "indirectCallSites": [
+        "0x6c7f57",
+        "0x6c7ff1",
+        "0x6c80bc",
+        "0x6c8331",
+        "0x6c838d",
+        "0x6c84e6",
+        "0x6c8578",
+        "0x6c85f8",
+        "0x6c87de",
+        "0x6c8866"
+      ],
+      "boundedDiagnosticRefs": [
+        {
+          "sourceInsnRva": "0x6c86a7",
+          "targetStringRva": "0x26b65e0",
+          "textMeaning": "unknown item diagnostic"
+        },
+        {
+          "sourceInsnRva": "0x6c86d2",
+          "targetStringRva": "0x26b65e0",
+          "textMeaning": "unknown item diagnostic"
+        },
+        {
+          "sourceInsnRva": "0x6c8716",
+          "targetStringRva": "0x26b65e0",
+          "textMeaning": "unknown item diagnostic"
+        }
+      ]
+    }
+  },
+  "sameDirectCallees": [
+    "0x24e0d50",
+    "0x24e1160",
+    "0x24e11c0",
+    "0x25047a9",
+    "0x2504857",
+    "0x4936d0",
+    "0x493850",
+    "0x494590",
+    "0x499a40",
+    "0x499c20",
+    "0x49a020",
+    "0x49a110",
+    "0x4ec0a0",
+    "0x6e7550",
+    "0x7078e0",
+    "0x7ddd00",
+    "0x7de6f0"
+  ],
+  "castOnlyCallees": [
+    "0x126edc4",
+    "0x1272c18",
+    "0x4cb3d0",
+    "0x54ed40",
+    "0x57cda0",
+    "0x5a5ff0",
+    "0x5affe0"
+  ],
+  "useOnlyCallees": [
+    "0x12942a8",
+    "0x1299a8c",
+    "0x129ad68",
+    "0x499cc0",
+    "0x49a220",
+    "0x4a4750",
+    "0x54eca0",
+    "0x54ee30",
+    "0x57db60",
+    "0x5e77e0",
+    "0x62f650",
+    "0x632580",
+    "0x634e30",
+    "0x650e70",
+    "0x656990",
+    "0x6a0040",
+    "0x6e9690",
+    "0x8ee040"
+  ],
+  "semanticClaims": {
+    "castExecutionVerified": false,
+    "itemUseExecutionVerified": false,
+    "abilityResolutionVerified": false,
+    "runtimeServerPacketVerified": false
+  },
+  "method": "Original SHA-pinned x64 PE .pdata slices and bounded Capstone direct-calls and RIP-relative literal refs",
+  "gameInputSent": false,
+  "processAttached": false
+}

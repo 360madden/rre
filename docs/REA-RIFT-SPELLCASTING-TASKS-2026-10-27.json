@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "REA SC410 local-PC native dependency import map accepted (32 DLLs / 811 APIs), SC603 handoff next; SC1/SC3 live evidence absent; SC4/SC5 incomplete",
+  "status": "SC409 /cast-vs-/use structural native comparison accepted, SC410 import map completed; neither identifies native cast submission or independent GCD; SC603 Chat handoff next",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-603",
   "gameInputAuthorized": false,
@@ -593,6 +593,27 @@
       ],
       "validationJob": "rea_sc410_import_qa_20261101",
       "gameInputSent": false
+    },
+    {
+      "id": "SC-409",
+      "milestone": "SC4",
+      "title": "Compare local /cast and /use command native code, shared callees and distinct error-data paths",
+      "state": "completed",
+      "dependsOn": [
+        "SC-407"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "New build original PE 0x6c7450–0x6c7b75, 0x6c7b90–0x6c892d"
+      ],
+      "deliverable": "Original SHA-pinned call-target/command-data differential with exact .pdata bounds and no invented request semantics",
+      "acceptance": [
+        "Original PE SHA and .text source slices validated",
+        "Common vs unique direct call targets and typed diagnostic strings enumerated",
+        "No game input or proof of cast submission claimed"
+      ],
+      "validationJob": "rea_sc409_comparison_qa_20261101",
+      "gameInputSent": false
     }
   ],
   "checkpointPolicy": {
@@ -976,6 +997,20 @@
     "acceptedScope": "PE import table only, no runtime spell dispatcher or GCD",
     "validatedChecks": 12,
     "validationJob": "rea_sc410_import_qa_20261101",
+    "gameInputSent": false
+  },
+  "sc409Evidence": {
+    "status": "completed-original-binary-structure-only",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC409-COMMAND-COMPARISON-2026-11-01.json",
+    "machineSha256": "35795cd9963d6ac43284d00389a1bf01653b8ef2fe3a86e43469af5b9c04489e",
+    "exeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "sharedDirectCallTargetCount": 17,
+    "castOnlyDirectTargets": 7,
+    "useOnlyDirectTargets": 18,
+    "sourceBuildOnly": true,
+    "validatedChecks": 13,
+    "validationJob": "rea_sc409_comparison_qa_20261101",
     "gameInputSent": false
   }
 }
