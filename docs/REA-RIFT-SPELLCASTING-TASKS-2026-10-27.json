@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC604 accepted; SC413/414/415 parked with source-backed gaps. SC416 three-location addon inventory COMPLETE: 47 directories on PC/Lab1/Lab2, Lab1 three offline manifest placeholders. SC102 next, still BLOCKED pending same-character/same-role physical-PC API List/Detail + spellbook/soul UI evidence. SC1/SC3/SC4/SC5/SC6 open.",
+  "status": "SC604 accepted; SC416 inventory COMPLETE. SC417 standalone RRECollector v0.1 source complete and physical-host install hash verified; live in-game load/capture still unverified. SC102 remains BLOCKED pending same-character/same-role physical-PC API List/Detail plus spellbook/soul UI evidence. SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -807,6 +807,39 @@
       ],
       "result": "47 folder names match all three; 45 root manifests readable on PC/Lab2, Lab1 has 42 readable+3 OneDrive cloud placeholders+2 non-addons. BotDsBridge full List/Detail SavedVariable export, RR2Casting richer batch export, ProjectAbilityBook static all-calling reference; no current exact-role live API+UI pair yet.",
       "limitation": "Physical-PC SC102 current same-role API+spellbook/soul evidence remains blocked; VM captures are supplementary. Lab1 three manifest files unreadable pending separate owner."
+    },
+    {
+      "id": "SC-417",
+      "milestone": "SC1",
+      "title": "Build one standalone RRECollector v0.1 addon for character-specific ability API snapshots",
+      "state": "completed",
+      "dependsOn": [
+        "SC-101",
+        "SC-416"
+      ],
+      "owner": "REA coordinator, sole writer of addons/RRECollector and SC417 docs",
+      "sourceInputs": [
+        "BotDsBridge/ability_catalog.lua",
+        "RiftReader2Casting/model.lua and main.lua",
+        "RiftApiCollector/main.lua",
+        "RIFT API local docs for Inspect.Ability.New.List/Detail, Inspect.Stat and role"
+      ],
+      "deliverable": "Independent 4-command manual snapshot addon, character SavedVariables, role/player/stats/target API context, source-plus-installed hash verification",
+      "acceptance": [
+        "One standalone RiftAddon.toc and Lua implementation with no other addon dependency or gameplay input",
+        "List handles array/map/false membership, batches Detail, preserves scalar metadata and explicit incompleteness",
+        "User-directed host AddOns install SHA matches source; do not claim live load before real game test",
+        "Independent source review and bounded structural check; no exhaustive suite"
+      ],
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC417-COLLECTOR-2026-11-01.md",
+        "addons/RRECollector/RiftAddon.toc",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/README.md"
+      ],
+      "result": "v0.1 built, independently reviewed and installed on physical host, all 3 source/install hashes match; no existing addons overwritten.",
+      "limitation": "Lua runtime syntax compilation and in-game load/capture are not yet confirmed; SC102 remains blocked on a fresh matching API+UI record. VMware deployment deferred."
     }
   ],
   "checkpointPolicy": {

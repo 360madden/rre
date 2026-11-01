@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 screenshots, SC-415 SpellDump gap, and **SC-416 complete three-location installed addon inventory** all documented. **SC-102 remains BLOCKED on current physical-PC same-character/same-role API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
+**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 screenshots, SC-415 SpellDump gap, and **SC-416 complete three-location installed addon inventory** and **SC-417 standalone RRECollector v0.1 source/host install** both documented (live load pending). **SC-102 remains BLOCKED on current physical-PC same-character/same-role API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
 
 ## First reads after an interrupted Chat session
 
@@ -37,6 +37,10 @@
 [Full 47-directory physical-PC/Lab1/Lab2 addon table](REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.md) and [source-hashed machine inventory](REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.json) are accepted at **disk inventory scope only**. PC and Lab2 have the same 47 folder names and 45 readable root manifests/versions. Lab1 has the same folder names but **three root manifests are unreadable OneDrive Offline/ReparsePoint/RecallOnDataAccess placeholders**: ApiAtlas, ApiAtlasConsumer, RiftApiCollector. No guest file hydration, addon activation, or game input. Both lab UI screenshots separately captured: Atank level45 Warrior, Bolinao level43 Rogue; never combine their API inventories.
 
 The fastest existing complete-known catalog candidate is **BotDsBridge `/botds catalog`** (List/Detail → character SavedVariables); **RiftReader2Casting** can retain richer batch List/Detail details on save/load; **ProjectAbilityBook** has static exact soul IDs for all five callings, useful only as candidate/unknown eligibility reference. **RiftApiCollector** exports paged exact IDs, not full Detail; its Lab1 manifest is offline. API documentation exporters are not ability catalogs, and ApiDumper's manifest description differs from its actual Action.Get 1–12 source. Next source owner must supply a current same-character/role physical-PC ability API record plus explicit spellbook/soul/point UI; SC-102 stays blocked. Lab guest source/build equivalence was not asserted.
+
+## SC-417 — standalone RRECollector v0.1.0 scaffold (November 1, 2026)
+
+[Implementation and host deployment record](REA-RIFT-SPELLCASTING-SC417-COLLECTOR-2026-11-01.md). One new independent package `addons/RRECollector` on Git main and SHA-identical installed copy in the **physical-PC** RIFT AddOns directory; no old addon overwritten. Manual `/rre status|capture|page N|export|help` collects current known API abilities with batch Detail/per-ID fallback, character/role/stats/target context and character SavedVariables. Explicit completeness/errors prevent claiming unlearned/locked spell coverage. Independent source review found and corrected two omissions. Installed copy hash job `rre-sc417-host-addon-copy-hash-20261101-a1` exited 0. Lua runtime parser was not installed in the documented Windows check; do not claim actual live load until a game operator performs one smoke capture. **SC-102 still BLOCKED** on same-role physical-PC API+UI evidence; VMware lab addon deployment intentionally deferred.
 
 ## Chat-mode durability
 
