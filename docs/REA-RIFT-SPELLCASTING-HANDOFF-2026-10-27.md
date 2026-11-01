@@ -1,8 +1,8 @@
 # REA RIFT spellcasting — current Chat-mode handoff
 
-**Updated October 27, 2026. Target: LOCAL physical-PC RIFT, NOT VMware.** This handoff supersedes previous SC-401/SC-402 schema searches.
+**Updated November 1, 2026. Target: LOCAL physical-PC RIFT, NOT VMware.** Physical-PC EXE rehashed unchanged November 1; source-scoped historical RR2 evidence may be used as references, not current-game confirmation.
 
-**Current task: SC-502 (READY).** [SC-501 offline source-backed failure taxonomy](REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md) is completed; the apparent ASCII `A` was actually UTF-16LE `ABILITY` used near an error template. Next analyze modern caster/ability/target IDs across saved hit, dodge and area events; retain missing heal/overheal evidence as unknown. No live RIFT input.
+**Current task: SC-103 (READY).** SC-502's [source-pinned combat-event attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) is accepted (18/18 checks). Next inspect duplicate modern ability IDs/ranks/role variants from the historical 55-entry catalog **without** asserting a current-level spellbook or learnable prerequisites. SC-102 still needs actual local player level/Role/soul UI. No live RIFT input.
 
 ## Build, target and ownership
 
@@ -34,12 +34,12 @@ Original selected `cast` native body `0x6C7450–0x6C7B71`, SHA `31c02f4e68ac0c8
 - **SC1** native full spellbook/learnable-at-level/role and souls: no current local on-screen UI or role-scoped API baseline.
 - **SC3** independent shared GCD, actual ability queue Full/Short/None mapping (raw setting `+0xA4` was `1` only), cast delay and server clock: unresolved. [SC-305](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md) is completed, [SC-306](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md) blocked until matching UI evidence.
 - **SC4** active, not complete: SC-407 native `/cast` command entry verified; SC-408 generic callees parked. SC-501 corrected error-format evidence does not yet identify the native ability resolver or server acknowledgement.
-- **SC5** active, not complete: SC-501 rejection taxonomy accepted; SC-502 outcome attribution is next; SC-503 proc/channel/interrupt research still needs qualifying source observations.
+- **SC5** active, not complete: SC-501 rejection taxonomy and **SC-502 exact-event attribution** accepted. SC-502 source has 11/4 ranged events: first trial one self-target Dodge and one selected-target Dodge, plus nine Auto Attack events (8 damages totaling 959 and one miss); second trial 402 to selected + 726 across three other targets. An initial raw melee legacy-ID match failed, while a separate later replay reports 118 damage. SC-503 proc/channel/interrupt research still needs qualifying source observations.
 - No background work assumed: checkpoint each bounded finding and commit.
 
 ## Resume in next Chat mode
 
 1. Read RRE Git HEAD/status, this one-page handoff and current task register; do not repeat broad searches or touch preserved unrelated untracked files.
-2. Verify original local SHA before analyzing new source. Inspect one downstream call at a time, classify supported/rejected/unresolved.
-3. Save original source bytes, build SHA, exact instruction RVA and result, tests, commit after one useful submilestone.
+2. Verify the original physical-PC executable SHA before new native interpretation. For SC-103, use prior 55-ID catalog and source hashes; preserve name collisions and distinguish historical recorded abilities from current role/level requirements.
+3. Preserve SHA/modern identity/target/source hashes, exact job IDs, offline proof limits and commit after one useful submilestone. Workbridge has 36 coordination slots but no direct independent AI-spawn action in Chat mode; the seven November 1 read-only parallel analysis jobs were **not** seven autonomous reasoning agents.
 4. **Big colored completion header only when a complete major phase's exit criteria pass.** SC4 is not there yet.

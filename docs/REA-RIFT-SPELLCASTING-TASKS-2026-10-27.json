@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "REA local-PC offline SC501 rejection taxonomy accepted; verified UTF16 ABILITY diagnostic placeholder rules out A-prefix ID inference; SC502 exact modern-ID attribution next, SC5 phase still active",
+  "status": "SC-502 exact source-ID attribution completed using 11 parallel read-only Workbridge evidence lanes; SC5 active/conditional cases blocked; SC-103 rank/role identity offline question next; local PC target unchanged",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-502",
+  "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -384,7 +384,7 @@
       "id": "SC-502",
       "milestone": "SC5",
       "title": "Hit, dodge/miss, heal/overheal and multi-target attribution",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [
         "SC-201"
       ],
@@ -878,6 +878,41 @@
     "independentNativeServerRejectionQualified": false,
     "validationJob": "rea-offline-sc501-evidence-acceptance-20261027-01",
     "validationPassed": 16,
+    "gameInputSent": false
+  },
+  "sc502Evidence": {
+    "status": "completed-historical-source-data",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md",
+    "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC502-EVENT-ATTRIBUTION-2026-11-01.json",
+    "machineEvidenceSha256": "73bfe67b4a79f3c6c983113d439ef503ba622235f362a2cb16e39e803714ea16",
+    "sourceOldExeSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "localHostExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "trial1": {
+      "rawEvents": 11,
+      "selectedDodge": 1,
+      "selfTargetDodge": 1,
+      "selectedAbilityDamage": 0,
+      "differentAbilityDamageToTarget": 959,
+      "differentAbilityMisses": 1
+    },
+    "trial2": {
+      "rawEvents": 4,
+      "selectedTargetDamage": 402,
+      "otherTargetSameAbilityDamage": 726,
+      "areaTargetCount": 3
+    },
+    "meleeOriginal": {
+      "rawMatchesModern": false,
+      "damage": 118,
+      "laterReplayConfirmed": true
+    },
+    "healingEventsObserved": 0,
+    "healingInGameUnknown": true,
+    "sc5MilestoneComplete": false,
+    "validationJob": "rea_sc502_acceptance_20261101",
+    "validationPassed": 18,
+    "workersWereSeparateAiAgents": false,
+    "parallelWorkbridgeJobs": 7,
     "gameInputSent": false
   }
 }
