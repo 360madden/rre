@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC603 durable Chat-mode handoff verified and SC6 active (not complete); SC410 imports, SC409 command compare, SC411 context fields committed; SC412 bounded producer hypothesis is next; SC1/SC3 and SC5 conditional evidence still open",
+  "status": "SC412 bounded neighborhood has only reads of +0x340/+0x358, no local writer; parked after two probes; SC604 interim source-backed mechanism map next; no phase completion asserted",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-412",
+  "nextTaskId": "SC-604",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -640,7 +640,7 @@
       "id": "SC-412",
       "milestone": "SC4",
       "title": "Identify one bounded producer or discriminating dataflow for native command context +0x358",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-411"
       ],
@@ -653,6 +653,31 @@
         "No guesswork assigning semantic name to +0x358",
         "One bounded neighborhood/caller probe first",
         "Two distinct non-decisive probes then park"
+      ],
+      "gameInputSent": false
+    },
+    {
+      "id": "SC-604",
+      "milestone": "SC6",
+      "title": "Publish interim source-backed RIFT spellcasting mechanism map while downstream phases remain blocked",
+      "state": "ready",
+      "dependsOn": [
+        "SC-000",
+        "SC-201",
+        "SC-407",
+        "SC-411",
+        "SC-502"
+      ],
+      "owner": "REA coordinator",
+      "sourceInputs": [
+        "Original host PE and accepted SC source reports from both exact build families"
+      ],
+      "deliverable": "Compact source-to-mechanism map: local API, native command, readiness/event effects, clocks, gaps, and prioritized next evidence",
+      "acceptance": [
+        "Every claim tied to specific source/build and proof tier",
+        "No server/GCD/learnability field manufactured",
+        "No SC6 phase completion claim, unresolved sources explicitly marked",
+        "Single-source source hash/links checked"
       ],
       "gameInputSent": false
     }
@@ -1082,5 +1107,22 @@
     "phaseSC6FullyComplete": false,
     "gameInputSent": false,
     "validationJob": "rea_sc603_handoff_qa_20261101"
+  },
+  "sc412Evidence": {
+    "status": "blocked-after-two-bounded-probes",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.json",
+    "machineSha256": "efb0a49fc7186ffb0819b6dad5ed472157fb1d73c6eb5a50f632099aedd665ce",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md",
+    "sourceExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "searchedLocalFunctionIntervals": 38,
+    "sourceBytesAnalyzed": 8507,
+    "matchingMemoryReferences": 4,
+    "exactSourceWritesAtChosenOffsets": 0,
+    "globalWriterAbsenceProven": false,
+    "gameInputSent": false,
+    "probeJobs": [
+      "rea_sc412_local_context_writer_scan_20261101",
+      "rea_sc412_dispatch_argument_provenance_20261101"
+    ]
   }
 }
