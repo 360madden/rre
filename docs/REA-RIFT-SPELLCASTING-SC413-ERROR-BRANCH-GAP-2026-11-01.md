@@ -1,6 +1,6 @@
 # SC-413 — Native `/cast` diagnostic predecessor: bounded negative result
 
-**November 1, 2026 (EDT). Status: BLOCKED/PARKED after two bounded source comparisons.** Exact original physical-PC RIFT `rift_x64.exe` SHA-256: `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8` (60,493,640 bytes). No VMware, game input, process attach, memory modification, or executable write.
+**November 1, 2026 (EST). Status: BLOCKED/PARKED after two bounded source comparisons.** Exact original physical-PC RIFT `rift_x64.exe` SHA-256: `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8` (60,493,640 bytes). No VMware, game input, process attach, memory modification, or executable write.
 
 ## Narrow question
 

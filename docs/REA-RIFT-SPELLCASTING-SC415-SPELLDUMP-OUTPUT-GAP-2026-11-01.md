@@ -1,6 +1,6 @@
 # SC-415 — SpellDump October 29 saved-output lead: bounded source and archive audit
 
-**November 1, 2026 EDT. Status: BLOCKED after two source groups.** Research was read-only on existing physical-PC RIFT screenshots, accessible disabled addon code, and saved RRE/RiftReader2 artifacts. No live game input, addon activation, SavedVariables modifications, process attachment or file cleanup.
+**November 1, 2026 EST. Status: BLOCKED after two source groups.** Research was read-only on existing physical-PC RIFT screenshots, accessible disabled addon code, and saved RRE/RiftReader2 artifacts. No live game input, addon activation, SavedVariables modifications, process attachment or file cleanup.
 
 ## The precise lead
 

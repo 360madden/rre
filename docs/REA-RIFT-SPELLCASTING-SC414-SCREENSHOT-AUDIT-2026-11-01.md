@@ -1,6 +1,6 @@
 # SC-414 — Bounded review of saved physical-PC RIFT UI screenshots
 
-**November 1, 2026 EDT. Status: BLOCKED as a source-qualified spellbook/queue evidence route; bounded 12-image review complete.** Original JPGs were not changed. No game input, VM access, process attach, or new capture.
+**November 1, 2026 EST. Status: BLOCKED as a source-qualified spellbook/queue evidence route; bounded 12-image review complete.** Original JPGs were not changed. No game input, VM access, process attach, or new capture.
 
 ## Source and reproducible sample
 
