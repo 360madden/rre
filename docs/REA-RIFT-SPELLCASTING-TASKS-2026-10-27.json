@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC604 interim mechanism map accepted. SC413 original /cast vs /use error-format predecessors are source-backed but do not prove ability resolver; parked after two bounded probes. SC414 saved physical-PC UI evidence audit next. SC1/SC3/SC4/SC5/SC6 major phases open.",
+  "status": "SC604 interim map accepted. SC413 native error-text comparison parked. SC414 bounded 12-original-screenshot audit found no source-qualified local spellbook/queue settings UI; documented negative. SC415 saved SpellDump output discovery next; full SC1/SC3/SC4/SC5/SC6 phases still open.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-414",
+  "nextTaskId": "SC-415",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -721,7 +721,7 @@
       "id": "SC-414",
       "milestone": "SC1",
       "title": "Source-bind and visually audit already-saved physical-PC RIFT spellbook/role/queue screenshots",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-101",
         "SC-305"
@@ -739,6 +739,36 @@
         "Do not assume a screenshot matches API/character/role unless source-bound",
         "After at most 12 newest relevant images, report positive or explicit insufficiency",
         "No game input, memory modification, VM use or screenshot overwrite"
+      ],
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md",
+        "docs/REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.json"
+      ],
+      "blocker": "12 newest saved October RIFT screenshots reviewed at actual-pixel contact-sheet level and two higher-res crops; none qualifies current physical-PC same-character spellbook/soul/role or AbilityQueue mode; source identity/build not bound."
+    },
+    {
+      "id": "SC-415",
+      "milestone": "SC1",
+      "title": "Bounded read-only discovery of existing SpellDump output from physical-PC October 29 addon evidence",
+      "state": "ready",
+      "dependsOn": [
+        "SC-101"
+      ],
+      "owner": "REA offline evidence researcher; existing RR2 owner supplies only if saved data missing",
+      "sourceInputs": [
+        "2026-10-29_020726.jpg exact-source saved screenshot with visible SpellDump initialization lead",
+        "C:\\Users\\mrkoo\\OneDrive\\Documents\\RIFT\\Interface\\AddOns\\SpellDump.disabled",
+        "C:\\Users\\mrkoo\\OneDrive\\Documents\\RIFT\\Interface\\AddOns\\spelldump2.disabled",
+        "Existing rre/riftreader2 archived exports or logs, no live game"
+      ],
+      "deliverable": "Existing source-pinned current-host Ability.New.List/Detail report if present; otherwise a precise two-location file/data gap with next evidence owner",
+      "acceptance": [
+        "Distinguish addon initialization/installed source from an actual saved spellbook snapshot",
+        "Search two bounded accessible source groups: disabled AddOns source and existing rre/rr2 archived artifacts",
+        "No assumption screenshot date proves exact current PE process or active role",
+        "No executable, addon, SavedVariables, game or VM modification; stop after two negative source checks",
+        "Retain hash and link to any actual qualifying output, not merely slash-command documentation"
       ],
       "gameInputSent": false
     }

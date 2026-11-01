@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-414",
+  "dateLocal": "2026-11-01",
+  "status": "blocked-source-qualified-ui-evidence",
+  "sourceRoot": "C:\\Users\\mrkoo\\OneDrive\\Documents\\RIFT\\Screenshots",
+  "totalOctoberMatches": 18,
+  "inspectedCount": 12,
+  "sampleRule": "12 newest October 2026 JPGs by timestamp embedded in filename",
+  "sourceType": "original saved JPG",
+  "reviewMethod": "actual source-pixel in-memory Windows System.Drawing contact sheet plus 2 enlarged native-resolution crops",
+  "snapshots": [
+    {
+      "name": "2026-10-31_094442.jpg",
+      "sizeBytes": 388639,
+      "sha256": "1a30a8047b92465c81496be4220afa623492c736d89e04ee8bdf55dccf27cf53",
+      "modifiedUtc": "2026-10-31T13:44:42+00:00"
+    },
+    {
+      "name": "2026-10-29_020726.jpg",
+      "sizeBytes": 371024,
+      "sha256": "e6f296be4f74765324023335f14ed1130d216dca547b13235b5ce1580d7052aa",
+      "modifiedUtc": "2026-10-29T06:07:26+00:00"
+    },
+    {
+      "name": "2026-10-28_195441.jpg",
+      "sizeBytes": 384187,
+      "sha256": "54c62fe23820c614d1293b98452a23052721d9182ee62c933cb28462592d03d5",
+      "modifiedUtc": "2026-10-28T23:54:41+00:00"
+    },
+    {
+      "name": "2026-10-28_183147.jpg",
+      "sizeBytes": 319382,
+      "sha256": "1dea283d29bf51bda732ea9e4c30caafae9e4c35d887f70f1b1793e9a65ec7cf",
+      "modifiedUtc": "2026-10-28T22:31:47+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_072644_464_7a8fe4.jpg",
+      "sizeBytes": 1077931,
+      "sha256": "f3fa85a71d3ecc3d5a5fd8bda049deb2a60eb98f99c8df3a0fbba32db4720545",
+      "modifiedUtc": "2026-10-28T11:26:44.478795+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_071315_998_d7a110.jpg",
+      "sizeBytes": 1032912,
+      "sha256": "c9a7756b33337da14ca80dd2ed01f5dc5c5c3edcfe0d7f08bd8c0ba59ee7226b",
+      "modifiedUtc": "2026-10-28T11:13:16.010864+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_031242_784_9eedf7.jpg",
+      "sizeBytes": 202716,
+      "sha256": "db13a25b056bbdde864d0db7eb8904d205a2178f908609c51089cc15b4caf01d",
+      "modifiedUtc": "2026-10-28T07:12:42.796751+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_025714_138_e5d5e0.jpg",
+      "sizeBytes": 636127,
+      "sha256": "6b68d065a4367b2eeaf8b1e505694c70a712f02a4c93d126fcbe6df50c2f36e7",
+      "modifiedUtc": "2026-10-28T06:57:14.151121+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_025340_142_1b3c3d.jpg",
+      "sizeBytes": 616203,
+      "sha256": "8ce70af3a58d2d5cb698e8dd082f09383ca0519bb4da41d1aae9a9d35e07835e",
+      "modifiedUtc": "2026-10-28T06:53:40.157361+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_015814_293_5319cf.jpg",
+      "sizeBytes": 1205083,
+      "sha256": "42cae7bbaa4b83faadd9e44fad644ebc96eee5c334c9860bef57badc27c8faa4",
+      "modifiedUtc": "2026-10-28T05:58:14.306390+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_015613_508_852272.jpg",
+      "sizeBytes": 1188942,
+      "sha256": "521360c526e5690f20d4c422008ac4b4e12c4844c2cb5cadf8b2071fcf7937b4",
+      "modifiedUtc": "2026-10-28T05:56:13.521375+00:00"
+    },
+    {
+      "name": "rift_auto_2026-10-28_015422_497_199683.jpg",
+      "sizeBytes": 1189297,
+      "sha256": "98f5b461adc6393768e5baa4d68e32fa9fa460026bda06ab26228052d56765b5",
+      "modifiedUtc": "2026-10-28T05:54:22.510865+00:00"
+    }
+  ],
+  "visualObservations": [
+    {
+      "index": 1,
+      "kind": "RIFT scene/chat or addon overlay; requested UI not readable at sampled resolution",
+      "qualifiedSpellbookUi": false
+    },
+    {
+      "index": 2,
+      "kind": "RR2 Casting v0.4.0 BLOCKED no target; addon error visible in enlarged crop",
+      "qualifiedSpellbookUi": false,
+      "cropJob": "rre-sc414-ui-candidate2-crop-20261101-manager-a1"
+    },
+    {
+      "index": 3,
+      "kind": "RIFT scene/overlay; requested UI not identifiable at sampled resolution",
+      "qualifiedSpellbookUi": false
+    },
+    {
+      "index": 4,
+      "kind": "RR2 Casting v0.3.0 BLOCKED out of API range, target Dreadfern Basher, ability Ace Shot; enlarged crop",
+      "qualifiedSpellbookUi": false,
+      "cropJob": "rre-sc414-ui-candidate4-crop-20261101-manager-a1"
+    },
+    {
+      "indices": "5-12",
+      "kind": "Addon/dialog/debug overlays; no reliable spellbook/soul/trainer or Full/Short/None selector at contact-sheet resolution",
+      "qualifiedSpellbookUi": false
+    }
+  ],
+  "jobs": [
+    {
+      "id": "rre-sc414-saved-screenshots-sheet-20261101-manager-a1",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "id": "rre-sc414-ui-candidate2-crop-20261101-manager-a1",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "id": "rre-sc414-ui-candidate4-crop-20261101-manager-a1",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "id": "rre-sc414-saved-screenshot-hash-inventory-20261101-manager-a1",
+      "status": "passed",
+      "exitCode": 0
+    }
+  ],
+  "toolingGap": "Pillow unavailable in RRE virtualenv and C:\\Python314; built-in Windows System.Drawing read-only preview successful",
+  "currentHostExecutableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "currentHostBuildBoundToScreenshot": false,
+  "currentCharacterAndRoleBound": false,
+  "matchedApiSnapshotAvailable": false,
+  "spellbookEligibilityVerified": false,
+  "queueModeSelectedLabelVerified": false,
+  "visualAbsenceClaimForAllFiles": false,
+  "nextLead": "2026-10-29 saved screenshot shows SpellDump addon initialized; search accessible existing saved artifacts, not assume export",
+  "gameInputSent": false,
+  "originalImagesChanged": false
+}
