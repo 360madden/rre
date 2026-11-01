@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-410",
+  "sourceKind": "original-shipped-PE-static-import-directory",
+  "exeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "exeBytes": 60493640,
+  "machine": "0x8664",
+  "dlls": [
+    {
+      "dll": "PSAPI.DLL",
+      "count": 2,
+      "selectedApis": []
+    },
+    {
+      "dll": "WINMM.dll",
+      "count": 3,
+      "selectedApis": [
+        "timeGetTime"
+      ]
+    },
+    {
+      "dll": "d3d9.dll",
+      "count": 3,
+      "selectedApis": [
+        "Direct3DCreate9"
+      ]
+    },
+    {
+      "dll": "steam_api64.dll",
+      "count": 9,
+      "selectedApis": []
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "count": 192,
+      "selectedApis": [
+        "GetTickCount",
+        "QueryPerformanceCounter",
+        "QueryPerformanceFrequency",
+        "VirtualAlloc"
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "count": 72,
+      "selectedApis": []
+    },
+    {
+      "dll": "GDI32.dll",
+      "count": 12,
+      "selectedApis": []
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "count": 29,
+      "selectedApis": [
+        "CryptCreateHash",
+        "CryptDecrypt"
+      ]
+    },
+    {
+      "dll": "SHELL32.dll",
+      "count": 6,
+      "selectedApis": []
+    },
+    {
+      "dll": "ole32.dll",
+      "count": 7,
+      "selectedApis": []
+    },
+    {
+      "dll": "OLEAUT32.dll",
+      "count": 2,
+      "selectedApis": []
+    },
+    {
+      "dll": "MSVCP140.dll",
+      "count": 111,
+      "selectedApis": []
+    },
+    {
+      "dll": "WS2_32.dll",
+      "count": 40,
+      "selectedApis": [
+        "WSARecv",
+        "WSASend",
+        "connect",
+        "recv",
+        "send",
+        "socket"
+      ]
+    },
+    {
+      "dll": "MSWSOCK.dll",
+      "count": 2,
+      "selectedApis": []
+    },
+    {
+      "dll": "d3dx9_43.dll",
+      "count": 28,
+      "selectedApis": []
+    },
+    {
+      "dll": "VERSION.dll",
+      "count": 6,
+      "selectedApis": []
+    },
+    {
+      "dll": "VCRUNTIME140.dll",
+      "count": 27,
+      "selectedApis": []
+    },
+    {
+      "dll": "VCRUNTIME140_1.dll",
+      "count": 1,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "count": 54,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "count": 50,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "count": 9,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "count": 32,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-utility-l1-1-0.dll",
+      "count": 10,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-math-l1-1-0.dll",
+      "count": 40,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "count": 20,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "count": 19,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "count": 4,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-time-l1-1-0.dll",
+      "count": 9,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-environment-l1-1-0.dll",
+      "count": 3,
+      "selectedApis": []
+    },
+    {
+      "dll": "api-ms-win-crt-conio-l1-1-0.dll",
+      "count": 1,
+      "selectedApis": []
+    },
+    {
+      "dll": "CRYPT32.dll",
+      "count": 7,
+      "selectedApis": []
+    },
+    {
+      "dll": "IPHLPAPI.DLL",
+      "count": 1,
+      "selectedApis": []
+    }
+  ],
+  "dllCount": 32,
+  "importCount": 811,
+  "runtimeMechanicsEstablished": false,
+  "scope": "local-PC original executable only, no process attach/game input",
+  "provenanceJobId": "rea_native_import_profile_machine_20261101",
+  "dateLocal": "2026-11-01",
+  "staticOnly": true,
+  "realClientProcessRunningAtCheck": false,
+  "gameInputSent": false,
+  "knownSubsystemLeads": {
+    "graphics": [
+      "d3d9.dll",
+      "d3dx9_43.dll"
+    ],
+    "network": [
+      "WS2_32.dll",
+      "MSWSOCK.dll"
+    ],
+    "timing": [
+      "WINMM.dll",
+      "KERNEL32.dll"
+    ],
+    "steam": [
+      "steam_api64.dll"
+    ]
+  }
+}

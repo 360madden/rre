@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC103 bounded source analysis resolved duplicate identity inventory (55 stable IDs; 54 of 55 detail records exact); rank/role assignments blocked on true UI/role snapshots; SC603 durable handoff next; major SC1 and SC5 remain active",
+  "status": "REA SC410 local-PC native dependency import map accepted (32 DLLs / 811 APIs), SC603 handoff next; SC1/SC3 live evidence absent; SC4/SC5 incomplete",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-603",
   "gameInputAuthorized": false,
@@ -572,6 +572,27 @@
         "No generic helper recursion or costly full PE import",
         "No claimed server action or input without independent proof"
       ]
+    },
+    {
+      "id": "SC-410",
+      "milestone": "SC4",
+      "title": "Source-pinned local-client PE import and native subsystem dependency map",
+      "state": "completed",
+      "dependsOn": [
+        "SC-404"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Original host PE SHA 1935a05c...4be8"
+      ],
+      "deliverable": "32-DLL/811-import static interface map with exact original source and no runtime call-path claims",
+      "acceptance": [
+        "Source SHA pinned and all imported DLL/function counts checked",
+        "Render, network and clock imports distinguished from actual subsystem behavior",
+        "No game input, process attach or cross-project edit"
+      ],
+      "validationJob": "rea_sc410_import_qa_20261101",
+      "gameInputSent": false
     }
   ],
   "checkpointPolicy": {
@@ -944,5 +965,17 @@
     ],
     "gameInputSent": false,
     "workersWereIndependentAiSessions": false
+  },
+  "sc410Evidence": {
+    "report": "docs/REA-RIFT-SPELLCASTING-SC410-IMPORT-MAP-2026-11-01.md",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC410-IMPORTS-2026-11-01.json",
+    "machineSha256": "26fe7e91ebde929014fb2e88dbd40bc3bfdfd95582726445651c601686c70adc",
+    "sourceExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "dlls": 32,
+    "imports": 811,
+    "acceptedScope": "PE import table only, no runtime spell dispatcher or GCD",
+    "validatedChecks": 12,
+    "validationJob": "rea_sc410_import_qa_20261101",
+    "gameInputSent": false
   }
 }
