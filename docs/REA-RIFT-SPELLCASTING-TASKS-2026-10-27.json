@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC409 /cast-vs-/use structural native comparison accepted, SC410 import map completed; neither identifies native cast submission or independent GCD; SC603 Chat handoff next",
+  "status": "SC411 verified common +0x358 command-context data access and use-side +0x340; semantics and native cast submit still unknown; SC603 durable handoff next, SC412 bounded producer hypothesis ready",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-603",
   "gameInputAuthorized": false,
@@ -614,6 +614,47 @@
       ],
       "validationJob": "rea_sc409_comparison_qa_20261101",
       "gameInputSent": false
+    },
+    {
+      "id": "SC-411",
+      "milestone": "SC4",
+      "title": "Identify source-backed shared context offset checks in command-specific cast and use helpers",
+      "state": "completed",
+      "dependsOn": [
+        "SC-409"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "Original host executable .pdata RVAs 0x57cda0 and 0x57db60"
+      ],
+      "deliverable": "Two exact source-code routines testing +0x358 first-argument context and use reading +0x340, with unknown semantics",
+      "acceptance": [
+        "Original function byte SHA and .pdata ranges independently verified",
+        "First argument register identity and offset source bytes source-pinned",
+        "No GCD or cast-submission field meaning invented"
+      ],
+      "validationJob": "rea_sc411_context_qa_20261101",
+      "gameInputSent": false
+    },
+    {
+      "id": "SC-412",
+      "milestone": "SC4",
+      "title": "Identify one bounded producer or discriminating dataflow for native command context +0x358",
+      "state": "ready",
+      "dependsOn": [
+        "SC-411"
+      ],
+      "owner": "REA researcher",
+      "sourceInputs": [
+        "SC-411 original cast/use function source and exact host PE"
+      ],
+      "deliverable": "One source-pinned writer/constructor or explicit local-source blocker; no global displacement sweep",
+      "acceptance": [
+        "No guesswork assigning semantic name to +0x358",
+        "One bounded neighborhood/caller probe first",
+        "Two distinct non-decisive probes then park"
+      ],
+      "gameInputSent": false
     }
   ],
   "checkpointPolicy": {
@@ -1011,6 +1052,21 @@
     "sourceBuildOnly": true,
     "validatedChecks": 13,
     "validationJob": "rea_sc409_comparison_qa_20261101",
+    "gameInputSent": false
+  },
+  "sc411Evidence": {
+    "status": "completed-native-context-structure-only",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC411-CONTEXT-2026-11-01.md",
+    "machine": "docs/REA-RIFT-SPELLCASTING-SC411-CONTEXT-OFFSETS-2026-11-01.json",
+    "machineSha256": "751b800b730c3e5b57ff5d772eaad8d05c5c31e101d4d39cfe84220ce8fef211",
+    "sourceExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "castContextTestRva": "0x57cdc4",
+    "useContextTestRva": "0x57dba3",
+    "useContextPointerReadRva": "0x57dbac",
+    "sameOffset": "0x358",
+    "fieldSemanticsQualified": false,
+    "validationJob": "rea_sc411_context_qa_20261101",
+    "passedChecks": 13,
     "gameInputSent": false
   }
 }

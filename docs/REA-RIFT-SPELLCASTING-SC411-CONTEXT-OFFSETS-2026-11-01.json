@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-411",
+  "dateLocal": "2026-11-01",
+  "originalLocalExeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "sourceFile": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "sourceMethod": "Bounded original PE .pdata contiguous unwind intervals + Capstone source instruction decode; Windows x64 first pointer argument register tracked",
+  "functions": {
+    "cast-only-helper": {
+      "sourceStartRva": "0x57cda0",
+      "sourceEndRvaExclusive": "0x57d028",
+      "fileOffset": 5751200,
+      "byteCount": 648,
+      "sha256": "ceae85fe884756bf1897e7cf4ab3cca026d3373cca7bbd43940a83370286023b",
+      "pdataSpans": [
+        {
+          "start": "0x57cda0",
+          "end": "0x57cde0"
+        },
+        {
+          "start": "0x57cde0",
+          "end": "0x57d00c"
+        },
+        {
+          "start": "0x57d00c",
+          "end": "0x57d028"
+        }
+      ],
+      "instructionCount": 169,
+      "decodedToPdataEnd": true,
+      "memoryReferencesAtChosenOffsets": [
+        {
+          "siteRva": "0x57cdc4",
+          "bytesHex": "80b95803000000",
+          "assembly": "cmp byte ptr [rcx + 0x358], 0",
+          "offset": "0x358"
+        }
+      ],
+      "directCalls": [
+        {
+          "siteRva": "0x57ce1c",
+          "targetRva": "0x49a8d0"
+        },
+        {
+          "siteRva": "0x57ce7e",
+          "targetRva": "0x591a00"
+        },
+        {
+          "siteRva": "0x57ce8c",
+          "targetRva": "0x53e780"
+        },
+        {
+          "siteRva": "0x57ced6",
+          "targetRva": "0x24e0d50"
+        },
+        {
+          "siteRva": "0x57cf04",
+          "targetRva": "0x126edc4"
+        },
+        {
+          "siteRva": "0x57cf2c",
+          "targetRva": "0x493940"
+        },
+        {
+          "siteRva": "0x57cf48",
+          "targetRva": "0x126edc4"
+        },
+        {
+          "siteRva": "0x57cf67",
+          "targetRva": "0x4a5490"
+        },
+        {
+          "siteRva": "0x57cf95",
+          "targetRva": "0x4a02d0"
+        },
+        {
+          "siteRva": "0x57cfd9",
+          "targetRva": "0x24e0d50"
+        },
+        {
+          "siteRva": "0x57cfe8",
+          "targetRva": "0x53b7c0"
+        },
+        {
+          "siteRva": "0x57d013",
+          "targetRva": "0x24e11c0"
+        }
+      ],
+      "firstParameterTracingInstructions": [
+        {
+          "siteRva": "0x57cda0",
+          "asm": "mov r11, rsp"
+        },
+        {
+          "siteRva": "0x57cda3",
+          "asm": "push rbp"
+        },
+        {
+          "siteRva": "0x57cda4",
+          "asm": "push rsi"
+        },
+        {
+          "siteRva": "0x57cda5",
+          "asm": "push r12"
+        },
+        {
+          "siteRva": "0x57cda7",
+          "asm": "push r14"
+        },
+        {
+          "siteRva": "0x57cda9",
+          "asm": "push r15"
+        },
+        {
+          "siteRva": "0x57cdab",
+          "asm": "lea rbp, [r11 - 0x57]"
+        },
+        {
+          "siteRva": "0x57cdaf",
+          "asm": "sub rsp, 0x100"
+        },
+        {
+          "siteRva": "0x57cdb6",
+          "asm": "mov rax, qword ptr [rip + 0x2dd8d03]"
+        },
+        {
+          "siteRva": "0x57cdbd",
+          "asm": "xor rax, rsp"
+        },
+        {
+          "siteRva": "0x57cdc0",
+          "asm": "mov qword ptr [rbp + 0xf], rax"
+        },
+        {
+          "siteRva": "0x57cdc4",
+          "asm": "cmp byte ptr [rcx + 0x358], 0"
+        },
+        {
+          "siteRva": "0x57cdcb",
+          "asm": "mov r12, r9"
+        }
+      ]
+    },
+    "use-only-helper": {
+      "sourceStartRva": "0x57db60",
+      "sourceEndRvaExclusive": "0x57dbd7",
+      "fileOffset": 5754720,
+      "byteCount": 119,
+      "sha256": "7f581827f1c97db0e5c600f3d436bc76b07c5bc65fcaf0073e0057afa2e2da24",
+      "pdataSpans": [
+        {
+          "start": "0x57db60",
+          "end": "0x57dbd7"
+        }
+      ],
+      "instructionCount": 32,
+      "decodedToPdataEnd": true,
+      "memoryReferencesAtChosenOffsets": [
+        {
+          "siteRva": "0x57dba3",
+          "bytesHex": "80bb5803000000",
+          "assembly": "cmp byte ptr [rbx + 0x358], 0",
+          "offset": "0x358"
+        },
+        {
+          "siteRva": "0x57dbac",
+          "bytesHex": "488b8b40030000",
+          "assembly": "mov rcx, qword ptr [rbx + 0x340]",
+          "offset": "0x340"
+        }
+      ],
+      "directCalls": [
+        {
+          "siteRva": "0x57db86",
+          "targetRva": "0x54eca0"
+        },
+        {
+          "siteRva": "0x57db93",
+          "targetRva": "0x54eca0"
+        },
+        {
+          "siteRva": "0x57db9b",
+          "targetRva": "0x5ecca0"
+        },
+        {
+          "siteRva": "0x57dbbd",
+          "targetRva": "0x6f2160"
+        }
+      ],
+      "firstParameterTracingInstructions": [
+        {
+          "siteRva": "0x57db60",
+          "asm": "mov qword ptr [rsp + 8], rbx"
+        },
+        {
+          "siteRva": "0x57db65",
+          "asm": "mov qword ptr [rsp + 0x10], rbp"
+        },
+        {
+          "siteRva": "0x57db6a",
+          "asm": "mov qword ptr [rsp + 0x18], rsi"
+        },
+        {
+          "siteRva": "0x57db6f",
+          "asm": "push rdi"
+        },
+        {
+          "siteRva": "0x57db70",
+          "asm": "sub rsp, 0x20"
+        },
+        {
+          "siteRva": "0x57db74",
+          "asm": "movzx esi, r9b"
+        },
+        {
+          "siteRva": "0x57db78",
+          "asm": "mov rdi, r8"
+        },
+        {
+          "siteRva": "0x57db7b",
+          "asm": "mov rbp, rdx"
+        },
+        {
+          "siteRva": "0x57db7e",
+          "asm": "mov rbx, rcx"
+        },
+        {
+          "siteRva": "0x57db81",
+          "asm": "test r8, r8"
+        },
+        {
+          "siteRva": "0x57db84",
+          "asm": "jne 0x14057dba3"
+        },
+        {
+          "siteRva": "0x57db86",
+          "asm": "call 0x14054eca0"
+        },
+        {
+          "siteRva": "0x57db8b",
+          "asm": "test rax, rax"
+        }
+      ]
+    }
+  },
+  "finding": "Both command-specific helpers inspect +0x358 of first pointer input (cast uses rcx; use copies rcx to rbx), use helper also reads +0x340 before a downstream call.",
+  "notProven": [
+    "same runtime class or instance",
+    "meaning of +0x358 mode flag",
+    "native cast admission",
+    "server spell packet",
+    "GCD/queue implementation"
+  ],
+  "gameInputSent": false,
+  "processAttached": false,
+  "relevantWorkbridgeJobs": [
+    "rea_sc411_helper_pair_pdata_20261101",
+    "rea_sc411_cast_helper_context_20261101"
+  ]
+}
