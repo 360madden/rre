@@ -1,0 +1,30 @@
+# SC-605 — Reuse-first, custom-addon instrumentation is a proved RRE research path
+
+**Durable user decision:** November 1, 2026. **Owner:** RRE / REA coordinator. **Applies to:** RIFT research where the addon Lua API can expose missing runtime observations.
+
+## The successful example
+
+- **Before:** SC-102 lacked a current same-character/role known-ability dataset. SC-416 inventory found **47 installed addon directories** on the physical PC and identified separate collectors with complementary techniques.
+- **Choice:** Build one independent, small `addons/RRECollector` rather than continue coordinating several addon command/export formats or create another generic API framework. Reference `BotDsBridge`, `RiftReader2Casting`, and `RiftApiCollector` source, without modifying those projects.
+- **Implementation:** `RiftAddon.toc` plus one Lua script and a short README; manual `/rre capture`, `status`, `page`, `export`. Collect the current `Inspect.Ability.New.List()` IDs, batch `Detail` with per-ID fallback, player/role/stats/build context, completeness counters, and character SavedVariables. No background polling or auto-casting.
+- **Correction learned:** The initial TOC lacked `Email`. Compare complete metadata fields against actually installed working TOCs before first install. The corrected TOC includes `Identifier`, `Name`, `NameShort`, `Description`, `Author`, `Email`, `Version`, `Environment`, `SavedVariables`, and `RunOnStartup`.
+- **Observed result:** User manually captured on the physical-PC client, ran `/reloadui`, then closed RIFT. The saved `RRECollector.lua` (SHA-256 `abbf08e8108faa2a9c85d1a61f9c4ab63070ee5ac9a29a041ebd83c058090482`) contains **69 raw/unique ability IDs and 69 successful details**, zero duplicates, ignored entries, truncations, fallback calls or Detail failures; player Atank L45 Warrior, role slot 1. See [SC-418 capture evidence](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
+- **Conclusion:** A purpose-built addon proved **feasible and productive** and removed the missing-current-known-catalog part of the blocker with one coherent export. This is an observed outcome, **not a measured wall-clock speedup benchmark**. SC-102 still requires same-role spellbook, souls, trainer and action-bar UI to classify learnable or locked spells. Native casting/queue internals remain separate research.
+
+## Default decision rule for future RRE/REA work
+
+1. **Define the missing observation**, its character/role/build scope, and what would unblock the next task. Check official/local RIFT API documentation and one or two directly relevant installed addon implementations.
+2. **If a supported Lua API can answer it, extend the existing RRECollector first.** Prefer one manual, bounded, source-identifiable capture to scattered addons, repeated tool hunting or blind native scans. Reuse the installed code's proven patterns; keep the research addon independent and small.
+3. **If no suitable API exists, say so promptly and return to targeted native reverse engineering or UI evidence.** An addon cannot reveal arbitrary memory fields, private client submission functions, server acceptance, or unlearned/trainer-only abilities absent an exposed interface.
+4. **Implement the smallest instrument:** explicit command, no idle polling unless needed, bounded work/record sizes, capability flags, preserved false/zero versus missing, original IDs, current role/build, source clock, errors/completeness, and versioned SavedVariables. Do not build a production framework for a single unanswered question.
+5. **Package and deploy carefully:** compare `RiftAddon.toc` with a known recognized addon (including `Email`, script paths, environment and SavedVariables), install **only** the RRE-owned addon into the physical-PC AddOns directory, verify byte hashes, let the operator perform game-side commands/reload, then verify the saved output. Do not overwrite unrelated addons or touch the executable. VMware experiments remain supplemental unless the user changes the target.
+6. **Stop after the first decision-changing test** and commit the source, source-hashed result, evidence limitations and next blocker. Run focused checks, not an exhaustive regression campaign for disposable scaffolding. If a test fails, repair the smallest actual failure; do not repeatedly re-inventory existing addons.
+7. **Preserve provenance:** distinguish host source, loaded session/character, saved-file flush time, API frame clock, executable hash, role UI and user attestation. A complete `List/Detail` response means the *current API-listed* set was resolved, not every future, unlearned or locked spell.
+
+## Ownership and authorization
+
+- RRE may maintain its standalone `addons/RRECollector` and successor research probes in this repository. It **does not** own or modify RiftReader2, Workbridge, or other installed addon source.
+- The November 1 request authorized this new additive host addon and its initial deployment. Future non-destructive updates to this RRE-owned addon may follow the same explicitly user-approved workflow when relevant; preserve other game files/settings. RRE does **not** acquire general unattended game-input authority. Manual game-side commands remain operator actions unless separately authorized.
+- The physical-PC RIFT remains the authoritative native target. Source success and user-reported game use are recorded at their actual proof levels; do not silently promote them to a process-bound/native mechanism finding.
+
+**Reference commits:** `0768b9a` (collector implementation), `332ad7f` (TOC metadata correction), `a7daa24` (first saved 69/69 capture).

@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC418 first live RRECollector SavedVariables capture ACCEPTED at operator-attested physical-PC API catalog scope: Atank L45 Warrior, role slot1, 69/69 unique IDs and details, no errors/truncation. SC102 remains BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; SC1/SC3/SC4/SC5/SC6 open.",
+  "status": "SC418 first live RRECollector SavedVariables capture ACCEPTED at operator-attested physical-PC API catalog scope: Atank L45 Warrior role slot1, 69/69 unique IDs and Details, no errors/truncation. SC605 durable decision ACCEPTED: RRE-owned minimal read-only Lua addon instrumentation is a practical first-class route for API-exposed research data; use the source-backed SC417/418 example and playbook, no measured speedup claim. SC102 remains BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -874,6 +874,38 @@
       ],
       "result": "RRECollector v0.1.0 full persisted 69/69 API known-ability catalog; atank warrior level45 role slot1; source hash exact. Operator confirmed physical PC capture and shutdown after reload.",
       "limitation": "No contemporaneous process ID/Rift executable hash binding or exact-time physical-PC spellbook/soul/trainer/action-bar UI; SC102 remains blocked only on required UI/eligibility comparison."
+    },
+    {
+      "id": "SC-605",
+      "milestone": "SC6",
+      "title": "Make proven RRE-owned custom-addon instrumentation a durable research default for API-visible blockers",
+      "state": "completed",
+      "dependsOn": [
+        "SC-417",
+        "SC-418"
+      ],
+      "owner": "REA coordinator",
+      "sourceInputs": [
+        "SC-416 installed-addon inventory",
+        "SC-417 standalone RRECollector source/deployment",
+        "SC-418 source-hashed 69/69 actual API capture"
+      ],
+      "deliverable": "Permanent evidence-based custom-addon instrumentation decision, rules, boundaries and reusable SC-605 playbook in project startup/roadmap/handoff",
+      "acceptance": [
+        "Document a concrete successful custom-addon case and corrected TOC/persistence pitfalls, without claiming measured speedup",
+        "Provide an actionable future decision rule favoring bounded RRE-owned API probes where appropriate",
+        "Keep manual game input, RR2/Workbridge ownership and native-only questions outside the exception",
+        "Keep SC-102 same-role UI classification as next actual evidence gate"
+      ],
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md",
+        "AGENTS.md",
+        "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
+        "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md"
+      ],
+      "result": "Small bespoke RRECollector scaffold built, installed and operator-captured 69/69 full current API-known ability Details. Practical and reusable for API-visible questions, not a universal substitute for native RE.",
+      "limitation": "No benchmark measured, no complete unlearned/locked taxonomy; SC-102 still blocked on same-role physical-PC UI."
     }
   ],
   "checkpointPolicy": {
@@ -1318,5 +1350,23 @@
       "rea_sc412_local_context_writer_scan_20261101",
       "rea_sc412_dispatch_argument_provenance_20261101"
     ]
+  },
+  "instrumentationPolicy": {
+    "status": "adopted-2026-11-01",
+    "document": "docs/REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md",
+    "caseStudy": [
+      "SC-416",
+      "SC-417",
+      "SC-418"
+    ],
+    "default": "For RIFT API-exposed unknowns, extend the minimal standalone RRE-owned read-only addon for a bounded capture before repeating broad addon surveys or speculative native investigations.",
+    "observedCapture": {
+      "rawIds": 69,
+      "uniqueIds": 69,
+      "details": 69,
+      "errors": 0,
+      "origin": "user-attested physical-PC Atank L45 Warrior role1"
+    },
+    "limitations": "Current known API list is not complete unlearned/learnable/locked spellbook; no measured time-saving benchmark. No RRE-owned gameplay inputs, RR2/Workbridge source changes, VM addon deployment or process manipulation."
   }
 }

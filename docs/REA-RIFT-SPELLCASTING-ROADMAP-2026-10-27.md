@@ -5,7 +5,7 @@
 **Owner:** REA research workflow. RiftReader2 and Workbridge keep independent roadmaps and ownership.  
 **Research repository:** `C:\work\rre`; installed REA tool package: `C:\work\tools\rea` (not a source-development checkout).  
 **Companion task register:** [REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json).  
-**Working rule:** one decision-changing finding per short ChatGPT Chat-mode turn; commit each stable milestone, negative finding or blocker together with its documentation.
+**Working rule:** one decision-changing finding per short ChatGPT Chat-mode turn; commit each stable milestone, negative finding or blocker together with its documentation. **November 1 instrumentation-first learning checkpoint:** [SC-605 custom-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) documents how a minimal RRECollector converted a blocked ability API export into 69/69 live saved details with one manual capture. For API-exposed data gaps, prioritize a small reusable collector probe before additional general addon searches or native speculation; this does not replace native research.
 
 ## Purpose, research questions and definitions
 
@@ -34,11 +34,11 @@ Research outcomes to explain:
 
 ## Scope and evidence authority
 
-- **REA research**: bounded static PE analysis, symbol/string/caller/value-flow dossiers, build comparison, hypothesis classification, experiment design, synthesis and reusable findings.
-- **RiftReader2**: owns installed Lua addons, current game telemetry/capture, secure in-game controls, deployment, supervised experimental trials and its own development commits. REA may **read and cite** its existing reports, but does not edit RR2 or acquire a gameplay-control lease in this plan.
+- **REA research**: bounded static PE analysis, symbol/string/caller/value-flow dossiers, build comparison, hypothesis classification, experiment design, synthesis and reusable findings; also standalone RRE-owned read-only Lua instrumentation under `addons/RRECollector/` for API-exposed observations, following SC-605.
+- **RiftReader2**: owns **its own** installed Lua addons, telemetry/capture, secure in-game controls, deployment, supervised trials and development commits. RRE may **read and cite** its source/reports but never edit RR2 or acquire its gameplay-control lease. The independently owned `RRECollector` may be additively deployed into the physical-PC AddOns root under the user's SC-417 authorization without modifying RR2 or existing addons.
 - **Workbridge**: file/command/Git transport only; six job slots do not equal six AI researchers. Do not modify its service/roadmap as incidental setup.
 - **Proof tiers**: G0 raw source/binary bytes with hash; G1 API/UI description; G2 repeated bounded in-game observations; G3 client-native code/data-flow established for that exact build; G4 proposed end-to-end explanation supported by G2+G3 and explicit remaining server-side unknowns. A label such as `SpellCast`, RVA or cooldown field alone is not G4.
-- **Safety**: research read-only by default. No live game input, debugger attach, memory patch/injection, process manipulation, guest installation or bypass of anti-cheat/secure-action constraints under this roadmap. Future supervised actions require the separately authorized RR2 owner and the game's permitted input path. Raw event files/credentials stay protected; no leaking private tokens into git.
+- **Scope of action**: research read-only by default. An explicit November 1 user-approved exception permits new/versioned RRECollector source and additive physical-host addon install with SHA verification; no existing addon, executable, game setting, or RR2/Workbridge changes. RRE still sends no live game input, debugger attach, memory patch/injection, process manipulation or guest installation under this roadmap. The user may operate in-game commands manually; programmatic controls need separate approval. Raw event files/credentials stay protected; no leaking private tokens into git.
 - **Build gate**: historical pinned RIFT PE SHA-256 `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`. RR2's October 26 evidence also reports this hash, but **every future observation** must bind its own file hash, process/VM epoch and role/session. Reuse code RVAs only after qualifying the exact file. Absolute process pointers never transfer between runs.
 
 ## Milestone ladder (overview)
@@ -53,7 +53,7 @@ Research outcomes to explain:
 | **SC5 — Exceptions** | Targeting, resources, buffs, procs and failure semantics | Matrix of representative ability families and event outcomes |
 | **SC6 — Integration** | Traceable mechanism map, exports and handoff | Reproducible bundle, verdicts, gaps and resumed next task; no live automation claim |
 
-**First useful result:** validate what `Inspect.Ability.New.List/Detail` currently enumerates versus the spellbook UI for a *single* saved role, then identify the first learnable-but-not-known test case. Do **not** start by dumping the entire binary or implementing cast automation.
+**Current checkpoint:** SC-418 obtained 69/69 `Inspect.Ability.New.List/Detail` records in one physical-PC operator-attested RRECollector capture (Atank L45 Warrior role slot 1). **Next:** compare that known set with the spellbook, souls, trainer and action bar for the same role, then identify an eligible-but-not-known case if observable. Do **not** restart generic API inventory, dump the entire binary, or implement cast automation for this UI gate.
 
 ## Pass 2 — Evidence coverage, spellbook semantics and concrete first deliverables
 
