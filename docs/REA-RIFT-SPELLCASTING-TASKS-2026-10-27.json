@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC604 accepted; SC416 inventory COMPLETE. SC417 standalone RRECollector v0.1 source complete and physical-host install hash verified; live in-game load/capture still unverified. SC102 remains BLOCKED pending same-character/same-role physical-PC API List/Detail plus spellbook/soul UI evidence. SC1/SC3/SC4/SC5/SC6 open.",
+  "status": "SC418 first live RRECollector SavedVariables capture ACCEPTED at operator-attested physical-PC API catalog scope: Atank L45 Warrior, role slot1, 69/69 unique IDs and details, no errors/truncation. SC102 remains BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -120,14 +120,16 @@
       ],
       "owner": "REA researcher; RR2 owner supplies saved UI evidence",
       "sourceInputs": [
-        "Current spellbook and role/point UI screenshots or existing stored evidence"
+        "Current spellbook and role/point UI screenshots or existing stored evidence",
+        "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md (source-hashed current physical-PC operator-attested API catalog)"
       ],
       "deliverable": "Known-vs-learnable-vs-locked comparison with explicit UI evidence",
       "acceptance": [
         "At least one eligible-but-not-known example OR precise insufficient-coverage reason",
         "Never infer eligibility solely from character level",
         "No new game controls owned by REA"
-      ]
+      ],
+      "blocker": "API-known catalog is now available: 69/69 current IDs/details, Atank L45 Warrior role slot1, user-attested physical-PC capture. Still lacks source-time-matched physical-PC spellbook, selected soul/points, class trainer and action-bar UI; no learnable/locked classification yet."
     },
     {
       "id": "SC-103",
@@ -840,6 +842,38 @@
       ],
       "result": "v0.1 built, independently reviewed and installed on physical host, all 3 source/install hashes match; no existing addons overwritten.",
       "limitation": "Lua runtime syntax compilation and in-game load/capture are not yet confirmed; SC102 remains blocked on a fresh matching API+UI record. VMware deployment deferred."
+    },
+    {
+      "id": "SC-418",
+      "milestone": "SC1",
+      "title": "Verify first RRECollector SavedVariables ability catalog and qualify origin",
+      "state": "completed",
+      "dependsOn": [
+        "SC-417"
+      ],
+      "owner": "REA coordinator; user performed in-game capture/reload",
+      "sourceInputs": [
+        "Physical PC character SavedVariables RRECollector.lua, original SHA256 abbf08e8108faa2a9c85d1a61f9c4ab63070ee5ac9a29a041ebd83c058090482",
+        "User attestation: physical-PC client captured, reloaded, then closed",
+        "RRECollector source commit 332ad7f"
+      ],
+      "deliverable": "Source-hashed 69-ability known API catalog with user-attested physical-client provenance, completeness counters, role/stats/build context, and exact remaining SC102 UI gate",
+      "acceptance": [
+        "Original saved bytes hashed and character/role/build recorded; no private raw SavedVariable commit",
+        "69 raw entries, 69 distinct lookup IDs, 69 matching detail records; zero errors/duplicates/truncation",
+        "User game-closure explanation corrects invalid inference from later no-process observation",
+        "Do not equate listed/known with unlearned/learnable/locked or claim process-bound PE SHA"
+      ],
+      "gameInputSent": false,
+      "userGameInputReported": [
+        "/rre capture",
+        "/reloadui"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md"
+      ],
+      "result": "RRECollector v0.1.0 full persisted 69/69 API known-ability catalog; atank warrior level45 role slot1; source hash exact. Operator confirmed physical PC capture and shutdown after reload.",
+      "limitation": "No contemporaneous process ID/Rift executable hash binding or exact-time physical-PC spellbook/soul/trainer/action-bar UI; SC102 remains blocked only on required UI/eligibility comparison."
     }
   ],
   "checkpointPolicy": {

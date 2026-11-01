@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 screenshots, SC-415 SpellDump gap, and **SC-416 complete three-location installed addon inventory** and **SC-417 standalone RRECollector v0.1 source/host install** both documented (live load pending). **SC-102 remains BLOCKED on current physical-PC same-character/same-role API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
+**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 screenshots, SC-415 SpellDump gap, and **SC-416 complete three-location installed addon inventory** and **SC-417 standalone RRECollector v0.1 source/host install** both documented (live load pending). **SC-418 accepted the user-confirmed physical-PC RRECollector 69/69 saved API catalog. SC-102 now remains BLOCKED on same-character/role physical-PC spellbook/soul/trainer/action-bar UI eligibility comparison.** SC1/SC3/SC4/SC5/SC6 remain open.
 
 ## First reads after an interrupted Chat session
 
@@ -15,7 +15,7 @@
 | Area | State and verified source |
 | --- | --- |
 | **SC0 baseline and SC2 observed lifecycle** | **MAJOR PHASES COMPLETE** at old-build evidence scope; [SC0 handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) and [SC2 handoff](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). |
-| **SC1 spellbook** | **BLOCKED:** 55 historical API IDs are cataloged but current physical-PC known/learnable/rank/role status is unproven. [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) found no qualifying UI across 12 sampled originals; [SC-415](REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md) found only copyable-addon source and no source-qualified October 29 exported list in bounded accessible paths. Actual new API+UI source needed. |
+| **SC1 spellbook** | **API CAPTURE ACCEPTED / UI RECONCILIATION BLOCKED:** SC-418 persisted 69/69 current API ability records for operator-attested physical-PC Atank L45 Warrior role slot1; learnable/locked/rank/soul UI status is unproven. [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) found no qualifying UI across 12 sampled originals; [SC-415](REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md) found only copyable-addon source and no source-qualified October 29 exported list in bounded accessible paths. Physical-PC spellbook/soul/trainer/action-bar UI source still needed. |
 | **SC3 timing** | **ACTIVE/BLOCKED:** GCD and Full/Short/None queue enum unmeasured. Old source ~105–107 ms polling cannot prove server RTT, [clock audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md). |
 | **SC4 native** | **ACTIVE/BLOCKED:** source-backed `/cast` callback `0x6C7450`, `/use` `0x6C7B90` and shared-context reads; [SC-412](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md) field-writer search and [SC-413](REA-RIFT-SPELLCASTING-SC413-ERROR-BRANCH-GAP-2026-11-01.md) error-text predecessor comparison are parked with exact original-source evidence. No source-qualified native ability resolver, cast-submission gate, GCD or server acknowledgment. |
 | **SC5 outcomes** | **ACTIVE:** source-backed [SC-502 exact-ID attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) from historical events, while channel/proc/interruption SC-503 remains blocked. |
@@ -23,7 +23,7 @@
 
 **Recent checkpoints:** `91db363` (SC-412), `1b537a0` (SC-604), `b0fac21` (SC-413), `277358c` (SC-414). Read current Git HEAD for the SC-415 integration hash and any subsequent work.
 
-## Next evidence gate — SC-102 (currently blocked on a local source)
+## Next evidence gate — SC-102 (current API captured; matching physical-PC UI pending)
 
 **Need:** one current **physical-PC** RIFT same-character/same-role comparison of known-ability API records with spellbook, soul/trainer and action-bar UI. Offline source-only research has reached its stopping rule; do not claim SC1 or SC3 phase completion.
 
@@ -40,7 +40,11 @@ The fastest existing complete-known catalog candidate is **BotDsBridge `/botds c
 
 ## SC-417 — standalone RRECollector v0.1.0 scaffold (November 1, 2026)
 
-[Implementation and host deployment record](REA-RIFT-SPELLCASTING-SC417-COLLECTOR-2026-11-01.md). One new independent package `addons/RRECollector` on Git main and SHA-identical installed copy in the **physical-PC** RIFT AddOns directory; no old addon overwritten. Manual `/rre status|capture|page N|export|help` collects current known API abilities with batch Detail/per-ID fallback, character/role/stats/target context and character SavedVariables. Explicit completeness/errors prevent claiming unlearned/locked spell coverage. Independent source review found and corrected two omissions. Initial installed copy job `rre-sc417-host-addon-copy-hash-20261101-a1` exited 0; TOC subsequently gained missing `Email` plus `NameShort` after comparison against installed manifests, and current source/host hashes passed `rre-sc417-toc-metadata-hash-validate-20261101-a1` (exit 0; manifest SHA `885527d8d007c6b785cbeeeb52fef73ccf1962abe4ab6c04400b285f2d24789f`). Lua runtime parser was not installed in the documented Windows check; do not claim actual live load until a game operator performs one smoke capture. **SC-102 still BLOCKED** on same-role physical-PC API+UI evidence; VMware lab addon deployment intentionally deferred.
+[Implementation and host deployment record](REA-RIFT-SPELLCASTING-SC417-COLLECTOR-2026-11-01.md). One new independent package `addons/RRECollector` on Git main and SHA-identical installed copy in the **physical-PC** RIFT AddOns directory; no old addon overwritten. Manual `/rre status|capture|page N|export|help` collects current known API abilities with batch Detail/per-ID fallback, character/role/stats/target context and character SavedVariables. Explicit completeness/errors prevent claiming unlearned/locked spell coverage. Independent source review found and corrected two omissions. Initial installed copy job `rre-sc417-host-addon-copy-hash-20261101-a1` exited 0; TOC subsequently gained missing `Email` plus `NameShort` after comparison against installed manifests, and current source/host hashes passed `rre-sc417-toc-metadata-hash-validate-20261101-a1` (exit 0; manifest SHA `885527d8d007c6b785cbeeeb52fef73ccf1962abe4ab6c04400b285f2d24789f`). Lua runtime parser was not installed in the documented Windows check; actual persisted user capture now verified separately in SC-418; original load was not independently process-bound. **SC-102 still BLOCKED** on same-role physical-PC API+UI evidence; VMware lab addon deployment intentionally deferred.
+
+## SC-418 — first real RRECollector saved catalog (November 1, 2026)
+
+[Source-hashed 69-ability capture report](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md). User confirmed that the capture was performed in the **physical-PC** RIFT client, `/reloadui` persisted data, and the game was then closed. The later no-process check is not evidence of a lab origin. The saved Atank L45 Warrior record (role slot 1, tank; API client build `STABLE-1-1178-A-1256632`) has 69 raw unique IDs and 69 complete Details; 0 duplicate/ignored/truncated/detail errors, original SavedVariable SHA `abbf08e8108faa2a9c85d1a61f9c4ab63070ee5ac9a29a041ebd83c058090482`. Source origin is **operator-attested**, not contemporaneous process-bound; static host PE SHA is a separate file observation. Source is current API-listed abilities only, not every unlearned trainer/soul spell. **SC-102 now needs UI/soul/trainer/action-bar cross-check; a new API export is not required just to recover these 69 records.**
 
 ## Chat-mode durability
 
