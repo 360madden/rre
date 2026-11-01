@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 saved screenshots, and SC-415 SpellDump output hypotheses all source-documented and parked. **SC-102 is next but BLOCKED on current physical-PC API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
+**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 screenshots, SC-415 SpellDump gap, and **SC-416 complete three-location installed addon inventory** all documented. **SC-102 remains BLOCKED on current physical-PC same-character/same-role API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
 
 ## First reads after an interrupted Chat session
 
@@ -30,7 +30,13 @@
 - [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) source-hashed 12 late-October original screenshots; none had a source-qualified spellbook or selected queue-mode UI. [SC-415](REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md) checked accessible saved SpellDump addon output paths. Its source creates a **copyable UI dump** but does not auto-persist complete ability records; no qualified October 29 export was found in bounded checks, and a broad ignored RR2 archive scan was time-limited.
 - The **existing RR2/local-PC live-capture owner** must provide executable SHA, current character ID/calling/level, active role/soul allocation, exact-time `Inspect.Ability.New.List/Detail` IDs and fields, spellbook/soul/trainer screenshots and action-bar snapshot. Preserve null/missing metadata, rank and ID variants, and reason-coded known/learnable/locked/usable/bound distinctions.
 - For SC3, separately bind **two abilities' same-frame readiness** and current `Full/Short/None` selected UI mode to the native raw `ActionBars_AbilityQueue` field; raw `1` alone has no proved mode mapping.
-- No RRE-owned game input, addon activation, process manipulation, VM use or full-client import. Do not rerun parked SC-412/413/414/415 routes without an explicitly new discriminator. If current local game/session evidence is unavailable, remain blocked with this durable handoff.
+- No RRE-owned game input, addon activation, process manipulation or full-client import. **SC-416's November 1 user-requested VMware access was limited to read-only UI/file inventory**, with temporary guest report files removed; it did not change the physical-PC native research target. Do not rerun parked SC-412/413/414/415 routes without an explicitly new discriminator. If current local game/session evidence is unavailable, remain blocked with this durable handoff.
+
+## SC-416 — installed addon inventory (November 1, 2026)
+
+[Full 47-directory physical-PC/Lab1/Lab2 addon table](REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.md) and [source-hashed machine inventory](REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.json) are accepted at **disk inventory scope only**. PC and Lab2 have the same 47 folder names and 45 readable root manifests/versions. Lab1 has the same folder names but **three root manifests are unreadable OneDrive Offline/ReparsePoint/RecallOnDataAccess placeholders**: ApiAtlas, ApiAtlasConsumer, RiftApiCollector. No guest file hydration, addon activation, or game input. Both lab UI screenshots separately captured: Atank level45 Warrior, Bolinao level43 Rogue; never combine their API inventories.
+
+The fastest existing complete-known catalog candidate is **BotDsBridge `/botds catalog`** (List/Detail → character SavedVariables); **RiftReader2Casting** can retain richer batch List/Detail details on save/load; **ProjectAbilityBook** has static exact soul IDs for all five callings, useful only as candidate/unknown eligibility reference. **RiftApiCollector** exports paged exact IDs, not full Detail; its Lab1 manifest is offline. API documentation exporters are not ability catalogs, and ApiDumper's manifest description differs from its actual Action.Get 1–12 source. Next source owner must supply a current same-character/role physical-PC ability API record plus explicit spellbook/soul/point UI; SC-102 stays blocked. Lab guest source/build equivalence was not asserted.
 
 ## Chat-mode durability
 

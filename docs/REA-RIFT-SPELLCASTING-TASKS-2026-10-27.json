@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC604 interim map accepted; SC413 native error source, SC414 saved screenshot UI, SC415 SpellDump saved-output leads all documented/parked at evidence boundaries. Next SC102 requires current same-character local-PC API+spellbook/soul UI from live-capture owner; no ready source-backed offline task. SC1/SC3/SC4/SC5/SC6 phases open.",
+  "status": "SC604 accepted; SC413/414/415 parked with source-backed gaps. SC416 three-location addon inventory COMPLETE: 47 directories on PC/Lab1/Lab2, Lab1 three offline manifest placeholders. SC102 next, still BLOCKED pending same-character/same-role physical-PC API List/Detail + spellbook/soul UI evidence. SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -776,6 +776,37 @@
         "docs/REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.json"
       ],
       "blocker": "Existing SpellDump displays and copies known-ability list but declares no persistent ability-list SavedVariable; accessible exact Oct29 archive searches found no qualified dump and one ignored RR2 artifact scan was time-limited. New same-role local capture required."
+    },
+    {
+      "id": "SC-416",
+      "milestone": "SC1",
+      "title": "Inventory every installed host and VM addon before selecting a same-role spellbook capture route",
+      "state": "completed",
+      "dependsOn": [
+        "SC-101",
+        "SC-415"
+      ],
+      "owner": "REA coordinator; Workbridge read-only host/guest inventory",
+      "sourceInputs": [
+        "Physical-PC RIFT Interface/AddOns 47 top-level folder manifests and source",
+        "RIFT-Lab-1/Lab-2 current guest folder/manifests via cached-login VMware Tools",
+        "RiftApiCollector, RiftReader2Casting, BotDsBridge, ProjectAbilityBook source"
+      ],
+      "deliverable": "Three-location full installed-addon table, purpose/supported ability export comparison, Lab1 offline manifest gap, source hashes and capture receipts",
+      "acceptance": [
+        "Inventory every top-level installed folder including non-addons and .disabled suffix, preserve version/manifest presence",
+        "Do not treat disk presence as loaded state or cross-VM bytes as equal merely from version",
+        "Reconcile physical PC and both running labs without game input; hash sources/screenshots",
+        "Identify real List/Detail and static soul sources, distinguish learned API spells vs unlearned candidates",
+        "Record OneDrive Offline/ReparsePoint/RecallOnDataAccess gap without hydrating installed files"
+      ],
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.md",
+        "docs/REA-RIFT-SPELLCASTING-SC416-ADDON-INVENTORY-2026-11-01.json"
+      ],
+      "result": "47 folder names match all three; 45 root manifests readable on PC/Lab2, Lab1 has 42 readable+3 OneDrive cloud placeholders+2 non-addons. BotDsBridge full List/Detail SavedVariable export, RR2Casting richer batch export, ProjectAbilityBook static all-calling reference; no current exact-role live API+UI pair yet.",
+      "limitation": "Physical-PC SC102 current same-role API+spellbook/soul evidence remains blocked; VM captures are supplementary. Lab1 three manifest files unreadable pending separate owner."
     }
   ],
   "checkpointPolicy": {

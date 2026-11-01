@@ -1,0 +1,1400 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-416",
+  "date": "2026-11-01",
+  "status": "inventory-complete;SC102-remains-blocked",
+  "readOnlyGameplay": true,
+  "host": {
+    "root": "C:\\Users\\mrkoo\\OneDrive\\Documents\\RIFT\\Interface\\AddOns",
+    "observedUtc": "2026-11-01T20:28:31.3453533Z",
+    "count": 47,
+    "rootTocCount": 45,
+    "disabledSuffixCount": 19,
+    "addons": [
+      {
+        "folder": "ActionStrip.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "ActionStrip",
+        "version": "0.2.0",
+        "description": "Pixel telemetry bridge: player/target name, HP, resources, casting (8 color rows).",
+        "tocSha256": "23f5637f938818104d017ec0a40214bf9a459e4ee1ee103332a6c5e65e9462d9"
+      },
+      {
+        "folder": "ApiAtlas",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 8,
+        "identifier": "ApiAtlas",
+        "version": "0.3.0",
+        "description": "A modern RIFT API reference with on-demand client documentation, search and type filters, readable bundled fonts, draggable navigation, bounded collection, clipboard export, and a Python companion for CLI, offline HTML, and AI documentation tools. /atlas opens the browser.",
+        "tocSha256": "02d722a993a97f7b07ce13c03b00a03175d74a69a44a76bbbe7ea9e204e6c11c"
+      },
+      {
+        "folder": "ApiAtlasConsumer",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "ApiAtlasConsumer",
+        "version": "1.0.0",
+        "description": "Demonstrates the public Atlas documentation interface. /atlas-example opens the API it reads.",
+        "tocSha256": "f2c90c1fecdb8056b91e0e06ae4a1ab1495cc2731ee2e497606d7e52fc592e6f"
+      },
+      {
+        "folder": "ApiBrowser",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 13,
+        "identifier": "ApiBrowser",
+        "version": "1.1",
+        "description": "Provides a Wiki-like browser for the Rift Addon API and other third party libraries if provided by their authors.",
+        "tocSha256": "b44d47cea38cf5d2a2efd6624818a2055e42c433cec063ab93db3df69a217ed9"
+      },
+      {
+        "folder": "ApiDumper",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "ApiDumper",
+        "version": "0.1.0",
+        "description": "Dumps Inspect.Documentation() to SavedVariables",
+        "tocSha256": "038d491162171585787f665f821def95b5291532e49239005acb2cb3ad9e1e43"
+      },
+      {
+        "folder": "ApiProbe",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "ApiProbe",
+        "version": "0.1.0",
+        "description": "Minimal Action API probe",
+        "tocSha256": "6bb20ebae4716b892b9c3031b8f92e941d406baf187251e7adf8ecb6e2d6e7f4"
+      },
+      {
+        "folder": "BarCode.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 0,
+        "identifier": "BarCode",
+        "version": "0.4.1",
+        "description": "Live BC-Strip/1 telemetry bridge for RIFT.",
+        "tocSha256": "2281858f918c02b259636f3f73f51cf768454ee3b8d4e7d9688fc922783aaed3"
+      },
+      {
+        "folder": "BotDsBridge",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "BotDsBridge",
+        "version": "0.3.3",
+        "description": "V5 telemetry protocol emitter for BotDs combat reader",
+        "tocSha256": "7fba47c0102c5925a792c9a8edd4e6acb8a2142210a57386633cb5af8ef5acdb"
+      },
+      {
+        "folder": "BotFight",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 0,
+        "identifier": "BotFight",
+        "version": "0.2.0-beta",
+        "description": "Combat bot data probe - API telemetry for BotFight",
+        "tocSha256": "679d23526f01161c1aa9de7eccbb56ddb7b6629f1dd10257d0aa8f4b67f14a22"
+      },
+      {
+        "folder": "ChromaLink.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 6,
+        "identifier": "ChromaLink",
+        "version": "0.1.0-dev",
+        "description": "Segmented color-strip telemetry for RIFT.",
+        "tocSha256": "ec0d85bed6dc7372b84fd02633a805bc08905893fff312e4842a832a165e3d25"
+      },
+      {
+        "folder": "Gadgets",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 37,
+        "identifier": "Gadgets",
+        "version": "v0.10.19",
+        "description": "Unit Frames and Other Stuff for RIFT",
+        "tocSha256": "c086d29cb327a5786a16defeeb131b555ce7f2ee6a8850e815ce264f9f7123a9"
+      },
+      {
+        "folder": "JAB",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 9,
+        "identifier": "JAB",
+        "version": "1.4.2",
+        "description": "Custom 48-slot action bar with in-game configuration, flexible layouts, and persistence",
+        "tocSha256": "f863f9bea85717694147126c2ba883b773eabfa8f91913fd39dc0c3b6347a631"
+      },
+      {
+        "folder": "Leader.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "Leader",
+        "version": "1.0.0",
+        "description": null,
+        "tocSha256": "1ef104e1b3484aae0c35d5a2c38db45b04e7c3f32617792fccffb352ab30cc9a"
+      },
+      {
+        "folder": "LibSimpleWidgets",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 18,
+        "identifier": "LibSimpleWidgets",
+        "version": "1.14.5",
+        "description": null,
+        "tocSha256": "2ff60786cabc9fc8e2c800cabbe3b1d8a4a40cbf7ac1e07cc576f502e20a6ff4"
+      },
+      {
+        "folder": "LibWiki",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 11,
+        "identifier": "LibWiki",
+        "version": "1.1.1",
+        "description": "A library for creating and navigating Wiki-like pages.",
+        "tocSha256": "f8dce185f6a7f93d78e71bf32c01203bd56324b9097cd59e0313ae05b5b29705"
+      },
+      {
+        "folder": "luapad",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "LuaPad",
+        "version": "1.8",
+        "description": null,
+        "tocSha256": "2c3dc4d361b2b29fa2519617a771f0ba9ab7c24b54cd7bf2f2bb57e22b818ec0"
+      },
+      {
+        "folder": "MemoryScannerHelper",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "MemoryScannerHelper",
+        "version": "1.0.0",
+        "description": "Helps locate API functions and game memory structures",
+        "tocSha256": "af7888cbb6dc6fe6c6695ce017dfa67d999c6073ac7fad98aa5cb8c6ad734b50"
+      },
+      {
+        "folder": "MereHealingFrames",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 33,
+        "identifier": "MereHealingFrames",
+        "version": "0.4.38",
+        "description": "A set of healing frames",
+        "tocSha256": "f52c46f735ac2bd63e99f098f725a67a8a24a01ca1c1c1a73c249469c4735c2c"
+      },
+      {
+        "folder": "Merisioux",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "Merisioux",
+        "version": "0.30-151128-15:56:24",
+        "description": null,
+        "tocSha256": "a15791fbb81ef9b19b4077a03d13dcb17a1b277e9833817efd8b96f94558a25e"
+      },
+      {
+        "folder": "MessageViewer",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "MessageViewer",
+        "version": "1.0",
+        "description": "A tool to view, send and filter the inter-Addon messages.",
+        "tocSha256": "b02d92659890eef93f04aa9839f6e61094079389a875d5e7f3d561cd93bb873b"
+      },
+      {
+        "folder": "MinionSender.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 0,
+        "identifier": "MinionSender",
+        "version": "1.6.9",
+        "description": "",
+        "tocSha256": "85e8b1c4be86de500350c03b3efe07c7382d61a909f096db8fc3798cf1cd84e9"
+      },
+      {
+        "folder": "MultiFollow.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 10,
+        "identifier": "MultiFollow",
+        "version": "0.2.0",
+        "description": "Multiboxing engine for Rift. Leader-driven follow and assist for up to 5 characters.",
+        "tocSha256": "2adc616c456ee48ba02ab7a35756fb8f3c5fc01c1bc4be9e4ecebff44b66b8f2"
+      },
+      {
+        "folder": "nkDebug",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "nkDebug",
+        "version": "1.3.3",
+        "description": "Helpfull tools for debugging Rift addons",
+        "tocSha256": "6a77122c195be63db9f6c0916d739252cebb5b3fad83fb3bb81c665549c03495"
+      },
+      {
+        "folder": "nkTextureViewer",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "nkTextureViewer",
+        "version": "1.1.0",
+        "description": "Record all the textures",
+        "tocSha256": "647662b06c03a62601dda9b8cb58daf2596aedb70ac99798bff3162098d7f117"
+      },
+      {
+        "folder": "player.coord.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "player.coord",
+        "version": "1.1",
+        "description": "A minimal, draggable coordinate overlay showing player position and zone.",
+        "tocSha256": "d8b560aa470a063a65262b923c128813d6a282993b05a6548b15d39edb8e517e"
+      },
+      {
+        "folder": "PlayerCoords.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "PlayerCoords",
+        "version": null,
+        "description": null,
+        "tocSha256": "9b7d440e88143ae7b92b5b94238b3856c380d69cd31acbefb5d5be2928c2442c"
+      },
+      {
+        "folder": "projectabilitybook.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "ProjectAbilityBook",
+        "version": "1.1",
+        "description": "Database for soul's abilities or something",
+        "tocSha256": "61c4f19a76af11fbff189e6a0e654c66d7fb5cb01f1332d8398dffc0d8e24926"
+      },
+      {
+        "folder": "ReaderBridge",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 3,
+        "identifier": "ReaderBridge",
+        "version": "0.3.2",
+        "description": "Exports player data as a scannable marker string for external readers.",
+        "tocSha256": "4040e44e7458a76b7972cce68ca0cb7cc00fcae8153e313d262d68c670245f70"
+      },
+      {
+        "folder": "ReaderBridgeExport.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "ReaderBridgeExport",
+        "version": "0.1.0",
+        "description": "Export layer that mirrors ReaderBridge telemetry into saved variables for RiftReader.",
+        "tocSha256": "32ccfe2d0d24df5be4bb05a5c7b520312464c509857eed584632e3cd7aaf19c8"
+      },
+      {
+        "folder": "RiftApiCollector",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 5,
+        "identifier": "RiftApiCollector",
+        "version": "0.5.0",
+        "description": "Explore RIFT addon APIs with manual, read-only player, target and ability probes. Review session reports in a movable discovery console and export captured data for offline analysis. Use /rac help to get started.",
+        "tocSha256": "fbd69f31ded45bfc0689a8c4b4aa21780237aea9b671d80043eddcc585d8c530"
+      },
+      {
+        "folder": "RiftBridge.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 12,
+        "identifier": "RiftBridge",
+        "version": "0.1.0",
+        "description": "Personal-use coordinate HUD for RIFT.",
+        "tocSha256": "49dce531cd08df35c0400a21d688be30c427ea0fdb38669ba4172f2d31b39f39"
+      },
+      {
+        "folder": "RiftMeter",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 4,
+        "identifier": "RiftMeter",
+        "version": "1.2",
+        "description": "Rift Meter is a combat tracker inspired by Recount and Skada Damage Meter.",
+        "tocSha256": "91990ec601dfaf6ac8c3d155570580ca0bad520017f41070e581cc95c239bd2a"
+      },
+      {
+        "folder": "RiftMeter.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 4,
+        "identifier": "RiftMeter",
+        "version": "1.2",
+        "description": "Rift Meter is a combat tracker inspired by Recount and Skada Damage Meter.",
+        "tocSha256": "91990ec601dfaf6ac8c3d155570580ca0bad520017f41070e581cc95c239bd2a"
+      },
+      {
+        "folder": "RiftReader2",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 6,
+        "identifier": "RiftReader2",
+        "version": "0.1.0",
+        "description": "Bounded API observations and explicit live reader binding",
+        "tocSha256": "fcae6b22834474831bed3c9e3341fe9635033ef43f8f6fe96a93780d2376001f"
+      },
+      {
+        "folder": "RiftReader2Casting",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "RiftReader2Casting",
+        "version": "0.4.0",
+        "description": "Read-only casting readiness and bounded training-dummy evidence",
+        "tocSha256": "f957e327c793073293ffbfc29d98411d9cf1ded9cea5738a0cc42cfbd087d6b0"
+      },
+      {
+        "folder": "RiftReaderApiProbe",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 4,
+        "identifier": "RiftReaderApiProbe",
+        "version": "0.6.0",
+        "description": "Comprehensive live API truth source: player, target, environment, nearby units for navigation.",
+        "tocSha256": "71ff7c66626c1740b22dea8aacfaaed20cbe1c83af69db73a42adc352276269c"
+      },
+      {
+        "folder": "RiftReaderValidator.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "RiftReaderValidator",
+        "version": "0.1.0",
+        "description": "Helper addon for validating RiftReader memory captures.",
+        "tocSha256": "2d700530c1c8f17905dfbb8f6ac274e38ec398b2f1fedbc7797b0f5b0a47b41c"
+      },
+      {
+        "folder": "RIFT_API_Docs",
+        "folderDisabled": false,
+        "hasRootToc": false,
+        "directLuaCount": 0,
+        "identifier": null,
+        "version": null,
+        "description": null,
+        "tocSha256": null
+      },
+      {
+        "folder": "Rustys_Action_Bars",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "Rustys_Action_Bars",
+        "version": "3.0.4",
+        "description": null,
+        "tocSha256": "1337f890f64a66f68032c45d15c80c56b91cdf7bf84501acef3db31ad9063147"
+      },
+      {
+        "folder": "SignalStrip.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "SignalStrip",
+        "version": null,
+        "description": null,
+        "tocSha256": "3b6715ec3e122e205fd2a609cefdf54b50a55ed6cbf6b66e934527bd8628e889"
+      },
+      {
+        "folder": "SpellDump.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "SpellDump",
+        "version": "2.1.0",
+        "description": "Sorted ability dump with IDs, cooldowns, persistent window position, and diagnostics.",
+        "tocSha256": "a341c9d8ff3486ba0ca40ddc12fb76f6a85dfd3ddff27568a9ee55755daf4f84"
+      },
+      {
+        "folder": "spelldump2.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 1,
+        "identifier": "SpellDump2",
+        "version": null,
+        "description": null,
+        "tocSha256": "ac2ca2f6654be512c98c0977ebee7b689c05732bf93c04e0582a0a8b4c8b29d2"
+      },
+      {
+        "folder": "TargetCoords.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "TargetCoords",
+        "version": null,
+        "description": null,
+        "tocSha256": "d1138f4aa4d3dbeed2f8f76209ca38e2acebb9e3ede37cb22712f3e7662b27c6"
+      },
+      {
+        "folder": "TextureViewer",
+        "folderDisabled": false,
+        "hasRootToc": true,
+        "directLuaCount": 3,
+        "identifier": "TextureViewer",
+        "version": "1.2.1",
+        "description": "A tool to view the textures which are present inside the game client.",
+        "tocSha256": "89932aad7a8ea2f7ac6e91d3d73a1f23f860af8f65e8a435a9cf6758ac5491c5"
+      },
+      {
+        "folder": "Walker.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "Walker",
+        "version": "0.4.0",
+        "description": "Rift telemetry bridge - exposes in-game API state via SavedVariables.",
+        "tocSha256": "a29fa179139f749cb2ba6dc6a65672fc9a228cb15313507e13c70bc4fda790b4"
+      },
+      {
+        "folder": "WalkerCoords.disabled",
+        "folderDisabled": true,
+        "hasRootToc": true,
+        "directLuaCount": 2,
+        "identifier": "WalkerCoords",
+        "version": "0.1.1",
+        "description": "Draggable window showing live player coordinates from the Rift API.",
+        "tocSha256": "c632ee1c1a8a2e325b408a7d7114c8e5056ec2ca45c7024df18e7b42e091982f"
+      },
+      {
+        "folder": "zip",
+        "folderDisabled": false,
+        "hasRootToc": false,
+        "directLuaCount": 0,
+        "identifier": null,
+        "version": null,
+        "description": null,
+        "tocSha256": null
+      }
+    ]
+  },
+  "lab1": {
+    "source": "RIFT-Lab-1 guest; VMX C:\\rift modding\\VMs\\RIFT-Lab-1\\RIFT-Lab.vmx",
+    "observedUtc": "2026-11-01T20:36:06.6444267Z",
+    "count": 47,
+    "reportSha256": "ae9007ce5690b26d526475d0d740cb9fbb3334c9329e7d1820bde54fca63adeb",
+    "temporaryHostEvidencePath": "C:\\work\\temp\\rre-lab1-addon-manifests-20261101-a1.json",
+    "guestTempCleaned": true,
+    "addons": [
+      {
+        "folder": "ActionStrip.disabled",
+        "tocState": "readable",
+        "version": "0.2.0",
+        "identifier": "ActionStrip"
+      },
+      {
+        "folder": "ApiAtlas",
+        "tocState": "unreadable",
+        "version": null,
+        "identifier": null
+      },
+      {
+        "folder": "ApiAtlasConsumer",
+        "tocState": "unreadable",
+        "version": null,
+        "identifier": null
+      },
+      {
+        "folder": "ApiBrowser",
+        "tocState": "readable",
+        "version": "1.1",
+        "identifier": "ApiBrowser"
+      },
+      {
+        "folder": "ApiDumper",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "ApiDumper"
+      },
+      {
+        "folder": "ApiProbe",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "ApiProbe"
+      },
+      {
+        "folder": "BarCode.disabled",
+        "tocState": "readable",
+        "version": "0.4.1",
+        "identifier": "BarCode"
+      },
+      {
+        "folder": "BotDsBridge",
+        "tocState": "readable",
+        "version": "0.3.3",
+        "identifier": "BotDsBridge"
+      },
+      {
+        "folder": "BotFight",
+        "tocState": "readable",
+        "version": "0.2.0-beta",
+        "identifier": "BotFight"
+      },
+      {
+        "folder": "ChromaLink.disabled",
+        "tocState": "readable",
+        "version": "0.1.0-dev",
+        "identifier": "ChromaLink"
+      },
+      {
+        "folder": "Gadgets",
+        "tocState": "readable",
+        "version": "v0.10.19",
+        "identifier": "Gadgets"
+      },
+      {
+        "folder": "JAB",
+        "tocState": "readable",
+        "version": "1.4.2",
+        "identifier": "JAB"
+      },
+      {
+        "folder": "Leader.disabled",
+        "tocState": "readable",
+        "version": "1.0.0",
+        "identifier": "Leader"
+      },
+      {
+        "folder": "LibSimpleWidgets",
+        "tocState": "readable",
+        "version": "1.14.5",
+        "identifier": "LibSimpleWidgets"
+      },
+      {
+        "folder": "LibWiki",
+        "tocState": "readable",
+        "version": "1.1.1",
+        "identifier": "LibWiki"
+      },
+      {
+        "folder": "luapad",
+        "tocState": "readable",
+        "version": "1.8",
+        "identifier": "LuaPad"
+      },
+      {
+        "folder": "MemoryScannerHelper",
+        "tocState": "readable",
+        "version": "1.0.0",
+        "identifier": "MemoryScannerHelper"
+      },
+      {
+        "folder": "MereHealingFrames",
+        "tocState": "readable",
+        "version": "0.4.38",
+        "identifier": "MereHealingFrames"
+      },
+      {
+        "folder": "Merisioux",
+        "tocState": "readable",
+        "version": "0.30-151128-15:56:24",
+        "identifier": "Merisioux"
+      },
+      {
+        "folder": "MessageViewer",
+        "tocState": "readable",
+        "version": "1.0",
+        "identifier": "MessageViewer"
+      },
+      {
+        "folder": "MinionSender.disabled",
+        "tocState": "readable",
+        "version": "1.6.9",
+        "identifier": "MinionSender"
+      },
+      {
+        "folder": "MultiFollow.disabled",
+        "tocState": "readable",
+        "version": "0.2.0",
+        "identifier": "MultiFollow"
+      },
+      {
+        "folder": "nkDebug",
+        "tocState": "readable",
+        "version": "1.3.3",
+        "identifier": "nkDebug"
+      },
+      {
+        "folder": "nkTextureViewer",
+        "tocState": "readable",
+        "version": "1.1.0",
+        "identifier": "nkTextureViewer"
+      },
+      {
+        "folder": "player.coord.disabled",
+        "tocState": "readable",
+        "version": "1.1",
+        "identifier": "player.coord"
+      },
+      {
+        "folder": "PlayerCoords.disabled",
+        "tocState": "readable",
+        "version": null,
+        "identifier": "PlayerCoords"
+      },
+      {
+        "folder": "projectabilitybook.disabled",
+        "tocState": "readable",
+        "version": "1.1",
+        "identifier": "ProjectAbilityBook"
+      },
+      {
+        "folder": "ReaderBridge",
+        "tocState": "readable",
+        "version": "0.3.2",
+        "identifier": "ReaderBridge"
+      },
+      {
+        "folder": "ReaderBridgeExport.disabled",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "ReaderBridgeExport"
+      },
+      {
+        "folder": "RiftApiCollector",
+        "tocState": "unreadable",
+        "version": null,
+        "identifier": null
+      },
+      {
+        "folder": "RiftBridge.disabled",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "RiftBridge"
+      },
+      {
+        "folder": "RiftMeter",
+        "tocState": "readable",
+        "version": "1.2",
+        "identifier": "RiftMeter"
+      },
+      {
+        "folder": "RiftMeter.disabled",
+        "tocState": "readable",
+        "version": "1.2",
+        "identifier": "RiftMeter"
+      },
+      {
+        "folder": "RiftReader2",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "RiftReader2"
+      },
+      {
+        "folder": "RiftReader2Casting",
+        "tocState": "readable",
+        "version": "0.4.0",
+        "identifier": "RiftReader2Casting"
+      },
+      {
+        "folder": "RiftReaderApiProbe",
+        "tocState": "readable",
+        "version": "0.6.0",
+        "identifier": "RiftReaderApiProbe"
+      },
+      {
+        "folder": "RiftReaderValidator.disabled",
+        "tocState": "readable",
+        "version": "0.1.0",
+        "identifier": "RiftReaderValidator"
+      },
+      {
+        "folder": "RIFT_API_Docs",
+        "tocState": "absent",
+        "version": null,
+        "identifier": null
+      },
+      {
+        "folder": "Rustys_Action_Bars",
+        "tocState": "readable",
+        "version": "3.0.4",
+        "identifier": "Rustys_Action_Bars"
+      },
+      {
+        "folder": "SignalStrip.disabled",
+        "tocState": "readable",
+        "version": null,
+        "identifier": "SignalStrip"
+      },
+      {
+        "folder": "SpellDump.disabled",
+        "tocState": "readable",
+        "version": "2.1.0",
+        "identifier": "SpellDump"
+      },
+      {
+        "folder": "spelldump2.disabled",
+        "tocState": "readable",
+        "version": null,
+        "identifier": "SpellDump2"
+      },
+      {
+        "folder": "TargetCoords.disabled",
+        "tocState": "readable",
+        "version": null,
+        "identifier": "TargetCoords"
+      },
+      {
+        "folder": "TextureViewer",
+        "tocState": "readable",
+        "version": "1.2.1",
+        "identifier": "TextureViewer"
+      },
+      {
+        "folder": "Walker.disabled",
+        "tocState": "readable",
+        "version": "0.4.0",
+        "identifier": "Walker"
+      },
+      {
+        "folder": "WalkerCoords.disabled",
+        "tocState": "readable",
+        "version": "0.1.1",
+        "identifier": "WalkerCoords"
+      },
+      {
+        "folder": "zip",
+        "tocState": "absent",
+        "version": null,
+        "identifier": null
+      }
+    ],
+    "attributes": {
+      "files": [
+        "ApiAtlas/RiftAddon.toc",
+        "ApiAtlasConsumer/RiftAddon.toc",
+        "RiftApiCollector/RiftAddon.toc"
+      ],
+      "numeric": 4199968,
+      "hex": "0x401620",
+      "flags": [
+        "Offline",
+        "ReparsePoint",
+        "RecallOnDataAccess"
+      ],
+      "observationUtc": "2026-11-01T20:37:01.5228740Z"
+    }
+  },
+  "lab2": {
+    "source": "RIFT-Lab-2 guest; VMX C:\\rift modding\\VMs\\RIFT-Lab-2\\RIFT-Lab.vmx",
+    "observedUtc": "2026-11-01T20:31:38.3345415Z",
+    "count": 47,
+    "reportSha256": "2290abb31ac092f5430a79a46c763ad17c9ee766eaa2d6018512f11194e017d0",
+    "temporaryHostEvidencePath": "C:\\work\\temp\\rre-lab2-addon-disk-inventory-20261101-a1.json",
+    "guestTempCleaned": true,
+    "addons": [
+      {
+        "folder": "ActionStrip.disabled",
+        "version": "0.2.0",
+        "identifier": "ActionStrip",
+        "hasToc": true
+      },
+      {
+        "folder": "ApiAtlas",
+        "version": "0.3.0",
+        "identifier": "ApiAtlas",
+        "hasToc": true
+      },
+      {
+        "folder": "ApiAtlasConsumer",
+        "version": "1.0.0",
+        "identifier": "ApiAtlasConsumer",
+        "hasToc": true
+      },
+      {
+        "folder": "ApiBrowser",
+        "version": "1.1",
+        "identifier": "ApiBrowser",
+        "hasToc": true
+      },
+      {
+        "folder": "ApiDumper",
+        "version": "0.1.0",
+        "identifier": "ApiDumper",
+        "hasToc": true
+      },
+      {
+        "folder": "ApiProbe",
+        "version": "0.1.0",
+        "identifier": "ApiProbe",
+        "hasToc": true
+      },
+      {
+        "folder": "BarCode.disabled",
+        "version": "0.4.1",
+        "identifier": "BarCode",
+        "hasToc": true
+      },
+      {
+        "folder": "BotDsBridge",
+        "version": "0.3.3",
+        "identifier": "BotDsBridge",
+        "hasToc": true
+      },
+      {
+        "folder": "BotFight",
+        "version": "0.2.0-beta",
+        "identifier": "BotFight",
+        "hasToc": true
+      },
+      {
+        "folder": "ChromaLink.disabled",
+        "version": "0.1.0-dev",
+        "identifier": "ChromaLink",
+        "hasToc": true
+      },
+      {
+        "folder": "Gadgets",
+        "version": "v0.10.19",
+        "identifier": "Gadgets",
+        "hasToc": true
+      },
+      {
+        "folder": "JAB",
+        "version": "1.4.2",
+        "identifier": "JAB",
+        "hasToc": true
+      },
+      {
+        "folder": "Leader.disabled",
+        "version": "1.0.0",
+        "identifier": "Leader",
+        "hasToc": true
+      },
+      {
+        "folder": "LibSimpleWidgets",
+        "version": "1.14.5",
+        "identifier": "LibSimpleWidgets",
+        "hasToc": true
+      },
+      {
+        "folder": "LibWiki",
+        "version": "1.1.1",
+        "identifier": "LibWiki",
+        "hasToc": true
+      },
+      {
+        "folder": "luapad",
+        "version": "1.8",
+        "identifier": "LuaPad",
+        "hasToc": true
+      },
+      {
+        "folder": "MemoryScannerHelper",
+        "version": "1.0.0",
+        "identifier": "MemoryScannerHelper",
+        "hasToc": true
+      },
+      {
+        "folder": "MereHealingFrames",
+        "version": "0.4.38",
+        "identifier": "MereHealingFrames",
+        "hasToc": true
+      },
+      {
+        "folder": "Merisioux",
+        "version": "0.30-151128-15:56:24",
+        "identifier": "Merisioux",
+        "hasToc": true
+      },
+      {
+        "folder": "MessageViewer",
+        "version": "1.0",
+        "identifier": "MessageViewer",
+        "hasToc": true
+      },
+      {
+        "folder": "MinionSender.disabled",
+        "version": "1.6.9",
+        "identifier": "MinionSender",
+        "hasToc": true
+      },
+      {
+        "folder": "MultiFollow.disabled",
+        "version": "0.2.0",
+        "identifier": "MultiFollow",
+        "hasToc": true
+      },
+      {
+        "folder": "nkDebug",
+        "version": "1.3.3",
+        "identifier": "nkDebug",
+        "hasToc": true
+      },
+      {
+        "folder": "nkTextureViewer",
+        "version": "1.1.0",
+        "identifier": "nkTextureViewer",
+        "hasToc": true
+      },
+      {
+        "folder": "player.coord.disabled",
+        "version": "1.1",
+        "identifier": "player.coord",
+        "hasToc": true
+      },
+      {
+        "folder": "PlayerCoords.disabled",
+        "version": null,
+        "identifier": "PlayerCoords",
+        "hasToc": true
+      },
+      {
+        "folder": "projectabilitybook.disabled",
+        "version": "1.1",
+        "identifier": "ProjectAbilityBook",
+        "hasToc": true
+      },
+      {
+        "folder": "ReaderBridge",
+        "version": "0.3.2",
+        "identifier": "ReaderBridge",
+        "hasToc": true
+      },
+      {
+        "folder": "ReaderBridgeExport.disabled",
+        "version": "0.1.0",
+        "identifier": "ReaderBridgeExport",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftApiCollector",
+        "version": "0.5.0",
+        "identifier": "RiftApiCollector",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftBridge.disabled",
+        "version": "0.1.0",
+        "identifier": "RiftBridge",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftMeter",
+        "version": "1.2",
+        "identifier": "RiftMeter",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftMeter.disabled",
+        "version": "1.2",
+        "identifier": "RiftMeter",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftReader2",
+        "version": "0.1.0",
+        "identifier": "RiftReader2",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftReader2Casting",
+        "version": "0.4.0",
+        "identifier": "RiftReader2Casting",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftReaderApiProbe",
+        "version": "0.6.0",
+        "identifier": "RiftReaderApiProbe",
+        "hasToc": true
+      },
+      {
+        "folder": "RiftReaderValidator.disabled",
+        "version": "0.1.0",
+        "identifier": "RiftReaderValidator",
+        "hasToc": true
+      },
+      {
+        "folder": "RIFT_API_Docs",
+        "version": null,
+        "identifier": null,
+        "hasToc": false
+      },
+      {
+        "folder": "Rustys_Action_Bars",
+        "version": "3.0.4",
+        "identifier": "Rustys_Action_Bars",
+        "hasToc": true
+      },
+      {
+        "folder": "SignalStrip.disabled",
+        "version": null,
+        "identifier": "SignalStrip",
+        "hasToc": true
+      },
+      {
+        "folder": "SpellDump.disabled",
+        "version": "2.1.0",
+        "identifier": "SpellDump",
+        "hasToc": true
+      },
+      {
+        "folder": "spelldump2.disabled",
+        "version": null,
+        "identifier": "SpellDump2",
+        "hasToc": true
+      },
+      {
+        "folder": "TargetCoords.disabled",
+        "version": null,
+        "identifier": "TargetCoords",
+        "hasToc": true
+      },
+      {
+        "folder": "TextureViewer",
+        "version": "1.2.1",
+        "identifier": "TextureViewer",
+        "hasToc": true
+      },
+      {
+        "folder": "Walker.disabled",
+        "version": "0.4.0",
+        "identifier": "Walker",
+        "hasToc": true
+      },
+      {
+        "folder": "WalkerCoords.disabled",
+        "version": "0.1.1",
+        "identifier": "WalkerCoords",
+        "hasToc": true
+      },
+      {
+        "folder": "zip",
+        "version": null,
+        "identifier": null,
+        "hasToc": false
+      }
+    ]
+  },
+  "comparisons": {
+    "sameFolderNamesAcrossAllThree": true,
+    "lab2SameDeclaredVersionsAll": true,
+    "lab1ReadableDeclaredVersionsMatchHost": true,
+    "lab1UnreadableManifests": [
+      "ApiAtlas",
+      "ApiAtlasConsumer",
+      "RiftApiCollector"
+    ],
+    "nestedDependenciesNotExhaustivelyScanned": true
+  },
+  "windows": [
+    {
+      "lab": "Lab1",
+      "character": "Atank",
+      "level": 45,
+      "calling": "Warrior",
+      "captureUtc": "2026-11-01T20:20:07.593Z",
+      "sha256": "63d46a14e34b288f848bd74777fc5868794c03c6fdc1e134b47c0c9204777e2f"
+    },
+    {
+      "lab": "Lab2",
+      "character": "Bolinao",
+      "level": 43,
+      "calling": "Rogue",
+      "captureUtc": "2026-11-01T20:20:18.086Z",
+      "sha256": "07eb147f37de2ef475a825ea279c656cecdae340b587aba8b26ae267e32071d6"
+    }
+  ],
+  "sourceCodes": [
+    {
+      "path": "BotDsBridge/ability_catalog.lua",
+      "sha256": "3a2c4a7b5a6fa2e091e3b7846187973cf1344a16cdffba191cf00236fea8d300"
+    },
+    {
+      "path": "RiftApiCollector/main.lua",
+      "sha256": "47755e48c8616a423eb69c2d4b1adf74c560a8d49d96e5b3f9a446fe0ec880be"
+    },
+    {
+      "path": "RiftReader2Casting/model.lua",
+      "sha256": "dbd689b9f47140e95153a583e47a445ae3ac35794d293cf58c5d58e1143ce2bc"
+    },
+    {
+      "path": "RiftReader2Casting/main.lua",
+      "sha256": "7e24d78eeaf589bf76a7e4d59b4f6be5242d8c8d4947448995c33a60da945213"
+    },
+    {
+      "path": "projectabilitybook.disabled/Callings/Warrior/Paladin.lua",
+      "sha256": "e4af04464201adbc5cbae9d07cab0e36a9da616b5b30abd466f8ca44c8f92f28"
+    },
+    {
+      "path": "projectabilitybook.disabled/Callings/Rogue/Marksman.lua",
+      "sha256": "fd5b52925e6d20215f93014de283d06cd069a287489e88df59afb27c36cff8b9"
+    },
+    {
+      "path": "ApiAtlas/Collector.lua",
+      "sha256": "64c591c27caa861d43879b8fdbb50c408c51f9549eb80e7c1e3e2597ad5ac71a"
+    },
+    {
+      "path": "ApiDumper/main.lua",
+      "sha256": "8ae15f28fb964932e397e22f019911a0c5c0bf403ebc1b39cdd48da70c4d84ed"
+    }
+  ],
+  "jobReceipts": [
+    "rre-sc102-host-addon-manifest-inventory-20261101-manager-a1",
+    "rre-sc102-lab1-addon-names-readonly-20261101-manager-a1",
+    "rre-sc102-lab1-addon-manifest-tolerant-20261101-manager-a1",
+    "rre-sc102-lab1-addon-unreadable-attributes-20261101-manager-a1",
+    "rre-sc102-lab2-addon-disk-inventory-20261101-manager-a1"
+  ],
+  "capabilities": [
+    {
+      "folder": "ActionStrip.disabled",
+      "category": "Pixel telemetry bridge: player/target name, HP, resources, cas",
+      "folderDisabled": true
+    },
+    {
+      "folder": "ApiAtlas",
+      "category": "API documentation browser/export",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ApiAtlasConsumer",
+      "category": "Atlas example consumer",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ApiBrowser",
+      "category": "API wiki browser",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ApiDumper",
+      "category": "Action.Get slot 1–12 probe (manifest misleading)",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ApiProbe",
+      "category": "Action API probe",
+      "folderDisabled": false
+    },
+    {
+      "folder": "BarCode.disabled",
+      "category": "Live BC-Strip/1 telemetry bridge for RIFT.",
+      "folderDisabled": true
+    },
+    {
+      "folder": "BotDsBridge",
+      "category": "Known-ability List/Detail to character SavedVariables",
+      "folderDisabled": false
+    },
+    {
+      "folder": "BotFight",
+      "category": "Combat data probe / ability API consumer",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ChromaLink.disabled",
+      "category": "Ability export / telemetry bridge (suffix .disabled)",
+      "folderDisabled": true
+    },
+    {
+      "folder": "Gadgets",
+      "category": "Unit Frames and Other Stuff for RIFT",
+      "folderDisabled": false
+    },
+    {
+      "folder": "JAB",
+      "category": "Custom action bar",
+      "folderDisabled": false
+    },
+    {
+      "folder": "Leader.disabled",
+      "category": "Not source-classified",
+      "folderDisabled": true
+    },
+    {
+      "folder": "LibSimpleWidgets",
+      "category": "Not source-classified",
+      "folderDisabled": false
+    },
+    {
+      "folder": "LibWiki",
+      "category": "A library for creating and navigating Wiki-like pages.",
+      "folderDisabled": false
+    },
+    {
+      "folder": "luapad",
+      "category": "Lua runtime scratchpad",
+      "folderDisabled": false
+    },
+    {
+      "folder": "MemoryScannerHelper",
+      "category": "API / native discovery helper",
+      "folderDisabled": false
+    },
+    {
+      "folder": "MereHealingFrames",
+      "category": "A set of healing frames",
+      "folderDisabled": false
+    },
+    {
+      "folder": "Merisioux",
+      "category": "Not source-classified",
+      "folderDisabled": false
+    },
+    {
+      "folder": "MessageViewer",
+      "category": "A tool to view, send and filter the inter-Addon messages.",
+      "folderDisabled": false
+    },
+    {
+      "folder": "MinionSender.disabled",
+      "category": "Not source-classified",
+      "folderDisabled": true
+    },
+    {
+      "folder": "MultiFollow.disabled",
+      "category": "Multiboxing engine for Rift. Leader-driven follow and assist f",
+      "folderDisabled": true
+    },
+    {
+      "folder": "nkDebug",
+      "category": "Helpfull tools for debugging Rift addons",
+      "folderDisabled": false
+    },
+    {
+      "folder": "nkTextureViewer",
+      "category": "Record all the textures",
+      "folderDisabled": false
+    },
+    {
+      "folder": "player.coord.disabled",
+      "category": "A minimal, draggable coordinate overlay showing player positio",
+      "folderDisabled": true
+    },
+    {
+      "folder": "PlayerCoords.disabled",
+      "category": "Not source-classified",
+      "folderDisabled": true
+    },
+    {
+      "folder": "projectabilitybook.disabled",
+      "category": "Static soul ability IDs/icons for five callings",
+      "folderDisabled": true
+    },
+    {
+      "folder": "ReaderBridge",
+      "category": "Player data marker bridge",
+      "folderDisabled": false
+    },
+    {
+      "folder": "ReaderBridgeExport.disabled",
+      "category": "Export layer that mirrors ReaderBridge telemetry into saved va",
+      "folderDisabled": true
+    },
+    {
+      "folder": "RiftApiCollector",
+      "category": "Manual paged known-ability ID export, no SavedVariables",
+      "folderDisabled": false
+    },
+    {
+      "folder": "RiftBridge.disabled",
+      "category": "Personal-use coordinate HUD for RIFT.",
+      "folderDisabled": true
+    },
+    {
+      "folder": "RiftMeter",
+      "category": "Combat log outcome tracker",
+      "folderDisabled": false
+    },
+    {
+      "folder": "RiftMeter.disabled",
+      "category": "Alternate folder copy; same identifier as RiftMeter",
+      "folderDisabled": true
+    },
+    {
+      "folder": "RiftReader2",
+      "category": "API/reader bridge",
+      "folderDisabled": false
+    },
+    {
+      "folder": "RiftReader2Casting",
+      "category": "Full List/Detail metadata to character SavedVariables",
+      "folderDisabled": false
+    },
+    {
+      "folder": "RiftReaderApiProbe",
+      "category": "API capability/ability probe",
+      "folderDisabled": false
+    },
+    {
+      "folder": "RiftReaderValidator.disabled",
+      "category": "Helper addon for validating RiftReader memory captures.",
+      "folderDisabled": true
+    },
+    {
+      "folder": "RIFT_API_Docs",
+      "category": "Documentation folder, not an addon",
+      "folderDisabled": false
+    },
+    {
+      "folder": "Rustys_Action_Bars",
+      "category": "Not source-classified",
+      "folderDisabled": false
+    },
+    {
+      "folder": "SignalStrip.disabled",
+      "category": "Not source-classified",
+      "folderDisabled": true
+    },
+    {
+      "folder": "SpellDump.disabled",
+      "category": "Known-ability copyable names/IDs/cooldowns",
+      "folderDisabled": true
+    },
+    {
+      "folder": "spelldump2.disabled",
+      "category": "Known-ability display/filter, missing IDs in raw export",
+      "folderDisabled": true
+    },
+    {
+      "folder": "TargetCoords.disabled",
+      "category": "Not source-classified",
+      "folderDisabled": true
+    },
+    {
+      "folder": "TextureViewer",
+      "category": "A tool to view the textures which are present inside the game ",
+      "folderDisabled": false
+    },
+    {
+      "folder": "Walker.disabled",
+      "category": "Rift telemetry bridge - exposes in-game API state via SavedVar",
+      "folderDisabled": true
+    },
+    {
+      "folder": "WalkerCoords.disabled",
+      "category": "Draggable window showing live player coordinates from the Rift",
+      "folderDisabled": true
+    },
+    {
+      "folder": "zip",
+      "category": "Archive folder, not an addon",
+      "folderDisabled": false
+    }
+  ],
+  "limits": [
+    "disk presence != loaded state",
+    "lab folder name/version != byte identity",
+    "API-known list != all unlearned spells",
+    "different characters/roles must not be merged",
+    "no live API capture performed",
+    "no game input or addon enablement performed"
+  ]
+}
