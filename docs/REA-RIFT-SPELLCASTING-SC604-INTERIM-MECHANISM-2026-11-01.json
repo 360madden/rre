@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-604",
+  "dateLocal": "2026-11-01",
+  "status": "interim-evidence-synthesis-only",
+  "latestOriginalLocalExecutableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "historicalRiftRecordSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "sourceIndex": {
+    "baseline": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC0-BASELINE-2026-10-27.md",
+      "sha256": "0f17fe3c14f36821ef080ee3da349998412aea8f05677b3295d6289b770fa24c",
+      "sourceType": "REA tracked research report"
+    },
+    "catalog": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC1-API-CATALOG-NOTES-2026-10-27.md",
+      "sha256": "301b97440678578dc683d86e9e70b8941806941939826c66583f0ebff669813a",
+      "sourceType": "REA tracked research report"
+    },
+    "readiness": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC104-READINESS-2026-10-27.md",
+      "sha256": "d1359f0553ad8ff02d0e0905dc7de8b9645186726f0a89a70f6391382d6d7517",
+      "sourceType": "REA tracked research report"
+    },
+    "lifecycle": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC2-LIFECYCLE-2026-10-27.md",
+      "sha256": "1be91f3a8f347a4e5c0cad7f5ea4cce30e5a4a0484148b7a1b5c3f7a22682ec9",
+      "sourceType": "REA tracked research report"
+    },
+    "clock": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md",
+      "sha256": "7864f2d6a227cff8e757d9ba9c11f21a0377d06dcb50fdd9f28d9fb7f830a7b5",
+      "sourceType": "REA tracked research report"
+    },
+    "castEntry": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.md",
+      "sha256": "3c9b94dc2aa1358a6d2e6d52fbb72d5494218b0eb26497b395b03a50e8d0adbc",
+      "sourceType": "REA tracked research report"
+    },
+    "error": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md",
+      "sha256": "8a2151aedc95b2653473565d845932e84f7e06c5ba229a1ddeeb9e77cf0ddaab",
+      "sourceType": "REA tracked research report"
+    },
+    "events": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md",
+      "sha256": "bbfe1f7cdd0f6796def138895ecad688bb75d45c58aa52e2a33fc911e6d8edd8",
+      "sourceType": "REA tracked research report"
+    },
+    "imports": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC410-IMPORT-MAP-2026-11-01.md",
+      "sha256": "ddda97a34d73dc2e59e90257e1e03630474078fa79273a1d7539886aac9b2366",
+      "sourceType": "REA tracked research report"
+    },
+    "commands": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md",
+      "sha256": "b58f688edfd8b3da19dc703ba1738cda73e011765a1dec6755fe66ee66e8472f",
+      "sourceType": "REA tracked research report"
+    },
+    "context": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC411-CONTEXT-2026-11-01.md",
+      "sha256": "e0ccfe0d54ee051e794e220d4037936a2943f0386d836fdf7059e9ca53dc4624",
+      "sourceType": "REA tracked research report"
+    },
+    "writerGap": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md",
+      "sha256": "14c3da028b4e2ce195f5e45b3391081d22adba026ac0610e783ae258ff9a0fce",
+      "sourceType": "REA tracked research report"
+    },
+    "roleGap": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md",
+      "sha256": "9aea4a5ab1002584b84ef74a635576211ded8ece49e5726834fb5b54b4d04330",
+      "sourceType": "REA tracked research report"
+    },
+    "queue": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md",
+      "sha256": "f88ec863158597518ec40b0dc06e34595b8018c86356e1d3ffa75828ef436e5c",
+      "sourceType": "REA tracked research report"
+    }
+  },
+  "claims": [
+    {
+      "id": "N-PE-IMPORT",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G0 original PE import directory",
+      "text": "32 imported DLLs/811 symbols, including D3D9, Winsock networking and Windows timing APIs",
+      "sources": [
+        {
+          "source": "imports",
+          "sha256": "ddda97a34d73dc2e59e90257e1e03630474078fa79273a1d7539886aac9b2366",
+          "scope": "static only"
+        }
+      ],
+      "runtimeMeaningVerified": false
+    },
+    {
+      "id": "N-CMD-CAST",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G3 source-pinned callback table + machine code",
+      "text": "/cast callback RVA 0x6c7450 and unknown ability diagnostic xrefs identified",
+      "sources": [
+        {
+          "source": "castEntry",
+          "sha256": "3c9b94dc2aa1358a6d2e6d52fbb72d5494218b0eb26497b395b03a50e8d0adbc",
+          "scope": "new original PE"
+        },
+        {
+          "source": "error",
+          "sha256": "8a2151aedc95b2653473565d845932e84f7e06c5ba229a1ddeeb9e77cf0ddaab",
+          "scope": "new-build native diagnostic; no proof of server rejection"
+        }
+      ],
+      "serverAcknowledgmentVerified": false
+    },
+    {
+      "id": "N-CMD-COMPARE",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G3 original byte and .pdata comparison",
+      "text": "/cast and /use code regions share 17 direct target RVAs, with command-specific callees and separate error literals",
+      "sources": [
+        {
+          "source": "commands",
+          "sha256": "b58f688edfd8b3da19dc703ba1738cda73e011765a1dec6755fe66ee66e8472f",
+          "scope": "new original PE"
+        }
+      ],
+      "abilityResolverVerified": false
+    },
+    {
+      "id": "N-CONTEXT",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G3 original Capstone + source byte checks",
+      "text": "cast and use helper first-pointer arguments both read +0x358; use helper also reads +0x340",
+      "sources": [
+        {
+          "source": "context",
+          "sha256": "e0ccfe0d54ee051e794e220d4037936a2943f0386d836fdf7059e9ca53dc4624",
+          "scope": "new original PE"
+        }
+      ],
+      "fieldSemanticsVerified": false
+    },
+    {
+      "id": "N-WRITER-GAP",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G0 bounded negative source probe",
+      "text": "38 nearby .pdata regions (8507 decoded bytes) had zero direct writes at the two exact offset operands",
+      "sources": [
+        {
+          "source": "writerGap",
+          "sha256": "14c3da028b4e2ce195f5e45b3391081d22adba026ac0610e783ae258ff9a0fce",
+          "scope": "limited source neighborhood"
+        }
+      ],
+      "globalWriterAbsent": false
+    },
+    {
+      "id": "H-ABILITY-LIST",
+      "build": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "proof": "G1 saved RIFT Lua API snapshot",
+      "text": "two historical snapshots returned same 55 distinct ability lookup IDs; rank/role allocation unresolved",
+      "sources": [
+        {
+          "source": "baseline",
+          "sha256": "0f17fe3c14f36821ef080ee3da349998412aea8f05677b3295d6289b770fa24c",
+          "scope": "historical RR2 API"
+        },
+        {
+          "source": "roleGap",
+          "sha256": "9aea4a5ab1002584b84ef74a635576211ded8ece49e5726834fb5b54b4d04330",
+          "scope": "old build pair"
+        },
+        {
+          "source": "catalog",
+          "sha256": "301b97440678578dc683d86e9e70b8941806941939826c66583f0ebff669813a",
+          "scope": "historical RR2 role-unspecified API inventory"
+        }
+      ],
+      "currentPlayerSpellbookVerified": false
+    },
+    {
+      "id": "H-ABILITY-READY",
+      "build": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "proof": "G1 saved RIFT ability detail",
+      "text": "10 of 55 listed abilities reported unusable=true; listed does not imply usable now",
+      "sources": [
+        {
+          "source": "readiness",
+          "sha256": "d1359f0553ad8ff02d0e0905dc7de8b9645186726f0a89a70f6391382d6d7517",
+          "scope": "historical RR2 API"
+        }
+      ],
+      "reasonForUnusableVerified": false
+    },
+    {
+      "id": "H-EVENT-OUTCOME",
+      "build": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "proof": "G2 historical actual combat events",
+      "text": "Light's Decree selected-target Dodge in trial 1 and 402 selected damage in trial 2; exclude a separate SELF-targeted Dodge, eight Auto Attack damage hits totaling 959 plus one Auto Attack Miss, and 726 Light's Decree damage across three other targets.",
+      "sources": [
+        {
+          "source": "events",
+          "sha256": "bbfe1f7cdd0f6796def138895ecad688bb75d45c58aa52e2a33fc911e6d8edd8",
+          "scope": "old build exact modern abilityNew/caster/target"
+        },
+        {
+          "source": "lifecycle",
+          "sha256": "1be91f3a8f347a4e5c0cad7f5ea4cce30e5a4a0484148b7a1b5c3f7a22682ec9",
+          "scope": "historical cooldown events"
+        }
+      ],
+      "crossBuildParityVerified": false
+    },
+    {
+      "id": "H-TIME",
+      "build": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "proof": "G2 bounded recorded event timing",
+      "text": "ability cooldown Begin/End ≈12s; sampling median 105-107ms; neither RTT nor shared GCD independently measured",
+      "sources": [
+        {
+          "source": "clock",
+          "sha256": "7864f2d6a227cff8e757d9ba9c11f21a0377d06dcb50fdd9f28d9fb7f830a7b5",
+          "scope": "old build RIFT frame clock"
+        }
+      ],
+      "gcdVerified": false
+    },
+    {
+      "id": "N-QUEUE-CONFIG",
+      "build": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "proof": "G3 original native settings code and prior bounded read-only local process observation",
+      "text": "ActionBars_AbilityQueue setting uses a 32-bit context field at +0xA4, with previously sampled raw value 1; Full/Short/None mapping and active queue admission are unknown",
+      "sources": [
+        {
+          "source": "queue",
+          "sha256": "f88ec863158597518ec40b0dc06e34595b8018c86356e1d3ffa75828ef436e5c",
+          "scope": "original new-build PE plus a prior read-only physical-PC observation"
+        }
+      ],
+      "queueEnumVerified": false,
+      "queueAdmissionVerified": false,
+      "gcdVerified": false
+    },
+    {
+      "id": "H-MELEE-RAW-REPLAY-GAP",
+      "build": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "proof": "G2 saved raw combat event plus separate later RR2 normalization/replay report",
+      "text": "Original Aggressive Block 118-damage event lacked abilityNew and raw exact-ID matching classified matchesAbility=false/hit=false; later normalization/replay attributed 118 intended damage, which does not retroactively qualify original ID matching.",
+      "sources": [
+        {
+          "source": "events",
+          "sha256": "bbfe1f7cdd0f6796def138895ecad688bb75d45c58aa52e2a33fc911e6d8edd8",
+          "scope": "historical RR2 raw/replay provenance only"
+        }
+      ],
+      "rawAbilityNewPresent": false,
+      "rawModernIdMatchVerified": false,
+      "laterReplayIntendedDamage": 118,
+      "currentBuildParityVerified": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "native /cast command",
+      "to": "new-build client callback RVA 0x6c7450",
+      "status": "source-proven",
+      "claim": "N-CMD-CAST"
+    },
+    {
+      "from": "native callback /cast",
+      "to": "unknown ability diagnostic",
+      "status": "source-proven",
+      "claim": "N-CMD-CAST"
+    },
+    {
+      "from": "native /cast helper",
+      "to": "context +0x358 read",
+      "status": "source-proven",
+      "claim": "N-CONTEXT"
+    },
+    {
+      "from": "native /use helper",
+      "to": "context +0x358 and +0x340 reads",
+      "status": "source-proven",
+      "claim": "N-CONTEXT"
+    },
+    {
+      "from": "command helpers",
+      "to": "actual native spell request/ability resolver",
+      "status": "unverified",
+      "claim": "N-CONTEXT"
+    },
+    {
+      "from": "RIFT Lua New.List/Detail",
+      "to": "55 historical API-listed abilities",
+      "status": "historical-observed",
+      "claim": "H-ABILITY-LIST"
+    },
+    {
+      "from": "historical listed abilities",
+      "to": "current learnable spellbook",
+      "status": "unverified",
+      "claim": "H-ABILITY-LIST"
+    },
+    {
+      "from": "historical cast event",
+      "to": "exact modern-ID target outcome",
+      "status": "historical-observed",
+      "claim": "H-EVENT-OUTCOME"
+    },
+    {
+      "from": "historical cooldown Begin/End",
+      "to": "shared global cooldown/GCD",
+      "status": "unverified",
+      "claim": "H-TIME"
+    },
+    {
+      "from": "new local PE native /cast",
+      "to": "old guest API/combat trace",
+      "status": "cross-build-unqualified",
+      "claim": "N-CMD-CAST"
+    },
+    {
+      "from": "native ActionBars_AbilityQueue config",
+      "to": "new-build +0xA4 32-bit field, observed raw value 1",
+      "status": "source-proven plus prior read-only-observed",
+      "claim": "N-QUEUE-CONFIG"
+    },
+    {
+      "from": "native queue config value 1",
+      "to": "Full/Short/None mode or cast request admission",
+      "status": "unverified",
+      "claim": "N-QUEUE-CONFIG"
+    },
+    {
+      "from": "historical Aggressive Block raw event without abilityNew",
+      "to": "separate later normalized/replay 118 intended damage",
+      "status": "historical-source-provenance; raw exact-ID match unverified",
+      "claim": "H-MELEE-RAW-REPLAY-GAP"
+    }
+  ],
+  "blockedRequirements": [
+    "current local physical-PC RIFT spellbook and soul/role/level screenshot+API snapshot",
+    "same-frame cross-ability readiness for GCD with queue mode",
+    "new-build cast request/ability resolution original code dataflow",
+    "observed native server acceptance/packet source",
+    "representative channel/proc/interruption/healing test"
+  ],
+  "phasesCompleted": [
+    "SC0",
+    "SC2"
+  ],
+  "phasesOpen": [
+    "SC1",
+    "SC3",
+    "SC4",
+    "SC5",
+    "SC6"
+  ],
+  "fullMechanismRecovered": false,
+  "crossBuildParityProven": false,
+  "gameInputSent": false,
+  "processAttached": false,
+  "vmwareUsed": false,
+  "nextEvidence": [
+    {
+      "priority": 1,
+      "taskId": "SC-413",
+      "owner": "REA offline native research",
+      "method": "Bounded comparison of /cast unknown-ability branch predecessors versus /use unknown-item negative control",
+      "requiresLiveInput": false
+    },
+    {
+      "priority": 2,
+      "taskId": "SC-102",
+      "owner": "Existing local-PC live-capture / RR2 owner",
+      "method": "Same-character local PE + role/soul/level + API List/Detail + spellbook/soul/trainer/action bar snapshots",
+      "requiresLiveInput": true
+    },
+    {
+      "priority": 3,
+      "taskId": "SC-301",
+      "owner": "Existing local-PC live-capture / RR2 owner",
+      "method": "Same-frame readiness for two distinct abilities and selected AbilityQueue UI mode",
+      "requiresLiveInput": true
+    },
+    {
+      "priority": 4,
+      "taskId": "SC-503",
+      "owner": "Existing live-capture / RR2 owner",
+      "method": "One source-bound channel/proc/interrupt/heal/ground-target observation at a time",
+      "requiresLiveInput": true
+    },
+    {
+      "priority": 5,
+      "taskId": "SC-601",
+      "owner": "REA coordinator",
+      "method": "Full mechanism synthesis only after current-build native resolver and same-build qualified event bridge",
+      "requiresLiveInput": false
+    }
+  ]
+}

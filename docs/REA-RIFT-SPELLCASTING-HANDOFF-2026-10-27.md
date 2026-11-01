@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Next substantive native task after handoff: SC-412** (bounded writer/producer of the common `+0x358` command-context byte). **SC6 full synthesis is NOT complete.** This is a durable checkpoint only.
+**Latest accepted checkpoint: SC-604 interim mechanism map** (readable report plus source-pinned JSON). **Next bounded native task: SC-413** (unknown-ability branch predecessor compared with /use negative control). **SC6 full synthesis remains incomplete.**
 
 ## First reads after an interrupted Chat session
 
@@ -17,19 +17,19 @@
 | **SC0 baseline and SC2 observed lifecycle** | **MAJOR PHASES COMPLETE** at old-build evidence scope; [SC0 handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) and [SC2 handoff](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). |
 | **SC1 spellbook** | **ACTIVE/BLOCKED:** 55 API-listed historical ability IDs, 54/55 detailed records equal across two captures; [SC103 rank/Role gap](REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md). Actual local same-character spellbook/soul/role-level snapshots missing. |
 | **SC3 timing** | **ACTIVE/BLOCKED:** GCD and Full/Short/None queue enum unmeasured. Old source ~105–107 ms polling cannot prove server RTT, [clock audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md). |
-| **SC4 native** | **ACTIVE:** actual source-backed `/cast` callback at RVA `0x6c7450`, but no cast-submission handler proven. [SC-409 cast vs use](REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md) proves **17 common direct callee targets**; [SC-410 PE import map](REA-RIFT-SPELLCASTING-SC410-IMPORT-MAP-2026-11-01.md) proves **32 DLLs/811 imports**; [SC-411 context offsets](REA-RIFT-SPELLCASTING-SC411-CONTEXT-2026-11-01.md) proves **`+0x358` comparison in both command branches** and use-side `+0x340` pointer access. Semantics unknown. |
+| **SC4 native** | **ACTIVE:** source-backed `/cast` callback RVA `0x6c7450`, 17 shared `/cast`/`/use` target RVAs, command-context `+0x358` reads and `+0x340` use pointer. [SC-412 writer hypothesis](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md) was parked after two bounded negative probes. Meaning of shared fields, ability resolver, successful cast submission and server path are unknown. |
 | **SC5 outcomes** | **ACTIVE:** source-backed [SC-502 exact-ID attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) from historical events, while channel/proc/interruption SC-503 remains blocked. |
-| **SC6 procedural continuity** | **SC-603 handoff capability verified and checkpointed**. SC-601 full synthesis / SC-602 portable export still depend on SC1 spellbook and SC3 GCD evidence; do not claim SC6 phase complete. |
+| **SC6 procedural continuity** | **SC-603 handoff complete; SC-604 interim source-backed synthesis accepted**, including current native queue config and honest historical event attribution. [SC-604 report](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.md) and [machine map](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.json). **SC-601/602 final synthesis/export and SC6 major phase remain open** pending SC1 and SC3 evidence. |
 
-**Recent local commits to preserve:** `ccb0bf2` (SC-410), `550b9f3` (SC-409), `093c21e` (SC-411). The SC-603 handoff/checkpoint commit will come **after** this file; read current Git HEAD rather than expecting any static hash inside the handoff.
+**Recent checkpoints:** `ccb0bf2` (SC-410), `550b9f3` (SC-409), `093c21e` (SC-411), `53ab715` (SC-603), `91db363` (SC-412). The SC-604 integration commit is recorded in Git history; read current HEAD rather than assume a static hash here.
 
-## Next research transaction — SC-412
+## Next research transaction — SC-413
 
-**Question:** what *writes or constructs* the `+0x358` context flag read in both `/cast` and `/use`?
+**Question:** do the source-byte branch predicates immediately upstream of the native `/cast` unknown-ability diagnostic differ meaningfully from the `/use` unknown-item negative control, and can that discriminate an ability-lookup result without assigning invented semantics?
 
-- [SC411 exact-source machine record](REA-RIFT-SPELLCASTING-SC411-CONTEXT-OFFSETS-2026-11-01.json). Cast-specific helper original `.pdata` region `0x57cda0–0x57d028`: source instruction at `0x57cdc4` is `cmp byte ptr [rcx+0x358],0`. Use-specific helper `0x57db60–0x57dbd7` saves first RCX pointer to RBX, then `0x57dba3` tests `[rbx+0x358]` and `0x57dbac` loads `[rbx+0x340]`.
-- Use **one targeted bounded source producer/caller-context probe** first, not a full image displacement search, and record the original code bytes/hash, `.pdata` extent, hypotheses and falsifier. Never assign a meaning like `isCasting`, `inCombat` or `abilityQueue` from the offset alone.
-- If two materially different bounded probes do not reveal a decision-changing producer, **park SC-412** and move to another original-client subsystem or a qualified new-source observation. A blocked result with a complete evidence receipt merits a commit, not an endless retry.
+- Original physical-PC PE SHA is pinned above. Examine only known diagnostic xref neighborhoods: `/cast` `0x6C78B2/0x6C78DD/0x6C7922` versus `/use` `0x6C86A7/0x6C86D2/0x6C8716`. Confirm original bytes, exact branch/producer instruction RVAs and `.pdata` boundaries; use [SC-409](REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md) and [SC-412](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md).
+- Do **not** repeat generic SC-408 helper tracing, SC-412 `+0x358` writer scans or full-program REA imports. One discriminating source claim per research transaction; stop after at most two substantively different non-decisive probes.
+- Record source SHA, job IDs, positive/negative result and explicit unresolved ability-resolution/queue/server boundary. Commit a coherent result or a parked blocker, then refresh the handoff.
 
 ## Chat-mode durability
 
