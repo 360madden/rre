@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC604 interim map accepted. SC413 native error-text comparison parked. SC414 bounded 12-original-screenshot audit found no source-qualified local spellbook/queue settings UI; documented negative. SC415 saved SpellDump output discovery next; full SC1/SC3/SC4/SC5/SC6 phases still open.",
+  "status": "SC604 interim map accepted; SC413 native error source, SC414 saved screenshot UI, SC415 SpellDump saved-output leads all documented/parked at evidence boundaries. Next SC102 requires current same-character local-PC API+spellbook/soul UI from live-capture owner; no ready source-backed offline task. SC1/SC3/SC4/SC5/SC6 phases open.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-415",
+  "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -751,7 +751,7 @@
       "id": "SC-415",
       "milestone": "SC1",
       "title": "Bounded read-only discovery of existing SpellDump output from physical-PC October 29 addon evidence",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-101"
       ],
@@ -770,7 +770,12 @@
         "No executable, addon, SavedVariables, game or VM modification; stop after two negative source checks",
         "Retain hash and link to any actual qualifying output, not merely slash-command documentation"
       ],
-      "gameInputSent": false
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md",
+        "docs/REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.json"
+      ],
+      "blocker": "Existing SpellDump displays and copies known-ability list but declares no persistent ability-list SavedVariable; accessible exact Oct29 archive searches found no qualified dump and one ignored RR2 artifact scan was time-limited. New same-role local capture required."
     }
   ],
   "checkpointPolicy": {

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-415",
+  "dateLocal": "2026-11-01",
+  "status": "blocked",
+  "target": "physical-PC local RIFT",
+  "leadScreenshot": {
+    "name": "2026-10-29_020726.jpg",
+    "sha256": "e6f296be4f74765324023335f14ed1130d216dca547b13235b5ce1580d7052aa",
+    "observed": "SpellDump initialization chat, not ability export"
+  },
+  "sourceGroup1": {
+    "kind": "disabled addons",
+    "sources": [
+      {
+        "path": "SpellDump.disabled/README.md",
+        "sha256": "113945bccff6c11dfb792b1ca66a7970f146d2bed9a39b2f107f85a8f291f885"
+      },
+      {
+        "path": "SpellDump.disabled/SpellDump.lua",
+        "sha256": "87388b61f638a49113fae6d31828bf3d566ddbf03be65d043c12f608f094dcbc",
+        "collectorLines": "793-825",
+        "uiTextLines": "828-862",
+        "clipboardLines": "669-709"
+      },
+      {
+        "path": "SpellDump.disabled/RiftAddon.toc",
+        "sha256": "a341c9d8ff3486ba0ca40ddc12fb76f6a85dfd3ddff27568a9ee55755daf4f84",
+        "savedVariables": [
+          "SpellDump_Settings",
+          "SpellDump_Log"
+        ]
+      },
+      {
+        "path": "spelldump2.disabled/SpellDump2.lua",
+        "sha256": "f1e6460a28eced2687ad3f109f2b0f73ee9a3b4b607faf4fb5c8a723eed92c04",
+        "collectorLines": "245-281",
+        "scope": "filtered offensive, not complete"
+      },
+      {
+        "path": "spelldump2.disabled/RiftAddon.toc",
+        "sha256": "ac2ca2f6654be512c98c0977ebee7b689c05732bf93c04e0582a0a8b4c8b29d2",
+        "savedVariables": []
+      }
+    ],
+    "finding": "Ability list assembled on request into UI memory/copy-to-clipboard; no declared automatic persisted ability-list SavedVariables"
+  },
+  "sourceGroup2": {
+    "kind": "accessible archived files",
+    "checks": [
+      {
+        "directory": "riftreader2",
+        "query": "SpellDump 2026-10-29",
+        "filesSearched": 600,
+        "matches": 0,
+        "complete": true,
+        "includeIgnored": false
+      },
+      {
+        "directory": "rre",
+        "query": "SpellDump 2026-10-29",
+        "filesSearched": 223,
+        "matches": 0,
+        "complete": true,
+        "includeIgnored": false
+      },
+      {
+        "directory": "rre/artifacts",
+        "query": "SpellDump 2026-10-29",
+        "filesSearched": 544,
+        "matches": 0,
+        "complete": true,
+        "includeIgnored": true
+      },
+      {
+        "directory": "riftreader2/artifacts",
+        "query": "SpellDump 2026-10-29",
+        "matches": 0,
+        "complete": false,
+        "limitReason": "time",
+        "includeIgnored": true
+      },
+      {
+        "directory": "riftreader2/artifacts",
+        "nameSearch": "spelldump",
+        "foundScope": "casting-20261025-01 source-review snapshots",
+        "complete": false,
+        "limitReason": "time"
+      }
+    ]
+  },
+  "actualOctober29AbilityExportFound": false,
+  "globalAbsenceProven": false,
+  "matchingCharacterRoleQualified": false,
+  "currentPeMatchQualified": false,
+  "fullSpellbookKnown": false,
+  "gameInputSent": false,
+  "filesModifiedOutsideRreDocs": false,
+  "nextEvidence": "Existing RR2/local-PC capture owner to supply same-character same-role API List/Detail plus spellbook/soul/trainer UI and exact build/time binding"
+}

@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Latest checkpoints:** SC-604 interim mechanism map committed; SC-413 native diagnostic-source hypothesis parked; SC-414 twelve-screenshot visual audit blocked on source-qualified UI. **Next offline task: SC-415 saved SpellDump artifact discovery.** SC1/SC3/SC4/SC5/SC6 remain open.
+**Latest checkpoint:** SC-604 map committed; SC-413 native diagnostic, SC-414 saved screenshots, and SC-415 SpellDump output hypotheses all source-documented and parked. **SC-102 is next but BLOCKED on current physical-PC API + spellbook/soul UI evidence from the existing capture owner.** SC1/SC3/SC4/SC5/SC6 remain open.
 
 ## First reads after an interrupted Chat session
 
@@ -15,22 +15,22 @@
 | Area | State and verified source |
 | --- | --- |
 | **SC0 baseline and SC2 observed lifecycle** | **MAJOR PHASES COMPLETE** at old-build evidence scope; [SC0 handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) and [SC2 handoff](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). |
-| **SC1 spellbook** | **ACTIVE/BLOCKED:** historical 55-ID API catalog, 54/55 consistent details, but no local same-character spellbook/soul/role-level/queue-mode match. [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) reviewed 12 original late-October screenshots; none supplied a qualified spellbook/queue settings panel. A saved `SpellDump` initialization message is an output-location lead only. |
+| **SC1 spellbook** | **BLOCKED:** 55 historical API IDs are cataloged but current physical-PC known/learnable/rank/role status is unproven. [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) found no qualifying UI across 12 sampled originals; [SC-415](REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md) found only copyable-addon source and no source-qualified October 29 exported list in bounded accessible paths. Actual new API+UI source needed. |
 | **SC3 timing** | **ACTIVE/BLOCKED:** GCD and Full/Short/None queue enum unmeasured. Old source ~105–107 ms polling cannot prove server RTT, [clock audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md). |
 | **SC4 native** | **ACTIVE/BLOCKED:** source-backed `/cast` callback `0x6C7450`, `/use` `0x6C7B90` and shared-context reads; [SC-412](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md) field-writer search and [SC-413](REA-RIFT-SPELLCASTING-SC413-ERROR-BRANCH-GAP-2026-11-01.md) error-text predecessor comparison are parked with exact original-source evidence. No source-qualified native ability resolver, cast-submission gate, GCD or server acknowledgment. |
 | **SC5 outcomes** | **ACTIVE:** source-backed [SC-502 exact-ID attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) from historical events, while channel/proc/interruption SC-503 remains blocked. |
 | **SC6 procedural continuity** | **SC-603 handoff complete; SC-604 interim source-backed synthesis accepted**, including current native queue config and honest historical event attribution. [SC-604 report](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.md) and [machine map](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.json). **SC-601/602 final synthesis/export and SC6 major phase remain open** pending SC1 and SC3 evidence. |
 
-**Recent checkpoints:** `53ab715` (SC-603), `91db363` (SC-412), `1b537a0` (SC-604), `b0fac21` (SC-413). Read actual current Git HEAD for SC-414 integration and any newer work.
+**Recent checkpoints:** `91db363` (SC-412), `1b537a0` (SC-604), `b0fac21` (SC-413), `277358c` (SC-414). Read current Git HEAD for the SC-415 integration hash and any subsequent work.
 
-## Next research transaction — SC-415
+## Next evidence gate — SC-102 (currently blocked on a local source)
 
-**Question:** Did October 29's saved physical-PC RIFT chat message showing **SpellDump initialization** leave an accessible actual ability snapshot/export, or only addon source/commands?
+**Need:** one current **physical-PC** RIFT same-character/same-role comparison of known-ability API records with spellbook, soul/trainer and action-bar UI. Offline source-only research has reached its stopping rule; do not claim SC1 or SC3 phase completion.
 
-- [SC-414 image audit](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) directly reviewed 12 original saved JPGs, including enlarged `2026-10-29_020726.jpg` (SHA `e6f296be4f74765324023335f14ed1130d216dca547b13235b5ce1580d7052aa`). It shows RR2 Casting and SpellDump initialization text, **not** a proven exported spellbook. Source date/folder does not qualify current PE/character/role automatically.
-- Two bounded read-only source groups: (1) currently disabled `SpellDump.disabled` and `spelldump2.disabled` addon directories under `C:\Users\mrkoo\OneDrive\Documents\RIFT\Interface\AddOns`, to learn exact export behavior; (2) existing accessible `rre`/`riftreader2` archived logs, saved reports or snapshots matching the October 29 label/time. No new addon activation or game input.
-- Accept a found dump only with exact ability IDs, actual file hash, timestamp, character/role/session provenance and source interpretation; **initialization text by itself is not a dump**. If two bounded inventories find no saved output, park SC-415 and request the existing local-PC capture owner for a later same-character API+spellbook comparison.
-- Do not revisit the 12 already reviewed images, restart the game, change installed addons or infer Full/Short/None mode from the native raw value 1.
+- [SC-414](REA-RIFT-SPELLCASTING-SC414-SCREENSHOT-AUDIT-2026-11-01.md) source-hashed 12 late-October original screenshots; none had a source-qualified spellbook or selected queue-mode UI. [SC-415](REA-RIFT-SPELLCASTING-SC415-SPELLDUMP-OUTPUT-GAP-2026-11-01.md) checked accessible saved SpellDump addon output paths. Its source creates a **copyable UI dump** but does not auto-persist complete ability records; no qualified October 29 export was found in bounded checks, and a broad ignored RR2 archive scan was time-limited.
+- The **existing RR2/local-PC live-capture owner** must provide executable SHA, current character ID/calling/level, active role/soul allocation, exact-time `Inspect.Ability.New.List/Detail` IDs and fields, spellbook/soul/trainer screenshots and action-bar snapshot. Preserve null/missing metadata, rank and ID variants, and reason-coded known/learnable/locked/usable/bound distinctions.
+- For SC3, separately bind **two abilities' same-frame readiness** and current `Full/Short/None` selected UI mode to the native raw `ActionBars_AbilityQueue` field; raw `1` alone has no proved mode mapping.
+- No RRE-owned game input, addon activation, process manipulation, VM use or full-client import. Do not rerun parked SC-412/413/414/415 routes without an explicitly new discriminator. If current local game/session evidence is unavailable, remain blocked with this durable handoff.
 
 ## Chat-mode durability
 
