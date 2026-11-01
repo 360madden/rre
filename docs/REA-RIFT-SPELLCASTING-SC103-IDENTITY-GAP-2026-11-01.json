@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-103",
+  "status": "blocked-after-bounded-evidence",
+  "sourceBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+  "localHostBuildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "sourceSha256": {
+    "trial03": "1bd8694f91abb17704cd7a769b4cb63f2f334b5d00853b220f040a627c63e695",
+    "trial04": "9e81dccdf53640c5ae8f874b6bad16d38f75faeee06be7999032e9695d934630"
+  },
+  "sourceScope": "two historical same-player ability catalogs, not verified different role or level snapshots",
+  "idsCount": 55,
+  "stableIds": true,
+  "exactlyIdenticalAbilityRecords": 54,
+  "changedRows": [
+    {
+      "lookupId": "A01BB8C035B6A96DD",
+      "name": "Righteous Charge",
+      "changedFields": [
+        "outOfRange"
+      ],
+      "values": {
+        "outOfRange": {
+          "trial03": true,
+          "trial04": null
+        }
+      }
+    }
+  ],
+  "duplicatedNames": [
+    {
+      "name": "Building Fury",
+      "count": 3,
+      "ids": [
+        "A6ACAFC287CF516B9",
+        "A6F1D01307CF516B9",
+        "A768776D17CF516B9"
+      ],
+      "descriptions": [
+        "Finishers gain a bonus to Attack Power contribution based on how many Attack Points were consumed."
+      ],
+      "allPassives": true,
+      "castTimeValues": [
+        null
+      ],
+      "explicitlyUnusableIds": []
+    },
+    {
+      "name": "Changing Role",
+      "count": 4,
+      "ids": [
+        "A6B82CAACCD1A03D8",
+        "A387EC2995D3B2CE3",
+        "A5AE12F27AE833543",
+        "A2DEBC0F3EAB4AA48"
+      ],
+      "descriptions": [
+        "Changes your current ability and class set to the selected Role."
+      ],
+      "allPassives": false,
+      "castTimeValues": [
+        2
+      ],
+      "explicitlyUnusableIds": [
+        "A2DEBC0F3EAB4AA48"
+      ]
+    }
+  ],
+  "identityFieldsAbsent": {
+    "rank": 0,
+    "level": 0,
+    "requiredLevel": 0,
+    "role": 0,
+    "calling": 0,
+    "soul": 0,
+    "mastery": 0,
+    "variant": 0
+  },
+  "rankVariantRoleMappingProven": false,
+  "requiredNewEvidence": "native spellbook/soul tree or actual role-differential observation with player level, active role and soul points; local-PC current build",
+  "gameInputSent": false,
+  "workbridgeJobs": [
+    "rea_sc103_l1_duplicates_20261101",
+    "rea_sc103_l2_schema_20261101",
+    "rea_sc103_l3_stability_20261101",
+    "rea_sc103_l4_role_switch_20261101",
+    "rea_sc103_l5_passive_20261101"
+  ]
+}

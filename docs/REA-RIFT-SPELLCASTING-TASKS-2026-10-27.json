@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-502 exact source-ID attribution completed using 11 parallel read-only Workbridge evidence lanes; SC5 active/conditional cases blocked; SC-103 rank/role identity offline question next; local PC target unchanged",
+  "status": "SC103 bounded source analysis resolved duplicate identity inventory (55 stable IDs; 54 of 55 detail records exact); rank/role assignments blocked on true UI/role snapshots; SC603 durable handoff next; major SC1 and SC5 remain active",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-103",
+  "nextTaskId": "SC-603",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -133,7 +133,7 @@
       "id": "SC-103",
       "milestone": "SC1",
       "title": "Rank/variant/role ID reconciliation",
-      "state": "ready",
+      "state": "blocked",
       "dependsOn": [
         "SC-101"
       ],
@@ -914,5 +914,35 @@
     "workersWereSeparateAiAgents": false,
     "parallelWorkbridgeJobs": 7,
     "gameInputSent": false
+  },
+  "sc103Evidence": {
+    "status": "blocked-specific-source-gap",
+    "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC103-IDENTITY-GAP-2026-11-01.json",
+    "machineSha256": "31e5f5093066b4c9b5a66e4f7d902ae4e1e0a5e82c2842205d31e40932642805",
+    "report": "docs/REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md",
+    "oldBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "twoSnapshotsSameIds": 55,
+    "exactlyIdenticalRecords": 54,
+    "differentField": {
+      "ability": "Righteous Charge",
+      "field": "outOfRange",
+      "from": true,
+      "to": "omitted-not-false"
+    },
+    "duplicateNames": {
+      "Building Fury": 3,
+      "Changing Role": 4
+    },
+    "rankAndRoleMetadataPresent": false,
+    "requires": "local PC actual spellbook/Role/soul level and paired API snapshots",
+    "sourceJobs": [
+      "rea_sc103_l1_duplicates_20261101",
+      "rea_sc103_l2_schema_20261101",
+      "rea_sc103_l3_stability_20261101",
+      "rea_sc103_l4_role_switch_20261101",
+      "rea_sc103_l5_passive_20261101"
+    ],
+    "gameInputSent": false,
+    "workersWereIndependentAiSessions": false
   }
 }
