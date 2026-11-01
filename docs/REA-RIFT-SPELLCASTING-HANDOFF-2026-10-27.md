@@ -1,46 +1,36 @@
-# REA RIFT spellcasting — current Chat-mode handoff
+# REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
-**Updated November 1, 2026. Target: LOCAL physical-PC RIFT, NOT VMware.** Physical-PC EXE remains on SHA `1935a05c…be8` as of November 1. Historical RR2 evidence is reference material only; the current local spellbook/Role must be captured independently.
+**Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
+**Next substantive native task after handoff: SC-412** (bounded writer/producer of the common `+0x358` command-context byte). **SC6 full synthesis is NOT complete.** This is a durable checkpoint only.
 
-**Current task: SC-603 (READY) — maintain concise durable handoff.** SC-502's [source-pinned combat-event attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) is accepted (18/18 checks). SC-103's [rank/Role ambiguity report](REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md) is source-qualified but **blocked**: both catalogs have the same 55 IDs and 54 identical detail records; absent rank/role fields cannot be reconstructed. The next actual research data requirement is same-character current local spellbook/soul Role/level UI + matching API snapshots. No live input was performed by REA.
+## First reads after an interrupted Chat session
 
-## Build, target and ownership
+1. Workbridge `git_status(project="rre")` and `git_history(limit=4)` — **never reuse an old guessed HEAD**. Check any previously recorded command IDs before retrying. Keep two unrelated historical untracked files untouched: `docs/rea-raw-probe-profile-2026-10-18.json` and `tools/agents/ghidra/prepare_raw_probe.py`.
+2. Read this file and [SC task register](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json); load only the next task's source dossier. Do **not** reread old 5 MB RR2 event captures unless a direct discrepancy requires it.
+3. Original **physical-PC** executable: `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, length 60,493,640 bytes. Rehash before making new native claims. There were **zero local `rift_x64.exe` processes at 2026-11-01T18:46:10.7580551Z**. This is an observation at that time, not a permanent assumption.
+4. Never modify RiftReader2/Workbridge source, restart game/VM, or issue mouse/keyboard/cast commands from this REA task. Historical RR2 records are read-only *old-build* evidence (SHA `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`), **not** proof of today's local client role/ability state.
 
-- RIFT local install `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, 60,493,640 bytes.
-- One local process was observed at PID **66436**, moduleBase **`0x7FF720420000`**, **volatile**, the game was background at last UI inspection. Nine bounded standard read-only process reads verified native rebased command table/code. No focus change, game input, memory write or injection.
-- REA owns native research, `C:\work\rre` main. RiftReader2 and Workbridge are **independent projects and must not be edited**. Historical RR2 casts and old-build API record do not validate new RIFT cast effects or GCD.
-- Reference [physical-PC target policy](REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md), [tasks](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json), and old-build [SC0](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) / [SC2](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md) completed phase handoffs.
+## Accepted milestones and precise limits
 
-## Latest source-backed native finding — SC-407
+| Area | State and verified source |
+| --- | --- |
+| **SC0 baseline and SC2 observed lifecycle** | **MAJOR PHASES COMPLETE** at old-build evidence scope; [SC0 handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) and [SC2 handoff](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). |
+| **SC1 spellbook** | **ACTIVE/BLOCKED:** 55 API-listed historical ability IDs, 54/55 detailed records equal across two captures; [SC103 rank/Role gap](REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md). Actual local same-character spellbook/soul/role-level snapshots missing. |
+| **SC3 timing** | **ACTIVE/BLOCKED:** GCD and Full/Short/None queue enum unmeasured. Old source ~105–107 ms polling cannot prove server RTT, [clock audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md). |
+| **SC4 native** | **ACTIVE:** actual source-backed `/cast` callback at RVA `0x6c7450`, but no cast-submission handler proven. [SC-409 cast vs use](REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md) proves **17 common direct callee targets**; [SC-410 PE import map](REA-RIFT-SPELLCASTING-SC410-IMPORT-MAP-2026-11-01.md) proves **32 DLLs/811 imports**; [SC-411 context offsets](REA-RIFT-SPELLCASTING-SC411-CONTEXT-2026-11-01.md) proves **`+0x358` comparison in both command branches** and use-side `+0x340` pointer access. Semantics unknown. |
+| **SC5 outcomes** | **ACTIVE:** source-backed [SC-502 exact-ID attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) from historical events, while channel/proc/interruption SC-503 remains blocked. |
+| **SC6 procedural continuity** | **SC-603 handoff capability verified and checkpointed**. SC-601 full synthesis / SC-602 portable export still depend on SC1 spellbook and SC3 GCD evidence; do not claim SC6 phase complete. |
 
-**Correct command mapping** based on original command name following its function-pointer block, verified by typed error text references:
+**Recent local commits to preserve:** `ccb0bf2` (SC-410), `550b9f3` (SC-409), `093c21e` (SC-411). The SC-603 handoff/checkpoint commit will come **after** this file; read current Git HEAD rather than expecting any static hash inside the handoff.
 
-| Command | Command literal RVA | Specialized native callback RVA |
-| --- | --- | --- |
-| `stopattack` | `0x26B6550` | `0x6C73F0` |
-| **`cast`** | **`0x26B6598`** | **`0x6C7450`** |
-| `use` | `0x26B65D8` | `0x6C7B90` |
+## Next research transaction — SC-412
 
-Original selected `cast` native body `0x6C7450–0x6C7B71`, SHA `31c02f4e68ac0c8157ad4e8fd1f813fe724b02f607d9c67649bcd777d0890d85`. It contains exact references to text `Could not cast unknown ability: [%ABILITY]` at `0x6C78B2/0x6C78DD/0x6C7922`. Adjacent `use` code references `Could not use unknown item: [%ITEM]`. Runtime source pointer/byte comparisons passed **9/9**. This proves an entry and error branch, **NOT** game/server acceptance, a native learned-spellbook enumerator, shared GCD or queue mechanism.
+**Question:** what *writes or constructs* the `+0x358` context flag read in both `/cast` and `/use`?
 
-- [SC-407 source dossier](REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.md)
-- [SC-407 machine data](REA-RIFT-SPELLCASTING-SC407-CAST-ENTRY-2026-10-27.json)
-- Recent Workbridge jobs (passed): `rea-localpc-cast-handler-trace-20261027-01` and `rea-localpc-cast-command-runtime-code-20261027-01`. The earlier `rea-localpc-cast-dispatch-pointers-20261027-01` contains **wrong provisional labels**, corrected in SC-407; never reuse those labels.
+- [SC411 exact-source machine record](REA-RIFT-SPELLCASTING-SC411-CONTEXT-OFFSETS-2026-11-01.json). Cast-specific helper original `.pdata` region `0x57cda0–0x57d028`: source instruction at `0x57cdc4` is `cmp byte ptr [rcx+0x358],0`. Use-specific helper `0x57db60–0x57dbd7` saves first RCX pointer to RBX, then `0x57dba3` tests `[rbx+0x358]` and `0x57dbac` loads `[rbx+0x340]`.
+- Use **one targeted bounded source producer/caller-context probe** first, not a full image displacement search, and record the original code bytes/hash, `.pdata` extent, hypotheses and falsifier. Never assign a meaning like `isCasting`, `inCombat` or `abilityQueue` from the offset alone.
+- If two materially different bounded probes do not reveal a decision-changing producer, **park SC-412** and move to another original-client subsystem or a qualified new-source observation. A blocked result with a complete evidence receipt merits a commit, not an endless retry.
 
-**SC-408 remains parked. SC-501 completed at bounded evidence scope:** native error text `Could not cast unknown ability: [%ABILITY]` is linked to a **UTF-16LE `ABILITY` formatting key** at RVA `0x26b6030`, disproving the provisional `A`-prefix inference. Historical RR2 `unusable=true` and out-of-range diagnostics are distinct from a real target Dodge. Full native/server rejection mechanics remain unverified. Source QA 16/16; see [SC-501 record](REA-RIFT-SPELLCASTING-SC501-OFFLINE-2026-10-27.json).
+## Chat-mode durability
 
-## What remains open
-
-- **SC1** native full spellbook/learnable-at-level/role and souls: no current local on-screen UI or role-scoped API baseline.
-- **SC3** independent shared GCD, actual ability queue Full/Short/None mapping (raw setting `+0xA4` was `1` only), cast delay and server clock: unresolved. [SC-305](REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md) is completed, [SC-306](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md) blocked until matching UI evidence.
-- **SC4** active, not complete: SC-407 native `/cast` command entry verified; SC-408 generic callees parked. SC-501 corrected error-format evidence does not yet identify the native ability resolver or server acknowledgement.
-- **SC5** active, not complete: SC-501 rejection taxonomy and **SC-502 exact-event attribution** accepted. SC-502 source has 11/4 ranged events: first trial one self-target Dodge and one selected-target Dodge, plus nine Auto Attack events (8 damages totaling 959 and one miss); second trial 402 to selected + 726 across three other targets. Initial raw melee legacy-ID match failed, later replay independently reports 118 damage. SC-503 proc/channel/interrupt evidence is still missing.
-- **SC1** active, not complete: [SC-103 source audit](REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md) established 3 distinct Building Fury passive IDs, 4 Changing Role IDs and one Righteous Charge `outOfRange` field change (true → omitted, not false). There are **no** rank/level/role/calling/soul/mastery/variant fields in the 55 ability records. Require actual native UI and paired current snapshots; do not infer numeric ranks.
-- No background work assumed: checkpoint each bounded finding and commit.
-
-## Resume in next Chat mode
-
-1. Read RRE Git HEAD/status, this one-page handoff and current task register; do not repeat broad searches or touch preserved unrelated untracked files.
-2. Verify the original physical-PC executable SHA before new native interpretation. For SC-103, use prior 55-ID catalog and source hashes; preserve name collisions and distinguish historical recorded abilities from current role/level requirements.
-3. Preserve SHA/modern identity/target/source hashes, exact job IDs, offline proof limits and commit after one useful submilestone. Workbridge has 36 coordination slots but no direct independent AI-spawn action in Chat mode; the seven November 1 read-only parallel analysis jobs were **not** seven autonomous reasoning agents.
-4. **Big colored completion header only when a complete major phase's exit criteria pass.** SC4 is not there yet.
+One manager integrates. Workbridge **36 command/coordination slots are not 36 real AI agents**; parallel source-analysis commands may run without pretending they are independent reasoning sessions. Commit each accepted positive or negative finding together with its source SHA, exact job IDs and board status. Docs/board-only updates: run register/link/source checks and `node tools/validate-roadmap.mjs`, **not** the entire historical 500+ navigation suite. Never promise unattended research after a Chat turn ends.

@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC411 verified common +0x358 command-context data access and use-side +0x340; semantics and native cast submit still unknown; SC603 durable handoff next, SC412 bounded producer hypothesis ready",
+  "status": "SC603 durable Chat-mode handoff verified and SC6 active (not complete); SC410 imports, SC409 command compare, SC411 context fields committed; SC412 bounded producer hypothesis is next; SC1/SC3 and SC5 conditional evidence still open",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-603",
+  "nextTaskId": "SC-412",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -68,7 +68,7 @@
     {
       "id": "SC6",
       "name": "Model and reproducible outputs",
-      "status": "planned"
+      "status": "active"
     }
   ],
   "tasks": [
@@ -463,7 +463,7 @@
       "id": "SC-603",
       "milestone": "SC6",
       "title": "Resumable Chat-mode handoff and commit checkpoint per milestone",
-      "state": "ready",
+      "state": "completed",
       "dependsOn": [],
       "owner": "REA Manager",
       "sourceInputs": [
@@ -1068,5 +1068,19 @@
     "validationJob": "rea_sc411_context_qa_20261101",
     "passedChecks": 13,
     "gameInputSent": false
+  },
+  "sc603Evidence": {
+    "status": "completed-procedural-handoff",
+    "handoff": "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md",
+    "handoffSha256": "2d31d77918c89c1c11a7703c07868c0967392414d33cba7d4b68082ad66c6a03",
+    "nextTask": "SC-412",
+    "recentNativeCommits": [
+      "ccb0bf2",
+      "550b9f3",
+      "093c21e"
+    ],
+    "phaseSC6FullyComplete": false,
+    "gameInputSent": false,
+    "validationJob": "rea_sc603_handoff_qa_20261101"
   }
 }
