@@ -5,7 +5,7 @@
 ## Scope and source
 
 - Standalone package: `addons/RRECollector/RiftAddon.toc`, `main.lua`, `README.md`.
-- Manifest: `Identifier = RRECollector`, `Version = 0.1.0`, `Environment = 4.4`, character SavedVariable `RRECollectorData`.
+- Manifest: `Identifier = RRECollector`, `NameShort = RRE`, `Email = 360madden@gmail.com`, `Version = 0.1.0`, `Environment = 4.4`, character SavedVariable `RRECollectorData`. The missing contact metadata was corrected after comparison against 46 readable installed TOCs (44/46 have `Email`; only this addon and one disabled addon omitted it before correction).
 - Commands: `/rre help`, `/rre status`, `/rre capture`, `/rre page N`, `/rre export`.
 - Explicit manual snapshot, **no background polling or game actions**. Single API list, batch Detail with per-ID fallback, stats, player identity and combat-role type, optional active role slot/names, target, build/version field when supplied. All captures carry sequence/frame-clock and documented completeness/error counters.
 - One snapshot per character SavedVariable `RRECollectorData.latest`; `/reloadui` or normal logout is required for on-disk flush. The frame clock is *not* UTC.
@@ -23,8 +23,8 @@
 ## Deployment and validation boundary
 
 - Host install directory: `C:\Users\mrkoo\OneDrive\Documents\RIFT\Interface\AddOns\RRECollector` (new directory; no preexisting addon overwritten).
-- Host copy/hash verification: Workbridge job `rre-sc417-host-addon-copy-hash-20261101-a1` exited **0**, `HOST_ADDON_COPY_PASS`; all three installed SHA-256 hashes equal Git source:
-  - `RiftAddon.toc`: `cf98f6cce40c2be66e23edf003a89493eab00bad76ce1b1c69095dec0aa80419`
+- Initial host copy/hash verification: Workbridge job `rre-sc417-host-addon-copy-hash-20261101-a1` exited **0**. Following the manifest correction, source and host copy were both updated without touching `main.lua`; focused check `rre-sc417-toc-metadata-hash-validate-20261101-a1` exited **0**, `TOC_METADATA_AND_INSTALL_PASS`. Current three installed SHA-256 hashes equal source:
+  - `RiftAddon.toc`: `885527d8d007c6b785cbeeeb52fef73ccf1962abe4ab6c04400b285f2d24789f`
   - `main.lua`: `93fd9d3147c1b467c5d937b500d95eb2b5c9567f20c13d069ed2cddfa67532c5`
   - `README.md`: `10f3830e74f7f8801c379132ff883fd5e7628d658a978662c257904e58187be3`
 - No working `lua`/`luac`/`lupa`/`luaparser` present in the Windows Python PATH check `rre-sc417-lua-availability-20261101-a1` (exit 0). Therefore no honest claim of bytecode-compiled Lua or live loaded state. Focused static package check `rre-sc417-static-package-20261101-a1` exit **0**, `SC417_STATIC_PACKAGE_PASS`; checked manifest/version/command/API/SavedVariable/false-valued ID path and 3/3 installed SHA matches. Roadmap validation `rre-sc417-roadmap-validate-20261101-a1` exit **0**, no failures (47 historical NAV tasks). Both checks are offline and do not prove live Lua load.

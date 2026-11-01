@@ -1,7 +1,9 @@
 Identifier = "RRECollector"
 Name = "RRE Collector"
+NameShort = "RRE"
 Description = "One-shot read-only spellcasting API snapshot for RRE research"
 Author = "360madden"
+Email = "360madden@gmail.com"
 Version = "0.1.0"
 Environment = "4.4"
 SavedVariables = {
