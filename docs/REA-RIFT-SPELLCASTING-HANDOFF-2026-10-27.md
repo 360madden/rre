@@ -1,7 +1,7 @@
 # REA RIFT spellcasting — canonical Chat-mode resumption handoff
 
 **Updated November 1, 2026. Owner: REA research. Target: LOCAL physical-PC RIFT, not VMware.**
-**Latest accepted checkpoint: SC-604 interim mechanism map** (readable report plus source-pinned JSON). **Next bounded native task: SC-413** (unknown-ability branch predecessor compared with /use negative control). **SC6 full synthesis remains incomplete.**
+**Latest checkpoints: SC-604 interim mechanism map committed; SC-413 bounded error-path check parked** after mirrored native text-formatting comparison. **Next offline task: SC-414 saved physical-PC screenshot audit.** SC6 final mechanism synthesis remains incomplete.
 
 ## First reads after an interrupted Chat session
 
@@ -17,19 +17,20 @@
 | **SC0 baseline and SC2 observed lifecycle** | **MAJOR PHASES COMPLETE** at old-build evidence scope; [SC0 handoff](REA-RIFT-SPELLCASTING-SC0-HANDOFF-2026-10-27.md) and [SC2 handoff](REA-RIFT-SPELLCASTING-SC2-HANDOFF-2026-10-27.md). |
 | **SC1 spellbook** | **ACTIVE/BLOCKED:** 55 API-listed historical ability IDs, 54/55 detailed records equal across two captures; [SC103 rank/Role gap](REA-RIFT-SPELLCASTING-SC103-RANK-ROLE-GAP-2026-11-01.md). Actual local same-character spellbook/soul/role-level snapshots missing. |
 | **SC3 timing** | **ACTIVE/BLOCKED:** GCD and Full/Short/None queue enum unmeasured. Old source ~105–107 ms polling cannot prove server RTT, [clock audit](REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md). |
-| **SC4 native** | **ACTIVE:** source-backed `/cast` callback RVA `0x6c7450`, 17 shared `/cast`/`/use` target RVAs, command-context `+0x358` reads and `+0x340` use pointer. [SC-412 writer hypothesis](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md) was parked after two bounded negative probes. Meaning of shared fields, ability resolver, successful cast submission and server path are unknown. |
+| **SC4 native** | **ACTIVE/BLOCKED:** source-backed `/cast` callback `0x6C7450`, `/use` `0x6C7B90` and shared-context reads; [SC-412](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md) field-writer search and [SC-413](REA-RIFT-SPELLCASTING-SC413-ERROR-BRANCH-GAP-2026-11-01.md) error-text predecessor comparison are parked with exact original-source evidence. No source-qualified native ability resolver, cast-submission gate, GCD or server acknowledgment. |
 | **SC5 outcomes** | **ACTIVE:** source-backed [SC-502 exact-ID attribution](REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md) from historical events, while channel/proc/interruption SC-503 remains blocked. |
 | **SC6 procedural continuity** | **SC-603 handoff complete; SC-604 interim source-backed synthesis accepted**, including current native queue config and honest historical event attribution. [SC-604 report](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.md) and [machine map](REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.json). **SC-601/602 final synthesis/export and SC6 major phase remain open** pending SC1 and SC3 evidence. |
 
-**Recent checkpoints:** `ccb0bf2` (SC-410), `550b9f3` (SC-409), `093c21e` (SC-411), `53ab715` (SC-603), `91db363` (SC-412). The SC-604 integration commit is recorded in Git history; read current HEAD rather than assume a static hash here.
+**Recent checkpoints:** `093c21e` (SC-411), `53ab715` (SC-603), `91db363` (SC-412), `1b537a0` (SC-604). The SC-413 evidence commit should be discovered by querying current Git HEAD; do not assume hashes persist across interrupted sessions.
 
-## Next research transaction — SC-413
+## Next research transaction — SC-414
 
-**Question:** do the source-byte branch predicates immediately upstream of the native `/cast` unknown-ability diagnostic differ meaningfully from the `/use` unknown-item negative control, and can that discriminate an ability-lookup result without assigning invented semantics?
+**Question:** can an already-saved **physical-PC RIFT** screenshot supply actual visual evidence of the active character's spellbook, soul/role allocation or selected Ability Queue setting, with a credible build/time/identity binding?
 
-- Original physical-PC PE SHA is pinned above. Examine only known diagnostic xref neighborhoods: `/cast` `0x6C78B2/0x6C78DD/0x6C7922` versus `/use` `0x6C86A7/0x6C86D2/0x6C8716`. Confirm original bytes, exact branch/producer instruction RVAs and `.pdata` boundaries; use [SC-409](REA-RIFT-SPELLCASTING-SC409-COMPARISON-2026-11-01.md) and [SC-412](REA-RIFT-SPELLCASTING-SC412-WRITER-GAP-2026-11-01.md).
-- Do **not** repeat generic SC-408 helper tracing, SC-412 `+0x358` writer scans or full-program REA imports. One discriminating source claim per research transaction; stop after at most two substantively different non-decisive probes.
-- Record source SHA, job IDs, positive/negative result and explicit unresolved ability-resolution/queue/server boundary. Commit a coherent result or a parked blocker, then refresh the handoff.
+- Workbridge has access to `C:\Users\mrkoo\OneDrive\Documents\RIFT\Screenshots`. The newest RIFT JPGs include late-October 2026 files, but their filenames alone prove **no specific UI content**. Enumerate at most 12 relevant originals, retain source SHA and timestamp, and visually review actual pixels using an existing supported image path before classifying UI.
+- A screenshot without current process/build/character identity may be a visual clue but **not** a matching present-day API or queue-mode proof. Keep `Inspect.Ability.New.List/Detail` IDs, active role/soul and UI labels distinct unless source-bound in the same local session.
+- Do **not** create an imaging-tool substitute until existing capture/preview routes are checked. A bounded attempt to use Pillow in `rre/.venv` and `C:\Python314` found it unavailable; no dependencies were installed. No live game input or screenshots are requested by this offline task.
+- If no source-qualified spellbook/queue image is found in the bounded set, record the exact insufficiency and park; require the existing local-PC live-capture owner for a future new observation. Do not reopen generic SC-413 text-formatting xrefs.
 
 ## Chat-mode durability
 

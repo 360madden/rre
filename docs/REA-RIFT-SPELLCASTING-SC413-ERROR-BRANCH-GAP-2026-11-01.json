@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-413",
+  "dateLocal": "2026-11-01",
+  "state": "blocked",
+  "reason": "Two bounded original-code comparisons showed mirrored diagnostic string construction, not an ability-lookup producer",
+  "target": "physical-PC local RIFT",
+  "originalPeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "originalPeSize": 60493640,
+  "sources": [
+    {
+      "command": "cast",
+      "startRva": "0x6c7450",
+      "endRvaExclusive": "0x6c7b75",
+      "lengthBytes": 1829,
+      "sha256": "13c27e22dd45d0c3251efe145fb39887db4bf4461d73599a983132f418122731",
+      "decodedInstructions": 431,
+      "errorDataXrefs": [
+        "0x6c78b2",
+        "0x6c78dd",
+        "0x6c7922"
+      ],
+      "predecessorBranch": {
+        "cmpRva": "0x6c7792",
+        "branchRva": "0x6c7795",
+        "targetRva": "0x6c77b3",
+        "interpretation": "local pointer comparison in nearby string buffer construction; not native ability identity"
+      }
+    },
+    {
+      "command": "use",
+      "startRva": "0x6c7b90",
+      "endRvaExclusive": "0x6c892d",
+      "lengthBytes": 3485,
+      "sha256": "a57d0ee6234c49cb4321c8b34e258416d8189341257e9c0c314d9302d717d513",
+      "decodedInstructions": 817,
+      "errorDataXrefs": [
+        "0x6c86a7",
+        "0x6c86d2",
+        "0x6c8716"
+      ],
+      "predecessorBranch": {
+        "cmpRva": "0x6c8593",
+        "branchRva": "0x6c8596",
+        "targetRva": "0x6c85b2",
+        "interpretation": "local pointer comparison in analogous item error buffer construction; not qualified item resolver"
+      }
+    }
+  ],
+  "probes": [
+    {
+      "id": 1,
+      "method": "Exact original-source xref disassembly for cast and use error-data references",
+      "jobId": "rre-sc413-manager-diag-xref-blocks-20261101-a1",
+      "status": "passed",
+      "exitCode": 0,
+      "conclusion": "mirrored text-building helpers and capacity handling; no ability-identity producer proven"
+    },
+    {
+      "id": 2,
+      "method": "Immediate predecessor and negative-control conditional branch disassembly",
+      "jobIds": [
+        "rre-sc413-branch-predecessors-20261101-manager-a1",
+        "rre-sc413-errorblock-entry-20261101-manager-a1"
+      ],
+      "status": "passed",
+      "exitCode": 0,
+      "conclusion": "nearby branches test local buffer pointer and length paths, not source-qualified ability lookup"
+    }
+  ],
+  "preconditionJob": {
+    "id": "rre-sc413-source-rehash-20261101-manager-a1",
+    "status": "passed",
+    "exitCode": 0
+  },
+  "unqualifiedWorkerRequest": {
+    "requestId": "rre_sc4_errorbranch_sourceprobe_20261101_agent_native",
+    "result": "aborted without returned job ID or bytes",
+    "countedAsEvidence": false
+  },
+  "abilityResolverVerified": false,
+  "nativeCastAdmissionVerified": false,
+  "serverAcknowledgementVerified": false,
+  "gcdVerified": false,
+  "fullPeAbsenceClaim": false,
+  "gameInputSent": false,
+  "processAttached": false,
+  "vmwareUsed": false,
+  "nextEvidence": "Existing saved physical-host UI screenshot audit: spellbook / active role / queue mode, bound to exact build, character and time; no new game input"
+}
