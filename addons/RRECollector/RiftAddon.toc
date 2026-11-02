@@ -13,5 +13,6 @@ RunOnStartup = {
     "core.lua",
     "context.lua",
     "abilities.lua",
+    "capabilities.lua",
     "main.lua",
 }

@@ -52,7 +52,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | page N | export | help")
   say("Captures known API abilities, role context, stats and target. No casting.")
 end
 
@@ -66,6 +66,29 @@ local function onSlash(_, raw)
       help()
     elseif action == "status" then
       status()
+    elseif action == "probe" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local probeOk, report = pcall(RRECollectorRuntime.capabilities.probe)
+      if not probeOk or type(report) ~= "table" then
+        lastMessage = "probe-error"
+        say("Probe failed safely; prior ability and probe snapshots preserved.")
+        return
+      end
+      local nextProbe = (type(RRECollectorData.probeSequence) == "number"
+        and RRECollectorData.probeSequence or 0) + 1
+      report.sequence = nextProbe
+      RRECollectorData.probe = report
+      RRECollectorData.probeSequence = nextProbe
+      lastMessage = "probe-recorded"
+      local index = report.index or {}
+      say("API probe #" .. tostring(nextProbe) .. ": documentation "
+        .. tostring(report.documentationStatus) .. ", matching names "
+        .. tostring(index.retained or 0) .. ", doc errors "
+        .. tostring(report.documentErrors or 0) .. ".")
+      say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
     elseif action == "capture" then
       if not savedLoaded then
         say("SavedVariables not ready; retry after initialization.")

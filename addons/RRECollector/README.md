@@ -1,6 +1,6 @@
 # RRECollector v0.2.0 (source-only modular scaffold)
 
-A standalone, one-shot, read-only RIFT addon for the RRE spellcasting roadmap. No dependency on RiftReader2, BotDsBridge or other addons. **v0.2.0 is a source-only modular split, not yet installed or live verified**; the previously installed v0.1.0 produced the accepted 69/69 SC-418 catalog. Preserve that evidence until a separately operator-driven v0.2 smoke check.
+A standalone, one-shot, read-only RIFT addon for the RRE spellcasting roadmap. No dependency on RiftReader2, BotDsBridge or other addons. **v0.2.0 is a source-only modular scaffold with a guarded API probe, not yet installed or live verified**; the previously installed v0.1.0 produced the accepted 69/69 SC-418 catalog. Preserve that evidence until a separately operator-driven v0.2 smoke check.
 
 ## Install
 
@@ -8,17 +8,18 @@ Copy this whole directory to the physical PC's RIFT Interface/AddOns/RRECollecto
 
 ## Source module layout
 
-`RiftAddon.toc` loads these scripts in order: `core.lua` (shared safe scalar/API wrappers, version/schema), `context.lua` (player/target/role/stats), `abilities.lua` (current known API List/Detail and completeness) and `main.lua` (slash commands, status/page, SavedVariables lifecycle). They share only the `RRECollectorRuntime` namespace; no `require` or other addon dependency. The `RRECollectorData.latest` schema remains **1**, and existing `/rre` commands retain their names and semantics. RC-02 will add one bounded manual API capability probe after RC-01 acceptance.
+`RiftAddon.toc` loads these scripts in order: `core.lua` (shared safe scalar/API wrappers, version/schema), `context.lua` (player/target/role/stats), `abilities.lua` (current known API List/Detail and completeness), `capabilities.lua` (bounded runtime documentation/path-type probe), and `main.lua` (slash commands, status/page, SavedVariables lifecycle). They share only the `RRECollectorRuntime` namespace; no `require` or other addon dependency. The `RRECollectorData.latest` schema remains **1**, and existing `/rre` commands retain their names and semantics. RC-02 adds the read-only `/rre probe` path without changing the known catalog record.
 
 ## Commands
 
 - /rre help: list commands.
 - /rre status: inspect load/capture status and counts.
 - /rre capture: snapshot character identity, combat-role type, best-effort role slot/names, optional stats and target, known/available ability IDs and details.
+- /rre probe: inspect only selected documented API names and safe function/type presence, record an optional bounded `RRECollectorData.probe` receipt; does **not** enumerate unlearned/locked spells or call game actions.
 - /rre page N: show eight captured ability names/lookup IDs (1-based).
 - /rre export: show persistence instructions.
 
-The collector is idle unless /rre capture is invoked. Captures go to character-scoped SavedVariables RRECollectorData.latest, then RIFT normally flushes them on /reloadui or logout. The exported frame clock is not UTC. Neither a successful source copy nor a syntax check proves live loading.
+The collector is idle unless /rre capture or /rre probe is invoked. Captures go to character-scoped SavedVariables RRECollectorData.latest, then RIFT normally flushes them on /reloadui or logout. The exported frame clock is not UTC. Neither a successful source copy nor a syntax check proves live loading.
 
 ## Data contract
 
@@ -28,7 +29,7 @@ Inspect.Ability.New.List is a current API ability set, NOT a catalog of every un
 
 ## Operator smoke check (once)
 
-1. When deployment is approved for a later milestone, check the installed RiftAddon.toc version 0.2.0 and all four TOC-listed Lua hashes against Git. Current host v0.1 package must remain untouched until that step.
+1. When deployment is approved for a later milestone, check the installed RiftAddon.toc version 0.2.0 and all five TOC-listed Lua hashes against Git. Current host v0.1 package must remain untouched until that step.
 2. From the game, run /rre status and /rre capture; verify a nonzero, correctly identified catalog with /rre status and /rre page 1.
 3. Execute a normal UI reload/logout and inspect the character SavedVariables record. Match character, active role, and spellbook screenshots before treating it as SC-102 evidence.
 
