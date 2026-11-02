@@ -1,4 +1,4 @@
-# RRECollector v0.4.1 — read-only RIFT ability toolbar and research scaffold
+# RRECollector v0.4.2 — read-only RIFT ability toolbar and research scaffold
 
 A standalone addon for the physical-PC RIFT client. It does not depend on RiftReader2, BotDsBridge, SpellDump, ProjectAbilityBook, or other addons. Its source is under RRE; the game loads a separate installed copy from `Interface/AddOns/RRECollector`. Source edits do not affect a running client's already-loaded Lua until its next normal UI load.
 
@@ -8,6 +8,7 @@ A standalone addon for the physical-PC RIFT client. It does not depend on RiftRe
 - **v0.2:** the independent API capability receipt observed 1,910 indexed documentation names, 22 research-relevant names, zero documented probe errors; existing `latest` remained untouched.
 - **v0.3:** adds 96 static Warrior candidate IDs from source-hashed, disabled ProjectAbilityBook Paladin (34), Void Knight (33), and Paragon (29) files. In the prior Atank snapshot, 39 of these exact IDs were listed and 57 were absent. These are **candidates**, not evidence of a learned, locked, unlearned, currently available, or castable ability. The six named Paladin IDs from original screenshots are among the absent candidates.
 - **v0.4:** adds a display-only eight-icon toolbar and eight-row ability browser. It reuses the existing current-known and static catalogs, offers manual bounded Detail checks and guarded Capture/Retry buttons, and persists a small diagnostic for candidate-lookup deferrals. No icon auto-casts or continuously polls readiness.
+- **v0.4.2:** remembers toolbar position, clamps expanded/collapsed layout, improves UI initialization diagnostics, synchronizes Hide with browser visibility, and adds a guarded, click-only native Reload UI button. Live game verification remains pending.
 - **v0.4.1:** after a startup deferral specifically caused by missing Warrior player context, attempts at most two guarded, event-driven retries on addon startup completion and player full availability. Records the automatic retry count; never polls every frame or overwrites earlier successful snapshots. Swaps flat command rectangles for RIFT-native buttons with built-in hover/pressed/disabled styling; ability rows and icon slots gain subtle hover, press and selection accents.
 - The static source inventory is preserved as `docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json`, with per-file SHA-256 provenance.
 

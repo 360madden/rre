@@ -1,4 +1,4 @@
-// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.4.1.
+// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.4.2.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -53,7 +53,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.4\.1"$/m);
+  assert.match(toc, /^Version = "0\.4\.2"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
@@ -81,7 +81,7 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
 });
 
 test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
-  assert.match(core, /VERSION = "0\.4\.1"/);
+  assert.match(core, /VERSION = "0\.4\.2"/);
   assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
   assert.match(ui, /UI\.CreateFrame\("Texture"/);
   assert.match(ui, /UI\.CreateFrame\("RiftButton", name, parent\)/);
@@ -96,7 +96,8 @@ test("read-only toolbar is optional, bound to existing commands and honest about
   assert.match(ui, /pcall\(fn, id\)/);
   assert.match(ui, /READINESS UNKNOWN/);
   assert.match(ui, /No auto-cast \/ no continuous readiness polling/);
-  assert.doesNotMatch(ui, /EventMacroSet|Command\.(?:Ability|Unit|Input|System|Focus)/);
+  assert.match(ui, /reload:EventMacroSet/);
+  assert.doesNotMatch(ui, /Command\.(?:Ability|Unit|Input|System|Focus)/);
   assert.match(main, /RRECollectorRuntime\.command = function\(raw\) onSlash\(nil, raw\) end/);
   assert.match(main, /RRECollectorData\.candidateAttempt =/);
   assert.match(main, /elseif action == "ui"/);

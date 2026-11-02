@@ -1,4 +1,4 @@
--- RRECollector v0.4.1: read-only in-game research toolbar with native buttons.
+-- RRECollector v0.4.2: read-only in-game research toolbar with native buttons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -135,6 +135,18 @@ local function rowButton(name, parent, left, top, width, height, caption, handle
 end
 local function saved()
   return type(RRECollectorData) == "table" and RRECollectorData or {}
+end
+local function clampPosition(x, y)
+  local ok, w, h = pcall(function() return UIParent:GetWidth(), UIParent:GetHeight() end)
+  if not ok or type(w) ~= "number" or type(h) ~= "number" then return x, y end
+  local required = BAR_HEIGHT + (browserVisible and BROWSER_HEIGHT + 6 or 0)
+  return math.floor(math.max(0, math.min(x, math.max(0, w - WIDTH)))),
+    math.floor(math.max(0, math.min(y, math.max(0, h - required))))
+end
+local function savePosition()
+  if type(RRECollectorData) == "table" then
+    RRECollectorData.toolbarPosition = {x = X, y = Y}
+  end
 end
 local function known()
   local v = saved().latest
@@ -372,6 +384,11 @@ local function selectSlot(index)
   draw()
 end
 local function createUI()
+  local stored = saved().toolbarPosition
+  if type(stored) == "table" and type(stored.x) == "number"
+    and type(stored.y) == "number" and stored.x == stored.x and stored.y == stored.y then
+    X, Y = clampPosition(stored.x, stored.y)
+  end
   local ctx = UI.CreateContext("RRECollectorToolbar")
   bar = UI.CreateFrame("Frame", "RREToolbar", ctx)
   bar:SetPoint("TOPLEFT", UIParent, "TOPLEFT", X, Y)
@@ -382,23 +399,43 @@ local function createUI()
   dragHandle:SetMouseMasking("full")
   title = text("RREToolbarTitle", dragHandle, 8, 6, 158, 27, 14,
     "RRE COLLECTOR", color.text)
-  button("RREBrowse", head, 172, 4, 83, 28, "Browse", function()
+  button("RREBrowse", head, 168, 4, 72, 28, "Browse", function()
     browserVisible = not browserVisible
-    browser:SetVisible(browserVisible); draw()
+    browser:SetVisible(browserVisible)
+    if browserVisible then
+      local nx, ny = clampPosition(X, Y)
+      if pcall(bar.SetPoint, bar, "TOPLEFT", UIParent, "TOPLEFT", nx, ny) then
+        X, Y = nx, ny; savePosition()
+      end
+    end
+    draw()
   end)
-  button("RRECheckPins", head, 261, 4, 84, 28, "Check 8", function()
+  button("RRECheckPins", head, 245, 4, 73, 28, "Check 8", function()
     checkPinned(); draw()
   end)
-  button("RRECapture", head, 351, 4, 82, 28, "Capture", function()
+  button("RRECapture", head, 323, 4, 73, 28, "Capture", function()
     execute("capture")
   end)
-  button("RRERetry", head, 439, 4, 82, 28, "Retry", function()
+  button("RRERetry", head, 401, 4, 65, 28, "Retry", function()
     execute("candidates")
   end)
-  button("RREHide", head, 527, 4, 99, 28, "Hide", function()
+  button("RREHide", head, 557, 4, 69, 28, "Hide", function()
     barVisible = false; bar:SetVisible(false)
+    browserVisible = false; browser:SetVisible(false)
     say("Toolbar hidden. /rre ui to reopen.")
   end)
+  -- Restricted RIFT macro: requires an actual click; no autonomous reload.
+  local reload = UI.CreateFrame("RiftButton", "RREReloadUI", head)
+  reload:SetPoint("TOPLEFT", head, "TOPLEFT", 471, 4)
+  reload:SetWidth(81); reload:SetHeight(27); reload:SetText("Reload UI")
+  local macroOk, macroError = pcall(function()
+    reload:SetSecureMode("restricted")
+    reload:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "reloadui")
+  end)
+  if not macroOk then
+    reload:SetEnabled(false)
+    say("Reload UI button unavailable: " .. tostring(macroError):sub(1, 100))
+  end
   for i = 1, MAX_SLOTS do
     local index = i
     local tile = block("RRESlot" .. i, bar, 12 + (i - 1) * 56, 47,
@@ -512,11 +549,10 @@ local function createUI()
     if not m or m.Left ~= true then dragging = false; return end
     local sw, sh = UIParent:GetWidth(), UIParent:GetHeight()
     if type(sw) ~= "number" or type(sh) ~= "number" then return end
-    local desiredX = math.floor(math.max(0, math.min(m.x - offsetX, sw - WIDTH)))
-    local desiredY = math.floor(math.max(0, math.min(m.y - offsetY,
-      sh - BAR_HEIGHT - BROWSER_HEIGHT - 8)))
+    local desiredX, desiredY = clampPosition(m.x - offsetX, m.y - offsetY)
     if pcall(bar.SetPoint, bar, "TOPLEFT", UIParent, "TOPLEFT", desiredX, desiredY) then
       X, Y = desiredX, desiredY
+      savePosition()
     end
   end
   local mouseEvent = Event.UI and Event.UI.Input and Event.UI.Input.Mouse
@@ -543,10 +579,10 @@ local function start()
     say("Toolbar UI unavailable; slash commands still work.")
     return false
   end
-  local ok = pcall(createUI)
+  local ok, failure = pcall(createUI)
   if not ok then
     ready = false
-    say("Toolbar initialization failed safely; /rre status still works.")
+    say("Toolbar initialization failed: " .. tostring(failure):sub(1, 140))
     return false
   end
   return true

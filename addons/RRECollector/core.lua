@@ -1,6 +1,6 @@
--- RRECollector v0.4.1: shared read-only helpers; loaded first by RiftAddon.toc.
+-- RRECollector v0.4.2: shared read-only helpers; loaded first by RiftAddon.toc.
 RRECollectorRuntime = RRECollectorRuntime or {}
-RRECollectorRuntime.VERSION = "0.4.1"
+RRECollectorRuntime.VERSION = "0.4.2"
 RRECollectorRuntime.SCHEMA = 1
 
 local function say(line)
