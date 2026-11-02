@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC09–RC13 accepted only at bounded source/offline scopes; RC13 consolidates four hash-pinned sources into 126 exact IDs (69 prior API-listed + 57 static-unlisted), 69 UI-section associations, six tooltip records, and explicit unknown eligibility/GCD. Physical v0.3 addon remains 9/9 hashes; RC08 still awaits a saved candidateLookup receipt after normal operator-controlled UI save. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07 and RC09–RC14 accepted only at bounded source/offline scopes; RC13 consolidates four inputs into 126 exact IDs and RC14 adds all 11 disabled Warrior soul sources (323 static IDs, 227 new static candidates, 353 IDs unioned with prior known, nine Building Fury IDs); live eligibility/GCD still unknown. Physical v0.3 addon remains 9/9 hashes; RC08 still awaits a saved candidateLookup receipt after normal operator-controlled UI save. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -444,6 +444,43 @@
       ],
       "result": "Offline exact-ID union accepted: 126 IDs, 69 prior API-listed, 57 static-unlisted, 6 UI-only tooltip associations; absent API cooldown remains null and 3/3 focused checks pass.",
       "limitations": "No new physical RIFT SavedVariables receipt, no arbitrary-ID Detail proof, no current unlock/rank/usable state, and no measured GCD or role-slot mapping."
+    },
+    {
+      "id": "RC-14",
+      "phase": "M6-offline-parallel",
+      "title": "Enumerate all 11 disabled Warrior soul source files as an exact-ID static reference",
+      "state": "completed",
+      "dependsOn": [
+        "RC-09",
+        "RC-13"
+      ],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/build-warrior-static-reference.mjs",
+        "tools/verify-warrior-static-reference.mjs",
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC14-ELEVEN-SOUL-STATIC-REFERENCE-2026-11-02.md"
+      ],
+      "scope": [
+        "Read only the 11 already installed disabled ProjectAbilityBook Warrior Lua files and pin their SHA256 bytes",
+        "Reuse the literal Lua parser and preserve exact IDs/name/soul/category/icon, then join to the accepted 96 and 126 catalogs",
+        "Keep source-only 227 new IDs distinct from the character-known 69; do not expand live canaries or make a new addon"
+      ],
+      "deliverable": "Deterministic 323-ID 11-soul static Warrior reference with source-hash verifier and bounded findings",
+      "acceptance": [
+        "All 11 source hashes and 323 unique IDs validated; original 96 form an exact-ID/name/soul/category subset",
+        "227 additional source-only candidates, 39 currently known overlaps, 353 distinct union with known-69",
+        "Nine Building Fury same-name distinct IDs preserved; all rank/learnability/current usability fields unknown",
+        "Three focused tests pass; no game input, addon install, or client-candidateLookup inference"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC14-ELEVEN-SOUL-STATIC-REFERENCE-2026-11-02.md",
+        "tools/build-warrior-static-reference.mjs",
+        "tools/verify-warrior-static-reference.mjs"
+      ],
+      "result": "11 installed disabled Warrior source files contain 323 unique exact IDs (227 outside prior three souls), 39 old API-listed overlaps, nine distinct Building Fury IDs; 3/3 tests pass.",
+      "limitations": "Historical disabled source only: no current spellbook completeness, rank/unlock/learnability/castability, live arbitrary-ID Detail, GCD or queue proof. RC08 normal SavedVariables flush remains needed."
     }
   ],
   "workingSource": {
@@ -471,6 +508,12 @@
     "offlineAbilityAtlasAccepted": true,
     "offlineAbilityAtlasExactIds": 126,
     "offlineAbilityAtlas": "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json",
+    "offlineAllWarriorStaticReferenceAccepted": true,
+    "offlineAllWarriorSourceSoulFiles": 11,
+    "offlineAllWarriorStaticExactIds": 323,
+    "offlineAllWarriorAdditionalStaticIds": 227,
+    "offlineWarriorPlusPriorKnownExactIds": 353,
+    "offlineAllWarriorStaticReference": "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
