@@ -167,7 +167,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json (96 exact source IDs from three source-hashed disabled Warrior files)",
         "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md (guarded explicit-ID Detail probe, source/host hashes, no runtime result yet)",
         "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json (69 known scalar Detail records joined by exact ID; no rank/lock inference)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md (read-only saved parser, exact-name and duplicate-name reconciliation)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md (read-only saved parser, exact-name and duplicate-name reconciliation)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json (69 known IDs reconciled to source-soul vs UI-name sections, role slot still unknown)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -191,6 +192,9 @@
         "offlineDuplicateStaticNameGroups": 1,
         "offlineCrosswalk": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
         "offlineCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
+        "offlineKnownSectionMap": "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
+        "offlineKnownSectionCounts": {"Paladin":28,"VoidKnight":7,"Paragon":4,"General":7,"Role":4,"Ascended Powers":5,"Patron Abilities":14},
+        "offlineRoleSlotIdentitiesResolved": 0,
         "currentClientCandidateLookupSaved": false,
         "note": "Static/current-known exact-ID joins do not prove live rank, learnability or arbitrary-ID Detail response. Saved file predates current process; wait for normal SavedVariables flush, no game-input authority."
       }

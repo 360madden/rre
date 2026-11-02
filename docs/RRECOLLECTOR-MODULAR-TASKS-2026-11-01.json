@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC10 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07 and RC10/RC11 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -336,6 +336,42 @@
       ],
       "result": "14 indexed sources SHA-matched; 69 known / 96 static / 39 shared / 57 unlisted / 30 outside; historical selected-target Dodge vs 402 damage with 726 on other targets replayed; tests 3/3 passed.",
       "limitations": "SC-601/SC-602 final completion still depends on live readiness/queue and native-to-server cast evidence. No v0.3 candidateLookup saved receipt; original disabled Lua hashes are catalog-attested only."
+    },
+    {
+      "id": "RC-11",
+      "phase": "M6-offline-parallel",
+      "title": "Reconcile all 69 current-known IDs to UI spellbook sections without role-slot guesses",
+      "state": "completed",
+      "dependsOn": [
+        "RC-04",
+        "RC-09"
+      ],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/build-spellbook-section-map.mjs",
+        "tools/verify-spellbook-section-map.mjs",
+        "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
+        "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.md"
+      ],
+      "scope": [
+        "Reuse 69 known exact IDs, 96 source-static candidates and six source-hashed saved UI section screenshots",
+        "Associate known-outside-static names with General/Role/Ascended/Patron while reserving null role slot for four Changing Role IDs",
+        "Audit three original source-hashed Warrior leaf schemas for rank and prerequisite fields; stop negative route after two bounds"
+      ],
+      "deliverable": "Deterministic complete 69-ID section map and source-guarded generator with explicit proof tiers",
+      "acceptance": [
+        "Seven sections total 69 IDs: 28/7/4 Warrior, 7 General, 4 Role, 5 Ascended, 14 Patron",
+        "30 outside-static ID/name associations remain distinct from 39 exact static-source ID joins",
+        "Four Changing Role modern IDs stay unmapped to slots; 57 absent static candidates remain unknown; three focused tests pass"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
+        "tools/build-spellbook-section-map.mjs",
+        "tools/verify-spellbook-section-map.mjs"
+      ],
+      "result": "69/69 known IDs section-associated, six host original screenshot hashes verified, three original Warrior leaf catalogs carry only Icon/ID and no rank/level prerequisite tokens; three focused tests passed.",
+      "limitations": "Non-soul sections are name/UI-tab associations, not UI-stable-ID proof. Changing Role exact ID->slot unknown, rank and eligibility unknown; RC08 live candidateLookup still blocked."
     }
   ],
   "workingSource": {
@@ -356,6 +392,8 @@
     "offlineKnownOutsideThreeStaticSouls": 30,
     "interimEvidenceReplayAccepted": true,
     "interimEvidenceReplayReport": "docs/RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md",
+    "offlineKnownSectionMapAccepted": true,
+    "offlineKnownSectionMap": "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",

@@ -1,0 +1,599 @@
+{
+  "schemaVersion": 1,
+  "taskId": "RC-11 / SC-103",
+  "evidenceScope": "current-known 69 source-section reconciliation; not role-slot/learnability proof",
+  "origin": {
+    "currentKnownCrosswalk": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
+      "sha256": "00c1cc8896591bd2c7dfedf0a831f689179fbfb0ac5369dcc63cfcf8b5ec79f5"
+    },
+    "spellbookScreenshotAudit": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md",
+      "sha256": "67f0d6387c0332a096be61c2defdc69797ef05921692445fa2b61b4da7d709ab"
+    },
+    "screenshotFiles": [
+      {
+        "section": "General",
+        "filename": "2026-11-01_194717.jpg",
+        "sha256": "bf6112e247498280e7a30e370819e146cce0afcfa5c7afa7707d63891ef09a97",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      },
+      {
+        "section": "Role",
+        "filename": "2026-11-01_194747.jpg",
+        "sha256": "b83df11be25c5b5dedab89364efabb1ba25cc59012b57abffd0cf6a327703db1",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      },
+      {
+        "section": "Ascended Powers",
+        "filename": "2026-11-01_194748.jpg",
+        "sha256": "fc3c25be59c87bb154b6892b433f6cc5e389ab9bfd0bf9080c421019657f0905",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      },
+      {
+        "section": "Patron Abilities",
+        "filename": "2026-11-01_194756.jpg",
+        "sha256": "ad3c26302cb9a7765762d00fa2709693fe3cbbd4397d2cbc30a6634e94a85ff5",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      },
+      {
+        "section": "Patron Abilities",
+        "filename": "2026-11-01_194801.jpg",
+        "sha256": "a855f2d5b184532e68d27b82df8c8d85cf800c87e732f4c88358df3ff2ae40e6",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      },
+      {
+        "section": "Patron Abilities",
+        "filename": "2026-11-01_194803.jpg",
+        "sha256": "15e1ef5fc4fdb6cb68f2375372a426a80209ce495eaa6fcde06beed2457ee22c",
+        "method": "source-hash checked host original; no stable ability ID visible"
+      }
+    ]
+  },
+  "counts": {
+    "knownApi": 69,
+    "staticSoulExactId": 39,
+    "outsideStaticNameAssociated": 30,
+    "currentlyNotKnownStaticCandidates": 57,
+    "bySection": {
+      "Paladin": 28,
+      "VoidKnight": 7,
+      "Paragon": 4,
+      "General": 7,
+      "Role": 4,
+      "Ascended Powers": 5,
+      "Patron Abilities": 14
+    }
+  },
+  "knownSections": [
+    {
+      "id": "A38DFCB8220EE4A2D",
+      "name": "Ascended Resurrection",
+      "section": "Ascended Powers",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A2DE2D8448BF4B909",
+      "name": "Break Free",
+      "section": "Ascended Powers",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A505AAA9B6EB8673D",
+      "name": "Fury of the Ascended",
+      "section": "Ascended Powers",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A251F2E341BED68A3",
+      "name": "Nexus Infusion",
+      "section": "Ascended Powers",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A2F23B7DA3B6FE174",
+      "name": "Planar Lure",
+      "section": "Ascended Powers",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A0CDE363AA305A3B5",
+      "name": "Legacy of the Shade",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A65319A6C5A45D8A8",
+      "name": "Motivational Roar",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A6713997D6CFF894C",
+      "name": "Recycle",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A3C5AEC64D3793518",
+      "name": "Soul Recall",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A6F854A06833ADE2E",
+      "name": "Toggle Auto Attack",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A2B3964A98DE82D41",
+      "name": "Toggle Ranged Attack",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A295EECA15ADDAE79",
+      "name": "Track Fish",
+      "section": "General",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A6663BAE96C8E85E6",
+      "name": "Aggressive Block",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "A0CB1772899B72707",
+      "name": "Amnesty",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "5Combat Buffs"
+    },
+    {
+      "id": "A6ACAFC287CF516B9",
+      "name": "Building Fury",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "AFFA07DF4B14E6C15",
+      "name": "Divine Edict",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "8Threat"
+    },
+    {
+      "id": "A5BF74A176BE8056A",
+      "name": "Face Slam",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "7Control"
+    },
+    {
+      "id": "A05E934712DEB9B9F",
+      "name": "Interfere",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "8Threat"
+    },
+    {
+      "id": "A75309C536CDDE89C",
+      "name": "Judgment",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "8Threat"
+    },
+    {
+      "id": "A250E73987922CA1B",
+      "name": "Light's Balm",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Healing"
+    },
+    {
+      "id": "AFDFA0334A0189A9F",
+      "name": "Light's Blessing",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Healing"
+    },
+    {
+      "id": "A6B8B16CD6F8B3DB9",
+      "name": "Light's Decree",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "AFF10FE38281E01D2",
+      "name": "Light's Domination",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "7Control"
+    },
+    {
+      "id": "A4BF7436B593C9847",
+      "name": "Light's Hammer",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "7Control"
+    },
+    {
+      "id": "AFF0C976C5B694F38",
+      "name": "Light's Protection",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "5Combat Buffs"
+    },
+    {
+      "id": "AFC39B1AFBC3B8551",
+      "name": "Light's Reprisal",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "3Damage"
+    },
+    {
+      "id": "A308169131FD954CE",
+      "name": "Light's Shield",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "AFD2EF2BB715EFD36",
+      "name": "Light's Vengeance",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "3Damage"
+    },
+    {
+      "id": "A661611602A6D2082",
+      "name": "Pacifying Strike",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "A162D4584A3A058F0",
+      "name": "Purify Land",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "3Damage"
+    },
+    {
+      "id": "A338ECD701DCD52C0",
+      "name": "Retaliation",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "3Damage"
+    },
+    {
+      "id": "A228A2340A139A1E0",
+      "name": "Righteous Blow",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "2Finisher"
+    },
+    {
+      "id": "A01BB8C035B6A96DD",
+      "name": "Righteous Charge",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "A547D021A5733D563",
+      "name": "Shield Defense",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "5Combat Buffs"
+    },
+    {
+      "id": "A03F53003A62FFD1E",
+      "name": "Shield of the Chosen",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "A33611D5D1EF5312E",
+      "name": "Shield of the Hero",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "AFA2841BF792FCE2C",
+      "name": "Shield of the Vengeful",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "A35B3F73E433F3E42",
+      "name": "Sweeping Strike",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "A132F106FF887F85C",
+      "name": "Touch of Life",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Healing"
+    },
+    {
+      "id": "A2CD5149A46EE1393",
+      "name": "Wall of Light",
+      "section": "Paladin",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "5Combat Buffs"
+    },
+    {
+      "id": "A6F1D01307CF516B9",
+      "name": "Building Fury",
+      "section": "Paragon",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Buffs"
+    },
+    {
+      "id": "A7C9DD2EA3FED172D",
+      "name": "Follow Up Attacks",
+      "section": "Paragon",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Buffs"
+    },
+    {
+      "id": "A388AC2A3092B4DB9",
+      "name": "Swift Strike",
+      "section": "Paragon",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "1Builder"
+    },
+    {
+      "id": "A1672C336AAF86543",
+      "name": "Way of the River",
+      "section": "Paragon",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Buffs"
+    },
+    {
+      "id": "A3F5E814D94343B3C",
+      "name": "Bonus Dungeon Charges",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A54F1DA73C9D1D272",
+      "name": "Bonus Warfront Charges",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A3C7F03BBA1BBE8AD",
+      "name": "Experience Bonus Suppression",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A0530A5F074940F78",
+      "name": "Patron's Artifact Tracking",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A665FDAC7EDD37636",
+      "name": "Patron's Fast Pass",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A3F5DD24F7FEF4C53",
+      "name": "Patron's Mailbox",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A1E12EB8E986727F7",
+      "name": "Patron's Radiance",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A3D21C84687199B44",
+      "name": "Summon Banker",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A439CC66597456366",
+      "name": "Summon Cleric Trainer",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A2EA96AD566F13C62",
+      "name": "Summon Guild Banker",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "AFD83E703841348C0",
+      "name": "Summon Mage Trainer",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A0A3C4B7D9770624A",
+      "name": "Summon Primalist Trainer",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A4090FAAA693ABEEC",
+      "name": "Summon Rogue Trainer",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A72F1082A8F6DD4C5",
+      "name": "Summon Warrior Trainer",
+      "section": "Patron Abilities",
+      "roleSlot": null,
+      "association": "exact display name aligned to saved UI section; screenshot contains no stable ID"
+    },
+    {
+      "id": "A2DEBC0F3EAB4AA48",
+      "name": "Changing Role",
+      "section": "Role",
+      "roleSlot": null,
+      "association": "role-changing API family / four UI role entries; exact ID-to-slot mapping unknown"
+    },
+    {
+      "id": "A387EC2995D3B2CE3",
+      "name": "Changing Role",
+      "section": "Role",
+      "roleSlot": null,
+      "association": "role-changing API family / four UI role entries; exact ID-to-slot mapping unknown"
+    },
+    {
+      "id": "A5AE12F27AE833543",
+      "name": "Changing Role",
+      "section": "Role",
+      "roleSlot": null,
+      "association": "role-changing API family / four UI role entries; exact ID-to-slot mapping unknown"
+    },
+    {
+      "id": "A6B82CAACCD1A03D8",
+      "name": "Changing Role",
+      "section": "Role",
+      "roleSlot": null,
+      "association": "role-changing API family / four UI role entries; exact ID-to-slot mapping unknown"
+    },
+    {
+      "id": "A768776D17CF516B9",
+      "name": "Building Fury",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "AFE8A4FD3871425BB",
+      "name": "Devouring Blow",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "4Finisher"
+    },
+    {
+      "id": "A23A6E91642EDEA34",
+      "name": "Discharge",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "3Pact Consumer"
+    },
+    {
+      "id": "A361EFBF01CD99AF9",
+      "name": "Reckless Strike",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "2Builder"
+    },
+    {
+      "id": "A05213A7D60B13F6B",
+      "name": "Spark",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "8Threat"
+    },
+    {
+      "id": "A0D674EA083DC58F6",
+      "name": "Void",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "6Buffs"
+    },
+    {
+      "id": "AFE4D68816C2BD068",
+      "name": "Void Propulsion",
+      "section": "VoidKnight",
+      "association": "exact static soul ID; matching spellbook tab exists",
+      "roleSlot": null,
+      "sourceCategory": "2Builder"
+    }
+  ],
+  "limitations": [
+    "UI screenshots show category/name, not the modern exact ID; non-soul section attribution is a name association",
+    "Four Changing Role IDs cannot be assigned to four role-slot names or ordering",
+    "Source soul ID does not by itself identify rank, variant, required points or learned eligibility",
+    "57 absent static IDs remain unknown, not explicitly locked or unlearnable",
+    "No character/gameplay input, SavedVariables recapture or current GCD measurement"
+  ]
+}

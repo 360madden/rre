@@ -7,6 +7,8 @@
 
 **RC-10 offline reproducibility checkpoint (November 2 UTC):** [Interim replay and limits](RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md) provide a one-command, source-hash-guarded JSON export of the accepted 69/96 exact-ID catalog and historical outcome classifications without raw unit IDs. Four pinned input hashes and all 14 SC-604 source-index hashes validate; three focused tests pass. This is **SC-602 groundwork, not SC-601/602 completion**. RC-08 remains the actual live SavedVariables gate; SC-306 queue mapping and SC-402 readiness/native data-flow are parked pending independent current UI/readiness evidence. No game input or Lua addon change.
 
+**RC-11 current-known section reconciliation (November 2 UTC):** [69-ID section report](REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.md) and [replayable JSON](REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json) reconcile the 39 static-soul exact IDs and 30 other name-to-UI-section IDs: Paladin 28, VoidKnight 7, Paragon 4, General 7, Role 4, Ascended Powers 5, Patron Abilities 14. All six relevant host JPG hashes match the source audit. The four Changing Role IDs are **not mapped to role slot names**, and source-hashed Warrior leaves contain only Icon/ID with no rank/level/prerequisite fields. Three focused tests pass. SC-103 rank/eligibility remains blocked, as does live RC-08; no game or addon changes.
+
 ## First reads after an interrupted Chat session
 
 1. Workbridge `git_status(project="rre")` and `git_history(limit=4)` — **never reuse an old guessed HEAD**. Check any previously recorded command IDs before retrying. Keep two unrelated historical untracked files untouched: `docs/rea-raw-probe-profile-2026-10-18.json` and `tools/agents/ghidra/prepare_raw_probe.py`.
