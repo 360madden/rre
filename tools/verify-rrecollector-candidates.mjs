@@ -53,7 +53,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.4\.3"$/m);
+  assert.match(toc, /^Version = "0\.4\.4"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
@@ -81,7 +81,7 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
 });
 
 test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
-  assert.match(core, /VERSION = "0\.4\.3"/);
+  assert.match(core, /VERSION = "0\.4\.4"/);
   assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
   assert.match(ui, /UI\.CreateFrame\("Texture"/);
   assert.match(ui, /local f = block\(name, parent, left, top, width, height, color\.button\)/);
@@ -100,6 +100,9 @@ test("read-only toolbar is optional, bound to existing commands and honest about
   assert.match(ui, /READINESS UNKNOWN/);
   assert.match(ui, /No auto-cast \/ no continuous readiness polling/);
   assert.match(ui, /f:EventMacroSet\(Event\.UI\.Input\.Mouse\.Left\.Click, macro\)/);
+  assert.match(ui, /if not macro and mouse\.Left and mouse\.Left\.Down/);
+  assert.match(ui, /uiReloadMacro =/);
+  assert.match(ui, /event-macro-rejected/);
   assert.doesNotMatch(ui, /Command\.(?:Ability|Unit|Input|System|Focus)/);
   assert.match(main, /RRECollectorRuntime\.command = function\(raw\) onSlash\(nil, raw\) end/);
   assert.match(main, /RRECollectorData\.candidateAttempt =/);

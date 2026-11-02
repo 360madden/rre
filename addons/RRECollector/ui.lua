@@ -1,4 +1,4 @@
--- RRECollector v0.4.3: read-only in-game research toolbar with native buttons.
+-- RRECollector v0.4.4: read-only in-game research toolbar with native buttons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -118,7 +118,9 @@ local function button(name, parent, left, top, width, height, caption, handler, 
       hovered, pressed = false, false; render()
     end, name .. " leave")
   end
-  if mouse.Left and mouse.Left.Down and mouse.Left.Up then
+  -- A restricted macro control must not share ordinary mouse Down/Up handlers.
+  -- Gadgets' working Frame reload control uses only hover + EventMacroSet.
+  if not macro and mouse.Left and mouse.Left.Down and mouse.Left.Up then
     f:EventAttach(mouse.Left.Down, function()
       if enabled then pressed = true; render() end
     end, name .. " down")
@@ -132,11 +134,21 @@ local function button(name, parent, left, top, width, height, caption, handler, 
     end
   end
   if macro then
-    -- RIFT accepts EventMacroSet on a restricted Frame; the player must click.
+    -- Proven plain-Frame pattern from installed Gadgets/wtDataTextBar.lua.
+    -- The macro is registered before the frame is used; only hardware click fires it.
     local ok, failure = pcall(function()
-      f:SetSecureMode("restricted")
-      f:EventMacroSet(Event.UI.Input.Mouse.Left.Click, macro)
+      local secure = f:SetSecureMode("restricted")
+      if secure == false then error("secure-mode-rejected") end
+      local registered = f:EventMacroSet(Event.UI.Input.Mouse.Left.Click, macro)
+      if registered == false then error("event-macro-rejected") end
     end)
+    if type(RRECollectorData) == "table" then
+      RRECollectorData.uiReloadMacro = {
+        addonVersion = runtime.VERSION,
+        status = ok and "registered" or "failed",
+        reason = ok and "none" or tostring(failure):sub(1, 120)
+      }
+    end
     if not ok then
       enabled = false
       say(name .. " macro unavailable: " .. tostring(failure):sub(1, 110))
