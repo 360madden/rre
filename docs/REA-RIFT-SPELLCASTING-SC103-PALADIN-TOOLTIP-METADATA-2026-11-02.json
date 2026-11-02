@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "taskId": "RC-12 / SC-103 and SC-303",
+  "evidenceKind": "UI tooltip transcriptions paired to static candidate IDs",
+  "buildProvenance": "Atank physical-PC user-supplied UI 2026-11-01; current API snapshot separate, source files static",
+  "source": {
+    "screenshotReport": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC102-PALADIN-TOOLTIPS-2026-11-02.md",
+      "sha256": "04967c6f967c21049062b551ccf986436c63a3c66500095c3a4e3275df41d96d"
+    },
+    "exactIdCrosswalk": {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
+      "sha256": "00c1cc8896591bd2c7dfedf0a831f689179fbfb0ac5369dcc63cfcf8b5ec79f5"
+    },
+    "staticPaladinSource": {
+      "path": "projectabilitybook.disabled/Callings/Warrior/Paladin.lua",
+      "sha256": "e4af04464201adbc5cbae9d07cab0e36a9da616b5b30abd466f8ca44c8f92f28"
+    },
+    "method": "Visible tooltip mechanics transcribed from operator-supplied host originals. IDs are separate exact-name matches in a static disabled addon; screenshots themselves contain no modern ID."
+  },
+  "count": 6,
+  "tooltipNoGcdNames": [
+    "Aegis of the Light"
+  ],
+  "abilities": [
+    {
+      "name": "Light's Benediction",
+      "id": "AFDD9D7E2A8F0E50B",
+      "staticCategory": "2Finisher",
+      "tooltipType": "Damage",
+      "powerCost": 20,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "melee",
+        "meters": null
+      },
+      "cooldownSeconds": null,
+      "requiresMeleeWeapon": true,
+      "noGlobalCooldownStatement": null,
+      "durationSeconds": 15,
+      "attackPointDamageExamples": {
+        "1": 407,
+        "2": 675,
+        "3": 1079
+      },
+      "effect": "Life damage to one melee target; reduces damage taken by 7% for 15 seconds.",
+      "visibilityNote": "No explicit cooldown or GCD statement in saved tooltip.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210653.jpg",
+        "sha256": "60b5d8272d4bf5aa9c1a35782f61ff9849a5cc97b1926a48f69098b69bdafbd5"
+      },
+      "stableIdSource": "static-exact-name"
+    },
+    {
+      "name": "Vengeful Decree",
+      "id": "A768CF3B63EE8D6ED",
+      "staticCategory": "2Finisher",
+      "tooltipType": "AE Damage",
+      "powerCost": 22,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "meters",
+        "meters": 20
+      },
+      "cooldownSeconds": 30,
+      "requiresMeleeWeapon": null,
+      "noGlobalCooldownStatement": null,
+      "targetCap": 5,
+      "attackPointDamageExamples": {
+        "1": 368,
+        "2": 564,
+        "3": 860
+      },
+      "effect": "Life damage based on Attack Points to up to five enemies.",
+      "visibilityNote": "Cooldown is a displayed tooltip value, not a measured current cooldown.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210642.jpg",
+        "sha256": "124cb46b8ca4b7fc1eec14fa8eeecab34fa50ce862c2b305d7840a53d7c5b1bc"
+      },
+      "stableIdSource": "static-exact-name"
+    },
+    {
+      "name": "Aegis of the Light",
+      "id": "AFA78C0D582C9F2E5",
+      "staticCategory": "5Combat Buffs",
+      "tooltipType": "Self Buff",
+      "powerCost": 10,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "self",
+        "meters": null
+      },
+      "cooldownSeconds": 30,
+      "requiresMeleeWeapon": true,
+      "noGlobalCooldownStatement": "No Global Cooldown",
+      "mitigationPercent": 20,
+      "mitigationDurationSeconds": 4,
+      "allyHeal": {
+        "upToAllies": 5,
+        "withinMeters": 35,
+        "amountDisplayed": 146
+      },
+      "excludedStackingWith": [
+        "Shield Defense",
+        "Crest of Entropy"
+      ],
+      "effect": "Short self mitigation and a group/raid heal; tooltip explicitly labels it No Global Cooldown.",
+      "visibilityNote": "This is an ability tooltip exception, not a measured GCD or present-day learned/usable state.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210657.jpg",
+        "sha256": "8e55e970c30aab7cd242a5175efd8dd1969b626859ffe2229781f28ba263103a"
+      },
+      "stableIdSource": "static-exact-name"
+    },
+    {
+      "name": "Sanctuary",
+      "id": "A37397DC597DDAF03",
+      "staticCategory": "5Combat Buffs",
+      "tooltipType": "Buff",
+      "powerCost": 20,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "meters",
+        "meters": 30
+      },
+      "cooldownSeconds": 90,
+      "requiresMeleeWeapon": null,
+      "noGlobalCooldownStatement": null,
+      "mitigationPercent": 30,
+      "mitigationDurationSeconds": 4,
+      "effect": "Allies within a targeted area take 30% less damage for up to 4 seconds.",
+      "visibilityNote": "UI tooltip describes a targeted area, but no actual cast/ground placement was observed.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210639.jpg",
+        "sha256": "01146c28f7b070130bbeed2daa70b544b42ac185337dd8042a6f552e14b7212d"
+      },
+      "stableIdSource": "static-exact-name"
+    },
+    {
+      "name": "Protector's Fury",
+      "id": "A0E2112FD6FE262EE",
+      "staticCategory": "6Buffs",
+      "tooltipType": "Self Buff",
+      "powerCost": 10,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "melee-weapon",
+        "meters": null
+      },
+      "cooldownSeconds": null,
+      "requiresMeleeWeapon": true,
+      "noGlobalCooldownStatement": null,
+      "buffDurationSeconds": 3600,
+      "normalVersion": {
+        "damageIncreasePercent": 25,
+        "damageTakenReductionPercent": 5,
+        "healingReceivedIncreasePercent": 5
+      },
+      "legendaryVersionExtra": {
+        "counterDamageDisplayed": 160,
+        "procChancePercent": 30,
+        "procAbility": "Light's Balm"
+      },
+      "effect": "One buff tooltip distinguishes Normal and Legendary descriptions; Legendary adds strike-triggered damage and a Light's Balm proc.",
+      "visibilityNote": "Two tooltip descriptions do not establish two live IDs or how Legendary is selected.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210700.jpg",
+        "sha256": "f5ff8c9b10e5ce00c34046fe6862f8259ce66089191979c7b6ad90e2a444f03d"
+      },
+      "stableIdSource": "static-exact-name"
+    },
+    {
+      "name": "Call of the Divine",
+      "id": "A411792DB5CF7E0E4",
+      "staticCategory": "9Utility",
+      "tooltipType": "AE Utility",
+      "powerCost": 20,
+      "castPresentation": "Instant",
+      "range": {
+        "kind": "meters",
+        "meters": 30
+      },
+      "cooldownSeconds": 25,
+      "requiresMeleeWeapon": null,
+      "noGlobalCooldownStatement": null,
+      "requiresBuffStack": "Light's Shield",
+      "effect": "Foes in the selected area are taunted and teleported toward the Warrior when the required Light's Shield stack is present.",
+      "visibilityNote": "A visible requirement does not establish current ability unlock or successful use.",
+      "sourceSoul": "Paladin",
+      "currentKnownApiList": "absent-from-preserved-69",
+      "screenshot": {
+        "filename": "2026-11-01_210645.jpg",
+        "sha256": "620a62e4a061c52ba0c8e5509cb8a6477d246dddd8a3385aeffd9965f5decedc"
+      },
+      "stableIdSource": "static-exact-name"
+    }
+  ],
+  "unknowns": [
+    "A displayed instant/no-GCD tooltip is not an observed readiness/GCD transition",
+    "Static exact-name ID association is not a live ID printed in the screenshot",
+    "Absent from known API List does not prove locked, learnable, or usable",
+    "Normal/Legendary text variants are not verified rank variants or separate stable IDs",
+    "Unshown cooldown, range and GCD fields are null rather than inferred zero or false"
+  ]
+}

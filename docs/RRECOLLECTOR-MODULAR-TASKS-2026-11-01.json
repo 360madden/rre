@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC10/RC11 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07 and RC10/RC11/RC12 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -372,6 +372,40 @@
       ],
       "result": "69/69 known IDs section-associated, six host original screenshot hashes verified, three original Warrior leaf catalogs carry only Icon/ID and no rank/level prerequisite tokens; three focused tests passed.",
       "limitations": "Non-soul sections are name/UI-tab associations, not UI-stable-ID proof. Changing Role exact ID->slot unknown, rank and eligibility unknown; RC08 live candidateLookup still blocked."
+    },
+    {
+      "id": "RC-12",
+      "phase": "M6-offline-parallel",
+      "title": "Structure six source-backed unlisted Paladin tooltips and isolate explicit no-GCD exception",
+      "state": "completed",
+      "dependsOn": [
+        "RC-04",
+        "RC-09"
+      ],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC12-PALADIN-TOOLTIP-METADATA-2026-11-02.md",
+        "tools/verify-paladin-tooltip-metadata.mjs"
+      ],
+      "scope": [
+        "Reuse six already captured source-hashed physical-PC Soul Tree tooltips without a new game operation",
+        "Pair visible metadata with six unique Paladin static candidate IDs absent from preserved 69 known",
+        "Preserve null for GCD/cooldown not shown, keep Normal/Legendary text distinct without inventing IDs"
+      ],
+      "deliverable": "Six source-provenance-labeled UI tooltip records, including displayed cooldowns and one no-GCD statement",
+      "acceptance": [
+        "All six original screenshot hashes match and all six static exact IDs remain absent from prior API-known List",
+        "Aegis No Global Cooldown records only UI-text proof, not measured GCD/current readiness",
+        "Power/range/cooldown/condition visibility retained with null unknowns and three focused validation tests"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC12-PALADIN-TOOLTIP-METADATA-2026-11-02.md",
+        "tools/verify-paladin-tooltip-metadata.mjs"
+      ],
+      "result": "Six original JPG SHA matches, six absent-from-69 static exact-name Paladin associations, explicit Aegis no-GCD tooltip with 30-second displayed cooldown, tests 3/3 pass.",
+      "limitations": "Screenshots do not show stable IDs. No current learned/eligible rank, actual GCD trace, ability cast, server success, or Protector's Fury variant ID is proven; RC08 still requires a new SavedVariables receipt."
     }
   ],
   "workingSource": {
@@ -394,6 +428,8 @@
     "interimEvidenceReplayReport": "docs/RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md",
     "offlineKnownSectionMapAccepted": true,
     "offlineKnownSectionMap": "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
+    "uiTooltipMetadataAccepted": true,
+    "uiTooltipMetadata": "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json",
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
