@@ -1,4 +1,4 @@
--- RRECollector v0.4.4: read-only in-game research toolbar with native buttons.
+-- RRECollector v0.4.5: read-only in-game research toolbar with native buttons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -20,7 +20,7 @@ local color = {
   text = {0.936, 0.963, 0.977, 1},
   grey = {0.640, 0.710, 0.742, 1}
 }
-local root, bar, browser, title, summary, pageLabel, detailLabel
+local root, bar, browser, title, summary, pageLabel, detailLabel, reloadFrame
 local rowButtons, tiles, tileIcons = {}, {}, {}
 local modeButtons, modeAccents, pageButtons, soulButton = {}, {}, {}, nil
 local tileHovered, tilePressed = {}, {}
@@ -73,7 +73,7 @@ local function text(name, parent, left, top, width, height, font, value, tint, w
 end
 -- Plain rectangular controls: no themed texture or stretch-scaled button text.
 -- Captions use their natural dimensions, centered in a bounded button footprint.
-local function button(name, parent, left, top, width, height, caption, handler, macro)
+local function button(name, parent, left, top, width, height, caption, handler)
   local f = block(name, parent, left, top, width, height, color.button)
   f:SetMouseMasking("full")
   local edge = block(name .. "Edge", f, 2, height - 3, width - 4, 2, color.cyan)
@@ -118,9 +118,7 @@ local function button(name, parent, left, top, width, height, caption, handler, 
       hovered, pressed = false, false; render()
     end, name .. " leave")
   end
-  -- A restricted macro control must not share ordinary mouse Down/Up handlers.
-  -- Gadgets' working Frame reload control uses only hover + EventMacroSet.
-  if not macro and mouse.Left and mouse.Left.Down and mouse.Left.Up then
+  if mouse.Left and mouse.Left.Down and mouse.Left.Up then
     f:EventAttach(mouse.Left.Down, function()
       if enabled then pressed = true; render() end
     end, name .. " down")
@@ -133,33 +131,11 @@ local function button(name, parent, left, top, width, height, caption, handler, 
       end, name .. " cancel")
     end
   end
-  if macro then
-    -- Proven plain-Frame pattern from installed Gadgets/wtDataTextBar.lua.
-    -- The macro is registered before the frame is used; only hardware click fires it.
-    local ok, failure = pcall(function()
-      local secure = f:SetSecureMode("restricted")
-      if secure == false then error("secure-mode-rejected") end
-      local registered = f:EventMacroSet(Event.UI.Input.Mouse.Left.Click, macro)
-      if registered == false then error("event-macro-rejected") end
-    end)
-    if type(RRECollectorData) == "table" then
-      RRECollectorData.uiReloadMacro = {
-        addonVersion = runtime.VERSION,
-        status = ok and "registered" or "failed",
-        reason = ok and "none" or tostring(failure):sub(1, 120)
-      }
-    end
-    if not ok then
-      enabled = false
-      say(name .. " macro unavailable: " .. tostring(failure):sub(1, 110))
-    end
-  else
-    f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
-      if not enabled then return end
-      local ok, failure = pcall(handler)
-      if not ok then say(name .. " action failed: " .. tostring(failure):sub(1, 130)) end
-    end, name .. " click")
-  end
+  f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
+    if not enabled then return end
+    local ok, failure = pcall(handler)
+    if not ok then say(name .. " action failed: " .. tostring(failure):sub(1, 130)) end
+  end, name .. " click")
   render()
   return {
     frame = f, label = label, setText = setCaption,
@@ -169,6 +145,61 @@ local function button(name, parent, left, top, width, height, caption, handler, 
       render()
     end
   }
+end
+-- RIFT's SetSecureMode API requires every restricted frame to have a
+-- restricted parent. Keep the secure hardware-click surface in its OWN context;
+-- the rest of the toolbar and ordinary buttons remain normal.
+local function secureReloadButton(header)
+  local status, reason = "failed", "not-initialized"
+  local function publish()
+    if type(RRECollectorData) == "table" then
+      RRECollectorData.uiReloadMacro = {
+        addonVersion = runtime.VERSION, status = status, reason = reason
+      }
+    end
+  end
+  local ok, failure = pcall(function()
+    local secureContext = UI.CreateContext("RRECollectorReloadSecure")
+    if type(secureContext.SetStrata) == "function" then
+      secureContext:SetStrata("topmost")
+    end
+    -- Parent MUST be restricted before securing any child.
+    secureContext:SetSecureMode("restricted")
+    local frame = UI.CreateFrame("Frame", "RREReloadSecureClick", secureContext)
+    frame:SetPoint("TOPLEFT", header, "TOPLEFT", 471, 4)
+    frame:SetWidth(81); frame:SetHeight(27)
+    frame:SetBackgroundColor(color.button[1], color.button[2],
+      color.button[3], color.button[4])
+    frame:SetMouseMasking("full")
+    reloadFrame = frame
+    local caption = UI.CreateFrame("Text", "RREReloadSecureCaption", frame)
+    caption:SetPoint("CENTER", frame, "CENTER")
+    caption:SetFontSize(11)
+    caption:SetFontColor(color.text[1], color.text[2],
+      color.text[3], color.text[4])
+    caption:SetWordwrap(false)
+    caption:SetText("Reload UI")
+    caption:SetMouseMasking("limited")
+    frame:SetSecureMode("restricted")
+    -- Only a real click can trigger the command; not an addon Lua action.
+    local result = frame:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "reloadui")
+    if result == false then error("reload-macro-registration-rejected") end
+    if type(frame.EventMacroGet) == "function" then
+      if frame:EventMacroGet(Event.UI.Input.Mouse.Left.Click) ~= "reloadui" then
+        error("reload-macro-readback-mismatch")
+      end
+      status, reason = "registered", "readback-matched"
+    else
+      -- The macro can still be valid on builds missing the optional readback API.
+      status, reason = "unverified", "readback-API-unavailable"
+    end
+  end)
+  if not ok then
+    status, reason = "failed", tostring(failure):sub(1, 120)
+    say("Secure Reload UI unavailable: " .. reason)
+    if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, false) end
+  end
+  publish()
 end
 -- Wide ability rows retain left-aligned text, with hover, press and selection.
 local function rowButton(name, parent, left, top, width, height, caption, handler)
@@ -508,11 +539,11 @@ local function createUI()
   end)
   button("RREHide", head, 557, 4, 69, 28, "Hide", function()
     barVisible = false; bar:SetVisible(false)
+    if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, false) end
     browserVisible = false; browser:SetVisible(false)
     say("Toolbar hidden. /rre ui to reopen.")
   end)
-  -- The secure Reload UI control now shares the same plain button skin.
-  button("RREReloadUI", head, 471, 4, 81, 27, "Reload UI", nil, "reloadui")
+  secureReloadButton(head)
   for i = 1, MAX_SLOTS do
     local index = i
     local tile = block("RRESlot" .. i, bar, 12 + (i - 1) * 56, 47,
@@ -668,6 +699,7 @@ local function toggle()
   if not ready then return start() end
   barVisible = not barVisible
   bar:SetVisible(barVisible)
+  if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, barVisible) end
   if not barVisible then browserVisible = false; browser:SetVisible(false) end
   draw()
   return true
