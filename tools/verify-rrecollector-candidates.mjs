@@ -1,4 +1,4 @@
-// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.3.
+// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.4.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -13,6 +13,8 @@ const candidateLua = read("addons/RRECollector/candidates.lua");
 const main = read("addons/RRECollector/main.lua");
 const abilities = read("addons/RRECollector/abilities.lua");
 const context = read("addons/RRECollector/context.lua");
+const core = read("addons/RRECollector/core.lua");
+const ui = read("addons/RRECollector/ui.lua");
 const toc = read("addons/RRECollector/RiftAddon.toc");
 
 test("96 unique source-hashed Warrior candidate IDs, six named screenshot canaries", () => {
@@ -51,12 +53,12 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.3\.0"$/m);
+  assert.match(toc, /^Version = "0\.4\.0"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
     "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-    "candidate_catalog.lua", "candidates.lua", "main.lua"
+    "candidate_catalog.lua", "candidates.lua", "ui.lua", "main.lua"
   ]);
   for (const s of scripts) assert.ok(fs.existsSync(path.join(root,"addons/RRECollector",s)));
 });
@@ -76,4 +78,21 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
   assert.match(main, /runCandidateLookup\("startup"\)/);
   assert.match(main, /prior\.catalogVersion == candidateVersion/);
   assert.doesNotMatch(candidateLua, /Command\.(?:Ability|Unit|Input|System|Focus)/);
+});
+
+test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
+  assert.match(core, /VERSION = "0\.4\.0"/);
+  assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
+  assert.match(ui, /UI\.CreateFrame\("Texture"/);
+  assert.match(ui, /Event\.UI\.Input\.Mouse\.Left\.Click/);
+  assert.match(ui, /function apiCheck\(id\)/);
+  assert.match(ui, /pcall\(fn, id\)/);
+  assert.match(ui, /READINESS UNKNOWN/);
+  assert.match(ui, /No auto-cast \/ no continuous readiness polling/);
+  assert.doesNotMatch(ui, /EventMacroSet|Command\.(?:Ability|Unit|Input|System|Focus)/);
+  assert.match(main, /RRECollectorRuntime\.command = function\(raw\) onSlash\(nil, raw\) end/);
+  assert.match(main, /RRECollectorData\.candidateAttempt =/);
+  assert.match(main, /elseif action == "ui"/);
+  assert.match(main, /pcall\(ui\.start\)/);
+  assert.match(main, /refreshUI\(true\)/);
 });

@@ -1,4 +1,4 @@
--- RRECollector v0.3.0: manual commands, SavedVariables and bootstrap.
+-- RRECollector v0.4.0: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -8,11 +8,22 @@ local candidateLookup = RRECollectorRuntime.candidates.lookup
 local candidateVersion = RRECollectorRuntime.candidateCatalog.version
 local savedLoaded = false
 local lastMessage = "waiting-for-saved-variables"
+local function refreshUI(clearChecks)
+  local ui = RRECollectorRuntime.ui
+  if type(ui) == "table" and type(ui.refresh) == "function" then
+    pcall(ui.refresh, clearChecks)
+  end
+end
 
 local function candidateStatus()
   local report = RRECollectorData.candidateLookup
   if type(report) ~= "table" then
     say("Static Warrior candidate lookup not yet recorded; /rre candidates.")
+    local attempt = RRECollectorData.candidateAttempt
+    if type(attempt) == "table" then
+      say("Last candidate attempt " .. tostring(attempt.status or "?")
+        .. ": " .. tostring(attempt.reason or "?") .. ".")
+    end
     return
   end
   local c = report.counts or {}
@@ -72,7 +83,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | candidates | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -83,9 +94,16 @@ local function runCandidateLookup(trigger)
   end
   local ok, report, reason = pcall(candidateLookup)
   if not ok or type(report) ~= "table" or report.apiReady ~= true then
+    local code = not ok and "lua-exception" or
+      (type(reason) == "string" and #reason <= 80 and reason or "api-report-unavailable")
     lastMessage = "candidate-lookup-deferred"
+    RRECollectorData.candidateAttempt = {
+      schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
+      status = "deferred", reason = code
+    }
     say("Candidate lookup " .. tostring(trigger) .. " deferred: "
-      .. tostring(reason or "API unavailable") .. "; previous records preserved.")
+      .. code .. "; previous records preserved.")
+    refreshUI(false)
     return false
   end
   local sequence = (type(RRECollectorData.candidateSequence) == "number"
@@ -94,6 +112,10 @@ local function runCandidateLookup(trigger)
   report.trigger = trigger
   RRECollectorData.candidateLookup = report
   RRECollectorData.candidateSequence = sequence
+  RRECollectorData.candidateAttempt = {
+    schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
+    status = "recorded", reason = "none"
+  }
   lastMessage = "candidate-lookup-recorded"
   local c = report.counts or {}
   say("Candidate lookup #" .. tostring(sequence) .. " " .. tostring(trigger)
@@ -102,6 +124,7 @@ local function runCandidateLookup(trigger)
     .. tostring(c.unlistedReturned or 0) .. " unlisted details returned; "
     .. tostring(c.queried or 0) .. " bounded Detail calls.")
   say("Separate candidateLookup recorded in memory; normal UI reload/logout flushes SavedVariables.")
+  refreshUI(false)
   return true
 end
 
@@ -140,6 +163,14 @@ local function onSlash(_, raw)
       say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
     elseif action == "candidates" then
       runCandidateLookup("manual")
+    elseif action == "ui" then
+      local ui = RRECollectorRuntime.ui
+      if type(ui) ~= "table" or type(ui.toggle) ~= "function" then
+        say("Toolbar module unavailable; slash commands still work.")
+      else
+        local toggled, shown = pcall(ui.toggle)
+        if not toggled or shown == false then say("Toolbar could not be toggled.") end
+      end
     elseif action == "capture" then
       if not savedLoaded then
         say("SavedVariables not ready; retry after initialization.")
@@ -158,6 +189,7 @@ local function onSlash(_, raw)
         tostring(record.abilityList.uniqueCount) .. " IDs, " ..
         tostring(record.abilityList.detailCount) ..
         " details. /rre status; /reloadui to save.")
+      refreshUI(true)
     elseif action == "page" then
       showPage(tonumber(argument))
     elseif action == "export" then
@@ -173,6 +205,9 @@ local function onSlash(_, raw)
     say("Command error. Use /rre status; no game action was sent.")
   end
 end
+
+-- UI buttons reuse the same guarded slash-command behavior; no game casts.
+RRECollectorRuntime.command = function(raw) onSlash(nil, raw) end
 
 local slashOk, slashResult = pcall(function()
   local event = Command.Slash.Register("rre")
@@ -203,6 +238,13 @@ if savedEvent then
       say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")
     else
       runCandidateLookup("startup")
+    end
+    local ui = RRECollectorRuntime.ui
+    if type(ui) == "table" and type(ui.start) == "function" then
+      local uiOk, started = pcall(ui.start)
+      if not uiOk or started == false then
+        say("Toolbar not available; /rre status remains functional.")
+      end
     end
   end, "RRECollector.SavedVariables")
   if not attached then

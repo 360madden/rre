@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC09–RC14 accepted only at bounded source/offline scopes; RC13 consolidates four inputs into 126 exact IDs and RC14 adds all 11 disabled Warrior soul sources (323 static IDs, 227 new static candidates, 353 IDs unioned with prior known, nine Building Fury IDs); live eligibility/GCD still unknown. Physical v0.3 addon remains 9/9 hashes; RC08 still awaits a saved candidateLookup receipt after normal operator-controlled UI save. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07, RC09–RC14 and RC15 accepted at bounded source/host/offline scopes; RC13 126 exact-ID atlas, RC14 323 static Warrior IDs/353 union, RC15 v0.4 eight-slot read-only toolbar installed 10/10. Fresh Atank v0.3 saved file on 2026-11-02T15:18Z preserves 69 abilities/probe but has no candidateLookup; RC08 pending new v0.4 candidateAttempt/lookup after normal operator-controlled load/save. SC1 unlock/rank and SC3 live readiness/GCD still unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -481,10 +481,47 @@
       ],
       "result": "11 installed disabled Warrior source files contain 323 unique exact IDs (227 outside prior three souls), 39 old API-listed overlaps, nine distinct Building Fury IDs; 3/3 tests pass.",
       "limitations": "Historical disabled source only: no current spellbook completeness, rank/unlock/learnability/castability, live arbitrary-ID Detail, GCD or queue proof. RC08 normal SavedVariables flush remains needed."
+    },
+    {
+      "id": "RC-15",
+      "phase": "M7-readonly-toolbar",
+      "title": "Extend the single RRECollector with an eight-icon ability research toolbar and candidate-attempt diagnostics",
+      "state": "completed",
+      "dependsOn": ["RC-07", "RC-14"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/core.lua",
+        "addons/RRECollector/README.md",
+        "addons/RRECollector/RiftAddon.toc",
+        "tools/verify-rrecollector-candidates.mjs",
+        "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md"
+      ],
+      "scope": [
+        "Eight-icon display-only bar, paginated known/static browser, manual explicit-ID Detail rechecks and optional saved pins",
+        "Visible red/amber/grey/cyan API-field interpretations without implying native-ready cast status",
+        "Persist bounded candidateAttempt deferred/success code to diagnose missing v0.3 receipt, preserving original latest/probe",
+        "Source/physical-host addon-only install with TOC last, no RRE-owned game input or reload"
+      ],
+      "deliverable": "RRECollector v0.4.0 single-addon source, 10/10 physical-host hash parity and scoped install receipt",
+      "acceptance": [
+        "Read-only preflight 9/9 v0.3 installed files; post-install 10/10 v0.4 SHA equality",
+        "Five focused checks pass; complete TOC Email/Environment/order intact; independent Lua/API review finds no confirmed blocker",
+        "Manual readiness checks preserve unknown, and candidate lookup deferrals are persisted without overwriting prior records",
+        "Explicit in-game v0.4 UI/load, candidateAttempt and current readiness remain unverified until normal operator-controlled reload/save"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
+        "addons/RRECollector/ui.lua",
+        "tools/verify-rrecollector-candidates.mjs"
+      ],
+      "result": "Atank v0.3 fresh saved root at 15:18 UTC but candidateLookup absent; added saved candidateAttempt diagnostic, display-only eight-icon research UI and manual no-block fields. Physical-PC v0.4 installed 10/10 TOC-last, five focused checks passed.",
+      "limitations": "RIFT has not yet loaded or saved v0.4; toolbar appearance, usable status, arbitrary-ID Detail, GCD and native cast submission remain unverified. RC08 remains open."
     }
   ],
   "workingSource": {
-    "version": "0.3.0",
+    "version": "0.4.0",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
@@ -494,7 +531,15 @@
     "candidateCatalogIds": 96,
     "candidateIdsAbsentFromPriorKnown": 57,
     "candidateLookupLiveVerified": false,
-    "installedShaMatches": 9,
+    "installedShaMatches": 10,
+    "uiResearchToolbarInstalled": true,
+    "uiResearchToolbarLiveVerified": false,
+    "manualApiReadinessVerified": false,
+    "candidateAttemptDiagnosticInstalled": true,
+    "lastObservedSavedAddonVersion": "0.3.0",
+    "lastObservedSavedFileTimestampUtc": "2026-11-02T15:18:17.647Z",
+    "lastObservedSavedFileSha256": "e08dfbb4e994e40a985992bc6be0b7f04d633c8e55a626c0cd632e9bd91fadfe",
+    "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "offlineKnownStaticCrosswalkAccepted": true,
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,
