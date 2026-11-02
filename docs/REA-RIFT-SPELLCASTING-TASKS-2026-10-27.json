@@ -169,7 +169,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json (69 known scalar Detail records joined by exact ID; no rank/lock inference)",
         "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md (read-only saved parser, exact-name and duplicate-name reconciliation)",
         "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json (69 known IDs reconciled to source-soul vs UI-name sections, role slot still unknown)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json (six UI-text mechanics paired by name to static IDs; one explicit No Global Cooldown label)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json (six UI-text mechanics paired by name to static IDs; one explicit No Global Cooldown label)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json (RC-13: 126 unique exact IDs, four source hashes; no live unlock/rank evidence)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -199,8 +200,13 @@
         "unlistedPaladinUiTooltipRecords": 6,
         "unlistedPaladinTooltipData": "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json",
         "tooltipNoGlobalCooldownNames": ["Aegis of the Light"],
+        "offlineAbilityAtlasExactIds": 126,
+        "offlineAbilityAtlasPriorListed": 69,
+        "offlineAbilityAtlasStaticUnlisted": 57,
+        "offlineAbilityAtlasTooltipRecords": 6,
+        "offlineAbilityAtlas": "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json",
         "currentClientCandidateLookupSaved": false,
-        "note": "Static/current-known exact-ID joins do not prove live rank, learnability or arbitrary-ID Detail response. Saved file predates current process; wait for normal SavedVariables flush, no game-input authority."
+        "note": "RC13 126-ID source-qualified atlas merges API/static/UI/tooltip evidence but does not prove live rank, unlock, learnability, arbitrary-ID Detail or GCD. Saved file predates current process; wait for normal SavedVariables flush, no game-input authority."
       }
     },
     {

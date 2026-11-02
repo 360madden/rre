@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC10/RC11/RC12 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07 and RC09–RC13 accepted only at bounded source/offline scopes; RC13 consolidates four hash-pinned sources into 126 exact IDs (69 prior API-listed + 57 static-unlisted), 69 UI-section associations, six tooltip records, and explicit unknown eligibility/GCD. Physical v0.3 addon remains 9/9 hashes; RC08 still awaits a saved candidateLookup receipt after normal operator-controlled UI save. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -406,6 +406,44 @@
       ],
       "result": "Six original JPG SHA matches, six absent-from-69 static exact-name Paladin associations, explicit Aegis no-GCD tooltip with 30-second displayed cooldown, tests 3/3 pass.",
       "limitations": "Screenshots do not show stable IDs. No current learned/eligible rank, actual GCD trace, ability cast, server success, or Protector's Fury variant ID is proven; RC08 still requires a new SavedVariables receipt."
+    },
+    {
+      "id": "RC-13",
+      "phase": "M6-offline-parallel",
+      "title": "Reconcile current-known API, static Warrior IDs, spellbook UI sections and tooltip evidence in one safe atlas",
+      "state": "completed",
+      "dependsOn": [
+        "RC-09",
+        "RC-11",
+        "RC-12"
+      ],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/build-rift-ability-atlas.mjs",
+        "tools/verify-rift-ability-atlas.mjs",
+        "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC13-ABILITY-ATLAS-2026-11-02.md"
+      ],
+      "scope": [
+        "Source-hash pin four accepted datasets, join exact ability IDs and retain original API/UI/static provenance",
+        "Keep prior-listed 69 separate from not-listed 57 and never infer learned, eligible, locked, role slot or current usability",
+        "Filter volatile/private Detail fields and preserve missing cooldown as null, including UI-only no-GCD tooltip"
+      ],
+      "deliverable": "Deterministic 126-ID machine atlas, replay generator, focused verifier and bounded report",
+      "acceptance": [
+        "126 unique IDs: prior 69 plus 57 static-unlisted; 39 static/known overlaps and 30 other prior-known",
+        "69 current-known section associations, six unlisted Paladin tooltip records, two duplicate-name ID groups",
+        "Four SHA-pinned inputs and three focused tests pass; no target/unit/stats export or invented cooldown",
+        "RC-08 live candidateLookup receipt and SC1/SC3 unknowns remain explicit"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json",
+        "docs/RRECOLLECTOR-RC13-ABILITY-ATLAS-2026-11-02.md",
+        "tools/build-rift-ability-atlas.mjs",
+        "tools/verify-rift-ability-atlas.mjs"
+      ],
+      "result": "Offline exact-ID union accepted: 126 IDs, 69 prior API-listed, 57 static-unlisted, 6 UI-only tooltip associations; absent API cooldown remains null and 3/3 focused checks pass.",
+      "limitations": "No new physical RIFT SavedVariables receipt, no arbitrary-ID Detail proof, no current unlock/rank/usable state, and no measured GCD or role-slot mapping."
     }
   ],
   "workingSource": {
@@ -430,6 +468,9 @@
     "offlineKnownSectionMap": "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json",
     "uiTooltipMetadataAccepted": true,
     "uiTooltipMetadata": "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json",
+    "offlineAbilityAtlasAccepted": true,
+    "offlineAbilityAtlasExactIds": 126,
+    "offlineAbilityAtlas": "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json",
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
