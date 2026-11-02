@@ -1,4 +1,4 @@
-// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.4.
+// Focused, dependency-free source/candidate/manifest guard for RRECollector v0.4.1.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -53,7 +53,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.4\.0"$/m);
+  assert.match(toc, /^Version = "0\.4\.1"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
@@ -81,9 +81,16 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
 });
 
 test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
-  assert.match(core, /VERSION = "0\.4\.0"/);
+  assert.match(core, /VERSION = "0\.4\.1"/);
   assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
   assert.match(ui, /UI\.CreateFrame\("Texture"/);
+  assert.match(ui, /UI\.CreateFrame\("RiftButton", name, parent\)/);
+  assert.match(ui, /modeButtons\.known\.frame:SetEnabled\(mode ~= "known"\)/);
+  assert.match(ui, /pageButtons\.next\.frame:SetEnabled\(page < total\)/);
+  assert.match(ui, /row\.setSelected\(/);
+  assert.match(ui, /cursor\.In/);
+  assert.match(ui, /leftMouse\.Down/);
+  assert.match(ui, /RRESlotAccent/);
   assert.match(ui, /Event\.UI\.Input\.Mouse\.Left\.Click/);
   assert.match(ui, /function apiCheck\(id\)/);
   assert.match(ui, /pcall\(fn, id\)/);
@@ -95,4 +102,16 @@ test("read-only toolbar is optional, bound to existing commands and honest about
   assert.match(main, /elseif action == "ui"/);
   assert.match(main, /pcall\(ui\.start\)/);
   assert.match(main, /refreshUI\(true\)/);
+});
+
+test("startup context retry is event-driven, bounded, and preserves manual command", () => {
+  assert.match(main, /MAX_AUTOMATIC_CANDIDATE_RETRIES = 2/);
+  assert.match(main, /trigger == "startup"/);
+  assert.match(main, /code == "warrior-player-context-not-ready"/);
+  assert.match(main, /Event\.Addon\.Startup\.End/);
+  assert.match(main, /Event\.Unit\.Availability\.Full/);
+  assert.match(main, /specifier == "player"/);
+  assert.match(main, /automaticRetries = automaticCandidateRetries/);
+  assert.match(main, /runCandidateLookup\("manual"\)/);
+  assert.doesNotMatch(main, /Event\.System\.Update\./);
 });

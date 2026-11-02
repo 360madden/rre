@@ -1,4 +1,4 @@
--- RRECollector v0.4.0: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.1: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -8,6 +8,8 @@ local candidateLookup = RRECollectorRuntime.candidates.lookup
 local candidateVersion = RRECollectorRuntime.candidateCatalog.version
 local savedLoaded = false
 local lastMessage = "waiting-for-saved-variables"
+local MAX_AUTOMATIC_CANDIDATE_RETRIES = 2
+local pendingContextRetry, automaticCandidateRetries = false, 0
 local function refreshUI(clearChecks)
   local ui = RRECollectorRuntime.ui
   if type(ui) == "table" and type(ui.refresh) == "function" then
@@ -97,15 +99,22 @@ local function runCandidateLookup(trigger)
     local code = not ok and "lua-exception" or
       (type(reason) == "string" and #reason <= 80 and reason or "api-report-unavailable")
     lastMessage = "candidate-lookup-deferred"
+    if trigger == "startup" then
+      pendingContextRetry = code == "warrior-player-context-not-ready"
+    elseif trigger == "manual" then
+      pendingContextRetry = false
+    end
     RRECollectorData.candidateAttempt = {
       schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
-      status = "deferred", reason = code
+      status = "deferred", reason = code,
+      automaticRetries = automaticCandidateRetries
     }
     say("Candidate lookup " .. tostring(trigger) .. " deferred: "
       .. code .. "; previous records preserved.")
     refreshUI(false)
     return false
   end
+  pendingContextRetry = false
   local sequence = (type(RRECollectorData.candidateSequence) == "number"
     and RRECollectorData.candidateSequence or 0) + 1
   report.sequence = sequence
@@ -114,7 +123,8 @@ local function runCandidateLookup(trigger)
   RRECollectorData.candidateSequence = sequence
   RRECollectorData.candidateAttempt = {
     schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
-    status = "recorded", reason = "none"
+    status = "recorded", reason = "none",
+    automaticRetries = automaticCandidateRetries
   }
   lastMessage = "candidate-lookup-recorded"
   local c = report.counts or {}
@@ -126,6 +136,21 @@ local function runCandidateLookup(trigger)
   say("Separate candidateLookup recorded in memory; normal UI reload/logout flushes SavedVariables.")
   refreshUI(false)
   return true
+end
+
+-- At most two event-driven automatic retries after the exact startup context deferral.
+-- No frame polling, casting, or action queue input; manual Retry remains available.
+local function retryDeferredCandidateLookup(trigger)
+  if not savedLoaded or not pendingContextRetry
+    or automaticCandidateRetries >= MAX_AUTOMATIC_CANDIDATE_RETRIES then return end
+  automaticCandidateRetries = automaticCandidateRetries + 1
+  pendingContextRetry = false
+  if not runCandidateLookup(trigger) and
+    automaticCandidateRetries < MAX_AUTOMATIC_CANDIDATE_RETRIES then
+    local attempt = RRECollectorData.candidateAttempt
+    pendingContextRetry = type(attempt) == "table"
+      and attempt.reason == "warrior-player-context-not-ready"
+  end
 end
 
 local function onSlash(_, raw)
@@ -218,6 +243,30 @@ end)
 if not slashOk or not slashResult then
   lastMessage = "slash-unavailable"
   say("Slash command registration failed.")
+end
+
+-- Both events are present in the documented RIFT addon API and installed addons.
+-- Startup.End can follow SavedVariables.Load.End; Unit.Availability.Full is
+-- consulted only for the player specifier. Both are no-ops after success/limit.
+local startupEnd = type(Event) == "table" and Event.Addon
+  and Event.Addon.Startup and Event.Addon.Startup.End
+if startupEnd then
+  pcall(Command.Event.Attach, startupEnd, function()
+    retryDeferredCandidateLookup("auto-startup-end")
+  end, "RRECollector.CandidateStartupRetry")
+end
+local playerFull = type(Event) == "table" and Event.Unit
+  and Event.Unit.Availability and Event.Unit.Availability.Full
+if playerFull then
+  pcall(Command.Event.Attach, playerFull, function(_, units)
+    if not pendingContextRetry or type(units) ~= "table" then return end
+    for _, specifier in pairs(units) do
+      if specifier == "player" then
+        retryDeferredCandidateLookup("auto-player-full")
+        return
+      end
+    end
+  end, "RRECollector.CandidatePlayerRetry")
 end
 
 local savedEvent = type(Event) == "table" and Event.Addon

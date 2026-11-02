@@ -1,4 +1,4 @@
--- RRECollector v0.4.0: read-only in-game research toolbar.
+-- RRECollector v0.4.1: read-only in-game research toolbar with native buttons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -9,6 +9,10 @@ local color = {
   background = {0.035, 0.063, 0.086, 0.97},
   header = {0.075, 0.125, 0.166, 0.98},
   button = {0.102, 0.190, 0.239, 0.98},
+  row = {0.084, 0.148, 0.182, 0.97},
+  rowHover = {0.145, 0.280, 0.330, 0.99},
+  rowPressed = {0.045, 0.090, 0.126, 1},
+  rowSelected = {0.105, 0.215, 0.276, 1},
   muted = {0.125, 0.157, 0.176, 1},
   cyan = {0.220, 0.730, 0.810, 1},
   amber = {0.932, 0.714, 0.302, 1},
@@ -18,6 +22,8 @@ local color = {
 }
 local root, bar, browser, title, summary, pageLabel, detailLabel
 local rowButtons, tiles, tileIcons = {}, {}, {}
+local modeButtons, modeAccents, pageButtons, soulButton = {}, {}, {}, nil
+local tileHovered, tilePressed = {}, {}
 local mode, soul, page = "known", "All", 1
 local selectedId, selectedKind = nil, nil
 local browserVisible, barVisible = false, true
@@ -65,16 +71,67 @@ local function text(name, parent, left, top, width, height, font, value, tint, w
   f:SetText(value or "")
   return f
 end
+-- RiftButton supplies built-in RIFT hover/pressed/disabled visuals without a library.
 local function button(name, parent, left, top, width, height, caption, handler)
-  local f = block(name, parent, left, top, width, height, color.button)
-  local label = text(name .. "Text", f, 5, 3, width - 10, height - 4,
-    14, caption, color.text)
-  f:SetMouseMasking("full")
+  local f = UI.CreateFrame("RiftButton", name, parent)
+  f:SetPoint("TOPLEFT", parent, "TOPLEFT", left, top)
+  f:SetWidth(width); f:SetHeight(height)
+  f:SetText(caption)
   f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
     local ok = pcall(handler)
     if not ok then say("Toolbar action failed safely; snapshots preserved.") end
   end, name .. " click")
-  return { frame = f, label = label }
+  return {frame = f, label = f}
+end
+-- Wide ability rows retain left-aligned text, with hover, press and selection.
+local function rowButton(name, parent, left, top, width, height, caption, handler)
+  local f = block(name, parent, left, top, width, height, color.row)
+  local accent = block(name .. "Accent", f, 0, 0, 3, height, color.row)
+  accent:SetMouseMasking("limited")
+  local label = text(name .. "Text", f, 10, 4, width - 18, height - 4,
+    14, caption, color.text)
+  f:SetMouseMasking("full")
+  local hovered, pressed, selected = false, false, false
+  local function render()
+    local fill = pressed and color.rowPressed or hovered and color.rowHover
+      or selected and color.rowSelected or color.row
+    paint(f, fill)
+    paint(accent, selected and color.amber or hovered and color.cyan or color.row)
+    local ink = selected and color.amber or color.text
+    label:SetFontColor(ink[1], ink[2], ink[3], ink[4])
+    label:SetPoint("TOPLEFT", f, "TOPLEFT",
+      pressed and 11 or 10, pressed and 5 or 4)
+  end
+  local mouse = Event.UI.Input.Mouse
+  local cursor, leftMouse = mouse.Cursor, mouse.Left
+  if cursor and cursor.In and cursor.Out then
+    f:EventAttach(cursor.In, function() hovered = true; render() end, name .. " enter")
+    f:EventAttach(cursor.Out, function() hovered = false; pressed = false; render() end,
+      name .. " leave")
+  end
+  if leftMouse and leftMouse.Down and leftMouse.Up then
+    f:EventAttach(leftMouse.Down, function() pressed = true; render() end,
+      name .. " down")
+    f:EventAttach(leftMouse.Up, function() pressed = false; render() end,
+      name .. " up")
+    if leftMouse.Upoutside then
+      f:EventAttach(leftMouse.Upoutside,
+        function() pressed = false; hovered = false; render() end,
+        name .. " cancel")
+    end
+  end
+  f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
+    local ok = pcall(handler)
+    if not ok then say("Ability row action failed safely.") end
+  end, name .. " click")
+  render()
+  return {
+    frame = f, label = label,
+    setSelected = function(value)
+      selected = value == true
+      render()
+    end
+  }
 end
 local function saved()
   return type(RRECollectorData) == "table" and RRECollectorData or {}
@@ -235,7 +292,13 @@ local function draw()
     local a = id and map[id] or nil
     local state = id and checked[id]
     local tint = state and state.tint or color.muted
-    paint(t.frame, tint)
+    local factor = tilePressed[i] and 0.63 or tileHovered[i] and 1.23 or 1
+    paint(t.frame, {math.min(1, tint[1] * factor),
+      math.min(1, tint[2] * factor), math.min(1, tint[3] * factor), tint[4]})
+    local marked = tileHovered[i] or tilePressed[i]
+      or (selectedKind == "known" and selectedId == id)
+    t.accent:SetVisible(marked == true)
+    if marked then paint(t.accent, tilePressed[i] and color.amber or color.cyan) end
     t.label:SetText(tostring(i) .. " " .. short(a and a.name or "?", 7))
     local valid = a and type(a.icon) == "string" and #a.icon > 0
     if valid then
@@ -247,12 +310,20 @@ local function draw()
   local total = math.max(1, math.ceil(#list / MAX_ROWS))
   if page > total then page = total end
   if page < 1 then page = 1 end
+  modeButtons.known.frame:SetEnabled(mode ~= "known")
+  modeButtons.static.frame:SetEnabled(mode ~= "static")
+  modeAccents.known:SetVisible(mode == "known")
+  modeAccents.static:SetVisible(mode == "static")
+  soulButton.frame:SetText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
+  pageButtons.prev.frame:SetEnabled(page > 1)
+  pageButtons.next.frame:SetEnabled(page < total)
   pageLabel:SetText((mode == "known" and "API-known" or "Static candidates")
     .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
     local item = list[(page - 1) * MAX_ROWS + i]
     local row = rowButtons[i]
     row.frame:SetVisible(item ~= nil)
+    row.setSelected(item ~= nil and item.id == selectedId and item.kind == selectedKind)
     if item then
       local tag = item.kind == "known" and "[API] " or "[STATIC] "
       local source = item.source and item.source.soul or "Other"
@@ -339,33 +410,64 @@ local function createUI()
       local ok = pcall(selectSlot, index)
       if not ok then say("Toolbar slot selection failed safely.") end
     end, "RRESlot" .. i .. " click")
+    local pointer = Event.UI.Input.Mouse
+    if pointer.Cursor and pointer.Cursor.In and pointer.Cursor.Out then
+      tile:EventAttach(pointer.Cursor.In, function()
+        tileHovered[index] = true; draw()
+      end, "RRESlot" .. i .. " enter")
+      tile:EventAttach(pointer.Cursor.Out, function()
+        tileHovered[index], tilePressed[index] = false, false; draw()
+      end, "RRESlot" .. i .. " leave")
+    end
+    if pointer.Left and pointer.Left.Down and pointer.Left.Up then
+      tile:EventAttach(pointer.Left.Down, function()
+        tilePressed[index] = true; draw()
+      end, "RRESlot" .. i .. " down")
+      tile:EventAttach(pointer.Left.Up, function()
+        tilePressed[index] = false; draw()
+      end, "RRESlot" .. i .. " up")
+      if pointer.Left.Upoutside then
+        tile:EventAttach(pointer.Left.Upoutside, function()
+          tilePressed[index], tileHovered[index] = false, false; draw()
+        end, "RRESlot" .. i .. " cancel")
+      end
+    end
+    local accent = block("RRESlotAccent" .. i, tile, 0, 0, 50, 2, color.cyan)
+    accent:SetMouseMasking("limited")
+    accent:SetVisible(false)
     local icon = UI.CreateFrame("Texture", "RRESlotIcon" .. i, tile)
     icon:SetLayer(1)
     icon:SetPoint("TOPLEFT", tile, "TOPLEFT", 7, 4)
     icon:SetWidth(36); icon:SetHeight(36)
     icon:SetMouseMasking("limited")
-    tiles[i], tileIcons[i] = {frame = tile, label = slotLabel}, icon
+    tiles[i], tileIcons[i] = {frame = tile, label = slotLabel, accent = accent}, icon
   end
   summary = text("RRESummary", bar, 470, 43, 158, 70, 11, "", color.grey, true)
   browser = block("RREBrowser", bar, 0, 116, WIDTH, BROWSER_HEIGHT,
     color.background)
-  button("RREKnownMode", browser, 10, 8, 98, 30, "Known", function()
+  modeButtons.known = button("RREKnownMode", browser, 10, 8, 98, 30,
+    "Known", function()
     mode, page, selectedId = "known", 1, nil; draw()
   end)
-  button("RREStaticMode", browser, 114, 8, 102, 30, "Candidates", function()
+  modeButtons.static = button("RREStaticMode", browser, 114, 8, 102, 30,
+    "Candidates", function()
     mode, page, selectedId = "static", 1, nil; draw()
   end)
-  button("RRESoulFilter", browser, 222, 8, 130, 30, "Soul filter", function()
+  modeAccents.known = block("RREKnownActive", browser, 10, 38, 98, 2, color.cyan)
+  modeAccents.static = block("RREStaticActive", browser, 114, 38, 102, 2, color.cyan)
+  modeAccents.known:SetMouseMasking("limited")
+  modeAccents.static:SetMouseMasking("limited")
+  soulButton = button("RRESoulFilter", browser, 222, 8, 130, 30, "Soul: All", function()
     local filters = {"All", "Paladin", "VoidKnight", "Paragon"}
     for i, f in ipairs(filters) do
       if soul == f then soul = filters[i % #filters + 1]; break end
     end
     page, selectedId = 1, nil; draw()
   end)
-  button("RREPrev", browser, 358, 8, 67, 30, "< Prev", function()
+  pageButtons.prev = button("RREPrev", browser, 358, 8, 67, 30, "< Prev", function()
     page = math.max(1, page - 1); draw()
   end)
-  button("RRENext", browser, 431, 8, 67, 30, "Next >", function()
+  pageButtons.next = button("RRENext", browser, 431, 8, 67, 30, "Next >", function()
     page = page + 1; draw()
   end)
   button("RRECloseBrowser", browser, 504, 8, 122, 30, "Close", function()
@@ -374,7 +476,7 @@ local function createUI()
   pageLabel = text("RREPage", browser, 12, 47, 610, 29, 13, "", color.cyan)
   for i = 1, MAX_ROWS do
     local index = i
-    rowButtons[i] = button("RRERow" .. i, browser, 12,
+    rowButtons[i] = rowButton("RRERow" .. i, browser, 12,
       79 + (i - 1) * 31, 610, 28, "-", function() selectAt(index) end)
   end
   detailLabel = text("RREDetail", browser, 13, 330, 607, 84,
