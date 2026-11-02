@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00/RC01 completed; RC02 v0.2.0 manual read-only probe saved on operator-attested physical PC: 1910 index entries, 22 relevant names, 0 documentation errors; old 69/69 catalog preserved. RC03 explicit no-qualified soul/eligibility/action producer decision; RC05 v0.2 verification accepted (7/7 installed hashes, saved receipt). RC04/SC102 still BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI.",
+  "status": "RC00/01/02/03/05 accepted at recorded scopes (v0.2.0 installed 7/7 hashes, saved probe 1910/22/0 and preserved API 69/69). RC04 now has PARTIAL physical-PC Atank UI evidence: 14 source-hashed host screenshot filenames, Righteous Defender 45 Paladin/15 Void Knight/0 Paragon soul, and user-pasted SpellDump v2.1.0 exact 69/69 ID/name and 39 positive cooldown match. RC04/SC102 still BLOCKED on identified unlearned/locked trainer or soul tooltip and exact action-bar binding evidence.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -157,7 +157,11 @@
         "No merge of Lab1/Lab2 with physical host",
         "Can proceed independent of RC01-RC03"
       ],
-      "blocker": "Operator-provided physical-PC matching character/role UI screenshots pending"
+      "blocker": "Partial Atank physical-PC UI evidence accepted (14 host screenshot originals and 45/15/0 soul tree, user SpellDump 69/69 IDs); missing Warrior trainer learnable/locked entries or named soul unlock tooltip, and exact action-bar slot->ID mapping.",
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md"
+      ],
+      "result": "Known-ID API/SpellDump and role/soul visual reconciliation complete at independent observations; no exact unlearned/locked or bar-bound IDs. User screenshot files remain host originals; uploaded copies transformed. Stop at missing eligibility discriminator and request only narrow trainer/tooltip UI."
     },
     {
       "id": "RC-05",
