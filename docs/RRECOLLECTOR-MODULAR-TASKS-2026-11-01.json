@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-08 first live explicit-ID result accepted: 50 of 57 unlisted IDs returned Detail data; seven no-detail, zero errors. RRECollector v0.4.5 secure Reload UI parent correction installed with ten matching file hashes. Live v0.4.5 click still unverified; SC-103 eligibility and SC-3 timing remain open.",
+  "status": "RC-22 v0.4.5 reload accepted at user-attested runtime scope. RC-23 v0.4.6 common plain button visuals, measured captions and icon hover cards source-tested and installed 10/10; fresh runtime visual verification pending. RC-08 known/candidate data unchanged.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-22",
+  "nextTaskId": "RC-23",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; SC103-new-candidate-lookup-runtime-pending",
@@ -219,7 +219,9 @@
       "phase": "M6",
       "title": "Source-hashed 96-ID Warrior catalog and guarded explicit-ID lookup",
       "state": "completed",
-      "dependsOn": ["RC-05"],
+      "dependsOn": [
+        "RC-05"
+      ],
       "owner": "RRE/REA manager",
       "ownedPaths": [
         "addons/RRECollector",
@@ -252,7 +254,9 @@
       "phase": "M7",
       "title": "Obtain and reconcile first live candidateLookup SavedVariables receipt",
       "state": "completed",
-      "dependsOn": ["RC-07"],
+      "dependsOn": [
+        "RC-07"
+      ],
       "owner": "RRE/REA manager; game UI load owned by operator",
       "ownedPaths": [
         "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
@@ -280,7 +284,9 @@
       "phase": "M6-offline-parallel",
       "title": "Decode saved known ability literals and join exact IDs to static Warrior source",
       "state": "completed",
-      "dependsOn": ["RC-07"],
+      "dependsOn": [
+        "RC-07"
+      ],
       "owner": "RRE/REA manager",
       "ownedPaths": [
         "tools/read-rrecollector-saved.mjs",
@@ -491,7 +497,10 @@
       "phase": "M7-readonly-toolbar",
       "title": "Extend the single RRECollector with an eight-icon ability research toolbar and candidate-attempt diagnostics",
       "state": "completed",
-      "dependsOn": ["RC-07", "RC-14"],
+      "dependsOn": [
+        "RC-07",
+        "RC-14"
+      ],
       "owner": "RRE/REA manager",
       "ownedPaths": [
         "addons/RRECollector/ui.lua",
@@ -528,7 +537,9 @@
       "phase": "M7-package-runtime-gates",
       "title": "Re-audit physical-PC TOC and screenshots, enforce strict addon release contract",
       "state": "completed",
-      "dependsOn": ["RC-15"],
+      "dependsOn": [
+        "RC-15"
+      ],
       "owner": "RRE/REA manager",
       "ownedPaths": [
         "tools/verify-rrecollector-package.mjs",
@@ -665,7 +676,7 @@
       "id": "RC-22",
       "phase": "M7-runtime",
       "title": "Validate physical-RIFT v0.4.5 Reload UI click",
-      "state": "blocked",
+      "state": "completed",
       "dependsOn": [
         "RC-21"
       ],
@@ -679,17 +690,47 @@
         "Version-matched screenshot and SavedVariables diagnostic",
         "Actual in-game reload observed"
       ],
-      "blocker": "v0.4.5 installed; pending normal game load and hardware-click observation"
+      "result": "Joey explicitly reported Reload UI working in v0.4.5 and supplied a matching physical-RIFT toolbar screenshot. Operator-attested click success, not an assistant-issued click.",
+      "evidence": [
+        "docs/RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md"
+      ]
+    },
+    {
+      "id": "RC-23",
+      "phase": "M7-UI",
+      "title": "Consistent plain controls, measured text and readable ability icons",
+      "state": "blocked",
+      "dependsOn": [
+        "RC-22"
+      ],
+      "owner": "RRE manager",
+      "scope": [
+        "Share normal visual children between ordinary buttons and the proven restricted reload control",
+        "Replace deprecated text measurement, add four-sided borders and pointer feedback",
+        "Improve ability icon labels and hover descriptions without changing discovery or casting"
+      ],
+      "deliverable": "v0.4.6 committed and installed; runtime visual check remains",
+      "acceptance": [
+        "6/6 source checks and 25 mocked control assertions pass",
+        "Complete TOC and 10/10 physical installed hashes",
+        "Version-matched live visual result required before claiming rendering is fixed"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md",
+        "tools/verify-rrecollector-ui-controls.lua"
+      ],
+      "result": "Source commit 85c102d674e041eeb8cd5be91ec4c38916d170dd; deployment rre_rc23_v046_deploy_20261102_a1 passed 10/10. Working v0.4.5 reload binding retained.",
+      "blocker": "New v0.4.6 appearance and interaction have not yet been observed inside physical RIFT."
     }
   ],
   "workingSource": {
-    "version": "0.4.5",
+    "version": "0.4.6",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
     "liveLuaLoadVerified": false,
-    "priorLiveVerifiedVersion": "0.4.0",
-    "priorToolbarScreenshot": "User-supplied physical-PC RIFT v0.4.0 toolbar/browser, 69 known/96 static, startup deferred warrior-player-context-not-ready",
+    "priorLiveVerifiedVersion": "0.4.5",
+    "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
     "latestVersionRuntimeVerified": false,
     "baselineKnownCatalogIds": 69,
     "candidateCatalogIds": 96,
@@ -749,6 +790,8 @@
     "candidateLookupNoDetail": 7,
     "candidateLookupErrors": 0,
     "rc21Receipt": "docs/RRECOLLECTOR-RC21-RESTRICTED-PARENT-REPAIR-2026-11-02.md",
-    "rc08LiveReceipt": "docs/RRECOLLECTOR-RC08-FIRST-LOOKUP-2026-11-02.md"
+    "rc08LiveReceipt": "docs/RRECOLLECTOR-RC08-FIRST-LOOKUP-2026-11-02.md",
+    "rc23Receipt": "docs/RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md",
+    "priorReloadUserVerified": true
   }
 }

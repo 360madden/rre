@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102 bounded reconciliation and RC-08 live explicit-ID API response accepted: Atank v0.4.4 saved candidateLookup returned metadata for 50 of 57 previously unlisted Warrior source IDs, seven no-detail, zero errors; original known 69/probe preserved. SC-103 exact rank/learnability/usable states remain open. RRECollector v0.4.5 restricted-parent Reload UI installed 10/10, awaiting runtime click verification (RC-22). No RRE game input.",
+  "status": "SC-102 reconciliation and RC-08 live API response accepted: 50 of 57 unlisted source IDs returned details, seven no-detail, zero errors; original known 69/probe preserved. RC-22 v0.4.5 reload accepted from user report and matching screenshot. RC-23 v0.4.6 consistent UI installed 10/10 with 6 source checks and 25 mocked assertions; live visual verification pending. SC-103 eligibility and SC-3 timing remain open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,

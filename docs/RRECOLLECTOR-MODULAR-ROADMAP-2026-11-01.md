@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status (November 2, after RC-21):** RC-08 now has a genuine saved v0.4.4 candidateLookup receipt: 50 of 57 unlisted IDs returned Details, 7 no-detail, 0 errors. RRECollector v0.4.5 fixes a documented secure-parent violation using a separate restricted UI context; source checks and physical-PC install passed 10/10. Actual v0.4.5 reload click remains unverified.
+**Status (November 2, after RC-23):** Joey confirms v0.4.5 Reload UI works (RC-22, operator-attested). v0.4.6 shares plain-button styling and measured text with that working secure surface; larger square ability icons, two-line labels and full-name hover cards are installed. Six source checks, 25 mocked behavior assertions and 10/10 physical-file hashes pass. New live visual check remains open. RC-08 data stays accepted.
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -60,7 +60,8 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | **M7 / RC-19 — Plain buttons and text fit** | Replace themed widgets with simple rectangular controls; intrinsic centered captions and measured font fit. | **Source+host accepted:** 6/6 checks, strict 10/10 installed matches; runtime pending. [RC-19 receipt](RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md). |
 | **M7 / RC-20 — Secure Reload UI repair** | Keep plain-frame styling, remove conflicting Down/Up handlers on the macro control, and record registration result. | **Source+host accepted:** v0.4.4, 6/6 checks, installed 10/10 hashes; live click unverified. [RC-20 receipt](RRECOLLECTOR-RC20-RELOAD-MACRO-FIX-2026-11-02.md). |
 | **M7 / RC-21 — Restricted parent context** | Verify real v0.4.4 security error, build a separate restricted context for the plain Reload UI control, read back macro registration. | **Source+host complete:** v0.4.5, 6/6 tests, 10/10 installation; click unverified. [RC-21](RRECOLLECTOR-RC21-RESTRICTED-PARENT-REPAIR-2026-11-02.md). |
-| **M7 / RC-22 — Live reload verification** | Observe loaded v0.4.5, secure macro registration and actual operator-triggered click. | **Blocked** until current client runtime evidence; no additional source change justified yet. |
+| **M7 / RC-22 — Live reload verification** | Match the displayed version and actual click report. | **Accepted at operator-attested scope:** Joey reports v0.4.5 reload working and supplies a matching screenshot. |
+| **M7 / RC-23 — Consistent controls** | Share normal button visuals, use measured text, add full borders and readable icon hover cards. Preserve the working reload context. | **Source/installed:** v0.4.6, 6/6 source checks, 25 mocked assertions, 10/10 hashes. **Live rendering pending.** [Report](RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md). |
 
 **Critical path:** M0 → (M1 if justified) → M2 → M3 → M5. **SC-102 UI evidence (M4) is independent and can unblock research immediately**, without waiting on addon modularity. If M0 finds no actionable API for souls/spellbook, pause M2–M3 rather than making an empty implementation; prioritize M4.
 

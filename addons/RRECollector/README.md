@@ -34,15 +34,15 @@ The candidate lookup runs after character-scoped SavedVariables load when a Warr
 
 RIFT writes character-scoped SavedVariables on a normal UI reload or logout; console “recorded” means in-memory only until then. The prior 69-ID capture and 1910-name probe must remain preserved. The current frame clock is **not UTC**.
 
-## On-screen research toolbar (v0.4.1)
+## On-screen research toolbar (v0.4.6)
 
-- Eight icon slots display selected **API-known** abilities from the preserved catalog, with fallback names. Hovering adds a cyan top accent; pressing briefly depresses the background; clicking selects and performs one guarded, read-only current `Inspect.Ability.New.Detail` check. Icons **never cast** spells.
-- **Browse** opens paginated **Known** (saved live API-listed) and **Candidates** (historical static source) views. Native buttons respond to hover and press; selected mode has a cyan underline, ability rows have hover/pressed/selected feedback, the current Soul filter value is visible, and Prev/Next disable at the page limits. **Soul filter** cycles All / Paladin / Void Knight / Paragon. Select a Known row and **Pin selected** to replace the next icon slot; selections save with the character's next normal UI flush.
+- Eight icon slots display selected **API-known** abilities from the preserved catalog, with fallback names. Square icons have full borders, two-line abbreviated labels and full-name/ID/status hover cards; pressing visibly offsets the icon; clicking selects and performs one guarded, read-only current `Inspect.Ability.New.Detail` check. Icons **never cast** spells.
+- **Browse** opens paginated **Known** (saved live API-listed) and **Candidates** (historical static source) views. Plain rectangular controls use four-sided borders, a shared measured caption size and hover/press feedback; selected mode remains visibly active rather than disabled, ability rows have hover/pressed/selected feedback, the current Soul filter value is visible, and Prev/Next disable at the page limits. **Soul filter** cycles All / Paladin / Void Knight / Paragon. Select a Known row and **Pin selected** to replace the next icon slot; selections save with the character's next normal UI flush.
 - **Check 8** and **Check selected** perform bounded, manual Detail reads. Red indicates an explicit API `unusable`/out-of-range response, amber a reported cooldown, grey unknown/passive, cyan only explicit API no-block flags. **No color proves successful casting**; GCD, facing, line of sight, target requirements and changed state between clicks remain unverified. There is no timer or background scan.
 - **Capture** refreshes the known API list using the same guarded `/rre capture` handler; **Retry** invokes the existing bounded candidate canary lookup. `RRECollectorData.candidateAttempt` stores `recorded` or `deferred`, a short fixed reason and an automatic-retry count; no previous successful catalog is overwritten on failure.
-- Drag the title area to reposition. **Hide** collapses the entire toolbar; `/rre ui` reopens it. If UI creation fails, all original slash commands and saved snapshots remain usable.
+- Drag the title area to reposition. **Hide** collapses the entire toolbar; `/rre ui` reopens it. Reload UI retains its separate restricted parent and click macro, with normal child frames for the matching visuals. If UI creation fails, all original slash commands and saved snapshots remain usable.
 
-**Runtime status:** Source and installation checks alone do not verify the toolbar. A fresh Nov 2 save at 15:18 UTC reported root addon v0.3.0 but lacked `candidateLookup`; v0.4's deferred-attempt diagnostic and click retry are designed to distinguish its cause at the next normal load/save.
+**Runtime status:** Joey supplied a v0.4.5 screenshot and reported its Reload UI working. The new v0.4.6 visual changes have source/installation proof only until loaded and observed in game. RC-08 already has a source-qualified v0.4.4 candidateLookup receipt (50 unlisted IDs returned details, seven no-detail); do not repeat the previous stale-save blocker.
 
 ## Candidate lookup policy and interpretation
 
