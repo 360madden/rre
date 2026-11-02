@@ -34,6 +34,8 @@ This repository researches Rift native navigation and reverse engineering. Curre
 - Keep tooling **scaffolding-sized**: complete TOC metadata (including `Email`), bounded List/Detail with explicit unknowns, one focused offline check, one user-driven in-game capture and source-hash receipts. Missing API capability remains a native/UI research question; an addon cannot prove unlearned spells or native cast/queue internals absent an exposed interface.
 - Do not modify another repo or existing addon as part of this route. Manager owns RRE addon source, deployment decisions, roadmap and handoff; separate game-input ownership remains in force.
 
+**Planned RRECollector modular expansion (November 1):** Before touching collector modules or their TOC, read the [implementation roadmap](docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md) and [RC task register](docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json). RC-00 API feasibility is the next *addon-development* step; SC-102's same-role physical-PC UI gate stays independent and can proceed immediately. Roadmap creation did not authorize or perform a refactor or installed-game change.
+
 ## File ownership / isolation
 
 Each worker runs in a **separate Git worktree and branch**. Treat your worktree as the only writable source tree. Only create/edit your lane's files: `docs/agents/<lane>.md`, `docs/agents/<lane>.json`, and optional `tools/agents/<lane>/...` tests/helper. Do not change `README.md`, this AGENTS file, tracked shared research, other workers' files, or generated artifacts in the main worktree. Worktrees are not shared writable directories.

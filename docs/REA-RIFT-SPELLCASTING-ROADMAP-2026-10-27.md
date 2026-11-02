@@ -7,6 +7,8 @@
 **Companion task register:** [REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json).  
 **Working rule:** one decision-changing finding per short ChatGPT Chat-mode turn; commit each stable milestone, negative finding or blocker together with its documentation. **November 1 instrumentation-first learning checkpoint:** [SC-605 custom-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) documents how a minimal RRECollector converted a blocked ability API export into 69/69 live saved details with one manual capture. For API-exposed data gaps, prioritize a small reusable collector probe before additional general addon searches or native speculation; this does not replace native research.
 
+**RRECollector implementation planning (November 1):** [Modular one-addon roadmap](RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md) and [RC task register](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json) map a capability-first, bounded extension of the proven collector. No implementation or host deployment occurred in this planning milestone. **SC-102 UI reconciliation does not depend on modularization.**
+
 ## Purpose, research questions and definitions
 
 Explain **how the RIFT MMO actually exposes, authorizes, queues, executes and reports player spells and abilities**, from discovery to completion and failure. Produce an evidence-backed model that remains useful across sessions/build changes. We are researching the game's mechanics and binary implementation, **not** building or operating a rotation bot.

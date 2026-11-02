@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "project": "RRECollector modular research addon",
+  "repository": "C:/work/rre",
+  "owner": "RRE/REA manager",
+  "createdDate": "2026-11-01",
+  "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
+  "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+  "status": "planned-only; no addon code or host installation changed by this roadmap",
+  "baseline": {
+    "version": "0.1.0",
+    "schema": 1,
+    "mainSha256": "93fd9d3147c1b467c5d937b500d95eb2b5c9567f20c13d069ed2cddfa67532c5",
+    "tocSha256": "885527d8d007c6b785cbeeeb52fef73ccf1962abe4ab6c04400b285f2d24789f",
+    "sourceCommit": "332ad7f62b4b4f8b8ca4a03dfbcfd34430daa077",
+    "savedCaptureCommit": "a7daa2412997077621afe84864fed1ddbf0e57d2",
+    "capturedAbilityIds": 69,
+    "capturedDetails": 69,
+    "completeness": "current-api-listed known-ability set only; user-attested physical PC"
+  },
+  "gameInputAuthorized": false,
+  "implementationStarted": false,
+  "nextTaskId": "RC-00",
+  "parallelExternalGate": {
+    "taskId": "SC-102",
+    "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
+    "dependsOnCollectorModularization": false
+  },
+  "tasks": [
+    {
+      "id": "RC-00",
+      "phase": "M0",
+      "title": "Map only API-exposed fields that can resolve next decision",
+      "state": "planned",
+      "dependsOn": [],
+      "owner": "REA manager",
+      "scope": [
+        "Verify existing v0.1 and SC418 hashes/contract",
+        "Check current/local API reference and 1-2 direct addon sources for role/souls/eligibility/bars",
+        "Record present/absent/unknown and nominate one bounded probe"
+      ],
+      "deliverable": "source-qualified API feasibility/capability matrix; no repeated 47-addon inventory",
+      "acceptance": [
+        "Every field has API source or unknown/UI-only reason",
+        "No claim that known List includes locked/learnable spells",
+        "Identify one decision-changing next probe or explicit no-API stop"
+      ]
+    },
+    {
+      "id": "RC-01",
+      "phase": "M1",
+      "title": "Extract modular core while preserving working commands/schema",
+      "state": "planned",
+      "dependsOn": [
+        "RC-00"
+      ],
+      "owner": "RRECollector source owner",
+      "scope": [
+        "Only split when M0 justifies it",
+        "TOC ordered core/context/abilities/main",
+        "Keep slash commands and RRECollectorData.latest backward compatible"
+      ],
+      "deliverable": "modular skeleton with no behavior regression",
+      "acceptance": [
+        "TOC complete including Email and load order",
+        "Existing commands and SavedVariables still supported",
+        "Single focused source validation passes and commit exists"
+      ]
+    },
+    {
+      "id": "RC-02",
+      "phase": "M2",
+      "title": "Add one manual API capability probe",
+      "state": "planned",
+      "dependsOn": [
+        "RC-00",
+        "RC-01"
+      ],
+      "owner": "RRECollector source owner",
+      "scope": [
+        "One guarded /rre probe entry point for selected APIs",
+        "Capture capability/return/errors and character/role/build metadata",
+        "One operator-only reload/output receipt"
+      ],
+      "deliverable": "bounded supported/unsupported API capability result",
+      "acceptance": [
+        "No speculative or gameplay-invoking calls",
+        "Explicit partial/unknown counts and source provenance",
+        "Stops on unsupported API; no broad scanner"
+      ]
+    },
+    {
+      "id": "RC-03",
+      "phase": "M3",
+      "title": "Add conditional soul, eligibility or action-bar data producers",
+      "state": "planned",
+      "dependsOn": [
+        "RC-02"
+      ],
+      "owner": "RRECollector source owner",
+      "scope": [
+        "Only implement a producer if verified API supports it",
+        "Extend existing context/abilities first when enough",
+        "Preserve missing, false and unknown distinctions"
+      ],
+      "deliverable": "small source-qualified optional snapshot fields or documented no-API result",
+      "acceptance": [
+        "Never infer learnable or locked from absent List IDs",
+        "Missing fields and unsupported APIs explicit",
+        "No new addon/other repo or automatic casting"
+      ]
+    },
+    {
+      "id": "RC-04",
+      "phase": "M4",
+      "title": "Reconcile existing 69 known-ability records with physical-PC UI for SC102",
+      "state": "blocked-external",
+      "dependsOn": [],
+      "owner": "REA coordinator plus game operator",
+      "scope": [
+        "Use prior SC418 snapshot without recapturing solely for convenience",
+        "Acquire matching role/character spellbook, soul/trainer, action-bar UI",
+        "Produce K/L/F/U/B reason-coded mapping"
+      ],
+      "deliverable": "SC102 eligibility reconciliation or exact UI blocker",
+      "acceptance": [
+        "Source/time/role/build proven to available proof tier",
+        "No merge of Lab1/Lab2 with physical host",
+        "Can proceed independent of RC01-RC03"
+      ],
+      "blocker": "Operator-provided physical-PC matching character/role UI screenshots pending"
+    },
+    {
+      "id": "RC-05",
+      "phase": "M5",
+      "title": "Verify and integrate one useful addon increment",
+      "state": "planned",
+      "dependsOn": [
+        "RC-03"
+      ],
+      "owner": "REA manager",
+      "scope": [
+        "Version and full TOC review",
+        "Hash source versus installed RRECollector files",
+        "One operator capture/reload and saved file check",
+        "Commit and handoff"
+      ],
+      "deliverable": "source-verified new addon increment, source-hashed result and continuity record",
+      "acceptance": [
+        "No unrelated addon overwritten",
+        "Minimal offline check and one live operator smoke result",
+        "Rollback hashes and unresolved SC102 UI limitations recorded"
+      ]
+    },
+    {
+      "id": "RC-06",
+      "phase": "later",
+      "title": "Optional tightly bounded readiness/combat/timing probes",
+      "state": "deferred",
+      "dependsOn": [
+        "RC-05"
+      ],
+      "owner": "REA manager",
+      "scope": [
+        "Only if SC3 or SC5 opens a precise new question",
+        "No background high-rate sampling as default"
+      ],
+      "deliverable": "future optional module decision",
+      "acceptance": [
+        "Exact evidence target and rate/size bounds defined first",
+        "Separate current vs historical proof tiers"
+      ]
+    }
+  ]
+}

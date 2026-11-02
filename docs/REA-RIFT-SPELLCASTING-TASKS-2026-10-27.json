@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC418 first live RRECollector SavedVariables capture ACCEPTED at operator-attested physical-PC API catalog scope: Atank L45 Warrior role slot1, 69/69 unique IDs and Details, no errors/truncation. SC605 durable decision ACCEPTED: RRE-owned minimal read-only Lua addon instrumentation is a practical first-class route for API-exposed research data; use the source-backed SC417/418 example and playbook, no measured speedup claim. SC102 remains BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; SC1/SC3/SC4/SC5/SC6 open.",
+  "status": "SC418 69/69 user-attested physical-PC API listed-ability catalog ACCEPTED; SC605 custom-addon research route ACCEPTED. SC606 modular RRECollector design roadmap and RC-00..06 task register PLANNED, no code or host addon changes. SC102 remains BLOCKED only on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; its UI gate is independent of addon modularization. SC1/SC3/SC4/SC5/SC6 remain open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -906,6 +906,40 @@
       ],
       "result": "Small bespoke RRECollector scaffold built, installed and operator-captured 69/69 full current API-known ability Details. Practical and reusable for API-visible questions, not a universal substitute for native RE.",
       "limitation": "No benchmark measured, no complete unlearned/locked taxonomy; SC-102 still blocked on same-role physical-PC UI."
+    },
+    {
+      "id": "SC-606",
+      "milestone": "SC6",
+      "title": "Plan one modular RRECollector research addon with a capability-first execution roadmap",
+      "state": "completed",
+      "dependsOn": [
+        "SC-605",
+        "SC-418"
+      ],
+      "owner": "REA coordinator; planning/documentation only",
+      "sourceInputs": [
+        "addons/RRECollector/RiftAddon.toc and main.lua v0.1.0",
+        "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md",
+        "docs/REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md"
+      ],
+      "deliverable": "Dedicated milestone roadmap and RC-00..06 machine-readable task register for one modular read-only RRECollector, with startup and handoff pointers",
+      "acceptance": [
+        "Keep proven commands, manifest metadata and SavedVariables compatible",
+        "Verify actual API capability before coding soul/trainer/locked modules",
+        "Preserve the independent SC102 physical-PC UI gate and avoid recapturing 69 just to recover them",
+        "Plan only, no addon source, host installation or gameplay changes"
+      ],
+      "gameInputSent": false,
+      "implementationStarted": false,
+      "evidence": [
+        "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
+        "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json",
+        "AGENTS.md",
+        "ROADMAP.md",
+        "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md"
+      ],
+      "result": "Executable small-milestone plan: RC00 feasibility, optional compatible module split, guarded probe, conditional producers, independent SC102 UI reconciliation, one smoke/commit, optional deferred telemetry.",
+      "limitation": "No evidence yet that soul/trainer/locked APIs exist; no new addon functionality implemented. SC102 remains blocked on UI."
     }
   ],
   "checkpointPolicy": {
@@ -1368,5 +1402,14 @@
       "origin": "user-attested physical-PC Atank L45 Warrior role1"
     },
     "limitations": "Current known API list is not complete unlearned/learnable/locked spellbook; no measured time-saving benchmark. No RRE-owned gameplay inputs, RR2/Workbridge source changes, VM addon deployment or process manipulation."
+  },
+  "collectorModularRoadmap": {
+    "status": "planned-only",
+    "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
+    "tasks": "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json",
+    "firstAddonTask": "RC-00",
+    "independentUIResearchGate": "SC-102",
+    "sourceCodeChanged": false,
+    "installedAddonChanged": false
   }
 }
