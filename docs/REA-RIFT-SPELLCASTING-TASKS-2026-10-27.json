@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102 bounded UI reconciliation accepted. SC-103 static/source API-first increment: 96 unique source-hashed Warrior candidates (39 known in preserved Atank API 69; 57 absent), RRECollector v0.3.0 candidateLookup scaffold installed 9/9 hash parity and four source tests pass. SC-103 remains blocked for live client response after normal UI load; ID unlock/rank/eligibility, readiness and bound slots remain unknown. No trainer request, duplicate capture or RRE game input.",
+  "status": "SC-102 bounded UI reconciliation accepted. SC-103 RC07 source addon and RC09 offline exact-ID crosswalk accepted: 69 API-known Details joined to 96 source-hashed Warrior candidates, 39 matched/57 absent, 30 known outside static, zero ID-name mismatches and one triple Building Fury homonym. RRECollector v0.3 installed 9/9 but its candidateLookup is not yet persisted; physical game PID 17412 began after last saved file. SC-103 rank/learnability remains blocked on live evidence; no RRE game input.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -165,7 +165,9 @@
       "sourceInputs": [
         "Two saved role or rank snapshots if available",
         "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json (96 exact source IDs from three source-hashed disabled Warrior files)",
-        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md (guarded explicit-ID Detail probe, source/host hashes, no runtime result yet)"
+        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md (guarded explicit-ID Detail probe, source/host hashes, no runtime result yet)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json (69 known scalar Detail records joined by exact ID; no rank/lock inference)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md (read-only saved parser, exact-name and duplicate-name reconciliation)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -183,8 +185,14 @@
         "addonInstallReport": "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
         "addonVersionInstalled": "0.3.0",
         "installedFileHashMatches": 9,
+        "offlineKnownApiRecords": 69,
+        "offlineKnownOutsideStatic": 30,
+        "offlineExactIdNameMismatches": 0,
+        "offlineDuplicateStaticNameGroups": 1,
+        "offlineCrosswalk": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
+        "offlineCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
         "currentClientCandidateLookupSaved": false,
-        "note": "Static IDs do not prove live rank, learnability or current API Detail response. Waiting on next normal UI load and SavedVariables flush; no game-input authority."
+        "note": "Static/current-known exact-ID joins do not prove live rank, learnability or arbitrary-ID Detail response. Saved file predates current process; wait for normal SavedVariables flush, no game-input authority."
       }
     },
     {

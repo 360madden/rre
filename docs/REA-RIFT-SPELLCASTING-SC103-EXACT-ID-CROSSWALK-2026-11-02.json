@@ -1,0 +1,1721 @@
+{
+  "schemaVersion": 1,
+  "sourceKind": "character-scoped prior current-known API capture plus disabled static Warrior source, exact-ID join",
+  "evidenceLimit": "Absence from List or a negative arbitrary-ID Detail response is not proof of locked, learnable or unavailable state",
+  "savedSha256": "242259d4f20709574b45676ed6a6ebdaef64e5a8d99b22341abb5291bccdfb12",
+  "knownCaptureVersion": "0.1.0",
+  "knownCaptureComplete": true,
+  "staticCatalogVersion": "pab-warrior-96-e4af0446-b8dd0a75-67981693",
+  "liveCandidateLookupSaved": false,
+  "candidateLookupVersion": null,
+  "candidateLookupPolicy": null,
+  "counts": {
+    "knownApi": 69,
+    "staticCandidates": 96,
+    "staticKnown": 39,
+    "staticUnlisted": 57,
+    "knownOutsideStatic": 30,
+    "knownStaticNameMismatches": 0,
+    "duplicateStaticNames": 1
+  },
+  "bySoul": {
+    "Paladin": {
+      "candidates": 34,
+      "known": 28
+    },
+    "VoidKnight": {
+      "candidates": 33,
+      "known": 7
+    },
+    "Paragon": {
+      "candidates": 29,
+      "known": 4
+    }
+  },
+  "duplicateNames": [
+    {
+      "name": "Building Fury",
+      "ids": [
+        "A6ACAFC287CF516B9",
+        "A768776D17CF516B9",
+        "A6F1D01307CF516B9"
+      ],
+      "souls": [
+        "Paladin",
+        "VoidKnight",
+        "Paragon"
+      ]
+    }
+  ],
+  "staticCandidates": [
+    {
+      "id": "A6663BAE96C8E85E6",
+      "name": "Aggressive Block",
+      "soul": "Paladin",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\defstrike2.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A6663BAE96C8E85E6",
+        "id": "A6663BAE96C8E85E6",
+        "idNew": "A6663BAE96C8E85E6",
+        "name": "Aggressive Block",
+        "description": "Deals 275 to 280 Physical damage. Increases the Warrior's Block by 3%, and damage done by attacks that require Light's Shield by 5% for 21s. Awards 1 Attack Point.",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\defstrike2.dds"
+      }
+    },
+    {
+      "id": "A6B8B16CD6F8B3DB9",
+      "name": "Light's Decree",
+      "soul": "Paladin",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_013.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A6B8B16CD6F8B3DB9",
+        "id": "A6B8B16CD6F8B3DB9",
+        "idNew": "A6B8B16CD6F8B3DB9",
+        "name": "Light's Decree",
+        "description": "Deals 951 to 971 Life damage to up to 4 enemies. Causes all single target abilities against the enemy to deal an additional 43 damage to up to 5 other enemies. Lasts 12s. Awards 1 Attack Point.",
+        "cooldown": 12.000000953674,
+        "rangeMax": 20,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_013.dds"
+      }
+    },
+    {
+      "id": "A661611602A6D2082",
+      "name": "Pacifying Strike",
+      "soul": "Paladin",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritstrike5.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A661611602A6D2082",
+        "id": "A661611602A6D2082",
+        "idNew": "A661611602A6D2082",
+        "name": "Pacifying Strike",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\spiritstrike5.dds"
+      }
+    },
+    {
+      "id": "A01BB8C035B6A96DD",
+      "name": "Righteous Charge",
+      "soul": "Paladin",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\defstrike3.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A01BB8C035B6A96DD",
+        "id": "A01BB8C035B6A96DD",
+        "idNew": "A01BB8C035B6A96DD",
+        "name": "Righteous Charge",
+        "description": "Charges at the enemy, dealing 998 to 1018 Physical damage. Roots for 1.5s. Awards 1 Attack Point.",
+        "cooldown": 15.000000953674,
+        "rangeMin": 3,
+        "rangeMax": 20,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\defstrike3.dds"
+      }
+    },
+    {
+      "id": "A35B3F73E433F3E42",
+      "name": "Sweeping Strike",
+      "soul": "Paladin",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\criticalsweep1b.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A35B3F73E433F3E42",
+        "id": "A35B3F73E433F3E42",
+        "idNew": "A35B3F73E433F3E42",
+        "name": "Sweeping Strike",
+        "description": "Deals 320 to 326 Physical damage to up to 10 enemies. Generates significant threat. Awards 1 Attack Point.",
+        "rangeMax": 3,
+        "costPower": 22,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\criticalsweep1b.dds"
+      }
+    },
+    {
+      "id": "AFDD9D7E2A8F0E50B",
+      "name": "Light's Benediction",
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\overwhelming_brilliance_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A228A2340A139A1E0",
+      "name": "Righteous Blow",
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\flare_of_light_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A228A2340A139A1E0",
+        "id": "A228A2340A139A1E0",
+        "idNew": "A228A2340A139A1E0",
+        "name": "Righteous Blow",
+        "description": "Deals Physical damage:\n\n1 Point: 410 damage.\n2 Points: 621 damage.\n3 Points: 941 damage.",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\flare_of_light_01.dds"
+      }
+    },
+    {
+      "id": "A768CF3B63EE8D6ED",
+      "name": "Vengeful Decree",
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritofcrusader2.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFC39B1AFBC3B8551",
+      "name": "Light's Reprisal",
+      "soul": "Paladin",
+      "category": "3Damage",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin-reprisal.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFC39B1AFBC3B8551",
+        "id": "AFC39B1AFBC3B8551",
+        "idNew": "AFC39B1AFBC3B8551",
+        "name": "Light's Reprisal",
+        "description": "Deals 492 to 502 Life damage to up to 5 enemies. Requires a stack of Light's Shield to cast.",
+        "cooldown": 16,
+        "unusable": true,
+        "rangeMax": 3,
+        "costPower": 3,
+        "icon": "Data/\\UI\\ability_icons\\paladin-reprisal.dds"
+      }
+    },
+    {
+      "id": "AFD2EF2BB715EFD36",
+      "name": "Light's Vengeance",
+      "soul": "Paladin",
+      "category": "3Damage",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_lights_blessing1.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFD2EF2BB715EFD36",
+        "id": "AFD2EF2BB715EFD36",
+        "idNew": "AFD2EF2BB715EFD36",
+        "name": "Light's Vengeance",
+        "description": "Deals 780 to 796 Life damage over 15s. Requires a stack of Light's Shield to cast.",
+        "cooldown": 8,
+        "unusable": true,
+        "rangeMax": 3,
+        "costPower": 2,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\paladin_lights_blessing1.dds"
+      }
+    },
+    {
+      "id": "A162D4584A3A058F0",
+      "name": "Purify Land",
+      "soul": "Paladin",
+      "category": "3Damage",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\heal3.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A162D4584A3A058F0",
+        "id": "A162D4584A3A058F0",
+        "idNew": "A162D4584A3A058F0",
+        "name": "Purify Land",
+        "description": "Purify the ground at targeted location. After 1 second this ground erupts for 1245 to 1270 damage. Taunts affected targets.",
+        "cooldown": 30.000001907349,
+        "rangeMax": 30,
+        "costPower": 15,
+        "positioned": true,
+        "icon": "Data/\\UI\\ability_icons\\heal3.dds"
+      }
+    },
+    {
+      "id": "A338ECD701DCD52C0",
+      "name": "Retaliation",
+      "soul": "Paladin",
+      "category": "3Damage",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\deflection2a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A338ECD701DCD52C0",
+        "id": "A338ECD701DCD52C0",
+        "idNew": "A338ECD701DCD52C0",
+        "name": "Retaliation",
+        "cooldown": 6.0000004768372,
+        "unusable": true,
+        "rangeMax": 3,
+        "costPower": 2,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\deflection2a.dds"
+      }
+    },
+    {
+      "id": "A250E73987922CA1B",
+      "name": "Light's Balm",
+      "soul": "Paladin",
+      "category": "4Healing",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\righteous_healing_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A250E73987922CA1B",
+        "id": "A250E73987922CA1B",
+        "idNew": "A250E73987922CA1B",
+        "name": "Light's Balm",
+        "target": "u035400012FA2D207",
+        "cooldown": 3.0000002384186,
+        "rangeMax": 35,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\righteous_healing_01.dds"
+      }
+    },
+    {
+      "id": "AFDFA0334A0189A9F",
+      "name": "Light's Blessing",
+      "soul": "Paladin",
+      "category": "4Healing",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_lights_blessing_b.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFDFA0334A0189A9F",
+        "id": "AFDFA0334A0189A9F",
+        "idNew": "AFDFA0334A0189A9F",
+        "name": "Light's Blessing",
+        "description": "Heals for 621 to 634.",
+        "target": "u035400012FA2D207",
+        "cooldown": 8,
+        "rangeMax": 35,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\paladin_lights_blessing_b.dds"
+      }
+    },
+    {
+      "id": "A132F106FF887F85C",
+      "name": "Touch of Life",
+      "soul": "Paladin",
+      "category": "4Healing",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands5.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A132F106FF887F85C",
+        "id": "A132F106FF887F85C",
+        "idNew": "A132F106FF887F85C",
+        "name": "Touch of Life",
+        "description": "Restores full health. This effect is reduced by 50% in PVP.",
+        "cooldown": 100.00000762939,
+        "costPower": 10,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\layonhands5.dds"
+      }
+    },
+    {
+      "id": "AFA78C0D582C9F2E5",
+      "name": "Aegis of the Light",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\hammer_of_virtue_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A0CB1772899B72707",
+      "name": "Amnesty",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ressurect4b.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A0CB1772899B72707",
+        "id": "A0CB1772899B72707",
+        "idNew": "A0CB1772899B72707",
+        "name": "Amnesty",
+        "description": "Shields the ally, intercepting 50% of the damage they receive, and replacing the ally's Guard with the Warrior's, for 6s. The Guard replacement will only occur on allies who do not currently have Guard enabled. An ally can only be affected by a tank soul damage intercept once every 2 minutes.",
+        "cooldown": 30.000001907349,
+        "rangeMax": 20,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\ressurect4b.dds"
+      }
+    },
+    {
+      "id": "AFF0C976C5B694F38",
+      "name": "Light's Protection",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\doctrine_of_faithful_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFF0C976C5B694F38",
+        "id": "AFF0C976C5B694F38",
+        "idNew": "AFF0C976C5B694F38",
+        "name": "Light's Protection",
+        "description": "For the next 12s, incoming heals are increased by 15%. This does not effect Touch of Life or Life’s Rapture.",
+        "cooldown": 60.000003814697,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\doctrine_of_faithful_01.dds"
+      }
+    },
+    {
+      "id": "A37397DC597DDAF03",
+      "name": "Sanctuary",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands3.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A547D021A5733D563",
+      "name": "Shield Defense",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\castigation3.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A547D021A5733D563",
+        "id": "A547D021A5733D563",
+        "idNew": "A547D021A5733D563",
+        "name": "Shield Defense",
+        "cooldown": 60.000003814697,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\castigation3.dds"
+      }
+    },
+    {
+      "id": "A2CD5149A46EE1393",
+      "name": "Wall of Light",
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shroudofpenitence1a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A2CD5149A46EE1393",
+        "id": "A2CD5149A46EE1393",
+        "idNew": "A2CD5149A46EE1393",
+        "name": "Wall of Light",
+        "description": "Allies who stand in an arc behind you take 40% less damage for up to 4 seconds. Requires a stack of Light's Shield.",
+        "castingTime": 4,
+        "channeled": true,
+        "cooldown": 75,
+        "unusable": true,
+        "rangeMax": 30,
+        "costPower": 20,
+        "icon": "Data/\\UI\\ability_icons\\shroudofpenitence1a.dds"
+      }
+    },
+    {
+      "id": "A6ACAFC287CF516B9",
+      "name": "Building Fury",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A6ACAFC287CF516B9",
+        "id": "A6ACAFC287CF516B9",
+        "idNew": "A6ACAFC287CF516B9",
+        "name": "Building Fury",
+        "description": "Finishers gain a bonus to Attack Power contribution based on how many Attack Points were consumed.",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\carpet_bombing_a.dds"
+      }
+    },
+    {
+      "id": "A308169131FD954CE",
+      "name": "Light's Shield",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\hammer_fragment_of_saint_carwin_05.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A308169131FD954CE",
+        "id": "A308169131FD954CE",
+        "idNew": "A308169131FD954CE",
+        "name": "Light's Shield",
+        "description": "Taking damage has a 60% chance to grant you a stack of Light's Shield. Light's Shield enables the casting of various Paladin abilities. A stack of Light's Shield is consumed when casting these abilities. Max 5 stacks. Lasts 30 seconds.",
+        "passive": true,
+        "icon": "Data/\\UI\\item_icons\\hammer_fragment_of_saint_carwin_05.dds"
+      }
+    },
+    {
+      "id": "A0E2112FD6FE262EE",
+      "name": "Protector's Fury",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\conviction_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A03F53003A62FFD1E",
+      "name": "Shield of the Chosen",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_016.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A03F53003A62FFD1E",
+        "id": "A03F53003A62FFD1E",
+        "idNew": "A03F53003A62FFD1E",
+        "name": "Shield of the Chosen",
+        "description": "Increases Block by 5%. Maximum active Shield buffs: 2. Lasts 1h.",
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_016.dds"
+      }
+    },
+    {
+      "id": "A33611D5D1EF5312E",
+      "name": "Shield of the Hero",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\1h_shield_054a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A33611D5D1EF5312E",
+        "id": "A33611D5D1EF5312E",
+        "idNew": "A33611D5D1EF5312E",
+        "name": "Shield of the Hero",
+        "description": "Enables Guard. Increases Armor by 3% and all Resists by 9%. Increases incoming single target healing and absorbs cast by other players by 30%. Decreases non Paladin and non Void Knight damage by 25%. Maximum active Shield buffs: 2. Does not stack with Accord of Resilience. Lasts 1h",
+        "costPower": 10,
+        "icon": "Data/\\UI\\item_icons\\1h_shield_054a.dds"
+      }
+    },
+    {
+      "id": "AFA2841BF792FCE2C",
+      "name": "Shield of the Vengeful",
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_shield_of_the_vengeful_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFA2841BF792FCE2C",
+        "id": "AFA2841BF792FCE2C",
+        "idNew": "AFA2841BF792FCE2C",
+        "name": "Shield of the Vengeful",
+        "description": "Increases damage by 25%. Maximum active Shield buffs: 2. Lasts 1h.",
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\paladin_shield_of_the_vengeful_a.dds"
+      }
+    },
+    {
+      "id": "A5BF74A176BE8056A",
+      "name": "Face Slam",
+      "soul": "Paladin",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_face_slam.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A5BF74A176BE8056A",
+        "id": "A5BF74A176BE8056A",
+        "idNew": "A5BF74A176BE8056A",
+        "name": "Face Slam",
+        "description": "Interrupts.",
+        "cooldown": 8,
+        "rangeMax": 20,
+        "costPower": 10,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\paladin_face_slam.dds"
+      }
+    },
+    {
+      "id": "AFF10FE38281E01D2",
+      "name": "Light's Domination",
+      "soul": "Paladin",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\excommunicate.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFF10FE38281E01D2",
+        "id": "AFF10FE38281E01D2",
+        "idNew": "AFF10FE38281E01D2",
+        "name": "Light's Domination",
+        "description": "Stuns up to 5 enemies up to 20 meters in front of the Paladin for 3s. Awards 1 Attack Point.",
+        "cooldown": 60.000003814697,
+        "costPower": 10,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\excommunicate.dds"
+      }
+    },
+    {
+      "id": "A4BF7436B593C9847",
+      "name": "Light's Hammer",
+      "soul": "Paladin",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\smite2.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A4BF7436B593C9847",
+        "id": "A4BF7436B593C9847",
+        "idNew": "A4BF7436B593C9847",
+        "name": "Light's Hammer",
+        "description": "Stuns for 3s.",
+        "cooldown": 60.000003814697,
+        "rangeMax": 20,
+        "costPower": 10,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\smite2.dds"
+      }
+    },
+    {
+      "id": "AFFA07DF4B14E6C15",
+      "name": "Divine Edict",
+      "soul": "Paladin",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\righteousness2.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFFA07DF4B14E6C15",
+        "id": "AFFA07DF4B14E6C15",
+        "idNew": "AFFA07DF4B14E6C15",
+        "name": "Divine Edict",
+        "description": "Damaging abilities generate additional threat based off of the Warrior's Endurance.",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\righteousness2.dds"
+      }
+    },
+    {
+      "id": "A05E934712DEB9B9F",
+      "name": "Interfere",
+      "soul": "Paladin",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\harbinger_lucent_slash_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A05E934712DEB9B9F",
+        "id": "A05E934712DEB9B9F",
+        "idNew": "A05E934712DEB9B9F",
+        "name": "Interfere",
+        "description": "Forces the enemy to attack the Warrior for 3s.",
+        "cooldown": 8,
+        "rangeMax": 20,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\harbinger_lucent_slash_a.dds"
+      }
+    },
+    {
+      "id": "A75309C536CDDE89C",
+      "name": "Judgment",
+      "soul": "Paladin",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\doctrine_of_bliss_01_c.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A75309C536CDDE89C",
+        "id": "A75309C536CDDE89C",
+        "idNew": "A75309C536CDDE89C",
+        "name": "Judgment",
+        "description": "Forces up to 10 nearby enemies to attack the Warrior for 3s.",
+        "cooldown": 20,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\doctrine_of_bliss_01_c.dds"
+      }
+    },
+    {
+      "id": "A411792DB5CF7E0E4",
+      "name": "Call of the Divine",
+      "soul": "Paladin",
+      "category": "9Utility",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\resolve2.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFD7025D154FB9967",
+      "name": "Spell Destruction",
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\discombobulate1.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A761E0FF2A95D81BF",
+      "name": "Spell Sunder",
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shatter1.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A3BB4476FAB8B318F",
+      "name": "Spellbreaker",
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\magicward4.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A5EB22796DA3AAD1D",
+      "name": "Unstable Reaction",
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\energybeam2a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A506B60C78F712F5F",
+      "name": "Ragestorm",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\elemres4.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A361EFBF01CD99AF9",
+      "name": "Reckless Strike",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\swiftstrike1a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A361EFBF01CD99AF9",
+        "id": "A361EFBF01CD99AF9",
+        "idNew": "A361EFBF01CD99AF9",
+        "name": "Reckless Strike",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\swiftstrike1a.dds"
+      }
+    },
+    {
+      "id": "A743A69B7C8578E19",
+      "name": "Rift Summon",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-rift_summon.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A106213B9D7DB0C46",
+      "name": "Tempest",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-tempest.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFE4D68816C2BD068",
+      "name": "Void Propulsion",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\elemres4b.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFE4D68816C2BD068",
+        "id": "AFE4D68816C2BD068",
+        "idNew": "AFE4D68816C2BD068",
+        "name": "Void Propulsion",
+        "description": "Hurl the enemy back 15 meters. This ability awards 1 Attack Point.",
+        "cooldown": 15.000000953674,
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\elemres4b.dds"
+      }
+    },
+    {
+      "id": "A0D0211AC26E36A17",
+      "name": "Void Summon",
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-improved_rift_summon.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A23A6E91642EDEA34",
+      "name": "Discharge",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands2z.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A23A6E91642EDEA34",
+        "id": "A23A6E91642EDEA34",
+        "idNew": "A23A6E91642EDEA34",
+        "name": "Discharge",
+        "cooldown": 5,
+        "unusable": true,
+        "rangeMax": 20,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\layonhands2z.dds"
+      }
+    },
+    {
+      "id": "A008179609E385C6C",
+      "name": "Fusion of Flesh",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\healthchannel3.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFF159DDBC3BD23F6",
+      "name": "Power Shield",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\rally1a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFA98F6BE9B863D37",
+      "name": "Protective Shield",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\memory_capture.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A2047457596441A60",
+      "name": "Rift Shield",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight_rift_shield.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFED08EFF763541C5",
+      "name": "Void Storm",
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight_void_storm_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFE8A4FD3871425BB",
+      "name": "Devouring Blow",
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paralyzing_strike_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "AFE8A4FD3871425BB",
+        "id": "AFE8A4FD3871425BB",
+        "idNew": "AFE8A4FD3871425BB",
+        "name": "Devouring Blow",
+        "description": "Deals Air damage based on Attack Points:\n\n1 Point: 367 damage.\n2 Points: 557 damage.\n3 Points: 844 damage.",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\paralyzing_strike_01.dds"
+      }
+    },
+    {
+      "id": "AFE0C98BF643522F7",
+      "name": "Devouring Shield",
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\fire_death_attunement_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFF0780AD6C044917",
+      "name": "Rift Reversal",
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shadow_stalk.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A2CD34DEE57DFCC90",
+      "name": "Impunity",
+      "soul": "VoidKnight",
+      "category": "5Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\cautious_stalker.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFE8754A74377916A",
+      "name": "Accord of Power",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-ravenous_strength_b.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFBA185EDBBEFFD23",
+      "name": "Accord of Resilience",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\voidknight_ravenous_defence_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFFD7A63F6F4868F5",
+      "name": "Accord of Shifting",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shadow_warp.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFB8ACD07C6DCC381",
+      "name": "Accord of the Rift",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\riftstalker_planar_repulsion_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A768776D17CF516B9",
+      "name": "Building Fury",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A768776D17CF516B9",
+        "id": "A768776D17CF516B9",
+        "idNew": "A768776D17CF516B9",
+        "name": "Building Fury",
+        "description": "Finishers gain a bonus to Attack Power contribution based on how many Attack Points were consumed.",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\carpet_bombing_a.dds"
+      }
+    },
+    {
+      "id": "A7CCAC00730468D42",
+      "name": "Unstable Void",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\rogue_shadow_shift.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A0D674EA083DC58F6",
+      "name": "Void",
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-void_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A0D674EA083DC58F6",
+        "id": "A0D674EA083DC58F6",
+        "idNew": "A0D674EA083DC58F6",
+        "name": "Void",
+        "description": "Reduces damage taken by 3%. Taking ability damage gives a 30% chance to gain a Pact. Lasts 1h.",
+        "cooldown": 10,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\void_knight-void_a.dds"
+      }
+    },
+    {
+      "id": "A5900336E981E3D9F",
+      "name": "Furious Rage",
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shatter3.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFBAAA9410F39C3D7",
+      "name": "Shock",
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ruthless_stalker.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A6093113D9440BAD8",
+      "name": "Shock Burst",
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ward1zz.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A45CF9C24C5AC1997",
+      "name": "Airburst",
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\energyburst5.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A05213A7D60B13F6B",
+      "name": "Spark",
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritblast3.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A05213A7D60B13F6B",
+        "id": "A05213A7D60B13F6B",
+        "idNew": "A05213A7D60B13F6B",
+        "name": "Spark",
+        "cooldown": 8,
+        "rangeMax": 20,
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\spiritblast3.dds"
+      }
+    },
+    {
+      "id": "A5D2AE3B194A1B01C",
+      "name": "Void Presence",
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\dominator_draining_presence_01_b.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A522FFAF69C3094B7",
+      "name": "Death Touch",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\piercingenergy3.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFF2D151A9AE244A9",
+      "name": "Final Blessing",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\2h_sword_078_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A25CDB73A3EC459AF",
+      "name": "Flurry",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\whirlingblades3.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFEDCE425AED3A442",
+      "name": "Open the Stream",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\combat_culmination.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A720A3CF95D9B7B68",
+      "name": "Rising Waterfall",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\cleave1.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A453CE5965C2447BD",
+      "name": "Setting Moon",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\nightstalker_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A388AC2A3092B4DB9",
+      "name": "Swift Strike",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\double_cross_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A388AC2A3092B4DB9",
+        "id": "A388AC2A3092B4DB9",
+        "idNew": "A388AC2A3092B4DB9",
+        "name": "Swift Strike",
+        "rangeMax": 3,
+        "costPower": 20,
+        "weapon": "melee",
+        "icon": "Data/\\UI\\ability_icons\\double_cross_01.dds"
+      }
+    },
+    {
+      "id": "A1452E57E2E8B84B3",
+      "name": "Thread the Trees",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\tumble1.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFA37FA98C6F9C861",
+      "name": "Tranquility",
+      "soul": "Paragon",
+      "category": "1Builder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_analyze_weakness_b.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A2CEE2E2070DC6371",
+      "name": "Reaping Harvest",
+      "soul": "Paragon",
+      "category": "2Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\twin_strike_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A3EA647DF8335E491",
+      "name": "Shifting Blades",
+      "soul": "Paragon",
+      "category": "2Finisher",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_shifting_blades_01.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A168B8567784EA4B2",
+      "name": "Alacrity",
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_alacricity_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFE1E028FBA54DD15",
+      "name": "Combat Focus",
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\hardened_stalker.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFD57B7A9502AB0A9",
+      "name": "Grasping the Horizon",
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\harbinger_planar_retreat_z.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFC88B404E866A387",
+      "name": "Shield of Will",
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\blessing_of_the_flames_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A6F1D01307CF516B9",
+      "name": "Building Fury",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A6F1D01307CF516B9",
+        "id": "A6F1D01307CF516B9",
+        "idNew": "A6F1D01307CF516B9",
+        "name": "Building Fury",
+        "description": "Finishers gain a bonus to Attack Power contribution based on how many Attack Points were consumed.",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\carpet_bombing_a.dds"
+      }
+    },
+    {
+      "id": "A706526885260C3DF",
+      "name": "Focus of Body",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\strong_constitution_01_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A7C9DD2EA3FED172D",
+      "name": "Follow Up Attacks",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\twin_strike.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A7C9DD2EA3FED172D",
+        "id": "A7C9DD2EA3FED172D",
+        "idNew": "A7C9DD2EA3FED172D",
+        "name": "Follow Up Attacks",
+        "description": "Must be the next ability used within 10 seconds of using an ability that generates Attack Points and is not a follow up attack.",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\twin_strike.dds"
+      }
+    },
+    {
+      "id": "A3FE90373692BAF3E",
+      "name": "Strike Like Iron",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\intimidatingweapon2.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "AFCA998A1762885E3",
+      "name": "Sweeping Blades",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_015_z.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A1041BDD6C30EA150",
+      "name": "Turn the Blade",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\deflection4c.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A28D6C9D889B95A6B",
+      "name": "Way of the Mountain",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon-way_of_mountain_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A1672C336AAF86543",
+      "name": "Way of the River",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_way_of_the_river_01.dds",
+      "listedInSavedCurrent": true,
+      "exactNameAgreement": true,
+      "currentDetail": {
+        "lookupId": "A1672C336AAF86543",
+        "id": "A1672C336AAF86543",
+        "idNew": "A1672C336AAF86543",
+        "name": "Way of the River",
+        "description": "Increases Physical Crit by 3%. Maximum active Way buffs: 1. Lasts 1h.",
+        "costPower": 10,
+        "icon": "Data/\\UI\\ability_icons\\paragon_way_of_the_river_01.dds"
+      }
+    },
+    {
+      "id": "AFA908C0B8B2FF7F4",
+      "name": "Way of the Sun",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\healing_flare_b.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A797E8F04B13E9F09",
+      "name": "Way of the Wind",
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\secondwind2a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A114D0B26C789A345",
+      "name": "Flinching Strike",
+      "soul": "Paragon",
+      "category": "5Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\roguestrike2a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A3EEEE196C09A4ECE",
+      "name": "Predictable Movements",
+      "soul": "Paragon",
+      "category": "5Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon-predicatable_movements_a.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A3FB33AC4DCC2A8D1",
+      "name": "Wrist Strike",
+      "soul": "Paragon",
+      "category": "5Control",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\disabling4.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    },
+    {
+      "id": "A4819AAA2978F7AB9",
+      "name": "Fleet of Foot",
+      "soul": "Paragon",
+      "category": "6Movement",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\kick4.dds",
+      "listedInSavedCurrent": false,
+      "exactNameAgreement": null
+    }
+  ],
+  "knownOutsideStatic": [
+    {
+      "id": "A0530A5F074940F78",
+      "currentDetail": {
+        "lookupId": "A0530A5F074940F78",
+        "id": "A0530A5F074940F78",
+        "idNew": "A0530A5F074940F78",
+        "name": "Patron's Artifact Tracking",
+        "description": "Shows the location of all artifacts within a short vicinity on the minimap for 30 minutes. Requires Omen Sight or Quantum Sight to track and see twisted artifacts. Requires Poison, Burning or Nighmare Sight to track and see poison, burning or nightmare artifacts. This effect lasts through death.",
+        "icon": "Data/\\UI\\item_icons\\heroic_potion_spherical_0.dds"
+      }
+    },
+    {
+      "id": "A0A3C4B7D9770624A",
+      "currentDetail": {
+        "lookupId": "A0A3C4B7D9770624A",
+        "id": "A0A3C4B7D9770624A",
+        "idNew": "A0A3C4B7D9770624A",
+        "name": "Summon Primalist Trainer",
+        "description": "Summons a Primalist Trainer",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\soul_primalist.dds"
+      }
+    },
+    {
+      "id": "A0CDE363AA305A3B5",
+      "currentDetail": {
+        "lookupId": "A0CDE363AA305A3B5",
+        "id": "A0CDE363AA305A3B5",
+        "idNew": "A0CDE363AA305A3B5",
+        "name": "Legacy of the Shade",
+        "description": "Death resistance increased by 20.",
+        "passive": true,
+        "racial": true,
+        "icon": "Data/\\UI\\ability_icons\\ward1a.dds"
+      }
+    },
+    {
+      "id": "A1E12EB8E986727F7",
+      "currentDetail": {
+        "lookupId": "A1E12EB8E986727F7",
+        "id": "A1E12EB8E986727F7",
+        "idNew": "A1E12EB8E986727F7",
+        "name": "Patron's Radiance",
+        "description": "Show off your Patron status.",
+        "icon": "Data/\\UI\\ability_icons\\healing_flare_a.dds"
+      }
+    },
+    {
+      "id": "A251F2E341BED68A3",
+      "currentDetail": {
+        "lookupId": "A251F2E341BED68A3",
+        "id": "A251F2E341BED68A3",
+        "idNew": "A251F2E341BED68A3",
+        "name": "Nexus Infusion",
+        "description": "Heals and Upgrades special upgradable units. Consumes one Planar Charge when used. Allows movement.",
+        "target": "u035400012FA2D207",
+        "castingTime": 6.0000004768372,
+        "channeled": true,
+        "unusable": true,
+        "rangeMax": 25,
+        "costPlanarCharge": 1,
+        "icon": "Data/\\UI\\ability_icons\\sentinel-shards_of_light_a.dds"
+      }
+    },
+    {
+      "id": "A295EECA15ADDAE79",
+      "currentDetail": {
+        "lookupId": "A295EECA15ADDAE79",
+        "id": "A295EECA15ADDAE79",
+        "idNew": "A295EECA15ADDAE79",
+        "name": "Track Fish",
+        "description": "Shows the location of all Schools of Fish on the minimap.",
+        "icon": "Data/\\UI\\item_icons\\fish_51.dds"
+      }
+    },
+    {
+      "id": "A2B3964A98DE82D41",
+      "currentDetail": {
+        "lookupId": "A2B3964A98DE82D41",
+        "id": "A2B3964A98DE82D41",
+        "idNew": "A2B3964A98DE82D41",
+        "name": "Toggle Ranged Attack",
+        "description": "Toggles Auto Ranged Attack",
+        "rangeMax": 30,
+        "autoattack": "ranged",
+        "weapon": "ranged",
+        "icon": "Data/\\UI\\item_icons\\ranged_gun_water_epic_a.dds"
+      }
+    },
+    {
+      "id": "A2DE2D8448BF4B909",
+      "currentDetail": {
+        "lookupId": "A2DE2D8448BF4B909",
+        "id": "A2DE2D8448BF4B909",
+        "idNew": "A2DE2D8448BF4B909",
+        "name": "Break Free",
+        "description": "Removes all control and movement impairing effects. Does not trigger a global cooldown.",
+        "cooldown": 120.00000762939,
+        "unusable": true,
+        "icon": "Data/\\UI\\item_icons\\magicitem4a.dds"
+      }
+    },
+    {
+      "id": "A2DEBC0F3EAB4AA48",
+      "currentDetail": {
+        "lookupId": "A2DEBC0F3EAB4AA48",
+        "id": "A2DEBC0F3EAB4AA48",
+        "idNew": "A2DEBC0F3EAB4AA48",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "unusable": true,
+        "icon": "Data/\\UI\\item_icons\\soul_paladin.dds"
+      }
+    },
+    {
+      "id": "A2EA96AD566F13C62",
+      "currentDetail": {
+        "lookupId": "A2EA96AD566F13C62",
+        "id": "A2EA96AD566F13C62",
+        "idNew": "A2EA96AD566F13C62",
+        "name": "Summon Guild Banker",
+        "description": "Summons a Guild Banker",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\two_headed_coin.dds"
+      }
+    },
+    {
+      "id": "A2F23B7DA3B6FE174",
+      "currentDetail": {
+        "lookupId": "A2F23B7DA3B6FE174",
+        "id": "A2F23B7DA3B6FE174",
+        "idNew": "A2F23B7DA3B6FE174",
+        "name": "Planar Lure",
+        "description": "Use at a tear to lure out the planar forces breaking through and start a rift event.",
+        "castingTime": 2,
+        "cooldown": 5,
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_030.dds"
+      }
+    },
+    {
+      "id": "A387EC2995D3B2CE3",
+      "currentDetail": {
+        "lookupId": "A387EC2995D3B2CE3",
+        "id": "A387EC2995D3B2CE3",
+        "idNew": "A387EC2995D3B2CE3",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "icon": "Data/\\UI\\item_icons\\soul_beastmaster.dds"
+      }
+    },
+    {
+      "id": "A38DFCB8220EE4A2D",
+      "currentDetail": {
+        "lookupId": "A38DFCB8220EE4A2D",
+        "id": "A38DFCB8220EE4A2D",
+        "idNew": "A38DFCB8220EE4A2D",
+        "name": "Ascended Resurrection",
+        "description": "Brings the fallen ally back to life, restoring 20% health and mana. Cannot be used in combat.",
+        "castingTime": 8,
+        "rangeMax": 35,
+        "icon": "Data/\\UI\\ability_icons\\resurrect4d.dds"
+      }
+    },
+    {
+      "id": "A3C5AEC64D3793518",
+      "currentDetail": {
+        "lookupId": "A3C5AEC64D3793518",
+        "id": "A3C5AEC64D3793518",
+        "idNew": "A3C5AEC64D3793518",
+        "name": "Soul Recall",
+        "description": "Returns you to your recall point in Sanctum. You may speak to a Porticulum Master to change this recall point.",
+        "castingTime": 8,
+        "cooldown": 3600.0002441406,
+        "icon": "Data/\\UI\\ability_icons\\soulbind.dds"
+      }
+    },
+    {
+      "id": "A3C7F03BBA1BBE8AD",
+      "currentDetail": {
+        "lookupId": "A3C7F03BBA1BBE8AD",
+        "id": "A3C7F03BBA1BBE8AD",
+        "idNew": "A3C7F03BBA1BBE8AD",
+        "name": "Experience Bonus Suppression",
+        "description": "Reduces Experience gained from all sources by 40%.",
+        "continuous": true,
+        "icon": "Data/\\UI\\item_icons\\major_potion_spherical_3.dds"
+      }
+    },
+    {
+      "id": "A3D21C84687199B44",
+      "currentDetail": {
+        "lookupId": "A3D21C84687199B44",
+        "id": "A3D21C84687199B44",
+        "idNew": "A3D21C84687199B44",
+        "name": "Summon Banker",
+        "description": "Summons a Banker",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\two_headed_coin.dds"
+      }
+    },
+    {
+      "id": "A3F5DD24F7FEF4C53",
+      "currentDetail": {
+        "lookupId": "A3F5DD24F7FEF4C53",
+        "id": "A3F5DD24F7FEF4C53",
+        "idNew": "A3F5DD24F7FEF4C53",
+        "name": "Patron's Mailbox",
+        "description": "Summons a Patron Mailbox.",
+        "castingTime": 1,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\collection_of_love_letters.dds"
+      }
+    },
+    {
+      "id": "A3F5E814D94343B3C",
+      "currentDetail": {
+        "lookupId": "A3F5E814D94343B3C",
+        "id": "A3F5E814D94343B3C",
+        "idNew": "A3F5E814D94343B3C",
+        "name": "Bonus Dungeon Charges",
+        "description": "Grants 3 additional bonus reward charges to Random Dungeons.",
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\energyburst3f.dds"
+      }
+    },
+    {
+      "id": "A4090FAAA693ABEEC",
+      "currentDetail": {
+        "lookupId": "A4090FAAA693ABEEC",
+        "id": "A4090FAAA693ABEEC",
+        "idNew": "A4090FAAA693ABEEC",
+        "name": "Summon Rogue Trainer",
+        "description": "Summons a Rogue Trainer",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\soul_rogue.dds"
+      }
+    },
+    {
+      "id": "A439CC66597456366",
+      "currentDetail": {
+        "lookupId": "A439CC66597456366",
+        "id": "A439CC66597456366",
+        "idNew": "A439CC66597456366",
+        "name": "Summon Cleric Trainer",
+        "description": "Summons a Cleric Trainer",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\soul_cleric.dds"
+      }
+    },
+    {
+      "id": "A505AAA9B6EB8673D",
+      "currentDetail": {
+        "lookupId": "A505AAA9B6EB8673D",
+        "id": "A505AAA9B6EB8673D",
+        "idNew": "A505AAA9B6EB8673D",
+        "name": "Fury of the Ascended",
+        "description": "Increases targeted damage against Colossi by 20%. Reduces damage taken from Colossi by 50%.\n\nIncreases targeted damage against Planar Invasions by 150%. Reduces damage taken from Planar Invasions by 75%. Lasts for 60s.",
+        "cooldown": 80,
+        "unusable": true,
+        "costPlanarCharge": 1,
+        "icon": "Data/\\UI\\ability_icons\\anthem_of_fervor_b.dds"
+      }
+    },
+    {
+      "id": "A54F1DA73C9D1D272",
+      "currentDetail": {
+        "lookupId": "A54F1DA73C9D1D272",
+        "id": "A54F1DA73C9D1D272",
+        "idNew": "A54F1DA73C9D1D272",
+        "name": "Bonus Warfront Charges",
+        "description": "Grants 3 additional bonus reward charges to Random Warfronts.",
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\energyburst3g.dds"
+      }
+    },
+    {
+      "id": "A5AE12F27AE833543",
+      "currentDetail": {
+        "lookupId": "A5AE12F27AE833543",
+        "id": "A5AE12F27AE833543",
+        "idNew": "A5AE12F27AE833543",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "icon": "Data/\\UI\\ability_icons\\customcraft1b.dds"
+      }
+    },
+    {
+      "id": "A65319A6C5A45D8A8",
+      "currentDetail": {
+        "lookupId": "A65319A6C5A45D8A8",
+        "id": "A65319A6C5A45D8A8",
+        "idNew": "A65319A6C5A45D8A8",
+        "name": "Motivational Roar",
+        "description": "Increases the movement speed of the Mathosian and nearby group members by 30% for 10 seconds. This ability cannot be used in combat.",
+        "cooldown": 120.00000762939,
+        "racial": true,
+        "icon": "Data/\\UI\\ability_icons\\combat_survival.dds"
+      }
+    },
+    {
+      "id": "A665FDAC7EDD37636",
+      "currentDetail": {
+        "lookupId": "A665FDAC7EDD37636",
+        "id": "A665FDAC7EDD37636",
+        "idNew": "A665FDAC7EDD37636",
+        "name": "Patron's Fast Pass",
+        "description": "Allows access to remotely enter the porticulum. 30 minute cooldown.",
+        "icon": "Data/\\UI\\item_icons\\fatestone_05_neutral_a.dds"
+      }
+    },
+    {
+      "id": "A6713997D6CFF894C",
+      "currentDetail": {
+        "lookupId": "A6713997D6CFF894C",
+        "id": "A6713997D6CFF894C",
+        "idNew": "A6713997D6CFF894C",
+        "name": "Recycle",
+        "description": "Recycle Planar Fragments for materials.",
+        "icon": "Data/\\UI\\item_icons\\alchemy_item3.dds"
+      }
+    },
+    {
+      "id": "A6B82CAACCD1A03D8",
+      "currentDetail": {
+        "lookupId": "A6B82CAACCD1A03D8",
+        "id": "A6B82CAACCD1A03D8",
+        "idNew": "A6B82CAACCD1A03D8",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "icon": "Data/\\UI\\item_icons\\soul_champion.dds"
+      }
+    },
+    {
+      "id": "A6F854A06833ADE2E",
+      "currentDetail": {
+        "lookupId": "A6F854A06833ADE2E",
+        "id": "A6F854A06833ADE2E",
+        "idNew": "A6F854A06833ADE2E",
+        "name": "Toggle Auto Attack",
+        "description": "Toggles Auto Attack",
+        "rangeMax": 3,
+        "autoattack": "melee",
+        "icon": "Data/\\UI\\item_icons\\2h_sword_038.dds"
+      }
+    },
+    {
+      "id": "A72F1082A8F6DD4C5",
+      "currentDetail": {
+        "lookupId": "A72F1082A8F6DD4C5",
+        "id": "A72F1082A8F6DD4C5",
+        "idNew": "A72F1082A8F6DD4C5",
+        "name": "Summon Warrior Trainer",
+        "description": "Summons a Warrior Trainer",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\soul_warrior.dds"
+      }
+    },
+    {
+      "id": "AFD83E703841348C0",
+      "currentDetail": {
+        "lookupId": "AFD83E703841348C0",
+        "id": "AFD83E703841348C0",
+        "idNew": "AFD83E703841348C0",
+        "name": "Summon Mage Trainer",
+        "description": "Summons a Mage Trainer",
+        "castingTime": 3.0000002384186,
+        "cooldown": 5400.0004882812,
+        "icon": "Data/\\UI\\item_icons\\soul_mage.dds"
+      }
+    }
+  ]
+}

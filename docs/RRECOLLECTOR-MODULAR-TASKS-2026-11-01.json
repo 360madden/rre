@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-05 previously accepted. RC07 source/deployment milestone accepted: RRECollector v0.3.0 installed 9/9 source-hash parity; 96 static Warrior IDs include 57 absent from Atank current 69. RC08 blocked on the next normal operator-controlled UI load and persisted candidateLookup result. v0.2 live API probe and v0.1 69/69 baseline remain preserved; SC1 eligibility/lock and SC3 readiness still unknown.",
+  "status": "RC00-07 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -269,7 +269,40 @@
         "No current-known 69-ability or prior API-probe data loss",
         "Negative responses are labeled unknown, not locked/unlearnable"
       ],
-      "blocker": "RIFT client was running v0.2 Lua during host file update; new v0.3 Lua starts only after a normal UI load controlled by the game operator."
+      "blocker": "Current process PID 17412 started 2026-11-02T04:36:24Z, four seconds after prior 0.2 SavedVariables flush. Current in-memory v0.3 state cannot be inferred from the older saved file; await next operator-controlled normal flush, or source-qualified addon error. RRE sends no input."
+    },
+    {
+      "id": "RC-09",
+      "phase": "M6-offline-parallel",
+      "title": "Decode saved known ability literals and join exact IDs to static Warrior source",
+      "state": "completed",
+      "dependsOn": ["RC-07"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/read-rrecollector-saved.mjs",
+        "tools/verify-rrecollector-saved.mjs",
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md"
+      ],
+      "scope": [
+        "Reuse the prior RRECollector character SavedVariables; never send game input or evaluate saved Lua",
+        "Decode bounded literal subset, preserve false/zero vs absent, emit sanitized spell-only data",
+        "Join by exact ID to source-hashed 96 Warrior static entries; preserve three distinct Building Fury IDs"
+      ],
+      "deliverable": "source-qualified offline known-versus-static exact-ID machine crosswalk and reusable read-only decoder",
+      "acceptance": [
+        "69 current-known API details and 96 static candidate IDs reconciled with 39 exact matches, 57 absent and no name mismatch",
+        "30 current-known IDs outside the three static source files retained; duplicate names not deduplicated",
+        "Focused decoder tests pass; no private player stats or unsupported unlock inference"
+      ],
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.json",
+        "tools/read-rrecollector-saved.mjs",
+        "tools/verify-rrecollector-saved.mjs"
+      ],
+      "result": "Read-only saved-file integration recovered 69/69 details from SHA256 242259d4...; static join 96 total, Paladin 28/34 known, Void Knight 7/33, Paragon 4/29, 30 known outside static, zero exact-ID name mismatches. Building Fury appears as three different known IDs; three focused tests pass.",
+      "limitations": "Still no v0.3 candidateLookup SavedVariables receipt and no source-qualified locked/learnable or rank predicate. The current running process may hold unsaved data; the offline decoder does not observe memory."
     }
   ],
   "workingSource": {
@@ -284,6 +317,10 @@
     "candidateIdsAbsentFromPriorKnown": 57,
     "candidateLookupLiveVerified": false,
     "installedShaMatches": 9,
+    "offlineKnownStaticCrosswalkAccepted": true,
+    "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
+    "offlineKnownExactNameMismatches": 0,
+    "offlineKnownOutsideThreeStaticSouls": 30,
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",

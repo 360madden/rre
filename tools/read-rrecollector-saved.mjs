@@ -1,0 +1,246 @@
+// Read-only RRECollector SavedVariables decoder. Lua values are parsed, never executed.
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { fileURLToPath } from "node:url";
+
+const MAX_CHARS = 2_000_000;
+const MAX_DEPTH = 48;
+const MAX_VALUES = 100_000;
+const ID = /^A[0-9A-F]{16}$/;
+const DETAILS = [
+  "lookupId", "id", "idNew", "name", "description", "target", "castingTime",
+  "channeled", "cooldown", "currentCooldownBegin", "currentCooldownDuration",
+  "currentCooldownRemaining", "currentCooldownExpired", "currentCooldownPaused",
+  "unusable", "outOfRange", "rangeMin", "rangeMax", "costPower", "costMana",
+  "costEnergy", "costCharge", "costSpirit", "costPlanarCharge", "positioned",
+  "passive", "continuous", "autoattack", "weapon", "stealthRequired",
+  "gainCharge", "racial", "icon", "focusMin", "focusMax"
+];
+
+export function parseSavedLua(input) {
+  if (typeof input !== "string" || input.length > MAX_CHARS) {
+    throw new Error("SavedVariables input missing or too large");
+  }
+  const src = input.charCodeAt(0) === 0xfeff ? input.slice(1) : input;
+  let i = 0, depth = 0, values = 0;
+  const fail = what => { throw new Error("Unsupported SavedVariables Lua at offset " + i + ": " + what); };
+  function skip() {
+    for (;;) {
+      while (i < src.length && /\s/.test(src[i])) i++;
+      if (src.slice(i, i + 2) !== "--") return;
+      while (i < src.length && src[i] !== "\n") i++;
+    }
+  }
+  function identifier() {
+    const m = /^[A-Za-z_][A-Za-z0-9_]*/.exec(src.slice(i));
+    if (!m) fail("identifier expected");
+    i += m[0].length;
+    return m[0];
+  }
+  function expect(c) {
+    skip();
+    if (src[i] !== c) fail("expected " + c);
+    i++;
+  }
+  function quoted() {
+    const delim = src[i++];
+    let result = "";
+    const special = {n:"\n",r:"\r",t:"\t",a:"\x07",b:"\b",f:"\f",v:"\v"};
+    while (i < src.length) {
+      const c = src[i++];
+      if (c === delim) return result;
+      if (c !== "\\") { result += c; continue; }
+      if (i >= src.length) fail("unterminated escape");
+      let e = src[i++];
+      if (/[0-9]/.test(e)) {
+        while (i < src.length && e.length < 3 && /[0-9]/.test(src[i])) e += src[i++];
+        const n = Number(e);
+        if (n > 255) fail("decimal escape out of range");
+        result += String.fromCharCode(n);
+      } else if (e === delim || e === "\\") result += e;
+      else if (e === "\n") result += "\n";
+      else if (e === "\r") { if (src[i] === "\n") i++; result += "\n"; }
+      else if (Object.hasOwn(special, e)) result += special[e];
+      else fail("unsupported escape");
+    }
+    fail("unterminated quoted string");
+  }
+  function number() {
+    const m = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/.exec(src.slice(i));
+    if (!m) fail("number expected");
+    i += m[0].length;
+    const n = Number(m[0]);
+    if (!Number.isFinite(n)) fail("non-finite number");
+    return n;
+  }
+  function value() {
+    skip();
+    if (++values > MAX_VALUES) fail("value limit exceeded");
+    if (src[i] === "{") return table();
+    if (src[i] === '"' || src[i] === "'") return quoted();
+    if (/[0-9+.\-]/.test(src[i] || "")) return number();
+    const v = identifier();
+    if (v === "true") return true;
+    if (v === "false") return false;
+    if (v === "nil") return null;
+    fail("only literal Lua values allowed");
+  }
+  function table() {
+    if (++depth > MAX_DEPTH) fail("table nesting limit exceeded");
+    i++;
+    const sequence = [], keyed = Object.create(null);
+    let explicit = false;
+    for (;;) {
+      skip();
+      if (src[i] === "}") { i++; break; }
+      let key = null, hasKey = false;
+      if (src[i] === "[") {
+        i++;
+        key = value();
+        if (typeof key !== "string" && typeof key !== "number") fail("invalid bracket key");
+        expect("]");
+        expect("=");
+        hasKey = true;
+      } else if (/^[A-Za-z_]/.test(src[i] || "")) {
+        const rewind = i;
+        key = identifier();
+        skip();
+        if (src[i] === "=") { i++; hasKey = true; }
+        else i = rewind;
+      }
+      const next = value();
+      if (hasKey) {
+        explicit = true;
+        const k = String(key);
+        if (Object.hasOwn(keyed, k)) fail("duplicate Lua table key");
+        keyed[k] = next;
+      } else sequence.push(next);
+      skip();
+      if (src[i] === "," || src[i] === ";") i++;
+      else if (src[i] !== "}") fail("table delimiter expected");
+    }
+    depth--;
+    if (!explicit) return sequence;
+    for (let n = 0; n < sequence.length; n++) {
+      const k = String(n + 1);
+      if (Object.hasOwn(keyed, k)) fail("duplicate implicit array key");
+      keyed[k] = sequence[n];
+    }
+    return keyed;
+  }
+  skip();
+  if (identifier() !== "RRECollectorData") fail("unexpected SavedVariables assignment");
+  expect("=");
+  const data = value();
+  skip();
+  if (src[i] === ";") { i++; skip(); }
+  if (i !== src.length || !data || Array.isArray(data) || typeof data !== "object") {
+    fail("trailing code or invalid root");
+  }
+  return data;
+}
+
+function scalars(source, names) {
+  const out = {};
+  if (!source || typeof source !== "object") return out;
+  for (const field of names) {
+    const v = source[field];
+    if (typeof v === "string" || typeof v === "boolean"
+      || typeof v === "number" && Number.isFinite(v)) out[field] = v;
+  }
+  return out;
+}
+function asArray(value) {
+  if (Array.isArray(value)) return value;
+  if (!value || typeof value !== "object") return [];
+  return Object.entries(value).filter(([k])=>/^\d+$/.test(k))
+    .sort(([a],[b])=>Number(a)-Number(b)).map(([,v])=>v);
+}
+
+export function buildAbilityCrosswalk(saved, staticCatalog, savedSha256) {
+  const latest = saved?.latest;
+  if (!latest || !staticCatalog || !Array.isArray(staticCatalog.records)) {
+    throw new Error("latest ability snapshot and static candidate catalog required");
+  }
+  const current = new Map();
+  for (const raw of asArray(latest.abilities)) {
+    const detail = scalars(raw, DETAILS);
+    if (!ID.test(detail.lookupId || "") || current.has(detail.lookupId)) {
+      throw new Error("invalid or duplicate current-known ID");
+    }
+    current.set(detail.lookupId, detail);
+  }
+  const queried = new Map();
+  if (saved.candidateLookup && Array.isArray(saved.candidateLookup.entries)) {
+    for (const q of saved.candidateLookup.entries) {
+      if (ID.test(q.id || "") && !queried.has(q.id)) queried.set(q.id, q);
+    }
+  }
+  const seen = new Set(), rows = [];
+  for (const s of staticCatalog.records) {
+    if (!ID.test(s.id || "") || seen.has(s.id)) throw new Error("invalid or duplicate static ID");
+    seen.add(s.id);
+    const detail = current.get(s.id);
+    const query = queried.get(s.id);
+    const row = {
+      id:s.id, name:s.name, soul:s.soul, category:s.category,
+      icon:s.icon, listedInSavedCurrent:!!detail,
+      exactNameAgreement:detail ? detail.name === s.name : null
+    };
+    if (detail) row.currentDetail = detail;
+    if (query) {
+      row.candidateLookup = scalars(query, ["status","phase","listed","id","soul","category","name"]);
+      if (query.detail) row.candidateLookup.detail = scalars(query.detail, DETAILS);
+    }
+    rows.push(row);
+  }
+  const onlyKnown = [...current.entries()].filter(([id])=>!seen.has(id))
+    .map(([id,detail])=>({id, currentDetail:detail}));
+  const duplicateNames = Object.entries(Object.groupBy(rows, r=>r.name))
+    .filter(([,group])=>group.length>1)
+    .map(([name,group])=>({name,ids:group.map(r=>r.id),souls:group.map(r=>r.soul)}));
+  const listed = rows.filter(r=>r.listedInSavedCurrent);
+  const candidate = saved.candidateLookup;
+  return {
+    schemaVersion:1,
+    sourceKind:"character-scoped prior current-known API capture plus disabled static Warrior source, exact-ID join",
+    evidenceLimit:"Absence from List or a negative arbitrary-ID Detail response is not proof of locked, learnable or unavailable state",
+    savedSha256,
+    knownCaptureVersion:latest.addonVersion || null,
+    knownCaptureComplete:latest.captureComplete === true,
+    staticCatalogVersion:staticCatalog.catalogVersion,
+    liveCandidateLookupSaved:!!candidate,
+    candidateLookupVersion:candidate?.addonVersion || null,
+    candidateLookupPolicy:candidate?.policy || null,
+    counts:{
+      knownApi:current.size, staticCandidates:rows.length,
+      staticKnown:listed.length, staticUnlisted:rows.length-listed.length,
+      knownOutsideStatic:onlyKnown.length,
+      knownStaticNameMismatches:listed.filter(r=>r.exactNameAgreement===false).length,
+      duplicateStaticNames:duplicateNames.length
+    },
+    bySoul:Object.fromEntries(["Paladin","VoidKnight","Paragon"].map(soul=>{
+      const slice=rows.filter(r=>r.soul===soul);
+      return [soul,{candidates:slice.length,known:slice.filter(r=>r.listedInSavedCurrent).length}];
+    })),
+    duplicateNames, staticCandidates:rows, knownOutsideStatic:onlyKnown
+  };
+}
+
+const invoked = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invoked) {
+  const savedFile = process.argv[2];
+  const staticFile = process.argv[3] || path.resolve(path.dirname(fileURLToPath(import.meta.url)),
+    "../docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json");
+  if (!savedFile) {
+    process.stderr.write("Usage: node tools/read-rrecollector-saved.mjs <RRECollector.lua> [static catalog JSON]\n");
+    process.exitCode = 2;
+  } else {
+    const bytes = fs.readFileSync(savedFile);
+    const saved = parseSavedLua(bytes.toString("utf8"));
+    const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
+    const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+    process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
+  }
+}
