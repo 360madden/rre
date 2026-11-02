@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status (November 2):** RC-00 and RC-01 complete; RC-02 v0.2.0 source and physical-PC installation 7/7 hashes accepted, **operator live `/rre probe` and saved output still pending**. RC-03 not started.
+**Status (November 2, after operator probe):** RC-00/01/02 complete; v0.2.0 installed files 7/7 hashes, **live `/rre probe` SavedVariables captured and source-hashed**. RC-03 closed by explicit no-qualified-soul/eligibility/bar-API decision; RC-05 v0.2 acceptance complete. **RC-04 / SC-102 physical-PC UI reconciliation remains blocked.**
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -47,6 +47,12 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | **Later / RC-06 — Optional probes** | Only if a concrete SC3/SC5 question needs it, consider bounded readiness/castbar/resource/event snapshots. Define exact event/timing questions before implementing any listener or sampling loop. | Deferred until demanded; no all-purpose live telemetry or infinite polling by default. |
 
 **Critical path:** M0 → (M1 if justified) → M2 → M3 → M5. **SC-102 UI evidence (M4) is independent and can unblock research immediately**, without waiting on addon modularity. If M0 finds no actionable API for souls/spellbook, pause M2–M3 rather than making an empty implementation; prioritize M4.
+
+## November 2 current-client capability verdict
+
+[Source-hashed first v0.2 live probe](RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md): the operator-attested physical-PC Atank role-slot-1 SavedVariables file contains the separate `probe` plus intact v0.1 `latest` **69/69** ability records. The current `Inspect.Documentation` index scanned **1,910**, retained **22** relevant names with **0** documentation errors and no scan truncation. `Inspect.Role.List` and `Inspect.Setting.List/Detail` are current functions; tested `Inspect.Soul.List/Detail` and `Inspect.Action.List/Detail` are `nil`. `UI.Native.Soul` and `UI.Native.BarMain` are **UI tables**, not proof of points or bar slot inventories. `Inspect.Queue.Status` describes generic `global`/`auctionfullscan` queues, not a qualified spellcast mode. The full saved-file SHA-256 is `242259d4f20709574b45676ed6a6ebdaef64e5a8d99b22341abb5291bccdfb12` (31,081 bytes); no raw private file was committed.
+
+**RC-03 no-code exit:** No supported direct soul, eligibility or action-content producer was demonstrated; do **not** add empty `souls.lua`, `eligibility.lua` or `bars.lua` just to fill the roadmap. A later narrow settings-key probe would require a separate decision-changing SC3 question and an actual documented key. **RC-04/SC-102 is the practical next gate:** same physical-PC character/role spellbook, soul/points, trainer and action-bar screenshots; a second ability capture is unnecessary solely to recover the 69 saved IDs. This is a scoped result, not a claim that no RIFT API anywhere could ever expose the missing fields.
 
 ## Implementation and acceptance rules
 

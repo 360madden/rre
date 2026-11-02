@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC418 69/69 physical-PC ability API catalog ACCEPTED; SC605 custom-addon route and SC606 modular plan ACCEPTED. RC00 offline API feasibility and RC01 source modularization complete; RC02 v0.2.0 bounded API probe source/host copy 7/7 SHA verified, awaiting operator game load/probe/reload. SC102 remains BLOCKED on same-role physical-PC spellbook/soul/trainer/action-bar UI, independent of collector modularization. SC1/SC3/SC4/SC5/SC6 open.",
+  "status": "SC418 physical-PC operator-attested 69/69 known-ability API catalog ACCEPTED; SC605 custom-addon route and SC606 modular roadmap ACCEPTED. RC00/01/02 complete, v0.2.0 installed 7/7 SHA and user-operated runtime probe saved with 1910 index entries, 22 relevant names, zero documentation errors; exact Soul/Action List/Detail APIs nil. RC03 no-qualified-producer stop and RC05 v0.2 verification complete. SC102 remains BLOCKED on same-role physical-PC spellbook/soul/trainer/action-bar UI; SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -121,7 +121,8 @@
       "owner": "REA researcher; RR2 owner supplies saved UI evidence",
       "sourceInputs": [
         "Current spellbook and role/point UI screenshots or existing stored evidence",
-        "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md (source-hashed current physical-PC operator-attested API catalog)"
+        "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md (source-hashed current physical-PC operator-attested API catalog)",
+        "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md (v0.2 physical-PC runtime capability probe; no direct Soul/Action List/Detail methods)"
       ],
       "deliverable": "Known-vs-learnable-vs-locked comparison with explicit UI evidence",
       "acceptance": [
@@ -129,7 +130,7 @@
         "Never infer eligibility solely from character level",
         "No new game controls owned by REA"
       ],
-      "blocker": "API-known catalog is now available: 69/69 current IDs/details, Atank L45 Warrior role slot1, user-attested physical-PC capture. Still lacks source-time-matched physical-PC spellbook, selected soul/points, class trainer and action-bar UI; no learnable/locked classification yet."
+      "blocker": "API-known catalog remains available: 69/69 Atank L45 Warrior role slot1, operator-attested physical PC. November 2 v0.2 runtime probe preserved it; exact Inspect.Soul/Action List/Detail paths nil and UI.Native frames give no eligible/locked/bound data. Still requires matching physical-PC spellbook, selected soul/points, class trainer and action-bar UI; no learnable/locked classification."
     },
     {
       "id": "SC-103",

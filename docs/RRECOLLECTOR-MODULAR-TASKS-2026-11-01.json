@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00 offline API feasibility and RC01 modular source refactor completed. RC02 v0.2.0 read-only /rre probe source committed (8d41ed8), installed on physical-PC host with 7/7 SHA parity; next is operator in-game /rre status, /rre probe, /reloadui and SavedVariables evidence. Current runtime API capability UNKNOWN; SC102 UI gate independent.",
+  "status": "RC00/RC01 completed; RC02 v0.2.0 manual read-only probe saved on operator-attested physical PC: 1910 index entries, 22 relevant names, 0 documentation errors; old 69/69 catalog preserved. RC03 explicit no-qualified soul/eligibility/action producer decision; RC05 v0.2 verification accepted (7/7 installed hashes, saved receipt). RC04/SC102 still BLOCKED on exact-role physical-PC spellbook/soul/trainer/action-bar UI.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-02",
+  "nextTaskId": "RC-04",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
@@ -87,7 +87,7 @@
       "id": "RC-02",
       "phase": "M2",
       "title": "Add one manual API capability probe",
-      "state": "blocked-external",
+      "state": "completed",
       "dependsOn": [
         "RC-00",
         "RC-01"
@@ -106,18 +106,19 @@
       ],
       "evidence": [
         "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
+        "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
         "addons/RRECollector/capabilities.lua",
         "addons/RRECollector/main.lua",
         "addons/RRECollector/RiftAddon.toc"
       ],
-      "result": "v0.2.0 /rre probe source committed, bounded read-only capability/documentation paths; physical-PC installed copy 7/7 SHA match and game process absent at copy.",
-      "blocker": "Operator must open physical-PC game and perform /rre status, /rre probe, /reloadui; saved RRECollectorData.probe not yet verified."
+      "result": "Operator-attested physical-PC v0.2.0 RRECollectorData.probe persisted; 1910 documentation entries, 22 retained relevant names, 0 documentation errors, exact Soul/Action List/Detail paths nil, Role/Setting APIs available; separate old latest still 69/69. Saved file SHA256 242259d4f20709574b45676ed6a6ebdaef64e5a8d99b22341abb5291bccdfb12.",
+      "limitations": "No contemporaneous game-process/PE SHA; no Soul/Action data, no eligible/locked or action-bar contents, and no arbitrary Setting calls. Exact API path negatives are not universal interface absence."
     },
     {
       "id": "RC-03",
       "phase": "M3",
       "title": "Add conditional soul, eligibility or action-bar data producers",
-      "state": "planned",
+      "state": "completed",
       "dependsOn": [
         "RC-02"
       ],
@@ -132,7 +133,11 @@
         "Never infer learnable or locked from absent List IDs",
         "Missing fields and unsupported APIs explicit",
         "No new addon/other repo or automatic casting"
-      ]
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md"
+      ],
+      "result": "Documented no-qualified-producer stop: Inspect.Soul.List/Detail and Inspect.Action.List/Detail are nil, while UI.Native.Soul/BarMain are frame tables only. Do not create speculative souls.lua, eligibility.lua or bars.lua. Setting.List/Detail exists but no exact SC3 queue-setting key was read or justified; defer any narrow optional settings follow-up until needed."
     },
     {
       "id": "RC-04",
@@ -158,7 +163,7 @@
       "id": "RC-05",
       "phase": "M5",
       "title": "Verify and integrate one useful addon increment",
-      "state": "planned",
+      "state": "completed",
       "dependsOn": [
         "RC-03"
       ],
@@ -174,7 +179,12 @@
         "No unrelated addon overwritten",
         "Minimal offline check and one live operator smoke result",
         "Rollback hashes and unresolved SC102 UI limitations recorded"
-      ]
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
+        "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md"
+      ],
+      "result": "One coherent RRECollector v0.2.0 addon increment committed (8d41ed8 source), TOC/load order checked, physical-PC installed 7/7 source SHA parity, and operator-attested live v0.2 probe persisted under schema 1 while preserving all 69 existing v0.1 records. No further addon module without qualified API evidence; SC102 remains blocked independently."
     },
     {
       "id": "RC-06",
@@ -201,10 +211,16 @@
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
-    "liveLuaLoadVerified": false,
+    "liveLuaLoadVerified": true,
     "baselineKnownCatalogIds": 69,
     "installedShaMatches": 7,
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
-    "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md"
+    "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
+    "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
+    "liveProbeSavedFileSha256": "242259d4f20709574b45676ed6a6ebdaef64e5a8d99b22341abb5291bccdfb12",
+    "liveProbeEvidenceScope": "operator-attested physical-PC RIFT session, not process/PE bound",
+    "runtimeApiIndexScanned": 1910,
+    "runtimeApiRelevantNames": 22,
+    "runtimeApiDocumentErrors": 0
   }
 }

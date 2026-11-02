@@ -1,6 +1,6 @@
-# RC-02 — Guarded runtime API probe installed, live validation pending (2026-11-02)
+# RC-02 — Guarded runtime API probe installation receipt (2026-11-02)
 
-**State:** source implementation **committed**, physical-PC add-on installation **SHA-verified 7/7**; **BLOCKED on operator-driven in-game load/probe/reload**. No actual current-game API result is yet available.  
+**State:** source implementation **committed**, physical-PC add-on installation **SHA-verified 7/7**. **Subsequent operator-driven `/rre probe` succeeded:** see [live persisted receipt](RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md). This document preserves the **pre-probe** installation and instructions; it is no longer the latest runtime-status source.
 **Source commit:** `8d41ed8` (bounded `/rre probe`) after `17580f7` modular core.  
 **RC-00 decision:** [exact capability goals and source limits](RRECOLLECTOR-RC00-API-FEASIBILITY-2026-11-02.md).
 
@@ -31,9 +31,9 @@ Every hash was re-read and compared (7/7); README was corrected and re-deployed 
 
 - `rre-rc02-source-structural-20261102-a1` exit **0**: `RC02_SOURCE_PASS`, verifying selected bounded strings, read-only path, separate `probe` save, retained `latest` write, TOC order and version/schema.
 - `rre-rc02-source-diffcheck-20261102-a1` exit **0**, only normal Windows LF/CRLF warning.
-- **These checks do not compile Lua or establish live load.** The actual 2026 RIFT API index and soul/setting/action availability remain unknown. The saved `SC-418` original 69/69 catalog remains separately qualified at its operator-attested physical-PC scope.
+- **These source-only checks did not compile Lua or establish live load.** At the installation checkpoint the actual 2026 RIFT API index and soul/setting/action availability were unknown; the later operator-attested persisted [RC-02 runtime receipt](RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md) supersedes that uncertainty for the tested paths. The saved `SC-418` original 69/69 catalog remains separately qualified.
 
-## Operator action required for the next milestone
+## Historical operator instructions (completed; retained for reproducibility)
 
 On the **physical PC** (not a VMware lab):
 
@@ -41,6 +41,6 @@ On the **physical PC** (not a VMware lab):
 2. In RIFT chat, manually enter **`/rre status`** then **`/rre probe`**. Record the console response about `documentation` and `matching names`. Do not re-run `/rre capture` merely to retrieve the existing 69 known abilities.
 3. Enter **`/reloadui`** (or normal logout) to flush character SavedVariables. Report when done; RRE can inspect and hash the new `RRECollectorData.probe` alongside the preserved `latest`.
 
-Once a real source-qualified probe is read, decide whether the requested soul/prerequisite/action-bar data has an API path. If not, record the limitation and proceed with **SC-102 same-role spellbook/soul/trainer/action-bar screenshots**. Do not mark RC-02 complete or SC-102 unblocked from source/host installation alone.
+The operator completed the probe and the saved source was inspected as [RC-02 first runtime receipt](RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md). The tested direct Soul/Action methods were `nil`; no new soul/eligibility/bar producer is justified, and **SC-102 same-role spellbook/soul/trainer/action-bar screenshots** remain the next gate. RC-02 is complete at operator-attested runtime scope, not from installation alone.
 
 **Rollback:** Source history `332ad7f` is the accepted v0.1 installed package; Workbridge per-file guarded mutation journal recorded each v0.2 host write. Before rollback check current host hashes and preserve any newer operator edits. Do not delete/overwrite unrelated addons.
