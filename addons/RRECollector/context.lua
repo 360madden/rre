@@ -1,6 +1,6 @@
 -- RRECollector v0.2.0: player, target, role and stats snapshot.
 local shared = RRECollectorRuntime.core
-local call, finite = shared.call, shared.finite
+local call, finite, scalar = shared.call, shared.finite, shared.scalar
 local fieldCopy, mapCopy = shared.fieldCopy, shared.mapCopy
 local MAX_STATS = 256
 local UNIT_FIELDS = {

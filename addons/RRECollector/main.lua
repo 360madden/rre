@@ -1,11 +1,29 @@
--- RRECollector v0.2.0: manual commands, SavedVariables and bootstrap.
+-- RRECollector v0.3.0: manual commands, SavedVariables and bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
 local say, finite = RRECollectorRuntime.core.say, RRECollectorRuntime.core.finite
 local collect = RRECollectorRuntime.abilities.collect
+local candidateLookup = RRECollectorRuntime.candidates.lookup
+local candidateVersion = RRECollectorRuntime.candidateCatalog.version
 local savedLoaded = false
 local lastMessage = "waiting-for-saved-variables"
+
+local function candidateStatus()
+  local report = RRECollectorData.candidateLookup
+  if type(report) ~= "table" then
+    say("Static Warrior candidate lookup not yet recorded; /rre candidates.")
+    return
+  end
+  local c = report.counts or {}
+  say("Candidate lookup #" .. tostring(report.sequence or "?")
+    .. " " .. tostring(report.catalogVersion or "?")
+    .. ": " .. tostring(c.listed or "?") .. " currently listed, "
+    .. tostring(c.unlisted or "?") .. " unlisted, "
+    .. tostring(c.unlistedReturned or 0) .. " unlisted returned by Detail.")
+  say("Queries " .. tostring(c.queried or 0) .. ", policy "
+    .. tostring(report.policy or "?") .. "; not a lock/learnability conclusion.")
+end
 
 local function status()
   if not savedLoaded then
@@ -15,6 +33,7 @@ local function status()
   local latest = RRECollectorData.latest
   if type(latest) ~= "table" then
     say("v" .. VERSION .. " ready; no snapshot. Use /rre capture.")
+    candidateStatus()
     return
   end
   local list = latest.abilityList or {}
@@ -31,6 +50,7 @@ local function status()
   say("Role slot " .. tostring(latest.roleSlot or "?")
     .. " | combat role " .. tostring(p.role or "?")
     .. " | saved on next normal UI reload/logout.")
+  candidateStatus()
 end
 
 local function showPage(page)
@@ -52,8 +72,37 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | page N | export | help")
-  say("Captures known API abilities, role context, stats and target. No casting.")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | candidates | page N | export | help")
+  say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
+end
+
+local function runCandidateLookup(trigger)
+  if not savedLoaded then
+    say("SavedVariables not ready; candidate lookup deferred.")
+    return false
+  end
+  local ok, report, reason = pcall(candidateLookup)
+  if not ok or type(report) ~= "table" or report.apiReady ~= true then
+    lastMessage = "candidate-lookup-deferred"
+    say("Candidate lookup " .. tostring(trigger) .. " deferred: "
+      .. tostring(reason or "API unavailable") .. "; previous records preserved.")
+    return false
+  end
+  local sequence = (type(RRECollectorData.candidateSequence) == "number"
+    and RRECollectorData.candidateSequence or 0) + 1
+  report.sequence = sequence
+  report.trigger = trigger
+  RRECollectorData.candidateLookup = report
+  RRECollectorData.candidateSequence = sequence
+  lastMessage = "candidate-lookup-recorded"
+  local c = report.counts or {}
+  say("Candidate lookup #" .. tostring(sequence) .. " " .. tostring(trigger)
+    .. ": " .. tostring(c.listed or 0) .. " listed / "
+    .. tostring(c.unlisted or 0) .. " unlisted; "
+    .. tostring(c.unlistedReturned or 0) .. " unlisted details returned; "
+    .. tostring(c.queried or 0) .. " bounded Detail calls.")
+  say("Separate candidateLookup recorded in memory; normal UI reload/logout flushes SavedVariables.")
+  return true
 end
 
 local function onSlash(_, raw)
@@ -89,6 +138,8 @@ local function onSlash(_, raw)
         .. tostring(index.retained or 0) .. ", doc errors "
         .. tostring(report.documentErrors or 0) .. ".")
       say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
+    elseif action == "candidates" then
+      runCandidateLookup("manual")
     elseif action == "capture" then
       if not savedLoaded then
         say("SavedVariables not ready; retry after initialization.")
@@ -111,6 +162,7 @@ local function onSlash(_, raw)
       showPage(tonumber(argument))
     elseif action == "export" then
       say("Full snapshot stored in character SavedVariables: RRECollectorData.latest.")
+      say("Separate research receipts: RRECollectorData.probe and .candidateLookup.")
       say("Use a normal /reloadui or logout to flush; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")
@@ -144,7 +196,14 @@ if savedEvent then
     RRECollectorData.addonVersion = VERSION
     savedLoaded = true
     lastMessage = "ready"
-    say("v" .. VERSION .. " ready. /rre capture")
+    say("v" .. VERSION .. " ready. /rre status")
+    local prior = RRECollectorData.candidateLookup
+    if type(prior) == "table" and prior.catalogVersion == candidateVersion
+      and prior.apiReady == true then
+      say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")
+    else
+      runCandidateLookup("startup")
+    end
   end, "RRECollector.SavedVariables")
   if not attached then
     lastMessage = "saved-event-unavailable"

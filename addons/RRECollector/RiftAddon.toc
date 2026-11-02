@@ -4,7 +4,7 @@ NameShort = "RRE"
 Description = "One-shot read-only spellcasting API snapshot for RRE research"
 Author = "360madden"
 Email = "360madden@gmail.com"
-Version = "0.2.0"
+Version = "0.3.0"
 Environment = "4.4"
 SavedVariables = {
     RRECollectorData = "character",
@@ -14,5 +14,7 @@ RunOnStartup = {
     "context.lua",
     "abilities.lua",
     "capabilities.lua",
+    "candidate_catalog.lua",
+    "candidates.lua",
     "main.lua",
 }

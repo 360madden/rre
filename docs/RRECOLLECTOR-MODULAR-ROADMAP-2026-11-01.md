@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status (November 2, after operator probe):** RC-00/01/02 complete; v0.2.0 installed files 7/7 hashes, **live `/rre probe` SavedVariables captured and source-hashed**. RC-03 closed by explicit no-qualified-soul/eligibility/bar-API decision; RC-05 v0.2 acceptance complete. **RC-04 / SC-102 physical-PC UI reconciliation remains blocked.**
+**Status (November 2, after static-ID increment):** RC-00–05 accepted at their bounded scopes; v0.2 `/rre probe` was live-verified with the original 69/69 snapshot preserved. RC-04/SC-102 UI reconciliation completed at its insufficient-coverage bound. **RC-07 v0.3.0 source/host installation accepted (96 static Warrior IDs; 9/9 file hashes); RC-08 live candidate lookup remains blocked until the next normal game UI load and saved receipt.**
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -10,7 +10,7 @@
 
 Grow **one** independent, read-only `RRECollector` research addon into a small collection of focused Lua modules. Reuse the original collector, not a second installed addon or a full production telemetry framework. Only build modules when a verified RIFT API can supply decision-changing observations; when the API cannot expose an answer, record the gap and use operator-provided game UI or targeted native research.
 
-**Important:** This is an addon-development roadmap. It does not authorize gameplay automation or claim the SC-102 spellbook blocker is solved. The November 1 Atank physical-PC user-attested capture already contains **69 unique current API-listed abilities and 69 Details**, no detail/duplicate/truncation errors. A new export is **not** needed solely to regain those records. The blocking part of SC-102 is still matching physical-PC same-character/role spellbook, soul/trainer and action-bar UI.
+**Important:** This addon-development roadmap does not authorize gameplay automation or claim unlock/readiness states are resolved. The November 1 Atank physical-PC capture already contains **69 unique current API-listed abilities and 69 Details**; do not recapture solely to regain them. SC-102 bounded UI reconciliation is accepted with 25 original physical-host screenshots and six named static IDs absent from current known abilities. RC-07 tests a different, API-first question using candidate IDs; its installed files are **not** a current-client lookup receipt.
 
 ## Baseline contract to preserve
 
@@ -25,6 +25,7 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | Area | Existing capability | Proposed module | Truth boundary |
 | --- | --- | --- | --- |
 | Known/current abilities and detail | **Proved** with SC-418, 69/69 | `abilities.lua` extracted from current `main.lua` | Does **not** enumerate all future or unlearned spells |
+| Static Warrior ID candidates / explicit Detail call | **96 source IDs; 39 known, 57 absent**; v0.3 installed but no live candidate receipt | `candidate_catalog.lua` and `candidates.lua` | Detail may return nothing for unlisted IDs; not proof of locked/learnable state |
 | Player, target, resources, stats, role slot/name | **Implemented**, optional fields conditional | `context.lua` | Soul point allocation or name-to-slot mapping not yet qualified |
 | API presence and documentation | Safe feature guards already in v0.1 | `capabilities.lua` | Must discover and report unknown/missing; no speculative API calls |
 | Soul allocations and prerequisites | **Unproven** for the current API | `souls.lua` **only if verified** | Do not claim this is exposed merely because the UI exists |
@@ -45,6 +46,8 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | **M4 / RC-04 — SC-102 UI reconciliation** | In parallel with M0–M3, use existing SC-418 Atank role-slot-1 catalog and operator-provided physical-PC spellbook/souls/trainer/action-bar screenshots. Pair exact character/role/build/time as far as source supports; refresh capture only if incompatible. | A source-qualified known/learnable/locked/usable/bound table or exact blocker report. This task is **not gated** on modular refactor completion. |
 | **M5 / RC-05 — Deliver, verify, hand off** | Bump version only for actual implementation, check complete TOC fields, compare source/installed SHA files, use one operator-driven load/capture/reload/save smoke check, document failures and rollback path, update taskboard and handoff. | One accepted coherent addon increment committed with source and saved-output proof level; existing addons untouched. |
 | **Later / RC-06 — Optional probes** | Only if a concrete SC3/SC5 question needs it, consider bounded readiness/castbar/resource/event snapshots. Define exact event/timing questions before implementing any listener or sampling loop. | Deferred until demanded; no all-purpose live telemetry or infinite polling by default. |
+| **M6 / RC-07 — Static candidate-ID probe scaffold** | Import three source-hashed disabled Warrior soul catalogs, add guarded one-listed-control/eight-unlisted-canary Detail calls and conditional expansion to current-unlisted IDs, all within RRECollector. | **Accepted at source/host scope:** v0.3 installed 9/9 hashes; four focused source checks pass; no live result claimed. |
+| **M7 / RC-08 — First live candidate receipt** | Wait for operator-controlled normal UI load; inspect separate `candidateLookup` and confirm original `latest`/`probe` persisted. | **Blocked on client lifecycle**, not on more code, simultaneous UI windows or a trainer list. |
 
 **Critical path:** M0 → (M1 if justified) → M2 → M3 → M5. **SC-102 UI evidence (M4) is independent and can unblock research immediately**, without waiting on addon modularity. If M0 finds no actionable API for souls/spellbook, pause M2–M3 rather than making an empty implementation; prioritize M4.
 
@@ -64,6 +67,6 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 6. **Documentation.** Update the dedicated board state, build/API evidence, one decision-changing finding, installation match, and resume handoff each accepted step. Do not mark SC1/SC3/SC6 finished merely because the collector loads.
 7. **Stop rule.** Two distinct nondecisive probes of one API claim → document unknown/unavailable and switch to UI/native evidence. Do not expand scope to fill time.
 
-## Current next action after RC-02 installation
+## Current next action after RC-07 installation
 
-[RC-00 feasibility](RRECOLLECTOR-RC00-API-FEASIBILITY-2026-11-02.md) and [RC-01 modular source split](RRECOLLECTOR-RC01-MODULAR-SCAFFOLD-2026-11-02.md) are accepted. [RC-02 `/rre probe` installation record](RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md) confirms 7/7 source/host SHA parity but **no in-game load yet**. The physical-PC operator should run `/rre status`, `/rre probe`, `/reloadui`, then RRE can examine `RRECollectorData.probe` as the first current-build API capability receipt. Do not implement RC-03 soul/eligibility/action-bar producers until a usable supported API is established. The **SC-102 spellbook/soul/trainer/action-bar UI** remains independently pending; the existing 69 known abilities need not be recaptured merely to recover them.
+[RC-07 evidence and installation receipt](RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md) records the source-hashed 96-ID Warrior inventory, bounded Detail query policy, and 9/9 physical-PC v0.3.0 source/install matches. Because RIFT was already running, the new Lua is not yet live-verified. **RC-08:** await the next normal operator-controlled UI load and SavedVariables flush; then read `RRECollectorData.candidateLookup`, preserve `latest` and `probe`, and classify each response without guessing unlock state. If startup was too early, `/rre candidates` is a manual operator-only retry. RC-06 remains deferred; no second addon, trainer request, or game automation.

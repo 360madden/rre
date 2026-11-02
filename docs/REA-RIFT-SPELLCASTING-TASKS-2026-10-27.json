@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102/RC-04 bounded UI reconciliation ACCEPTED: 14 earlier host images and 69/69 SpellDump/API agreement plus 11 new source-hashed Paladin tooltips. Six named Paladin abilities have static source-ID candidates absent from current API-known 69; five branch talents visibly Rank 0. Exact live IDs, learn-now/locked reasons, readiness and bound slots remain unknown. No trainer-list request or repeat API capture. SC1/SC3/SC4/SC5/SC6 broader milestones remain open.",
+  "status": "SC-102 bounded UI reconciliation accepted. SC-103 static/source API-first increment: 96 unique source-hashed Warrior candidates (39 known in preserved Atank API 69; 57 absent), RRECollector v0.3.0 candidateLookup scaffold installed 9/9 hash parity and four source tests pass. SC-103 remains blocked for live client response after normal UI load; ID unlock/rank/eligibility, readiness and bound slots remain unknown. No trainer request, duplicate capture or RRE game input.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -163,14 +163,29 @@
       ],
       "owner": "REA researcher",
       "sourceInputs": [
-        "Two saved role or rank snapshots if available"
+        "Two saved role or rank snapshots if available",
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json (96 exact source IDs from three source-hashed disabled Warrior files)",
+        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md (guarded explicit-ID Detail probe, source/host hashes, no runtime result yet)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
         "Stable IDs used rather than ability names",
         "Role/source and rank variant distinguished",
         "Unknown cases retained"
-      ]
+      ],
+      "partialEvidence": {
+        "sourceInventoryIds": 96,
+        "uniqueExactIds": 96,
+        "staticSoulCounts": {"Paladin": 34, "VoidKnight": 33, "Paragon": 29},
+        "presentInAtankCurrentKnown": 39,
+        "absentFromAtankCurrentKnown": 57,
+        "sourceInventory": "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
+        "addonInstallReport": "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
+        "addonVersionInstalled": "0.3.0",
+        "installedFileHashMatches": 9,
+        "currentClientCandidateLookupSaved": false,
+        "note": "Static IDs do not prove live rank, learnability or current API Detail response. Waiting on next normal UI load and SavedVariables flush; no game-input authority."
+      }
     },
     {
       "id": "SC-104",

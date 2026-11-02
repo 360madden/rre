@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00/01/02/03/04/05 accepted at their bounded scopes: v0.2.0 installed/probed and 69 known IDs preserved. RC04/SC102 now has 25 physical-host original screenshot filenames (14 baseline plus 11 Paladin tooltips), six static soul-ID candidates absent from current API-known 69, and five unallocated Rank 0 talents. Unknown per-ID eligibility/lock/readiness/actionbar fields remain separate future questions, not a trainer or new-addon requirement.",
+  "status": "RC00-05 previously accepted. RC07 source/deployment milestone accepted: RRECollector v0.3.0 installed 9/9 source-hash parity; 96 static Warrior IDs include 57 absent from Atank current 69. RC08 blocked on the next normal operator-controlled UI load and persisted candidateLookup result. v0.2 live API probe and v0.1 69/69 baseline remain preserved; SC1 eligibility/lock and SC3 readiness still unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,10 +20,10 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-06",
+  "nextTaskId": "RC-08",
   "parallelExternalGate": {
     "taskId": "SC-102",
-    "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
+    "status": "SC102-closed-bounded; SC103-new-candidate-lookup-runtime-pending",
     "dependsOnCollectorModularization": false
   },
   "tasks": [
@@ -213,16 +213,77 @@
         "Exact evidence target and rate/size bounds defined first",
         "Separate current vs historical proof tiers"
       ]
+    },
+    {
+      "id": "RC-07",
+      "phase": "M6",
+      "title": "Source-hashed 96-ID Warrior catalog and guarded explicit-ID lookup",
+      "state": "completed",
+      "dependsOn": ["RC-05"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector",
+        "tools/verify-rrecollector-candidates.mjs",
+        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json"
+      ],
+      "scope": [
+        "Reuse a single RRECollector with 96 source-hashed static Warrior exact IDs, not a second addon",
+        "Try one listed Detail control plus <=8 unlisted canaries before conditional bounded expansion",
+        "Keep latest and probe intact while writing candidateLookup separately",
+        "Deploy only RRECollector to physical host and verify complete TOC plus source/install hashes"
+      ],
+      "deliverable": "v0.3.0 read-only source/host scaffold and source-qualified inventory; no claim of live lookup",
+      "acceptance": [
+        "96 unique static IDs with exact names/provenance and unknown availability explicit",
+        "Focused source check and exact nine-file host install match",
+        "Original 69-ability latest/probe saved semantics preserved"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
+        "tools/verify-rrecollector-candidates.mjs"
+      ],
+      "result": "Source+host scope accepted: 96 static IDs (34 Paladin/33 Void Knight/29 Paragon), 39 in known current API catalog, 57 absent; four focused checks passed, physical-PC RRECollector installed 9/9 SHA256 parity, TOC complete, no RRE game input. No v0.3 live-result claim.",
+      "limitations": "The running game had loaded prior Lua. Inspect.Ability.New.Detail may reject unlisted IDs. No candidateLookup SavedVariables receipt or unlock/slot readiness proof yet."
+    },
+    {
+      "id": "RC-08",
+      "phase": "M7",
+      "title": "Obtain and reconcile first live candidateLookup SavedVariables receipt",
+      "state": "blocked",
+      "dependsOn": ["RC-07"],
+      "owner": "RRE/REA manager; game UI load owned by operator",
+      "ownedPaths": [
+        "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json"
+      ],
+      "scope": [
+        "Wait for next normal physical-PC RIFT UI load/logout; do not drive game",
+        "Read saved candidateLookup source/build/role/status and compare latest/probe hashes",
+        "If startup deferred, report precise cause; manual /rre candidates remains operator-only"
+      ],
+      "deliverable": "source-qualified first current-client unlisted explicit-ID API response or precise no-detail stop",
+      "acceptance": [
+        "Live candidateLookup receipt exists and provenance/character/role/client verified",
+        "No current-known 69-ability or prior API-probe data loss",
+        "Negative responses are labeled unknown, not locked/unlearnable"
+      ],
+      "blocker": "RIFT client was running v0.2 Lua during host file update; new v0.3 Lua starts only after a normal UI load controlled by the game operator."
     }
   ],
   "workingSource": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
-    "liveLuaLoadVerified": true,
+    "liveLuaLoadVerified": false,
+    "priorLiveVerifiedVersion": "0.2.0",
     "baselineKnownCatalogIds": 69,
-    "installedShaMatches": 7,
+    "candidateCatalogIds": 96,
+    "candidateIdsAbsentFromPriorKnown": 57,
+    "candidateLookupLiveVerified": false,
+    "installedShaMatches": 9,
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",

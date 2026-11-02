@@ -1,0 +1,706 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "pab-warrior-96-e4af0446-b8dd0a75-67981693",
+  "sourceKind": "installed disabled ProjectAbilityBook, not an API-known set",
+  "sourceFiles": [
+    {
+      "soul": "Paladin",
+      "path": "projectabilitybook.disabled/Callings/Warrior/Paladin.lua",
+      "sha256": "e4af04464201adbc5cbae9d07cab0e36a9da616b5b30abd466f8ca44c8f92f28",
+      "recordCount": null
+    },
+    {
+      "soul": "VoidKnight",
+      "path": "projectabilitybook.disabled/Callings/Warrior/VoidKnight.lua",
+      "sha256": "b8dd0a75359fac18515a346d1492ce2885eb1a0fdd01ca459dffbdb236a94439",
+      "recordCount": null
+    },
+    {
+      "soul": "Paragon",
+      "path": "projectabilitybook.disabled/Callings/Warrior/Paragon.lua",
+      "sha256": "6798169325e337613a5ff28c4a0c1f2830f67d8ac0da9dc584cde1e8a1421a9b",
+      "recordCount": null
+    }
+  ],
+  "evidenceLimit": "No unlearned/locked/availability conclusion from this static source; verify individually through guarded client API.",
+  "counts": {
+    "total": 96,
+    "uniqueIds": 96,
+    "seenInAtankKnown69": 39,
+    "absentFromAtankKnown69": 57
+  },
+  "records": [
+    {
+      "soul": "Paladin",
+      "category": "1Builder",
+      "name": "Aggressive Block",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\defstrike2.dds",
+      "id": "A6663BAE96C8E85E6"
+    },
+    {
+      "soul": "Paladin",
+      "category": "1Builder",
+      "name": "Light's Decree",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_013.dds",
+      "id": "A6B8B16CD6F8B3DB9"
+    },
+    {
+      "soul": "Paladin",
+      "category": "1Builder",
+      "name": "Pacifying Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritstrike5.dds",
+      "id": "A661611602A6D2082"
+    },
+    {
+      "soul": "Paladin",
+      "category": "1Builder",
+      "name": "Righteous Charge",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\defstrike3.dds",
+      "id": "A01BB8C035B6A96DD"
+    },
+    {
+      "soul": "Paladin",
+      "category": "1Builder",
+      "name": "Sweeping Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\criticalsweep1b.dds",
+      "id": "A35B3F73E433F3E42"
+    },
+    {
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "name": "Light's Benediction",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\overwhelming_brilliance_01.dds",
+      "id": "AFDD9D7E2A8F0E50B"
+    },
+    {
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "name": "Righteous Blow",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\flare_of_light_01.dds",
+      "id": "A228A2340A139A1E0"
+    },
+    {
+      "soul": "Paladin",
+      "category": "2Finisher",
+      "name": "Vengeful Decree",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritofcrusader2.dds",
+      "id": "A768CF3B63EE8D6ED"
+    },
+    {
+      "soul": "Paladin",
+      "category": "3Damage",
+      "name": "Light's Reprisal",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin-reprisal.dds",
+      "id": "AFC39B1AFBC3B8551"
+    },
+    {
+      "soul": "Paladin",
+      "category": "3Damage",
+      "name": "Light's Vengeance",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_lights_blessing1.dds",
+      "id": "AFD2EF2BB715EFD36"
+    },
+    {
+      "soul": "Paladin",
+      "category": "3Damage",
+      "name": "Purify Land",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\heal3.dds",
+      "id": "A162D4584A3A058F0"
+    },
+    {
+      "soul": "Paladin",
+      "category": "3Damage",
+      "name": "Retaliation",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\deflection2a.dds",
+      "id": "A338ECD701DCD52C0"
+    },
+    {
+      "soul": "Paladin",
+      "category": "4Healing",
+      "name": "Light's Balm",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\righteous_healing_01.dds",
+      "id": "A250E73987922CA1B"
+    },
+    {
+      "soul": "Paladin",
+      "category": "4Healing",
+      "name": "Light's Blessing",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_lights_blessing_b.dds",
+      "id": "AFDFA0334A0189A9F"
+    },
+    {
+      "soul": "Paladin",
+      "category": "4Healing",
+      "name": "Touch of Life",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands5.dds",
+      "id": "A132F106FF887F85C"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Aegis of the Light",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\hammer_of_virtue_01.dds",
+      "id": "AFA78C0D582C9F2E5"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Amnesty",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ressurect4b.dds",
+      "id": "A0CB1772899B72707"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Light's Protection",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\doctrine_of_faithful_01.dds",
+      "id": "AFF0C976C5B694F38"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Sanctuary",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands3.dds",
+      "id": "A37397DC597DDAF03"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Shield Defense",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\castigation3.dds",
+      "id": "A547D021A5733D563"
+    },
+    {
+      "soul": "Paladin",
+      "category": "5Combat Buffs",
+      "name": "Wall of Light",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shroudofpenitence1a.dds",
+      "id": "A2CD5149A46EE1393"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Building Fury",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "id": "A6ACAFC287CF516B9"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Light's Shield",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\hammer_fragment_of_saint_carwin_05.dds",
+      "id": "A308169131FD954CE"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Protector's Fury",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\conviction_01.dds",
+      "id": "A0E2112FD6FE262EE"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Shield of the Chosen",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_016.dds",
+      "id": "A03F53003A62FFD1E"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Shield of the Hero",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\1h_shield_054a.dds",
+      "id": "A33611D5D1EF5312E"
+    },
+    {
+      "soul": "Paladin",
+      "category": "6Buffs",
+      "name": "Shield of the Vengeful",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_shield_of_the_vengeful_a.dds",
+      "id": "AFA2841BF792FCE2C"
+    },
+    {
+      "soul": "Paladin",
+      "category": "7Control",
+      "name": "Face Slam",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paladin_face_slam.dds",
+      "id": "A5BF74A176BE8056A"
+    },
+    {
+      "soul": "Paladin",
+      "category": "7Control",
+      "name": "Light's Domination",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\excommunicate.dds",
+      "id": "AFF10FE38281E01D2"
+    },
+    {
+      "soul": "Paladin",
+      "category": "7Control",
+      "name": "Light's Hammer",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\smite2.dds",
+      "id": "A4BF7436B593C9847"
+    },
+    {
+      "soul": "Paladin",
+      "category": "8Threat",
+      "name": "Divine Edict",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\righteousness2.dds",
+      "id": "AFFA07DF4B14E6C15"
+    },
+    {
+      "soul": "Paladin",
+      "category": "8Threat",
+      "name": "Interfere",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\harbinger_lucent_slash_a.dds",
+      "id": "A05E934712DEB9B9F"
+    },
+    {
+      "soul": "Paladin",
+      "category": "8Threat",
+      "name": "Judgment",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\doctrine_of_bliss_01_c.dds",
+      "id": "A75309C536CDDE89C"
+    },
+    {
+      "soul": "Paladin",
+      "category": "9Utility",
+      "name": "Call of the Divine",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\resolve2.dds",
+      "id": "A411792DB5CF7E0E4"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "name": "Spell Destruction",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\discombobulate1.dds",
+      "id": "AFD7025D154FB9967"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "name": "Spell Sunder",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shatter1.dds",
+      "id": "A761E0FF2A95D81BF"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "name": "Spellbreaker",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\magicward4.dds",
+      "id": "A3BB4476FAB8B318F"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "1Pact Builder",
+      "name": "Unstable Reaction",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\energybeam2a.dds",
+      "id": "A5EB22796DA3AAD1D"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Ragestorm",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\elemres4.dds",
+      "id": "A506B60C78F712F5F"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Reckless Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\swiftstrike1a.dds",
+      "id": "A361EFBF01CD99AF9"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Rift Summon",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-rift_summon.dds",
+      "id": "A743A69B7C8578E19"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Tempest",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-tempest.dds",
+      "id": "A106213B9D7DB0C46"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Void Propulsion",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\elemres4b.dds",
+      "id": "AFE4D68816C2BD068"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "2Builder",
+      "name": "Void Summon",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-improved_rift_summon.dds",
+      "id": "A0D0211AC26E36A17"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Discharge",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\layonhands2z.dds",
+      "id": "A23A6E91642EDEA34"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Fusion of Flesh",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\healthchannel3.dds",
+      "id": "A008179609E385C6C"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Power Shield",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\rally1a.dds",
+      "id": "AFF159DDBC3BD23F6"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Protective Shield",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\memory_capture.dds",
+      "id": "AFA98F6BE9B863D37"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Rift Shield",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight_rift_shield.dds",
+      "id": "A2047457596441A60"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "3Pact Consumer",
+      "name": "Void Storm",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight_void_storm_a.dds",
+      "id": "AFED08EFF763541C5"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "name": "Devouring Blow",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paralyzing_strike_01.dds",
+      "id": "AFE8A4FD3871425BB"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "name": "Devouring Shield",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\fire_death_attunement_01.dds",
+      "id": "AFE0C98BF643522F7"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "4Finisher",
+      "name": "Rift Reversal",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shadow_stalk.dds",
+      "id": "AFF0780AD6C044917"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "5Combat Buffs",
+      "name": "Impunity",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\cautious_stalker.dds",
+      "id": "A2CD34DEE57DFCC90"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Accord of Power",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-ravenous_strength_b.dds",
+      "id": "AFE8754A74377916A"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Accord of Resilience",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\voidknight_ravenous_defence_01.dds",
+      "id": "AFBA185EDBBEFFD23"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Accord of Shifting",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shadow_warp.dds",
+      "id": "AFFD7A63F6F4868F5"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Accord of the Rift",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\riftstalker_planar_repulsion_01.dds",
+      "id": "AFB8ACD07C6DCC381"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Building Fury",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "id": "A768776D17CF516B9"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Unstable Void",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\rogue_shadow_shift.dds",
+      "id": "A7CCAC00730468D42"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "6Buffs",
+      "name": "Void",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\void_knight-void_a.dds",
+      "id": "A0D674EA083DC58F6"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "name": "Furious Rage",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\shatter3.dds",
+      "id": "A5900336E981E3D9F"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "name": "Shock",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ruthless_stalker.dds",
+      "id": "AFBAAA9410F39C3D7"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "7Control",
+      "name": "Shock Burst",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\ward1zz.dds",
+      "id": "A6093113D9440BAD8"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "name": "Airburst",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\energyburst5.dds",
+      "id": "A45CF9C24C5AC1997"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "name": "Spark",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\spiritblast3.dds",
+      "id": "A05213A7D60B13F6B"
+    },
+    {
+      "soul": "VoidKnight",
+      "category": "8Threat",
+      "name": "Void Presence",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\dominator_draining_presence_01_b.dds",
+      "id": "A5D2AE3B194A1B01C"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Death Touch",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\piercingenergy3.dds",
+      "id": "A522FFAF69C3094B7"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Final Blessing",
+      "icon": "Data/\\\\UI\\\\item_icons\\\\2h_sword_078_a.dds",
+      "id": "AFF2D151A9AE244A9"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Flurry",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\whirlingblades3.dds",
+      "id": "A25CDB73A3EC459AF"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Open the Stream",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\combat_culmination.dds",
+      "id": "AFEDCE425AED3A442"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Rising Waterfall",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\cleave1.dds",
+      "id": "A720A3CF95D9B7B68"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Setting Moon",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\nightstalker_01.dds",
+      "id": "A453CE5965C2447BD"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Swift Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\double_cross_01.dds",
+      "id": "A388AC2A3092B4DB9"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Thread the Trees",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\tumble1.dds",
+      "id": "A1452E57E2E8B84B3"
+    },
+    {
+      "soul": "Paragon",
+      "category": "1Builder",
+      "name": "Tranquility",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_analyze_weakness_b.dds",
+      "id": "AFA37FA98C6F9C861"
+    },
+    {
+      "soul": "Paragon",
+      "category": "2Finisher",
+      "name": "Reaping Harvest",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\twin_strike_a.dds",
+      "id": "A2CEE2E2070DC6371"
+    },
+    {
+      "soul": "Paragon",
+      "category": "2Finisher",
+      "name": "Shifting Blades",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_shifting_blades_01.dds",
+      "id": "A3EA647DF8335E491"
+    },
+    {
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "name": "Alacrity",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_alacricity_a.dds",
+      "id": "A168B8567784EA4B2"
+    },
+    {
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "name": "Combat Focus",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\hardened_stalker.dds",
+      "id": "AFE1E028FBA54DD15"
+    },
+    {
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "name": "Grasping the Horizon",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\harbinger_planar_retreat_z.dds",
+      "id": "AFD57B7A9502AB0A9"
+    },
+    {
+      "soul": "Paragon",
+      "category": "3Combat Buffs",
+      "name": "Shield of Will",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\blessing_of_the_flames_a.dds",
+      "id": "AFC88B404E866A387"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Building Fury",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\carpet_bombing_a.dds",
+      "id": "A6F1D01307CF516B9"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Focus of Body",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\strong_constitution_01_a.dds",
+      "id": "A706526885260C3DF"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Follow Up Attacks",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\twin_strike.dds",
+      "id": "A7C9DD2EA3FED172D"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Strike Like Iron",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\intimidatingweapon2.dds",
+      "id": "A3FE90373692BAF3E"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Sweeping Blades",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\generic_ability_015_z.dds",
+      "id": "AFCA998A1762885E3"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Turn the Blade",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\deflection4c.dds",
+      "id": "A1041BDD6C30EA150"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Way of the Mountain",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon-way_of_mountain_a.dds",
+      "id": "A28D6C9D889B95A6B"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Way of the River",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon_way_of_the_river_01.dds",
+      "id": "A1672C336AAF86543"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Way of the Sun",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\healing_flare_b.dds",
+      "id": "AFA908C0B8B2FF7F4"
+    },
+    {
+      "soul": "Paragon",
+      "category": "4Buffs",
+      "name": "Way of the Wind",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\secondwind2a.dds",
+      "id": "A797E8F04B13E9F09"
+    },
+    {
+      "soul": "Paragon",
+      "category": "5Control",
+      "name": "Flinching Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\roguestrike2a.dds",
+      "id": "A114D0B26C789A345"
+    },
+    {
+      "soul": "Paragon",
+      "category": "5Control",
+      "name": "Predictable Movements",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\paragon-predicatable_movements_a.dds",
+      "id": "A3EEEE196C09A4ECE"
+    },
+    {
+      "soul": "Paragon",
+      "category": "5Control",
+      "name": "Wrist Strike",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\disabling4.dds",
+      "id": "A3FB33AC4DCC2A8D1"
+    },
+    {
+      "soul": "Paragon",
+      "category": "6Movement",
+      "name": "Fleet of Foot",
+      "icon": "Data/\\\\UI\\\\ability_icons\\\\kick4.dds",
+      "id": "A4819AAA2978F7AB9"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
--- RRECollector v0.2.0: known API-listed ability catalog only.
+-- RRECollector v0.3.0: known API-listed ability catalog only.
 local shared = RRECollectorRuntime.core
 local call, fieldCopy = shared.call, shared.fieldCopy
 local snapshotContext = RRECollectorRuntime.context.snapshot
@@ -99,4 +99,7 @@ local function collect()
   return result
 end
 
-RRECollectorRuntime.abilities = { collect = collect }
+RRECollectorRuntime.abilities = {
+  collect = collect,
+  copyDetail = function(detail) return fieldCopy(detail, FIELDS) end,
+}

@@ -1,36 +1,37 @@
-# RRECollector v0.2.0 (modular research scaffold)
+# RRECollector v0.3.0 — modular, read-only RIFT research scaffold
 
-A standalone, one-shot, read-only RIFT addon for the RRE spellcasting roadmap. No dependency on RiftReader2, BotDsBridge or other addons. **v0.2.0 is installed on the physical PC with exact source/installed hashes; in-game loading and the probe have not yet been verified**. The prior v0.1.0 produced the accepted 69/69 SC-418 catalog. Preserve that evidence until a separately operator-driven v0.2 smoke check.
+A standalone addon for the physical-PC RIFT client. It does not depend on RiftReader2, BotDsBridge, SpellDump, ProjectAbilityBook, or other addons. Its source is under RRE; the game loads a separate installed copy from `Interface/AddOns/RRECollector`. Source edits do not affect a running client's already-loaded Lua until its next normal UI load.
 
-## Install
+## Source and evidence
 
-Copy this whole directory to the physical PC's RIFT Interface/AddOns/RRECollector directory. The RIFT client loads installed copies, not this Git checkout. Do not overwrite existing addons. Reload the UI or restart the game through the game operator.
+- **v0.1 baseline:** Atank L45 Warrior, Righteous Defender role, 69/69 API-known ability IDs and detail records, separately confirmed by SpellDump v2.1.0.
+- **v0.2:** the independent API capability receipt observed 1,910 indexed documentation names, 22 research-relevant names, zero documented probe errors; existing `latest` remained untouched.
+- **v0.3:** adds 96 static Warrior candidate IDs from source-hashed, disabled ProjectAbilityBook Paladin (34), Void Knight (33), and Paragon (29) files. In the prior Atank snapshot, 39 of these exact IDs were listed and 57 were absent. These are **candidates**, not evidence of a learned, locked, unlearned, currently available, or castable ability. The six named Paladin IDs from original screenshots are among the absent candidates.
+- The static source inventory is preserved as `docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json`, with per-file SHA-256 provenance.
 
-## Source module layout
+## Installation and loading
 
-`RiftAddon.toc` loads these scripts in order: `core.lua` (shared safe scalar/API wrappers, version/schema), `context.lua` (player/target/role/stats), `abilities.lua` (current known API List/Detail and completeness), `capabilities.lua` (bounded runtime documentation/path-type probe), and `main.lua` (slash commands, status/page, SavedVariables lifecycle). They share only the `RRECollectorRuntime` namespace; no `require` or other addon dependency. The `RRECollectorData.latest` schema remains **1**, and existing `/rre` commands retain their names and semantics. RC-02 adds the read-only `/rre probe` path without changing the known catalog record.
+Deploy only this `RRECollector` directory into the physical-PC `RIFT/Interface/AddOns/RRECollector` directory, preserving the complete `RiftAddon.toc` metadata **including Email**. The TOC loads: `core.lua`, `context.lua`, `abilities.lua`, `capabilities.lua`, `candidate_catalog.lua`, `candidates.lua`, `main.lua`, in that order.
 
-## Commands
+The v0.3 candidate lookup runs **once after character-scoped SavedVariables load** when a Warrior player and `Inspect.Ability.New.List/Detail` are available, unless a saved successful receipt for the same static catalog version already exists. It does not poll, send input, cast, call gameplay commands, or act on UI. If the API/player context is not ready, startup defers safely; `/rre candidates` is the optional manual retry. The game operator controls any UI reload or logout. Existing saved records survive these attempts.
 
-- /rre help: list commands.
-- /rre status: inspect load/capture status and counts.
-- /rre capture: snapshot character identity, combat-role type, best-effort role slot/names, optional stats and target, known/available ability IDs and details.
-- /rre probe: inspect only selected documented API names and safe function/type presence, record an optional bounded `RRECollectorData.probe` receipt; does **not** enumerate unlearned/locked spells or call game actions.
-- /rre page N: show eight captured ability names/lookup IDs (1-based).
-- /rre export: show persistence instructions.
+## Slash commands
 
-The collector is idle unless /rre capture or /rre probe is invoked. Ability captures go to character-scoped SavedVariables `RRECollectorData.latest`; the separate API capability receipt goes to `RRECollectorData.probe`. RIFT normally flushes these on /reloadui or logout. The exported frame clock is not UTC. Neither a successful source copy nor a syntax check proves live loading.
+- `/rre status` — snapshot and candidate receipt counts.
+- `/rre capture` — manually refresh **current API-listed** abilities, player, role, optional stats/target; updates only `RRECollectorData.latest`.
+- `/rre probe` — manually refresh bounded API documentation/path receipt; updates only `RRECollectorData.probe`.
+- `/rre candidates` — bounded explicit-ID research lookup; updates only `RRECollectorData.candidateLookup` when the API responds and the Warrior context is present.
+- `/rre page N` — preview eight known captured IDs from `latest`.
+- `/rre export` and `/rre help` — persistence help and command summary.
 
-## Data contract
+RIFT writes character-scoped SavedVariables on a normal UI reload or logout; console “recorded” means in-memory only until then. The prior 69-ID capture and 1910-name probe must remain preserved. The current frame clock is **not UTC**.
 
-Schema 1 includes player, roleSlot (if the current client exposes Inspect.TEMPORARY.Role), roleNames, stats, target, clientVersion, frameTime, abilityList counts/completeness, abilities, detailErrors and capability flags. Raw ability lookup IDs are sorted. False/zero metadata remains meaningful; absent fields mean unknown, never false. Batch Inspect.Ability.New.Detail is tried first; a missing record gets a per-ID fallback. Enumeration caps: 1024 raw entries, 512 distinct IDs; any ignored/truncated entries or failed details mark captureComplete=false.
+## Candidate lookup policy and interpretation
 
-Inspect.Ability.New.List is a current API ability set, NOT a catalog of every unlearned trainer/soul/locked spell. No gameplay commands, auto-casting, polling, external process interaction or unrestricted file writes are performed.
+The lookup uses `Inspect.Ability.New.List()` only as a current-known membership control. It then attempts individual `Inspect.Ability.New.Detail(id)` queries: one listed control, up to eight *unlisted* canaries (six screenshot-named Paladin entries plus one Void Knight and one Paragon), and only if an unlisted ID returns identifying metadata, the remaining unlisted static IDs. Source corpus capped at 128, ability list at 1,024 raw entries. No unbounded scans or periodic polling.
 
-## Operator smoke check (once)
+Each candidate carries exact ID, static name/soul/category, `listed` flag, query phase/status, and whitelisted API detail fields only where returned. `candidateLookup.counts` and `policy` report whether expansion occurred. Status `no-detail` or `lookup-error` means **the explicit call did not return usable data**, not that the ability is unavailable or has a particular unlock level. Unqueried candidates are marked `not-attempted-canary-stop`. The data contract remains schema 1; the three independent saved records are not merged. Duplicate ability names across distinct IDs (for example Building Fury) remain distinct.
 
-1. The physical-PC installation now has `RiftAddon.toc` version 0.2.0 and 7/7 source/host SHA matches (five Lua scripts, TOC, README); no other addons were changed.
-2. In the **physical-PC** game, manually run `/rre status` then `/rre probe`. Note the resulting API documentation/index status; no new `/rre capture` is needed merely to keep the existing 69-ability baseline.
-3. Run a normal `/reloadui` or logout, then inspect character SavedVariables `RRECollectorData.probe` for capability flags and preserved `latest`. Record source/character/role/build and any error text. This is a one-time operator smoke check, not proof of unlearned/locked spells.
+## Focused verification / exit gate
 
-Physical-PC client is the authoritative REA target. VMware lab catalogs are separate supplementary observations and must never be merged by name or level alone.
+Run `node tools/verify-rrecollector-candidates.mjs`, `node tools/validate-roadmap.mjs` when changing a board, and `git diff --check`. Verify source/physical-PC installed hashes for all nine files. A correct TOC and identical installed hashes establish packaging, **not** a live addon/API result. The runtime gate is a subsequent normal game UI load, saved `RRECollectorData.candidateLookup` receipt, and source/character/build reconciliation. No additional game control has been authorized for RRE.
