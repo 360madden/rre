@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
+  "status": "RC00-07 and RC10 accepted at bounded scopes; RC09 offline SavedVariables-to-static exact-ID crosswalk accepted: 69 known Detail records joined to 96 Warrior static candidates (39 matched/57 not-listed, 30 known outside static, zero name mismatches, one 3-ID Building Fury homonym). Physical v0.3 addon remains 9/9 hashes; current game process started after prior saved file flush, so RC08 still awaits an actual candidateLookup saved receipt. SC1 unlock/rank and SC3 readiness unknown.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -303,6 +303,39 @@
       ],
       "result": "Read-only saved-file integration recovered 69/69 details from SHA256 242259d4...; static join 96 total, Paladin 28/34 known, Void Knight 7/33, Paragon 4/29, 30 known outside static, zero exact-ID name mismatches. Building Fury appears as three different known IDs; three focused tests pass.",
       "limitations": "Still no v0.3 candidateLookup SavedVariables receipt and no source-qualified locked/learnable or rank predicate. The current running process may hold unsaved data; the offline decoder does not observe memory."
+    },
+    {
+      "id": "RC-10",
+      "phase": "M6-offline-parallel",
+      "title": "Reproducible sanitized SC-604/SC-103/SC-502 interim evidence replay",
+      "state": "completed",
+      "dependsOn": [
+        "RC-09"
+      ],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/replay-spellcasting-evidence.mjs",
+        "tools/verify-spellcasting-replay.mjs",
+        "docs/RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md"
+      ],
+      "scope": [
+        "Verify 14 original SC-604 source-index reports and four pinned intermediate input hashes",
+        "Recompute known/static exact-ID counts and historical exact-ID outcome attribution without exposing original unit identifiers",
+        "Do not mark SC-601/602 complete or alter live RIFT, RR2, Workbridge, or addon"
+      ],
+      "deliverable": "Deterministic read-only sanitized interim JSON export on stdout, with fail-closed regression checks",
+      "acceptance": [
+        "One command replays accepted 69/96 exact-ID crosswalk and 14/14 pinned research sources",
+        "Two historical Light's Decree outcomes source-check, unrelated damage excluded, and raw melee negative match preserved",
+        "Three focused tests pass and replay carries no raw private player or target IDs"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md",
+        "tools/replay-spellcasting-evidence.mjs",
+        "tools/verify-spellcasting-replay.mjs"
+      ],
+      "result": "14 indexed sources SHA-matched; 69 known / 96 static / 39 shared / 57 unlisted / 30 outside; historical selected-target Dodge vs 402 damage with 726 on other targets replayed; tests 3/3 passed.",
+      "limitations": "SC-601/SC-602 final completion still depends on live readiness/queue and native-to-server cast evidence. No v0.3 candidateLookup saved receipt; original disabled Lua hashes are catalog-attested only."
     }
   ],
   "workingSource": {
@@ -321,6 +354,8 @@
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,
     "offlineKnownOutsideThreeStaticSouls": 30,
+    "interimEvidenceReplayAccepted": true,
+    "interimEvidenceReplayReport": "docs/RRECOLLECTOR-RC10-INTERIM-EVIDENCE-REPLAY-2026-11-02.md",
     "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
     "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
     "liveProbeReceipt": "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md",
