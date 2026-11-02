@@ -54,6 +54,10 @@ The fastest existing complete-known catalog candidate is **BotDsBridge `/botds c
 
 The user requested a practical roadmap to grow the **single** proven RRECollector instead of installing another addon. [Modular roadmap](RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md) and [RC task register](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json) now define RC-00 API feasibility → compatible Lua split if justified → one guarded capability probe → only proven soul/eligibility/action-bar producers → focused operator capture/version/handoff. Optional timing/combat probes are deferred. **Planning only: v0.1 source, installed addon and saved capture unchanged.** Do not re-inventory 47 addons. Start addon development at **RC-00**; **SC-102 physical-PC same-character/role UI** remains the research next task and can proceed without waiting for modularization.
 
+## Early approval-dialog workflow (user request November 2, 2026)
+
+User reports that Allow/Approve/Allow all prompts may become obscured or unavailable late in a long chat. On resumption, do the minimal target/permissions check and bring the first **necessary** approval-gated task operation forward before substantial analysis, giving the user a chance to approve early. Do not fabricate a prompt, auto-confirm it, infer approval or run unrelated actions to trigger one. If a dialog never appears, is hidden, or is denied, report the blocker and request operator action; do not loop or bypass. This timing rule applies alongside existing task ownership and authorization limits.
+
 ## Chat-mode durability
 
 One manager integrates. Workbridge **36 command/coordination slots are not 36 real AI agents**; parallel source-analysis commands may run without pretending they are independent reasoning sessions. Commit each accepted positive or negative finding together with its source SHA, exact job IDs and board status. Docs/board-only updates: run register/link/source checks and `node tools/validate-roadmap.mjs`, **not** the entire historical 500+ navigation suite. Never promise unattended research after a Chat turn ends.
