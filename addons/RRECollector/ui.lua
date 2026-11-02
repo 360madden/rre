@@ -1,4 +1,4 @@
--- RRECollector v0.4.2: read-only in-game research toolbar with native buttons.
+-- RRECollector v0.4.3: read-only in-game research toolbar with native buttons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -71,17 +71,92 @@ local function text(name, parent, left, top, width, height, font, value, tint, w
   f:SetText(value or "")
   return f
 end
--- RiftButton supplies built-in RIFT hover/pressed/disabled visuals without a library.
-local function button(name, parent, left, top, width, height, caption, handler)
-  local f = UI.CreateFrame("RiftButton", name, parent)
-  f:SetPoint("TOPLEFT", parent, "TOPLEFT", left, top)
-  f:SetWidth(width); f:SetHeight(height)
-  f:SetText(caption)
-  f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
-    local ok = pcall(handler)
-    if not ok then say("Toolbar action failed safely; snapshots preserved.") end
-  end, name .. " click")
-  return {frame = f, label = f}
+-- Plain rectangular controls: no themed texture or stretch-scaled button text.
+-- Captions use their natural dimensions, centered in a bounded button footprint.
+local function button(name, parent, left, top, width, height, caption, handler, macro)
+  local f = block(name, parent, left, top, width, height, color.button)
+  f:SetMouseMasking("full")
+  local edge = block(name .. "Edge", f, 2, height - 3, width - 4, 2, color.cyan)
+  edge:SetMouseMasking("limited")
+  local label = UI.CreateFrame("Text", name .. "Caption", f)
+  label:SetLayer(2)
+  label:SetPoint("CENTER", f, "CENTER")
+  label:SetMouseMasking("limited")
+  label:SetWordwrap(false)
+  local enabled, hovered, pressed = true, false, false
+  local function setCaption(value)
+    value = type(value) == "string" and value or tostring(value or "")
+    local room = math.max(1, width - 14)
+    local font = math.max(10, math.min(14, math.floor(room / math.max(1, #value) * 1.65)))
+    label:SetFontSize(font)
+    label:SetText(value)
+    -- The text frame keeps its natural aspect ratio; measure instead of scaling it.
+    for _ = 1, 6 do
+      local ok, pixels = pcall(label.GetFullWidth, label)
+      if not ok or type(pixels) ~= "number" or pixels <= room or font <= 10 then break end
+      font = font - 1
+      label:SetFontSize(font)
+    end
+  end
+  local function render()
+    local fill = not enabled and color.muted or
+      (pressed and color.rowPressed or hovered and color.rowHover or color.button)
+    -- Restricted secure macro frames may reject styling in combat.
+    pcall(paint, f, fill)
+    pcall(paint, edge, not enabled and color.muted or
+      pressed and color.amber or hovered and color.cyan or color.grey)
+    local ink = enabled and color.text or color.grey
+    pcall(label.SetFontColor, label, ink[1], ink[2], ink[3], ink[4])
+  end
+  setCaption(caption)
+  local mouse = Event.UI.Input.Mouse
+  if mouse.Cursor and mouse.Cursor.In and mouse.Cursor.Out then
+    f:EventAttach(mouse.Cursor.In, function()
+      hovered = true; render()
+    end, name .. " enter")
+    f:EventAttach(mouse.Cursor.Out, function()
+      hovered, pressed = false, false; render()
+    end, name .. " leave")
+  end
+  if mouse.Left and mouse.Left.Down and mouse.Left.Up then
+    f:EventAttach(mouse.Left.Down, function()
+      if enabled then pressed = true; render() end
+    end, name .. " down")
+    f:EventAttach(mouse.Left.Up, function()
+      pressed = false; render()
+    end, name .. " up")
+    if mouse.Left.Upoutside then
+      f:EventAttach(mouse.Left.Upoutside, function()
+        pressed, hovered = false, false; render()
+      end, name .. " cancel")
+    end
+  end
+  if macro then
+    -- RIFT accepts EventMacroSet on a restricted Frame; the player must click.
+    local ok, failure = pcall(function()
+      f:SetSecureMode("restricted")
+      f:EventMacroSet(Event.UI.Input.Mouse.Left.Click, macro)
+    end)
+    if not ok then
+      enabled = false
+      say(name .. " macro unavailable: " .. tostring(failure):sub(1, 110))
+    end
+  else
+    f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
+      if not enabled then return end
+      local ok, failure = pcall(handler)
+      if not ok then say(name .. " action failed: " .. tostring(failure):sub(1, 130)) end
+    end, name .. " click")
+  end
+  render()
+  return {
+    frame = f, label = label, setText = setCaption,
+    setEnabled = function(value)
+      enabled = value == true
+      if not enabled then pressed, hovered = false, false end
+      render()
+    end
+  }
 end
 -- Wide ability rows retain left-aligned text, with hover, press and selection.
 local function rowButton(name, parent, left, top, width, height, caption, handler)
@@ -322,13 +397,13 @@ local function draw()
   local total = math.max(1, math.ceil(#list / MAX_ROWS))
   if page > total then page = total end
   if page < 1 then page = 1 end
-  modeButtons.known.frame:SetEnabled(mode ~= "known")
-  modeButtons.static.frame:SetEnabled(mode ~= "static")
+  modeButtons.known.setEnabled(mode ~= "known")
+  modeButtons.static.setEnabled(mode ~= "static")
   modeAccents.known:SetVisible(mode == "known")
   modeAccents.static:SetVisible(mode == "static")
-  soulButton.frame:SetText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
-  pageButtons.prev.frame:SetEnabled(page > 1)
-  pageButtons.next.frame:SetEnabled(page < total)
+  soulButton.setText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
+  pageButtons.prev.setEnabled(page > 1)
+  pageButtons.next.setEnabled(page < total)
   pageLabel:SetText((mode == "known" and "API-known" or "Static candidates")
     .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
@@ -424,18 +499,8 @@ local function createUI()
     browserVisible = false; browser:SetVisible(false)
     say("Toolbar hidden. /rre ui to reopen.")
   end)
-  -- Restricted RIFT macro: requires an actual click; no autonomous reload.
-  local reload = UI.CreateFrame("RiftButton", "RREReloadUI", head)
-  reload:SetPoint("TOPLEFT", head, "TOPLEFT", 471, 4)
-  reload:SetWidth(81); reload:SetHeight(27); reload:SetText("Reload UI")
-  local macroOk, macroError = pcall(function()
-    reload:SetSecureMode("restricted")
-    reload:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "reloadui")
-  end)
-  if not macroOk then
-    reload:SetEnabled(false)
-    say("Reload UI button unavailable: " .. tostring(macroError):sub(1, 100))
-  end
+  -- The secure Reload UI control now shares the same plain button skin.
+  button("RREReloadUI", head, 471, 4, 81, 27, "Reload UI", nil, "reloadui")
   for i = 1, MAX_SLOTS do
     local index = i
     local tile = block("RRESlot" .. i, bar, 12 + (i - 1) * 56, 47,
