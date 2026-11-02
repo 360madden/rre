@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC418 known-ability 69/69 API catalog and SC605/606 custom-addon route accepted; RC00/01/02/03/05 accepted at recorded scopes. New SC102 partial physical-PC host screenshot evidence: 14 matching original screenshot filenames, Atank L45 Righteous Defender soul 45 Paladin/15 Void Knight/0 Paragon (60 spent); user-pasted SpellDump v2.1.0 matches RRECollector exact 69/69 IDs/names and 39 positive cooldowns, with 30 cd:0 vs API missing distinction. SC102 remains BLOCKED only for specific learnable/locked trainer evidence and exact actionbar-slot attribution; SC1/SC3/SC4/SC5/SC6 remain open.",
+  "status": "SC-102/RC-04 bounded UI reconciliation ACCEPTED: 14 earlier host images and 69/69 SpellDump/API agreement plus 11 new source-hashed Paladin tooltips. Six named Paladin abilities have static source-ID candidates absent from current API-known 69; five branch talents visibly Rank 0. Exact live IDs, learn-now/locked reasons, readiness and bound slots remain unknown. No trainer-list request or repeat API capture. SC1/SC3/SC4/SC5/SC6 broader milestones remain open.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-102",
+  "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -113,8 +113,8 @@
     {
       "id": "SC-102",
       "milestone": "SC1",
-      "title": "Spellbook UI and soul-tree/trainer eligibility reconciliation",
-      "state": "blocked",
+      "title": "Spellbook UI and Soul Tree eligibility reconciliation at source-qualified coverage limit",
+      "state": "completed",
       "dependsOn": [
         "SC-101"
       ],
@@ -123,7 +123,8 @@
         "Current spellbook and role/point UI screenshots or existing stored evidence",
         "docs/REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md (source-hashed current physical-PC operator-attested API catalog)",
         "docs/RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.md (v0.2 physical-PC runtime capability probe; no direct Soul/Action List/Detail methods)",
-        "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md (14 source-hashed host UI screenshots and user-pasted SpellDump v2.1.0 exact-ID match)"
+        "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md (14 source-hashed host UI screenshots and user-pasted SpellDump v2.1.0 exact-ID match)",
+        "docs/REA-RIFT-SPELLCASTING-SC102-PALADIN-TOOLTIPS-2026-11-02.md (11 host original screenshots, six static-ID name matches outside 69 API-known, five Rank 0 talents)"
       ],
       "deliverable": "Known-vs-learnable-vs-locked comparison with explicit UI evidence",
       "acceptance": [
@@ -131,9 +132,15 @@
         "Never infer eligibility solely from character level",
         "No new game controls owned by REA"
       ],
-      "blocker": "14 physical-PC host screenshot originals and user-pasted SpellDump v2.1.0 now supply Atank L45 ability book, role label Righteous Defender, 45/15/0 soul points (60 spent/0 left), and exact 69/69 cross-tool ability IDs; 39 positive cooldowns match and 30 zeros correspond to missing API field. No Warrior trainer offers, named locked/unlearned ability tooltips, or identified exact action-bar slot->ID contents. Thus learnable/locked and bound classifications remain unknown; source-time role-slot name mapping not process/frame bound.",
+      "completionLimit": "Bounded acceptance via precise insufficient-coverage reason: six named Paladin tooltips have six exact-name candidate IDs in source-hashed static ProjectAbilityBook, all six candidate IDs absent from preserved current API-known SavedVariables; five talents show Rank 0. No screenshot emits live stable IDs or per-ability unlock thresholds. Per-ID learnable/locked/usable/bound state remains unknown; no Warrior trainer window is required and SC1 overall remains open.",
       "partialEvidence": {
         "report": "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md",
+        "soulTooltipReport": "docs/REA-RIFT-SPELLCASTING-SC102-PALADIN-TOOLTIPS-2026-11-02.md",
+        "additionalHostOriginalTooltips": 11,
+        "uiNamedStaticCandidateIdsAbsentFromCurrentKnown": 6,
+        "uiUnallocatedRankZeroTalents": 5,
+        "exactLiveCandidateIdBindings": 0,
+        "perAbilityUnlockThresholdsProven": 0,
         "physicalHostScreenshotNamesMatched": 14,
         "uiRoleLabel": "Righteous Defender",
         "uiSoulPoints": {"Paladin": 45, "Void Knight": 15, "Paragon": 0},

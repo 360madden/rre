@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00/01/02/03/05 accepted at recorded scopes (v0.2.0 installed 7/7 hashes, saved probe 1910/22/0 and preserved API 69/69). RC04 now has PARTIAL physical-PC Atank UI evidence: 14 source-hashed host screenshot filenames, Righteous Defender 45 Paladin/15 Void Knight/0 Paragon soul, and user-pasted SpellDump v2.1.0 exact 69/69 ID/name and 39 positive cooldown match. RC04/SC102 still BLOCKED on identified unlearned/locked trainer or soul tooltip and exact action-bar binding evidence.",
+  "status": "RC00/01/02/03/04/05 accepted at their bounded scopes: v0.2.0 installed/probed and 69 known IDs preserved. RC04/SC102 now has 25 physical-host original screenshot filenames (14 baseline plus 11 Paladin tooltips), six static soul-ID candidates absent from current API-known 69, and five unallocated Rank 0 talents. Unknown per-ID eligibility/lock/readiness/actionbar fields remain separate future questions, not a trainer or new-addon requirement.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-04",
+  "nextTaskId": "RC-06",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
@@ -143,12 +143,12 @@
       "id": "RC-04",
       "phase": "M4",
       "title": "Reconcile existing 69 known-ability records with physical-PC UI for SC102",
-      "state": "blocked-external",
+      "state": "completed",
       "dependsOn": [],
       "owner": "REA coordinator plus game operator",
       "scope": [
         "Use prior SC418 snapshot without recapturing solely for convenience",
-        "Acquire matching role/character spellbook, soul/trainer, action-bar UI",
+        "Reconcile matching role/character spellbook and soul tooltips; qualify unresolved bar/eligibility fields without trainer assumptions",
         "Produce K/L/F/U/B reason-coded mapping"
       ],
       "deliverable": "SC102 eligibility reconciliation or exact UI blocker",
@@ -157,11 +157,16 @@
         "No merge of Lab1/Lab2 with physical host",
         "Can proceed independent of RC01-RC03"
       ],
-      "blocker": "Partial Atank physical-PC UI evidence accepted (14 host screenshot originals and 45/15/0 soul tree, user SpellDump 69/69 IDs); missing Warrior trainer learnable/locked entries or named soul unlock tooltip, and exact action-bar slot->ID mapping.",
+      "completionLimit": "Six named Soul Tree tooltips and six corresponding static source IDs are outside the 69 current API-known abilities; no live stable-ID emission or exact soul requirement for those six, and no exact bound slot->ID map. SC102 acceptance uses its precise insufficient-coverage alternative. Do not infer learnable or locked status; no trainer-list or simultaneous-window request.",
       "evidence": [
-        "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md"
+        "docs/REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-SC102-PALADIN-TOOLTIPS-2026-11-02.md"
       ],
-      "result": "Known-ID API/SpellDump and role/soul visual reconciliation complete at independent observations; no exact unlearned/locked or bar-bound IDs. User screenshot files remain host originals; uploaded copies transformed. Stop at missing eligibility discriminator and request only narrow trainer/tooltip UI."
+      "uiNamedStaticCandidatesAbsentFromKnown": 6,
+      "uiRankZeroTalents": 5,
+      "qualifiedLearnNowOrLockedIds": 0,
+      "qualifiedActionBarSlotIds": 0,
+      "result": "BOUNDED ACCEPTED: 69 known API/SpellDump exact IDs, Righteous Defender 45/15/0 soul context, 14 baseline host originals plus 11 new source-hashed tooltip originals. Six visible Paladin names crosswalk to six static ProjectAbilityBook candidate IDs absent from preserved 69 known. Five branch talents are explicitly Rank 0. K/L/F/U/B decision reports unknown eligibility/readiness/binding honestly. No trainer offers needed; no addon change or repeat capture."
     },
     {
       "id": "RC-05",
