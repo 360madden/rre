@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status (November 2, after RC-19):** RRECollector v0.4.3 source+host updated to plain rectangular buttons and centered measured text; six focused checks, strict TOC, 10/10 installed hashes. Current live 0.4.3 and RC-08 candidateLookup remain unverified.
+**Status (November 2, after RC-20):** RRECollector v0.4.4 separates a plain-frame secure Reload UI macro from ordinary Down/Up callbacks, preserving button styling. Source checks pass; strict physical-PC installed parity 10/10. The actual reload click and RC-08 candidate lookup remain unverified.
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -58,6 +58,7 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | **M7 / RC-16 — Strict addon release gates** | Audit physical TOC against recognized addons and screenshot timestamps; add strict package verifier and mandatory source/install/runtime gate distinctions. | **Accepted at source/policy scope:** complete ten-field manifest, eight scripts, 10/10 physical hash parity, two strict checks passed; 162 images but none after v0.4 install. [RC-16 receipt](RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md). |
 | **M7 / RC-17 — Native button polish/retry** | Adopt native RiftButton hover/press/disabled feedback, selected UI accents and bounded player availability retry. | **Source/host complete:** v0.4.1, six focused checks, full TOC and 10/10 physical hashes. Prior v0.4.0 visually verified; v0.4.1 runtime still open. [RC-17 report](RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md). |
 | **M7 / RC-19 — Plain buttons and text fit** | Replace themed widgets with simple rectangular controls; intrinsic centered captions and measured font fit. | **Source+host accepted:** 6/6 checks, strict 10/10 installed matches; runtime pending. [RC-19 receipt](RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md). |
+| **M7 / RC-20 — Secure Reload UI repair** | Keep plain-frame styling, remove conflicting Down/Up handlers on the macro control, and record registration result. | **Source+host accepted:** v0.4.4, 6/6 checks, installed 10/10 hashes; live click unverified. [RC-20 receipt](RRECOLLECTOR-RC20-RELOAD-MACRO-FIX-2026-11-02.md). |
 
 **Critical path:** M0 → (M1 if justified) → M2 → M3 → M5. **SC-102 UI evidence (M4) is independent and can unblock research immediately**, without waiting on addon modularity. If M0 finds no actionable API for souls/spellbook, pause M2–M3 rather than making an empty implementation; prioritize M4.
 

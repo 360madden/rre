@@ -605,10 +605,36 @@
       ],
       "result": "Commit 01146004386942a7d7e4f24c6eba03bb29b06cc8; source tests 6/6; installed verifier rc19_plainbuttons_installedgate_20261102 passed 10/10.",
       "limitations": "No actual v0.4.3 screenshot or secure reload click observation. RC-08 still pending."
+    },
+    {
+      "id": "RC-20",
+      "phase": "M7",
+      "title": "Repair plain-frame Reload UI secure-click binding",
+      "state": "completed",
+      "dependsOn": [
+        "RC-19"
+      ],
+      "owner": "RRE/REA manager",
+      "scope": [
+        "Compare v0.4.3 secure Frame with known-working Gadgets reload Frame",
+        "Remove ordinary Mouse.Left.Down/Up callbacks from the macro control only",
+        "Check secure-mode and EventMacroSet return values and persist bounded registration result"
+      ],
+      "deliverable": "RRECollector v0.4.4 source/host repair with runtime diagnostic uiReloadMacro",
+      "acceptance": [
+        "Six source checks and strict 10/10 package-install check pass",
+        "Other plain buttons retain hover/press/disabled behavior",
+        "Actual in-game reload remains explicitly unverified"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC20-RELOAD-MACRO-FIX-2026-11-02.md"
+      ],
+      "result": "Source commit 34fc84693b5976ef82153f176143d4fff3982bc0; source six checks passed; installed gate rc20_reloadsecure_installedgate_20261102 passed 10/10.",
+      "limitations": "Root cause is suspected secure-input handler conflict; no runtime error trace or confirmed hardware-click reload. uiReloadMacro registered is not proof reload occurred."
     }
   ],
   "workingSource": {
-    "version": "0.4.3",
+    "version": "0.4.4",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
@@ -642,6 +668,7 @@
     "rc16TocScreenshotReceipt": "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
     "rc17Receipt": "docs/RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md",
     "rc19Receipt": "docs/RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md",
+    "rc20Receipt": "docs/RRECOLLECTOR-RC20-RELOAD-MACRO-FIX-2026-11-02.md",
     "offlineKnownStaticCrosswalkAccepted": true,
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,
