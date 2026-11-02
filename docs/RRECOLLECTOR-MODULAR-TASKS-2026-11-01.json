@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "planned-only; no addon code or host installation changed by this roadmap",
+  "status": "RC-00 API feasibility ACCEPTED at offline-source/historical-reference scope: v0.1 and SC418 hashes pinned; BotDsBridge and RiftReader2Casting Inspect.Documentation source reviewed. Runtime soul/action/setting availability unverified. RC-01 compatible modular extraction is next; SC-102 physical-PC UI gate remains independent.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": false,
-  "nextTaskId": "RC-00",
+  "nextTaskId": "RC-01",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
@@ -31,7 +31,7 @@
       "id": "RC-00",
       "phase": "M0",
       "title": "Map only API-exposed fields that can resolve next decision",
-      "state": "planned",
+      "state": "completed",
       "dependsOn": [],
       "owner": "REA manager",
       "scope": [
@@ -44,7 +44,12 @@
         "Every field has API source or unknown/UI-only reason",
         "No claim that known List includes locked/learnable spells",
         "Identify one decision-changing next probe or explicit no-API stop"
-      ]
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC00-API-FEASIBILITY-2026-11-02.md"
+      ],
+      "result": "Selected one bounded read-only Inspect.Documentation runtime capability probe, guarding exact Role/Setting/Soul/Action/API paths before producing new modules; no verified current soul/trainer/action-bar API yet.",
+      "limitations": "Old PTS API index not proof of current client capabilities; no game capture performed during RC00."
     },
     {
       "id": "RC-01",
