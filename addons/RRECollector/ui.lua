@@ -1,9 +1,9 @@
--- RRECollector v0.4.5: read-only in-game research toolbar with native buttons.
+-- RRECollector v0.4.6: shared plain controls and readable research icons.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
 local MAX_ROWS, MAX_SLOTS = 8, 8
-local WIDTH, BAR_HEIGHT, BROWSER_HEIGHT = 636, 110, 452
+local WIDTH, BAR_HEIGHT, BROWSER_HEIGHT = 636, 128, 452
 local X, Y = 295, 98
 local color = {
   background = {0.035, 0.063, 0.086, 0.97},
@@ -22,6 +22,7 @@ local color = {
 }
 local root, bar, browser, title, summary, pageLabel, detailLabel, reloadFrame
 local rowButtons, tiles, tileIcons = {}, {}, {}
+local slotTooltip, slotTooltipText
 local modeButtons, modeAccents, pageButtons, soulButton = {}, {}, {}, nil
 local tileHovered, tilePressed = {}, {}
 local mode, soul, page = "known", "All", 1
@@ -71,81 +72,104 @@ local function text(name, parent, left, top, width, height, font, value, tint, w
   f:SetText(value or "")
   return f
 end
--- Plain rectangular controls: no themed texture or stretch-scaled button text.
--- Captions use their natural dimensions, centered in a bounded button footprint.
-local function button(name, parent, left, top, width, height, caption, handler)
-  local f = block(name, parent, left, top, width, height, color.button)
-  f:SetMouseMasking("full")
-  local edge = block(name .. "Edge", f, 2, height - 3, width - 4, 2, color.cyan)
-  edge:SetMouseMasking("limited")
-  local label = UI.CreateFrame("Text", name .. "Caption", f)
-  label:SetLayer(2)
-  label:SetPoint("CENTER", f, "CENTER")
-  label:SetMouseMasking("limited")
-  label:SetWordwrap(false)
-  local enabled, hovered, pressed = true, false, false
+-- RC23-CONTROLS-BEGIN
+-- Normal visual children are shared by ordinary and restricted click surfaces.
+-- Their pointer callbacks never change the protected host or its click macro.
+local function buttonVisual(name, host, width, height, caption)
+  local fill = block(name .. "Fill", host, 1, 1, width - 2, height - 2, color.button)
+  fill:SetLayer(0); fill:SetMouseMasking("limited")
+  local edges = {
+    block(name .. "BorderTop", host, 0, 0, width, 1, color.grey),
+    block(name .. "BorderBottom", host, 0, height - 1, width, 1, color.header),
+    block(name .. "BorderLeft", host, 0, 1, 1, height - 2, color.grey),
+    block(name .. "BorderRight", host, width - 1, 1, 1, height - 2, color.header)
+  }
+  for _, edge in ipairs(edges) do
+    edge:SetLayer(1); edge:SetMouseMasking("limited")
+  end
+  local label = UI.CreateFrame("Text", name .. "Caption", host)
+  label:SetLayer(3); label:SetMouseMasking("limited"); label:SetWordwrap(false)
+  label:SetPoint("CENTER", host, "CENTER", 0, 0)
+  local enabled, hovered, pressed, selected = true, false, false, false
+  local function dimensionsFit()
+    local okW, w = pcall(label.GetWidth, label)
+    local okH, h = pcall(label.GetHeight, label)
+    if not okW or not okH or type(w) ~= "number" or type(h) ~= "number"
+      or w ~= w or h ~= h or w < 0 or h < 0 then return true end
+    return w <= width - 12 and h <= height - 6
+  end
   local function setCaption(value)
-    value = type(value) == "string" and value or tostring(value or "")
-    local room = math.max(1, width - 14)
-    local font = math.max(10, math.min(14, math.floor(room / math.max(1, #value) * 1.65)))
-    label:SetFontSize(font)
+    value = tostring(value or ""):gsub("[\r\n]", " ")
+    -- All commands begin at the same size. Use actual unconstrained Text metrics,
+    -- not character-count estimates, deprecated APIs, or stretched glyphs.
     label:SetText(value)
-    -- The text frame keeps its natural aspect ratio; measure instead of scaling it.
-    for _ = 1, 6 do
-      local ok, pixels = pcall(label.GetFullWidth, label)
-      if not ok or type(pixels) ~= "number" or pixels <= room or font <= 10 then break end
-      font = font - 1
-      label:SetFontSize(font)
+    for size = 13, 11, -1 do
+      label:SetFontSize(size)
+      if dimensionsFit() then return end
     end
+    -- Unexpected localized/long captions use a bounded UTF-8-safe ellipsis.
+    local rest = value
+    for _ = 1, 160 do
+      if #rest == 0 then break end
+      local n = #rest
+      while n > 1 and rest:byte(n) >= 128 and rest:byte(n) < 192 do n = n - 1 end
+      rest = rest:sub(1, n - 1)
+      label:SetText(rest .. "...")
+      if dimensionsFit() then return end
+    end
+    label:SetText("...")
   end
   local function render()
-    local fill = not enabled and color.muted or
-      (pressed and color.rowPressed or hovered and color.rowHover or color.button)
-    -- Restricted secure macro frames may reject styling in combat.
-    pcall(paint, f, fill)
-    pcall(paint, edge, not enabled and color.muted or
-      pressed and color.amber or hovered and color.cyan or color.grey)
-    local ink = enabled and color.text or color.grey
-    pcall(label.SetFontColor, label, ink[1], ink[2], ink[3], ink[4])
+    paint(fill, not enabled and color.muted or pressed and color.rowPressed
+      or hovered and color.rowHover or selected and color.rowSelected or color.button)
+    local light = not enabled and color.muted or selected and color.cyan
+      or hovered and color.cyan or color.grey
+    local dark = not enabled and color.muted or color.background
+    paint(edges[1], pressed and dark or light)
+    paint(edges[3], pressed and dark or light)
+    paint(edges[2], pressed and light or dark)
+    paint(edges[4], pressed and light or dark)
+    local ink = not enabled and color.grey or selected and color.cyan or color.text
+    label:SetFontColor(ink[1], ink[2], ink[3], ink[4])
+    label:SetPoint("CENTER", host, "CENTER", pressed and 1 or 0, pressed and 1 or 0)
   end
-  setCaption(caption)
   local mouse = Event.UI.Input.Mouse
-  if mouse.Cursor and mouse.Cursor.In and mouse.Cursor.Out then
-    f:EventAttach(mouse.Cursor.In, function()
-      hovered = true; render()
-    end, name .. " enter")
-    f:EventAttach(mouse.Cursor.Out, function()
-      hovered, pressed = false, false; render()
-    end, name .. " leave")
+  local function attach(event, handler, suffix)
+    if event then host:EventAttach(event, handler, name .. suffix) end
   end
-  if mouse.Left and mouse.Left.Down and mouse.Left.Up then
-    f:EventAttach(mouse.Left.Down, function()
-      if enabled then pressed = true; render() end
-    end, name .. " down")
-    f:EventAttach(mouse.Left.Up, function()
-      pressed = false; render()
-    end, name .. " up")
-    if mouse.Left.Upoutside then
-      f:EventAttach(mouse.Left.Upoutside, function()
-        pressed, hovered = false, false; render()
-      end, name .. " cancel")
-    end
+  if mouse.Cursor then
+    attach(mouse.Cursor.In, function() hovered = enabled; render() end, " enter")
+    attach(mouse.Cursor.Out, function() hovered, pressed = false, false; render() end, " leave")
   end
-  f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
-    if not enabled then return end
-    local ok, failure = pcall(handler)
-    if not ok then say(name .. " action failed: " .. tostring(failure):sub(1, 130)) end
-  end, name .. " click")
-  render()
+  if mouse.Left then
+    attach(mouse.Left.Down, function() if enabled then pressed = true; render() end end, " down")
+    attach(mouse.Left.Up, function() pressed = false; render() end, " up")
+    attach(mouse.Left.Upoutside, function() pressed, hovered = false, false; render() end, " cancel")
+  end
+  setCaption(caption); render()
   return {
-    frame = f, label = label, setText = setCaption,
+    frame = host, label = label, setText = setCaption,
+    isEnabled = function() return enabled end,
     setEnabled = function(value)
       enabled = value == true
       if not enabled then pressed, hovered = false, false end
       render()
-    end
+    end,
+    setSelected = function(value) selected = value == true; render() end
   }
 end
+local function button(name, parent, left, top, width, height, caption, handler)
+  local f = block(name, parent, left, top, width, height, color.button)
+  f:SetMouseMasking("full")
+  local visual = buttonVisual(name, f, width, height, caption)
+  f:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
+    if not visual.isEnabled() then return end
+    local ok, failure = pcall(handler)
+    if not ok then say(name .. " action failed: " .. tostring(failure):sub(1, 130)) end
+  end, name .. " click")
+  return visual
+end
+-- RC23-CONTROLS-END
 -- RIFT's SetSecureMode API requires every restricted frame to have a
 -- restricted parent. Keep the secure hardware-click surface in its OWN context;
 -- the rest of the toolbar and ordinary buttons remain normal.
@@ -167,19 +191,12 @@ local function secureReloadButton(header)
     secureContext:SetSecureMode("restricted")
     local frame = UI.CreateFrame("Frame", "RREReloadSecureClick", secureContext)
     frame:SetPoint("TOPLEFT", header, "TOPLEFT", 471, 4)
-    frame:SetWidth(81); frame:SetHeight(27)
+    frame:SetWidth(81); frame:SetHeight(28)
     frame:SetBackgroundColor(color.button[1], color.button[2],
       color.button[3], color.button[4])
     frame:SetMouseMasking("full")
     reloadFrame = frame
-    local caption = UI.CreateFrame("Text", "RREReloadSecureCaption", frame)
-    caption:SetPoint("CENTER", frame, "CENTER")
-    caption:SetFontSize(11)
-    caption:SetFontColor(color.text[1], color.text[2],
-      color.text[3], color.text[4])
-    caption:SetWordwrap(false)
-    caption:SetText("Reload UI")
-    caption:SetMouseMasking("limited")
+    buttonVisual("RREReloadSecure", frame, 81, 28, "Reload UI")
     frame:SetSecureMode("restricted")
     -- Only a real click can trigger the command; not an addon Lua action.
     local result = frame:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "reloadui")
@@ -427,21 +444,45 @@ local function draw()
       math.min(1, tint[2] * factor), math.min(1, tint[3] * factor), tint[4]})
     local marked = tileHovered[i] or tilePressed[i]
       or (selectedKind == "known" and selectedId == id)
-    t.accent:SetVisible(marked == true)
-    if marked then paint(t.accent, tilePressed[i] and color.amber or color.cyan) end
-    t.label:SetText(tostring(i) .. " " .. short(a and a.name or "?", 7))
+    local borderInk = marked and (tilePressed[i] and color.amber or color.cyan) or color.grey
+    paint(t.accent, borderInk)
+    for _, edge in ipairs(t.edges) do paint(edge, borderInk) end
+    local shift = tilePressed[i] and 1 or 0
+    icon:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 6 + shift, 5 + shift)
+    t.label:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 47 + shift)
+    t.label:SetText(short(a and a.name or "Empty", 18))
     local valid = a and type(a.icon) == "string" and #a.icon > 0
     if valid then
-      local ok = pcall(icon.SetTexture, icon, "Rift", a.icon)
-      icon:SetVisible(ok)
+      if t.texturePath ~= a.icon then
+        local ok = pcall(icon.SetTexture, icon, "Rift", a.icon)
+        t.texturePath = ok and a.icon or nil
+        t.textureReady = ok
+      end
+      icon:SetVisible(t.textureReady == true)
     else icon:SetVisible(false) end
+  end
+  if slotTooltip then
+    local hovered
+    for i = 1, MAX_SLOTS do if tileHovered[i] then hovered = i; break end end
+    slotTooltip:SetVisible(hovered ~= nil and barVisible)
+    if hovered then
+      local id = slots[hovered]
+      local ability = id and map[id]
+      local state = id and checked[id]
+      slotTooltip:SetPoint("TOPLEFT", bar, "TOPLEFT",
+        math.min(12 + (hovered - 1) * 56, WIDTH - 336), BAR_HEIGHT + 3)
+      slotTooltipText:SetText(safe(ability and ability.name, "Empty slot")
+        .. "\n" .. safe(id, "No ability pinned") .. "\n"
+        .. (state and state.status or "Not checked this session")
+        .. " | read-only; does not cast")
+    end
   end
   local list = records()
   local total = math.max(1, math.ceil(#list / MAX_ROWS))
   if page > total then page = total end
   if page < 1 then page = 1 end
-  modeButtons.known.setEnabled(mode ~= "known")
-  modeButtons.static.setEnabled(mode ~= "static")
+  modeButtons.known.setSelected(mode == "known")
+  modeButtons.static.setSelected(mode == "static")
   modeAccents.known:SetVisible(mode == "known")
   modeAccents.static:SetVisible(mode == "static")
   soulButton.setText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
@@ -498,6 +539,10 @@ local function selectSlot(index)
   end
   browserVisible = true
   browser:SetVisible(true)
+  local nx, ny = clampPosition(X, Y)
+  if pcall(bar.SetPoint, bar, "TOPLEFT", UIParent, "TOPLEFT", nx, ny) then
+    X, Y = nx, ny; savePosition()
+  end
   checked[id] = apiCheck(id)
   draw()
 end
@@ -547,10 +592,10 @@ local function createUI()
   for i = 1, MAX_SLOTS do
     local index = i
     local tile = block("RRESlot" .. i, bar, 12 + (i - 1) * 56, 47,
-      50, 56, color.muted)
+      52, 74, color.muted)
     tile:SetMouseMasking("full")
-    local slotLabel = text("RRESlotLabel" .. i, tile, 3, 40,
-      44, 14, 10, tostring(i), color.text)
+    local slotLabel = text("RRESlotLabel" .. i, tile, 3, 47,
+      46, 25, 10, "", color.text, true)
     tile:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
       local ok = pcall(selectSlot, index)
       if not ok then say("Toolbar slot selection failed safely.") end
@@ -577,18 +622,28 @@ local function createUI()
         end, "RRESlot" .. i .. " cancel")
       end
     end
-    local accent = block("RRESlotAccent" .. i, tile, 0, 0, 50, 2, color.cyan)
-    accent:SetMouseMasking("limited")
-    accent:SetVisible(false)
+    local accent = block("RRESlotAccent" .. i, tile, 0, 0, 52, 1, color.grey)
+    accent:SetMouseMasking("limited"); accent:SetLayer(4)
+    local edges = {
+      block("RRESlotBottom" .. i, tile, 0, 73, 52, 1, color.grey),
+      block("RRESlotLeft" .. i, tile, 0, 1, 1, 72, color.grey),
+      block("RRESlotRight" .. i, tile, 51, 1, 1, 72, color.grey)
+    }
+    for _, edge in ipairs(edges) do edge:SetMouseMasking("limited"); edge:SetLayer(4) end
     local icon = UI.CreateFrame("Texture", "RRESlotIcon" .. i, tile)
     icon:SetLayer(1)
-    icon:SetPoint("TOPLEFT", tile, "TOPLEFT", 7, 4)
-    icon:SetWidth(36); icon:SetHeight(36)
+    icon:SetPoint("TOPLEFT", tile, "TOPLEFT", 6, 5)
+    icon:SetWidth(40); icon:SetHeight(40)
     icon:SetMouseMasking("limited")
-    tiles[i], tileIcons[i] = {frame = tile, label = slotLabel, accent = accent}, icon
+    tiles[i], tileIcons[i] = {frame = tile, label = slotLabel, accent = accent, edges = edges}, icon
   end
-  summary = text("RRESummary", bar, 470, 43, 158, 70, 11, "", color.grey, true)
-  browser = block("RREBrowser", bar, 0, 116, WIDTH, BROWSER_HEIGHT,
+  slotTooltip = block("RRESlotTooltip", bar, 12, BAR_HEIGHT + 3, 332, 82, color.background)
+  slotTooltip:SetLayer(50); slotTooltip:SetMouseMasking("limited")
+  slotTooltipText = text("RRESlotTooltipText", slotTooltip, 8, 6, 316, 70,
+    12, "", color.text, true)
+  slotTooltip:SetVisible(false)
+  summary = text("RRESummary", bar, 470, 43, 158, 81, 11, "", color.grey, true)
+  browser = block("RREBrowser", bar, 0, BAR_HEIGHT + 6, WIDTH, BROWSER_HEIGHT,
     color.background)
   modeButtons.known = button("RREKnownMode", browser, 10, 8, 98, 30,
     "Known", function()

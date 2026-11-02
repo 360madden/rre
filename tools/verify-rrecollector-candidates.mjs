@@ -53,7 +53,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.4\.5"$/m);
+  assert.match(toc, /^Version = "0\.4\.6"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
@@ -81,14 +81,16 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
 });
 
 test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
-  assert.match(core, /VERSION = "0\.4\.5"/);
+  assert.match(core, /VERSION = "0\.4\.6"/);
   assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
   assert.match(ui, /UI\.CreateFrame\("Texture"/);
   assert.match(ui, /local f = block\(name, parent, left, top, width, height, color\.button\)/);
-  assert.match(ui, /label:SetPoint\("CENTER", f, "CENTER"\)/);
-  assert.match(ui, /pcall\(label.GetFullWidth, label\)/);
+  assert.match(ui, /label:SetPoint\("CENTER", host, "CENTER", 0, 0\)/);
+  assert.match(ui, /pcall\(label.GetWidth, label\)/);
+  assert.doesNotMatch(ui, /GetFullWidth/);
+  assert.match(ui, /buttonVisual\("RREReloadSecure", frame, 81, 28, "Reload UI"\)/);
   assert.doesNotMatch(ui, /UI\.CreateFrame\("RiftButton"/);
-  assert.match(ui, /modeButtons\.known\.setEnabled\(mode ~= "known"\)/);
+  assert.match(ui, /modeButtons\.known\.setSelected\(mode == "known"\)/);
   assert.match(ui, /pageButtons\.next\.setEnabled\(page < total\)/);
   assert.match(ui, /row\.setSelected\(/);
   assert.match(ui, /cursor\.In/);
