@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-00–07 and RC-09–RC-17 accepted at bounded scopes. User-supplied physical-PC screenshots confirm v0.4.0 toolbar/browser visibly loaded (69 Known/96 Static) and exact warrior-player-context-not-ready deferral. v0.4.1 native hover/pressed/disabled controls and bounded event-driven retry installed with 6/6 focused checks, strict TOC and 10/10 installed parity. v0.4.1 runtime/save and RC-08 candidateLookup are still unverified; SC1/SC3 readiness/eligibility remain open.",
+  "status": "RC-00–07 and RC-09–RC-19 accepted at bounded scopes. User-supplied physical-PC screenshots confirm v0.4.0 toolbar/browser visibly loaded (69 Known/96 Static) and exact warrior-player-context-not-ready deferral. v0.4.1 native hover/pressed/disabled controls and bounded event-driven retry installed with 6/6 focused checks, strict TOC and 10/10 installed parity. v0.4.1 runtime/save and RC-08 candidateLookup are still unverified; SC1/SC3 readiness/eligibility remain open.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -581,10 +581,34 @@
       ],
       "result": "Source commit 95c64d5fac5fdc424f495e596dbb18434a6e9b4f; full installed verifier rc17-rre-v041-install-gate-20261102-a1 passed.",
       "limitations": "RC-08 requires normal operator-controlled v0.4.1 UI load and SavedVariables flush. No current native readiness/GCD/eligibility proof."
+    },
+    {
+      "id": "RC-19",
+      "phase": "M7",
+      "title": "Plain rectangular buttons with centered fitted text",
+      "state": "completed",
+      "dependsOn": [
+        "RC-17"
+      ],
+      "owner": "RRE/REA manager",
+      "scope": [
+        "Replace themed widgets with plain Frame buttons and intrinsic centered Text",
+        "Retain hover/pressed/disabled behavior and guarded click-only reload macro"
+      ],
+      "deliverable": "RRECollector v0.4.3 source/host parity and scoped test receipt",
+      "acceptance": [
+        "6/6 focused tests; strict TOC; 10/10 installed hashes",
+        "Live 0.4.3 UI remains unverified"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md"
+      ],
+      "result": "Commit 01146004386942a7d7e4f24c6eba03bb29b06cc8; source tests 6/6; installed verifier rc19_plainbuttons_installedgate_20261102 passed 10/10.",
+      "limitations": "No actual v0.4.3 screenshot or secure reload click observation. RC-08 still pending."
     }
   ],
   "workingSource": {
-    "version": "0.4.1",
+    "version": "0.4.3",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
@@ -600,7 +624,9 @@
     "uiResearchToolbarInstalled": true,
     "uiResearchToolbarLiveVerified": false,
     "priorToolbarVersionVisualVerified": true,
-    "nativeRiftButtonsInstalled": true,
+    "nativeRiftButtonsInstalled": false,
+    "plainButtonsInstalled": true,
+    "measuredButtonCaptionFit": true,
     "boundedEventRetryInstalled": true,
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
@@ -615,6 +641,7 @@
     "runtimeVisualEvidenceVerified": false,
     "rc16TocScreenshotReceipt": "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
     "rc17Receipt": "docs/RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md",
+    "rc19Receipt": "docs/RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md",
     "offlineKnownStaticCrosswalkAccepted": true,
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,

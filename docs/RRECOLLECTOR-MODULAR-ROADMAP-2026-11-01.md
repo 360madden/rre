@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status (November 2, after RC-17):** Earlier milestones retain their accepted bounded results. A new user-provided physical-PC screenshot proves v0.4.0 toolbar/browser visible (69 known / 96 static) with startup Warrior context deferral. RC-17 v0.4.1 native RIFT hover/press controls, selection accents and maximum two event-driven retry attempts passed six focused source checks, strict TOC and 10/10 installed hashes. **The current v0.4.1 runtime and saved candidate receipt remain unverified**; RC-08 and SC1/SC3 are still open.
+**Status (November 2, after RC-19):** RRECollector v0.4.3 source+host updated to plain rectangular buttons and centered measured text; six focused checks, strict TOC, 10/10 installed hashes. Current live 0.4.3 and RC-08 candidateLookup remain unverified.
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -57,6 +57,7 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 | **M7 / RC-15 — Read-only eight-icon research toolbar** | Add one UI module to the existing RRECollector v0.4, Known/Static paged browser, manual current Detail checks, source/reason labels and saved `candidateAttempt`. | **Accepted at source+host scope:** 10/10 installed hashes, 5 focused checks; real RIFT toolbar/readiness and v0.4 persisted receipt still unverified. [RC-15 record](RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md). |
 | **M7 / RC-16 — Strict addon release gates** | Audit physical TOC against recognized addons and screenshot timestamps; add strict package verifier and mandatory source/install/runtime gate distinctions. | **Accepted at source/policy scope:** complete ten-field manifest, eight scripts, 10/10 physical hash parity, two strict checks passed; 162 images but none after v0.4 install. [RC-16 receipt](RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md). |
 | **M7 / RC-17 — Native button polish/retry** | Adopt native RiftButton hover/press/disabled feedback, selected UI accents and bounded player availability retry. | **Source/host complete:** v0.4.1, six focused checks, full TOC and 10/10 physical hashes. Prior v0.4.0 visually verified; v0.4.1 runtime still open. [RC-17 report](RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md). |
+| **M7 / RC-19 — Plain buttons and text fit** | Replace themed widgets with simple rectangular controls; intrinsic centered captions and measured font fit. | **Source+host accepted:** 6/6 checks, strict 10/10 installed matches; runtime pending. [RC-19 receipt](RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md). |
 
 **Critical path:** M0 → (M1 if justified) → M2 → M3 → M5. **SC-102 UI evidence (M4) is independent and can unblock research immediately**, without waiting on addon modularity. If M0 finds no actionable API for souls/spellbook, pause M2–M3 rather than making an empty implementation; prioritize M4.
 
