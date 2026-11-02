@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-00 API feasibility ACCEPTED at offline-source/historical-reference scope: v0.1 and SC418 hashes pinned; BotDsBridge and RiftReader2Casting Inspect.Documentation source reviewed. Runtime soul/action/setting availability unverified. RC-01 compatible modular extraction is next; SC-102 physical-PC UI gate remains independent.",
+  "status": "RC00 source feasibility completed; RC01 v0.2.0 four-module source split accepted at focused structural scope only (original function bodies, TOC order, schema1, /rre commands checked). No host addon copy/live verification. RC02 manual targeted runtime API capability probe is next; SC102 UI gate remains independent.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -19,8 +19,8 @@
     "completeness": "current-api-listed known-ability set only; user-attested physical PC"
   },
   "gameInputAuthorized": false,
-  "implementationStarted": false,
-  "nextTaskId": "RC-01",
+  "implementationStarted": true,
+  "nextTaskId": "RC-02",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "blocked-on-physical-pc-same-character-role-spellbook-soul-trainer-actionbar-ui",
@@ -55,7 +55,7 @@
       "id": "RC-01",
       "phase": "M1",
       "title": "Extract modular core while preserving working commands/schema",
-      "state": "planned",
+      "state": "completed",
       "dependsOn": [
         "RC-00"
       ],
@@ -70,7 +70,18 @@
         "TOC complete including Email and load order",
         "Existing commands and SavedVariables still supported",
         "Single focused source validation passes and commit exists"
-      ]
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC01-MODULAR-SCAFFOLD-2026-11-02.md",
+        "addons/RRECollector/core.lua",
+        "addons/RRECollector/context.lua",
+        "addons/RRECollector/abilities.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/RiftAddon.toc",
+        "addons/RRECollector/README.md"
+      ],
+      "result": "v0.2.0 source-only: original v0.1 function bodies moved into dependency-ordered modules, command/persistence behavior and schema1 preserved; focused structural comparison and git diff check passed.",
+      "limitations": "No Lua compiler, current-client runtime smoke test, or physical-host installed copy; v0.1 SC418 catalog remains trusted at its original proof level."
     },
     {
       "id": "RC-02",
@@ -176,5 +187,13 @@
         "Separate current vs historical proof tiers"
       ]
     }
-  ]
+  ],
+  "workingSource": {
+    "version": "0.2.0",
+    "savedVariablesSchema": 1,
+    "sourceOnly": true,
+    "physicalHostDeploymentCompleted": false,
+    "liveLuaLoadVerified": false,
+    "baselineKnownCatalogIds": 69
+  }
 }
