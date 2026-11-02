@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07 and RC09–RC16 accepted at their bounded source/host/offline scopes; RC15 v0.4 toolbar 10/10 source/host parity, RC16 strict manifest gate plus physical screenshot audit (162 images, none after 2026-11-02 11:06 ET install). Fresh v0.3 save at 15:18Z preserves 69 abilities/probe but no candidateLookup. RC08 requires operator-controlled v0.4 load/save and screenshot before UI is functional; SC1/SC3 eligibility/readiness/GCD unverified.",
+  "status": "RC-00–07 and RC-09–RC-17 accepted at bounded scopes. User-supplied physical-PC screenshots confirm v0.4.0 toolbar/browser visibly loaded (69 Known/96 Static) and exact warrior-player-context-not-ready deferral. v0.4.1 native hover/pressed/disabled controls and bounded event-driven retry installed with 6/6 focused checks, strict TOC and 10/10 installed parity. v0.4.1 runtime/save and RC-08 candidateLookup are still unverified; SC1/SC3 readiness/eligibility remain open.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -553,15 +553,45 @@
       ],
       "result": "Strict TOC syntax/fields/version/order and full physical RRECollector file parity pass; no required fields missing. 162 screenshots predate v0.4 installation; source+host gates accepted, UI runtime gate still open.",
       "limitations": "No current visual observation, no v0.4 persisted runtime receipt, no proof of addon enablement or hidden frame cause; do not mutate TOC speculatively."
+    },
+    {
+      "id": "RC-17",
+      "phase": "M7",
+      "title": "Native RIFT toolbar button states and bounded startup player-context retry",
+      "state": "completed",
+      "dependsOn": [
+        "RC-15",
+        "RC-16"
+      ],
+      "owner": "RRE/REA manager",
+      "scope": [
+        "RiftButton native hover/press/disabled states; selected rows/tabs and ability-icon feedback",
+        "At most two event-driven candidate lookup retries on exact warrior-player-context-not-ready startup deferral",
+        "v0.4.1 TOC ten fields, eight dependency-ordered scripts, TOC-last physical-PC install; no game input"
+      ],
+      "deliverable": "v0.4.1 source commit and 10/10 installed hash parity; prior v0.4.0 visible screenshot",
+      "acceptance": [
+        "6/6 focused tests and strict TOC source gate pass",
+        "Physical-PC strict manifest gate passes with installedShaMatches 10",
+        "v0.4.1 live UI and candidate receipt remain explicitly unverified"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md",
+        "tools/verify-rrecollector-candidates.mjs"
+      ],
+      "result": "Source commit 95c64d5fac5fdc424f495e596dbb18434a6e9b4f; full installed verifier rc17-rre-v041-install-gate-20261102-a1 passed.",
+      "limitations": "RC-08 requires normal operator-controlled v0.4.1 UI load and SavedVariables flush. No current native readiness/GCD/eligibility proof."
     }
   ],
   "workingSource": {
-    "version": "0.4.0",
+    "version": "0.4.1",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
     "liveLuaLoadVerified": false,
-    "priorLiveVerifiedVersion": "0.2.0",
+    "priorLiveVerifiedVersion": "0.4.0",
+    "priorToolbarScreenshot": "User-supplied physical-PC RIFT v0.4.0 toolbar/browser, 69 known/96 static, startup deferred warrior-player-context-not-ready",
+    "latestVersionRuntimeVerified": false,
     "baselineKnownCatalogIds": 69,
     "candidateCatalogIds": 96,
     "candidateIdsAbsentFromPriorKnown": 57,
@@ -569,6 +599,10 @@
     "installedShaMatches": 10,
     "uiResearchToolbarInstalled": true,
     "uiResearchToolbarLiveVerified": false,
+    "priorToolbarVersionVisualVerified": true,
+    "nativeRiftButtonsInstalled": true,
+    "boundedEventRetryInstalled": true,
+    "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
     "lastObservedSavedAddonVersion": "0.3.0",
@@ -580,6 +614,7 @@
     "physicalScreenshotAfterV04InstallFound": false,
     "runtimeVisualEvidenceVerified": false,
     "rc16TocScreenshotReceipt": "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
+    "rc17Receipt": "docs/RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md",
     "offlineKnownStaticCrosswalkAccepted": true,
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,
