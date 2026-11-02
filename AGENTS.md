@@ -61,3 +61,7 @@ Manager owns `main`, integration, cross-lane edits, cherry-picks, and final veri
 ## Completion
 
 Write a concise technical report and machine-readable summary in your lane only, self-review the changes, run targeted validation, commit only your lane files, and return your commit SHA and verifiable evidence paths. Stop when the allotted noninteractive job budget is exhausted; do not leave untracked persistent jobs.
+
+## Secure RIFT macro rule (RC-21, November 2)
+
+- Before calling EventMacroSet, create a restricted UI context and set the parent context to restricted before creating/securing its click child. Never try to secure a child under the normal RRECollector toolbar header; RIFT rejects that with Incorrect security mode. Keep the normal plain-styled buttons separate. Verify read-back where supported, record macro registration separately from physical click success, and do not claim working reload from code/installation alone.

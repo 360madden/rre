@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-00–07 and RC-09–RC-19 accepted at bounded scopes. User-supplied physical-PC screenshots confirm v0.4.0 toolbar/browser visibly loaded (69 Known/96 Static) and exact warrior-player-context-not-ready deferral. v0.4.1 native hover/pressed/disabled controls and bounded event-driven retry installed with 6/6 focused checks, strict TOC and 10/10 installed parity. v0.4.1 runtime/save and RC-08 candidateLookup are still unverified; SC1/SC3 readiness/eligibility remain open.",
+  "status": "RC-08 first live explicit-ID result accepted: 50 of 57 unlisted IDs returned Detail data; seven no-detail, zero errors. RRECollector v0.4.5 secure Reload UI parent correction installed with ten matching file hashes. Live v0.4.5 click still unverified; SC-103 eligibility and SC-3 timing remain open.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-08",
+  "nextTaskId": "RC-22",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; SC103-new-candidate-lookup-runtime-pending",
@@ -251,7 +251,7 @@
       "id": "RC-08",
       "phase": "M7",
       "title": "Obtain and reconcile first live candidateLookup SavedVariables receipt",
-      "state": "blocked",
+      "state": "completed",
       "dependsOn": ["RC-07"],
       "owner": "RRE/REA manager; game UI load owned by operator",
       "ownedPaths": [
@@ -269,7 +269,11 @@
         "No current-known 69-ability or prior API-probe data loss",
         "Negative responses are labeled unknown, not locked/unlearnable"
       ],
-      "blocker": "Current process PID 17412 started 2026-11-02T04:36:24Z, four seconds after prior 0.2 SavedVariables flush. Current in-memory v0.3 state cannot be inferred from the older saved file; await next operator-controlled normal flush, or source-qualified addon error. RRE sends no input."
+      "evidence": [
+        "docs/RRECOLLECTOR-RC08-FIRST-LOOKUP-2026-11-02.md"
+      ],
+      "result": "Saved v0.4.4 current-client lookup: 96 candidates, 39 listed, 57 unlisted, 50 unlisted returned identifying details, 7 no-detail, 0 errors; old known-69/probe preserved.",
+      "limitations": "Explicit-ID Detail returned does not prove learned, learnable, unlocked, usable, slotted or castable; SC-103 and SC-3 remain open."
     },
     {
       "id": "RC-09",
@@ -631,10 +635,55 @@
       ],
       "result": "Source commit 34fc84693b5976ef82153f176143d4fff3982bc0; source six checks passed; installed gate rc20_reloadsecure_installedgate_20261102 passed 10/10.",
       "limitations": "Root cause is suspected secure-input handler conflict; no runtime error trace or confirmed hardware-click reload. uiReloadMacro registered is not proof reload occurred."
+    },
+    {
+      "id": "RC-21",
+      "phase": "M7",
+      "title": "Secure Reload UI restricted-parent repair",
+      "state": "completed",
+      "dependsOn": [
+        "RC-20"
+      ],
+      "owner": "RRE/REA manager",
+      "scope": [
+        "Trace v0.4.4 incorrect security mode error to parent restriction",
+        "Create separate restricted context, bind macro with readback, preserve plain toolbar",
+        "Deploy RRECollector only with TOC last and verify 10 SHA256 matches"
+      ],
+      "deliverable": "v0.4.5 source and installed repair",
+      "acceptance": [
+        "6/6 focused tests, complete TOC and 10/10 installed hashes",
+        "Actual hardware click remains unverified"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC21-RESTRICTED-PARENT-REPAIR-2026-11-02.md"
+      ],
+      "result": "Commit 50ebab8d8248bb7cde76e3b2a47bea00383d316b; installed verifier rre_rc21_v045_installedgate_20261102 passed.",
+      "limitations": "Runtime execution of v0.4.5 click remains unverified"
+    },
+    {
+      "id": "RC-22",
+      "phase": "M7-runtime",
+      "title": "Validate physical-RIFT v0.4.5 Reload UI click",
+      "state": "blocked",
+      "dependsOn": [
+        "RC-21"
+      ],
+      "owner": "RRE/REA manager; game UI operator",
+      "scope": [
+        "Observe v0.4.5 load and UI status receipt",
+        "Validate actual Reload UI click before claiming functionality"
+      ],
+      "deliverable": "Source-qualified runtime result or exact remaining blocker",
+      "acceptance": [
+        "Version-matched screenshot and SavedVariables diagnostic",
+        "Actual in-game reload observed"
+      ],
+      "blocker": "v0.4.5 installed; pending normal game load and hardware-click observation"
     }
   ],
   "workingSource": {
-    "version": "0.4.4",
+    "version": "0.4.5",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
@@ -645,7 +694,7 @@
     "baselineKnownCatalogIds": 69,
     "candidateCatalogIds": 96,
     "candidateIdsAbsentFromPriorKnown": 57,
-    "candidateLookupLiveVerified": false,
+    "candidateLookupLiveVerified": true,
     "installedShaMatches": 10,
     "uiResearchToolbarInstalled": true,
     "uiResearchToolbarLiveVerified": false,
@@ -657,9 +706,9 @@
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
-    "lastObservedSavedAddonVersion": "0.3.0",
-    "lastObservedSavedFileTimestampUtc": "2026-11-02T15:18:17.647Z",
-    "lastObservedSavedFileSha256": "e08dfbb4e994e40a985992bc6be0b7f04d633c8e55a626c0cd632e9bd91fadfe",
+    "lastObservedSavedAddonVersion": "0.4.4",
+    "lastObservedSavedFileTimestampUtc": "2026-11-02T21:48:02.154728Z",
+    "lastObservedSavedFileSha256": "2d472f9af0fdc15d0cb0889a75edbef7eedbc8f4c315438264eee0ffedf96b2d",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
@@ -695,6 +744,11 @@
     "liveProbeEvidenceScope": "operator-attested physical-PC RIFT session, not process/PE bound",
     "runtimeApiIndexScanned": 1910,
     "runtimeApiRelevantNames": 22,
-    "runtimeApiDocumentErrors": 0
+    "runtimeApiDocumentErrors": 0,
+    "candidateLookupUnlistedReturned": 50,
+    "candidateLookupNoDetail": 7,
+    "candidateLookupErrors": 0,
+    "rc21Receipt": "docs/RRECOLLECTOR-RC21-RESTRICTED-PARENT-REPAIR-2026-11-02.md",
+    "rc08LiveReceipt": "docs/RRECOLLECTOR-RC08-FIRST-LOOKUP-2026-11-02.md"
   }
 }
