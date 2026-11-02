@@ -1,6 +1,6 @@
-# RRECollector v0.2.0 (source-only modular scaffold)
+# RRECollector v0.2.0 (modular research scaffold)
 
-A standalone, one-shot, read-only RIFT addon for the RRE spellcasting roadmap. No dependency on RiftReader2, BotDsBridge or other addons. **v0.2.0 is a source-only modular scaffold with a guarded API probe, not yet installed or live verified**; the previously installed v0.1.0 produced the accepted 69/69 SC-418 catalog. Preserve that evidence until a separately operator-driven v0.2 smoke check.
+A standalone, one-shot, read-only RIFT addon for the RRE spellcasting roadmap. No dependency on RiftReader2, BotDsBridge or other addons. **v0.2.0 is installed on the physical PC with exact source/installed hashes; in-game loading and the probe have not yet been verified**. The prior v0.1.0 produced the accepted 69/69 SC-418 catalog. Preserve that evidence until a separately operator-driven v0.2 smoke check.
 
 ## Install
 
@@ -19,7 +19,7 @@ Copy this whole directory to the physical PC's RIFT Interface/AddOns/RRECollecto
 - /rre page N: show eight captured ability names/lookup IDs (1-based).
 - /rre export: show persistence instructions.
 
-The collector is idle unless /rre capture or /rre probe is invoked. Captures go to character-scoped SavedVariables RRECollectorData.latest, then RIFT normally flushes them on /reloadui or logout. The exported frame clock is not UTC. Neither a successful source copy nor a syntax check proves live loading.
+The collector is idle unless /rre capture or /rre probe is invoked. Ability captures go to character-scoped SavedVariables `RRECollectorData.latest`; the separate API capability receipt goes to `RRECollectorData.probe`. RIFT normally flushes these on /reloadui or logout. The exported frame clock is not UTC. Neither a successful source copy nor a syntax check proves live loading.
 
 ## Data contract
 
@@ -29,8 +29,8 @@ Inspect.Ability.New.List is a current API ability set, NOT a catalog of every un
 
 ## Operator smoke check (once)
 
-1. When deployment is approved for a later milestone, check the installed RiftAddon.toc version 0.2.0 and all five TOC-listed Lua hashes against Git. Current host v0.1 package must remain untouched until that step.
-2. From the game, run /rre status and /rre capture; verify a nonzero, correctly identified catalog with /rre status and /rre page 1.
-3. Execute a normal UI reload/logout and inspect the character SavedVariables record. Match character, active role, and spellbook screenshots before treating it as SC-102 evidence.
+1. The physical-PC installation now has `RiftAddon.toc` version 0.2.0 and 7/7 source/host SHA matches (five Lua scripts, TOC, README); no other addons were changed.
+2. In the **physical-PC** game, manually run `/rre status` then `/rre probe`. Note the resulting API documentation/index status; no new `/rre capture` is needed merely to keep the existing 69-ability baseline.
+3. Run a normal `/reloadui` or logout, then inspect character SavedVariables `RRECollectorData.probe` for capability flags and preserved `latest`. Record source/character/role/build and any error text. This is a one-time operator smoke check, not proof of unlearned/locked spells.
 
 Physical-PC client is the authoritative REA target. VMware lab catalogs are separate supplementary observations and must never be merged by name or level alone.

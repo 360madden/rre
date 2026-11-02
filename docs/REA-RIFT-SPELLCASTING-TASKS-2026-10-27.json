@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC418 69/69 user-attested physical-PC API listed-ability catalog ACCEPTED; SC605 custom-addon research route ACCEPTED. SC606 modular RRECollector design roadmap and RC-00..06 task register PLANNED, no code or host addon changes. SC102 remains BLOCKED only on exact-role physical-PC spellbook/soul/trainer/action-bar UI comparison and learnable/locked classification; its UI gate is independent of addon modularization. SC1/SC3/SC4/SC5/SC6 remain open.",
+  "status": "SC418 69/69 physical-PC ability API catalog ACCEPTED; SC605 custom-addon route and SC606 modular plan ACCEPTED. RC00 offline API feasibility and RC01 source modularization complete; RC02 v0.2.0 bounded API probe source/host copy 7/7 SHA verified, awaiting operator game load/probe/reload. SC102 remains BLOCKED on same-role physical-PC spellbook/soul/trainer/action-bar UI, independent of collector modularization. SC1/SC3/SC4/SC5/SC6 open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-102",
   "gameInputAuthorized": false,
@@ -1404,12 +1404,14 @@
     "limitations": "Current known API list is not complete unlearned/learnable/locked spellbook; no measured time-saving benchmark. No RRE-owned gameplay inputs, RR2/Workbridge source changes, VM addon deployment or process manipulation."
   },
   "collectorModularRoadmap": {
-    "status": "planned-only",
+    "status": "rc02-installed-7of7-awaiting-operator-probe",
     "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
     "tasks": "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json",
     "firstAddonTask": "RC-00",
     "independentUIResearchGate": "SC-102",
-    "sourceCodeChanged": false,
-    "installedAddonChanged": false
+    "sourceCodeChanged": true,
+    "installedAddonChanged": true,
+    "nextAddonTask": "RC-02",
+    "latestReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md"
   }
 }

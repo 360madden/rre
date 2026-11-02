@@ -1,7 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
 **Planned:** November 1, 2026  
-**Status:** roadmap approved for planning; implementation **not started**.  
+**Status (November 2):** RC-00 and RC-01 complete; RC-02 v0.2.0 source and physical-PC installation 7/7 hashes accepted, **operator live `/rre probe` and saved output still pending**. RC-03 not started.
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
@@ -58,6 +58,6 @@ Grow **one** independent, read-only `RRECollector` research addon into a small c
 6. **Documentation.** Update the dedicated board state, build/API evidence, one decision-changing finding, installation match, and resume handoff each accepted step. Do not mark SC1/SC3/SC6 finished merely because the collector loads.
 7. **Stop rule.** Two distinct nondecisive probes of one API claim → document unknown/unavailable and switch to UI/native evidence. Do not expand scope to fill time.
 
-## Next action after this planning milestone
+## Current next action after RC-02 installation
 
-Begin **RC-00** as a short source-only API feasibility study, **while** the operator may provide the SC-102 physical-PC same-role spellbook/soul/trainer/action-bar screenshots. No game need be opened simply to re-obtain the 69 already saved abilities. Once RC-00 chooses one real exposed field, implement only the required collector increment and run the smallest meaningful check.
+[RC-00 feasibility](RRECOLLECTOR-RC00-API-FEASIBILITY-2026-11-02.md) and [RC-01 modular source split](RRECOLLECTOR-RC01-MODULAR-SCAFFOLD-2026-11-02.md) are accepted. [RC-02 `/rre probe` installation record](RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md) confirms 7/7 source/host SHA parity but **no in-game load yet**. The physical-PC operator should run `/rre status`, `/rre probe`, `/reloadui`, then RRE can examine `RRECollectorData.probe` as the first current-build API capability receipt. Do not implement RC-03 soul/eligibility/action-bar producers until a usable supported API is established. The **SC-102 spellbook/soul/trainer/action-bar UI** remains independently pending; the existing 69 known abilities need not be recaptured merely to recover them.

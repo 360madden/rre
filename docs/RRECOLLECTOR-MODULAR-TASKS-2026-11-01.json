@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00 source feasibility completed; RC01 v0.2.0 four-module source split accepted at focused structural scope only (original function bodies, TOC order, schema1, /rre commands checked). No host addon copy/live verification. RC02 manual targeted runtime API capability probe is next; SC102 UI gate remains independent.",
+  "status": "RC00 offline API feasibility and RC01 modular source refactor completed. RC02 v0.2.0 read-only /rre probe source committed (8d41ed8), installed on physical-PC host with 7/7 SHA parity; next is operator in-game /rre status, /rre probe, /reloadui and SavedVariables evidence. Current runtime API capability UNKNOWN; SC102 UI gate independent.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -87,7 +87,7 @@
       "id": "RC-02",
       "phase": "M2",
       "title": "Add one manual API capability probe",
-      "state": "planned",
+      "state": "blocked-external",
       "dependsOn": [
         "RC-00",
         "RC-01"
@@ -103,7 +103,15 @@
         "No speculative or gameplay-invoking calls",
         "Explicit partial/unknown counts and source provenance",
         "Stops on unsupported API; no broad scanner"
-      ]
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md",
+        "addons/RRECollector/capabilities.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/RiftAddon.toc"
+      ],
+      "result": "v0.2.0 /rre probe source committed, bounded read-only capability/documentation paths; physical-PC installed copy 7/7 SHA match and game process absent at copy.",
+      "blocker": "Operator must open physical-PC game and perform /rre status, /rre probe, /reloadui; saved RRECollectorData.probe not yet verified."
     },
     {
       "id": "RC-03",
@@ -191,9 +199,12 @@
   "workingSource": {
     "version": "0.2.0",
     "savedVariablesSchema": 1,
-    "sourceOnly": true,
-    "physicalHostDeploymentCompleted": false,
+    "sourceOnly": false,
+    "physicalHostDeploymentCompleted": true,
     "liveLuaLoadVerified": false,
-    "baselineKnownCatalogIds": 69
+    "baselineKnownCatalogIds": 69,
+    "installedShaMatches": 7,
+    "probeSourceCommit": "8d41ed8346c427d803aa4810ff53a531a91752e1",
+    "installationReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md"
   }
 }

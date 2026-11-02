@@ -7,7 +7,7 @@
 **Companion task register:** [REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json](REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json).  
 **Working rule:** one decision-changing finding per short ChatGPT Chat-mode turn; commit each stable milestone, negative finding or blocker together with its documentation. **November 1 instrumentation-first learning checkpoint:** [SC-605 custom-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) documents how a minimal RRECollector converted a blocked ability API export into 69/69 live saved details with one manual capture. For API-exposed data gaps, prioritize a small reusable collector probe before additional general addon searches or native speculation; this does not replace native research.
 
-**RRECollector implementation planning (November 1):** [Modular one-addon roadmap](RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md) and [RC task register](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json) map a capability-first, bounded extension of the proven collector. No implementation or host deployment occurred in this planning milestone. **SC-102 UI reconciliation does not depend on modularization.**
+**RRECollector implementation planning (November 1):** [Modular one-addon roadmap](RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md) and [RC task register](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json) map a capability-first, bounded extension of the proven collector. Subsequent RC-00/01 source milestones and [RC-02 RRECollector v0.2 installation](RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md) are now documented; host source/install hashes match but the manual game probe has not been run. **SC-102 UI reconciliation does not depend on modularization.**
 
 ## Purpose, research questions and definitions
 
