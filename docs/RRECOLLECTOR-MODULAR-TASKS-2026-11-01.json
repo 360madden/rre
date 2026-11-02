@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC00-07, RC09–RC14 and RC15 accepted at bounded source/host/offline scopes; RC13 126 exact-ID atlas, RC14 323 static Warrior IDs/353 union, RC15 v0.4 eight-slot read-only toolbar installed 10/10. Fresh Atank v0.3 saved file on 2026-11-02T15:18Z preserves 69 abilities/probe but has no candidateLookup; RC08 pending new v0.4 candidateAttempt/lookup after normal operator-controlled load/save. SC1 unlock/rank and SC3 live readiness/GCD still unknown.",
+  "status": "RC00-07 and RC09–RC16 accepted at their bounded source/host/offline scopes; RC15 v0.4 toolbar 10/10 source/host parity, RC16 strict manifest gate plus physical screenshot audit (162 images, none after 2026-11-02 11:06 ET install). Fresh v0.3 save at 15:18Z preserves 69 abilities/probe but no candidateLookup. RC08 requires operator-controlled v0.4 load/save and screenshot before UI is functional; SC1/SC3 eligibility/readiness/GCD unverified.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -518,6 +518,41 @@
       ],
       "result": "Atank v0.3 fresh saved root at 15:18 UTC but candidateLookup absent; added saved candidateAttempt diagnostic, display-only eight-icon research UI and manual no-block fields. Physical-PC v0.4 installed 10/10 TOC-last, five focused checks passed.",
       "limitations": "RIFT has not yet loaded or saved v0.4; toolbar appearance, usable status, arbitrary-ID Detail, GCD and native cast submission remain unverified. RC08 remains open."
+    },
+    {
+      "id": "RC-16",
+      "phase": "M7-package-runtime-gates",
+      "title": "Re-audit physical-PC TOC and screenshots, enforce strict addon release contract",
+      "state": "completed",
+      "dependsOn": ["RC-15"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "tools/verify-rrecollector-package.mjs",
+        "AGENTS.md",
+        "docs/REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md",
+        "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
+        "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md",
+        "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json"
+      ],
+      "scope": [
+        "Inspect physical-PC installed RRECollector TOC and source/host parity, compare against recognized addon TOCs",
+        "Enumerate bounded latest physical-PC RIFT screenshot timestamps relative to toolbar installation",
+        "Build dependency-free strict TOC/version/script parser with optional ten-file installed SHA gate",
+        "Make three distinct manifest/install/runtime exit gates durable; preserve blocked RC08"
+      ],
+      "deliverable": "Strict read-only addon package verifier, source and host receipt, screenshot gap report and permanent three-gate policy",
+      "acceptance": [
+        "Installed v0.4 manifest has all ten contract fields, eight scripts and 10/10 SHA parity",
+        "Two strict package checks succeed (source and physical host), no game input or addon byte changes",
+        "162 screenshot files audited; newest November 1 Eastern, no post-install image; no false live UI claim",
+        "Runtime gate retained for next operator-controlled load/save; source and install are not visibility proof"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
+        "tools/verify-rrecollector-package.mjs"
+      ],
+      "result": "Strict TOC syntax/fields/version/order and full physical RRECollector file parity pass; no required fields missing. 162 screenshots predate v0.4 installation; source+host gates accepted, UI runtime gate still open.",
+      "limitations": "No current visual observation, no v0.4 persisted runtime receipt, no proof of addon enablement or hidden frame cause; do not mutate TOC speculatively."
     }
   ],
   "workingSource": {
@@ -540,6 +575,11 @@
     "lastObservedSavedFileTimestampUtc": "2026-11-02T15:18:17.647Z",
     "lastObservedSavedFileSha256": "e08dfbb4e994e40a985992bc6be0b7f04d633c8e55a626c0cd632e9bd91fadfe",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
+    "strictPackageGateAccepted": true,
+    "physicalScreenshotFilesChecked": 162,
+    "physicalScreenshotAfterV04InstallFound": false,
+    "runtimeVisualEvidenceVerified": false,
+    "rc16TocScreenshotReceipt": "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
     "offlineKnownStaticCrosswalkAccepted": true,
     "offlineKnownStaticCrosswalkReport": "docs/REA-RIFT-SPELLCASTING-SC103-EXACT-ID-CROSSWALK-2026-11-02.md",
     "offlineKnownExactNameMismatches": 0,
