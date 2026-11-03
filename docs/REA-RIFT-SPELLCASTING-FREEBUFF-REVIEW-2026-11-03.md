@@ -21,7 +21,7 @@ The FreeBuff reviewer located a source defect in the pre-existing staged `tools/
 
 **Fix:** In the failure branch reset both `state.lastId = nil` and `state.stable = 0`. The source-extracted **green** Lua 5.4 check passed, and an intermittent fault test was added to `tools/test_sc103_luapad_hover_probe.lua`. No game or installed addon files were changed.
 
-**Important testing limit:** The prior full fixture had **110 passing Lua 5.4 assertions** under its previous exact SHA. The modified source and fixture **have not yet been rerun as one complete exact Lua suite**. The source-extracted red/green check does not replace the full-suite receipt. Current native RIFT/LuaPad compatibility and modern Legendary ability ID are still unverified.
+**Important testing limit:** The prior full fixture had **110 passing Lua 5.4 assertions** under its previous exact SHA. Follow-up in this scheduled continuation SHA-matched the exact revised probe (`4b8a19e4...`) and fixture (`194fbf53...`) after byte-for-byte read-only transfer and ran the entire synthetic suite in an isolated Lua 5.4 shared-library runtime: **119 assertions passed** (`SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 119`). This confirms synthetic fixture behavior, not current RIFT/LuaPad execution. Current native RIFT/LuaPad compatibility and modern Legendary ability ID are still unverified.
 
 ## RC-30 — conditional leads only, no collector edit
 
@@ -32,4 +32,4 @@ Physical RRECollector **v0.4.10 remains frozen** pending current in-memory eight
 
 ## Future work
 
-Use the proven FreeBuff ConPTY path (not Ollama) for isolated bounded source review, independent acceptance and one RRE writer. Verify revised Lua suite when a compatible interpreter is available. Preserve SC-103 rank/variant and RC-30 live acceptance blockers. Do not repeat the parked native Ability List trace.
+Use the proven FreeBuff ConPTY path (not Ollama) for isolated bounded source review, independent acceptance and one RRE writer. The revised full Lua 5.4 suite is now verified (119 assertions); Lua 5.1/RIFT compatibility and any native tooltip identification remain untested. Preserve SC-103 rank/variant and RC-30 live acceptance blockers. Do not repeat the parked native Ability List trace.
