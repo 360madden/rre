@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-22 v0.4.5 reload accepted at user-attested runtime scope. RC-23 v0.4.6 common plain button visuals, measured captions and icon hover cards source-tested and installed 10/10; fresh runtime visual verification pending. RC-08 known/candidate data unchanged.",
+  "status": "RC-24 v0.4.7 secure visibility and hidden-first reload initialization fixed, 6/6 source checks, 26 lifecycle +25 control assertions, reviewer approved, 10/10 installed hashes. Exact physical-window screenshot shows v0.4.7; autonomous /reloadui produced fresh v0.4.7 SavedVariables with macro registered/readback matched. RC-23 shared control appearance verified through the unchanged visual block in v0.4.7. RC-25 icon label wrapping remains next.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,10 +20,10 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-23",
+  "nextTaskId": "RC-25",
   "parallelExternalGate": {
     "taskId": "SC-102",
-    "status": "SC102-closed-bounded; SC103-new-candidate-lookup-runtime-pending",
+    "status": "SC102-closed-bounded; RC08 explicit-ID candidate API response accepted (50 returned/7 no-detail); SC103 eligibility remains open",
     "dependsOnCollectorModularization": false
   },
   "tasks": [
@@ -699,7 +699,7 @@
       "id": "RC-23",
       "phase": "M7-UI",
       "title": "Consistent plain controls, measured text and readable ability icons",
-      "state": "blocked",
+      "state": "completed",
       "dependsOn": [
         "RC-22"
       ],
@@ -709,7 +709,7 @@
         "Replace deprecated text measurement, add four-sided borders and pointer feedback",
         "Improve ability icon labels and hover descriptions without changing discovery or casting"
       ],
-      "deliverable": "v0.4.6 committed and installed; runtime visual check remains",
+      "deliverable": "v0.4.6 shared source/installed; identical shared controls observed in physical RIFT v0.4.7 screenshot",
       "acceptance": [
         "6/6 source checks and 25 mocked control assertions pass",
         "Complete TOC and 10/10 physical installed hashes",
@@ -719,26 +719,79 @@
         "docs/RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md",
         "tools/verify-rrecollector-ui-controls.lua"
       ],
-      "result": "Source commit 85c102d674e041eeb8cd5be91ec4c38916d170dd; deployment rre_rc23_v046_deploy_20261102_a1 passed 10/10. Working v0.4.5 reload binding retained.",
-      "blocker": "New v0.4.6 appearance and interaction have not yet been observed inside physical RIFT."
+      "result": "Source commit 85c102d; v0.4.6 installed 10/10. On November 3 the unchanged RC23 visual block is observed in exact physical-PC RIFT v0.4.7 crop (full SHA d8c2e37c...). Button captions centered, normal borders visible; some ability tile names remain abbreviated and are deferred to RC25."
+    },
+    {
+      "id": "RC-24",
+      "phase": "M7-UI",
+      "title": "Secure sibling lifecycle, hidden-first reload registration, viewport-bound tooltips and autonomous physical verification",
+      "state": "completed",
+      "dependsOn": [
+        "RC-23"
+      ],
+      "owner": "RRE manager",
+      "scope": [
+        "Fix atomic visibility across restricted Reload UI sibling and ordinary bar/browser",
+        "Never publish rejected macro frame and keep it hidden through setup failure",
+        "Clamp toolbar hover card inside the physical RIFT viewport",
+        "Independently review, test and deploy only RRECollector with TOC last",
+        "Validate physical v0.4.7 screenshot, SavedVariables and guarded autonomous /reloadui"
+      ],
+      "deliverable": "RRECollector v0.4.7 source/installed/live UI evidence and reversible backup",
+      "acceptance": [
+        "6/6 source checks, 26 mock lifecycle and 25 mock control assertions",
+        "Strict TOC and 10/10 installed source hashes",
+        "Independent Extra High code review approves exact UI source",
+        "Physical screenshot identifies v0.4.7 and new saved file records version0.4.7 with registered reload macro"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC24-SECURE-VISIBILITY-LIVE-2026-11-03.md",
+        "tools/verify-rrecollector-ui-lifecycle.lua",
+        "artifacts/rc24-physical-rift-window-20261103.png"
+      ],
+      "result": "Physical RIFT PID17412/HWND1382178 captured at 2576x1408; screenshot SHA d8c2e37c0be32ea7737cf9a3e8b4b305d3305f125514c05f825951dc940399c2. Guarded /reloadui sent and Atank saved version0.4.7 at 01:48:03 UTC, SHA d990c5b3e057f0891d1070c6cff1cc24fa7b38fc2848312f8d6a79ea481d8413; macro registered/readback-matched, known69/probe/candidate50 preserved. Physical macro button click itself remains unverified."
+    },
+    {
+      "id": "RC-25",
+      "phase": "M7-UI",
+      "title": "Improve long ability tile labels and reliable title drag",
+      "state": "pending",
+      "dependsOn": [
+        "RC-24"
+      ],
+      "owner": "RRE manager",
+      "scope": [
+        "Use actual physical v0.4.7 crop to diagnose one-line/abbreviated tile captions",
+        "Implement a bounded two-line label with natural font proportions, no clipping",
+        "Assess Cursor.Move versus global pointer event for drag leaving the title handle"
+      ],
+      "deliverable": "Focused visual usability correction with source/runtime regression evidence",
+      "acceptance": [
+        "Legible two-line ability titles in version-matched physical screenshot",
+        "No regression to normal buttons or working secure reload macro",
+        "TOC/source/installed hashes and focused tests pass"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC24-SECURE-VISIBILITY-LIVE-2026-11-03.md"
+      ]
     }
   ],
   "workingSource": {
-    "version": "0.4.6",
+    "version": "0.4.7",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
-    "liveLuaLoadVerified": false,
-    "priorLiveVerifiedVersion": "0.4.5",
+    "liveLuaLoadVerified": true,
+    "priorLiveVerifiedVersion": "0.4.7",
     "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
-    "latestVersionRuntimeVerified": false,
+    "latestVersionRuntimeVerified": true,
     "baselineKnownCatalogIds": 69,
     "candidateCatalogIds": 96,
     "candidateIdsAbsentFromPriorKnown": 57,
     "candidateLookupLiveVerified": true,
     "installedShaMatches": 10,
     "uiResearchToolbarInstalled": true,
-    "uiResearchToolbarLiveVerified": false,
+    "uiResearchToolbarLiveVerified": true,
     "priorToolbarVersionVisualVerified": true,
     "nativeRiftButtonsInstalled": false,
     "plainButtonsInstalled": true,
@@ -747,14 +800,14 @@
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
-    "lastObservedSavedAddonVersion": "0.4.4",
-    "lastObservedSavedFileTimestampUtc": "2026-11-02T21:48:02.154728Z",
-    "lastObservedSavedFileSha256": "2d472f9af0fdc15d0cb0889a75edbef7eedbc8f4c315438264eee0ffedf96b2d",
+    "lastObservedSavedAddonVersion": "0.4.7",
+    "lastObservedSavedFileTimestampUtc": "2026-11-03T01:48:03.8924359Z",
+    "lastObservedSavedFileSha256": "d990c5b3e057f0891d1070c6cff1cc24fa7b38fc2848312f8d6a79ea481d8413",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
-    "physicalScreenshotAfterV04InstallFound": false,
-    "runtimeVisualEvidenceVerified": false,
+    "physicalScreenshotAfterV04InstallFound": true,
+    "runtimeVisualEvidenceVerified": true,
     "rc16TocScreenshotReceipt": "docs/RRECOLLECTOR-RC16-TOC-SCREENSHOT-RECHECK-2026-11-02.md",
     "rc17Receipt": "docs/RRECOLLECTOR-RC17-NATIVE-BUTTONS-RETRY-2026-11-02.md",
     "rc19Receipt": "docs/RRECOLLECTOR-RC19-PLAIN-BUTTONS-2026-11-02.md",
@@ -792,6 +845,9 @@
     "rc21Receipt": "docs/RRECOLLECTOR-RC21-RESTRICTED-PARENT-REPAIR-2026-11-02.md",
     "rc08LiveReceipt": "docs/RRECOLLECTOR-RC08-FIRST-LOOKUP-2026-11-02.md",
     "rc23Receipt": "docs/RRECOLLECTOR-RC23-CONSISTENT-CONTROLS-2026-11-02.md",
-    "priorReloadUserVerified": true
+    "priorReloadUserVerified": true,
+    "rc24Receipt": "docs/RRECOLLECTOR-RC24-SECURE-VISIBILITY-LIVE-2026-11-03.md",
+    "autonomousReloadVerified": true,
+    "lastPhysicalScreenshotSha256": "d8c2e37c0be32ea7737cf9a3e8b4b305d3305f125514c05f825951dc940399c2"
   }
 }

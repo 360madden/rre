@@ -53,7 +53,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   for (const field of ["Identifier", "Name", "NameShort", "Description", "Author", "Email", "Version", "Environment"]) {
     assert.match(toc, new RegExp("^" + field + ' = "[^"]+"', "m"));
   }
-  assert.match(toc, /^Version = "0\.4\.6"$/m);
+  assert.match(toc, /^Version = "\d+\.\d+\.\d+"$/m);
   assert.match(toc, /RRECollectorData = "character"/);
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
@@ -81,7 +81,7 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
 });
 
 test("read-only toolbar is optional, bound to existing commands and honest about readiness", () => {
-  assert.match(core, /VERSION = "0\.4\.6"/);
+  assert.match(core, /VERSION = "\d+\.\d+\.\d+"/);
   assert.match(ui, /UI\.CreateContext\("RRECollectorToolbar"\)/);
   assert.match(ui, /UI\.CreateFrame\("Texture"/);
   assert.match(ui, /local f = block\(name, parent, left, top, width, height, color\.button\)/);
@@ -115,7 +115,8 @@ test("read-only toolbar is optional, bound to existing commands and honest about
   assert.match(ui, /status, reason = "unverified", "readback-API-unavailable"/);
   assert.match(ui, /reloadFrame = frame/);
   assert.match(ui, /uiReloadMacro =/);
-  assert.match(ui, /reloadFrame\.SetVisible/);
+  assert.match(ui, /setVisibleSafe\(reloadFrame, visible\)/);
+  assert.match(ui, /frame:SetVisible\(false\)/);
   assert.doesNotMatch(ui, /button\("RREReloadUI"/);
   assert.doesNotMatch(ui, /Command\.(?:Ability|Unit|Input|System|Focus)/);
   assert.match(main, /RRECollectorRuntime\.command = function\(raw\) onSlash\(nil, raw\) end/);

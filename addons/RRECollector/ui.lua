@@ -1,9 +1,9 @@
--- RRECollector v0.4.6: shared plain controls and readable research icons.
+-- RRECollector v0.4.7: synchronized secure visibility and bounded tooltips.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
 local MAX_ROWS, MAX_SLOTS = 8, 8
-local WIDTH, BAR_HEIGHT, BROWSER_HEIGHT = 636, 128, 452
+local WIDTH, BAR_HEIGHT, BROWSER_HEIGHT, TOOLTIP_HEIGHT = 636, 128, 452, 82
 local X, Y = 295, 98
 local color = {
   background = {0.035, 0.063, 0.086, 0.97},
@@ -173,6 +173,7 @@ end
 -- RIFT's SetSecureMode API requires every restricted frame to have a
 -- restricted parent. Keep the secure hardware-click surface in its OWN context;
 -- the rest of the toolbar and ordinary buttons remain normal.
+-- RC24-RELOAD-BEGIN
 local function secureReloadButton(header)
   local status, reason = "failed", "not-initialized"
   local function publish()
@@ -182,20 +183,30 @@ local function secureReloadButton(header)
       }
     end
   end
+  local frame
   local ok, failure = pcall(function()
+    -- A secure combat state can reject both macro setup and cleanup.
+    local secureFn = type(Inspect) == "table" and type(Inspect.System) == "table"
+      and Inspect.System.Secure
+    if type(secureFn) == "function" then
+      local stateOk, inSecure = pcall(secureFn)
+      if not stateOk or inSecure ~= false then error("secure-system-active") end
+    end
     local secureContext = UI.CreateContext("RRECollectorReloadSecure")
     if type(secureContext.SetStrata) == "function" then
       secureContext:SetStrata("topmost")
     end
     -- Parent MUST be restricted before securing any child.
     secureContext:SetSecureMode("restricted")
-    local frame = UI.CreateFrame("Frame", "RREReloadSecureClick", secureContext)
+    frame = UI.CreateFrame("Frame", "RREReloadSecureClick", secureContext)
     frame:SetPoint("TOPLEFT", header, "TOPLEFT", 471, 4)
     frame:SetWidth(81); frame:SetHeight(28)
     frame:SetBackgroundColor(color.button[1], color.button[2],
       color.button[3], color.button[4])
     frame:SetMouseMasking("full")
-    reloadFrame = frame
+    -- Keep the normal child hidden before restriction; later secure-state
+    -- failures cannot strand a visible topmost control without a macro.
+    frame:SetVisible(false)
     buttonVisual("RREReloadSecure", frame, 81, 28, "Reload UI")
     frame:SetSecureMode("restricted")
     -- Only a real click can trigger the command; not an addon Lua action.
@@ -210,14 +221,22 @@ local function secureReloadButton(header)
       -- The macro can still be valid on builds missing the optional readback API.
       status, reason = "unverified", "readback-API-unavailable"
     end
+    local shown, showResult = pcall(frame.SetVisible, frame, true)
+    if not shown or showResult == false then
+      error("reload-surface-show-rejected: " .. tostring(showResult))
+    end
   end)
   if not ok then
     status, reason = "failed", tostring(failure):sub(1, 120)
     say("Secure Reload UI unavailable: " .. reason)
-    if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, false) end
+    if frame then pcall(frame.SetVisible, frame, false) end
+  else
+    -- A rejected macro must never leave a showable reload control behind.
+    reloadFrame = frame
   end
   publish()
 end
+-- RC24-RELOAD-END
 -- Wide ability rows retain left-aligned text, with hover, press and selection.
 local function rowButton(name, parent, left, top, width, height, caption, handler)
   local f = block(name, parent, left, top, width, height, color.row)
@@ -429,6 +448,17 @@ local function selectedText(items)
     .. "\n" .. short(meta .. extra, 96)
     .. "\n" .. short(safe(description, "No description in this source"), 104)
 end
+-- RC24-TOOLTIP-BEGIN
+local function tooltipYOffset(screenHeight, barY)
+  local below = BAR_HEIGHT + 3
+  if type(screenHeight) ~= "number" or barY + below + TOOLTIP_HEIGHT <= screenHeight then
+    return below
+  end
+  if barY >= TOOLTIP_HEIGHT + 3 then return -(TOOLTIP_HEIGHT + 3) end
+  -- Very small viewports may require a card overlapping the bar.
+  return math.max(-barY, screenHeight - barY - TOOLTIP_HEIGHT)
+end
+-- RC24-TOOLTIP-END
 local function draw()
   if not ready then return end
   title:SetText("RRE v" .. runtime.VERSION .. " research")
@@ -469,8 +499,10 @@ local function draw()
       local id = slots[hovered]
       local ability = id and map[id]
       local state = id and checked[id]
+      local okH, screenHeight = pcall(UIParent.GetHeight, UIParent)
       slotTooltip:SetPoint("TOPLEFT", bar, "TOPLEFT",
-        math.min(12 + (hovered - 1) * 56, WIDTH - 336), BAR_HEIGHT + 3)
+        math.min(12 + (hovered - 1) * 56, WIDTH - 336),
+        tooltipYOffset(okH and screenHeight or nil, Y))
       slotTooltipText:SetText(safe(ability and ability.name, "Empty slot")
         .. "\n" .. safe(id, "No ability pinned") .. "\n"
         .. (state and state.status or "Not checked this session")
@@ -546,6 +578,46 @@ local function selectSlot(index)
   checked[id] = apiCheck(id)
   draw()
 end
+-- RC24-VISIBILITY-BEGIN
+local function setVisibleSafe(frame, desired)
+  local ok, result = pcall(frame.SetVisible, frame, desired)
+  if not ok then return false, result end
+  if result == false then return false, "SetVisible rejected" end
+  return true
+end
+local function changeToolbarVisibility(visible)
+  if not ready then return false end
+  if visible == barVisible then return true end
+  local previousBar = barVisible
+  -- Reload UI is a separate restricted sibling and must change first.
+  if reloadFrame then
+    local ok, reason = setVisibleSafe(reloadFrame, visible)
+    if not ok then
+      say("Toolbar unchanged; secure Reload UI visibility denied: " .. tostring(reason):sub(1, 100))
+      return false
+    end
+  end
+  local ok, reason = setVisibleSafe(bar, visible)
+  if not ok then
+    if reloadFrame then setVisibleSafe(reloadFrame, previousBar) end
+    say("Toolbar unchanged; bar visibility failed: " .. tostring(reason):sub(1, 100))
+    return false
+  end
+  if not visible then
+    local browserOk, browserReason = setVisibleSafe(browser, false)
+    if not browserOk then
+      setVisibleSafe(bar, previousBar)
+      if reloadFrame then setVisibleSafe(reloadFrame, previousBar) end
+      say("Toolbar unchanged; browser visibility failed: " .. tostring(browserReason):sub(1, 100))
+      return false
+    end
+  end
+  barVisible = visible
+  if not visible then browserVisible = false end
+  draw()
+  return true
+end
+-- RC24-VISIBILITY-END
 local function createUI()
   local stored = saved().toolbarPosition
   if type(stored) == "table" and type(stored.x) == "number"
@@ -583,10 +655,9 @@ local function createUI()
     execute("candidates")
   end)
   button("RREHide", head, 557, 4, 69, 28, "Hide", function()
-    barVisible = false; bar:SetVisible(false)
-    if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, false) end
-    browserVisible = false; browser:SetVisible(false)
-    say("Toolbar hidden. /rre ui to reopen.")
+    if changeToolbarVisibility(false) then
+      say("Toolbar hidden. /rre ui to reopen.")
+    end
   end)
   secureReloadButton(head)
   for i = 1, MAX_SLOTS do
@@ -752,12 +823,7 @@ local function start()
 end
 local function toggle()
   if not ready then return start() end
-  barVisible = not barVisible
-  bar:SetVisible(barVisible)
-  if reloadFrame then pcall(reloadFrame.SetVisible, reloadFrame, barVisible) end
-  if not barVisible then browserVisible = false; browser:SetVisible(false) end
-  draw()
-  return true
+  return changeToolbarVisibility(not barVisible)
 end
 runtime.ui = {
   start = start,
