@@ -1,6 +1,6 @@
 # RC-30 — Correct stale toolbar pins without deleting SavedVariables IDs
 
-**November 3, 2026 UTC.** Physical RIFT research addon only, host deployment with no in-game input or process control. **RRECollector v0.4.10 source and installation accepted; runtime NOT verified.**
+**November 3, 2026 UTC.** Physical RIFT research addon only, host deployment with no in-game input or process control. **RRECollector v0.4.10 source and installation accepted; operator screenshot now confirms version-matched visual load. Pin/Undo, stale saved-slot appearance and v0.4.10 persistence are NOT verified.**
 
 ## Narrow defect and fix
 
@@ -34,6 +34,6 @@ The new helper is called by **both** caption/tint rendering and hover tooltip co
 
 ## Critical runtime proof boundary
 
-This release **explicitly supersedes the installed v0.4.9 without ever achieving a version-matched v0.4.9 runtime receipt**. The last qualified live toolbar/save remains v0.4.8. The physical RIFT PID17412/HWND1382178 is responding, visible and not minimized, currently 974×523 and not foreground; the Workbridge screenshot adapter did not yield rendered game pixels. The latest Atank SavedVariables remains v0.4.8 (SHA-256 `bf6f34adac5256f2875ee787d549f7f93d7f5942959bf1c4c8dedfa4979bf276`, modified 2026-11-03 03:30:08 UTC) and predates the v0.4.10 install.
+This release **explicitly supersedes v0.4.9 without ever achieving a version-matched v0.4.9 visual receipt**. Joey supplied a 646×612 original PNG screenshot (SHA-256 `6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb`) showing **RRE v0.4.10 research**, normal buttons, eight ability tiles, browser Known page 1/9, **Known 69**, **Static 96**, Pin to #1 and disabled Undo pins prior to any observed pin. This proves the v0.4.10 UI loaded visibly; it does **not** prove pin mutation/restoration or that any stale saved ID has been exercised. Physical RIFT remains PID17412/HWND1382178 responding and visible; separate read-only desktop metadata now shows 1936×1048 and not foreground. The newest collector SavedVariables file was written at `2026-11-03T04:12:44.514Z`, SHA-256 `0303d1cde261cf7096c1a65651c9e07a725eb9c99c43889a02793ad9214b94d3`, and still identifies root **v0.4.9**, possibly a prior UI instance flushed during transition. It cannot serve as a v0.4.10 persistence receipt. Historical v0.4.8 visual checks remain separately qualified; screenshot supplied here supersedes that version only for the visual-load criterion.
 
 **RC-26 and RC-27 are still open for in-game validation.** Next when the operator has a visible, stable RIFT client: confirm a v0.4.10 title and one normal SavedVariables flush, manually Pin → Undo an API-known ability while recording the exact original eight slots, and check one stale saved-ID case if available. Stop if original slots cannot be restored in-session; never restore a running game's old saved file on disk as a substitute for UI Undo.

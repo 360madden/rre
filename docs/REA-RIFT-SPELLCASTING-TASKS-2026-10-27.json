@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102 and RC-08 accepted: 50 of 57 originally unlisted IDs returned arbitrary-ID Detail; seven no-detail. RC-27 RRECollector v0.4.9 source/host parity 10/10, with reversible Pin/Undo and capture guard; runtime v0.4.9 load and live Pin/Undo remain unverified (last observed v0.4.8). RC-28 candidate decoder fix, RC-29 sanitized 353-ID Detail atlas and six-Paladin-tooltip crosswalk accepted at offline-evidence scope. Protector's Fury has one historical static ID but no current Detail; collector field whitelist does not prove absence of native variant metadata. Physical RIFT responds, but new v0.4.9 runtime proof and the SC-103 rank/eligibility and SC-3 timing gates remain open.",
+  "status": "SC-102/RC-08, RC-28/29 offline findings accepted. SC-103 recovered 2711-character in-client Detail documentation from existing RR2Casting saves; its 34 documented return members exactly match the 34 RRECollector exported fields (3/3 verifier plus independent review). No documented rank/variant/legendary/unlock member, but undocumented or UI/native mechanisms remain possible. RRECollector v0.4.10 source/host 10/10 and user-supplied screenshot visibly loaded (69 Known, 96 Static); saved v0.4.10 and Pin/Undo/stale-pin rendering still unverified. SC-103 rank eligibility and SC-3 timing remain open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -172,7 +172,9 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json (six UI-text mechanics paired by name to static IDs; one explicit No Global Cooldown label)",
         "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json (RC-13: 126 unique exact IDs, four source hashes; no live unlock/rank evidence)",
         "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json (RC-14: 323 unique static IDs from 11 disabled Warrior source files; no current unlock/learnable proof)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json (RC-29: sanitized 353-ID reference with 96 candidate lookup entries; not proof of castability)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json (RC-29: sanitized 353-ID reference with 96 candidate lookup entries; not proof of castability)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-DOCS-2026-11-03.md (existing installed addon preserved current-client Detail documentation; 34/34 serializer match)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json (sanitized deterministic field names and source hashes)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -188,10 +190,13 @@
         "absentFromAtankCurrentKnown": 57,
         "sourceInventory": "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
         "addonInstallReport": "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
-        "addonVersionInstalled": "0.4.9",
+        "addonVersionInstalled": "0.4.10",
         "installedFileHashMatches": 10,
         "addonRuntimeVersionVerified": "0.4.8",
         "addonRuntimeV049Verified": false,
+        "addonRuntimeV0410VisualVerified": true,
+        "addonRuntimeV0410PinUndoVerified": false,
+        "addonRuntimeV0410SavedVersionVerified": false,
         "livePinUndoVerified": false,
         "offlineKnownApiRecords": 69,
         "offlineKnownOutsideStatic": 30,
@@ -233,11 +238,18 @@
         "protectorHistoricalStaticIdsObserved": 1,
         "protectorCurrentClientDetailReturned": false,
         "protectorVariantIdResolved": false,
-        "currentClientAbilityDetailDocumentationCaptured": false,
+        "currentClientAbilityDetailDocumentationCaptured": true,
+        "currentClientDocumentedDetailFields": 34,
+        "rrecollectorDocumentedDetailFieldsExported": 34,
+        "runtimeDetailDocumentationTextSha256": "73d52608384c39888bd4328143b092bb1f0f3de7d3e0eb8f001118a1438b753d",
+        "runtimeDetailDocumentationSourceSavedSha256": "2bf6d92f9c1b437f7d8764db6596225435e78785af5d3d68214e3be11157afe4",
+        "runtimeDetailDocumentationBuildHashBound": false,
+        "runtimeDetailDocumentationReport": "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-DOCS-2026-11-03.md",
+        "runtimeDetailDocumentedFieldList": "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json",
         "collectorExportsRankVariantFields": false,
         "protectorVariantGapReport": "docs/REA-RIFT-SPELLCASTING-SC103-PROTECTORS-FURY-VARIANT-GAP-2026-11-03.md",
         "eligibilityResolvedIds": 0,
-        "note": "RC-29 merges 323 historical static IDs and 69 previously captured API-listed IDs by exact ID, with 96 saved candidate Lookup statuses (51 returned; 50 newly unlisted, 7 no-detail, 38 previously listed not queried). Returned Detail does not establish learned, learnable, unlocked, bound or castable state. Source file is v0.4.8; installed v0.4.9 and live Pin/Undo require an in-game check. SC-103 rank/role allocation and native GCD remain unknown."
+        "note": "RC-29 merges 323 historical static and 69 API-listed IDs, with 96 saved candidate Lookup statuses. SC-103 recovered stored in-client Inspect.Ability.New.Detail documentation (34 members; exactly 34/34 exported). This closes documentation retrieval only, not undocumented variant paths, rank/eligibility or native readiness. v0.4.10 visual UI verified by user screenshot; Pin/Undo, stale saved slot and v0.4.10 save unverified. Native GCD remains unknown."
       }
     },
     {

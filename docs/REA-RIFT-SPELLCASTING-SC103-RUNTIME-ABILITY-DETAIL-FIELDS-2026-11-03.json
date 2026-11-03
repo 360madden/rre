@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-103 / runtime Inspect.Ability.New.Detail documentation",
+  "sourceScope": "previously saved physical RIFT per-character documentation, read-only re-extraction",
+  "evidenceKind": "in-client Inspect.Documentation text (field names only; no player/unit values)",
+  "sourceIndex": {
+    "installedCollectorCode": {
+      "path": "Interface/AddOns/RiftReader2Casting/main.lua",
+      "sha256": "7e24d78eeaf589bf76a7e4d59b4f6be5242d8c8d4947448995c33a60da945213",
+      "codeLines": "357-367",
+      "method": "pcall(Inspect.Documentation, exact name); bounded to 16000 characters"
+    },
+    "characterSavedEvidence": {
+      "sha256": "2bf6d92f9c1b437f7d8764db6596225435e78785af5d3d68214e3be11157afe4",
+      "modifiedUtc": "2026-11-03T04:12:44.560Z",
+      "addonVersion": "0.4.0",
+      "containsPeOrClientBuildHash": false
+    },
+    "documentation": {
+      "api": "Inspect.Ability.New.Detail",
+      "lengthCharacters": 2711,
+      "sha256": "73d52608384c39888bd4328143b092bb1f0f3de7d3e0eb8f001118a1438b753d",
+      "truncated": false
+    },
+    "rrecollectorFieldSource": {
+      "path": "addons/RRECollector/abilities.lua",
+      "sha256": "d181ba0061a5959474dd3487b41c114f631122375a8b67421817fd54fdc1c510"
+    }
+  },
+  "counts": {
+    "documentedReturnedMembers": 34,
+    "rrecollectorExportWhitelistFields": 34,
+    "undocumentedWhitelistFields": 0,
+    "documentedUncapturedFields": 0
+  },
+  "documentedReturnedMembers": [
+    "autoattack",
+    "castingTime",
+    "channeled",
+    "continuous",
+    "cooldown",
+    "costCharge",
+    "costEnergy",
+    "costMana",
+    "costPlanarCharge",
+    "costPower",
+    "costSpirit",
+    "currentCooldownBegin",
+    "currentCooldownDuration",
+    "currentCooldownExpired",
+    "currentCooldownPaused",
+    "currentCooldownRemaining",
+    "description",
+    "focusMax",
+    "focusMin",
+    "gainCharge",
+    "icon",
+    "id",
+    "idNew",
+    "name",
+    "outOfRange",
+    "passive",
+    "positioned",
+    "racial",
+    "rangeMax",
+    "rangeMin",
+    "stealthRequired",
+    "target",
+    "unusable",
+    "weapon"
+  ],
+  "notDocumentedNames": [
+    "legendary",
+    "rank",
+    "requiredLevel",
+    "soulPoints",
+    "unlockState",
+    "variant"
+  ],
+  "limitations": [
+    "The source save timestamp is a persistence time; the documentation query is not proven to have occurred at that exact UTC moment.",
+    "The saved schema does not bind this text to an independently rehashed current client executable.",
+    "Unlisted names cannot prove the runtime has no undocumented members or different variant mechanism.",
+    "The word target in documentedReturnedMembers is only a field name; no live target/unit identifier or raw SavedVariables is exported."
+  ]
+}

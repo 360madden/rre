@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10 with recoverable v0.4.9 backup; 107 Lua assertions across six suites and luac64 syntax passed. v0.4.9 runtime was never verified and has been explicitly superseded. v0.4.10 runtime Pin/Undo and stale-ID rendering remain pending under RC-26/RC-27; last live proof is v0.4.8.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10, with recoverable backup and 107 Lua assertions. User-supplied v0.4.10 browser screenshot confirms visible load (69 Known, 96 Static). v0.4.9 visual proof superseded without proof. Pin/Undo, stale-ID rendering and a v0.4.10 saved-state receipt remain pending under RC-26/RC-27/RC-30.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -859,7 +859,7 @@
         "tools/verify-rrecollector-ui-slot-display.lua",
         "artifacts/rc30-v049-host-backup-20261103"
       ],
-      "progress": "Source and host v0.4.10 verified 10/10; 14 new stale-slot assertions and 93 prior assertions PASS (107 total), luac64 -p eight Lua files PASS, strict TOC. Extra High source review approved. v0.4.9 live gate explicitly superseded without proof; v0.4.10 visual/runtime gate pending."
+      "progress": "Source and host v0.4.10 verified 10/10; 107 Lua assertions, eight luac64 parses, strict TOC and independent reviewer PASS. User screenshot SHA 6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb shows v0.4.10 visually loaded. Pin/Undo, stale saved ID and v0.4.10 saved state are still pending; RC-30 remains pending."
     }
   ],
   "workingSource": {
@@ -872,7 +872,11 @@
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
-    "liveLuaLoadVerified": false,
+    "liveLuaLoadVerified": true,
+    "latestVersionVisualVerified": true,
+    "latestVersionVisualEvidenceSha256": "6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb",
+    "latestVersionPinUndoVerified": false,
+    "latestVersionSavedStateVerified": false,
     "priorLiveVerifiedVersion": "0.4.8",
     "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
     "latestVersionRuntimeVerified": false,
@@ -891,9 +895,9 @@
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
-    "lastObservedSavedAddonVersion": "0.4.8",
-    "lastObservedSavedFileTimestampUtc": "2026-11-03T03:30:08.152731Z",
-    "lastObservedSavedFileSha256": "bf6f34adac5256f2875ee787d549f7f93d7f5942959bf1c4c8dedfa4979bf276",
+    "lastObservedSavedAddonVersion": "0.4.9",
+    "lastObservedSavedFileTimestampUtc": "2026-11-03T04:12:44.514Z",
+    "lastObservedSavedFileSha256": "0303d1cde261cf7096c1a65651c9e07a725eb9c99c43889a02793ad9214b94d3",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
