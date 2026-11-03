@@ -18,7 +18,7 @@ assert SPEC is not None and SPEC.loader is not None
 runner = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(runner)
 
-GOOD = b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 430\n"
+GOOD = b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 454\n"
 HASHES = {"luaExe": runner.EXE_SHA256, "luaDll": runner.DLL_SHA256,
           "probe": "a" * 64, "fixture": "b" * 64, "copy": "c" * 64}
 
@@ -31,8 +31,9 @@ class TestResultContract(unittest.TestCase):
         self.assertEqual(str(caught.exception), code)
 
     def test_exact_pass_and_higher_count(self):
-        self.assertEqual(runner.verify_result(0, GOOD, b""), 430)
-        self.assertEqual(runner.verify_result(0, b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 431\r\n", b""), 431)
+        self.assertEqual(runner.MIN_ASSERTIONS, 454)
+        self.assertEqual(runner.verify_result(0, GOOD, b""), 454)
+        self.assertEqual(runner.verify_result(0, b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 455\r\n", b""), 455)
 
     def test_nonzero_exit_does_not_pass(self):
         self.fail_code("LUA_NONZERO_EXIT", 1)
@@ -41,17 +42,18 @@ class TestResultContract(unittest.TestCase):
         self.fail_code("LUA_STDERR_NOT_EMPTY", err=b"synthetic warning")
 
     def test_missing_marker_does_not_pass(self):
-        self.fail_code("LUA_MARKER_INVALID", out=b"PASS 430\n")
+        self.fail_code("LUA_MARKER_INVALID", out=b"PASS 454\n")
 
     def test_partial_or_extra_output_does_not_pass(self):
-        self.fail_code("LUA_MARKER_INVALID", out=b"prefix SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 430\n")
+        self.fail_code("LUA_MARKER_INVALID", out=b"prefix SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 454\n")
         self.fail_code("LUA_MARKER_INVALID", out=GOOD + b"extra\n")
 
     def test_duplicate_marker_does_not_pass(self):
         self.fail_code("LUA_MARKER_INVALID", out=GOOD + GOOD)
 
     def test_lower_assertion_count_does_not_pass(self):
-        self.fail_code("LUA_ASSERTION_COUNT_LOW", out=b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 429\n")
+        self.fail_code("LUA_ASSERTION_COUNT_LOW", out=b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 453\n")
+        self.fail_code("LUA_ASSERTION_COUNT_LOW", out=b"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 430\n")
 
     def test_non_ascii_or_oversize_output_does_not_pass(self):
         self.fail_code("LUA_STDOUT_NOT_ASCII", out=b"\xff")
@@ -158,7 +160,7 @@ class TestChildIsolation(unittest.TestCase):
 
         count = runner.run_once(HASHES, launcher=launch,
                                 snapshot=lambda *args: HASHES)
-        self.assertEqual(count, 430)
+        self.assertEqual(count, 454)
         self.assertEqual(os.environ.get("PATH"), before_path)
         self.assertEqual(observed["argv"][1], "tools/test_sc103_luapad_hover_probe.lua")
         self.assertEqual(observed["cwd"], runner.ROOT)
