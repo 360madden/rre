@@ -64,6 +64,29 @@ test("malformed values are reported but not falsely counted as valid",()=>{
   assert.equal(r.validPinnedIds,1);
   assert.equal(r.slotStates[6],"ability-id");
   assert.equal(r.eighthSlotEmpty,true);
+  assert.equal(r.slotFingerprintComplete,false);
+  assert.equal(r.slotArraySha256,null);
+});
+
+test("malformed or absent saved slots cannot produce a comparable fingerprint",()=>{
+  const privateA="unrecognized-private-slot-alpha";
+  const privateB="unrecognized-private-slot-beta";
+  const a=buildReceipt({...saved,toolbarSlots:{1:privateA}},meta);
+  const b=buildReceipt({...saved,toolbarSlots:{1:privateB}},meta);
+  for(const receipt of [a,b]){
+    assert.equal(receipt.slotFingerprintComplete,false);
+    assert.equal(receipt.slotArraySha256,null);
+    assert.equal(receipt.slotStates[0],"invalid-stored-value");
+    assert.equal(JSON.stringify(receipt).includes(privateA),false);
+    assert.equal(JSON.stringify(receipt).includes(privateB),false);
+  }
+  const missing=buildReceipt({...saved,toolbarSlots:undefined},meta);
+  assert.equal(missing.slotStorageForm,"absent");
+  assert.equal(missing.slotFingerprintComplete,false);
+  assert.equal(missing.slotArraySha256,null);
+  const clean=buildReceipt({...saved,toolbarSlots:[A,B,C,D,E,F,G,A]},meta);
+  assert.equal(clean.slotFingerprintComplete,true);
+  assert.match(clean.slotArraySha256,/^[0-9a-f]{64}$/);
 });
 
 test("fail-closed unexpected numeric slots and ambiguous keys",()=>{

@@ -83,6 +83,10 @@ export function buildReceipt(saved, source) {
     if (known.has(id)) validKnown++;
     else unknownToKnown++;
   }
+  // An absent table or malformed value has no trustworthy comparable baseline.
+  // Never hash the redacted type placeholder as if it identified original bytes.
+  const slotFingerprintComplete = saved.toolbarSlots != null &&
+    !slotStates.includes("invalid-stored-value");
   return {
     schemaVersion: 1,
     sourceKind: "single stable read of original RRECollector SavedVariables; G1 saved data only",
@@ -108,7 +112,8 @@ export function buildReceipt(saved, source) {
     validIdPresentInKnown: validKnown,
     validIdAbsentFromKnown: unknownToKnown,
     eighthSlotEmpty: slots[7] == null,
-    slotArraySha256: sha256(JSON.stringify(canonical)),
+    slotFingerprintComplete,
+    slotArraySha256: slotFingerprintComplete ? sha256(JSON.stringify(canonical)) : null,
     roleFromLiveProcessVerified: false,
     sourceWriterPidVerified: false,
     pinUndoInGameVerified: false,
