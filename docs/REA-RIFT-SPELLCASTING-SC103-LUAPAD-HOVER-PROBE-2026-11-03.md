@@ -52,6 +52,20 @@ Two real **FreeBuff CLI reviews** completed using isolated Windows ConPTY source
 3. Watch LuaPad's **Output** pane for `ARMED_12_SECONDS`, then move the cursor directly to native **Protector's Fury** and hold the tooltip visible (avoid crossing another ability). Because the result is asynchronous, watch **RIFT chat** for `ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE`, timeout or failure; **Copy Output captures the synchronous arm notice, not the eventual result**. If an exact ability candidate appears, take one operator screenshot showing the **native tooltip, role context and RIFT chat result** together. Do not assume the scalar distinguishes Normal versus Legendary.
 4. If the result is `UNKNOWN`, `BLOCKED_REQUIRED_API`, `DETACH_UNCONFIRMED` or no status appears, **stop** rather than forcing repeat trials or modifying installed addons. Reconcile the cause in a new bounded source-review step. Never paste arbitrary third-party scripts or a raw-tooltip dumper to compensate.
 
+
+**Optional operator-run cancellation if no terminal status arrives:** In the already-open LuaPad editor, replace the probe text with this small snippet and click **Run once**. It calls the probe's existing in-memory stop method; it does not change SavedVariables or installed addons:
+
+```lua
+local s = rawget(_G, "__RRE_SC103_HOVER_PROBE_20261103")
+if type(s) == "table" and type(s.stop) == "function" then
+  s.stop("MANUAL_CANCEL")
+else
+  print("RRE SC103 hover: NO_ACTIVE_PROBE")
+end
+```
+
+If cancellation reports `DETACH_UNCONFIRMED`, **stop all further probe runs**; the listener cannot be assumed removed. `NO_ACTIVE_PROBE` means only that the temporary global slot is absent, **not** that a previously failed detachment has been repaired. This snippet is an operator instruction and was **not run in game**.
+
 **Evidence required for acceptance (G1 visual-only until separately repeated/session-bound evidence; not G2/G3 by itself):** Source-qualified screenshot bytes/UTC provenance plus visible role/tooltip, exact status and *an independently supported association* of the returned ID with that tooltip. Current screenshot still shows all zero Legendary counters, so no selected Legendary can be proven from this character's demonstrated state. An exact current tooltip candidate may resolve one normal/tooltip ID, **not** selection or eligibility.
 
 ## Research state and stop conditions
