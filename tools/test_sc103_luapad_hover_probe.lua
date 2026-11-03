@@ -108,6 +108,27 @@ check(table.concat(b.outputs):find("uPRIVATE", 1, true) == nil, "no unexpected e
 local c = setup()
 c.tick(-1, "ability", id)
 check(c.outputs[2]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil, "clock drift stops")
+-- A clock can regress without ever crossing its initial start timestamp.
+-- Never accept three otherwise-stable tooltip frames across that regression.
+local middleClock = setup()
+middleClock.tick(1.0, "ability", id)
+middleClock.tick(0.9, "ability", id)
+middleClock.tick(0.8, "ability", id)
+check(middleClock.outputs[2]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil,
+  "intermediate clock regression must stop")
+check(middleClock.outputs[2]:find("id=UNKNOWN", 1, true) ~= nil,
+  "intermediate clock regression must not identify a spell")
+check(middleClock.detachCalls == 1, "intermediate clock regression detaches once")
+check(rawget(_G, RESULT_KEY).candidate == nil, "intermediate clock regression caches no ID")
+-- Equal frame timestamps are not regressions and remain valid until stall guard.
+local plateauClock = setup()
+plateauClock.tick(1.0, "ability", id)
+plateauClock.tick(1.0, "ability", id)
+check(plateauClock.detachCalls == 0, "equal clock plateau remains armed")
+plateauClock.tick(1.1, "ability", id)
+check(plateauClock.outputs[2]:find("ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", 1, true) ~= nil,
+  "clock progression after plateau still permits stable candidate")
+check(plateauClock.detachCalls == 1, "plateau success detaches exactly once")
 local d = setup({tooltipErrors=true})
 d.tick(1, "ability", id)
 d.tick(1.1, "ability", id)

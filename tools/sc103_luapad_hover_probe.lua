@@ -92,7 +92,7 @@ else
       if state.done then return end
       local okTime, now = pcall(Inspect.Time.Frame)
       if not okTime or type(now) ~= "number" or now ~= now or
-         now == math.huge or now == -math.huge or now < start then
+         now == math.huge or now == -math.huge or now < start or now < state.lastClock then
         complete("CLOCK_UNAVAILABLE"); return
       end
       if now - start >= WINDOW_SECONDS then complete("TIMEOUT_NO_VALID_ID"); return end
