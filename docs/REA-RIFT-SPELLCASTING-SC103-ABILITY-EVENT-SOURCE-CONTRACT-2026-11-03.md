@@ -27,6 +27,31 @@ Each generated page names a single usage parameter `abilities` with datatype `va
 
 **Still unresolved:** Whether these events fire in the current physical RIFT client; role/character/build binding of any emitted IDs; Add/Remove relation to permanent learning versus role availability; Usable True/False relation to transient target/resource/cooldown readiness; and selected Normal/Legendary identity. A role switch could change event membership without permanently learning or forgetting a spell. A usability change does **not** demonstrate that an ability became unlocked. The Atank native Soul Tree screenshot already shows **0/3, 0/2 and 0/1** Legendary counters; another generic screenshot would not resolve a nonzero selection.
 
+## Offline pre/post event-delta acceptance matrix (no new listener or parser)
+
+**Decision:** Defer a standalone synthetic event-delta harness: RRE has no current `Event.Ability.New.*` consumer or measured live event trace to regress. A simulator would test its own assumed callback shape. Reuse the existing collector's bounded snapshots if future role-bound event observation is separately authorized, and keep event kind and ability-ID keys distinct from opaque values.
+
+**Freshness hazard grounded in existing source:** RRE-owned `addons/RRECollector/abilities.lua` (SHA-256 `d181ba0061a5959474dd3487b41c114f631122375a8b67421817fd54fdc1c510`, lines 18–49, 52–99) sets `captureComplete` only when List is available, bounded enumeration has no ignored/truncated entries, all Detail lookups succeed and player context is present. This is **collector-level completion of the returned current API set**, not a claim that all learnable/future spells were enumerated. `addons/RRECollector/main.lua` (SHA-256 `3aca63c501686fca5ab6bef8a72d81e3b4fe9fdca4ca3558d379e0cf24a1e5c6`, lines 156–180) deliberately **preserves an older complete `latest` and sequence after a later unavailable/incomplete capture**. Therefore a saved `latest.captureComplete == true` alone does **not** qualify a fresh *after* snapshot. The installed generated `Inspect.Ability.New.List` reference (SHA-256 `a07009634f63ab97a81f3d21678312ad050e5eb4a59941484d6da5ab846f37d5`, line 17) calls the result IDs of **available** abilities, not a permanent learned/Legendary set.
+
+**Minimum acceptance gates for a future comparison (none executed):**
+
+1. Preserve separately source-hashed *before* and *after* collector records with `captureComplete=true`, `abilityList.apiAvailable=true`, `abilityList.enumerationComplete=true`, `abilityList.detailFailures=0` and valid player context. Record the **new capture sequence** and bounded frame/real time; do not mistake an old preserved `latest` for a new observation. Require a demonstrably advancing after-sequence and evidence of its creation in the intended session.
+2. Bind both records to the same qualified physical process/client executable, character and operator-controlled trial. Record the exact **before and after role slots** (which may intentionally differ), character/effective level and event time interval. A matching `clientVersion` text field alone is not an executable hash.
+3. Independently qualify current-client event registration, callback argument placement, each event-kind identifier and time ordering; flag failed/false Attach, unconfirmed Detach, dropped samples or interrupted frame stream. The generated `abilities` values are `variant`; do **not** coerce the historical quoted `true`/`false` into assumed Lua booleans or infer membership from usability.
+4. Compare only qualified ability-ID keys against before/after **available-ID** sets, with no unrelated unit/buff payload export. A chosen Legendary variant still needs direct native Soul Tree selection/role evidence or a distinct verified selection-state interface.
+
+| Future observation (if all relevant gates pass) | Narrow permissible result | Forbidden shortcut |
+| --- | --- | --- |
+| ID absent before, present after; same ID in **Add** | Corroborated available-ID addition for the bound transition | Permanently learned, unlocked or selected Legendary |
+| ID present before, absent after; same ID in **Remove** | Corroborated available-ID removal for the bound transition | Permanently unlearned, role lost forever |
+| **Usable.True/False** ID without a matching membership delta | Usability-event observation only | Addition/removal or unlock/lock |
+| **Add** and **Usable.False** for the same ID (or **Remove** and **Usable.True**) | Preserve independent event channels; inspect final List set | Treat the pair as contradictory or collapse into one state |
+| Add and Remove name the same ID; no qualified final List | Intermediate event-key observations only | Stable final ownership or Legendary choice |
+| List delta without matching event, or event without matching List delta | Unreconciled sample/timing/signature relationship | Invent a missing event or conclude no change occurred |
+| Failed/partial capture, stale sequence, unknown role/build, attach failure or dropped callback | **INCONCLUSIVE**—stop and retain only qualified metadata | Interpret missing IDs/events as negative proof |
+
+These are **future evidence-classification rules**, not synthetic tests or observed 2026 event behavior. RC-30 visual Pin→Undo acceptance, current callback signature qualification, a separate event-observation authorization and current role-bound identity evidence remain blockers.
+
 ## Future discriminator (not authorized or performed here)
 
 1. **Preflight first:** complete the separately blocked RC-30 current-toolbar/Pin→Undo acceptance, establish current process/build/role ownership and obtain separate authorization for any event observation. Do not alter another addon or deploy an RRE event listener on this report alone.
