@@ -63,6 +63,18 @@ class SupervisorTests(unittest.TestCase):
         self.assertIn("ui.lua:653", result[0])
         self.assertTrue(all("May use data" not in x for x in result))
 
+    def test_queue_and_channel_findings_survive_screen_filter(self):
+        result = review.relevant_lines({
+            "review_visible_lines": [
+                "NO_MAPPING: ability queue raw value 1 has no current UI label",
+                "Channel interruption cannot be inferred from a 105ms sampling interval",
+                "Session active 30/30 hours remaining",
+            ]
+        })
+        self.assertEqual(len(result), 2)
+        self.assertTrue(result[0].startswith("NO_MAPPING"))
+        self.assertIn("Channel interruption", result[1])
+
     def test_terminal_receipts_survive_windows_legacy_encoding(self):
         import json
         a, b = sample("sc103", 1.0, 9.0), sample("rc30", 2.0, 10.0)
@@ -80,6 +92,20 @@ class SupervisorTests(unittest.TestCase):
         self.assertIn("FreeBuff copied-source layout is not preserved", adapter)
         self.assertIn("tools/sc103_luapad_hover_probe.lua", adapter)
         self.assertIn("addons/RRECollector/ui.lua", adapter)
+
+    def test_fixed_independent_research_modes(self):
+        self.assertEqual(review.RESEARCH_MODES, ("sc306", "sc503"))
+        self.assertNotEqual(set(review.RESEARCH_MODES), set(review.MODES))
+        self.assertEqual(
+            review.clean_summary([sample("sc306", 1, 5), sample("sc503", 2, 6)],
+                                 "rre-research-test")["runId"],
+            "rre-research-test")
+        adapter = Path(__file__).with_name("freebuff-rre-review.py")
+        source = adapter.read_text(encoding="utf-8")
+        for key in ("sc306", "sc503", "SC305-QUEUE-DOSSIER",
+                    "SC306-QUEUE-ENUM-GAP", "SC303-TIMING-METADATA",
+                    "SC502-OUTCOME", "NO_MAPPING"):
+            self.assertIn(key, source)
 
     def test_fake_children_actually_overlap(self):
         test_result = review.self_test()

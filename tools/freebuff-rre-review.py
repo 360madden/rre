@@ -12,7 +12,8 @@ import os
 from pathlib import Path
 import sys
 
-MODES = {"sc103": "freebuff-review-pilot", "rc30": "freebuff-lifecycle-review"}
+MODES = {"sc103": "freebuff-review-pilot", "rc30": "freebuff-lifecycle-review",
+         "sc306": "freebuff-review-pilot", "sc503": "freebuff-lifecycle-review"}
 UPSTREAM = Path(r"C:\work\workbridge-mcp\scripts\freebuff-conpty-probe.py")
 UPSTREAM_SHA256 = "c29fbfd898c5fe54e86e34403a79ef4d1107761f4828deed153be4be3de3c07f"
 ROOT = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ def replace_once(source: str, old: str, new: str) -> str:
         raise RuntimeError(f"Upstream specialization anchor mismatch ({n}): {old[:70]}")
     return source.replace(old, new, 1)
 
-def build():
+def build(lane: str = "sc103"):
     raw = UPSTREAM.read_bytes()
     digest = hashlib.sha256(raw).hexdigest()
     if digest != UPSTREAM_SHA256:
@@ -80,6 +81,47 @@ def build():
     )
     for old, new in mapping:
         source = replace_once(source, old, new)
+    # A second fixed review pair addresses different, previously blocked research
+    # questions using only pre-existing source-hashed evidence reports. No runtime
+    # scanner or generic agent prompt-execution interface is exposed.
+    if lane == "sc306":
+        additions = (
+            ('("tools", "sc103_luapad_hover_probe.lua")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md")'),
+            ('("tools", "test_sc103_luapad_hover_probe.lua")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md")'),
+            ('b"Read tools/sc103_luapad_hover_probe.lua and tools/test_sc103_luapad_hover_probe.lua. "',
+             'b"Read docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md and "'),
+            ('b"Using copies only: find NEW defect besides repaired tooltip fault; "',
+             'b"docs/REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md. Find "'),
+            ('b"cite line and test, or NO_NEW_ISSUE. No edits, shell or game. "',
+             'b"one NEW source-based enum discriminator or say NO_MAPPING. No game input. "'),
+        )
+        for old, new in additions:
+            source = replace_once(source, old, new)
+    elif lane == "sc503":
+        additions = (
+            ('("addons", "RRECollector", "ui.lua")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC303-TIMING-METADATA-2026-10-27.md")'),
+            ('("tools", "verify-rrecollector-ui-pinning.lua")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md")'),
+            ('("docs", "RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md")'),
+            ('("docs", "RRECOLLECTOR-RC27-UNDO-CAPTURE-GUARD-2026-11-03.md")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md")'),
+            ('("docs", "RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md")',
+             '("docs", "REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.md")'),
+            ('b"Read addons/RRECollector/ui.lua, tools/verify-rrecollector-ui-pinning.lua and "',
+             'b"Read docs/REA-RIFT-SPELLCASTING-SC303-TIMING-METADATA-2026-10-27.md and "'),
+            ('b"docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md in this isolated "',
+             'b"docs/REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md in this isolated "'),
+            ('b"folder. Find at most TWO new valid-ID rollback risks; exclude "',
+             'b"folder. Identify ONE falsifiable channel/proc/interrupt contrast; "'),
+            ('b"malformed data and external table replacement. No file edits "',
+             'b"existing evidence is not a new game test. No file edits "'),
+        )
+        for old, new in additions:
+            source = replace_once(source, old, new)
     # Reviewers must see the same relative paths as the source repository.
     # Flattened copies caused a prior FreeBuff false-positive about tools/ paths.
     for expected in ("target = os.path.join(probe_dir, *parts)",
@@ -96,8 +138,8 @@ def build():
 
 def main():
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", *MODES}:
-        raise SystemExit("Usage: python tools/freebuff-rre-review.py check|sc103|rc30")
-    ns, upstream_hash = build()
+        raise SystemExit("Usage: python tools/freebuff-rre-review.py check|sc103|rc30|sc306|sc503")
+    ns, upstream_hash = build(sys.argv[1] if sys.argv[1] != "check" else "sc103")
     if sys.argv[1] == "check":
         files = [
             ROOT / "tools" / "sc103_luapad_hover_probe.lua",
@@ -106,8 +148,20 @@ def main():
             ROOT / "tools" / "verify-rrecollector-ui-pinning.lua",
             ROOT / "docs" / "RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md",
         ]
+        for addition in (
+            "REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md",
+            "REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md",
+            "REA-RIFT-SPELLCASTING-SC303-TIMING-METADATA-2026-10-27.md",
+            "REA-RIFT-SPELLCASTING-SC304-TIMING-2026-10-27.md",
+            "REA-RIFT-SPELLCASTING-SC501-LOCAL-REJECTION-2026-10-27.md",
+            "REA-RIFT-SPELLCASTING-SC502-OUTCOME-2026-11-01.md",
+            "REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.md",
+        ):
+            files.append(ROOT / "docs" / addition)
         if not all(x.is_file() for x in files):
             raise RuntimeError("RRE source missing")
+        for lane in ("sc306", "sc503"):
+            build(lane)
         print(json.dumps({"status":"validated","upstreamSha256":upstream_hash,
                           "availableModes":list(MODES),"sources":len(files),
                           "modelExecution":False}))

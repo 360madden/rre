@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parent.parent
 ADAPTER = ROOT / "tools" / "freebuff-rre-review.py"
 MODES = ("sc103", "rc30")
+RESEARCH_MODES = ("sc306", "sc503")
 MAX_CHILD_SECONDS = 172
 MAX_OUTPUT_CHARS = 720_000
 RUN_ID = "rre-freebuff-dual-review-20261103"
@@ -119,6 +120,8 @@ def relevant_lines(record: dict) -> list[str]:
             "defect", "gap", "test:", "line ", "no_new_issue", "no_blockers",
             "review_end_", "lifecycle_done_", "failure", "source",
             "ui.lua:", "rollback", "state.", "candidate", "timeout",
+            "no_mapping", "no_new_evidence", "queue", "channel",
+            "interrupt", "sampling", "105ms", "insufficient",
         )) and line not in found:
             found.append(line[:250])
     return found[:11]
@@ -131,7 +134,7 @@ def overlap_seconds(records: list[dict]) -> float:
                      max(r["startedMonotonic"] for r in records)), 3)
 
 
-def clean_summary(records: list[dict]) -> dict:
+def clean_summary(records: list[dict], run_id: str = RUN_ID) -> dict:
     safe = [{k: v for k, v in r.items()
              if k not in ("pid", "startedMonotonic", "endedMonotonic")}
             for r in records]
@@ -140,7 +143,7 @@ def clean_summary(records: list[dict]) -> dict:
                    r.get("adapterCompletion") and r.get("ownedChildStopped") and
                    r.get("tempFolderCleaned") for r in records)
     return {
-        "runId": RUN_ID,
+        "runId": run_id,
         "status": "completed" if all_pass else "incomplete",
         "actualChildProcessOverlapSeconds": overlap,
         "modelInferenceOverlapIndependentlyProved": False,
@@ -155,18 +158,21 @@ def clean_summary(records: list[dict]) -> dict:
     }
 
 
-def start_real() -> dict:
+def start_real(modes: tuple[str, str] = MODES) -> dict:
     command = [sys.executable, "-B", str(ADAPTER), "check"]
     p = subprocess.run(command, cwd=ROOT, capture_output=True, text=True,
                        timeout=25, check=False)
     if p.returncode != 0:
         raise RuntimeError("adapter preflight failed: " + p.stderr[-350:])
-    command_sets = [[sys.executable, "-B", str(ADAPTER), mode] for mode in MODES]
+    if modes not in (MODES, RESEARCH_MODES):
+        raise ValueError("Only fixed, reviewed FreeBuff waves are supported")
+    command_sets = [[sys.executable, "-B", str(ADAPTER), mode] for mode in modes]
     with ThreadPoolExecutor(max_workers=2) as executor:
-        future_a = executor.submit(run_child, MODES[0], command_sets[0])
-        future_b = executor.submit(run_child, MODES[1], command_sets[1])
+        future_a = executor.submit(run_child, modes[0], command_sets[0])
+        future_b = executor.submit(run_child, modes[1], command_sets[1])
         records = [future_a.result(), future_b.result()]
-    return clean_summary(records)
+    suffix = "research-sc306-sc503" if modes == RESEARCH_MODES else "sc103-rc30"
+    return clean_summary(records, RUN_ID + "-" + suffix)
 
 
 def self_test() -> dict:
@@ -200,16 +206,18 @@ def main(argv: list[str]) -> int:
         if p.returncode != 0:
             raise RuntimeError("FreeBuff adapter preflight failed: " + p.stderr[-400:])
         print(json.dumps({"status": "validated", "adapter": str(ADAPTER.relative_to(ROOT)),
-                          "modes": MODES, "noModelExecution": True}))
+                          "modes": MODES, "researchModes": RESEARCH_MODES,
+                          "noModelExecution": True}))
         return 0
     if argv == ["--self-test"]:
         print(json.dumps(self_test(), ensure_ascii=True))
         return 0
-    if argv == ["run"]:
-        result = start_real()
+    if argv in (["run"], ["research"]):
+        modes = RESEARCH_MODES if argv == ["research"] else MODES
+        result = start_real(modes)
         print(json.dumps(result, ensure_ascii=True))
         return 0 if result["status"] == "completed" else 2
-    raise SystemExit("Usage: python -B tools/freebuff-parallel-review.py --check|--self-test|run")
+    raise SystemExit("Usage: python -B tools/freebuff-parallel-review.py --check|--self-test|run|research")
 
 
 if __name__ == "__main__":
