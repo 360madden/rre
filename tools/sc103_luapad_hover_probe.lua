@@ -20,8 +20,15 @@ local RECORDABLE_STATUS = {
 }
 
 local previous = rawget(_G, STATE_KEY)
-if type(previous) == "table" and type(previous.stop) == "function" then
-  pcall(previous.stop, "SUPERSEDED")
+if previous ~= nil then
+  local stopVerified = false
+  if type(previous) == "table" and type(previous.stop) == "function" then
+    local okStop = pcall(previous.stop, "SUPERSEDED")
+    -- Never attach a replacement if the old state did not finish and release its slot.
+    stopVerified = okStop and previous.done == true and previous.detachConfirmed == true and
+      rawget(_G, STATE_KEY) == nil
+  end
+  if not stopVerified then rawset(_G, QUARANTINE_KEY, true) end
 end
 local quarantined = rawget(_G, QUARANTINE_KEY) == true
 
@@ -52,7 +59,7 @@ else
   else
     local update = Event.System.Update.Begin
     local state = {
-      done = false, attached = false, stalledFrames = 0, lastClock = start,
+      done = false, attached = false, detachConfirmed = false, stalledFrames = 0, lastClock = start,
       failures = 0, lastId = nil, stable = 0,
       seenAbilityTooltip = false, seenAbilityIdShape = false
     }
@@ -66,6 +73,7 @@ else
         detached = okDetach and result ~= false
         if not detached then rawset(_G, QUARANTINE_KEY, true) end -- Fail closed until UI reload.
       end
+      state.detachConfirmed = detached
       local ownsSlot = rawget(_G, STATE_KEY) == state
       if ownsSlot then
         rawset(_G, STATE_KEY, nil)

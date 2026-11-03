@@ -289,6 +289,62 @@ replacement.stop("MANUAL_CANCEL")
 check(h.detachCalls == 2, "manual cancel detaches replacement")
 check(rawget(_G, KEY) == nil, "manual cancel clears global")
 
+-- Supersession must fail closed when an existing stop callback throws or no-ops.
+local thrownStop = setup({registryModel=true})
+local thrownFormer = rawget(_G, KEY)
+local thrownHandler = thrownStop.handler
+thrownFormer.stop = function() error("PRIVATE_SUPERSESSION_FAULT") end
+check(pcall(dofile, FILE), "throwing previous stop cannot throw from rerun")
+check(#thrownStop.registrations == 1, "throwing previous stop cannot attach a second listener")
+check(rawget(_G, KEY) == thrownFormer, "throwing stop preserves prior owner for diagnosis")
+check(rawget(_G, QUARANTINE_KEY) == true, "throwing stop quarantines rearm")
+check(thrownStop.outputs[#thrownStop.outputs]:find("BLOCKED_UNCONFIRMED_DETACH", 1, true) ~= nil,
+  "throwing stop reports bounded blocked status")
+check(table.concat(thrownStop.outputs):find("PRIVATE_SUPERSESSION_FAULT", 1, true) == nil,
+  "throwing stop error contents never printed")
+check(thrownStop.handler == thrownHandler, "throwing stop retains original exact callback")
+
+local noopStop = setup({registryModel=true})
+local noopFormer = rawget(_G, KEY)
+noopFormer.stop = function() end
+check(pcall(dofile, FILE), "no-op previous stop cannot throw from rerun")
+check(#noopStop.registrations == 1, "no-op stop cannot attach a second listener")
+check(rawget(_G, KEY) == noopFormer, "no-op stop preserves prior owner")
+check(rawget(_G, QUARANTINE_KEY) == true, "no-op stop quarantines rearm")
+check(noopStop.outputs[#noopStop.outputs]:find("BLOCKED_UNCONFIRMED_DETACH", 1, true) ~= nil,
+  "no-op stop reports bounded blocked status")
+
+local missingStop = setup({registryModel=true})
+local missingFormer = rawget(_G, KEY)
+missingFormer.stop = nil
+check(pcall(dofile, FILE), "missing previous stop cannot throw from rerun")
+check(#missingStop.registrations == 1, "missing stop cannot attach a second listener")
+check(rawget(_G, QUARANTINE_KEY) == true, "missing stop quarantines rearm")
+
+-- A previous stop cannot transfer ownership to another active state during rearm.
+local displaced = setup({registryModel=true})
+local displacedFormer = rawget(_G, KEY)
+local displacedSentinel = {owner="nested-probe"}
+displacedFormer.stop = function()
+  displacedFormer.done = true
+  rawset(_G, KEY, displacedSentinel)
+end
+check(pcall(dofile, FILE), "displaced owner rerun cannot throw")
+check(#displaced.registrations == 1, "displaced owner must not add a second listener")
+check(rawget(_G, KEY) == displacedSentinel, "displaced owner not overwritten")
+check(rawget(_G, QUARANTINE_KEY) == true, "displaced owner quarantines rearm")
+
+-- A superficially cleared owner does not prove Command.Event.Detach actually ran.
+local fakeCompletion = setup({registryModel=true})
+local fakeFormer = rawget(_G, KEY)
+fakeFormer.stop = function()
+  fakeFormer.done = true
+  rawset(_G, KEY, nil)
+end
+check(pcall(dofile, FILE), "fake terminal previous stop cannot throw")
+check(#fakeCompletion.registrations == 1, "fake completed stop cannot attach a second listener")
+check(rawget(_G, QUARANTINE_KEY) == true, "fake completion without Detach quarantines rearm")
+
 -- Permissive registry model of RIFT's documented one-match wildcard behavior.
 -- Actual RIFT duplicate-label acceptance and wildcard ordering are unverified.
 local overlapping = setup({foreignSameLabelListener=true, registryModel=true})
