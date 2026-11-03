@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10, with recoverable backup and 107 Lua assertions. User-supplied v0.4.10 browser screenshot confirms visible load (69 Known, 96 Static). v0.4.9 visual proof superseded without proof. Pin/Undo, stale-ID rendering and a v0.4.10 saved-state receipt remain pending under RC-26/RC-27/RC-30.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10, with recoverable backup and 107 Lua assertions. User-supplied v0.4.10 browser screenshot confirms visible load (69 Known, 96 Static). v0.4.9 visual proof superseded without proof. Pin/Undo, stale-ID rendering and a v0.4.10 saved-state receipt remain pending under RC-26/RC-27/RC-30. RC-31 UI affordance improvements are researched and queued, not yet implemented/deployed.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -860,6 +860,28 @@
         "artifacts/rc30-v049-host-backup-20261103"
       ],
       "progress": "Source and host v0.4.10 verified 10/10; 107 Lua assertions, eight luac64 parses, strict TOC and independent reviewer PASS. User screenshot SHA 6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb shows v0.4.10 visually loaded. Pin/Undo, stale saved ID and v0.4.10 saved state are still pending; RC-30 remains pending."
+    },
+    {
+      "id": "RC-31",
+      "phase": "M7-UI",
+      "title": "Improve selection action affordances, meaningful long captions, and browser row fitting",
+      "state": "pending",
+      "dependsOn": ["RC-30"],
+      "owner": "RRE manager",
+      "scope": [
+        "Selection-aware ordinary Pin and Check disabled state",
+        "Measured, UTF-8-safe caption fallback for long ability names",
+        "Width-fit browser text without redundant mode tags; preserve soul labels",
+        "Source tests and later version-matched physical UI review"
+      ],
+      "acceptance": [
+        "RC-30 physical Pin to Undo and v0.4.10 persistence gate resolved before replacing installed package",
+        "Source-extracted controls, captions and browser layout tests pass",
+        "Strict 10/10 physical host/source package parity after safe versioned deployment",
+        "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
+      "progress": "Read-only source/screenshot audit complete, no implementation or deployment. Physical v0.4.10 frozen pending Pin/Undo and normal SavedVariables flush."
     }
   ],
   "workingSource": {

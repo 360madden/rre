@@ -2,6 +2,7 @@
 
 **Planned:** November 1, 2026  
 **Status (November 3, RC-30 v0.4.10 visual checkpoint):** RRECollector v0.4.10 installed with strict 10/10 physical parity, full verified v0.4.9 backup, TOC last and 107 source-extracted Lua assertions across six suites plus eight Lua syntax checks. RC-30 corrects stale saved-ID slots incorrectly labeled Empty, without changing stored preferences or secure controls. A user-supplied 646×612 screenshot confirms v0.4.10 visibly loaded with 69 Known/96 Static; v0.4.9 visual proof was superseded without proof. RC-26/RC-27/RC-30 still require physical Pin→Undo, stale saved-ID presentation and persisted v0.4.10 receipt. [RC-30 report](RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md).
+**Queued RC-31 visual audit (no source/host changes):** [Screenshot-guided affordance findings and tests](RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md) prioritize disabled Pin/Check without a known selection, identity-preserving long captions and measured browser text. Implementation is deliberately gated on finishing v0.4.10 Pin→Undo and persisted-save validation.
 **Owner:** RRE/REA manager, `C:\work\rre\addons\RRECollector` only.  
 **Companion task register:** [RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json](RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json).  
 **Research link:** [SC-605 proven-addon playbook](REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md) and [SC-418 saved live catalog](REA-RIFT-SPELLCASTING-SC418-FIRST-CAPTURE-2026-11-01.md).
