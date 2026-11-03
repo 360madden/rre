@@ -13,13 +13,108 @@ spec.loader.exec_module(review)
 def sample(mode, start, end, *, accepted=True):
     return {
         "mode": mode, "state": "settled", "exitCode": 0,
-        "markerObserved": accepted, "adapterCompletion": accepted,
+        "promptSent": True, "markerObserved": accepted, "adapterCompletion": accepted,
         "ownedChildStopped": True, "tempFolderCleaned": True,
         "startedMonotonic": start, "endedMonotonic": end,
         "modelObservationSeconds": 28, "reviewLines": [],
     }
 
 class SupervisorTests(unittest.TestCase):
+    def test_missing_duplicate_or_single_worker_cannot_complete(self):
+        one = sample("sc103", 1.0, 2.0)
+        other = sample("rc30", 1.5, 2.5)
+        self.assertEqual(review.clean_summary([])["status"], "incomplete")
+        self.assertEqual(review.clean_summary([one])["status"], "incomplete")
+        self.assertEqual(review.clean_summary([one, one])["status"], "incomplete")
+        self.assertEqual(review.clean_summary([one, other])["status"], "completed")
+
+    def test_partial_or_failed_worker_receipt_is_not_counted(self):
+        a, b = sample("sc103", 1, 5), sample("rc30", 2, 6)
+        b["exitCode"] = 2
+        self.assertEqual(review.clean_summary([a, b])["completedReviewSessions"], 1)
+        b["exitCode"] = 0
+        b["state"] = "timed-out"
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+        self.assertEqual(review.clean_summary([a, b])["completedReviewSessions"], 1)
+        b["state"] = "settled"
+        b["promptSent"] = False
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+
+    def test_failed_windows_taskkill_falls_back_to_own_child_kill(self):
+        import subprocess
+        from unittest.mock import patch
+        class HungChild:
+            pid = 12345
+            returncode = None
+            kills = 0
+            def poll(self):
+                return self.returncode
+            def kill(self):
+                self.kills += 1
+                self.returncode = 1
+            def communicate(self, timeout=None):
+                if self.returncode is not None:
+                    return "", "synthetic child terminated"
+                raise subprocess.TimeoutExpired(["synthetic"], timeout or 1)
+
+        fake = HungChild()
+        with patch.object(review.subprocess, "Popen", return_value=fake), \
+             patch.object(review.subprocess, "run",
+                          return_value=subprocess.CompletedProcess(["taskkill"], 1)):
+            result = review.run_child("synthetic", ["no child executed"], timeout=1)
+        self.assertEqual(result["state"], "timed-out")
+        self.assertEqual(fake.kills, 1)
+        self.assertEqual(result["exitCode"], 1)
+        self.assertEqual(result["cleanupFault"], "TASKKILL_FAILED")
+
+    def test_taskkill_exception_still_falls_back_to_owned_child(self):
+        import subprocess
+        from unittest.mock import patch
+        class Child:
+            pid = 12345
+            returncode = None
+            killed = False
+            def poll(self):
+                return self.returncode
+            def kill(self):
+                self.killed = True
+                self.returncode = 1
+            def communicate(self, timeout=None):
+                if self.killed:
+                    return "", "taskkill crashed but fallback succeeded"
+                raise subprocess.TimeoutExpired(["synthetic"], timeout or 1)
+
+        child = Child()
+        with patch.object(review.subprocess, "Popen", return_value=child), \
+             patch.object(review.subprocess, "run",
+                          side_effect=subprocess.TimeoutExpired(["taskkill"], 8)):
+            result = review.run_child("synthetic", ["no child executed"], timeout=1)
+        self.assertTrue(child.killed)
+        self.assertEqual(result["state"], "timed-out")
+        self.assertEqual(result["cleanupFault"], "TASKKILL_FAILED")
+
+    def test_unkillable_child_returns_bounded_failed_receipt(self):
+        import subprocess
+        from unittest.mock import patch
+        class Unkillable:
+            pid = 12345
+            returncode = None
+            def poll(self):
+                return None
+            def kill(self):
+                raise PermissionError("synthetic access denied")
+            def communicate(self, timeout=None):
+                raise subprocess.TimeoutExpired(["synthetic"], timeout or 1)
+
+        with patch.object(review.subprocess, "Popen", return_value=Unkillable()), \
+             patch.object(review.subprocess, "run",
+                          return_value=subprocess.CompletedProcess(["taskkill"], 1)):
+            result = review.run_child("synthetic", ["no child executed"], timeout=1)
+        self.assertEqual(result["state"], "timed-out")
+        self.assertIsNone(result["exitCode"])
+        self.assertEqual(result["cleanupFault"], "CHILD_STILL_RUNNING")
+        self.assertIn("CHILD_CLEANUP_UNCONFIRMED", result["errorTail"])
+
     def test_positive_overlap(self):
         a, b = sample("sc103", 4.0, 23.0), sample("rc30", 6.0, 20.0)
         self.assertEqual(review.overlap_seconds([a, b]), 14.0)

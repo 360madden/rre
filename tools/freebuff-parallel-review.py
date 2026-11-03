@@ -46,22 +46,42 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                             text=True, encoding="utf-8", errors="replace",
                             shell=False)
+    cleanup_fault = None
     try:
         out, err = proc.communicate(timeout=timeout)
         state = "settled"
     except subprocess.TimeoutExpired:
-        # Only kill this exact newly created child process tree, never
-        # shared FreeBuff, Workbridge, game or existing user processes.
-        if proc.poll() is None:
-            if os.name == "nt":
-                subprocess.run([r"C:\Windows\System32\taskkill.exe", "/T",
-                                "/F", "/PID", str(proc.pid)],
-                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                               timeout=8, check=False)
-            else:
-                proc.kill()
-        out, err = proc.communicate(timeout=7)
         state = "timed-out"
+        # Only stop this newly created review process tree. Do not affect any
+        # other FreeBuff sessions, Workbridge services or RIFT processes.
+        if proc.poll() is None and os.name == "nt":
+            try:
+                result = subprocess.run([r"C:\Windows\System32\taskkill.exe", "/T",
+                                         "/F", "/PID", str(proc.pid)],
+                                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                        timeout=8, check=False)
+                if result.returncode != 0:
+                    cleanup_fault = "TASKKILL_FAILED"
+            except (OSError, subprocess.TimeoutExpired):
+                cleanup_fault = "TASKKILL_FAILED"
+        if proc.poll() is None:
+            try:
+                proc.kill()  # Exact child fallback when taskkill failed.
+            except OSError:
+                cleanup_fault = "DIRECT_CHILD_KILL_FAILED"
+        try:
+            out, err = proc.communicate(timeout=7)
+        except subprocess.TimeoutExpired:
+            if proc.poll() is None:
+                try:
+                    proc.kill()
+                except OSError:
+                    cleanup_fault = "DIRECT_CHILD_KILL_FAILED"
+            try:
+                out, err = proc.communicate(timeout=2)
+            except subprocess.TimeoutExpired:
+                out, err = "", "CHILD_CLEANUP_UNCONFIRMED"
+                cleanup_fault = "CHILD_STILL_RUNNING"
     elapsed = time.perf_counter() - started
     ended_utc = utc_now()
     trimmed = out[-MAX_OUTPUT_CHARS:]
@@ -98,6 +118,7 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
         "adapterCompletion": bool(wrapper.get("acceptedCompletion")),
         "reviewLines": relevant_lines(model_record),
         "errorTail": err[-650:] if state != "settled" or proc.returncode != 0 else "",
+        "cleanupFault": cleanup_fault,
     }
 
 
@@ -139,17 +160,24 @@ def clean_summary(records: list[dict], run_id: str = RUN_ID) -> dict:
              if k not in ("pid", "startedMonotonic", "endedMonotonic")}
             for r in records]
     overlap = overlap_seconds(records)
-    all_pass = all(r.get("exitCode") == 0 and r.get("markerObserved") and
-                   r.get("adapterCompletion") and r.get("ownedChildStopped") and
-                   r.get("tempFolderCleaned") for r in records)
+    def verified_worker(r: dict) -> bool:
+        return bool(r.get("state") == "settled" and r.get("exitCode") == 0 and
+                    r.get("promptSent") and r.get("markerObserved") and
+                    r.get("adapterCompletion") and r.get("ownedChildStopped") and
+                    r.get("tempFolderCleaned"))
+    # all([]) is True in Python. Require the two distinct assigned reviewers
+    # before accepting the aggregate, even when a worker result is missing.
+    two_distinct = (len(records) == 2 and
+                    len({r.get("mode") for r in records}) == 2 and
+                    all(isinstance(r.get("mode"), str) and r["mode"] for r in records))
+    all_pass = two_distinct and all(verified_worker(r) for r in records)
     return {
         "runId": run_id,
         "status": "completed" if all_pass else "incomplete",
         "actualChildProcessOverlapSeconds": overlap,
         "modelInferenceOverlapIndependentlyProved": False,
         "freebuffReviewSessions": len(records),
-        "completedReviewSessions": sum(bool(r.get("markerObserved") and
-                                            r.get("adapterCompletion")) for r in records),
+        "completedReviewSessions": sum(verified_worker(r) for r in records),
         "workers": safe,
         "gameActionsRequested": False,
         "modelOsSandboxVerified": False,
