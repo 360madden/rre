@@ -40,8 +40,15 @@ def build():
         '            shutil.copyfile(source, os.path.join(probe_dir, "BoundedLineReader.cs"))',
         '            for parts in (("tools", "sc103_luapad_hover_probe.lua"),\n'
         '                          ("tools", "test_sc103_luapad_hover_probe.lua")):\n'
-        '                shutil.copyfile(os.path.join(repo_root, *parts),\n'
-        '                                os.path.join(probe_dir, parts[-1]))')
+        '                target = os.path.join(probe_dir, *parts)\n'
+        '                os.makedirs(os.path.dirname(target), exist_ok=True)\n'
+        '                shutil.copyfile(os.path.join(repo_root, *parts), target)')
+    source = replace_once(
+        source,
+        '                shutil.copyfile(src, os.path.join(probe_dir, source_parts[-1]))',
+        '                target = os.path.join(probe_dir, *source_parts)\n'
+        '                os.makedirs(os.path.dirname(target), exist_ok=True)\n'
+        '                shutil.copyfile(src, target)')
     # Match tiny, unique literals rather than brittle multi-line indentation.
     mapping = (
         ('("desktop", "Workbridge.ControlCenter", "App.xaml.cs")',
@@ -55,24 +62,31 @@ def build():
         ('("scripts", "desktop-monitor-format.mjs")',
          '("docs", "RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md")'),
         ('b"Read BoundedLineReader.cs in this isolated folder only. "',
-         'b"Read sc103_luapad_hover_probe.lua and test_sc103_luapad_hover_probe.lua. "'),
+         'b"Read tools/sc103_luapad_hover_probe.lua and tools/test_sc103_luapad_hover_probe.lua. "'),
         ('b"Review its correctness; do not modify files or run shell commands. "',
-         'b"Only disposable copies in this folder. Find one NEW source defect; "'),
+         'b"Using copies only: find NEW defect besides repaired tooltip fault; "'),
         ('b"Give one concrete issue with a line number, or say NO_ISSUE. "',
-         'b"cite exact file/line, or NO_NEW_ISSUE. No edits, shell or game. "'),
+         'b"cite line and test, or NO_NEW_ISSUE. No edits, shell or game. "'),
         ('b"Read App.xaml.cs, MainWindow.xaml.cs, BoundedLineReader.cs, "',
-         'b"Read ui.lua, verify-rrecollector-ui-pinning.lua and "'),
+         'b"Read addons/RRECollector/ui.lua, tools/verify-rrecollector-ui-pinning.lua and "'),
         ('b"desktop-monitor.mjs and desktop-monitor-format.mjs in this isolated "',
-         'b"RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md in this isolated "'),
+         'b"docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md in this isolated "'),
         ('b"folder. Review for at most TWO serious correctness defects in "',
-         'b"folder. Review for at most TWO new bounded regression gaps in "'),
+         'b"folder. Find at most TWO new valid-ID rollback risks; exclude "'),
         ('b"lifecycle, async races or status handling. Do not modify files "',
-         'b"Pin-to-Undo rollback and save identity. Do not modify files "'),
+         'b"malformed data and external table replacement. No file edits "'),
         ('b"or run shell commands. Give exact filenames, line numbers, "',
          'b"or run shell commands or game input. Give exact filenames, lines, "'),
     )
     for old, new in mapping:
         source = replace_once(source, old, new)
+    # Reviewers must see the same relative paths as the source repository.
+    # Flattened copies caused a prior FreeBuff false-positive about tools/ paths.
+    for expected in ("target = os.path.join(probe_dir, *parts)",
+                     "target = os.path.join(probe_dir, *source_parts)",
+                     "os.makedirs(os.path.dirname(target), exist_ok=True)"):
+        if expected not in source:
+            raise RuntimeError("FreeBuff copied-source layout is not preserved")
     # Workbridge module imports its VT helper by bare module name.
     sys.path.insert(0, str(UPSTREAM.parent))
     ns = {"__file__": str(Path(__file__).resolve()),

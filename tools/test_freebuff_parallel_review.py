@@ -1,0 +1,92 @@
+"""Offline, no-model tests for the FreeBuff overlap supervisor."""
+from __future__ import annotations
+import importlib.util
+from pathlib import Path
+import unittest
+
+MODULE = Path(__file__).with_name("freebuff-parallel-review.py")
+spec = importlib.util.spec_from_file_location("rre_freebuff_parallel", MODULE)
+review = importlib.util.module_from_spec(spec)
+assert spec and spec.loader
+spec.loader.exec_module(review)
+
+def sample(mode, start, end, *, accepted=True):
+    return {
+        "mode": mode, "state": "settled", "exitCode": 0,
+        "markerObserved": accepted, "adapterCompletion": accepted,
+        "ownedChildStopped": True, "tempFolderCleaned": True,
+        "startedMonotonic": start, "endedMonotonic": end,
+        "modelObservationSeconds": 28, "reviewLines": [],
+    }
+
+class SupervisorTests(unittest.TestCase):
+    def test_positive_overlap(self):
+        a, b = sample("sc103", 4.0, 23.0), sample("rc30", 6.0, 20.0)
+        self.assertEqual(review.overlap_seconds([a, b]), 14.0)
+        self.assertEqual(review.clean_summary([a, b])["completedReviewSessions"], 2)
+        self.assertEqual(review.clean_summary([a, b])["status"], "completed")
+        summary = review.clean_summary([a, b])
+        self.assertFalse(summary["modelInferenceOverlapIndependentlyProved"])
+        self.assertFalse(summary["gameActionsRequested"])
+        self.assertFalse(summary["modelOsSandboxVerified"])
+        self.assertTrue(summary["reviewersUseDisposableSourceCopies"])
+
+    def test_no_overlap_no_false_success(self):
+        a, b = sample("sc103", 4, 6), sample("rc30", 8, 10, accepted=False)
+        self.assertEqual(review.overlap_seconds([a, b]), 0.0)
+        summary = review.clean_summary([a, b])
+        self.assertEqual(summary["status"], "incomplete")
+        self.assertEqual(summary["completedReviewSessions"], 1)
+
+    def test_markers_alone_not_enough(self):
+        a, b = sample("sc103", 4, 10), sample("rc30", 5, 11)
+        b["ownedChildStopped"] = False
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+        b["ownedChildStopped"] = True
+        a["exitCode"] = 2
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+
+    def test_screen_filters_ui_and_preserves_bounded_findings(self):
+        result = review.relevant_lines({
+            "review_visible_lines": [
+                "May use data for AI training",
+                "Defect: ui.lua:653 restores old baseline to new generation",
+                "Working... analysing source",
+                "NO_BLOCKERS: no remaining valid-ID regression",
+            ],
+            "review_visible_excerpt": [
+                "Defect: ui.lua:653 restores old baseline to new generation",
+                "Test: Pin then Undo should preserve valid entries",
+            ],
+        })
+        self.assertEqual(len(result), 3)
+        self.assertIn("ui.lua:653", result[0])
+        self.assertTrue(all("May use data" not in x for x in result))
+
+    def test_terminal_receipts_survive_windows_legacy_encoding(self):
+        import json
+        a, b = sample("sc103", 1.0, 9.0), sample("rc30", 2.0, 10.0)
+        a["reviewLines"] = ["Defect: ui.lua:653 " + chr(0x2588) + " test"]
+        summary = review.clean_summary([a, b])
+        encoded = json.dumps(summary, ensure_ascii=True).encode("cp1252")
+        self.assertIn("u2588", encoded.decode("ascii"))
+        self.assertEqual(json.loads(encoded.decode("cp1252"))["status"], "completed")
+
+    def test_review_source_copies_keep_original_repository_paths(self):
+        adapter = Path(__file__).with_name("freebuff-rre-review.py").read_text(encoding="utf-8")
+        self.assertIn("target = os.path.join(probe_dir, *parts)", adapter)
+        self.assertIn("target = os.path.join(probe_dir, *source_parts)", adapter)
+        self.assertIn("os.makedirs(os.path.dirname(target), exist_ok=True)", adapter)
+        self.assertIn("FreeBuff copied-source layout is not preserved", adapter)
+        self.assertIn("tools/sc103_luapad_hover_probe.lua", adapter)
+        self.assertIn("addons/RRECollector/ui.lua", adapter)
+
+    def test_fake_children_actually_overlap(self):
+        test_result = review.self_test()
+        self.assertEqual(test_result["status"], "passed")
+        self.assertEqual(test_result["fakeWorkers"], 2)
+        self.assertGreater(test_result["childLifetimeOverlapSeconds"], 0.3)
+        self.assertTrue(test_result["noModelCalls"])
+
+if __name__ == "__main__":
+    unittest.main()
