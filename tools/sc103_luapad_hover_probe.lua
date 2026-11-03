@@ -103,7 +103,11 @@ else
          now == math.huge or now == -math.huge or now < start or now < state.lastClock then
         complete("CLOCK_UNAVAILABLE"); return
       end
-      if now - start >= WINDOW_SECONDS then complete("TIMEOUT_NO_VALID_ID"); return end
+      if now - start >= WINDOW_SECONDS then
+        state.lastClock = now -- Include the deadline update in the completion clock floor.
+        complete("TIMEOUT_NO_VALID_ID")
+        return
+      end
       -- A high-FPS client must not lose its 12-second observation window.
       -- Only a frame clock that stays frozen for 900 callbacks trips the guard.
       if now > state.lastClock then

@@ -171,6 +171,13 @@ finishClock.time = 1.3
 dofile(COPY_FILE)
 check(finishClock.outputs[#finishClock.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil,
   "completion regression cannot be copied later")
+-- Deadline updates must be included in the completion-clock monotonic floor.
+local timeoutFinishClock = setup({frameReadSequence={0, 11.0, 12.1, 11.9}})
+timeoutFinishClock.tick(11.0, "unit", id)
+timeoutFinishClock.tick(12.1, "unit", id)
+check(timeoutFinishClock.outputs[#timeoutFinishClock.outputs]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil,
+  "deadline completion must reject a clock below the triggering update")
+check(rawget(_G, RESULT_KEY) == nil, "deadline clock regression must not cache timeout")
 local d = setup({tooltipErrors=true})
 d.tick(1, "ability", id)
 d.tick(1.1, "ability", id)
@@ -354,6 +361,26 @@ backwardsCopy.tick(1.2, "ability", id)
 backwardsCopy.time = 1.1
 dofile(COPY_FILE)
 check(backwardsCopy.outputs[#backwardsCopy.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "backwards retrieval clock rejected")
+
+-- A temporary frame-clock API failure must not destroy a completed result.
+local retryCopy = setup()
+retryCopy.tick(1.0, "ability", id)
+retryCopy.tick(1.1, "ability", id)
+retryCopy.tick(1.2, "ability", id)
+local preservedCopyRecord = rawget(_G, RESULT_KEY)
+check(type(preservedCopyRecord) == "table", "recoverable copy has a valid cached record")
+local previousCopyClock = Inspect.Time.Frame
+Inspect.Time.Frame = function() error("transient frame-clock fault") end
+check(pcall(dofile, COPY_FILE), "clock-fault copy attempt must not throw")
+check(rawget(_G, RESULT_KEY) == preservedCopyRecord, "clock-fault copy preserves result for retry")
+check(retryCopy.outputs[#retryCopy.outputs]:find("BLOCKED_CLOCK_RETRY", 1, true) ~= nil,
+  "clock-fault copy prints bounded retry instruction")
+Inspect.Time.Frame = previousCopyClock
+retryCopy.time = 2
+check(pcall(dofile, COPY_FILE), "clock recovery permits copy retry")
+check(retryCopy.outputs[#retryCopy.outputs]:find(id, 1, true) ~= nil,
+  "clock recovery returns original validated candidate")
+check(rawget(_G, RESULT_KEY) == nil, "successful retry consumes the cached record once")
 
 local injected = setup()
 rawget(_G, KEY).stop("MANUAL_CANCEL")

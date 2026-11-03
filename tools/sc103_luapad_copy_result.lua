@@ -23,8 +23,12 @@ if type(live) == "table" and rawget(live, "done") == false then
   report("PENDING; original hover probe is still active")
 else
   local record = rawget(_G, RESULT_KEY)
-  rawset(_G, RESULT_KEY, nil) -- consume once, including malformed or expired records
   local okNow, now = pcall(function() return Inspect.Time.Frame() end)
+  if type(record) == "table" and (not okNow or not finite(now)) then
+    report("BLOCKED_CLOCK_RETRY; cached result preserved")
+    return
+  end
+  rawset(_G, RESULT_KEY, nil) -- consume once when clock permits validation
   local valid = false
   local status, candidate, detached
   if type(record) == "table" then

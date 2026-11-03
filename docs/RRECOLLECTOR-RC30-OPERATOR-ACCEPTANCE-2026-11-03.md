@@ -4,6 +4,8 @@
 
 **Installed-source gate:** RRECollector `v0.4.10`. UI source SHA-256 `36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa`. The independently qualified **18:11 UTC** saved source SHA `2c3bd03dc9e8a0018f23a6c8e2ca06acfd4d3f08dcfd12077a7a54c3c7aa72b0` contains **eight distinct ability-shaped IDs** in an implicit Lua array. Correct saved-array fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`. These are historical/source-qualified *at that timestamp*, not a guarantee about current in-memory RIFT state.
 
+**More recent qualified persistence (06:24 UTC, November 3):** The later original v0.4.10 SavedVariables file (SHA-256 `bdf78a8811cc9fa58fcf649bfd8fec98aa3bc93c9d02ec6c01398cc5582da8ac`) has **seven populated pins and an empty slot #8**, superseding the older 18:11 layout as the latest documented save, not as the current in-memory state. Stage A must identify all eight **positions**, including empty positions, from a fresh game screenshot. A fresh pretrial saved receipt and comparable posttrial receipt are still mandatory; do not assume either historical fingerprint matches the live toolbar.
+
 ## Stop rules before touching the interface
 
 - This is **operator-performed in-game input only**, never RRE automated clicks or a Workbridge capture-lease bypass. Do not run in VMware. Operator must verify the actual current game/window, current character/role, collector title **v0.4.10**, and all **eight visible toolbar positions** before testing.
@@ -15,7 +17,7 @@
 
 | Stage | Manual operator action | Evidence / strict acceptance |
 | --- | --- | --- |
-| **A — Before** | In physical RIFT, open RRECollector browser, choose **Known / API**, leave any candidate/static mode. Verify **RRE v0.4.10** title, all eight tile labels, current **Pin to #N** target and initially disabled **Undo pins** | Original screenshot A with all eight tiles, title/version, target and Undo state legible. Note exact selected role/character if visible; no new pin yet |
+| **A — Before** | In physical RIFT, open RRECollector browser, choose **Known / API**, leave any candidate/static mode. Verify **RRE v0.4.10** title, all eight tile positions (including empty positions), current **Pin to #N** target and initially disabled **Undo pins** | Original screenshot A with all eight tiles, title/version, target and Undo state legible. Note exact selected role/character if visible; no new pin yet |
 | **B — Pin** | Select a current **[API]** row whose name differs from the target slot. Click **Pin to #N** exactly **once** | Screenshot B: target slot changes to chosen API-known ability, next target cycles, Undo becomes enabled; no claim of eight-slot restoration yet |
 | **C — Undo (same session)** | Before any UI reload, click **Undo pins** exactly **once** | Screenshot C: *all eight original labels/positions from A* restored, original Pin target restored, Undo disabled. If any differs, **STOP; do not reload/continue** |
 | **D — Reload after successful Undo only** | Only if A and C visibly match, click the built-in secure **Reload UI** once (operator action) | Screenshot D: after reloading, v0.4.10 still loaded; eight tiles and selected names remain equal to baseline A and Undo disabled |
@@ -23,7 +25,7 @@
 
 ### Read-only local receipt (Windows PowerShell, executed from C:\work\rre)
 
-`& "C:\Program Files\nodejs\node.exe" .\tools\rc30-saved-receipt.mjs "C:\Users\mrkoo\OneDrive\Documents\RIFT\Interface\Saved\<ACCOUNT_DIR>\Deepwood\Atank\SavedVariables\RRECollector.lua" --require-version 0.4.10
+`& "C:\Program Files\nodejs\node.exe" .\tools\rc30-saved-receipt.mjs "C:\Users\mrkoo\OneDrive\Documents\RIFT\Interface\Saved\<ACCOUNT_DIR>\Deepwood\Atank\SavedVariables\RRECollector.lua" --require-version 0.4.10`
 
 Replace `<ACCOUNT_DIR>` locally with the existing account directory; never paste the account directory name, private IDs or SavedVariables contents into this report. Alternatively use the existing bounded Workbridge source-check route to avoid manually revealing a source path. The command reads once, **fails closed if the root addon version is not exactly 0.4.10**, and otherwise emits **only** a SHA, timestamp, counts, slot states, a comparable eight-slot fingerprint when valid, and G1 uncertainty flags. It does **not** record actions or assign a source writer PID.
 
