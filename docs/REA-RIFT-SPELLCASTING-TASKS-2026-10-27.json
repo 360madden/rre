@@ -226,6 +226,10 @@
         "sanitizedAtlasExactIds": 353,
         "sanitizedAtlasSha256": "5da0b32bc6fd67e86b883d44155c86fb5ff05cab1655b216ebed2fb4e5cd5fb7",
         "sanitizedAtlas": "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json",
+        "sixPaladinUiCandidatesDetailReturned": 5,
+        "sixPaladinUiCandidatesNoDetail": 1,
+        "sixPaladinTooltipVsDetailCooldownMatches": 4,
+        "sixPaladinUiDetailFollowup": "docs/REA-RIFT-SPELLCASTING-SC103-SIX-TOOLTIPS-LIVE-DETAIL-2026-11-03.md",
         "eligibilityResolvedIds": 0,
         "note": "RC-29 merges 323 historical static IDs and 69 current-role API-listed IDs by exact ID, with 96 saved candidate Lookup statuses (51 returned; 50 newly unlisted, 7 no-detail, 38 previously listed not queried). Returned Detail does not establish learned, learnable, unlocked, bound or castable state. Source file is v0.4.8; installed v0.4.9 and live Pin/Undo require an in-game check. SC-103 rank/role allocation and native GCD remain unknown."
       }
