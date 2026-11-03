@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { parseSavedLua } from "./read-rrecollector-saved.mjs";
+import { parseSavedLua, assessSnapshotForComparison } from "./read-rrecollector-saved.mjs";
 
 const ID = /^A[0-9A-Fa-f]{16}$/;
 const HEX64 = /^[0-9a-fA-F]{64}$/;
@@ -98,6 +98,7 @@ export function buildReceipt(saved, source) {
     addonVersion: typeof saved.addonVersion === "string" ? saved.addonVersion : null,
     latestKnownCount: knownRows.length,
     latestCaptureComplete: saved.latest?.captureComplete === true,
+    knownSnapshotReadiness: assessSnapshotForComparison(saved),
     candidateCount: candidateRows.length,
     candidateStatuses: statuses,
     candidateSequence: Number.isSafeInteger(saved.candidateLookup?.sequence)

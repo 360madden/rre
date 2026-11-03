@@ -47,6 +47,30 @@ test("seven exact numeric keys cannot duplicate the seventh into missing eighth"
   for(const id of [A,B,C,D,E,F,G]) assert.equal(output.includes(id),false);
 });
 
+test("RC30 receipt embeds strict snapshot diagnostics without changing slots or live-proof flags",()=>{
+  const prior=buildReceipt(saved,meta);
+  assert.equal(prior.latestCaptureComplete,true);
+  assert.equal(prior.knownSnapshotReadiness.offlineStructureQualified,false);
+  assert.ok(prior.knownSnapshotReadiness.reasons.includes("PLAYER_IDENTITY_UNBOUND"));
+  const qualified={...saved,sequence:7,latest:{...saved.latest,
+    sequence:7,addonVersion:"0.4.10",frameTime:12.5,realTime:180.0,roleSlot:0,
+    player:{id:"uSYNTHETIC_PRIVATE",name:"PRIVATE_PLAYER_NAME"},
+    abilityList:{apiAvailable:true,enumerationComplete:true,detailFailures:0,
+      ignored:0,truncated:0,uniqueCount:2,detailCount:2}}};
+  const report=buildReceipt(qualified,meta);
+  assert.equal(report.knownSnapshotReadiness.offlineStructureQualified,true);
+  assert.deepEqual(report.knownSnapshotReadiness.reasons,[]);
+  for(const flag of ["freshnessVerified","processBuildVerified",
+    "eventDeliveryVerified","eventComparisonReady"])
+    assert.equal(report.knownSnapshotReadiness[flag],false,flag);
+  assert.equal(report.slotArraySha256,prior.slotArraySha256);
+  assert.equal(report.validPinnedIds,prior.validPinnedIds);
+  const output=JSON.stringify(report);
+  assert.equal(output.includes("uSYNTHETIC_PRIVATE"),false);
+  assert.equal(output.includes("PRIVATE_PLAYER_NAME"),false);
+  for(const id of [A,B,C,D,E,F,G]) assert.equal(output.includes(id),false);
+});
+
 test("canonical fingerprint changes when slot eight becomes genuinely populated",()=>{
   const x=buildReceipt(saved,meta);
   const y=buildReceipt({...saved,toolbarSlots:{...saved.toolbarSlots,8:A}},meta);
@@ -119,6 +143,9 @@ test("one read of temporary saved file returns source-bound, redacted receipt",(
     const r=readReceipt(file,sha(b));
     assert.equal(r.sourceSha256,sha(b));
     assert.equal(r.sourceBytes,b.length);
+    assert.equal(r.knownSnapshotReadiness.offlineStructureQualified,false);
+    assert.ok(r.knownSnapshotReadiness.reasons.includes("PLAYER_IDENTITY_UNBOUND"));
+    assert.equal(r.knownSnapshotReadiness.eventComparisonReady,false);
     assert.equal(r.validPinnedIds,2);
     assert.equal(r.eighthSlotEmpty,true);
     assert.equal(JSON.stringify(r).includes(A),false);
