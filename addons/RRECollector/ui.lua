@@ -1,4 +1,4 @@
--- RRECollector v0.4.9: reversible session pinning and measured icon captions.
+-- RRECollector v0.4.10: truthful saved-slot presentation, reversible pins, measured captions.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -315,6 +315,21 @@ local function knownMap()
   end
   return map
 end
+-- RC30-SLOT-DISPLAY-BEGIN
+-- A saved ID not found in the current API-known snapshot is not an empty slot.
+-- Never change slots or SavedVariables while choosing presentation labels.
+local function slotDisplayLabels(id, ability, check)
+  if id == nil then
+    return "Empty", "Empty slot", "Not checked this session", nil
+  end
+  if type(ability) ~= "table" then
+    return "Not in list", "ID not in current API-known snapshot", "NOT IN SNAPSHOT", nil
+  end
+  local label = safe(ability.name, "Unnamed ability")
+  local current = type(check) == "table" and check or nil
+  return label, label, current and current.status or "Not checked this session", current
+end
+-- RC30-SLOT-DISPLAY-END
 local function candidateMap()
   local map, report = {}, saved().candidateLookup
   if type(report) == "table" and type(report.entries) == "table" then
@@ -518,7 +533,8 @@ local function draw()
     local t, icon, id = tiles[i], tileIcons[i], slots[i]
     local a = id and map[id] or nil
     local state = id and checked[id]
-    local tint = state and state.tint or color.muted
+    local captionName, _, _, visibleCheck = slotDisplayLabels(id, a, state)
+    local tint = visibleCheck and visibleCheck.tint or color.muted
     local factor = tilePressed[i] and 0.63 or tileHovered[i] and 1.23 or 1
     paint(t.frame, {math.min(1, tint[1] * factor),
       math.min(1, tint[2] * factor), math.min(1, tint[3] * factor), tint[4]})
@@ -531,7 +547,6 @@ local function draw()
     icon:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 6 + shift, 5 + shift)
     t.labelTop:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 47 + shift)
     t.labelBottom:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 61 + shift)
-    local captionName = a and a.name or "Empty"
     if t.captionName ~= captionName then
       layoutTileCaption(t.labelTop, t.labelBottom, captionName)
       t.captionName = captionName
@@ -554,13 +569,14 @@ local function draw()
       local id = slots[hovered]
       local ability = id and map[id]
       local state = id and checked[id]
+      local _, tooltipHeading, statusLabel = slotDisplayLabels(id, ability, state)
       local okH, screenHeight = pcall(UIParent.GetHeight, UIParent)
       slotTooltip:SetPoint("TOPLEFT", bar, "TOPLEFT",
         math.min(12 + (hovered - 1) * 56, WIDTH - 336),
         tooltipYOffset(okH and screenHeight or nil, Y))
-      slotTooltipText:SetText(safe(ability and ability.name, "Empty slot")
-        .. "\n" .. safe(id, "No ability pinned") .. "\n"
-        .. (state and state.status or "Not checked this session")
+      slotTooltipText:SetText(tooltipHeading
+        .. "\n" .. (id == "" and "(empty saved ID)" or safe(id, "No ability pinned")) .. "\n"
+        .. statusLabel
         .. " | read-only; does not cast")
     end
   end

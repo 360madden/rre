@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-27 v0.4.9 source and physical install verified 10/10; Extra High reviewed Undo pins and Capture preservation with 23+10 focused assertions. v0.4.9 live load and pin/Undo are pending. RC-26 remains next; prior v0.4.8 browser/reload checks accepted.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10 with recoverable v0.4.9 backup; 107 Lua assertions across six suites and luac64 syntax passed. v0.4.9 runtime was never verified and has been explicitly superseded. v0.4.10 runtime Pin/Undo and stale-ID rendering remain pending under RC-26/RC-27; last live proof is v0.4.8.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -807,7 +807,7 @@
         "artifacts/rc26-browser-known-row-20261103.jpg",
         "artifacts/rc26-browser-after-close-20261103.jpg"
       ],
-      "progress": "Read-only physical v0.4.8 UI smoke passed: full-name tooltip with ID/status, Known 69 page1/9, Candidates 96 page1/12, highlighted Aggressive Block known row and detail, Close restores toolbar. RC-27 v0.4.9 now supplies Undo pins; version-matched physical pin/restore verification remains pending."
+      "progress": "Read-only physical v0.4.8 UI smoke passed: full-name tooltip, Known69/Candidates96 browser and close. RC-27 v0.4.9 Undo pins were installed but never runtime-verified; RC-30 v0.4.10 now supersedes it with truthful saved-pin display. Need new version-matched physical title, Pin/Undo and persistence receipt."
     },
     {
       "id": "RC-27",
@@ -827,11 +827,48 @@
         "tools/verify-rrecollector-ui-pinning.lua",
         "tools/verify-rrecollector-capture-preserve.lua"
       ],
-      "progress": "Source and installation accepted: 10/10 physical hashes; 23 pin and 10 capture assertions, legacy 26/25/9 mock assertions, Node 6/6 and strict package passed. Independent Extra High review approved. Runtime v0.4.9 remains unverified; RC-26 pin test still open."
+      "progress": "Source and installation accepted: 10/10 physical hashes; 23 pin and 10 capture assertions, legacy 26/25/9 mock assertions, Node 6/6 and strict package passed. Independent Extra High review approved. Runtime v0.4.9 was unverified before RC-30 v0.4.10 superseded its installed files; RC-26 pin test still open."
+    },
+    {
+      "id": "RC-30",
+      "phase": "M7-UI",
+      "title": "Truthful stale saved-slot presentation without changing persisted ID or pin baseline",
+      "state": "pending",
+      "dependsOn": ["RC-27"],
+      "owner": "RRE manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/core.lua",
+        "addons/RRECollector/RiftAddon.toc",
+        "addons/RRECollector/README.md",
+        "tools/verify-rrecollector-ui-slot-display.lua",
+        "docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md"
+      ],
+      "scope": [
+        "Differentiate missing saved ID from actually empty slot, with neutral status and no stale positive coloring",
+        "Preserve all saved toolbarSlots, in-session Pin/Undo, secure Reload UI and API capture paths",
+        "Source-extracted tests, strict TOC and full recoverable physical-PC deployment, runtime proof separately"
+      ],
+      "acceptance": [
+        "Source-extracted stale ID, nil, known ID, UTF-8 and persistence tests pass",
+        "All 10 source/physical installed addon hashes match with TOC last and old package backed up",
+        "Fresh v0.4.10 in-game UI proof, Pin/Undo and saved persistence independently verified"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md",
+        "tools/verify-rrecollector-ui-slot-display.lua",
+        "artifacts/rc30-v049-host-backup-20261103"
+      ],
+      "progress": "Source and host v0.4.10 verified 10/10; 14 new stale-slot assertions and 93 prior assertions PASS (107 total), luac64 -p eight Lua files PASS, strict TOC. Extra High source review approved. v0.4.9 live gate explicitly superseded without proof; v0.4.10 visual/runtime gate pending."
     }
   ],
   "workingSource": {
-    "version": "0.4.9",
+    "version": "0.4.10",
+    "supersededRuntimeUnverifiedVersion": "0.4.9",
+    "rc30Backup": "artifacts/rc30-v049-host-backup-20261103",
+    "rc30SourceAndHostHashesMatched": 10,
+    "rc30NewPresentationAssertions": 14,
+    "rc30TotalLuaAssertions": 107,
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
@@ -855,8 +892,8 @@
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
     "lastObservedSavedAddonVersion": "0.4.8",
-    "lastObservedSavedFileTimestampUtc": "2026-11-03T02:09:06.6997842Z",
-    "lastObservedSavedFileSha256": "f90620596f5d3a445d61cd8c3c9b9ad377f64ac03d429e0681b4c64a2f4d8532",
+    "lastObservedSavedFileTimestampUtc": "2026-11-03T03:30:08.152731Z",
+    "lastObservedSavedFileSha256": "bf6f34adac5256f2875ee787d549f7f93d7f5942959bf1c4c8dedfa4979bf276",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
