@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-25 complete: RRECollector v0.4.8 measured two-line labels visibly working in physical RIFT, global title drag moved beyond handle and returned, protected Reload UI toolbar click caused new v0.4.8 saved receipt at 02:09 UTC. 9 focused Lua assertions, 6 source Node tests, reviewer approve, strict TOC and 10/10 installed hashes. RC-26 hover/browser interactions next.",
+  "status": "RC-25 v0.4.8 complete, physical labels/global drag/secure reload click verified and committed ae794ec. RC-26 read-only hover/browser/row/close checks physically passed with unchanged saved data; saved pin-slot mutation deliberately deferred. RC-26 remains next for reversible pin validation.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -800,8 +800,14 @@
         "Source/installed hash parity and rollback after any code change"
       ],
       "evidence": [
-        "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md"
-      ]
+        "docs/RRECOLLECTOR-RC26-HOVER-BROWSER-LIVE-2026-11-03.md",
+        "artifacts/rc26-hover-slot2-crop-20261103.jpg",
+        "artifacts/rc26-browser-known-open-20261103.jpg",
+        "artifacts/rc26-browser-candidates-20261103.jpg",
+        "artifacts/rc26-browser-known-row-20261103.jpg",
+        "artifacts/rc26-browser-after-close-20261103.jpg"
+      ],
+      "progress": "Read-only physical UI smoke passed: full-name tooltip with ID/status, Known 69 page1/9, Candidates 96 page1/12, highlighted Aggressive Block known row and detail, Close restores toolbar; Atank SavedVariables SHA unchanged. Pin selected remains pending because its persisted toolbarSlots mutation lacks an exact UI-only same-slot undo."
     }
   ],
   "workingSource": {
@@ -880,6 +886,11 @@
     "rc25Receipt": "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md",
     "liveTwoLineCaptionsVerified": true,
     "liveGlobalTitleDragVerified": true,
-    "liveSecureReloadButtonClickVerified": true
+    "liveSecureReloadButtonClickVerified": true,
+    "rc26ReadOnlyCheckpoint": "docs/RRECOLLECTOR-RC26-HOVER-BROWSER-LIVE-2026-11-03.md",
+    "rc26TooltipLiveVerified": true,
+    "rc26KnownCandidatesBrowserLiveVerified": true,
+    "rc26RowSelectionLiveVerified": true,
+    "rc26PinningLiveVerified": false
   }
 }
