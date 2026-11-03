@@ -42,12 +42,13 @@ else
       done = false, attached = false, stalledFrames = 0, lastClock = start,
       failures = 0, lastId = nil, stable = 0
     }
+    local onFrame
     local function complete(reason, candidate)
       if state.done then return end
       state.done = true
       local detached = true
       if state.attached then
-        local okDetach, result = pcall(Command.Event.Detach, update, nil, LABEL)
+        local okDetach, result = pcall(Command.Event.Detach, update, onFrame, LABEL)
         detached = okDetach and result ~= false
       end
       if rawget(_G, STATE_KEY) == state then rawset(_G, STATE_KEY, nil) end
@@ -58,7 +59,7 @@ else
       complete(reason or "CANCELLED", nil)
     end
 
-    local function onFrame()
+    onFrame = function()
       if state.done then return end
       local okTime, now = pcall(Inspect.Time.Frame)
       if not okTime or type(now) ~= "number" or now ~= now or

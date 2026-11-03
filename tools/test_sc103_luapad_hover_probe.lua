@@ -17,6 +17,7 @@ local function setup(opts)
     time = 0, tooltipType = nil, shown = nil, calls = 0,
     attached = false, detachCalls = 0, outputs = {}, handler = nil
   }
+  if opts.foreignSameLabelListener then state.foreignSameLabelListener = function() end end
   rawset(_G, KEY, nil)
   _G.Event = {System = {Update = {Begin = {}}}}
   _G.Inspect = {
@@ -44,6 +45,9 @@ local function setup(opts)
       check(event == Event.System.Update.Begin, "detach event")
       check(label == LABEL, "detach label")
       state.detachCalls = state.detachCalls + 1
+      if opts.foreignSameLabelListener then
+        state.detachedHandler = handler or state.foreignSameLabelListener
+      end
       if opts.rejectDetach then return false end
       state.attached = false
       if opts.returnNil then return nil end
@@ -136,6 +140,16 @@ check(h.outputs[#h.outputs]:find("ARMED_12_SECONDS", 1, true) ~= nil, "new liste
 replacement.stop("MANUAL_CANCEL")
 check(h.detachCalls == 2, "manual cancel detaches replacement")
 check(rawget(_G, KEY) == nil, "manual cancel clears global")
+
+-- RIFT's nil-handler wildcard removes only one same-label registration.
+-- Seed an earlier foreign callback; our completion must detach its exact handler.
+local overlapping = setup({foreignSameLabelListener=true})
+overlapping.tick(1, "ability", id)
+overlapping.tick(1.1, "ability", id)
+overlapping.tick(1.2, "ability", id)
+check(overlapping.detachCalls == 1, "duplicate-label scenario attempts one detach")
+check(overlapping.detachedHandler == overlapping.handler, "detach selects its exact callback")
+check(overlapping.detachedHandler ~= overlapping.foreignSameLabelListener, "foreign callback remains")
 
 -- Missing clock and API features fail closed without a new listener.
 local i = setup({clockUnavailable = true})
