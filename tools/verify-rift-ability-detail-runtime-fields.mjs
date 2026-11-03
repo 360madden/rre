@@ -44,7 +44,10 @@ test("eligibility/variant fields are not documented; export contains no unit val
   assert.ok(json.documentedReturnedMembers.includes("target"),
     "field name is not a live target ID");
   const serialized = JSON.stringify(json);
-  assert.doesNotMatch(serialized, /rift315|@gmail|u[0-9a-f]{16,}/i);
+  const privateIdPattern = /(?:[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}|u[0-9a-f]{16,})/i;
+  assert.match("synthetic@example.invalid", privateIdPattern);
+  assert.match("u0123456789abcdef", privateIdPattern);
+  assert.doesNotMatch(serialized, privateIdPattern);
   assert.ok(json.limitations.some(x => x.includes("undocumented")),
     "no false claim of exhaustive runtime shape");
 });
