@@ -125,9 +125,52 @@ b.tick(2, "buff", id)
 b.tick(3, "ability", "A123")
 b.tick(12.1, "ability", {id = id})
 check(b.detachCalls == 1, "bounded expiry")
-check(b.outputs[2]:find("TIMEOUT_NO_VALID_ID", 1, true) ~= nil, "timeout classified")
+check(b.outputs[2]:find("TIMEOUT_ABILITY_NO_ID_SHAPE", 1, true) ~= nil, "timeout classified")
 check(b.outputs[2]:find("id=UNKNOWN", 1, true) ~= nil, "no candidate")
 check(table.concat(b.outputs):find("uPRIVATE", 1, true) == nil, "no unexpected export")
+
+-- One 12-second post-settle trial now distinguishes three sanitized failure cases.
+-- These labels only describe sampled tooltip shapes, never native Soul Tree semantics.
+local function verifyTimeoutAndCopy(trial, status)
+  local receipt = rawget(_G, RESULT_KEY)
+  check(type(receipt) == "table" and receipt.status == status, "cached classified timeout")
+  check(receipt.candidate == nil and receipt.detachConfirmed == true, "timeout has no ID and detached")
+  trial.time = 12.2
+  check(pcall(dofile, COPY_FILE), "classified timeout copy runs")
+  local copied = trial.outputs[#trial.outputs]
+  check(copied:find(status, 1, true) ~= nil, "copied classified timeout")
+  check(copied:find("id=UNKNOWN", 1, true) ~= nil, "copied timeout cannot name an ID")
+  check(copied:find(id, 1, true) == nil, "copied timeout redacts previous shaped ID")
+  check(table.concat(trial.outputs):find("uPRIVATE", 1, true) == nil, "classified timeout redacts unit payload")
+  check(rawget(_G, RESULT_KEY) == nil, "classified timeout consumed once")
+  dofile(COPY_FILE)
+  check(trial.outputs[#trial.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "classified timeout cannot replay")
+end
+
+local noAbility = setup()
+noAbility.tick(1.0, "unit", "uPRIVATE")
+noAbility.tick(11.9, "buff", id)
+noAbility.tick(12.1, "ability", id) -- Deadline precedes this tooltip read.
+check(noAbility.outputs[2]:find("TIMEOUT_NO_ABILITY_TOOLTIP", 1, true) ~= nil, "no ability type sampled")
+verifyTimeoutAndCopy(noAbility, "TIMEOUT_NO_ABILITY_TOOLTIP")
+
+local noIdShape = setup()
+noIdShape.tick(1.0, "ability", {secret = "uPRIVATE"})
+noIdShape.tick(1.1, "ability", "A123")
+noIdShape.tick(12.1, "ability", id)
+check(noIdShape.outputs[2]:find("TIMEOUT_ABILITY_NO_ID_SHAPE", 1, true) ~= nil,
+  "ability type without exact ID shape")
+verifyTimeoutAndCopy(noIdShape, "TIMEOUT_ABILITY_NO_ID_SHAPE")
+
+local unstableShape = setup()
+unstableShape.tick(1.0, "ability", id)
+unstableShape.tick(1.1, "ability", id)
+unstableShape.tick(1.2, "unit", "uPRIVATE") -- Breaks the candidate streak.
+unstableShape.tick(11.9, "ability", id)
+unstableShape.tick(12.1, "ability", id)
+check(unstableShape.outputs[2]:find("TIMEOUT_ID_SHAPE_NOT_STABLE", 1, true) ~= nil,
+  "ID shaped samples never reach three uninterrupted matches")
+verifyTimeoutAndCopy(unstableShape, "TIMEOUT_ID_SHAPE_NOT_STABLE")
 
 -- A backwards clock and a faulting API abort predictably.
 local c = setup()
@@ -282,7 +325,7 @@ check(rawget(_G, KEY) == nil, "missing API leaves no listener")
 -- Time expiry combined with rejected detachment must report both facts and go inert.
 local l = setup({rejectDetach = true})
 l.tick(12.01, "unit", "uPRIVATE")
-check(l.outputs[2]:find("TIMEOUT_NO_VALID_ID", 1, true) ~= nil,
+check(l.outputs[2]:find("TIMEOUT_NO_ABILITY_TOOLTIP", 1, true) ~= nil,
   "time expiry classified when detach fails")
 check(l.outputs[2]:find("DETACH_UNCONFIRMED", 1, true) ~= nil,
   "time expiry exposes rejected detach")
@@ -437,7 +480,7 @@ check(rejectedCopy.outputs[#rejectedCopy.outputs]:find("DETACH_UNCONFIRMED", 1, 
 local timeoutCopy = setup()
 timeoutCopy.tick(12.1, "unit", "uPRIVATE")
 dofile(COPY_FILE)
-check(timeoutCopy.outputs[#timeoutCopy.outputs]:find("TIMEOUT_NO_VALID_ID", 1, true) ~= nil, "noncandidate status copy")
+check(timeoutCopy.outputs[#timeoutCopy.outputs]:find("TIMEOUT_NO_ABILITY_TOOLTIP", 1, true) ~= nil, "noncandidate status copy")
 check(timeoutCopy.outputs[#timeoutCopy.outputs]:find("uPRIVATE", 1, true) == nil, "noncandidate payload redacted")
 
 _G.print = oldPrint

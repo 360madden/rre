@@ -12,6 +12,8 @@ local REQUIRED_STABLE_FRAMES = 3
 local INITIAL_SETTLE_SECONDS = 0.6
 local RECORDABLE_STATUS = {
   ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE = true, TIMEOUT_NO_VALID_ID = true,
+  TIMEOUT_NO_ABILITY_TOOLTIP = true, TIMEOUT_ABILITY_NO_ID_SHAPE = true,
+  TIMEOUT_ID_SHAPE_NOT_STABLE = true,
   TIMEOUT_FRAME_LIMIT = true, TOOLTIP_API_FAILURE = true, CLOCK_UNAVAILABLE = true,
   ATTACH_REJECTED = true, MANUAL_CANCEL = true, SUPERSEDED = true,
   CANCELLED = true
@@ -51,7 +53,8 @@ else
     local update = Event.System.Update.Begin
     local state = {
       done = false, attached = false, stalledFrames = 0, lastClock = start,
-      failures = 0, lastId = nil, stable = 0
+      failures = 0, lastId = nil, stable = 0,
+      seenAbilityTooltip = false, seenAbilityIdShape = false
     }
     local onFrame
     local function complete(reason, candidate)
@@ -105,7 +108,15 @@ else
       end
       if now - start >= WINDOW_SECONDS then
         state.lastClock = now -- Include the deadline update in the completion clock floor.
-        complete("TIMEOUT_NO_VALID_ID")
+        -- These outcomes describe only successful post-settle samples in this window.
+        -- No raw tooltip variants or per-frame payloads are kept.
+        local timeoutStatus = "TIMEOUT_NO_ABILITY_TOOLTIP"
+        if state.seenAbilityIdShape then
+          timeoutStatus = "TIMEOUT_ID_SHAPE_NOT_STABLE"
+        elseif state.seenAbilityTooltip then
+          timeoutStatus = "TIMEOUT_ABILITY_NO_ID_SHAPE"
+        end
+        complete(timeoutStatus)
         return
       end
       -- A high-FPS client must not lose its 12-second observation window.
@@ -129,10 +140,12 @@ else
         if state.failures >= 3 then complete("TOOLTIP_API_FAILURE") end
         return
       end
+      if kind == "ability" then state.seenAbilityTooltip = true end
       local candidate = nil
       if kind == "ability" and type(shown) == "string" and
          #shown == 17 and shown:match("^A[0-9A-Fa-f]+$") then
         candidate = shown:upper()
+        state.seenAbilityIdShape = true
       end
       if candidate == nil then
         state.lastId = nil
