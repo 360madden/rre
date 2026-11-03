@@ -23,6 +23,14 @@ A focused future read-only event capture can compare **List membership changes**
 
 A tooltip that prints *two possible descriptions* does **not** identify an active choice. In the 2016 system, Legendary assignment was a separate progression/Soul/role-specific selection. The historical Atank Soul Tree screenshot shows a displayed level 45 and 45/15/0 points, but **do not deduce actual maximum character level or eligibility** from that alone: level scaling or mentoring status was not independently qualified. No currently proven alternate Protector's Fury ID exists. A Legendary form might share an ID and change behavior based on role state; that possibility is neither proven nor excluded by the existing data.
 
+## Later user-supplied native Soul Tree evidence (November 3)
+
+The operator supplied a **1910 × 1035 PNG directly in this conversation**, SHA-256 `4c232df9d7aa76f07f9fcd2e2c321dc9180a6f6c536cadab4b865a4569b290ce`, independently examined as a native RIFT Soul Tree. [Source-hashed screenshot evidence and limits](REA-RIFT-SPELLCASTING-SC103-CHAT-NATIVE-SOULTREE-2026-11-03.md) records **Atank, displayed level 45, Righteous Defender**, **Paladin 45 / Void Knight 15 / Paragon 0**, **60 spent / 0 remaining**, and all three visibly zero-numerator native Legendary counters: **Paladin 0/3, Void Knight 0/2, Paragon 0/1**.
+
+This upgrades the *image-level selected role and Legendary-counter observation* from missing to **directly visible G1 evidence**. It does **not** establish image-to-current-PID binding, exact capture UTC, mentoring/unmentored level, selected modern Legendary ability ID, or a positively selected Legendary variant; no Protector's Fury tooltip is open. The earlier historical publisher rule remains historical, not a verified current-level eligibility rule.
+
+**Revised priority:** Do not request another generic Soul Tree screenshot if this image suffices to show the 0/n baseline. For an exact normal-versus-Legendary ID experiment, obtain a source-qualified tooltip/identity observation **and, if testing selected Legendary behavior, a separately qualified role or character with a visibly nonzero selected Legendary counter**. Do not change this character's role or force any game input merely to manufacture the required state.
+
 ## Best next discriminating observation
 
 1. **Operator-supplied current Soul Tree image + optional hover-only identity observation, without changing role:** retain visible actual/effective level and mentoring indication (if available), selected role slot, Paladin allocation, Protector's Fury rank, Legendary selection count and selected/unselected state. A separately qualified, no-export `Inspect.Tooltip()` read at the same hover could test whether the returned type is `ability` and whether its shown value matches an independently known exact ID; export only sanitized equality/status, otherwise null, and never raw unit/buff values. Keep screenshot original hash and UTC time.

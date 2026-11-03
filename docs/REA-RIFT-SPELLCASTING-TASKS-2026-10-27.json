@@ -176,7 +176,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-DOCS-2026-11-03.md (existing installed addon preserved current-client Detail documentation; 34/34 serializer match)",
         "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json (sanitized deterministic field names and source hashes)",
         "docs/REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md (historical publisher selection mechanics and current event/tooltip identity leads)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-LIST-DESCRIPTOR-TRACE-2026-11-03.md (physical PE source-hashed List descriptor trace stopped at non-unwind forwarding stub; no enumerator/Legendary callback proof)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-LIST-DESCRIPTOR-TRACE-2026-11-03.md (physical PE source-hashed List descriptor trace stopped at non-unwind forwarding stub; no enumerator/Legendary callback proof)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-CHAT-NATIVE-SOULTREE-2026-11-03.md (user-uploaded original PNG hash; visible Righteous Defender 45/15/0, all three native Legendary counters 0/n; no process binding or selected modern ID)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -198,7 +199,7 @@
         "addonRuntimeV049Verified": false,
         "addonRuntimeV0410VisualVerified": true,
         "addonRuntimeV0410PinUndoVerified": false,
-        "addonRuntimeV0410SavedVersionVerified": false,
+        "addonRuntimeV0410SavedVersionVerified": true,
         "livePinUndoVerified": false,
         "offlineKnownApiRecords": 69,
         "offlineKnownOutsideStatic": 30,
@@ -269,7 +270,25 @@
         "abilityListEnumeratorCallbackQualified": false,
         "nativeLegendaryRoleSelectorQualified": false,
         "eligibilityResolvedIds": 0,
-        "note": "RC-29 merges 323 historical static and 69 API-listed IDs; 96 candidate statuses. SC-103 recovered stored 34-member Detail documentation (34/34 exported). Current-client ability Add/Remove and Usable events are indexed; Inspect.Tooltip has a bounded in-client type/shown interface, neither yet captured for Protector's Fury. Historical publisher describes 66-70, Soul/role-specific Legendary selection, not current eligibility. All 51 returned candidate idNew match requested IDs. v0.4.10 UI screenshot verified; Pin/Undo, stale slot and saved v0.4.10 remain unverified. Native GCD unknown."
+        "chatNativeSoulTreeEvidence": {
+          "report": "docs/REA-RIFT-SPELLCASTING-SC103-CHAT-NATIVE-SOULTREE-2026-11-03.md",
+          "sourceType": "user-provided ChatGPT conversation PNG, not Workbridge desktop capture",
+          "pngSha256": "4c232df9d7aa76f07f9fcd2e2c321dc9180a6f6c536cadab4b865a4569b290ce",
+          "pngBytes": 3191033,
+          "pngDimensions": [1910, 1035],
+          "displayedCharacter": "Atank",
+          "displayedLevel": 45,
+          "displayedRole": "Righteous Defender",
+          "displayedSoulPoints": {"Paladin": 45, "VoidKnight": 15, "Paragon": 0},
+          "displayedLegendaryCounters": {"Paladin": "0/3", "VoidKnight": "0/2", "Paragon": "0/1"},
+          "displayedSpentPoints": 60,
+          "displayedUnspentPoints": 0,
+          "screenshotCaptureTimeVerified": false,
+          "imageBoundToCurrentPid": false,
+          "selectedLegendaryModernIdResolved": false,
+          "proofTier": "G1 user-supplied native UI snapshot, not repeated session-bound G2"
+        },
+        "note": "RC-29 merges 323 historical static and 69 API-listed IDs; 96 candidate statuses. SC-103 recovered stored 34-member Detail documentation (34/34 exported). Current-client ability Add/Remove and Usable events are indexed; Inspect.Tooltip has a bounded in-client type/shown interface, neither yet captured for Protector's Fury. Historical publisher describes 66-70, Soul/role-specific Legendary selection, not current eligibility. All 51 returned candidate idNew match requested IDs. v0.4.10 collector visual load and separate 06:24 UTC persistence receipt confirmed; Pin/Undo and stale-ID tile rendering remain unverified. A newer user-supplied native Soul Tree PNG directly shows Righteous Defender, 45/15/0, and Legendary counters 0/3, 0/2, 0/1; capture time/PID and exact selected modern Legendary ID remain unverified. Native GCD unknown."
       }
     },
     {
