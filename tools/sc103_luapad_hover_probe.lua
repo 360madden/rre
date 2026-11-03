@@ -66,8 +66,12 @@ else
         -- Never retain raw tooltip payloads, unit IDs or callback errors.
         if RECORDABLE_STATUS[reason] then
           local okFinish, finished = pcall(Inspect.Time.Frame)
-          if okFinish and type(finished) == "number" and finished == finished and
-             finished ~= math.huge and finished ~= -math.huge and finished >= start then
+          local finishValid = okFinish and type(finished) == "number" and finished == finished and
+             finished ~= math.huge and finished ~= -math.huge and finished >= state.lastClock
+          if not finishValid then
+            reason, candidate = "CLOCK_UNAVAILABLE", nil
+          end
+          if finishValid then
             local safeId = nil
             if reason == "ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE" and
                type(candidate) == "string" and #candidate == 17 and

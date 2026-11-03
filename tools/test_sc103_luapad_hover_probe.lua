@@ -26,6 +26,7 @@ local function setup(opts)
   _G.Inspect = {
     Time = {Frame = function()
       if opts.clockUnavailable then error("mock-clock-fault") end
+       if type(opts.frameReadSequence) == "table" and #opts.frameReadSequence > 0 then return table.remove(opts.frameReadSequence, 1) end
       return state.time
     end},
     Tooltip = function()
@@ -119,7 +120,8 @@ check(middleClock.outputs[2]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil,
 check(middleClock.outputs[2]:find("id=UNKNOWN", 1, true) ~= nil,
   "intermediate clock regression must not identify a spell")
 check(middleClock.detachCalls == 1, "intermediate clock regression detaches once")
-check(rawget(_G, RESULT_KEY).candidate == nil, "intermediate clock regression caches no ID")
+local middleRecord = rawget(_G, RESULT_KEY)
+check(middleRecord == nil or middleRecord.candidate == nil, "intermediate clock regression caches no ID")
 -- Equal frame timestamps are not regressions and remain valid until stall guard.
 local plateauClock = setup()
 plateauClock.tick(1.0, "ability", id)
@@ -129,6 +131,22 @@ plateauClock.tick(1.1, "ability", id)
 check(plateauClock.outputs[2]:find("ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", 1, true) ~= nil,
   "clock progression after plateau still permits stable candidate")
 check(plateauClock.detachCalls == 1, "plateau success detaches exactly once")
+-- A final frame-clock re-read may regress after the last validated tooltip sample.
+-- Reject the candidate entirely, even if the new value is still after start.
+local finishClock = setup({frameReadSequence = {0, 1.0, 1.1, 1.2, 0.9}})
+finishClock.tick(1.0, "ability", id)
+finishClock.tick(1.1, "ability", id)
+finishClock.tick(1.2, "ability", id)
+check(finishClock.outputs[2]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil,
+  "completion clock regression must fail closed")
+check(finishClock.outputs[2]:find("id=UNKNOWN", 1, true) ~= nil,
+  "completion clock regression must not print candidate")
+check(finishClock.detachCalls == 1, "completion regression detaches once")
+check(rawget(_G, RESULT_KEY) == nil, "completion regression stores no candidate record")
+finishClock.time = 1.3
+dofile(COPY_FILE)
+check(finishClock.outputs[#finishClock.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil,
+  "completion regression cannot be copied later")
 local d = setup({tooltipErrors=true})
 d.tick(1, "ability", id)
 d.tick(1.1, "ability", id)
