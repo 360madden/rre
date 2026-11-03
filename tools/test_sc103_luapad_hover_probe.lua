@@ -2,8 +2,10 @@
 -- Invoke with a standalone Lua 5.1-compatible interpreter from the RRE root.
 -- No RIFT process, SavedVariables, network, or game input.
 local FILE = "tools/sc103_luapad_hover_probe.lua"
+local COPY_FILE = "tools/sc103_luapad_copy_result.lua"
 local LABEL = "RRE_SC103_HOVER_PROBE_20261103"
 local KEY = "__RRE_SC103_HOVER_PROBE_20261103"
+local RESULT_KEY = "__RRE_SC103_HOVER_RESULT_20261103"
 local checks = 0
 local function check(value, label)
   assert(value, label)
@@ -19,6 +21,7 @@ local function setup(opts)
   }
   if opts.foreignSameLabelListener then state.foreignSameLabelListener = function() end end
   rawset(_G, KEY, nil)
+  rawset(_G, RESULT_KEY, nil)
   _G.Event = {System = {Update = {Begin = {}}}}
   _G.Inspect = {
     Time = {Frame = function()
@@ -80,6 +83,7 @@ a.tick(1.4, "ability", id)
 check(a.detachCalls == 0, "needs 3 identical frames")
 a.tick(1.5, "ability", id)
 check(a.detachCalls == 1, "one detach after candidate")
+check(type(rawget(_G, RESULT_KEY)) == "table", "terminal candidate cached for copy")
 check(rawget(_G, KEY) == nil, "cleared temporary state")
 check(#a.outputs == 2, "one arm and one result")
 check(a.outputs[2]:find("ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", 1, true) ~= nil, "candidate qualified wording")
@@ -217,6 +221,84 @@ n.tick(1.4, "ability", id)
 check(n.detachCalls == 0, "two post-fault samples still insufficient")
 n.tick(1.5, "ability", id)
 check(n.detachCalls == 1, "three uninterrupted post-fault samples accepted")
+
+
+-- A completed result stays in session memory until a separate operator-run copy.
+local copyCase = setup()
+copyCase.tick(1.0, "ability", id)
+copyCase.tick(1.1, "ability", id)
+copyCase.tick(1.2, "ability", id)
+local saved = rawget(_G, RESULT_KEY)
+check(type(saved) == "table" and saved.schema == 1, "result record schema")
+check(saved.status == "ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE" and saved.candidate == id, "cache stores exact sanitized candidate")
+check(saved.startedFrame == 0 and saved.finishedFrame == 1.2, "cache stores finite frame-clock bounds")
+check(saved.detachConfirmed == true, "cache stores detachment outcome")
+local allowedFields = {schema=true, status=true, candidate=true, startedFrame=true, finishedFrame=true, detachConfirmed=true}
+for key in pairs(saved) do check(allowedFields[key] == true, "cache has no extra payload field") end
+local firstCopyOk, firstCopyErr = pcall(dofile, COPY_FILE)
+check(firstCopyOk, "copy snippet runs: " .. tostring(firstCopyErr))
+check(copyCase.outputs[#copyCase.outputs]:find(id, 1, true) ~= nil, "copy snippet prints candidate synchronously")
+check(rawget(_G, RESULT_KEY) == nil, "copy snippet consumes result")
+local secondCopyOk = pcall(dofile, COPY_FILE)
+check(secondCopyOk, "second copy runs safely")
+check(copyCase.outputs[#copyCase.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "second copy cannot replay consumed candidate")
+
+local activeCopy = setup()
+local pendingCopyOk = pcall(dofile, COPY_FILE)
+check(pendingCopyOk and activeCopy.outputs[#activeCopy.outputs]:find("PENDING", 1, true) ~= nil, "copy reports active listener")
+check(rawget(_G, KEY) ~= nil, "copy does not stop an active listener")
+rawget(_G, KEY).stop("MANUAL_CANCEL")
+
+local staleCopy = setup()
+staleCopy.tick(1.0, "ability", id)
+staleCopy.tick(1.1, "ability", id)
+staleCopy.tick(1.2, "ability", id)
+staleCopy.time = 122
+dofile(COPY_FILE)
+check(staleCopy.outputs[#staleCopy.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "expired result rejected")
+check(rawget(_G, RESULT_KEY) == nil, "expired result consumed")
+
+local backwardsCopy = setup()
+backwardsCopy.tick(1.0, "ability", id)
+backwardsCopy.tick(1.1, "ability", id)
+backwardsCopy.tick(1.2, "ability", id)
+backwardsCopy.time = 1.1
+dofile(COPY_FILE)
+check(backwardsCopy.outputs[#backwardsCopy.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "backwards retrieval clock rejected")
+
+local injected = setup()
+rawget(_G, KEY).stop("MANUAL_CANCEL")
+rawset(_G, RESULT_KEY, {schema=1, status="ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", candidate="uPRIVATE", startedFrame=0, finishedFrame=0, detachConfirmed=true})
+injected.time = 1
+dofile(COPY_FILE)
+check(injected.outputs[#injected.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= nil, "malformed candidate cannot print")
+check(table.concat(injected.outputs):find("uPRIVATE", 1, true) == nil, "malformed payload never exported")
+check(rawget(_G, RESULT_KEY) == nil, "malformed record consumed")
+
+local rearmedCopy = setup()
+rearmedCopy.tick(1.0, "ability", id)
+rearmedCopy.tick(1.1, "ability", id)
+rearmedCopy.tick(1.2, "ability", id)
+check(type(rawget(_G, RESULT_KEY)) == "table", "completed result exists before rearm")
+local staleHandler = rearmedCopy.handler
+check(pcall(dofile, FILE), "rearm after terminal result")
+check(rawget(_G, RESULT_KEY) == nil, "new Run invalidates stale result")
+staleHandler()
+check(rawget(_G, RESULT_KEY) == nil, "old completed callback cannot overwrite new Run")
+rawget(_G, KEY).stop("MANUAL_CANCEL")
+
+local rejectedCopy = setup({rejectDetach=true})
+rejectedCopy.tick(1.0, "ability", id)
+rejectedCopy.tick(1.1, "ability", id)
+rejectedCopy.tick(1.2, "ability", id)
+dofile(COPY_FILE)
+check(rejectedCopy.outputs[#rejectedCopy.outputs]:find("DETACH_UNCONFIRMED", 1, true) ~= nil, "failed detach warning survives copy")
+
+local timeoutCopy = setup()
+timeoutCopy.tick(12.1, "unit", "uPRIVATE")
+dofile(COPY_FILE)
+check(timeoutCopy.outputs[#timeoutCopy.outputs]:find("TIMEOUT_NO_VALID_ID", 1, true) ~= nil, "noncandidate status copy")
+check(timeoutCopy.outputs[#timeoutCopy.outputs]:find("uPRIVATE", 1, true) == nil, "noncandidate payload redacted")
 
 _G.print = oldPrint
 oldPrint("SC103_HOVER_PROBE_OFFLINE_TESTS_PASS " .. checks)

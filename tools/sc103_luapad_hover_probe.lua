@@ -3,16 +3,24 @@
 -- Does not cast, click, move, change roles, modify addons, or write SavedVariables.
 -- A returned ID is a hovered ability-shaped *candidate*, NOT a Legendary selector.
 local STATE_KEY = "__RRE_SC103_HOVER_PROBE_20261103"
+local RESULT_KEY = "__RRE_SC103_HOVER_RESULT_20261103"
 local LABEL = "RRE_SC103_HOVER_PROBE_20261103"
 local WINDOW_SECONDS = 12
 local MAX_STALLED_FRAMES = 900
 local REQUIRED_STABLE_FRAMES = 3
 local INITIAL_SETTLE_SECONDS = 0.6
+local RECORDABLE_STATUS = {
+  ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE = true, TIMEOUT_NO_VALID_ID = true,
+  TIMEOUT_FRAME_LIMIT = true, TOOLTIP_API_FAILURE = true, CLOCK_UNAVAILABLE = true,
+  ATTACH_REJECTED = true, MANUAL_CANCEL = true, SUPERSEDED = true,
+  CANCELLED = true
+}
 
 local previous = rawget(_G, STATE_KEY)
 if type(previous) == "table" and type(previous.stop) == "function" then
   pcall(previous.stop, "SUPERSEDED")
 end
+rawset(_G, RESULT_KEY, nil) -- Clear prior one-shot result on each new Run.
 
 local canRun =
   type(Inspect) == "table" and type(Inspect.Tooltip) == "function" and
@@ -51,7 +59,28 @@ else
         local okDetach, result = pcall(Command.Event.Detach, update, onFrame, LABEL)
         detached = okDetach and result ~= false
       end
-      if rawget(_G, STATE_KEY) == state then rawset(_G, STATE_KEY, nil) end
+      local ownsSlot = rawget(_G, STATE_KEY) == state
+      if ownsSlot then
+        rawset(_G, STATE_KEY, nil)
+        -- Retain fixed statuses, exact ability-shaped scalars and finite frame times only.
+        -- Never retain raw tooltip payloads, unit IDs or callback errors.
+        if RECORDABLE_STATUS[reason] then
+          local okFinish, finished = pcall(Inspect.Time.Frame)
+          if okFinish and type(finished) == "number" and finished == finished and
+             finished ~= math.huge and finished ~= -math.huge and finished >= start then
+            local safeId = nil
+            if reason == "ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE" and
+               type(candidate) == "string" and #candidate == 17 and
+               candidate:match("^A[0-9A-Fa-f]+$") then safeId = candidate:upper() end
+            if reason ~= "ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE" or safeId then
+              rawset(_G, RESULT_KEY, {
+                schema = 1, status = reason, candidate = safeId,
+                startedFrame = start, finishedFrame = finished, detachConfirmed = detached
+              })
+            end
+          end
+        end
+      end
       local detail = candidate and (" id=" .. candidate) or " id=UNKNOWN"
       notice(reason .. detail .. (detached and "" or " DETACH_UNCONFIRMED"))
     end
