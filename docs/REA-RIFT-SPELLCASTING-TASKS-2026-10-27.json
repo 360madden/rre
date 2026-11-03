@@ -251,6 +251,7 @@
         "protectorVariantGapReport": "docs/REA-RIFT-SPELLCASTING-SC103-PROTECTORS-FURY-VARIANT-GAP-2026-11-03.md",
         "historicalLegendaryPublisherSelectionRule": "2016 level 66-70 selection, per Soul points and individual role slot; current build unverified",
         "historicalLegendarySelectionReport": "docs/REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md",
+        "historicalProtectorLegendary2018LivePatchCorroborated": true,
         "currentClientAbilityEventNamesIndexed": ["Event.Ability.New.Add", "Event.Ability.New.Remove", "Event.Ability.New.Usable.True", "Event.Ability.New.Usable.False"],
         "currentClientTooltipInspectorDocCharacters": 596,
         "tooltipShownValueMappedToAbilityId": false,
