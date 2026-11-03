@@ -4,6 +4,7 @@
 -- A returned ID is a hovered ability-shaped *candidate*, NOT a Legendary selector.
 local STATE_KEY = "__RRE_SC103_HOVER_PROBE_20261103"
 local RESULT_KEY = "__RRE_SC103_HOVER_RESULT_20261103"
+local QUARANTINE_KEY = "__RRE_SC103_HOVER_DETACH_QUARANTINE_20261103"
 local LABEL = "RRE_SC103_HOVER_PROBE_20261103"
 local WINDOW_SECONDS = 12
 local MAX_STALLED_FRAMES = 900
@@ -20,7 +21,8 @@ local previous = rawget(_G, STATE_KEY)
 if type(previous) == "table" and type(previous.stop) == "function" then
   pcall(previous.stop, "SUPERSEDED")
 end
-rawset(_G, RESULT_KEY, nil) -- Clear prior one-shot result on each new Run.
+local quarantined = rawget(_G, QUARANTINE_KEY) == true
+if not quarantined then rawset(_G, RESULT_KEY, nil) end -- Preserve failed-detach receipt.
 
 local canRun =
   type(Inspect) == "table" and type(Inspect.Tooltip) == "function" and
@@ -37,7 +39,9 @@ local function notice(message)
   end
 end
 
-if not canRun then
+if quarantined then
+  notice("BLOCKED_UNCONFIRMED_DETACH; reload UI before another Run")
+elseif not canRun then
   notice("BLOCKED_REQUIRED_API; no listener installed")
 else
   local okClock, start = pcall(Inspect.Time.Frame)
@@ -58,6 +62,7 @@ else
       if state.attached then
         local okDetach, result = pcall(Command.Event.Detach, update, onFrame, LABEL)
         detached = okDetach and result ~= false
+        if not detached then rawset(_G, QUARANTINE_KEY, true) end -- Fail closed until UI reload.
       end
       local ownsSlot = rawget(_G, STATE_KEY) == state
       if ownsSlot then

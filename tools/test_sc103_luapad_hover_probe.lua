@@ -6,6 +6,7 @@ local COPY_FILE = "tools/sc103_luapad_copy_result.lua"
 local LABEL = "RRE_SC103_HOVER_PROBE_20261103"
 local KEY = "__RRE_SC103_HOVER_PROBE_20261103"
 local RESULT_KEY = "__RRE_SC103_HOVER_RESULT_20261103"
+local QUARANTINE_KEY = "__RRE_SC103_HOVER_DETACH_QUARANTINE_20261103"
 local checks = 0
 local function check(value, label)
   assert(value, label)
@@ -22,7 +23,14 @@ local function setup(opts)
   if opts.foreignSameLabelListener then state.foreignSameLabelListener = function() end end
   rawset(_G, KEY, nil)
   rawset(_G, RESULT_KEY, nil)
+  rawset(_G, QUARANTINE_KEY, nil)
   _G.Event = {System = {Update = {Begin = {}}}}
+  if opts.registryModel then
+    state.registrations = {}
+    if state.foreignSameLabelListener then
+      state.registrations[1] = {event=Event.System.Update.Begin, handler=state.foreignSameLabelListener, label=LABEL}
+    end
+  end
   _G.Inspect = {
     Time = {Frame = function()
       if opts.clockUnavailable then error("mock-clock-fault") end
@@ -42,6 +50,9 @@ local function setup(opts)
       if opts.rejectAttach then return false end
       state.attached = true
       state.handler = handler
+      if opts.registryModel then
+        state.registrations[#state.registrations + 1] = {event=event, handler=handler, label=label}
+      end
       if opts.returnNil then return nil end
       return true
     end,
@@ -53,6 +64,19 @@ local function setup(opts)
         state.detachedHandler = handler or state.foreignSameLabelListener
       end
       if opts.rejectDetach then return false end
+      if opts.registryModel then
+        local selected = nil
+        for index, registration in ipairs(state.registrations) do
+          if registration.event == event and
+             (handler == nil or registration.handler == handler) and
+             (label == nil or registration.label == label) then
+            selected = index; break
+          end
+        end
+        if not selected then return false end
+        state.detachedHandler = state.registrations[selected].handler
+        table.remove(state.registrations, selected) -- One matching registration only.
+      end
       state.attached = false
       if opts.returnNil then return nil end
       return true
@@ -184,15 +208,41 @@ replacement.stop("MANUAL_CANCEL")
 check(h.detachCalls == 2, "manual cancel detaches replacement")
 check(rawget(_G, KEY) == nil, "manual cancel clears global")
 
--- RIFT's nil-handler wildcard removes only one same-label registration.
--- Seed an earlier foreign callback; our completion must detach its exact handler.
-local overlapping = setup({foreignSameLabelListener=true})
+-- Permissive registry model of RIFT's documented one-match wildcard behavior.
+-- Actual RIFT duplicate-label acceptance and wildcard ordering are unverified.
+local overlapping = setup({foreignSameLabelListener=true, registryModel=true})
+check(#overlapping.registrations == 2, "foreign-first model starts with two registrations")
+check(overlapping.registrations[1].handler == overlapping.foreignSameLabelListener, "foreign registration is first")
+check(overlapping.registrations[2].handler == overlapping.handler, "probe registration is second")
 overlapping.tick(1, "ability", id)
 overlapping.tick(1.1, "ability", id)
+check(#overlapping.registrations == 2, "both registrations remain before candidate")
 overlapping.tick(1.2, "ability", id)
-check(overlapping.detachCalls == 1, "duplicate-label scenario attempts one detach")
-check(overlapping.detachedHandler == overlapping.handler, "detach selects its exact callback")
-check(overlapping.detachedHandler ~= overlapping.foreignSameLabelListener, "foreign callback remains")
+check(overlapping.detachCalls == 1, "duplicate-label model attempts one detach")
+check(overlapping.detachedHandler == overlapping.handler, "exact probe handler selected for detachment")
+check(#overlapping.registrations == 1, "one matching registration removed")
+check(overlapping.registrations[1].handler == overlapping.foreignSameLabelListener, "foreign callback stays registered")
+check(overlapping.outputs[2]:find("ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", 1, true) ~= nil,
+  "exact-detach model retains successful candidate")
+local failedRegistry = setup({registryModel=true, rejectDetach=true})
+check(#failedRegistry.registrations == 1, "failed-detach setup has one registration")
+failedRegistry.tick(1, "ability", id)
+failedRegistry.tick(1.1, "ability", id)
+failedRegistry.tick(1.2, "ability", id)
+check(#failedRegistry.registrations == 1, "failed Detach never removes its registration")
+check(failedRegistry.outputs[2]:find("DETACH_UNCONFIRMED", 1, true) ~= nil, "failed registry detachment warns operator")
+check(rawget(_G, RESULT_KEY).detachConfirmed == false, "failed-detach record persists for operator")
+local failedReceipt = rawget(_G, RESULT_KEY)
+local staleCallback = failedRegistry.handler
+check(pcall(dofile, FILE), "rerun after failed detach must not throw")
+check(#failedRegistry.registrations == 1, "failed-detach rerun must NOT attach another callback")
+check(failedRegistry.handler == staleCallback, "blocked rerun does not change registered handler")
+check(failedRegistry.outputs[#failedRegistry.outputs]:find("BLOCKED_UNCONFIRMED_DETACH", 1, true) ~= nil,
+  "blocked rerun reports reload UI requirement")
+check(rawget(_G, RESULT_KEY) == failedReceipt, "blocked rerun preserves failure receipt")
+local oldMessages = #failedRegistry.outputs
+staleCallback()
+check(#failedRegistry.outputs == oldMessages, "quarantined callback remains inert")
 
 -- Missing clock and API features fail closed without a new listener.
 local i = setup({clockUnavailable = true})
