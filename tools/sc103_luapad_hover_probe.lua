@@ -59,7 +59,7 @@ else
   else
     local update = Event.System.Update.Begin
     local state = {
-      done = false, attached = false, detachConfirmed = false, stalledFrames = 0, lastClock = start,
+      done = false, attached = false, attachAttempted = false, detachConfirmed = false, stalledFrames = 0, lastClock = start,
       failures = 0, lastId = nil, stable = 0,
       seenAbilityTooltip = false, seenAbilityIdShape = false
     }
@@ -68,7 +68,7 @@ else
       if state.done then return end
       state.done = true
       local detached = true
-      if state.attached then
+      if state.attached or state.attachAttempted then
         local okDetach, result = pcall(Command.Event.Detach, update, onFrame, LABEL)
         detached = okDetach and result ~= false
         if not detached then rawset(_G, QUARANTINE_KEY, true) end -- Fail closed until UI reload.
@@ -173,10 +173,11 @@ else
 
     rawset(_G, RESULT_KEY, nil) -- Only a ready-to-arm Run invalidates the previous receipt.
     rawset(_G, STATE_KEY, state)
+    state.attachAttempted = true -- Attach can register before throwing or returning false.
     local okAttach, attached = pcall(Command.Event.Attach, update, onFrame, LABEL)
     if not okAttach or attached == false then
       complete("ATTACH_REJECTED")
-    else
+    elseif not state.done then
       state.attached = true
       notice("ARMED_12_SECONDS; hover native Protector's Fury only")
     end

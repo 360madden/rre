@@ -53,6 +53,9 @@ local function setup(opts)
       if opts.registryModel then
         state.registrations[#state.registrations + 1] = {event=event, handler=handler, label=label}
       end
+      if opts.throwAttachAfterRegister then error("PRIVATE_ATTACH_FAILURE") end
+      if opts.falseAttachAfterRegister then return false end
+      if opts.invokeDuringAttach then state.time = -1; handler() end
       if opts.returnNil then return nil end
       return true
     end,
@@ -259,7 +262,34 @@ check(#cumulativeFaults.outputs == cumulativeOutputCount and cumulativeFaults.de
   "completed cumulative-fault listener stays inert")
 local e = setup({rejectAttach=true})
 check(e.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil, "attach rejection fails closed")
-check(e.detachCalls == 0, "unattached handler not detached")
+check(e.detachCalls == 1, "clean rejection receives conservative exact-detach attempt")
+-- A rejected Attach may already have registered the callback; cleanup must be verified.
+local throwAfter = setup({registryModel=true, throwAttachAfterRegister=true})
+check(throwAfter.detachCalls == 1, "post-register Attach throw triggers exact Detach")
+check(#throwAfter.registrations == 0, "post-register Attach throw does not leak listener")
+check(throwAfter.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil, "post-register throw is not armed")
+check(table.concat(throwAfter.outputs):find("PRIVATE_ATTACH_FAILURE", 1, true) == nil,
+  "Attach exception text never printed")
+local falseAfter = setup({registryModel=true, falseAttachAfterRegister=true})
+check(falseAfter.detachCalls == 1, "post-register Attach false triggers exact Detach")
+check(#falseAfter.registrations == 0, "post-register Attach false does not leak listener")
+local stuckAttach = setup({registryModel=true, throwAttachAfterRegister=true, rejectDetach=true})
+check(stuckAttach.detachCalls == 1, "failed cleanup was attempted")
+check(#stuckAttach.registrations == 1, "failed cleanup leaves exactly one old registration")
+check(rawget(_G, QUARANTINE_KEY) == true, "failed cleanup quarantines rearm")
+local failedOldResult = rawget(_G, RESULT_KEY)
+check(failedOldResult and failedOldResult.status == "ATTACH_REJECTED" and
+  failedOldResult.detachConfirmed == false, "failed cleanup record does not claim Detach")
+check(pcall(dofile, FILE), "quarantined Attach rerun cannot throw")
+check(#stuckAttach.registrations == 1, "quarantined Attach rerun cannot register twice")
+check(rawget(_G, RESULT_KEY) == failedOldResult, "blocked rearm preserves Attach-failure receipt")
+local duringAttach = setup({registryModel=true, invokeDuringAttach=true})
+check(duringAttach.detachCalls == 1, "synchronous callback during Attach cleans up")
+check(#duringAttach.registrations == 0, "synchronous callback leaves no registration")
+check(#duringAttach.outputs == 1 and
+  duringAttach.outputs[1]:find("CLOCK_UNAVAILABLE", 1, true) ~= nil,
+  "completed synchronous callback cannot print ARMED")
+
 local f = setup({returnNil=true})
 f.tick(1, "ability", id)
 f.tick(1.1, "ability", id)
