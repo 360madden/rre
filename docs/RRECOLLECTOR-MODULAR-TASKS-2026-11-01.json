@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; user screenshot confirms visual load (69 Known, 96 Static). Pin/Undo, stale-ID runtime rendering and v0.4.10 SavedVariables remain pending under RC-26/27/30. RC-31 UI improvements and RC-32 source-verified reliability fixes are queued, NOT implemented/deployed; physical v0.4.10 is frozen for the live gate.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; user screenshot confirms visual load (69 Known, 96 Static). A fresh v0.4.10 SavedVariables receipt preserves 69 known, 96 candidates and seven saved pins; Pin/Undo and stale-ID runtime rendering remain pending under RC-26/27/30. RC-31 UI improvements and RC-32 source-verified reliability fixes are queued, NOT implemented/deployed; physical v0.4.10 is frozen for the live gate.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,

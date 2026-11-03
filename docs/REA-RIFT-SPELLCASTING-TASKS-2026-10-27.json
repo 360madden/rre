@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102/RC-08, RC-28/29 offline findings accepted. SC-103 recovered 2711-character in-client Detail documentation from existing RR2Casting saves; its 34 documented return members exactly match the 34 RRECollector exported fields (3/3 verifier plus independent review). No documented rank/variant/legendary/unlock member, but undocumented or UI/native mechanisms remain possible. RRECollector v0.4.10 source/host 10/10 and user-supplied screenshot visibly loaded (69 Known, 96 Static); saved v0.4.10 and Pin/Undo/stale-pin rendering still unverified. SC-103 rank eligibility and SC-3 timing remain open.",
+  "status": "SC-102/RC-08, RC-28/29 offline findings accepted. SC-103 recovered 2711-character in-client Detail documentation from existing RR2Casting saves; its 34 documented return members exactly match the 34 RRECollector exported fields (3/3 verifier plus independent review). No documented rank/variant/legendary/unlock member, but undocumented or UI/native mechanisms remain possible. RRECollector v0.4.10 source/host 10/10 and user-supplied screenshot visibly loaded (69 Known, 96 Static); a 06:24 UTC v0.4.10 SavedVariables receipt now proves preserved 69 known and 96 candidates; Pin/Undo/stale-pin rendering still unverified. SC-103 rank eligibility and SC-3 timing remain open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
