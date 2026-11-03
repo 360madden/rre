@@ -158,6 +158,46 @@ function asArray(value) {
     .sort(([a],[b])=>Number(a)-Number(b)).map(([,v])=>v);
 }
 
+// Offline structure gate only: one SavedVariables file cannot prove a fresh live capture.
+export function assessSnapshotForComparison(saved) {
+  const latest = saved?.latest && typeof saved.latest === "object" ? saved.latest : {};
+  const list = latest.abilityList && typeof latest.abilityList === "object" ? latest.abilityList : {};
+  const player = latest.player && typeof latest.player === "object" ? latest.player : {};
+  const rawRecords = latest.abilities;
+  const keys = rawRecords && typeof rawRecords === "object" ? Object.keys(rawRecords) : [];
+  // Keep the historical crosswalk's permissive asArray(); strict evidence is a separate gate.
+  const recordShapeValid = Array.isArray(rawRecords)
+    ? keys.length === rawRecords.length && keys.every((key, i) => key === String(i))
+    : rawRecords && typeof rawRecords === "object" && keys.length > 0
+      && keys.every((key, i) => key === String(i + 1));
+  const records = asArray(rawRecords);
+  const reasons = [];
+  const require = (valid, reason) => { if (!valid) reasons.push(reason); };
+  const named = value => typeof value === "string" && value.trim().length > 0;
+  const role = latest.roleSlot;
+  require(recordShapeValid, "ABILITY_RECORDS_MALFORMED");
+  require(latest.captureComplete === true, "CAPTURE_NOT_COMPLETE");
+  require(list.apiAvailable === true && list.enumerationComplete === true, "LIST_NOT_COMPLETE");
+  require(list.detailFailures === 0 && list.ignored === 0 && list.truncated === 0, "LIST_HAS_GAPS");
+  require(list.uniqueCount === records.length && list.detailCount === records.length, "RECORD_COUNT_MISMATCH");
+  const ids = records.map(record => record?.lookupId);
+  require(ids.every(id => named(id) && ID.test(id)) && new Set(ids).size === ids.length,
+    "ABILITY_IDS_UNQUALIFIED");
+  require(Number.isSafeInteger(latest.sequence) && latest.sequence > 0
+    && saved?.sequence === latest.sequence, "SEQUENCE_UNBOUND");
+  require(named(player.id) && named(player.name), "PLAYER_IDENTITY_UNBOUND");
+  require(named(role) || typeof role === "number" && Number.isFinite(role), "ROLE_UNBOUND");
+  require(Number.isFinite(latest.frameTime) && Number.isFinite(latest.realTime),
+    "CAPTURE_CLOCK_UNBOUND");
+  require(named(latest.addonVersion), "SNAPSHOT_VERSION_UNBOUND");
+  return {
+    schemaVersion:1, offlineStructureQualified:reasons.length === 0, reasons,
+    freshnessVerified:false, processBuildVerified:false, eventDeliveryVerified:false,
+    eventComparisonReady:false,
+    evidenceLimit:"Single saved latest cannot prove a newly flushed capture, process/build, or events."
+  };
+}
+
 export function buildAbilityCrosswalk(saved, staticCatalog, savedSha256) {
   const latest = saved?.latest;
   if (!latest || !staticCatalog || !Array.isArray(staticCatalog.records)) {
@@ -209,6 +249,7 @@ export function buildAbilityCrosswalk(saved, staticCatalog, savedSha256) {
     savedSha256,
     knownCaptureVersion:latest.addonVersion || null,
     knownCaptureComplete:latest.captureComplete === true,
+    knownSnapshotReadiness:assessSnapshotForComparison(saved),
     staticCatalogVersion:staticCatalog.catalogVersion,
     liveCandidateLookupSaved:!!candidate,
     candidateLookupVersion:candidate?.addonVersion || null,

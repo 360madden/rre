@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { parseSavedLua, buildAbilityCrosswalk } from "./read-rrecollector-saved.mjs";
+import { parseSavedLua, buildAbilityCrosswalk, assessSnapshotForComparison } from "./read-rrecollector-saved.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const staticCatalog = JSON.parse(fs.readFileSync(
@@ -72,4 +72,102 @@ test("candidate lookup handles implicit and explicit numeric-keyed Lua entries",
     assert.equal(row.candidateLookup.detail.unusable, false);
     assert.equal(row.candidateLookup.detail.target, undefined);
   }
+});
+
+function completeSnapshotFixture() {
+  const item = staticCatalog.records[0];
+  return {sequence:7,latest:{sequence:7,addonVersion:"0.4.10",
+    captureComplete:true,frameTime:12.25,realTime:192.5,roleSlot:0,
+    player:{id:"uSYNTHETIC",name:"Synthetic Player"},
+    abilityList:{apiAvailable:true,enumerationComplete:true,detailFailures:0,
+      ignored:0,truncated:0,uniqueCount:1,detailCount:1},
+    abilities:[{lookupId:item.id,name:item.name}]}};
+}
+
+test("single saved snapshot may pass internal structure, never live freshness or event comparison", () => {
+  const saved = completeSnapshotFixture();
+  const q = assessSnapshotForComparison(saved);
+  assert.equal(q.offlineStructureQualified, true);
+  assert.deepEqual(q.reasons, []);
+  for (const key of ["freshnessVerified","processBuildVerified","eventDeliveryVerified","eventComparisonReady"])
+    assert.equal(q[key], false, key);
+  const legacy = buildAbilityCrosswalk(saved,staticCatalog,"a".repeat(64));
+  assert.equal(legacy.counts.knownApi,1);
+  assert.deepEqual(legacy.knownSnapshotReadiness,q);
+  assert.equal(JSON.stringify(q).includes("Synthetic Player"),false);
+});
+
+test("empty player table cannot qualify despite collector-level captureComplete=true", () => {
+  const saved = completeSnapshotFixture();
+  saved.latest.player = {};
+  saved.latest.capabilities = {player:true};
+  const q = assessSnapshotForComparison(saved);
+  assert.equal(q.offlineStructureQualified,false);
+  assert.ok(q.reasons.includes("PLAYER_IDENTITY_UNBOUND"));
+  assert.equal(q.eventComparisonReady,false);
+});
+
+test("missing role and clock, stale sequence, partial List and counts fail closed", () => {
+  const saved = completeSnapshotFixture();
+  saved.latest.roleSlot = null;
+  saved.latest.frameTime = undefined;
+  saved.latest.sequence = 6;
+  saved.latest.abilityList.enumerationComplete = false;
+  saved.latest.abilityList.detailCount = 2;
+  const q = assessSnapshotForComparison(saved);
+  for (const reason of ["ROLE_UNBOUND","CAPTURE_CLOCK_UNBOUND","SEQUENCE_UNBOUND",
+    "LIST_NOT_COMPLETE","RECORD_COUNT_MISMATCH"]) assert.ok(q.reasons.includes(reason),reason);
+  assert.equal(q.offlineStructureQualified,false);
+  assert.equal(q.freshnessVerified,false);
+});
+
+test("missing, zero-based, gapped and extra-key ability rows never qualify", () => {
+  const cases = [
+    ["missing", saved => {
+      delete saved.latest.abilities;
+      saved.latest.abilityList.uniqueCount = 0;
+      saved.latest.abilityList.detailCount = 0;
+    }],
+    ["zero-based", saved => {
+      saved.latest.abilities = {"0":saved.latest.abilities[0]};
+    }],
+    ["gapped", saved => {
+      saved.latest.abilities = {"2":saved.latest.abilities[0]};
+    }],
+    ["extra-key", saved => {
+      saved.latest.abilities = {"1":saved.latest.abilities[0],extra:"not-an-ability"};
+    }]
+  ];
+  for (const [name, mutate] of cases) {
+    const saved = completeSnapshotFixture();
+    mutate(saved);
+    const q = assessSnapshotForComparison(saved);
+    assert.equal(q.offlineStructureQualified,false,name);
+    assert.ok(q.reasons.includes("ABILITY_RECORDS_MALFORMED"),name);
+    assert.equal(q.eventComparisonReady,false,name);
+  }
+});
+
+test("zero or missing snapshot sequence remains unqualified", () => {
+  for (const sequence of [0, null]) {
+    const saved = completeSnapshotFixture();
+    saved.sequence = saved.latest.sequence = sequence;
+    assert.ok(assessSnapshotForComparison(saved).reasons.includes("SEQUENCE_UNBOUND"));
+  }
+});
+
+test("explicit one-based Lua ability keys pass the offline structure gate", () => {
+  const item = staticCatalog.records[0];
+  const lua = 'RRECollectorData = { sequence = 7, latest = { sequence = 7, '
+    + 'addonVersion = "0.4.10", captureComplete = true, frameTime = 12.25, '
+    + 'realTime = 192.5, roleSlot = 0, player = { id = "uSYNTHETIC", name = "Fixture" }, '
+    + 'abilityList = { apiAvailable = true, enumerationComplete = true, '
+    + 'detailFailures = 0, ignored = 0, truncated = 0, uniqueCount = 1, detailCount = 1 }, '
+    + 'abilities = { [1] = { lookupId = ' + JSON.stringify(item.id)
+    + ', name = ' + JSON.stringify(item.name) + ' } } } }';
+  const saved = parseSavedLua(lua);
+  assert.equal(Array.isArray(saved.latest.abilities),false);
+  const result = assessSnapshotForComparison(saved);
+  assert.equal(result.offlineStructureQualified,true);
+  assert.equal(result.eventComparisonReady,false);
 });

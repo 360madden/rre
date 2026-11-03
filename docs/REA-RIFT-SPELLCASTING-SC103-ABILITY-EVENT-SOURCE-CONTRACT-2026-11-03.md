@@ -52,6 +52,8 @@ Each generated page names a single usage parameter `abilities` with datatype `va
 
 These are **future evidence-classification rules**, not synthetic tests or observed 2026 event behavior. RC-30 visual Pin→Undo acceptance, current callback signature qualification, a separate event-observation authorization and current role-bound identity evidence remain blockers.
 
+**Offline-only structural preflight added (2026-11-03):** `tools/read-rrecollector-saved.mjs` (SHA-256 `1d552c0354bc090e12105c2281b5b84fd5e82c7308615a93fc603eab082bc81d`) now emits a diagnostic-only `knownSnapshotReadiness` with fixed reason codes for partial List/Detail data, inconsistent record counts/shapes, zero-based/gapped/extra-key Lua rows, missing player identity/role/clocks/version, or nonpositive/mismatched saved sequence. Its `offlineStructureQualified` flag is **not** live-event or freshness approval: `freshnessVerified`, `processBuildVerified`, `eventDeliveryVerified` and `eventComparisonReady` remain `false` even on a structurally valid single file. Legacy `buildAbilityCrosswalk` rows/counts are unchanged. Tests `tools/verify-rrecollector-saved.mjs` (SHA-256 `7720567da92ef40eda1dd617d58a2273487647d5f59d8e721f841aaca33bf57e`) plus atlas-consumer checks passed **14/14** offline. No two independently flushed captures, event consumer, or current live proof exists.
+
 ## Future discriminator (not authorized or performed here)
 
 1. **Preflight first:** complete the separately blocked RC-30 current-toolbar/Pin→Undo acceptance, establish current process/build/role ownership and obtain separate authorization for any event observation. Do not alter another addon or deploy an RRE event listener on this report alone.
