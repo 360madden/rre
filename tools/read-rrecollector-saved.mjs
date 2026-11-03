@@ -172,9 +172,9 @@ export function buildAbilityCrosswalk(saved, staticCatalog, savedSha256) {
     current.set(detail.lookupId, detail);
   }
   const queried = new Map();
-  if (saved.candidateLookup && Array.isArray(saved.candidateLookup.entries)) {
-    for (const q of saved.candidateLookup.entries) {
-      if (ID.test(q.id || "") && !queried.has(q.id)) queried.set(q.id, q);
+  for (const q of asArray(saved?.candidateLookup?.entries)) {
+    if (q && typeof q === "object" && ID.test(q.id || "") && !queried.has(q.id)) {
+      queried.set(q.id, q);
     }
   }
   const seen = new Set(), rows = [];
