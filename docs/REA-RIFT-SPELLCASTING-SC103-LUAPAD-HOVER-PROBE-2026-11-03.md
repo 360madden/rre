@@ -13,7 +13,7 @@ The already installed JAB and Rusty's Action Bars call `Inspect.Tooltip()` to cl
 | Local RRE file | Exact SHA-256 | Role |
 | --- | --- | --- |
 | `tools/sc103_luapad_hover_probe.lua` | `b97bf0a1c0489114c71bd11f7d9b9868bea22c7f8b57d5a7de0fbd8d57c7127d` | Self-contained operator-pasted one-shot Lua; no TOC or installed addon |
-| `tools/test_sc103_luapad_hover_probe.lua` | `9795a89c70b6e58de9c894a2293fbb7fe82cd1cd7503292ba894ed23e2c414c2` | Synthetic API/event/time/payload fixtures only |
+| `tools/test_sc103_luapad_hover_probe.lua` | `84f7704aeb6e3e86d697de2fe0e6b8cc2074f134d5fd33fb2bf423b4c39c799e` | Synthetic API/event/time/payload fixtures only |
 
 **API source:** Previously saved in-client `Inspect.Tooltip()` text is 596 chars, SHA-256 `14b6dea5b4e532bda5433028bd10218adbdb82568f1f2e9f2ae41c92f75633a1`. `Command.Event.Attach` is separately documented (716-character saved source); existing RiftReader2Casting uses `Event.System.Update.Begin` and `Inspect.Time.Frame`. Installed Rusty's Action Bars provides source examples of `Command.Event.Detach(event, nil, label)`. These are source patterns; current-game runtime compatibility was **not** exercised by RRE.
 
@@ -21,7 +21,7 @@ The already installed JAB and Rusty's Action Bars call `Inspect.Tooltip()` to cl
 
 - The probe does **nothing unless an operator manually copies its text into a working LuaPad editor and clicks Run**. No file under the RIFT `Interface/AddOns` tree is changed by staging these two RRE files.
 - It verifies all required APIs and a monotonic frame clock before attaching one `Event.System.Update.Begin` listener. A repeat Run supersedes the prior listener through a unique temporary global slot.
-- It waits **0.6 seconds** to avoid sampling the editor button, then watches at most **12 seconds / 900 frame callbacks** and stops earlier on a consistent result or error. The earliest bound to trigger wins.
+- It waits **0.6 seconds** to avoid sampling the editor button, then watches at most **12 seconds of frame-clock time / 900 delivered frame callbacks** and stops earlier on a consistent result or error. The earliest observed bound wins. **Important:** this is not a standalone wall-clock watchdog: if the game stops delivering update events, no callback runs to enforce the deadline. When frames resume the time gate can expire, or an operator can cancel/re-arm; do not assume automatic expiry during a frozen client.
 - Accepts a candidate **only** if `Inspect.Tooltip` returns `type == "ability"` and a string matching precisely `A` followed by **16 hexadecimal characters**, **identical across three consecutive frames**. Print result prefix: `ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE` with only that uppercase ability-shaped ID.
 - Otherwise prints a bounded `UNKNOWN` status, such as `TIMEOUT_NO_VALID_ID`, `TOOLTIP_API_FAILURE`, `CLOCK_UNAVAILABLE`, or a missing-API/registration status. Never prints raw `shown` variants, arbitrary objects, unit/buff IDs, source pointer values or the third/fourth tooltip results.
 - Detaches on success, timeout, cancellation and error. If detachment fails, the handler is marked inert and the result says `DETACH_UNCONFIRMED`. No game cast, movement, role change, UI click/macro automation, disk write, SavedVariables serialization or network action exists in the probe.
@@ -31,7 +31,11 @@ The already installed JAB and Rusty's Action Bars call `Inspect.Tooltip()` to cl
 
 Both staged files were transferred **byte-for-byte** from the Workbridge-owned Windows files into the assistant's isolated environment, verified against the SHA-256 values above, and the original synthetic test harness was executed under the available **Lua 5.4 shared-library runtime**.
 
-**Result: 89 offline assertions passed.** Fixtures cover successful three-frame ID qualification, non-ability/unit/table payload suppression, initial 0.6-second settle, 12-second and 900-frame stop gates, API fault after three errors, clock faults/backwards clock, rejected attachment, nil-return API semantics, detach failure/inert listener, repeated arming and operator cancellation. The source uses conventional Lua 5.1 syntax, but **Lua 5.1/RIFT-runtime compilation, actual LuaPad loading, and native-tooltip ID results remain unverified**. Do not promote synthetic tests to an in-game success claim.
+**Result: 110 offline assertions passed.** Fixtures cover successful three-frame ID qualification, non-ability/unit/table payload suppression, initial 0.6-second settle, 12-second and 900-frame stop gates, API fault after three errors, clock faults/backwards clock, rejected attachment, nil-return API semantics, detach failure/inert listener, repeated arming and operator cancellation. The latest tests also cover **timeout simultaneous with rejected detach**, global cleanup after such failure, and manual cancellation when no frame events arrive. The source uses conventional Lua 5.1 syntax, but **Lua 5.1/RIFT-runtime compilation, actual LuaPad loading, and native-tooltip ID results remain unverified**. Do not promote synthetic tests to an in-game success claim.
+
+## Independent local reasoning review
+
+Two independently prompted **local Gemma 4 12B reasoning workers**, each using one allowlisted read-only source-file tool call, finished in a supervised Ollama session (107,199 ms total). The manager accepted one missing combined negative test and rejected two source-inconsistent suggestions; a second worker confirmed the inability to infer selected Legendary state from an ID-shaped tooltip result. The [source-qualified worker receipt and critique](REA-RIFT-SPELLCASTING-LOCAL-REASONING-WORKER-PILOT-2026-11-03.md) records model/tool limits, failed Codex-provider attempts, findings and verified corrections. No model worker edited files or operated the game.
 
 ## Operator trial procedure — future only
 

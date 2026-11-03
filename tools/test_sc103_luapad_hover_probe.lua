@@ -121,6 +121,7 @@ check(g.outputs[2]:find("DETACH_UNCONFIRMED", 1, true) ~= nil, "detach warning")
 local before = #g.outputs
 g.tick(2, "ability", id)
 check(#g.outputs == before, "inert when detach unconfirmed")
+check(rawget(_G, KEY) == nil, "global cleared despite failed detach")
 
 -- Re-running the snippet stops the previous listener before arming a replacement.
 local h = setup()
@@ -151,6 +152,30 @@ local missingApiOk = pcall(dofile, FILE)
 check(missingApiOk, "missing API reports instead of throwing")
 check(k.outputs[#k.outputs]:find("BLOCKED_REQUIRED_API", 1, true) ~= nil, "missing API blocked")
 check(rawget(_G, KEY) == nil, "missing API leaves no listener")
+
+-- Time expiry combined with rejected detachment must report both facts and go inert.
+local l = setup({rejectDetach = true})
+l.tick(12.01, "unit", "uPRIVATE")
+check(l.outputs[2]:find("TIMEOUT_NO_VALID_ID", 1, true) ~= nil,
+  "time expiry classified when detach fails")
+check(l.outputs[2]:find("DETACH_UNCONFIRMED", 1, true) ~= nil,
+  "time expiry exposes rejected detach")
+check(l.detachCalls == 1, "exactly one detach attempted on timeout")
+check(rawget(_G, KEY) == nil, "global cleared after timeout-detach failure")
+local expiredOutputCount = #l.outputs
+l.tick(13, "ability", id)
+check(#l.outputs == expiredOutputCount, "failed-detach listener remains inert after timeout")
+
+-- No update callbacks means no frame-clock advance: operator cancellation is essential.
+local m = setup()
+check(m.attached and #m.outputs == 1, "no automatic wall-clock callback if game stops updates")
+local pending = rawget(_G, KEY)
+check(type(pending) == "table", "listener pending without frame events")
+pending.stop("MANUAL_CANCEL")
+check(m.detachCalls == 1, "manual cancel detaches pending listener")
+check(m.outputs[2]:find("MANUAL_CANCEL", 1, true) ~= nil, "manual cancel reported")
+check(rawget(_G, KEY) == nil, "manual cancel clears pending state")
+
 
 _G.print = oldPrint
 oldPrint("SC103_HOVER_PROBE_OFFLINE_TESTS_PASS " .. checks)
