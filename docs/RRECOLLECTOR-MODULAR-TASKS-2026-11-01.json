@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10, with recoverable backup and 107 Lua assertions. User-supplied v0.4.10 browser screenshot confirms visible load (69 Known, 96 Static). v0.4.9 visual proof superseded without proof. Pin/Undo, stale-ID rendering and a v0.4.10 saved-state receipt remain pending under RC-26/RC-27/RC-30. RC-31 UI affordance improvements are researched and queued, not yet implemented/deployed.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; user screenshot confirms visual load (69 Known, 96 Static). Pin/Undo, stale-ID runtime rendering and v0.4.10 SavedVariables remain pending under RC-26/27/30. RC-31 UI improvements and RC-32 source-verified reliability fixes are queued, NOT implemented/deployed; physical v0.4.10 is frozen for the live gate.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -882,6 +882,34 @@
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
       "progress": "Read-only source/screenshot audit and independent Extra High review complete. Reviewer rejected unconditional first+last caption compression due real ability name collisions; explicit omissions/collision tests required. No implementation/deployment. Physical v0.4.10 frozen pending Pin/Undo and normal SavedVariables flush."
+    },
+    {
+      "id": "RC-32",
+      "phase": "M7-reliability",
+      "title": "Bound Detail batch requests and preserve prior good candidate results on explicit errors",
+      "state": "pending",
+      "dependsOn": ["RC-30"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/abilities.lua",
+        "addons/RRECollector/main.lua",
+        "tools/verify-rrecollector-ability-boundaries.lua",
+        "tools/verify-rrecollector-candidate-preserve.lua",
+        "docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"
+      ],
+      "scope": [
+        "Skip unbounded rawList batch Detail when enumeration is incomplete or contains duplicates; bounded per-ID fallback",
+        "Preserve existing successful candidateLookup and sequence when new Detail calls explicitly error",
+        "Distinguish API nil/no-detail from exceptions; no learnability inference",
+        "Do not change source or installed addon until RC-30 operator Pin to Undo and normal SavedVariables gate"
+      ],
+      "acceptance": [
+        "Independent review and source-extracted Lua adversarial tests for clean/bad/duplicate/oversized API lists",
+        "Candidate prior-good all-error/partial-error preservation; error-free negatives remain truthful",
+        "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"],
+      "progress": "Two source-confirmed failure paths independently reviewed: P2 latent raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate snapshot on thrown Detail calls. No physical fault reproduced; no fixes implemented, no gameplay input or addon deployment. Frozen v0.4.10 baseline remains intact."
     }
   ],
   "workingSource": {
