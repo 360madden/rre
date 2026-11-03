@@ -12,8 +12,8 @@
 
 ## Source-level regression plan
 
-- Add source-extracted fixture tests for disabled/no selection, valid known, unknown known, static selection and filter changes. Keep in-handler guards.
-- Extend existing two-line caption tests with screenshot names, UTF-8, `Summon Guild Banker` vs `Summon Banker`, Greater/Lesser and class-specific Trainer collisions; enforce measured 46px line bounds, visible omission and full hover names.
+- Add source-extracted fixture tests for disabled/no selection, valid known, unknown known, static selection and filter changes. **Page navigation currently retains an off-page selected ID** (`ui.lua:851-856`); clear selection on successful Prev/Next (or display unambiguous persistent selection, but prefer clearing it to prevent invisible Pin). Capture refresh may also invalidate a previously selected known ID: Pin must refuse it without changing slots/destination/Undo, Check returns NOT IN SNAPSHOT without querying Detail, and stale saved tile remains neutral. Keep in-handler guards.
+- Extend existing two-line caption tests with screenshot names, UTF-8, `Summon Guild Banker` vs `Summon Banker`, Greater/Lesser and class-specific Trainer collisions; enforce measured 46px line bounds, visible omission and full hover names. **Caption policy:** full second-line remainder if it fits; if only one remaining word, UTF-8-safe trailing ellipsis; if multiple words overflow, prefer a measured whole-word suffix prefixed by `…`, falling back to visible truncation of `…` + final word. Never render an unmarked suffix after omitting middle words, which could impersonate a distinct exact ability name. Mock Text width is only offline QA; actual RIFT glyph widths remain a live visual check.
 - Test long browser names and duplicate-name/different-soul rows against actual measured width.
 - Re-run existing six Lua suites, strict package manifest, eight `luac64 -p` checks and independent code review. The visual button code at lines 124–160 already implements hover and pressed states; do **not** label these broken without a real mouse hover/down/up image pair.
 

@@ -881,7 +881,7 @@
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
-      "progress": "Read-only source/screenshot audit and independent Extra High review complete. Reviewer rejected unconditional first+last caption compression due real ability name collisions; explicit omissions/collision tests required. No implementation/deployment. Physical v0.4.10 frozen pending Pin/Undo and normal SavedVariables flush."
+      "progress": "Read-only source/screenshot audit and independent review complete. Planned page navigation must clear an off-page ability selection before Pin/Check can act; capture refresh may stale a previously known selected ID and requires guard tests. Caption omission marker must preserve distinguishable ability names and UTF-8. No implementation/deployment. Physical v0.4.10 frozen pending Pin/Undo and SavedVariables flush."
     },
     {
       "id": "RC-32",
@@ -909,7 +909,7 @@
         "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"],
-      "progress": "Two source-confirmed failure paths independently reviewed: P2 latent raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate snapshot on thrown Detail calls. No physical fault reproduced; no fixes implemented, no gameplay input or addon deployment. Frozen v0.4.10 baseline remains intact."
+      "progress": "Two source-confirmed paths independently reviewed: P2 raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate evidence on explicit Detail exceptions. Added exact reviewer mock matrix and meaningful prior predicate requiring a non-error query, without requiring positive result. No physical runtime fault reproduced; no fixes or addon deployment performed. Frozen physical v0.4.10 baseline remains intact."
     }
   ],
   "workingSource": {
