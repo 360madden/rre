@@ -13,7 +13,7 @@
     "lab1RepoWriteAccess": "none",
     "otherLanesWritten": false
   },
-  "scope": "M1: one committed REA-Lab1 finding independently validated against physical-PC PE",
+  "scope": "M1: committed REA-Lab1 native findings independently validated against the matching physical-PC PE; narrow static claims only",
   "milestoneStatus": "verified-evidence-intake",
   "records": [
     {
@@ -151,6 +151,137 @@
         "installedAddonChanges": false
       },
       "nextAction": "M2 selects existing tools by question with build gate; preserve parked SC-402 and blocked SC-103 until new discriminator"
+    },
+    {
+      "claimId": "M1-XP-002",
+      "status": "accepted-static-limited",
+      "linkedRreTasks": [
+        {
+          "id": "SC-401",
+          "state": "parked",
+          "relation": "ability-manager storage/alias candidate; does not reopen parked root/known-ability native hypothesis"
+        },
+        {
+          "id": "SC-103",
+          "state": "blocked",
+          "relation": "no role-specific Legendary selection, spellbook enumerator, or live ability identity demonstrated"
+        }
+      ],
+      "source": {
+        "project": "REA-Lab1",
+        "path": "C:/work/REA-Lab1/NATIVE-L1-026.md",
+        "sourceCommit": "5774d02408a945f352745306be16652cc544abbb",
+        "sourceFileSha256": "722c91c71c19a3d94219461b879aba57280a92fdaee93f78220983a86a7a222c",
+        "sourceSizeBytes": 3055,
+        "currentFileIdenticalToCommittedBlob": true,
+        "originalLab1Verifier": "REA-Lab1/tools/l1_shared_manager_globals_verify.py",
+        "relatedFixture": "REA-Lab1/tools/test_l1_shared_manager_globals_verify.py",
+        "verifiedOn": "2026-11-03"
+      },
+      "sourceBuild": {
+        "target": "physical-PC RIFT Live x64 on-disk executable",
+        "path": "C:/Program Files (x86)/Glyph/Games/RIFT/Live/rift_x64.exe",
+        "bytes": 60493640,
+        "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+        "sameStaticBuildAsLab1Report": true,
+        "equalityScope": "exact original PE bytes only; runtime pointer values and object aliases are unknown"
+      },
+      "acceptedClaim": {
+        "exactStaticStatement": "Two separately coded lazy initialization paths each request a size-0x50 (80-byte) allocation through RVA 0x78E110 and invoke initializer RVA 0x12746C8. Path A loads/stores global storage RVA 0x33E0BE0 and Path B loads/stores global storage RVA 0x33624C8; they are distinct addresses in the virtual (non-file-backed) tail of .data, whose file-backed end is RVA 0x3361C00 and virtual end is RVA 0x35EB660. Common constructor code does not prove that the runtime pointer values or underlying game object instances are identical or different.",
+        "proofTiers": [
+          "G0 SHA-bound source PE and bytes",
+          "bounded G3 native call/global-reference layout only"
+        ],
+        "allocatorRva": "0x78E110",
+        "initializerRva": "0x12746C8",
+        "allocationBytes": 80,
+        "pathA": {
+          "globalRva": "0x33E0BE0",
+          "loadRva": "0x1339EC4",
+          "allocatorCallRva": "0x1339F5B",
+          "constructorCallRva": "0x1339F86",
+          "storeRvas": [
+            "0x1339F8F",
+            "0x1339FA6"
+          ],
+          "allocSizeRva": "0x1339F56"
+        },
+        "pathB": {
+          "globalRva": "0x33624C8",
+          "loadRva": "0x54EB0E",
+          "allocatorCallRva": "0x54EBA8",
+          "constructorCallRva": "0x54EBD3",
+          "storeRvas": [
+            "0x54EBDC"
+          ],
+          "allocSizeRva": "0x54EBA3"
+        },
+        "dataSection": {
+          "rawEndRva": "0x3361C00",
+          "virtualEndRva": "0x35EB660",
+          "bothGlobalAddressesAreVirtualTail": true,
+          "rawFileDoesNotContainLiveGlobalPointerValues": true
+        }
+      },
+      "verification": [
+        {
+          "lane": "Lab1 committed exact-byte/RIP verifier",
+          "jobId": "rre-nativemgr-lab1-verifier-20261103-a1",
+          "exitCode": 0,
+          "result": "20 original source call/RIP/section tests pass"
+        },
+        {
+          "lane": "Lab1 synthetic negative fixtures",
+          "jobId": "rre-nativemgr-lab1-tests-20261103-a1",
+          "exitCode": 0,
+          "result": "8 synthetic tests pass"
+        },
+        {
+          "lane": "physical executable raw Node PE/rel32 validation",
+          "jobId": "rre-nativemgr-physical-raw-20261103-a1",
+          "exitCode": 0,
+          "result": "4 call targets + 5 global references validated with independent section mapper"
+        },
+        {
+          "lane": "physical executable independent Capstone/pefile decode",
+          "jobId": "rre-nativemgr-physical-capstone-corrected-20261103-a2",
+          "exitCode": 0,
+          "result": "11 instruction sites, 4 call targets, 5 global addresses, .data virtual tail independently validated"
+        },
+        {
+          "lane": "Lab1 report original committed source equality",
+          "jobId": "rre-nativemgr-report-git-20261103-a1",
+          "exitCode": 0,
+          "result": "same 3055 bytes and SHA-256 as committed file"
+        }
+      ],
+      "review": {
+        "outcome": "pass-for-narrow-static-code-and-storage-layout-only",
+        "reviewedBy": "RRE manager cross-checking original source bytes via independent Node PE parser, Capstone/pefile, Lab1 pinned verifier and Git commit",
+        "independentAIReviewClaimed": false,
+        "initialTestFailure": {
+          "jobId": "rre-nativemgr-physical-capstone-20261103-a1",
+          "exitCode": 1,
+          "reason": "Independent test code incorrectly assumed every RIP-relative memory operand was operand 1; stores have memory as operand 0. The corrected memory-operand search passed."
+        },
+        "proofLimits": "Multiple independent decoding and mapping methods, not independent LLM agents or current game observation"
+      },
+      "notProven": [
+        "That the two global slots hold different runtime objects or the same pointer",
+        "That either constructor handles learned/locked/Legendary abilities or an active spellbook",
+        "Current session role or Soul Tree, selected Legendary ability, or exact normal-versus-Legendary ID",
+        "Any client/server cast decision or historical GCD/mechanics transition",
+        "The actual live pointer values at both virtual-tail storage locations"
+      ],
+      "runtimeActions": {
+        "gameInput": false,
+        "desktopCapture": false,
+        "processControl": false,
+        "debuggerAttach": false,
+        "sourceRepoChanges": false,
+        "installedAddonChanges": false
+      },
+      "nextAction": "Only pursue pointer/dataflow alias if a new direct source discriminator exists; preserve SC-401 and SC-103 existing stop gates; no new full import"
     }
   ]
 }
