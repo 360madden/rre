@@ -1,4 +1,4 @@
--- RRECollector v0.4.7: synchronized secure visibility and bounded tooltips.
+-- RRECollector v0.4.8: measured two-row icon captions and global title dragging.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -459,6 +459,54 @@ local function tooltipYOffset(screenHeight, barY)
   return math.max(-barY, screenHeight - barY - TOOLTIP_HEIGHT)
 end
 -- RC24-TOOLTIP-END
+-- RC25-CAPTIONS-BEGIN
+-- Each icon gets two independent natural-width Text lines. Automatic wrapping
+-- and a fixed-height Text frame can silently clip the second line in RIFT.
+local function tileLineFits(frame, value)
+  frame:SetText(value)
+  local ok, width = pcall(frame.GetWidth, frame)
+  return ok and type(width) == "number" and width == width
+    and width >= 0 and width <= 46
+end
+local function withoutLastGlyph(value)
+  local n = #value
+  while n > 1 do
+    local b = value:byte(n)
+    if b < 128 or b >= 192 then break end
+    n = n - 1
+  end
+  return value:sub(1, n - 1)
+end
+local function fitTileLine(frame, value)
+  if tileLineFits(frame, value) then return value end
+  local prefix = value
+  for _ = 1, 160 do
+    prefix = withoutLastGlyph(prefix)
+    local candidate = prefix .. "..."
+    if tileLineFits(frame, candidate) then return candidate end
+    if #prefix == 0 then break end
+  end
+  frame:SetText("...")
+  return "..."
+end
+local function layoutTileCaption(first, second, value)
+  local words = {}
+  for word in safe(value, "Empty"):gmatch("%S+") do words[#words + 1] = word end
+  if #words == 0 then words[1] = "Empty" end
+  local top, consumed = "", 0
+  for i, word in ipairs(words) do
+    local candidate = #top > 0 and (top .. " " .. word) or word
+    if not tileLineFits(first, candidate) then break end
+    top, consumed = candidate, i
+  end
+  if consumed == 0 then
+    top, consumed = fitTileLine(first, words[1]), 1
+  end
+  first:SetText(top)
+  local remaining = table.concat(words, " ", consumed + 1)
+  second:SetText(remaining ~= "" and fitTileLine(second, remaining) or "")
+end
+-- RC25-CAPTIONS-END
 local function draw()
   if not ready then return end
   title:SetText("RRE v" .. runtime.VERSION .. " research")
@@ -479,8 +527,13 @@ local function draw()
     for _, edge in ipairs(t.edges) do paint(edge, borderInk) end
     local shift = tilePressed[i] and 1 or 0
     icon:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 6 + shift, 5 + shift)
-    t.label:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 47 + shift)
-    t.label:SetText(short(a and a.name or "Empty", 18))
+    t.labelTop:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 47 + shift)
+    t.labelBottom:SetPoint("TOPLEFT", t.frame, "TOPLEFT", 3 + shift, 61 + shift)
+    local captionName = a and a.name or "Empty"
+    if t.captionName ~= captionName then
+      layoutTileCaption(t.labelTop, t.labelBottom, captionName)
+      t.captionName = captionName
+    end
     local valid = a and type(a.icon) == "string" and #a.icon > 0
     if valid then
       if t.texturePath ~= a.icon then
@@ -663,10 +716,18 @@ local function createUI()
   for i = 1, MAX_SLOTS do
     local index = i
     local tile = block("RRESlot" .. i, bar, 12 + (i - 1) * 56, 47,
-      52, 74, color.muted)
+      52, 77, color.muted)
     tile:SetMouseMasking("full")
-    local slotLabel = text("RRESlotLabel" .. i, tile, 3, 47,
-      46, 25, 10, "", color.text, true)
+    local function captionLine(suffix, top)
+      local label = UI.CreateFrame("Text", "RRESlotLabel" .. i .. suffix, tile)
+      label:SetLayer(2); label:SetMouseMasking("limited")
+      label:SetPoint("TOPLEFT", tile, "TOPLEFT", 3, top)
+      label:SetFontSize(10); label:SetWordwrap(false)
+      label:SetFontColor(color.text[1], color.text[2], color.text[3], color.text[4])
+      label:SetText("")
+      return label
+    end
+    local labelTop, labelBottom = captionLine("Top", 47), captionLine("Bottom", 61)
     tile:EventAttach(Event.UI.Input.Mouse.Left.Click, function()
       local ok = pcall(selectSlot, index)
       if not ok then say("Toolbar slot selection failed safely.") end
@@ -696,9 +757,9 @@ local function createUI()
     local accent = block("RRESlotAccent" .. i, tile, 0, 0, 52, 1, color.grey)
     accent:SetMouseMasking("limited"); accent:SetLayer(4)
     local edges = {
-      block("RRESlotBottom" .. i, tile, 0, 73, 52, 1, color.grey),
-      block("RRESlotLeft" .. i, tile, 0, 1, 1, 72, color.grey),
-      block("RRESlotRight" .. i, tile, 51, 1, 1, 72, color.grey)
+      block("RRESlotBottom" .. i, tile, 0, 76, 52, 1, color.grey),
+      block("RRESlotLeft" .. i, tile, 0, 1, 1, 75, color.grey),
+      block("RRESlotRight" .. i, tile, 51, 1, 1, 75, color.grey)
     }
     for _, edge in ipairs(edges) do edge:SetMouseMasking("limited"); edge:SetLayer(4) end
     local icon = UI.CreateFrame("Texture", "RRESlotIcon" .. i, tile)
@@ -706,7 +767,10 @@ local function createUI()
     icon:SetPoint("TOPLEFT", tile, "TOPLEFT", 6, 5)
     icon:SetWidth(40); icon:SetHeight(40)
     icon:SetMouseMasking("limited")
-    tiles[i], tileIcons[i] = {frame = tile, label = slotLabel, accent = accent, edges = edges}, icon
+    tiles[i], tileIcons[i] = {
+      frame = tile, labelTop = labelTop, labelBottom = labelBottom,
+      accent = accent, edges = edges
+    }, icon
   end
   slotTooltip = block("RRESlotTooltip", bar, 12, BAR_HEIGHT + 3, 332, 82, color.background)
   slotTooltip:SetLayer(50); slotTooltip:SetMouseMasking("limited")
@@ -792,15 +856,27 @@ local function createUI()
   local mouseEvent = Event.UI and Event.UI.Input and Event.UI.Input.Mouse
   local left = mouseEvent and mouseEvent.Left
   local cursor = mouseEvent and mouseEvent.Cursor
-  if left and left.Down and left.Up and cursor and cursor.Move then
+  -- RC25-DRAG-BEGIN
+  if left and left.Down and left.Up then
     dragHandle:EventAttach(left.Down, beginDrag, "RRE drag begin")
-    dragHandle:EventAttach(cursor.Move, moveDrag, "RRE drag move")
+    local globalMove = type(Event.Mouse) == "table" and Event.Mouse.Move
+    local attach = type(Command) == "table" and type(Command.Event) == "table"
+      and Command.Event.Attach
+    local globallyAttached = false
+    if globalMove and type(attach) == "function" then
+      local ok, result = pcall(attach, globalMove, moveDrag, "RRE global drag move")
+      globallyAttached = ok and result ~= false
+    end
+    if not globallyAttached and cursor and cursor.Move then
+      dragHandle:EventAttach(cursor.Move, moveDrag, "RRE drag move")
+    end
     dragHandle:EventAttach(left.Up, function() dragging = false end, "RRE drag end")
     if left.Upoutside then
       dragHandle:EventAttach(left.Upoutside, function() dragging = false end,
         "RRE drag cancel")
     end
   end
+  -- RC25-DRAG-END
   loadSlots()
   ready = true
   draw()

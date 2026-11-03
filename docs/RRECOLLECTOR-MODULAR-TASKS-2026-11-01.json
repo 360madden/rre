@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-24 v0.4.7 secure visibility and hidden-first reload initialization fixed, 6/6 source checks, 26 lifecycle +25 control assertions, reviewer approved, 10/10 installed hashes. Exact physical-window screenshot shows v0.4.7; autonomous /reloadui produced fresh v0.4.7 SavedVariables with macro registered/readback matched. RC-23 shared control appearance verified through the unchanged visual block in v0.4.7. RC-25 icon label wrapping remains next.",
+  "status": "RC-25 complete: RRECollector v0.4.8 measured two-line labels visibly working in physical RIFT, global title drag moved beyond handle and returned, protected Reload UI toolbar click caused new v0.4.8 saved receipt at 02:09 UTC. 9 focused Lua assertions, 6 source Node tests, reviewer approve, strict TOC and 10/10 installed hashes. RC-26 hover/browser interactions next.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-25",
+  "nextTaskId": "RC-26",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; RC08 explicit-ID candidate API response accepted (50 returned/7 no-detail); SC103 eligibility remains open",
@@ -755,7 +755,7 @@
       "id": "RC-25",
       "phase": "M7-UI",
       "title": "Improve long ability tile labels and reliable title drag",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "RC-24"
       ],
@@ -772,17 +772,45 @@
         "TOC/source/installed hashes and focused tests pass"
       ],
       "evidence": [
-        "docs/RRECOLLECTOR-RC24-SECURE-VISIBILITY-LIVE-2026-11-03.md"
+        "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md",
+        "tools/verify-rrecollector-ui-captions.lua",
+        "artifacts/rc25-physical-rift-toolbar-actual-20261103.jpg",
+        "artifacts/rc25-global-drag-held-20261103.png"
+      ],
+      "result": "RRECollector v0.4.8 two independent measured tile text rows physically visible; global title drag crossed handle and returned; actual restricted Reload UI hardware click produced Atank v0.4.8 save 02:09:06 UTC, SHA f90620596f5d3a445d61cd8c3c9b9ad377f64ac03d429e0681b4c64a2f4d8532. Focused Lua 9/9, source Node 6/6, independent reviewer approved, strict TOC and 10/10 installed hashes."
+    },
+    {
+      "id": "RC-26",
+      "phase": "M7-UI",
+      "title": "Inspect physical hover cards, browser clicks and pinning",
+      "state": "pending",
+      "dependsOn": [
+        "RC-25"
+      ],
+      "owner": "RRE manager",
+      "scope": [
+        "Verify full-name hover card above/below screen bounds with actual RIFT pointer position",
+        "Exercise browser open/close and Known/Candidates pagination without gameplay inputs",
+        "Check one read-only known-row selection and pinning while preserving prior SavedVariables"
+      ],
+      "deliverable": "Runtime interaction QA and any strictly scoped visual correction",
+      "acceptance": [
+        "Version-matched physical screenshot of hover card and browser interaction",
+        "No regressions in secure reload control or saved known/probe/candidate records",
+        "Source/installed hash parity and rollback after any code change"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md"
       ]
     }
   ],
   "workingSource": {
-    "version": "0.4.7",
+    "version": "0.4.8",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
     "liveLuaLoadVerified": true,
-    "priorLiveVerifiedVersion": "0.4.7",
+    "priorLiveVerifiedVersion": "0.4.8",
     "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
     "latestVersionRuntimeVerified": true,
     "baselineKnownCatalogIds": 69,
@@ -800,9 +828,9 @@
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
-    "lastObservedSavedAddonVersion": "0.4.7",
-    "lastObservedSavedFileTimestampUtc": "2026-11-03T01:48:03.8924359Z",
-    "lastObservedSavedFileSha256": "d990c5b3e057f0891d1070c6cff1cc24fa7b38fc2848312f8d6a79ea481d8413",
+    "lastObservedSavedAddonVersion": "0.4.8",
+    "lastObservedSavedFileTimestampUtc": "2026-11-03T02:09:06.6997842Z",
+    "lastObservedSavedFileSha256": "f90620596f5d3a445d61cd8c3c9b9ad377f64ac03d429e0681b4c64a2f4d8532",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
@@ -848,6 +876,10 @@
     "priorReloadUserVerified": true,
     "rc24Receipt": "docs/RRECOLLECTOR-RC24-SECURE-VISIBILITY-LIVE-2026-11-03.md",
     "autonomousReloadVerified": true,
-    "lastPhysicalScreenshotSha256": "d8c2e37c0be32ea7737cf9a3e8b4b305d3305f125514c05f825951dc940399c2"
+    "lastPhysicalScreenshotSha256": "0c5c31565ccff306683b8be6c9d5e5201ea0eb444ec71d7193c4857ce6f020a3",
+    "rc25Receipt": "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md",
+    "liveTwoLineCaptionsVerified": true,
+    "liveGlobalTitleDragVerified": true,
+    "liveSecureReloadButtonClickVerified": true
   }
 }
