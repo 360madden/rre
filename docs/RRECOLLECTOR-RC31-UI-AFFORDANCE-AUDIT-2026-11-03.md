@@ -8,12 +8,18 @@
 2. **P1 — Abbreviated ability captions lose distinguishing words.** Actual examples include `Shield of the Ch...`, `Patron's Artifac...`, and `Summon Primali...`. `layoutTileCaption` lines 509–525 greedily consumes the first line then trims the remaining line. Explore a measured UTF-8-safe first/last-significant-word fallback, retaining each full name in the hover tooltip and preserving exact saved IDs.
 3. **P2 — Crowded browser rows.** At lines 596 and 604–607, the page heading already says `API-known` but every Known row repeats `[API]`. Name trimming uses `short(...,43)`, not natural RIFT Text metrics. Remove redundant row mode prefixes, fit the entire label to width, and preserve soul suffixes to distinguish same-name abilities.
 
+**Independent reviewer collision guard:** A naive first+last-word rewrite is unacceptable: `Summon Guild Banker` could become the separate real ability name `Summon Banker`; several class Trainer titles collapse to `Summon Trainer`; Greater/Lesser qualifiers can disappear. **Require a visible omission marker**, preserved word order, full-name+exact-ID hover, collision fixtures and a conservative ellipsis fallback. A source-only visual test cannot prove actual RIFT font rendering. For the action buttons, only ordinary `buttonVisual.setEnabled` is allowed; do not alter secure Reload UI sibling or its parent modes. Stop if protected click/macro behavior changes or original eight saved slot IDs cannot be restored.
+
 ## Source-level regression plan
 
 - Add source-extracted fixture tests for disabled/no selection, valid known, unknown known, static selection and filter changes. Keep in-handler guards.
-- Extend existing two-line caption tests with screenshot names and UTF-8; enforce measured 46px line bounds and full hover names.
+- Extend existing two-line caption tests with screenshot names, UTF-8, `Summon Guild Banker` vs `Summon Banker`, Greater/Lesser and class-specific Trainer collisions; enforce measured 46px line bounds, visible omission and full hover names.
 - Test long browser names and duplicate-name/different-soul rows against actual measured width.
 - Re-run existing six Lua suites, strict package manifest, eight `luac64 -p` checks and independent code review. The visual button code at lines 124–160 already implements hover and pressed states; do **not** label these broken without a real mouse hover/down/up image pair.
+
+## Autonomous screenshot capture boundary
+
+The existing Workbridge path is `desktop_windows` → exact `desktop_inspect` → `desktop_capture_window`, with WinApp CLI 0.7.1 and a shared exclusive desktop turn. Read-only source inspection of `workbridge-mcp/src/desktop-registration.ts` (SHA-256 `5cf0f8b3c4def99d1b39f2f0dd38ec98439ca620eb7ec83f84ec52fae34de864`, lines 41–47 and 85–139) confirms `UI_TURN_BUSY` arises from exclusive lock contention (`open('wx')`/`EEXIST`); after an unsettled process tree it intentionally retains/quarantines that lock without automatic retry. A busy error alone does not establish whether the owner is active or quarantine. Workbridge's capture may also change game-window foreground, so it is not a proven non-disruptive autonomous screenshot route in the concurrent PC-repair session. **Do not delete locks, bypass the owner, retry uncertain UI actions, restore/minimize/move the window, or alter Workbridge from RRE.** After the current desktop owner explicitly reconciles/releases the GUI turn, one owner-approved bounded capture could be attempted with a fresh exact PID/HWND; stop on contention or uncertainty. Joey's supplied original screenshot already closes v0.4.10 visual load.
 
 ## Deployment gate
 

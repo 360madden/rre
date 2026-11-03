@@ -876,12 +876,12 @@
       ],
       "acceptance": [
         "RC-30 physical Pin to Undo and v0.4.10 persistence gate resolved before replacing installed package",
-        "Source-extracted controls, captions and browser layout tests pass",
+        "Source-extracted controls, captions and browser layout tests pass including explicit omission markers and collisions between real Summon Banker/Guild Banker and trainer variants",
         "Strict 10/10 physical host/source package parity after safe versioned deployment",
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
-      "progress": "Read-only source/screenshot audit complete, no implementation or deployment. Physical v0.4.10 frozen pending Pin/Undo and normal SavedVariables flush."
+      "progress": "Read-only source/screenshot audit and independent Extra High review complete. Reviewer rejected unconditional first+last caption compression due real ability name collisions; explicit omissions/collision tests required. No implementation/deployment. Physical v0.4.10 frozen pending Pin/Undo and normal SavedVariables flush."
     }
   ],
   "workingSource": {

@@ -174,7 +174,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json (RC-14: 323 unique static IDs from 11 disabled Warrior source files; no current unlock/learnable proof)",
         "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json (RC-29: sanitized 353-ID reference with 96 candidate lookup entries; not proof of castability)",
         "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-DOCS-2026-11-03.md (existing installed addon preserved current-client Detail documentation; 34/34 serializer match)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json (sanitized deterministic field names and source hashes)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json (sanitized deterministic field names and source hashes)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md (historical publisher selection mechanics and current event/tooltip identity leads)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -248,8 +249,16 @@
         "runtimeDetailDocumentedFieldList": "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json",
         "collectorExportsRankVariantFields": false,
         "protectorVariantGapReport": "docs/REA-RIFT-SPELLCASTING-SC103-PROTECTORS-FURY-VARIANT-GAP-2026-11-03.md",
+        "historicalLegendaryPublisherSelectionRule": "2016 level 66-70 selection, per Soul points and individual role slot; current build unverified",
+        "historicalLegendarySelectionReport": "docs/REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md",
+        "currentClientAbilityEventNamesIndexed": ["Event.Ability.New.Add", "Event.Ability.New.Remove", "Event.Ability.New.Usable.True", "Event.Ability.New.Usable.False"],
+        "currentClientTooltipInspectorDocCharacters": 596,
+        "tooltipShownValueMappedToAbilityId": false,
+        "candidateDetailIdNewCompared": 51,
+        "candidateDetailIdNewDifferentFromRequest": 0,
+        "alternateProtectorLegendaryIdResolved": false,
         "eligibilityResolvedIds": 0,
-        "note": "RC-29 merges 323 historical static and 69 API-listed IDs, with 96 saved candidate Lookup statuses. SC-103 recovered stored in-client Inspect.Ability.New.Detail documentation (34 members; exactly 34/34 exported). This closes documentation retrieval only, not undocumented variant paths, rank/eligibility or native readiness. v0.4.10 visual UI verified by user screenshot; Pin/Undo, stale saved slot and v0.4.10 save unverified. Native GCD remains unknown."
+        "note": "RC-29 merges 323 historical static and 69 API-listed IDs; 96 candidate statuses. SC-103 recovered stored 34-member Detail documentation (34/34 exported). Current-client ability Add/Remove and Usable events are indexed; Inspect.Tooltip has a bounded in-client type/shown interface, neither yet captured for Protector's Fury. Historical publisher describes 66-70, Soul/role-specific Legendary selection, not current eligibility. All 51 returned candidate idNew match requested IDs. v0.4.10 UI screenshot verified; Pin/Undo, stale slot and saved v0.4.10 remain unverified. Native GCD unknown."
       }
     },
     {
