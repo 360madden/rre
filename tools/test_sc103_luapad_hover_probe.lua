@@ -176,6 +176,21 @@ check(m.detachCalls == 1, "manual cancel detaches pending listener")
 check(m.outputs[2]:find("MANUAL_CANCEL", 1, true) ~= nil, "manual cancel reported")
 check(rawget(_G, KEY) == nil, "manual cancel clears pending state")
 
+-- A transient tooltip API fault interrupts consecutive-valid-sample counting.
+local intermittent = {tooltipErrors = false}
+local n = setup(intermittent)
+n.tick(1.0, "ability", id)
+n.tick(1.1, "ability", id)
+check(n.detachCalls == 0, "two matches alone not sufficient")
+intermittent.tooltipErrors = true
+n.tick(1.2, "ability", id)
+intermittent.tooltipErrors = false
+n.tick(1.3, "ability", id)
+check(n.detachCalls == 0, "tooltip fault resets stability; third good reading is not enough")
+n.tick(1.4, "ability", id)
+check(n.detachCalls == 0, "two post-fault samples still insufficient")
+n.tick(1.5, "ability", id)
+check(n.detachCalls == 1, "three uninterrupted post-fault samples accepted")
 
 _G.print = oldPrint
 oldPrint("SC103_HOVER_PROBE_OFFLINE_TESTS_PASS " .. checks)

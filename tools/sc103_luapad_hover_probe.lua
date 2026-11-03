@@ -73,7 +73,10 @@ else
       -- NEVER stringify or export non-ability tooltip payloads.
       local okTooltip, kind, shown = pcall(Inspect.Tooltip)
       if not okTooltip then
+        -- A failed read interrupts any previously matched sequence.
         state.failures = state.failures + 1
+        state.lastId = nil
+        state.stable = 0
         if state.failures >= 3 then complete("TOOLTIP_API_FAILURE") end
         return
       end

@@ -12,8 +12,8 @@ The already installed JAB and Rusty's Action Bars call `Inspect.Tooltip()` to cl
 
 | Local RRE file | Exact SHA-256 | Role |
 | --- | --- | --- |
-| `tools/sc103_luapad_hover_probe.lua` | `b97bf0a1c0489114c71bd11f7d9b9868bea22c7f8b57d5a7de0fbd8d57c7127d` | Self-contained operator-pasted one-shot Lua; no TOC or installed addon |
-| `tools/test_sc103_luapad_hover_probe.lua` | `84f7704aeb6e3e86d697de2fe0e6b8cc2074f134d5fd33fb2bf423b4c39c799e` | Synthetic API/event/time/payload fixtures only |
+| `tools/sc103_luapad_hover_probe.lua` | `4b8a19e44dd5444393f631d1517bb6b18bcaee6a4cd9ac8c8b1d689caeed11c3` | Self-contained operator-pasted one-shot Lua; no TOC or installed addon |
+| `tools/test_sc103_luapad_hover_probe.lua` | `194fbf53d9b2feb5a62d38b80d5ac1e0f2dc9eb7bd7bcc7841ae848424ff3e0c` | Synthetic API/event/time/payload fixtures only |
 
 **API source:** Previously saved in-client `Inspect.Tooltip()` text is 596 chars, SHA-256 `14b6dea5b4e532bda5433028bd10218adbdb82568f1f2e9f2ae41c92f75633a1`. `Command.Event.Attach` is separately documented (716-character saved source); existing RiftReader2Casting uses `Event.System.Update.Begin` and `Inspect.Time.Frame`. Installed Rusty's Action Bars provides source examples of `Command.Event.Detach(event, nil, label)`. These are source patterns; current-game runtime compatibility was **not** exercised by RRE.
 
@@ -29,13 +29,17 @@ The already installed JAB and Rusty's Action Bars call `Inspect.Tooltip()` to cl
 
 ## Offline testing (not a live proof)
 
-Both staged files were transferred **byte-for-byte** from the Workbridge-owned Windows files into the assistant's isolated environment, verified against the SHA-256 values above, and the original synthetic test harness was executed under the available **Lua 5.4 shared-library runtime**.
+The **previous exact source/fixture pair** (source SHA `b97bf0a1...`, fixture SHA `84f7704a...`) was transferred byte-for-byte and executed in an isolated **Lua 5.4 shared-library runtime**. FreeBuff subsequently identified a transient tooltip-error defect in the staged probe. The current changed source/fixture hashes are shown above; **the revised complete fixture has not yet been rerun under Lua**.
 
-**Result: 110 offline assertions passed.** Fixtures cover successful three-frame ID qualification, non-ability/unit/table payload suppression, initial 0.6-second settle, 12-second and 900-frame stop gates, API fault after three errors, clock faults/backwards clock, rejected attachment, nil-return API semantics, detach failure/inert listener, repeated arming and operator cancellation. The latest tests also cover **timeout simultaneous with rejected detach**, global cleanup after such failure, and manual cancellation when no frame events arrive. The source uses conventional Lua 5.1 syntax, but **Lua 5.1/RIFT-runtime compilation, actual LuaPad loading, and native-tooltip ID results remain unverified**. Do not promote synthetic tests to an in-game success claim.
+**Historical result: 110 assertions passed under the previous exact source/fixture pair.** That suite covered three-frame ID qualification, non-ability/unit/table payload suppression, initial settle, time and frame limits, API failures, clock drift, event attach/detach and cancellation. A new intermittent-error test requires the matching-ID sequence to restart after a failed `Inspect.Tooltip()` call. A **source-extracted Lua 5.4 red/green check** independently reproduced the original failure and passed after resetting `state.lastId` and `state.stable` in the error branch. **Full revised suite pending** until its exact current files can be run in a Lua-compatible interpreter. The source uses conventional Lua 5.1 syntax, but **Lua 5.1/RIFT-runtime compilation, actual LuaPad loading, and native-tooltip ID results remain unverified**. Do not promote synthetic tests to an in-game success claim.
 
 ## Independent local reasoning review
 
 Two independently prompted **local Gemma 4 12B reasoning workers**, each using one allowlisted read-only source-file tool call, finished in a supervised Ollama session (107,199 ms total). The manager accepted one missing combined negative test and rejected two source-inconsistent suggestions; a second worker confirmed the inability to infer selected Legendary state from an ID-shaped tooltip result. The [source-qualified worker receipt and critique](REA-RIFT-SPELLCASTING-LOCAL-REASONING-WORKER-PILOT-2026-11-03.md) records model/tool limits, failed Codex-provider attempts, findings and verified corrections. No model worker edited files or operated the game.
+
+## New FreeBuff review and targeted correction (same day)
+
+Two real **FreeBuff CLI reviews** completed using isolated Windows ConPTY source-copy sessions: SC-103 (59.3 seconds) and RC-30 (50.3 seconds). The SC-103 reviewer correctly identified that a transient tooltip API fault retained the prior 2/3 stable-sample state. The staged RRE source now clears `state.lastId` and `state.stable` on failure; the new regression fixture tests the condition. Full source hashes, actual FreeBuff completion receipts, proof limits and a parked RC-30 risk are recorded in [the FreeBuff review report](REA-RIFT-SPELLCASTING-FREEBUFF-REVIEW-2026-11-03.md). The operator now prefers **FreeBuff, not Ollama** for future agent delegation; the older Gemma/Ollama review above is historical only.
 
 ## Operator trial procedure — future only
 
