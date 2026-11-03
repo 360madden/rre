@@ -34,7 +34,7 @@ SOURCES = {
 # Reviewed 2026-11-03 source snapshot. Default --run is fail-closed against drift.
 APPROVED_SOURCE_SHA256 = {
     "probe": "fbf1199a7fc85f126157e477211044762dc3fbc0fcb943c05726941c70d1c816",
-    "fixture": "6f07851db0a4f68275734e1b8736a6291f28939aa4064dd0fe51653f9d814647",
+    "fixture": "c196a950bdbd979c548db66ab34e272e4558b2dee50768ba3d4833a8c20075dc",
     "copy": "478e81c2d83d7406c7998f8f6ebe311c3785a2acf4b7ca37b7689ad338f06406",
 }
 MIN_ASSERTIONS = 430

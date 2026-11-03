@@ -263,6 +263,27 @@ check(#cumulativeFaults.outputs == cumulativeOutputCount and cumulativeFaults.de
 local e = setup({rejectAttach=true})
 check(e.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil, "attach rejection fails closed")
 check(e.detachCalls == 1, "clean rejection receives conservative exact-detach attempt")
+-- Attach can reject *without* registering; failed exact Detach still quarantines.
+-- This is a conservative availability cost, not evidence that a callback leaked.
+local cleanReject = setup({registryModel=true, rejectAttach=true})
+check(cleanReject.detachCalls == 1, "no-registration Attach reject attempts exact cleanup")
+check(#cleanReject.registrations == 0 and rawget(_G, QUARANTINE_KEY) == true,
+  "no-registration false Detach quarantines without a callback")
+check(cleanReject.outputs[1]:find("ATTACH_REJECTED id=UNKNOWN DETACH_UNCONFIRMED", 1, true) ~= nil,
+  "no-registration reject is bounded and warns about cleanup")
+local cleanRejectReceipt = rawget(_G, RESULT_KEY)
+check(type(cleanRejectReceipt) == "table" and cleanRejectReceipt.status == "ATTACH_REJECTED" and
+  cleanRejectReceipt.candidate == nil and cleanRejectReceipt.detachConfirmed == false,
+  "no-registration failure cache retains sanitized unknown result")
+check(pcall(dofile, FILE), "quarantined no-registration reject rerun is safe")
+check(#cleanReject.registrations == 0 and cleanReject.detachCalls == 1 and
+  rawget(_G, RESULT_KEY) == cleanRejectReceipt and
+  cleanReject.outputs[#cleanReject.outputs]:find("BLOCKED_UNCONFIRMED_DETACH", 1, true) ~= nil,
+  "quarantine refuses rearm and preserves Attach-reject receipt")
+check(pcall(dofile, COPY_FILE), "quarantined Attach-failure copy is safe")
+check(cleanReject.outputs[#cleanReject.outputs]:find("ATTACH_REJECTED id=UNKNOWN DETACH_UNCONFIRMED", 1, true) ~= nil and
+  rawget(_G, RESULT_KEY) == nil,
+  "copy consumes sanitized Attach-reject receipt once")
 -- A rejected Attach may already have registered the callback; cleanup must be verified.
 local throwAfter = setup({registryModel=true, throwAttachAfterRegister=true})
 check(throwAfter.detachCalls == 1, "post-register Attach throw triggers exact Detach")
@@ -270,6 +291,19 @@ check(#throwAfter.registrations == 0, "post-register Attach throw does not leak 
 check(throwAfter.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil, "post-register throw is not armed")
 check(table.concat(throwAfter.outputs):find("PRIVATE_ATTACH_FAILURE", 1, true) == nil,
   "Attach exception text never printed")
+-- A foreign same-label callback must not be consumed by ambiguous Attach cleanup.
+local foreignThrow = setup({registryModel=true, foreignSameLabelListener=true,
+  throwAttachAfterRegister=true})
+check(foreignThrow.detachCalls == 1, "foreign-first Attach throw attempts one exact Detach")
+check(#foreignThrow.registrations == 1, "foreign-first Attach throw keeps one registration")
+check(foreignThrow.registrations[1].handler == foreignThrow.foreignSameLabelListener,
+  "foreign-first Attach throw preserves the foreign handler")
+check(foreignThrow.detachedHandler == foreignThrow.handler,
+  "foreign-first Attach throw detached only the exact probe handler")
+check(foreignThrow.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil,
+  "foreign-first Attach throw cannot claim armed listener")
+check(rawget(_G, QUARANTINE_KEY) ~= true,
+  "confirmed exact cleanup with foreign listener is not quarantined")
 local falseAfter = setup({registryModel=true, falseAttachAfterRegister=true})
 check(falseAfter.detachCalls == 1, "post-register Attach false triggers exact Detach")
 check(#falseAfter.registrations == 0, "post-register Attach false does not leak listener")
