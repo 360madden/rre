@@ -2,7 +2,7 @@
 
 **Planning checkpoint:** 2026-11-03
 **Owner:** Physical-PC RRE spellcasting manager; proposed work is within `C:\work\rre`.
-**Status:** **M1 accepted (bounded, source-verified external evidence intake)** under `M1-INTAKE-001`; M2–M5 are planned and unimplemented. No REA-Lab1 or game files were changed.
+**Status:** **M1 accepted** under `M1-INTAKE-001`; **M2 accepted** under `M2-ROUTE-001` (seven fail-closed tool/no-go routes). M3–M5 remain planned and unimplemented. No REA-Lab1 or game files were changed.
 **Priority:** P1 evidence intake first, P2 tool selection second. This plan does not supersede SC/RC task acceptance gates or authorize new game actions.
 
 ## Decision
@@ -63,6 +63,8 @@ Before running a research tool: name the SC task and narrow question; read exist
 
 **M1 execution ownership:** `M1-INTAKE-001` (RRE manager; sole writer) owns the RRE-local evidence index, this plan and the RRE session handoff. One stable committed REA-Lab1 source report and its original PE bytes were independently qualified in **six bounded read-only Workbridge jobs** (original PE hash/bytes, Capstone, iced-x86, existing Lab1 119-check verifier, Git-blob hash, branch/literal verification). These are tool jobs, not six AI subagents. The accepted claim is registered as `M1-XP-001` in [`REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-INDEX-2026-11-03.json`](REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-INDEX-2026-11-03.json), tied to parked `SC-402`. It does **not** resolve `SC-103`, current gameplay or RC-30. **M1 acceptance is limited to the original static predicate/call/conditional path.**
 
+**M2 execution ownership:** `M2-ROUTE-001` (same sole RRE manager) created [`REA-RIFT-SPELLCASTING-OFFLINE-TOOL-ROUTING-M2-2026-11-03.md`](REA-RIFT-SPELLCASTING-OFFLINE-TOOL-ROUTING-M2-2026-11-03.md): six exclusive existing-tool routes plus no-go, each with source/build/owner gates, bounded scope, native/API/live proof ceiling and explicit fail-closed stop. Current `SC-103` remains blocked, `SC-402` parked and `RC-30` pending. The RRE-local contract check passed **49 assertions**, roadmap validation passed (47 navigation tasks, zero failures), and Git diff check passed. This is a **decision policy**, not a running dispatcher, REA connection, new AI subagents or permission to control the game.
+
 | Milestone | Deliverable | Acceptance | Dependencies |
 | --- | --- | --- | --- |
 | **M1 — Evidence intake** | One verified Lab1 → RRE evidence record | Source path/commit/hash, PE SHA, reproducible static claim, independent review, no cross-repo edit | A stable Lab1 source |
@@ -71,7 +73,7 @@ Before running a research tool: name the SC task and narrow question; read exist
 | **M4 — Minimal automation if justified** | Only targeted glue for a demonstrated repetitive manual step | Repeatable check with idempotent job IDs and no new service/agent framework | M3 demonstrates a gap |
 | **M5 — Effectiveness review** | Before/after work receipts and short updated handoff | Less duplicated research, no unsafe full imports, preserved owners, verifiable continuation | M1–M4 as applicable |
 
-M1 was assigned the RRE-local `M1-INTAKE-001` ownership lane after reconciling `ROADMAP.md`, `docs/roadmap-tasks.json`, SC/RC registers, Git, dirty Lab1 work and command jobs. **No SC/RC or historical NAV task state was changed.** Before starting M2–M5, the manager must reconfirm ownership, assign narrow task IDs and update the appropriate board only if scope requires it; validate the roadmap after any board change. Independent verification jobs do not establish spawned AI agents.
+M1 was assigned the RRE-local `M1-INTAKE-001` ownership lane after reconciling `ROADMAP.md`, `docs/roadmap-tasks.json`, SC/RC registers, Git, dirty Lab1 work and command jobs. **No SC/RC or historical NAV task state was changed.** Before starting M3–M5, the manager must reconfirm ownership, assign narrow task IDs and update the appropriate board only if scope requires it; validate the roadmap after any board change. Independent verification jobs do not establish spawned AI agents.
 
 ## Hard boundaries and known blockers
 
