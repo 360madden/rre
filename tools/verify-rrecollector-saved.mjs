@@ -33,7 +33,7 @@ test("exact-ID merge keeps absent unknown, preserves role-variant names and sour
   const first=staticCatalog.records[0];
   const saved={latest:{
     addonVersion:"0.1.0",captureComplete:true,
-    abilities:[{lookupId:first.id,name:first.name,cooldown:0,passive:false},
+    abilities:[{lookupId:first.id,name:first.name,cooldown:0,passive:false,target:"uPRIVATE_LATEST"},
       {lookupId:"A0000000000000000",name:"Outside static",cooldown:8}]
   }};
   const result=buildAbilityCrosswalk(saved,staticCatalog,"f".repeat(64));
@@ -46,6 +46,7 @@ test("exact-ID merge keeps absent unknown, preserves role-variant names and sour
   assert.equal(result.knownOutsideStatic[0].id,"A0000000000000000");
   assert.equal(result.staticCandidates.find(x=>x.id===first.id).currentDetail.cooldown,0);
   assert.equal(result.staticCandidates.find(x=>x.id===first.id).currentDetail.passive,false);
+  assert.equal(result.staticCandidates.find(x=>x.id===first.id).currentDetail.target,undefined);
   assert.equal(result.staticCandidates.filter(x=>x.name==="Building Fury").length,3);
   assert.equal(result.liveCandidateLookupSaved,false);
 });
@@ -55,7 +56,8 @@ test("candidate lookup handles implicit and explicit numeric-keyed Lua entries",
   for (const numbered of [false, true]) {
     const entry = '{ id = ' + JSON.stringify(item.id)
       + ', status = "returned", listed = false, detail = { '
-      + 'name = ' + JSON.stringify(item.name) + ', cooldown = 0, unusable = false } }';
+      + 'name = ' + JSON.stringify(item.name)
+      + ', cooldown = 0, unusable = false, target = "uPRIVATE_TARGET" } }';
     const entries = numbered ? '[1] = ' + entry : entry;
     const lua = 'RRECollectorData = { latest = { abilities = {} }, '
       + 'candidateLookup = { addonVersion = "0.4.4", entries = { '
@@ -68,5 +70,6 @@ test("candidate lookup handles implicit and explicit numeric-keyed Lua entries",
     assert.equal(row.candidateLookup.detail.name, item.name);
     assert.equal(row.candidateLookup.detail.cooldown, 0);
     assert.equal(row.candidateLookup.detail.unusable, false);
+    assert.equal(row.candidateLookup.detail.target, undefined);
   }
 });

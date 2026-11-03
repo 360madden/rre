@@ -9,7 +9,7 @@ const MAX_DEPTH = 48;
 const MAX_VALUES = 100_000;
 const ID = /^A[0-9A-F]{16}$/;
 const DETAILS = [
-  "lookupId", "id", "idNew", "name", "description", "target", "castingTime",
+  "lookupId", "id", "idNew", "name", "description", "castingTime",
   "channeled", "cooldown", "currentCooldownBegin", "currentCooldownDuration",
   "currentCooldownRemaining", "currentCooldownExpired", "currentCooldownPaused",
   "unusable", "outOfRange", "rangeMin", "rangeMax", "costPower", "costMana",

@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102 reconciliation and RC-08 live API response accepted: 50 of 57 unlisted source IDs returned details, seven no-detail, zero errors; original known 69/probe preserved. RC-22 v0.4.5 reload accepted from user report and matching screenshot. RC-23 v0.4.6 consistent UI installed 10/10 with 6 source checks and 25 mocked assertions; live visual verification pending. SC-103 eligibility and SC-3 timing remain open.",
+  "status": "SC-102 and RC-08 accepted: 50 of 57 originally unlisted IDs returned arbitrary-ID Detail; seven no-detail. RC-27 RRECollector v0.4.9 source/host parity 10/10, with reversible Pin/Undo and capture guard; runtime v0.4.9 load and live Pin/Undo remain unverified (last observed v0.4.8). RC-28 candidate decoder fix and RC-29 sanitized source-hashed 353-ID live Detail atlas accepted at offline-evidence scope. SC-103 rank/eligibility and SC-3 timing remain blocked.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -171,7 +171,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-KNOWN-UI-SECTIONS-2026-11-02.json (69 known IDs reconciled to source-soul vs UI-name sections, role slot still unknown)",
         "docs/REA-RIFT-SPELLCASTING-SC103-PALADIN-TOOLTIP-METADATA-2026-11-02.json (six UI-text mechanics paired by name to static IDs; one explicit No Global Cooldown label)",
         "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json (RC-13: 126 unique exact IDs, four source hashes; no live unlock/rank evidence)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json (RC-14: 323 unique static IDs from 11 disabled Warrior source files; no current unlock/learnable proof)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json (RC-14: 323 unique static IDs from 11 disabled Warrior source files; no current unlock/learnable proof)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json (RC-29: sanitized 353-ID reference with 96 candidate lookup entries; not proof of castability)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -187,8 +188,11 @@
         "absentFromAtankCurrentKnown": 57,
         "sourceInventory": "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
         "addonInstallReport": "docs/RRECOLLECTOR-RC07-STATIC-ID-LOOKUP-2026-11-02.md",
-        "addonVersionInstalled": "0.3.0",
-        "installedFileHashMatches": 9,
+        "addonVersionInstalled": "0.4.9",
+        "installedFileHashMatches": 10,
+        "addonRuntimeVersionVerified": "0.4.8",
+        "addonRuntimeV049Verified": false,
+        "livePinUndoVerified": false,
         "offlineKnownApiRecords": 69,
         "offlineKnownOutsideStatic": 30,
         "offlineExactIdNameMismatches": 0,
@@ -211,8 +215,19 @@
         "offlineAdditionalWarriorStaticIds": 227,
         "offlineWarriorStaticPlusPriorKnownDistinct": 353,
         "offlineAllWarriorStaticReference": "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
-        "currentClientCandidateLookupSaved": false,
-        "note": "RC13 126-ID atlas and RC14 323-ID/11-soul historical static reference expand exact-ID coverage, but do not prove live rank, unlock, learnability, arbitrary-ID Detail or GCD. Saved file predates current process; wait for normal SavedVariables flush, no game-input authority."
+        "currentClientCandidateLookupSaved": true,
+        "currentClientCandidateLookupEntries": 96,
+        "currentClientLookupReturned": 51,
+        "currentClientLookupNoDetail": 7,
+        "currentClientLookupListedNotQueried": 38,
+        "additionalOriginallyUnlistedDetailReturned": 50,
+        "additionalReturnedUnusableTrue": 49,
+        "additionalReturnedPassiveUnusableMissing": 1,
+        "sanitizedAtlasExactIds": 353,
+        "sanitizedAtlasSha256": "5da0b32bc6fd67e86b883d44155c86fb5ff05cab1655b216ebed2fb4e5cd5fb7",
+        "sanitizedAtlas": "docs/REA-RIFT-SPELLCASTING-SC103-353-ID-DETAIL-ATLAS-2026-11-03.json",
+        "eligibilityResolvedIds": 0,
+        "note": "RC-29 merges 323 historical static IDs and 69 current-role API-listed IDs by exact ID, with 96 saved candidate Lookup statuses (51 returned; 50 newly unlisted, 7 no-detail, 38 previously listed not queried). Returned Detail does not establish learned, learnable, unlocked, bound or castable state. Source file is v0.4.8; installed v0.4.9 and live Pin/Undo require an in-game check. SC-103 rank/role allocation and native GCD remain unknown."
       }
     },
     {
