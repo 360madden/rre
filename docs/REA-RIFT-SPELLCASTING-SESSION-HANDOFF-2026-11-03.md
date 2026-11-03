@@ -45,6 +45,8 @@
 
 ## Handoff references
 
+- **P1/P2 plan saved (2026-11-03):** `docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-TOOL-ROUTING-PLAN-2026-11-03.md` specifies read-only REA-Lab1 → RRE source-qualified evidence intake, bounded offline tool routing and proposed M1–M5 milestones. **Documentation only**: no Lab1 integration, toolchain refactor, SC task execution, addon change or current task-board state change. Begin with M1 only after manager assigns board ownership and rechecks source SHA, jobs and dependencies.
+
 - `docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md`
 - `docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md`
 - `docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-LIST-DESCRIPTOR-TRACE-2026-11-03.md`
