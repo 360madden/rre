@@ -146,6 +146,18 @@ for n = 1, 901 do j.tick(1, "unit", "uPRIVATE") end
 check(j.outputs[#j.outputs]:find("TIMEOUT_FRAME_LIMIT", 1, true) ~= nil, "frame budget enforced")
 check(j.detachCalls == 1, "frame budget detaches")
 
+-- The 12-second window must not shrink merely because the game updates at 144 FPS.
+local highFps = setup()
+for frame = 1, 1440 do highFps.tick(frame / 144, "unit", "uPRIVATE") end
+check(highFps.detachCalls == 0, "144 FPS for ten seconds does not time out early")
+check(highFps.calls > 900, "high FPS test exercised beyond old total frame cap")
+highFps.tick(10 + 1 / 144, "ability", id)
+highFps.tick(10 + 2 / 144, "ability", id)
+highFps.tick(10 + 3 / 144, "ability", id)
+check(highFps.detachCalls == 1, "three stable samples succeed after ten seconds")
+check(highFps.outputs[2]:find("ABILITY_ID_CANDIDATE_UNVERIFIED_SOURCE", 1, true) ~= nil,
+  "high FPS candidate still qualified")
+
 local k = setup()
 Inspect.Tooltip = nil
 local missingApiOk = pcall(dofile, FILE)

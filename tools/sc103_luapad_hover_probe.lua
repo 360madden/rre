@@ -5,7 +5,7 @@
 local STATE_KEY = "__RRE_SC103_HOVER_PROBE_20261103"
 local LABEL = "RRE_SC103_HOVER_PROBE_20261103"
 local WINDOW_SECONDS = 12
-local MAX_FRAMES = 900
+local MAX_STALLED_FRAMES = 900
 local REQUIRED_STABLE_FRAMES = 3
 local INITIAL_SETTLE_SECONDS = 0.6
 
@@ -39,8 +39,8 @@ else
   else
     local update = Event.System.Update.Begin
     local state = {
-      done = false, attached = false, frames = 0, failures = 0,
-      lastId = nil, stable = 0
+      done = false, attached = false, stalledFrames = 0, lastClock = start,
+      failures = 0, lastId = nil, stable = 0
     }
     local function complete(reason, candidate)
       if state.done then return end
@@ -60,14 +60,21 @@ else
 
     local function onFrame()
       if state.done then return end
-      state.frames = state.frames + 1
-      if state.frames > MAX_FRAMES then complete("TIMEOUT_FRAME_LIMIT"); return end
       local okTime, now = pcall(Inspect.Time.Frame)
       if not okTime or type(now) ~= "number" or now ~= now or
          now == math.huge or now == -math.huge or now < start then
         complete("CLOCK_UNAVAILABLE"); return
       end
       if now - start >= WINDOW_SECONDS then complete("TIMEOUT_NO_VALID_ID"); return end
+      -- A high-FPS client must not lose its 12-second observation window.
+      -- Only a frame clock that stays frozen for 900 callbacks trips the guard.
+      if now > state.lastClock then
+        state.lastClock = now
+        state.stalledFrames = 0
+      else
+        state.stalledFrames = state.stalledFrames + 1
+        if state.stalledFrames >= MAX_STALLED_FRAMES then complete("TIMEOUT_FRAME_LIMIT"); return end
+      end
       if now - start < INITIAL_SETTLE_SECONDS then return end
 
       -- NEVER stringify or export non-ability tooltip payloads.
