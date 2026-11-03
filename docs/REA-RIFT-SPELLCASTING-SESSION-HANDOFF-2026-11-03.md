@@ -45,7 +45,7 @@
 
 ## Handoff references
 
-- **P1/P2 plan saved (2026-11-03):** `docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-TOOL-ROUTING-PLAN-2026-11-03.md` specifies read-only REA-Lab1 → RRE source-qualified evidence intake, bounded offline tool routing and proposed M1–M5 milestones. **Documentation only**: no Lab1 integration, toolchain refactor, SC task execution, addon change or current task-board state change. Begin with M1 only after manager assigns board ownership and rechecks source SHA, jobs and dependencies.
+- **P1/P2 M1 verified (2026-11-03):** `docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-TOOL-ROUTING-PLAN-2026-11-03.md` records the completed **M1 bounded read-only source-evidence intake**; `docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-INDEX-2026-11-03.json` records claim `M1-XP-001` from committed `REA-Lab1/NATIVE-L1-004.md` at `175d749`, SHA `0a54c76b...`, for the exact PE `1935a05c...`. Six bounded Workbridge **command jobs** passed: original PE hash/14-byte predicate and caller, independent Capstone, independent iced-x86, Lab1's 119-check verifier, Git source-blob equality and caller-branch/literal crosscheck. Proven only static `[[RCX]+0x88]==5` predicate at RVA `0x49F950` and conditional `continuous` metadata path. This is a reference to parked `SC-402`, **not** resolution of SC-103 Legendary, current gameplay, RC-30 or any live spellcasting outcome. Lab1, collector v0.4.10, active SC/RC/NAV boards and screenshot quarantine are untouched. M2–M5 are **planned**; choose M2 bounded tool-selection documentation next after rechecking owners/jobs.
 
 - `docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md`
 - `docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md`

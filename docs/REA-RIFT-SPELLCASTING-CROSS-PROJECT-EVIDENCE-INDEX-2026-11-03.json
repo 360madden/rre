@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "indexId": "RRE-XPROJECT-EVIDENCE-20261103",
+  "owner": "Physical-PC RRE research manager",
+  "lane": {
+    "id": "M1-INTAKE-001",
+    "writer": "RRE manager",
+    "ownedPaths": [
+      "docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-INDEX-2026-11-03.json",
+      "docs/REA-RIFT-SPELLCASTING-CROSS-PROJECT-EVIDENCE-TOOL-ROUTING-PLAN-2026-11-03.md",
+      "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-03.md"
+    ],
+    "lab1RepoWriteAccess": "none",
+    "otherLanesWritten": false
+  },
+  "scope": "M1: one committed REA-Lab1 finding independently validated against physical-PC PE",
+  "milestoneStatus": "verified-evidence-intake",
+  "records": [
+    {
+      "claimId": "M1-XP-001",
+      "status": "accepted-static-limited",
+      "linkedRreTasks": [
+        {
+          "id": "SC-402",
+          "state": "parked",
+          "relation": "continuous/ability-detail native dataflow evidence, not reopened"
+        },
+        {
+          "id": "SC-103",
+          "state": "blocked",
+          "relation": "no role, rank, Legendary discriminator established"
+        }
+      ],
+      "source": {
+        "project": "REA-Lab1",
+        "path": "C:/work/REA-Lab1/NATIVE-L1-004.md",
+        "sourceCommit": "175d749042b7cd21fce9412ef883509c63a0d599",
+        "sourceFileSha256": "0a54c76ba6f83a35601954eacc1f32eed995d56a62eee3e967d86302968ab3cf",
+        "sourceSizeBytes": 4315,
+        "currentFileIdenticalToCommittedBlob": true,
+        "originalLab1Task": [
+          "L1-310",
+          "L1-T050"
+        ],
+        "verifiedOn": "2026-11-03",
+        "lab1IndependentVerifier": "REA-Lab1/tools/l1_native_flow_verify.py",
+        "relatedSource": "REA-Lab1/NATIVE-L1-003.md",
+        "originalReceiptsMentionedInCommittedSource": [
+          {
+            "path": "REA-Lab1/artifacts/native/20261102T155954Z-3e3b34d10433/continuous-leaf-49f950-20261102-a01.json",
+            "sha256": "0fcc7eb95fe8ecf9cacf42c3462e4d28ec63fc3b8a0c929f322e9b5d58cc56d5"
+          },
+          {
+            "path": "REA-Lab1/artifacts/native/20261102T155954Z-3e3b34d10433/continuous-predicate-49f950-20261102-a01.json",
+            "sha256": "48e8a0c85c0da9a601761d3a92ff60056d4f9da786e592a173ba91fd0315d3a0"
+          }
+        ]
+      },
+      "sourceBuild": {
+        "target": "physical-PC RIFT Live x64 on-disk executable",
+        "path": "C:/Program Files (x86)/Glyph/Games/RIFT/Live/rift_x64.exe",
+        "bytes": 60493640,
+        "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+        "sameHashAsCommittedLab1Source": true,
+        "equalityScope": "same static binary bytes only; neither process epoch nor live character identity"
+      },
+      "acceptedClaim": {
+        "exactStaticStatement": "At RVA 0x49F950, mov rax,[rcx]; cmp dword [rax+0x88],5; sete al; ret. The caller at RVA 0x996391 invokes this predicate, tests AL at 0x996396, and conditionally jumps from 0x996398 to 0x9963DE when false, skipping the source-observed continuous metadata path. At 0x9963CA a RIP-relative LEA targets the exact 'continuous' string at RVA 0x26D6450.",
+        "proofTiers": [
+          "G0 source-original bytes and hashes",
+          "G3 bounded native instruction and call/branch flow only"
+        ],
+        "predicateRva": "0x49F950",
+        "fileOffset": 4844880,
+        "leafHex": "488b0183b888000000050f94c0c3",
+        "leafBytes": 14,
+        "leafSha256": "3ce7f6a5b98f3dbc1bf157f064b1e098e2e5c2534d994d85d80b961d985e5a18",
+        "window96Sha256": "aca0bd55ee9f7edff6002124e5351d41ab0a5a1bbde3071bd887b16f11a01def",
+        "callerRva": "0x996391",
+        "callerHex": "e8ba95b0ff",
+        "callerTargetRva": "0x49F950",
+        "testRva": "0x996396",
+        "jeRva": "0x996398",
+        "conditionalSkipTargetRva": "0x9963DE",
+        "continuousLiteralRva": "0x26D6450",
+        "continuousLiteral": "continuous"
+      },
+      "verification": [
+        {
+          "lane": "original PE/sha/section map",
+          "jobId": "rre-m1-original-pe-node-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: original PE hash, 14-byte and 96-byte SHA, caller target, literal"
+        },
+        {
+          "lane": "Capstone independent decode",
+          "jobId": "rre-m1-capstone-independent-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: four-instruction leaf and exact caller call target"
+        },
+        {
+          "lane": "iced-x86 independent decode",
+          "jobId": "rre-m1-iced-independent-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: same four instruction boundaries/opcodes using second decoder"
+        },
+        {
+          "lane": "Lab1 report bundle verifier",
+          "jobId": "rre-m1-lab1-readonly-verifier-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: existing 119 pinned source/report tests, read-only"
+        },
+        {
+          "lane": "source commit drift check",
+          "jobId": "rre-m1-verify-git-blob-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: committed NATIVE-L1-004.md blob SHA equals live file SHA"
+        },
+        {
+          "lane": "branch and literal independent check",
+          "jobId": "rre-m1-verify-branch-literal-20261103-a1",
+          "exitCode": 0,
+          "result": "pass: test/je target and LEA RIP literal using Capstone"
+        }
+      ],
+      "review": {
+        "outcome": "pass-for-narrow-static-claim",
+        "reviewedBy": "RRE manager using separate original-byte mapping, two independently implemented disassemblers, committed source comparison and Lab1's previously written pinning verifier",
+        "independentAIReviewClaimed": false,
+        "reasons": [
+          "Physical on-disk PE SHA equals Lab1 source-qualified PE SHA",
+          "Raw bytes match committed Lab1 report",
+          "Two disassemblers agree on exact leaf instructions",
+          "Caller and conditional skip are independently source-verified"
+        ],
+        "caveat": "Independent verification methods are not independent LLM agents; no live runtime evidence was collected"
+      },
+      "notProven": [
+        "The class or meaning of numeric tag 5",
+        "Whether field +0x88 encodes rank, unlock status, Legendary selection, ability class, or runtime state",
+        "Whether the corresponding ability is known, learnable, usable, bound or actively cast",
+        "In-game behavior, session/character/role, cast success, queue/GCD behavior or server handling",
+        "That this leaf is the spellbook enumerator, or any new SC-103 Legendary discriminator"
+      ],
+      "runtimeActions": {
+        "gameInput": false,
+        "desktopCapture": false,
+        "processControl": false,
+        "debuggerAttach": false,
+        "sourceRepoChanges": false,
+        "installedAddonChanges": false
+      },
+      "nextAction": "M2 selects existing tools by question with build gate; preserve parked SC-402 and blocked SC-103 until new discriminator"
+    }
+  ]
+}
