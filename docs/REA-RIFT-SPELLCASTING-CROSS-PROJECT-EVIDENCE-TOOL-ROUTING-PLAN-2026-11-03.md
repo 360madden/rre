@@ -2,7 +2,7 @@
 
 **Planning checkpoint:** 2026-11-03
 **Owner:** Physical-PC RRE spellcasting manager; proposed work is within `C:\work\rre`.
-**Status:** **M1 accepted** under `M1-INTAKE-001`; **M2 accepted** under `M2-ROUTE-001` (six bounded routes plus no-go); **M3 bounded no-go assessment accepted** under `M3-SC103-NOGO-001`, while SC-103 remains **blocked**. M4–M5 remain planned/conditional. No REA-Lab1 or game files were changed.
+**Status:** M1 and M2 **accepted and committed**; M3 **bounded no-go assessment accepted** (SC-103 itself **blocked**); M4 **deferred, no new tool justified**; M5 **bounded effectiveness review completed** (time/cost savings unmeasured). No REA-Lab1 or game files were changed.
 **Priority:** P1 evidence intake first, P2 tool selection second. This plan does not supersede SC/RC task acceptance gates or authorize new game actions.
 
 ## Decision
@@ -67,6 +67,8 @@ Before running a research tool: name the SC task and narrow question; read exist
 
 **M3 no-go assessment:** [`REA-RIFT-SPELLCASTING-M3-SC103-FRESH-SOURCE-NOGO-2026-11-03.md`](REA-RIFT-SPELLCASTING-M3-SC103-FRESH-SOURCE-NOGO-2026-11-03.md) records one bounded post-relogin source check. Physical RIFT PID 33936 is present, but both RRECollector-related SavedVariables files predate that process and no original screenshot was created after its start. Literal-only parsing showed 96 static candidate-catalog `soul` keys and three saved `player.role` snapshot keys; none identifies the **current** selected Legendary ability. This satisfies the **explicit no-go** branch of the M3 pilot, **not** SC-103 completion or native semantic discovery. Do not repeat unchanged byte traces or source audits absent fresh evidence.
 
+**M4/M5 closure:** [`REA-RIFT-SPELLCASTING-M4-M5-EFFECTIVENESS-REVIEW-2026-11-03.md`](REA-RIFT-SPELLCASTING-M4-M5-EFFECTIVENESS-REVIEW-2026-11-03.md) records reuse of existing parsers/Workbridge tools, a deliberate no-code M4 outcome, actual job/check receipts and honest limits on measuring savings. This closes the **P1/P2 workflow review** without claiming SC-103 Legendary identity or RC-30 completion.
+
 | Milestone | Deliverable | Acceptance | Dependencies |
 | --- | --- | --- | --- |
 | **M1 — Evidence intake** | One verified Lab1 → RRE evidence record | Source path/commit/hash, PE SHA, reproducible static claim, independent review, no cross-repo edit | A stable Lab1 source |
@@ -75,7 +77,7 @@ Before running a research tool: name the SC task and narrow question; read exist
 | **M4 — Minimal automation if justified** | Only targeted glue for a demonstrated repetitive manual step | Repeatable check with idempotent job IDs and no new service/agent framework | M3 demonstrates a gap |
 | **M5 — Effectiveness review** | Before/after work receipts and short updated handoff | Less duplicated research, no unsafe full imports, preserved owners, verifiable continuation | M1–M4 as applicable |
 
-M1 was assigned the RRE-local `M1-INTAKE-001` ownership lane after reconciling `ROADMAP.md`, `docs/roadmap-tasks.json`, SC/RC registers, Git, dirty Lab1 work and command jobs. **No SC/RC or historical NAV task state was changed.** Before starting M4–M5, the manager must reconfirm ownership, assign narrow task IDs and update the appropriate board only if scope requires it; validate the roadmap after any board change. Independent verification jobs do not establish spawned AI agents.
+M1 was assigned the RRE-local `M1-INTAKE-001` ownership lane after reconciling `ROADMAP.md`, `docs/roadmap-tasks.json`, SC/RC registers, Git, dirty Lab1 work and command jobs. **No SC/RC or historical NAV task state was changed.** For any subsequent new scoped work, the manager must reconfirm ownership, assign narrow task IDs and update the appropriate board only if scope requires it; validate the roadmap after any board change. Independent verification jobs do not establish spawned AI agents.
 
 ## Hard boundaries and known blockers
 
