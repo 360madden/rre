@@ -153,6 +153,39 @@ local function retryDeferredCandidateLookup(trigger)
   end
 end
 
+-- RC27-CAPTURE-BEGIN
+-- Transient API/context failures must never replace a complete prior catalog.
+local function recordCapture()
+  if not savedLoaded then
+    say("SavedVariables not ready; retry after initialization.")
+    return
+  end
+  local captureOk, record = pcall(collect)
+  if not captureOk or type(record) ~= "table"
+    or type(record.abilityList) ~= "table"
+    or record.abilityList.apiAvailable ~= true then
+    lastMessage = "capture-error"
+    say("Capture unavailable; prior ability snapshot preserved.")
+    return
+  end
+  local prior = RRECollectorData.latest
+  if type(prior) == "table" and prior.captureComplete == true
+    and record.captureComplete ~= true then
+    lastMessage = "capture-incomplete-preserved"
+    say("Capture incomplete; previous complete ability snapshot preserved.")
+    return
+  end
+  RRECollectorData.latest = record
+  RRECollectorData.sequence = record.sequence
+  lastMessage = record.captureComplete and "capture-complete" or "capture-partial"
+  say("Capture " .. lastMessage .. ": " ..
+    tostring(record.abilityList.uniqueCount) .. " IDs, " ..
+    tostring(record.abilityList.detailCount) ..
+    " details. /rre status; /reloadui to save.")
+  refreshUI(true)
+end
+-- RC27-CAPTURE-END
+
 local function onSlash(_, raw)
   local ok, failure = pcall(function()
     local value = type(raw) == "string" and raw:lower() or ""
@@ -197,24 +230,7 @@ local function onSlash(_, raw)
         if not toggled or shown == false then say("Toolbar could not be toggled.") end
       end
     elseif action == "capture" then
-      if not savedLoaded then
-        say("SavedVariables not ready; retry after initialization.")
-        return
-      end
-      local captureOk, record = pcall(collect)
-      if not captureOk or type(record) ~= "table" then
-        lastMessage = "capture-error"
-        say("Capture failed safely; no prior snapshot overwritten.")
-        return
-      end
-      RRECollectorData.latest = record
-      RRECollectorData.sequence = record.sequence
-      lastMessage = record.captureComplete and "capture-complete" or "capture-partial"
-      say("Capture " .. lastMessage .. ": " ..
-        tostring(record.abilityList.uniqueCount) .. " IDs, " ..
-        tostring(record.abilityList.detailCount) ..
-        " details. /rre status; /reloadui to save.")
-      refreshUI(true)
+      recordCapture()
     elseif action == "page" then
       showPage(tonumber(argument))
     elseif action == "export" then

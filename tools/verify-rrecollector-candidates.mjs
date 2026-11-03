@@ -100,7 +100,8 @@ test("read-only toolbar is optional, bound to existing commands and honest about
   assert.match(ui, /function apiCheck\(id\)/);
   assert.match(ui, /pcall\(fn, id\)/);
   assert.match(ui, /READINESS UNKNOWN/);
-  assert.match(ui, /No auto-cast \/ no continuous readiness polling/);
+  assert.match(ui, /No casting \/ polling/);
+  assert.match(ui, /read-only; does not cast/);
   assert.match(ui, /local function secureReloadButton\(header\)/);
   assert.match(ui, /secureContext:SetSecureMode\("restricted"\)/);
   assert.match(ui, /UI\.CreateFrame\("Frame", "RREReloadSecureClick", secureContext\)/);

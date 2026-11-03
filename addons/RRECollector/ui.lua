@@ -1,4 +1,4 @@
--- RRECollector v0.4.8: measured two-row icon captions and global title dragging.
+-- RRECollector v0.4.9: reversible session pinning and measured icon captions.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -30,6 +30,8 @@ local selectedId, selectedKind = nil, nil
 local browserVisible, barVisible = false, true
 local ready, pinSlot = false, 1
 local slots, checked = {}, {}
+local pinBaseline = nil
+local pinControls = {}
 local sourceById = {}
 for _, entry in ipairs(runtime.candidateCatalog.entries or {}) do
   sourceById[entry.id] = entry
@@ -573,6 +575,8 @@ local function draw()
   soulButton.setText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
   pageButtons.prev.setEnabled(page > 1)
   pageButtons.next.setEnabled(page < total)
+  if pinControls.pin then pinControls.pin.setText("Pin to #" .. tostring(pinSlot)) end
+  if pinControls.undo then pinControls.undo.setEnabled(pinBaseline ~= nil) end
   pageLabel:SetText((mode == "known" and "API-known" or "Static candidates")
     .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
@@ -600,20 +604,49 @@ local function selectAt(index)
   local item = list[(page - 1) * MAX_ROWS + index]
   if item then selectedId, selectedKind = item.id, item.kind; draw() end
 end
+-- RC27-PIN-BEGIN
+-- A session baseline permits one Undo to restore ALL pins changed since the
+-- first click. It preserves the original SavedVariables table (or nil) exactly.
 local function pinSelected()
   if selectedKind ~= "known" or not knownMap()[selectedId] then
     say("Select an API-known ability before pinning; static candidates are not verified.")
     return
   end
+  if type(RRECollectorData) ~= "table" then
+    say("Character SavedVariables unavailable; pin was not changed.")
+    return
+  end
+  local storage = saved()
+  if not pinBaseline then
+    local original = {}
+    for i = 1, MAX_SLOTS do original[i] = slots[i] end
+    pinBaseline = {slots = original, savedSlots = storage.toolbarSlots, nextSlot = pinSlot}
+  end
+  local changedSlot = pinSlot
   slots[pinSlot] = selectedId
   local persisted = {}
   for i = 1, MAX_SLOTS do persisted[i] = slots[i] end
-  local storage = saved()
   storage.toolbarSlots = persisted
   pinSlot = pinSlot % MAX_SLOTS + 1
-  say("Toolbar pin updated; normal UI reload/logout saves the selection.")
+  say("Pinned slot " .. tostring(changedSlot)
+    .. ". Undo pins restores the session baseline before a UI reload/logout.")
   draw()
 end
+local function undoPins()
+  if not pinBaseline then return end
+  if type(RRECollectorData) ~= "table" then
+    say("Character SavedVariables unavailable; cannot restore pins.")
+    return
+  end
+  local baseline = pinBaseline
+  for i = 1, MAX_SLOTS do slots[i] = baseline.slots[i] end
+  RRECollectorData.toolbarSlots = baseline.savedSlots
+  pinSlot = baseline.nextSlot
+  pinBaseline = nil
+  say("Toolbar pins restored to their pre-edit session state.")
+  draw()
+end
+-- RC27-PIN-END
 local function selectSlot(index)
   local id = slots[index]
   if not id then return end
@@ -816,7 +849,8 @@ local function createUI()
   end
   detailLabel = text("RREDetail", browser, 13, 330, 607, 84,
     12, "", color.text, true)
-  button("RREPin", browser, 12, 416, 125, 28, "Pin selected", pinSelected)
+  pinControls.pin = button("RREPin", browser, 12, 416, 125, 28,
+    "Pin to #1", pinSelected)
   button("RRECheckSelected", browser, 143, 416, 172, 28,
     "Check selected", function()
       if selectedKind == "known" and selectedId then
@@ -824,8 +858,10 @@ local function createUI()
       else say("Only API-known abilities support a manual Detail check.") end
       draw()
     end)
-  text("RRELegend", browser, 327, 419, 290, 23, 11,
-    "No auto-cast / no continuous readiness polling", color.grey)
+  pinControls.undo = button("RREUndoPins", browser, 321, 416, 106, 28,
+    "Undo pins", undoPins)
+  text("RRELegend", browser, 433, 419, 186, 23, 11,
+    "No casting / polling", color.grey)
   browser:SetVisible(false)
   local dragging, offsetX, offsetY = false, 0, 0
   local function mouse()

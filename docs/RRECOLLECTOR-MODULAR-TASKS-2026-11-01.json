@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-25 v0.4.8 complete, physical labels/global drag/secure reload click verified and committed ae794ec. RC-26 read-only hover/browser/row/close checks physically passed with unchanged saved data; saved pin-slot mutation deliberately deferred. RC-26 remains next for reversible pin validation.",
+  "status": "RC-27 v0.4.9 source and physical install verified 10/10; Extra High reviewed Undo pins and Capture preservation with 23+10 focused assertions. v0.4.9 live load and pin/Undo are pending. RC-26 remains next; prior v0.4.8 browser/reload checks accepted.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -807,18 +807,38 @@
         "artifacts/rc26-browser-known-row-20261103.jpg",
         "artifacts/rc26-browser-after-close-20261103.jpg"
       ],
-      "progress": "Read-only physical UI smoke passed: full-name tooltip with ID/status, Known 69 page1/9, Candidates 96 page1/12, highlighted Aggressive Block known row and detail, Close restores toolbar; Atank SavedVariables SHA unchanged. Pin selected remains pending because its persisted toolbarSlots mutation lacks an exact UI-only same-slot undo."
+      "progress": "Read-only physical v0.4.8 UI smoke passed: full-name tooltip with ID/status, Known 69 page1/9, Candidates 96 page1/12, highlighted Aggressive Block known row and detail, Close restores toolbar. RC-27 v0.4.9 now supplies Undo pins; version-matched physical pin/restore verification remains pending."
+    },
+    {
+      "id": "RC-27",
+      "phase": "M7-UI",
+      "title": "Reversible pin validation and complete-capture preservation",
+      "state": "pending",
+      "dependsOn": ["RC-25"],
+      "owner": "RRE manager",
+      "scope": [
+        "Add visible next pin destination and in-session undo of exact pre-edit SavedVariables slots",
+        "Preserve complete prior ability capture against API/context failure or incomplete refresh",
+        "Review source and deploy v0.4.9 with full backup and TOC last",
+        "Verify physical pin/Undo and semantic persistence before runtime acceptance"
+      ],
+      "evidence": [
+        "docs/RRECOLLECTOR-RC27-UNDO-CAPTURE-GUARD-2026-11-03.md",
+        "tools/verify-rrecollector-ui-pinning.lua",
+        "tools/verify-rrecollector-capture-preserve.lua"
+      ],
+      "progress": "Source and installation accepted: 10/10 physical hashes; 23 pin and 10 capture assertions, legacy 26/25/9 mock assertions, Node 6/6 and strict package passed. Independent Extra High review approved. Runtime v0.4.9 remains unverified; RC-26 pin test still open."
     }
   ],
   "workingSource": {
-    "version": "0.4.8",
+    "version": "0.4.9",
     "savedVariablesSchema": 1,
     "sourceOnly": false,
     "physicalHostDeploymentCompleted": true,
-    "liveLuaLoadVerified": true,
+    "liveLuaLoadVerified": false,
     "priorLiveVerifiedVersion": "0.4.8",
     "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
-    "latestVersionRuntimeVerified": true,
+    "latestVersionRuntimeVerified": false,
     "baselineKnownCatalogIds": 69,
     "candidateCatalogIds": 96,
     "candidateIdsAbsentFromPriorKnown": 57,
