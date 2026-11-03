@@ -2,6 +2,10 @@
 
 **Owner:** REA/RRE research manager. **Target:** physical-PC RIFT Live x64, not VMware. **Repository:** `C:\work\rre`, branch `main`. **Verified starting HEAD:** `90afd7ce2491234215fd2024a5e18dd63e1ef6ef` (SC-103 bounded Ability List descriptor trace). This is a resumption checkpoint, not a claim of fresh in-game testing.
 
+**Read-only resumption amendment (2026-11-03 05:53 UTC):** HEAD advanced to `8cfae13f1938c50786dcf086f86b5bf309d487e8` (handoff checkpoint). No tracked dirty files; all eight unrelated untracked entries remain. Workbridge 0.16.4-dev reports 36 free command slots, zero running jobs and no RRE agent assignments. A fresh strict verifier reports RRECollector **v0.4.10**, with **10/10** source/install SHA matches; this is not a new runtime receipt. The physical Atank SavedVariables file is unchanged, SHA-256 `0303d1cde261cf7096c1a65651c9e07a725eb9c99c43889a02793ad9214b94d3`, saved 04:12:44.514 UTC, root **v0.4.9**. Literal-only parsing found seven nonempty saved pins and an empty eighth slot; slot #1 is **Shield of the Chosen** (ID `A03F53003A62FFD1E`), **not** Summon Banker. This older disk state cannot establish the current v0.4.10 in-memory baseline.
+
+**RC-30 safety correction:** Before Pin, the operator must record all eight **currently visible** slot identities. Undo must restore that exact in-session baseline, not the old handoff's Summon Banker assumption or the stale disk slots. If baseline is ambiguous, stop and request a current toolbar screenshot. No game input, addon source/install edits, SavedVariables writes or desktop-lease changes occurred in these checks.
+
 ## Resume gate and safety
 
 1. Read `AGENTS.md`, `ROADMAP.md`, `docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md`, both SC/RC task registers and the canonical `docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md`. Recheck HEAD, status, jobs, ownership and any newer handoff before doing work.
@@ -19,7 +23,7 @@
 
 ## Next prioritized work
 
-**P1 — RC-26/27/30 live Pin→Undo→normal save (operator-controlled).** On visible v0.4.10, note original eight pinned slots. In Known select **Aggressive Block**, click **Pin to #1**, verify slot #1 changes, then click **Undo pins** and verify slot #1 returns to **Summon Banker** and all other slots remain original. **Do not reload between Pin and Undo** (Undo baseline is in memory). If Undo fails or the baseline is uncertain, stop and diagnose before any save. Only after Undo is confirmed, use **Reload UI**, inspect fresh v0.4.10 SavedVariables version, pin data and source hash. Separately test a deliberately available stale saved-ID case; do not fabricate one or overwrite saved slots.
+**P1 — RC-26/27/30 live Pin→Undo→normal save (operator-controlled).** On visible v0.4.10, **first record all eight current in-memory slots**; the v0.4.9 disk save differs from the earlier Summon Banker expectation. In Known select **Aggressive Block**, click **Pin to #1**, verify slot #1 changes, then click **Undo pins** and verify **all eight slots return exactly to their just-recorded in-session identities**. **Do not reload between Pin and Undo** (Undo baseline is in memory). If Undo fails or the baseline is uncertain, stop and diagnose before any save. Only after Undo is confirmed, use **Reload UI**, inspect fresh v0.4.10 SavedVariables version, pin data and source hash. Separately test a deliberately available stale saved-ID case; do not fabricate one or overwrite saved slots.
 
 **P2 — RC-31 UI polish, after P1.** Implement the reviewed contract: page-aware selection validity so Pin/Check cannot act on an earlier page's item; disabled state until a valid API-known selection; retain distinguishing words in long captions; simplify redundant `[API]` browser labels and test text/interaction layout. Keep the working restricted-context Reload UI macro and plain button visuals unchanged.
 
