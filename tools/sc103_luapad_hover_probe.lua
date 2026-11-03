@@ -22,7 +22,6 @@ if type(previous) == "table" and type(previous.stop) == "function" then
   pcall(previous.stop, "SUPERSEDED")
 end
 local quarantined = rawget(_G, QUARANTINE_KEY) == true
-if not quarantined then rawset(_G, RESULT_KEY, nil) end -- Preserve failed-detach receipt.
 
 local canRun =
   type(Inspect) == "table" and type(Inspect.Tooltip) == "function" and
@@ -147,6 +146,7 @@ else
       end
     end
 
+    rawset(_G, RESULT_KEY, nil) -- Only a ready-to-arm Run invalidates the previous receipt.
     rawset(_G, STATE_KEY, state)
     local okAttach, attached = pcall(Command.Event.Attach, update, onFrame, LABEL)
     if not okAttach or attached == false then

@@ -364,6 +364,30 @@ check(injected.outputs[#injected.outputs]:find("NONE_OR_EXPIRED", 1, true) ~= ni
 check(table.concat(injected.outputs):find("uPRIVATE", 1, true) == nil, "malformed payload never exported")
 check(rawget(_G, RESULT_KEY) == nil, "malformed record consumed")
 
+-- Blocked re-runs must preserve the last completed evidence for Copy Output.
+local blockedApiRerun = setup()
+blockedApiRerun.tick(1.0, "ability", id)
+blockedApiRerun.tick(1.1, "ability", id)
+blockedApiRerun.tick(1.2, "ability", id)
+local apiReceipt = rawget(_G, RESULT_KEY)
+check(type(apiReceipt) == "table", "API-blocked rearm has a completed receipt")
+Inspect.Tooltip = nil
+check(pcall(dofile, FILE), "missing-API rerun executes safely")
+check(blockedApiRerun.outputs[#blockedApiRerun.outputs]:find("BLOCKED_REQUIRED_API", 1, true) ~= nil,
+  "missing-API rerun reports block")
+check(rawget(_G, RESULT_KEY) == apiReceipt, "blocked required-API rerun keeps completed receipt")
+local blockedClockRerun = setup()
+blockedClockRerun.tick(1.0, "ability", id)
+blockedClockRerun.tick(1.1, "ability", id)
+blockedClockRerun.tick(1.2, "ability", id)
+local clockReceipt = rawget(_G, RESULT_KEY)
+check(type(clockReceipt) == "table", "clock-blocked rearm has a completed receipt")
+Inspect.Time.Frame = function() return 0/0 end
+check(pcall(dofile, FILE), "unavailable-clock rerun executes safely")
+check(blockedClockRerun.outputs[#blockedClockRerun.outputs]:find("BLOCKED_CLOCK", 1, true) ~= nil,
+  "unavailable-clock rerun reports block")
+check(rawget(_G, RESULT_KEY) == clockReceipt, "blocked initial-clock rerun keeps completed receipt")
+
 local rearmedCopy = setup()
 rearmedCopy.tick(1.0, "ability", id)
 rearmedCopy.tick(1.1, "ability", id)
