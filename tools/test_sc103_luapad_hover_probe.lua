@@ -226,6 +226,37 @@ d.tick(1, "ability", id)
 d.tick(1.1, "ability", id)
 d.tick(1.2, "ability", id)
 check(d.outputs[2]:find("TOOLTIP_API_FAILURE", 1, true) ~= nil, "3 errors stop")
+-- The failure budget is three TOTAL API faults, even with successful reads between.
+-- Non-ability successes avoid accidentally completing a stable candidate sequence.
+local intermittentErrors = {tooltipErrors = true}
+local cumulativeFaults = setup(intermittentErrors)
+cumulativeFaults.tick(1.0, "unit", "uPRIVATE")
+check(cumulativeFaults.detachCalls == 0, "one tooltip fault does not detach")
+intermittentErrors.tooltipErrors = false
+cumulativeFaults.tick(1.1, "unit", "uPRIVATE")
+intermittentErrors.tooltipErrors = true
+cumulativeFaults.tick(1.2, "unit", "uPRIVATE")
+check(cumulativeFaults.detachCalls == 0, "two separated tooltip faults do not detach")
+intermittentErrors.tooltipErrors = false
+cumulativeFaults.tick(1.3, "unit", "uPRIVATE")
+intermittentErrors.tooltipErrors = true
+cumulativeFaults.tick(1.4, "unit", "uPRIVATE")
+check(cumulativeFaults.calls == 5, "five alternating tooltip reads sampled")
+check(cumulativeFaults.detachCalls == 1, "third nonconsecutive fault detaches exactly once")
+check(cumulativeFaults.outputs[2]:find("TOOLTIP_API_FAILURE", 1, true) ~= nil,
+  "three total API faults terminate despite intervening successes")
+check(cumulativeFaults.outputs[2]:find("id=UNKNOWN", 1, true) ~= nil,
+  "cumulative fault result cannot claim a candidate ID")
+local cumulativeReceipt = rawget(_G, RESULT_KEY)
+check(type(cumulativeReceipt) == "table" and cumulativeReceipt.status == "TOOLTIP_API_FAILURE" and
+  cumulativeReceipt.candidate == nil and cumulativeReceipt.detachConfirmed == true,
+  "cached cumulative fault result is sanitized and confirms detach")
+check(table.concat(cumulativeFaults.outputs):find("uPRIVATE", 1, true) == nil,
+  "intermittent API faults never print raw non-ability payloads")
+local cumulativeOutputCount = #cumulativeFaults.outputs
+cumulativeFaults.tick(1.5, "ability", id)
+check(#cumulativeFaults.outputs == cumulativeOutputCount and cumulativeFaults.detachCalls == 1,
+  "completed cumulative-fault listener stays inert")
 local e = setup({rejectAttach=true})
 check(e.outputs[1]:find("ATTACH_REJECTED", 1, true) ~= nil, "attach rejection fails closed")
 check(e.detachCalls == 0, "unattached handler not detached")
