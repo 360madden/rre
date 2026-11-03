@@ -1,5 +1,5 @@
 // RC-30 read-only persisted-state receipt. Never execute Lua or expose original IDs.
-// Usage: node tools/rc30-saved-receipt.mjs <original RRECollector.lua> [--expected-sha <64 hex>]
+// Usage: node tools/rc30-saved-receipt.mjs <original RRECollector.lua> [--expected-sha <64 hex>] [--require-version 0.4.10]
 // This proves saved bytes, not in-game Pin -> Undo or their process/session writer.
 import fs from "node:fs";
 import path from "node:path";
@@ -116,11 +116,13 @@ export function buildReceipt(saved, source) {
   };
 }
 
-export function readReceipt(originalPath, expectedSha) {
+export function readReceipt(originalPath, expectedSha, requiredVersion) {
   if (path.basename(originalPath) !== "RRECollector.lua")
     throw new Error("ONLY_RRECOLLECTOR_SAVED_FILE");
   if (expectedSha !== undefined && !HEX64.test(expectedSha))
     throw new Error("EXPECTED_SHA_INVALID");
+  if (requiredVersion !== undefined && !/^0\.[0-9]+\.[0-9]+$/.test(requiredVersion))
+    throw new Error("REQUIRED_VERSION_INVALID");
   const linkStat = fs.lstatSync(originalPath);
   if (!linkStat.isFile() || linkStat.isSymbolicLink())
     throw new Error("SOURCE_NOT_PLAIN_FILE");
@@ -149,6 +151,8 @@ export function readReceipt(originalPath, expectedSha) {
       throw new Error("SOURCE_SHA_MISMATCH");
     const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
     const saved = parseSavedLua(text);
+    if (requiredVersion !== undefined && saved?.addonVersion !== requiredVersion)
+      throw new Error("SOURCE_VERSION_MISMATCH");
     return buildReceipt(saved, {
       observedAtUtc: new Date().toISOString(),
       modifiedAtUtc: new Date(after.mtimeMs).toISOString(),
@@ -164,10 +168,15 @@ const invoked = process.argv[1] &&
 if (invoked) {
   try {
     const args = process.argv.slice(2);
-    if (!(args.length === 1 || args.length === 3 && args[1] === "--expected-sha")) {
-      throw new Error("USAGE: node tools/rc30-saved-receipt.mjs <RRECollector.lua> [--expected-sha <sha256>]");
+    if (args.length < 1 || args.length > 5 || args.length % 2 !== 1)
+      throw new Error("INVALID_CLI_ARGUMENTS");
+    let expectedSha, requiredVersion;
+    for (let i = 1; i < args.length; i += 2) {
+      if (args[i] === "--expected-sha" && expectedSha === undefined) expectedSha = args[i + 1];
+      else if (args[i] === "--require-version" && requiredVersion === undefined) requiredVersion = args[i + 1];
+      else throw new Error("INVALID_CLI_ARGUMENTS");
     }
-    const receipt = readReceipt(args[0], args.length === 3 ? args[2] : undefined);
+    const receipt = readReceipt(args[0], expectedSha, requiredVersion);
     process.stdout.write(JSON.stringify(receipt) + "\n");
   } catch (error) {
     // No raw paths, values, file snippets or partial snapshots on failure.

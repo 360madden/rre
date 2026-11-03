@@ -214,6 +214,18 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(result["runId"], "rre-snapshot-test")
         self.assertFalse(result["modelOsSandboxVerified"])
 
+    def test_fixed_operator_proof_modes(self):
+        self.assertEqual(review.OPERATOR_PROOF_MODES, ("operator", "ability"))
+        text = Path(__file__).with_name("freebuff-rre-review.py").read_text(encoding="utf-8")
+        for word in ("RC30-OPERATOR-ACCEPTANCE", "LEGENDARY-SELECTION",
+                     '"operator"', '"ability"', "NO_GAPS", "NO_NEW_EVIDENCE"):
+            self.assertIn(word, text)
+        summary = review.clean_summary(
+            [sample("operator", 1, 8), sample("ability", 2, 6)],
+            "rre-operator-test")
+        self.assertEqual(summary["status"], "completed")
+        self.assertEqual(summary["runId"], "rre-operator-test")
+
     def test_fake_children_actually_overlap(self):
         test_result = review.self_test()
         self.assertEqual(test_result["status"], "passed")

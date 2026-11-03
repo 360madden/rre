@@ -29,6 +29,7 @@ ADAPTER = ROOT / "tools" / "freebuff-rre-review.py"
 MODES = ("sc103", "rc30")
 RESEARCH_MODES = ("sc306", "sc503")
 SNAPSHOT_AUDIT_MODES = ("slots", "file")
+OPERATOR_PROOF_MODES = ("operator", "ability")
 MAX_CHILD_SECONDS = 172
 MAX_OUTPUT_CHARS = 720_000
 RUN_ID = "rre-freebuff-dual-review-20261103"
@@ -193,7 +194,7 @@ def start_real(modes: tuple[str, str] = MODES) -> dict:
                        timeout=25, check=False)
     if p.returncode != 0:
         raise RuntimeError("adapter preflight failed: " + p.stderr[-350:])
-    if modes not in (MODES, RESEARCH_MODES, SNAPSHOT_AUDIT_MODES):
+    if modes not in (MODES, RESEARCH_MODES, SNAPSHOT_AUDIT_MODES, OPERATOR_PROOF_MODES):
         raise ValueError("Only fixed, reviewed FreeBuff waves are supported")
     command_sets = [[sys.executable, "-B", str(ADAPTER), mode] for mode in modes]
     with ThreadPoolExecutor(max_workers=2) as executor:
@@ -202,6 +203,7 @@ def start_real(modes: tuple[str, str] = MODES) -> dict:
         records = [future_a.result(), future_b.result()]
     suffix = ("research-sc306-sc503" if modes == RESEARCH_MODES else
               "rc30-slot-snapshot-audit" if modes == SNAPSHOT_AUDIT_MODES else
+              "rc30-operator-sc103-proof" if modes == OPERATOR_PROOF_MODES else
               "sc103-rc30")
     return clean_summary(records, RUN_ID + "-" + suffix)
 
@@ -238,18 +240,20 @@ def main(argv: list[str]) -> int:
             raise RuntimeError("FreeBuff adapter preflight failed: " + p.stderr[-400:])
         print(json.dumps({"status": "validated", "adapter": str(ADAPTER.relative_to(ROOT)),
                           "modes": MODES, "researchModes": RESEARCH_MODES, "snapshotAuditModes": SNAPSHOT_AUDIT_MODES,
+                          "operatorProofModes": OPERATOR_PROOF_MODES,
                           "noModelExecution": True}))
         return 0
     if argv == ["--self-test"]:
         print(json.dumps(self_test(), ensure_ascii=True))
         return 0
-    if argv in (["run"], ["research"], ["snapshot"]):
+    if argv in (["run"], ["research"], ["snapshot"], ["operator"]):
         modes = (RESEARCH_MODES if argv == ["research"] else
-                 SNAPSHOT_AUDIT_MODES if argv == ["snapshot"] else MODES)
+                 SNAPSHOT_AUDIT_MODES if argv == ["snapshot"] else
+                 OPERATOR_PROOF_MODES if argv == ["operator"] else MODES)
         result = start_real(modes)
         print(json.dumps(result, ensure_ascii=True))
         return 0 if result["status"] == "completed" else 2
-    raise SystemExit("Usage: python -B tools/freebuff-parallel-review.py --check|--self-test|run|research|snapshot")
+    raise SystemExit("Usage: python -B tools/freebuff-parallel-review.py --check|--self-test|run|research|snapshot|operator")
 
 
 if __name__ == "__main__":

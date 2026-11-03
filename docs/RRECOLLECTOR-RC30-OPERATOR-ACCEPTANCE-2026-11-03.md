@@ -1,0 +1,46 @@
+# RC-30 operator acceptance packet — eight-slot Pin → Undo → Reload UI
+
+**Created:** 2026-11-03. **Owner:** physical-PC RRE manager. **State:** operator trial NOT performed; this document is a reproducible procedure, not an acceptance receipt.
+
+**Installed-source gate:** RRECollector `v0.4.10`. UI source SHA-256 `36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa`. The independently qualified **18:11 UTC** saved source SHA `2c3bd03dc9e8a0018f23a6c8e2ca06acfd4d3f08dcfd12077a7a54c3c7aa72b0` contains **eight distinct ability-shaped IDs** in an implicit Lua array. Correct saved-array fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`. These are historical/source-qualified *at that timestamp*, not a guarantee about current in-memory RIFT state.
+
+## Stop rules before touching the interface
+
+- This is **operator-performed in-game input only**, never RRE automated clicks or a Workbridge capture-lease bypass. Do not run in VMware. Operator must verify the actual current game/window, current character/role, collector title **v0.4.10**, and all **eight visible toolbar positions** before testing.
+- Keep the regular toolbar/collector browser visible; don't click **Reload UI** or log out after pinning and **before** Undo. A new pin creates a one-session baseline; it is **not** saved across a reload.
+- If the game is loading, toolbar is missing, Pin/Undo button differs from source, slot tiles are unreadable, or the selected item is a **[STATIC] candidate rather than [API] Known**, stop without changes. No restoring SavedVariables files on disk while the game is running.
+- The source exposes **Pin to #N** and **Undo pins** inside its browser. On a Pin, it sets a selected API-known ID in the designated slot, cycles the target to the next slot, and enables Undo. Undo restores all eight prior values and the previous next-slot target and disables itself. This behavior has **offline source coverage only** until observed in-game.
+
+## One minimal reversible trial
+
+| Stage | Manual operator action | Evidence / strict acceptance |
+| --- | --- | --- |
+| **A — Before** | In physical RIFT, open RRECollector browser, choose **Known / API**, leave any candidate/static mode. Verify **RRE v0.4.10** title, all eight tile labels, current **Pin to #N** target and initially disabled **Undo pins** | Original screenshot A with all eight tiles, title/version, target and Undo state legible. Note exact selected role/character if visible; no new pin yet |
+| **B — Pin** | Select a current **[API]** row whose name differs from the target slot. Click **Pin to #N** exactly **once** | Screenshot B: target slot changes to chosen API-known ability, next target cycles, Undo becomes enabled; no claim of eight-slot restoration yet |
+| **C — Undo (same session)** | Before any UI reload, click **Undo pins** exactly **once** | Screenshot C: *all eight original labels/positions from A* restored, original Pin target restored, Undo disabled. If any differs, **STOP; do not reload/continue** |
+| **D — Reload after successful Undo only** | Only if A and C visibly match, click the built-in secure **Reload UI** once (operator action) | Screenshot D: after reloading, v0.4.10 still loaded; eight tiles and selected names remain equal to baseline A and Undo disabled |
+| **E — Source check** | After the game has safely flushed character SavedVariables (typically at a real save boundary), use the **read-only** receipt command on the original file | Version v0.4.10, eight slot state records, and fingerprint equal to a qualified **pre-trial** saved receipt. This is supplementary to A–D; timestamps or matching fingerprints **alone** cannot prove game-side Undo |
+
+### Read-only local receipt (Windows PowerShell, executed from C:\work\rre)
+
+`& "C:\Program Files\nodejs\node.exe" .\tools\rc30-saved-receipt.mjs "C:\Users\mrkoo\OneDrive\Documents\RIFT\Interface\Saved\<ACCOUNT_DIR>\Deepwood\Atank\SavedVariables\RRECollector.lua" --require-version 0.4.10
+
+Replace `<ACCOUNT_DIR>` locally with the existing account directory; never paste the account directory name, private IDs or SavedVariables contents into this report. Alternatively use the existing bounded Workbridge source-check route to avoid manually revealing a source path. The command reads once, **fails closed if the root addon version is not exactly 0.4.10**, and otherwise emits **only** a SHA, timestamp, counts, slot states, eight-slot fingerprint and G1 uncertainty flags. It does **not** record actions or assign a source writer PID.
+
+**Comparison protocol:** collect screenshot A + a before-receipt first, then B, C, D, and a post-save receipt. Compare A/C/D labels exactly and pre/post **canonical slot-array fingerprints**; do not rely solely on equal seven/eight counts. The existing historical `b592...` fingerprint is a reference, **not** a guaranteed pre-trial value. If the save is rewritten between reads, retain both SHA-256 receipts as separate dated observations.
+
+## Explicit pass/fail
+
+**PASS** only with an operator-observed **A → B → C → D** sequence, same physical character/session/build, all eight slots restored after Undo and after Reload, and version-matched saved evidence. **FAIL/BLOCKED** for any mismatched slot, unverified source, missing screenshot, absent/disabled Undo after an actual pin, or a Save that cannot be correlated to the operator sequence. Do **not** mark RC-30 accepted merely from snapshot existence, G1 file hashes, or an AI-generated assertion.
+
+**Related separately blocked SC-103 task:** A native Protector's Fury tooltip from the selected Righteous Defender Soul Tree is a different evidence trial. Do not mix role/Legendary changes with this pin/Undo baseline test.
+
+## Independent FreeBuff review and version-bound receipt test
+
+Two bounded source-only FreeBuff CLI reviewers completed through the established ConPTY supervisor on 2026-11-03 (Workbridge job `rre-freebuff-operator-sc103-two-scope-20261103-a1`), with **23.742 seconds overlapping child-process lifetimes**, both real completion markers, and both temporary source folders cleaned. **Simultaneous model-token inference was not measured.** Only RRE manager-reviewed findings below are accepted.
+
+- **Operator protocol reviewer:** identified that the generic read-only `rc30-saved-receipt.mjs` previously printed an apparently usable receipt even for a source declaring a different addon version. The checker now accepts the optional **`--require-version 0.4.10`** gate, which returns **`SOURCE_VERSION_MISMATCH`** (without raw path/source data) for a wrong version. A synthetic v0.4.9 source was rejected under the 0.4.10 requirement; a genuine 0.4.10 physical save passed. **All 12 exact receipt tests passed**, including prior file-replacement and ID-redaction checks. This is a safer pre/post **saved-state** gate, **not** in-game Pin→Undo proof.
+- **SC-103 independent reviewer:** proposed comparing a valid tooltip ability ID against `Inspect.Ability.New.List()`. That comparison is already documented in [SC-103 selection research](REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md); List membership alone cannot prove a selected Legendary variant, so no new SC-103 mechanism or code change is credited.
+- Reviewers saw disposable RRE source copies, not physical RIFT runtime state; FreeBuff was not granted RRE main-branch file-write ownership. The prior installed collector source SHA and RC-30 freeze remain unchanged.
+
+**Evidence storage:** retain screenshot originals only in their approved source location with SHA-256, dimensions, capture/source timestamp when available and session provenance. The desktop capture service is in `DESKTOP_TREE_UNSETTLED` quarantine; do not bypass or release it outside its owner workflow. Preserve original installed addon and SavedVariables.

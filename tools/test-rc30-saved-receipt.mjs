@@ -170,6 +170,32 @@ test("unexpected candidate statuses and filesystem failures never print source d
   assert.equal(actual.stderr.includes(missing),false);
 });
 
+test("operator receipts fail closed when installed collector version differs",()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),"rre-rc30-version-gate-"));
+  const file=path.join(dir,"RRECollector.lua");
+  try{
+    const source='RRECollectorData = { addonVersion="0.4.9",toolbarSlots={}}';
+    fs.writeFileSync(file,source);
+    assert.equal(readReceipt(file).addonVersion,"0.4.9");
+    assert.throws(()=>readReceipt(file,undefined,"0.4.10"),/SOURCE_VERSION_MISMATCH/);
+    assert.throws(()=>readReceipt(file,undefined,"invalid"),/REQUIRED_VERSION_INVALID/);
+    assert.equal(readReceipt(file,undefined,"0.4.9").addonVersion,"0.4.9");
+    const bad=spawnSync(process.execPath,["tools/rc30-saved-receipt.mjs",file,
+      "--require-version","0.4.10"],{cwd:process.cwd(),encoding:"utf8",timeout:4000});
+    assert.equal(bad.status,1);
+    assert.match(bad.stderr,/SOURCE_VERSION_MISMATCH/);
+    assert.equal(bad.stderr.includes(file),false);
+    const good=spawnSync(process.execPath,["tools/rc30-saved-receipt.mjs",file,
+      "--require-version","0.4.9"],{cwd:process.cwd(),encoding:"utf8",timeout:4000});
+    assert.equal(good.status,0);
+    assert.equal(JSON.parse(good.stdout).addonVersion,"0.4.9");
+    const badArgs=spawnSync(process.execPath,["tools/rc30-saved-receipt.mjs",file,
+      "--require-version","0.4.9","--require-version","0.4.9"],{cwd:process.cwd(),encoding:"utf8",timeout:4000});
+    assert.equal(badArgs.status,1);
+    assert.match(badArgs.stderr,/INVALID_CLI_ARGUMENTS/);
+  }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
 test("no sample or role claim is inferred from saved bytes",()=>{
   const r=buildReceipt(saved,meta);
   for(const field of ["roleFromLiveProcessVerified","sourceWriterPidVerified","pinUndoInGameVerified"])
