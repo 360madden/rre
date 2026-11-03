@@ -2,8 +2,8 @@
 r"""Run SC-103's synthetic Lua fixture with an existing, SHA-pinned Windows Lua 5.3.
 
 From the RRE root:
-  .venv\Scripts\python.exe -B tools\run_sc103_lua53_offline.py --check
-  .venv\Scripts\python.exe -B tools\run_sc103_lua53_offline.py --run
+  \.venv\Scripts\python.exe -B tools\run_sc103_lua53_offline.py --check
+  \.venv\Scripts\python.exe -B tools\run_sc103_lua53_offline.py --run
 
 The default --run requires the three reviewed Lua source hashes; an intentional
 new source revision requires all three explicit --expect-*-sha values. The
