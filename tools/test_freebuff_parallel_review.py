@@ -202,6 +202,18 @@ class SupervisorTests(unittest.TestCase):
                     "SC502-OUTCOME", "NO_MAPPING"):
             self.assertIn(key, source)
 
+    def test_snapshot_evidence_workers_are_fixed_and_independent(self):
+        self.assertEqual(review.SNAPSHOT_AUDIT_MODES, ("slots", "file"))
+        source = Path(__file__).with_name("freebuff-rre-review.py").read_text(encoding="utf-8")
+        for item in ("rc30-saved-receipt.mjs", "test-rc30-saved-receipt.mjs",
+                     "read-rrecollector-saved.mjs", '"slots"', '"file"'):
+            self.assertIn(item, source)
+        result = review.clean_summary(
+            [sample("slots", 1, 8), sample("file", 2, 9)], "rre-snapshot-test")
+        self.assertEqual(result["status"], "completed")
+        self.assertEqual(result["runId"], "rre-snapshot-test")
+        self.assertFalse(result["modelOsSandboxVerified"])
+
     def test_fake_children_actually_overlap(self):
         test_result = review.self_test()
         self.assertEqual(test_result["status"], "passed")

@@ -13,7 +13,8 @@ from pathlib import Path
 import sys
 
 MODES = {"sc103": "freebuff-review-pilot", "rc30": "freebuff-lifecycle-review",
-         "sc306": "freebuff-review-pilot", "sc503": "freebuff-lifecycle-review"}
+         "sc306": "freebuff-review-pilot", "sc503": "freebuff-lifecycle-review",
+         "slots": "freebuff-review-pilot", "file": "freebuff-lifecycle-review"}
 UPSTREAM = Path(r"C:\work\workbridge-mcp\scripts\freebuff-conpty-probe.py")
 UPSTREAM_SHA256 = "c29fbfd898c5fe54e86e34403a79ef4d1107761f4828deed153be4be3de3c07f"
 ROOT = Path(__file__).resolve().parent.parent
@@ -122,6 +123,41 @@ def build(lane: str = "sc103"):
         )
         for old, new in additions:
             source = replace_once(source, old, new)
+    elif lane in ("slots", "file"):
+        if lane == "slots":
+            replacements = (
+                ('("tools", "sc103_luapad_hover_probe.lua")',
+                 '("tools", "rc30-saved-receipt.mjs")'),
+                ('("tools", "test_sc103_luapad_hover_probe.lua")',
+                 '("tools", "test-rc30-saved-receipt.mjs")'),
+                ('b"Read tools/sc103_luapad_hover_probe.lua and tools/test_sc103_luapad_hover_probe.lua. "',
+                 'b"Read tools/rc30-saved-receipt.mjs and tools/test-rc30-saved-receipt.mjs. "'),
+                ('b"Using copies only: find NEW defect besides repaired tooltip fault; "',
+                 'b"Inspect implicit Lua array indexing and ID redaction; report ONE bug "'),
+                ('b"cite line and test, or NO_NEW_ISSUE. No edits, shell or game. "',
+                 'b"with file line and test, or NO_NEW_ISSUE. No edits or game. "'),
+            )
+        else:
+            replacements = (
+                ('("addons", "RRECollector", "ui.lua")',
+                 '("tools", "rc30-saved-receipt.mjs")'),
+                ('("tools", "verify-rrecollector-ui-pinning.lua")',
+                 '("tools", "test-rc30-saved-receipt.mjs")'),
+                ('("docs", "RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md")',
+                 '("tools", "read-rrecollector-saved.mjs")'),
+                ('("docs", "RRECOLLECTOR-RC27-UNDO-CAPTURE-GUARD-2026-11-03.md")',
+                 '("docs", "RRECOLLECTOR-RC30-POSTSTART-SAVED-2026-11-03.md")'),
+                ('b"Read addons/RRECollector/ui.lua, tools/verify-rrecollector-ui-pinning.lua and "',
+                 'b"Read tools/rc30-saved-receipt.mjs and tools/read-rrecollector-saved.mjs and "'),
+                ('b"docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md in this isolated "',
+                 'b"tools/test-rc30-saved-receipt.mjs in this isolated "'),
+                ('b"folder. Find at most TWO new valid-ID rollback risks; exclude "',
+                 'b"folder. Audit read-once source identity and read races; check "'),
+                ('b"malformed data and external table replacement. No file edits "',
+                 'b"claim boundaries. Give one reproducible flaw. No file edits "'),
+            )
+        for old, new in replacements:
+            source = replace_once(source, old, new)
     # Reviewers must see the same relative paths as the source repository.
     # Flattened copies caused a prior FreeBuff false-positive about tools/ paths.
     for expected in ("target = os.path.join(probe_dir, *parts)",
@@ -138,7 +174,7 @@ def build(lane: str = "sc103"):
 
 def main():
     if len(sys.argv) != 2 or sys.argv[1] not in {"check", *MODES}:
-        raise SystemExit("Usage: python tools/freebuff-rre-review.py check|sc103|rc30|sc306|sc503")
+        raise SystemExit("Usage: python tools/freebuff-rre-review.py check|sc103|rc30|sc306|sc503|slots|file")
     ns, upstream_hash = build(sys.argv[1] if sys.argv[1] != "check" else "sc103")
     if sys.argv[1] == "check":
         files = [
@@ -160,8 +196,12 @@ def main():
             files.append(ROOT / "docs" / addition)
         if not all(x.is_file() for x in files):
             raise RuntimeError("RRE source missing")
-        for lane in ("sc306", "sc503"):
+        for lane in ("sc306", "sc503", "slots", "file"):
             build(lane)
+        for path in ("rc30-saved-receipt.mjs", "test-rc30-saved-receipt.mjs", "read-rrecollector-saved.mjs"):
+            files.append(ROOT / "tools" / path)
+        if not all(x.is_file() for x in files):
+            raise RuntimeError("RC-30 read-only snapshot sources missing")
         print(json.dumps({"status":"validated","upstreamSha256":upstream_hash,
                           "availableModes":list(MODES),"sources":len(files),
                           "modelExecution":False}))

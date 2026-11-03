@@ -858,7 +858,10 @@
         "docs/RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md",
         "tools/verify-rrecollector-ui-slot-display.lua",
         "artifacts/rc30-v049-host-backup-20261103",
-        "docs/RRECOLLECTOR-RC30-POSTSTART-SAVED-2026-11-03.md"
+        "docs/RRECOLLECTOR-RC30-POSTSTART-SAVED-2026-11-03.md",
+        "docs/RRECOLLECTOR-RC30-EIGHT-SLOT-CORRECTION-2026-11-03.md",
+        "tools/rc30-saved-receipt.mjs",
+        "tools/test-rc30-saved-receipt.mjs"
       ],
       "postStartSavedReceipt": {
         "report": "docs/RRECOLLECTOR-RC30-POSTSTART-SAVED-2026-11-03.md",
@@ -867,23 +870,27 @@
         "addonVersion": "0.4.10",
         "knownAbilities": 69,
         "candidates": 96,
-        "validDistinctPinnedIds": 7,
-        "slotEightEmpty": true,
+        "validDistinctPinnedIds": null,
+        "slotEightEmpty": null,
+        "previousPinCountRequalified": false,
+        "reason": "Historical original bytes unavailable; earlier 1-based JS array lookup was wrong for later source",
+        "correctionReport": "docs/RRECOLLECTOR-RC30-EIGHT-SLOT-CORRECTION-2026-11-03.md",
         "laterPostStartSnapshot": {
           "fileSha256": "2c3bd03dc9e8a0018f23a6c8e2ca06acfd4d3f08dcfd12077a7a54c3c7aa72b0",
-          "savedSlotsCanonicalSha256": "c95f2b01a39a00b5feca1c4a7557afe864e9dd5bb950f155d6eb8004f65151bf",
+          "savedSlotsCanonicalSha256": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160",
+          "slotStorageForm": "implicit-lua-array",
           "modifiedUtc": "2026-11-03T18:11:04.712Z",
           "bytes": 74215,
           "addonVersion": "0.4.10",
           "knownAbilities": 69,
           "candidates": 96,
-          "validDistinctPinnedIds": 7,
-          "slotEightEmpty": true
+          "validDistinctPinnedIds": 8,
+          "slotEightEmpty": false
         },
         "gamePinUndoVerified": false,
         "originalProcessWriterIndependentlyVerified": false
       },
-      "progress": "Physical v0.4.10 package 10/10, historical visible UI and prior source-extracted tests accepted. Source-hashed SavedVariables receipts at 06:24, 17:33 and 18:11 UTC on November 3 preserve 69 known, 96 candidates and seven valid saved pins with slot eight empty; the newer two files postdate the current process start. The 17:33 receipt SHA 4da64665... was superseded on disk by the 18:11 SHA 2c3bd03...; earlier false eight-pin count was an inspection-index error, corrected in linked report. Neither file timestamp independently proves game-side Pin -> Undo, full eight-slot restoration or deliberate post-Undo Reload UI/save. RC-30 stays pending."
+      "progress": "Physical v0.4.10 package 10/10, historic UI load, 69 Known and 96 candidates remain source-qualified. Original 18:11 UTC file SHA 2c3bd03... contains an implicit Lua array with EIGHT distinct valid populated slots, including slot 8, verified by original raw text and a read-once parser (canonical SHA b592926b...). Historical 06:24 and 17:33 pin counts had an unqualified JavaScript indexing error and their old bytes are unavailable for correction; do not claim they had seven or eight. New read-only RC-30 receipt tool passes 11 synthetic tests including source replacement race and redaction. One FreeBuff race reviewer completed; another did not. No in-game Pin -> Undo, eight-slot restoration or deliberate post-Undo Reload UI/save has been observed. RC-30 stays pending."
     },
     {
       "id": "RC-31",

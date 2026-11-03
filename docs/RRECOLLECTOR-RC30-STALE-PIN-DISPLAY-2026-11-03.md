@@ -2,6 +2,8 @@
 
 **November 3, 2026 UTC.** Physical RIFT research addon only, host deployment with no in-game input or process control. **RRECollector v0.4.10 source and installation accepted; operator screenshot now confirms version-matched visual load. v0.4.10 SavedVariables persistence is subsequently verified; Pin/Undo and stale saved-slot appearance remain NOT verified.**
 
+**Later November 3 correction:** [Source-hashed RC-30 eight-slot finding](RRECOLLECTOR-RC30-EIGHT-SLOT-CORRECTION-2026-11-03.md) supersedes older **seven pins / empty eighth slot** interpretations for the original 18:11 UTC v0.4.10 SavedVariables SHA `2c3bd03d...`. That file uses an implicit Lua array: **eight distinct valid IDs, slot eight populated**, confirmed against the raw table. Earlier 06:24 and 17:33 pin counts are **unverified** under corrected indexing until their old original bytes are available. No in-game Pin→Undo has been proven.
+
 ## Narrow defect and fix
 
 In v0.4.9, a saved `toolbarSlots[i]` string absent from the latest 69-ID current API-known snapshot was shown as **“Empty”**, even though the slot retained a real historical ID. A previous per-ID check could also lend stale positive status color to that display. This is misleading and must not be corrected by deleting user preferences.
