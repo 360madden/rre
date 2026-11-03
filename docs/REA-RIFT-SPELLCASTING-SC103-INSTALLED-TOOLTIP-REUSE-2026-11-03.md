@@ -34,6 +34,10 @@ All source and documentation claims were independently rechecked by bounded job 
 
 The same source metadata check found the physical **RRECollector.lua** and **RiftReader2Casting.lua** saves predate physical PID 33936 start; the physical screenshot directory still had **no new original screenshot written after that process start**. The later user-chat PNG is independently recorded; it is not a host Screenshots-folder capture and has no PID/time binding.
 
+## Follow-up — bounded manual LuaPad source staged, not executed
+
+A standalone, RRE-owned, **operator-triggered** LuaPad script and synthetic fixture are now staged at `tools/sc103_luapad_hover_probe.lua` and `tools/test_sc103_luapad_hover_probe.lua`. The [source-hashed test and operator procedure](REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md) records **89 assertions passed in isolated Lua 5.4** (byte-identical source/test files). It accepts only an `ability`-typed `A` + 16-hex ID stable for three callbacks, then automatically detaches or times out. **Nothing was pasted into RIFT; LuaPad's current in-game load remains unverified.** This adds no addon, service or collector mutation, and does not prove an active Legendary variant.
+
 ## Decision and the smallest useful next trial
 
 **Reuse-first decision:** Keep the existing JAB/Rusty's code as verified implementation examples of `Command.Tooltip` and `Inspect.Tooltip`. **Do not claim they provide a native Soul Tree ID capture workflow.** The installed LuaPad provides a *candidate* operator-run scripting surface, but a native hover must still be sampled without disturbing the pointer or reading/exporting arbitrary `shown` blobs. No actual live feasibility proof exists. Do not create a new addon or install another tool merely from this source scan.

@@ -178,7 +178,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md (historical publisher selection mechanics and current event/tooltip identity leads)",
         "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-LIST-DESCRIPTOR-TRACE-2026-11-03.md (physical PE source-hashed List descriptor trace stopped at non-unwind forwarding stub; no enumerator/Legendary callback proof)",
         "docs/REA-RIFT-SPELLCASTING-SC103-CHAT-NATIVE-SOULTREE-2026-11-03.md (user-uploaded original PNG hash; visible Righteous Defender 45/15/0, all three native Legendary counters 0/n; no process binding or selected modern ID)",
-        "docs/REA-RIFT-SPELLCASTING-SC103-INSTALLED-TOOLTIP-REUSE-2026-11-03.md (921 installed Lua source files scanned, two own-button Inspect.Tooltip callers and source-hashed 596-character documentation; native Soul Tree ability ID not observed)"
+        "docs/REA-RIFT-SPELLCASTING-SC103-INSTALLED-TOOLTIP-REUSE-2026-11-03.md (921 installed Lua source files scanned, two own-button Inspect.Tooltip callers and source-hashed 596-character documentation; native Soul Tree ability ID not observed)",
+        "docs/REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md (staged RRE-owned manual one-shot LuaPad probe; exact source/test SHA, 89 offline Lua 5.4 assertions, NOT run in RIFT; native ID still unresolved)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -262,6 +263,12 @@
         "installedTooltipDirectCallerFiles": 2,
         "nativeSoulTreeTooltipExactAbilityIdObserved": false,
         "installedLuaPadCurrentRuntimeVerified": false,
+        "sc103LuaPadHoverProbeStaged": true,
+        "sc103LuaPadHoverProbeSource": "tools/sc103_luapad_hover_probe.lua",
+        "sc103LuaPadHoverProbeSourceSha256": "b97bf0a1c0489114c71bd11f7d9b9868bea22c7f8b57d5a7de0fbd8d57c7127d",
+        "sc103LuaPadHoverProbeFixtureSha256": "9795a89c70b6e58de9c894a2293fbb7fe82cd1cd7503292ba894ed23e2c414c2",
+        "sc103LuaPadHoverProbeOfflineLua54Assertions": 89,
+        "sc103LuaPadHoverProbeGameExecutionVerified": false,
         "tooltipShownValueMappedToAbilityId": false,
         "candidateDetailIdNewCompared": 51,
         "candidateDetailIdNewDifferentFromRequest": 0,
