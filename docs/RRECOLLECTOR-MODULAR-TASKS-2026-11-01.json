@@ -807,7 +807,7 @@
         "artifacts/rc26-browser-known-row-20261103.jpg",
         "artifacts/rc26-browser-after-close-20261103.jpg"
       ],
-      "progress": "Read-only physical v0.4.8 UI smoke passed: full-name tooltip, Known69/Candidates96 browser and close. RC-27 v0.4.9 Undo pins were installed but never runtime-verified; RC-30 v0.4.10 now supersedes it with truthful saved-pin display. Need new version-matched physical title, Pin/Undo and persistence receipt."
+      "progress": "Read-only physical v0.4.8 UI smoke passed: full-name tooltip, Known69/Candidates96 browser and close. RC-27 v0.4.9 Undo pins were installed but never runtime-verified; RC-30 v0.4.10 now supersedes it with truthful saved-pin display. v0.4.10 visual title and pre-Pin saved persistence are now independently documented; still need operator-recorded eight-slot in-memory baseline, actual Pin/Undo interaction and fresh post-Undo persisted comparison."
     },
     {
       "id": "RC-27",
@@ -859,7 +859,7 @@
         "tools/verify-rrecollector-ui-slot-display.lua",
         "artifacts/rc30-v049-host-backup-20261103"
       ],
-      "progress": "Source and host v0.4.10 verified 10/10; 107 Lua assertions, eight luac64 parses, strict TOC and independent reviewer PASS. User screenshot SHA 6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb shows v0.4.10 visually loaded. Pin/Undo, stale saved ID and v0.4.10 saved state are still pending; RC-30 remains pending."
+      "progress": "Source and host v0.4.10 verified 10/10; 107 Lua assertions, eight luac64 parses, strict TOC and independent reviewer PASS. User screenshot SHA 6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb shows v0.4.10 visually loaded. A 06:24:32 UTC v0.4.10 saved receipt (SHA bdf78a8811cc9fa58fcf649bfd8fec98aa3bc93c9d02ec6c01398cc5582da8ac) now verifies pre-Pin persistence of all seven saved IDs and empty eighth slot. Operator Pin/Undo, intentionally available stale saved-ID display, and the post-Undo reload/save comparison remain unverified; RC-30 remains pending."
     },
     {
       "id": "RC-31",
@@ -881,7 +881,7 @@
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
-      "progress": "Read-only source/screenshot audit and independent review complete. Planned page navigation must clear an off-page ability selection before Pin/Check can act; capture refresh may stale a previously known selected ID and requires guard tests. Caption omission marker must preserve distinguishable ability names and UTF-8. No implementation/deployment. Physical v0.4.10 frozen pending Pin/Undo and SavedVariables flush."
+      "progress": "Read-only source/screenshot audit and independent review complete. Planned page navigation must clear an off-page ability selection before Pin/Check can act; capture refresh may stale a previously known selected ID and requires guard tests. Caption omission marker must preserve distinguishable ability names and UTF-8. No implementation/deployment. Physical v0.4.10 remains frozen pending operator Pin/Undo and a post-Undo SavedVariables comparison; the separate pre-Pin v0.4.10 saved receipt is already verified."
     },
     {
       "id": "RC-32",
@@ -926,6 +926,7 @@
     "latestVersionVisualVerified": true,
     "latestVersionVisualEvidenceSha256": "6d4060ede113ad1f055419a80193ba561bee313d8895f540901e7846ea6c1dfb",
     "latestVersionPinUndoVerified": false,
+    "rc30PrePinVersionMatchedSavedVariablesVerified": true,
     "latestVersionSavedStateVerified": false,
     "priorLiveVerifiedVersion": "0.4.8",
     "priorToolbarScreenshot": "User-supplied physical-RIFT v0.4.5 crop and explicit successful Reload UI report, November 2; image SHA e2d2b2aeec70814a79311c672bbc0be3a955500ab8e2a0a1caf727bbb158f49d.",
@@ -945,9 +946,9 @@
     "maxAutomaticCandidateRetries": 2,
     "manualApiReadinessVerified": false,
     "candidateAttemptDiagnosticInstalled": true,
-    "lastObservedSavedAddonVersion": "0.4.9",
-    "lastObservedSavedFileTimestampUtc": "2026-11-03T04:12:44.514Z",
-    "lastObservedSavedFileSha256": "0303d1cde261cf7096c1a65651c9e07a725eb9c99c43889a02793ad9214b94d3",
+    "lastObservedSavedAddonVersion": "0.4.10",
+    "lastObservedSavedFileTimestampUtc": "2026-11-03T06:24:32.047Z",
+    "lastObservedSavedFileSha256": "bdf78a8811cc9fa58fcf649bfd8fec98aa3bc93c9d02ec6c01398cc5582da8ac",
     "rc15InstallReceipt": "docs/RRECOLLECTOR-RC15-RESEARCH-TOOLBAR-2026-11-02.md",
     "strictPackageGateAccepted": true,
     "physicalScreenshotFilesChecked": 162,
