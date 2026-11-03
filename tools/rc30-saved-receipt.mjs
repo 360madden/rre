@@ -9,6 +9,8 @@ import { parseSavedLua, assessSnapshotForComparison } from "./read-rrecollector-
 
 const ID = /^A[0-9A-Fa-f]{16}$/;
 const HEX64 = /^[0-9a-fA-F]{64}$/;
+const VERSION = /^0\.[0-9]+\.[0-9]+$/;
+const OUTPUT_VERSION = /^0\.[0-9]{1,3}\.[0-9]{1,3}$/;
 const MAX_BYTES = 2_000_000;
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 
@@ -95,7 +97,8 @@ export function buildReceipt(saved, source) {
     modifiedAtUtc: source.modifiedAtUtc,
     sourceSha256: source.sha256,
     sourceBytes: source.bytes,
-    addonVersion: typeof saved.addonVersion === "string" ? saved.addonVersion : null,
+    addonVersion: typeof saved.addonVersion === "string" && OUTPUT_VERSION.test(saved.addonVersion)
+      ? saved.addonVersion : null,
     latestKnownCount: knownRows.length,
     latestCaptureComplete: saved.latest?.captureComplete === true,
     knownSnapshotReadiness: assessSnapshotForComparison(saved),
@@ -127,7 +130,7 @@ export function readReceipt(originalPath, expectedSha, requiredVersion) {
     throw new Error("ONLY_RRECOLLECTOR_SAVED_FILE");
   if (expectedSha !== undefined && !HEX64.test(expectedSha))
     throw new Error("EXPECTED_SHA_INVALID");
-  if (requiredVersion !== undefined && !/^0\.[0-9]+\.[0-9]+$/.test(requiredVersion))
+  if (requiredVersion !== undefined && !VERSION.test(requiredVersion))
     throw new Error("REQUIRED_VERSION_INVALID");
   const linkStat = fs.lstatSync(originalPath);
   if (!linkStat.isFile() || linkStat.isSymbolicLink())

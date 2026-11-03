@@ -180,14 +180,21 @@ export function assessSnapshotForComparison(saved) {
   require(list.apiAvailable === true && list.enumerationComplete === true, "LIST_NOT_COMPLETE");
   require(list.detailFailures === 0 && list.ignored === 0 && list.truncated === 0, "LIST_HAS_GAPS");
   require(list.uniqueCount === records.length && list.detailCount === records.length, "RECORD_COUNT_MISMATCH");
+  if (Object.hasOwn(list,"rawEntries"))
+    require(Number.isSafeInteger(list.rawEntries) && list.rawEntries >= records.length,
+      "LIST_COUNT_CONTRADICTION");
   const ids = records.map(record => record?.lookupId);
   require(ids.every(id => named(id) && ID.test(id)) && new Set(ids).size === ids.length,
     "ABILITY_IDS_UNQUALIFIED");
   require(Number.isSafeInteger(latest.sequence) && latest.sequence > 0
     && saved?.sequence === latest.sequence, "SEQUENCE_UNBOUND");
   require(named(player.id) && named(player.name), "PLAYER_IDENTITY_UNBOUND");
+  if (latest.capabilities != null)
+    require(typeof latest.capabilities === "object" && latest.capabilities.player === true,
+      "PLAYER_CAPABILITY_CONTRADICTS_COMPLETE");
   require(named(role) || typeof role === "number" && Number.isFinite(role), "ROLE_UNBOUND");
-  require(Number.isFinite(latest.frameTime) && Number.isFinite(latest.realTime),
+  require(Number.isFinite(latest.frameTime) && latest.frameTime >= 0
+    && Number.isFinite(latest.realTime) && latest.realTime >= 0,
     "CAPTURE_CLOCK_UNBOUND");
   require(named(latest.addonVersion), "SNAPSHOT_VERSION_UNBOUND");
   return {

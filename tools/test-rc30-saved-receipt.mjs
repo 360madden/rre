@@ -47,6 +47,16 @@ test("seven exact numeric keys cannot duplicate the seventh into missing eighth"
   for(const id of [A,B,C,D,E,F,G]) assert.equal(output.includes(id),false);
 });
 
+test("arbitrary saved addonVersion cannot escape redacted receipt",()=>{
+  for(const marker of ["PRIVATE_PLAYER_NAME_DO_NOT_ECHO",
+    "0.123456789012345678901234567890.0"]){
+    const receipt=buildReceipt({...saved,addonVersion:marker},meta);
+    assert.equal(receipt.addonVersion,null);
+    assert.equal(JSON.stringify(receipt).includes(marker),false);
+  }
+  assert.equal(buildReceipt(saved,meta).addonVersion,"0.4.10");
+});
+
 test("RC30 receipt embeds strict snapshot diagnostics without changing slots or live-proof flags",()=>{
   const prior=buildReceipt(saved,meta);
   assert.equal(prior.latestCaptureComplete,true);

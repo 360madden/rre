@@ -107,6 +107,34 @@ test("empty player table cannot qualify despite collector-level captureComplete=
   assert.equal(q.eventComparisonReady,false);
 });
 
+test("internally contradictory capability, clocks and List counts fail closed", () => {
+  const cases = [
+    ["explicit-player-unavailable", saved => {
+      saved.latest.capabilities = {player:false};
+    }, "PLAYER_CAPABILITY_CONTRADICTS_COMPLETE"],
+    ["missing-player-capability", saved => {
+      saved.latest.capabilities = {};
+    }, "PLAYER_CAPABILITY_CONTRADICTS_COMPLETE"],
+    ["negative-frame-clock", saved => {
+      saved.latest.frameTime = -0.01;
+    }, "CAPTURE_CLOCK_UNBOUND"],
+    ["negative-real-clock", saved => {
+      saved.latest.realTime = -0.01;
+    }, "CAPTURE_CLOCK_UNBOUND"],
+    ["impossible-raw-entry-count", saved => {
+      saved.latest.abilityList.rawEntries = 0;
+    }, "LIST_COUNT_CONTRADICTION"]
+  ];
+  for (const [name, mutate, reason] of cases) {
+    const saved = completeSnapshotFixture();
+    mutate(saved);
+    const q = assessSnapshotForComparison(saved);
+    assert.equal(q.offlineStructureQualified,false,name);
+    assert.ok(q.reasons.includes(reason),name);
+    assert.equal(q.eventComparisonReady,false,name);
+  }
+});
+
 test("missing role and clock, stale sequence, partial List and counts fail closed", () => {
   const saved = completeSnapshotFixture();
   saved.latest.roleSlot = null;
