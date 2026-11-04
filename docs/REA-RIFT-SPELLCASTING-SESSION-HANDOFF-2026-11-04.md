@@ -1,0 +1,33 @@
+# RRE spellcasting — compact session handoff (November 4, 2026)
+
+**Owner:** RRE/REA research manager. **Target:** physical-PC RIFT Live x64, **not VMware**. **Repository:** `C:\work\rre`. **Verified work baseline before this handoff:** `34f46f012970b9ee5636ea81663b6e5522aebc63` (the eventual handoff commit itself will be newer; inspect `git log -1` on resume). Read [AGENTS.md](../AGENTS.md), the [canonical chronological handoff](REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md) and [November 3 session record](REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-03.md) before modifying anything.
+
+## Accepted offline work since the prior handoff
+
+| Commit | Milestone | Verified receipt and limit |
+| --- | --- | --- |
+| `8f5f685`, `4b7e75a` | SC-602 sanitized replay metadata hardening | **5/5** focused Node tests; 14-reference November 1 SC-604 graph remains byte-identical, SHA-256 `963774ae669970767b4267a10b75a835d4d24e90954a814494f3c504e695c824`. This is offline groundwork, **not** final SC-601/602 evidence. |
+| `8905d94` | SC-306 exact-key Ability Queue fixture | **99/99** Windows Lua 5.3 synthetic assertions. Full/Short/None-to-API/native value mapping is **unknown**; physical-client probe remains unrun. |
+| `89145ad` | SC-103 optional Aggressive Block positive-control guidance | Use only after an inconclusive clean native-tooltip hover trial; no automatic execution. |
+| `2de5cfe` | Source-hashed SC-604 supplemental index | Six research sources summarize 69/69 saved API–SpellDump known-ID matches, a 96-candidate/39-overlap crosswalk, a combined 353-ID **research atlas**, the historical Protector's Fury ID gap, and staged SC-103/SC-306 probes. None establishes 353 currently learned spells or a modern Legendary ID. |
+| `e4c7a27` | SC-103 LuaPad documentation refresh | Physical installed **disk** TOC version `2.0.0-preview16`, TOC SHA-256 `fa6318a1c4646ff73affb4a2933cc9c617ab72f7e6d5ea8c7e9c540a32d1a042`; `main.lua` SHA-256 `6a92d2e9b40988fcc6ca472236d4332225f2cedec53b4c3313e3708ed14ed037`. Prior preview14 remains historical. **No proof preview16 loaded or SC-103 probe executed.** |
+| `34f46f0` | SC-604 supplement hash verifier | `node tools/verify-sc604-evidence-delta.mjs` verified **6/6** source bytes; `node --test tools/test-verify-sc604-evidence-delta.mjs` passed **9/9**, including an independently reproduced malformed-row bypass fixed before commit. No original graph/replay edits. |
+
+**Pinned current documents:** [SC-103 LuaPad hover guide](REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md) SHA-256 `fec94cb5482c255489696606253de71e1cf645a40bbd4dccfb852aca798b7374`; [SC-604 supplemental index](REA-RIFT-SPELLCASTING-SC604-EVIDENCE-DELTA-2026-11-04.md) SHA-256 `dbb2bace0ad37c8ec0556bb98ec4a1e2cfd94aa9fd5716688a940eddba2ecfef`. Source-hashed physical `rift_x64.exe`: `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. These **disk** hashes do not establish current running-process/session identity.
+
+## Evidence readiness and unresolved gates
+
+- **SC-103 (blocked):** No current same-epoch selected Legendary state, native Soul Tree/Protector's Fury tooltip or modern variant ID. The staged `tools/sc103_luapad_hover_probe.lua` has passed **454/454** source-exact Windows Lua 5.3 synthetic assertions, **not** a physical-client hover test. LuaPad's on-disk Run code captures synchronous Output and restores global `print`; a delayed probe callback should write to **RIFT chat**, not the LuaPad Output pane. Its one-shot Copy Output must be copied before another Run resets the buffer.
+- **Original screenshots:** Read-only inventory of the authorized physical screenshot directory found **165 files**, with **zero** original filenames dated November 3 or 4. Latest dated original remains `2026-11-02_114550.jpg`, SHA-256 `74ab7cf24c97d2a75cd27e63714c41d246345fcd5d96df5717847de1cc83082f`. Metadata alone does not prove image content.
+- **SC-301/302/306 (blocked):** No qualified same-clock GCD/queue interval or same-settings-epoch Full/Short/None UI label-to-`Inspect.Setting.Detail("ActionBars_AbilityQueue")`/native numeric mapping.
+- **SC-503 (blocked); SC-601/602 final (planned):** Need same-build channel/interrupt/exception trials and a verified resolver-to-submit/effect chain. The accepted SC-604 mechanism map remains **interim**; do not promote SC6 from offline replay tests.
+- **RRECollector RC-30:** Physical v0.4.10 remains frozen. Pin-to-Undo, stale saved-ID tile and current in-game persistence are still operator gates; RC-31/32 fixes are queued, **not deployed**. Follow the [RC-30 operator packet](RRECOLLECTOR-RC30-OPERATOR-ACCEPTANCE-2026-11-03.md).
+
+## Safe, prioritized continuation
+
+1. **Operator-controlled SC-103:** In the physical RIFT client, first prove the actually loaded LuaPad version and active Atank role/Paladin allocation/Legendary counters; record a current native Soul Tree and Protector's Fury tooltip screenshot. Then an operator can manually Run the existing **12-second** hover probe and preserve its RIFT-chat response with the same session/build/timing/role. A returned ability-shaped ID alone is **not** Protector's Fury proof. Use the independently known Aggressive Block control only as a separate inconclusive-trial diagnostic.
+2. **SC-306 controlled settings correlation:** After the SC-103 operator gate, pair an in-client Ability Queue UI setting label with the one-key API result and independent native value in one settings epoch. Do not guess numeric enum assignments or treat 99/99 fixture success as a live measurement.
+3. **SC-601/602 mechanism completion:** Only after SC1/SC3 and channel/interrupt prerequisites, connect a qualified live resolver-to-submit/effect path; keep historical events from an older build separate.
+4. **Offline restart verification (safe now):** Recheck `git status --short`, then run `node tools/verify-sc604-evidence-delta.mjs`, `node --test tools/test-verify-sc604-evidence-delta.mjs` and the configured `roadmap_validate` profile. The latter passed on November 4 (**47 tasks / 11 milestones in the historical NAV board**, not an SC acceptance count). Do not rebaseline historical collision/pathfinding executable hashes merely to make the unrelated full Python gate green.
+
+**Ownership and safety:** Two unrelated already-modified task registers (`docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json` and `docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json`) plus eight untracked backup/probe paths were deliberately left untouched. Read-only research agents reviewed findings; only the manager committed scoped files. No RIFT input/reload, installed-addon write, direct unapproved SavedVariables read/write, process attach, cross-project modification, or Ollama use in the November 4 offline work.
