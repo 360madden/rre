@@ -28,7 +28,9 @@ local function run(name, inspect, status, forbidden)
   local oldInspect, oldPrint = Inspect, print
   local outputs = {}
   Inspect = inspect
-  print = function(line)
+  print = function(...)
+    assert(select("#", ...) == 1, "unexpected print argument count")
+    local line = ...
     outputs[#outputs + 1] = tostring(line)
   end
   local chunk, loadError = loadfile(SOURCE)
@@ -40,7 +42,11 @@ local function run(name, inspect, status, forbidden)
   Inspect, print = oldInspect, oldPrint
   expect(ok, name .. ": unexpected Lua error: " .. tostring(errorText))
   local joined = table.concat(outputs, "\n")
-  expect(joined:find("[SC306] " .. status, 1, true) ~= nil, name .. ": missing status: " .. joined)
+  local expectedOutput = "[SC306] " .. status
+  if status:find("EXACT_KEY_", 1, true) == 1 then
+    expectedOutput = expectedOutput .. "\n[SC306] UI_LABEL_AND_NATIVE_CORRELATION_REQUIRED"
+  end
+  expect(joined == expectedOutput, name .. ": missing or unexpected output")
   if forbidden then
     expect(joined:find(forbidden, 1, true) == nil, name .. ": leaked " .. forbidden)
   end
@@ -59,9 +65,9 @@ count = run("nil", makeApi(function() return nil end), "NO_DETAIL_TABLE nil")
 expect(count == 1, "nil case calls exactly once")
 count = run("other", makeApi(function() return 123 end), "NO_DETAIL_TABLE number")
 expect(count == 1, "non-table case calls exactly once")
-count = run("no id", makeApi(function() return { value = "secret-value" } end), "KEY_UNCONFIRMED", "secret")
+count = run("no id", makeApi(function() return { value = "secret-value" } end), "KEY_UNCONFIRMED id_type=nil", "secret")
 expect(count == 1, "missing id case calls exactly once")
-count = run("wrong id", makeApi(function() return { id = "Account.Secret", value = "hidden" } end), "KEY_UNCONFIRMED", "hidden")
+count = run("wrong id", makeApi(function() return { id = "Account.Secret", value = "hidden" } end), "KEY_UNCONFIRMED id_type=string", "hidden")
 expect(count == 1, "wrong id case calls exactly once")
 local exact = "ActionBars_AbilityQueue"
 count = run("numeric", makeApi(function() return { id = exact, value = 1 } end), "EXACT_KEY_NUMBER 1")
@@ -78,9 +84,13 @@ count = run("alnum secret", makeApi(function() return { id = exact, value = "Acc
 expect(count == 1, "alnum secret is redacted")
 count = run("large number", makeApi(function() return { id = exact, value = 123456789012 } end), "EXACT_KEY_NUMBER_REDACTED", "123456789012")
 expect(count == 1, "large number is redacted")
+count = run("unexpected small positive", makeApi(function() return { id = exact, value = 3 } end), "EXACT_KEY_NUMBER_REDACTED", " 3")
+expect(count == 1, "unexpected small positive value must be redacted")
+count = run("unexpected negative", makeApi(function() return { id = exact, value = -1 } end), "EXACT_KEY_NUMBER_REDACTED", "-1")
+expect(count == 1, "unexpected negative value must be redacted")
 count = run("metatable spoof", makeApi(function()
   return setmetatable({ value = "hidden" }, { __index = function() error("unsafe field access") end })
-end), "KEY_UNCONFIRMED", "hidden")
+end), "KEY_UNCONFIRMED id_type=nil", "hidden")
 expect(count == 1, "metatable id cannot authorize a value")
 count = run("metatable value", makeApi(function()
   return setmetatable({ id = exact }, { __index = function() error("unsafe value lookup") end })
