@@ -46,3 +46,24 @@ test("direct buildReplay rejects noncanonical source-index paths and malformed d
   const dupPath=originals();const entries=Object.values(dupPath[0].sourceIndex);entries[1].path=entries[0].path;
   assert.throws(()=>buildReplay(...dupPath),/Unsafe source-index entry/);
 });
+
+test("direct buildReplay rejects untrusted secondary source-manifest metadata",()=>{
+  const badPath=originals();badPath[1].sourceFiles[0].path="C:\\private\\warrior.lua";
+  assert.throws(()=>buildReplay(...badPath),/Unsafe original Warrior source manifest/);
+  const badSoul=originals();badSoul[1].sourceFiles[0].soul="Warlock";
+  assert.throws(()=>buildReplay(...badSoul),/Unsafe original Warrior source manifest/);
+  const disguised=originals();disguised[1].sourceFiles[0].sha256={toString:()=>"a".repeat(64),privateToken:"not-for-export"};
+  assert.throws(()=>buildReplay(...disguised),/Unsafe original Warrior source manifest/);
+  const duplicate=originals();duplicate[1].sourceFiles[1].soul=duplicate[1].sourceFiles[0].soul;
+  duplicate[1].sourceFiles[1].path=duplicate[1].sourceFiles[0].path;
+  assert.throws(()=>buildReplay(...duplicate),/Unsafe original Warrior source manifest/);
+  const saved=originals();saved[2].savedSha256={toString:()=>"a".repeat(64),privateToken:"not-for-export"};
+  assert.throws(()=>buildReplay(...saved),/Invalid saved evidence digest/);
+  const currentBuild=originals(), fakeCurrent={toString:()=>"a".repeat(64),privateToken:"not-for-export"};
+  currentBuild[0].latestOriginalLocalExecutableSha256=fakeCurrent;
+  currentBuild[3].hostCurrentBuildSha256=fakeCurrent;
+  assert.throws(()=>buildReplay(...currentBuild),/Build identity conflict/);
+  const oldBuild=originals(), fakeOld={toString:()=>"b".repeat(64),privateToken:"not-for-export"};
+  oldBuild[0].historicalRiftRecordSha256=fakeOld;oldBuild[3].sourceBuildSha256=fakeOld;
+  assert.throws(()=>buildReplay(...oldBuild),/Build identity conflict/);
+});

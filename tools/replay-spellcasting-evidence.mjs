@@ -26,7 +26,7 @@ function raw(p){
 export function buildReplay(model, catalog, crosswalk, outcomes){
  check([model,catalog,crosswalk,outcomes].every(x=>x.schemaVersion===1),"Unexpected evidence schema");
  const current=model.latestOriginalLocalExecutableSha256, old=model.historicalRiftRecordSha256;
- check(hex.test(current)&&hex.test(old)&&current!==old,"Build identity conflict");
+ check(typeof current==="string"&&typeof old==="string"&&hex.test(current)&&hex.test(old)&&current!==old,"Build identity conflict");
  check(outcomes.sourceBuildSha256===old&&outcomes.hostCurrentBuildSha256===current,"Historical/current build mixed");
  const indexed=Object.values(model.sourceIndex||{});
  check(indexed.length===14,"Source index is not 14 reports");
@@ -41,7 +41,16 @@ export function buildReplay(model, catalog, crosswalk, outcomes){
   staticMap.set(s.id,s);
  }
  check(staticMap.size===96,"Static candidate count changed");
- check(catalog.sourceFiles?.length===3&&catalog.sourceFiles.every(s=>hex.test(s.sha256)),"Missing original static Lua hashes");
+ check(Array.isArray(catalog.sourceFiles)&&catalog.sourceFiles.length===3,"Missing original static Lua hashes");
+ const seenSources=new Set();
+ for(const s of catalog.sourceFiles){
+  check(s&&["Paladin","VoidKnight","Paragon"].includes(s.soul)
+   &&s.path===`projectabilitybook.disabled/Callings/Warrior/${s.soul}.lua`
+   &&typeof s.sha256==="string"&&hex.test(s.sha256)
+   &&!seenSources.has(s.soul),"Unsafe original Warrior source manifest");
+  seenSources.add(s.soul);
+ }
+ check(typeof crosswalk.savedSha256==="string"&&hex.test(crosswalk.savedSha256),"Invalid saved evidence digest");
  const rows=crosswalk.staticCandidates||[], seen=new Set();
  check(rows.length===staticMap.size,"Crosswalk size mismatch");
  for(const r of rows){
