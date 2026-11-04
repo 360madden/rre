@@ -15,8 +15,12 @@ const inputs = Object.freeze({
 const hex=/^[a-f0-9]{64}$/, id=/^A[0-9A-F]{16}$/;
 function check(ok,why){if(!ok)throw Error(why);}
 function sha(bytes){return crypto.createHash("sha256").update(bytes).digest("hex");}
+function safeDocPath(p){
+ return typeof p==="string"&&/^docs\/[A-Za-z0-9_./-]+$/.test(p)
+  &&p.split("/").every(part=>part!==""&&part!=="."&&part!=="..");
+}
 function raw(p){
- check(/^docs\/[A-Za-z0-9_./-]+$/.test(p)&&!p.split("/").includes(".."),"Unsafe evidence path: "+p);
+ check(safeDocPath(p),"Unsafe evidence path");
  return fs.readFileSync(path.resolve(root,p));
 }
 export function buildReplay(model, catalog, crosswalk, outcomes){
@@ -26,6 +30,11 @@ export function buildReplay(model, catalog, crosswalk, outcomes){
  check(outcomes.sourceBuildSha256===old&&outcomes.hostCurrentBuildSha256===current,"Historical/current build mixed");
  const indexed=Object.values(model.sourceIndex||{});
  check(indexed.length===14,"Source index is not 14 reports");
+ const seenIndexed=new Set();
+ for(const s of indexed){
+  check(s&&typeof s==="object"&&safeDocPath(s.path)&&typeof s.sha256==="string"&&hex.test(s.sha256)&&!seenIndexed.has(s.path),"Unsafe source-index entry");
+  seenIndexed.add(s.path);
+ }
  const staticMap=new Map();
  for(const s of catalog.records||[]){
   check(id.test(s.id)&&!staticMap.has(s.id)&&["Paladin","VoidKnight","Paragon"].includes(s.soul),"Invalid static ID/soul");
