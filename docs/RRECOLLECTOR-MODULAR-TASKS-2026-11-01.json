@@ -977,7 +977,11 @@
         "tools/verify-rrecollector-rc32-candidate-preservation.lua",
         "tools/verify-rrecollector-rc32-startup-retention.lua",
         "docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md",
-        "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"
+        "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md",
+        "addons/RRECollector/core.lua",
+        "addons/RRECollector/RiftAddon.toc",
+        "addons/RRECollector/README.md",
+        "tools/verify-rrecollector-rc30-interleaved-undo.lua"
       ],
       "scope": [
         "Skip unbounded rawList batch Detail when enumeration is incomplete or contains duplicates; bounded per-ID fallback",
@@ -990,7 +994,7 @@
         "Independent review and source-extracted Lua adversarial tests for clean/bad/duplicate/oversized API lists",
         "Candidate prior-good all-error/partial-error/all-inconclusive preservation without advancing sequence; all-inconclusive with no prior must report an inconclusive attempt rather than recorded success; error-free nil/no-detail negatives remain truthful",
         "Startup retention regression rejects all-error and zero-query placeholders while retaining healthy positive, no-detail, and listed-control-only evidence",
-        "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
+        "Offline source fixes and focused Lua checks permitted under Joey's RC-30 functional tier; strict source package verified; physical 10/10 parity and version-matched live RIFT evidence require separately authorized deployment and are pending"
       ],
       "policyDecision20261105": {
         "approvedBy": "Joey",
@@ -1000,7 +1004,7 @@
         "preservePriorSequence": true,
         "noPriorAllInconclusiveRecordedSuccess": false,
         "errorFreeNilNoDetailRemainsValidNegative": true,
-        "implementationStatus": "offline-source-only-authorized-in-progress",
+        "implementationStatus": "source-implemented-offline-verified-not-deployed",
         "qualification": "synthetic-offline-evidence-not-live-failure-proof"
       },
       "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md", "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"],
@@ -1022,8 +1026,55 @@
           "authorize RC-31 deployment"
         ],
         "rc30StrictState": "pending",
-        "rc32Implementation": "in-progress"
-      }
+        "rc32Implementation": "source-verified-offline-deployment-pending"
+      },
+      "sourceResult20261105": {
+        "version": "0.4.11",
+        "physicalInstalledVersion": "0.4.10",
+        "sourceReadyOffline": true,
+        "installed": false,
+        "gameInputPerformed": false,
+        "runtimeVerified": false,
+        "rc30Strict": "pending",
+        "rc30OperatorFunctional": "accepted-for-RC32-source-only",
+        "sourceSha256": {
+          "abilities": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd",
+          "main": "7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e",
+          "core": "d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f",
+          "toc": "83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a",
+          "readme": "f86ef49733fec9616d97a98a2bf6ba6ef7f5b549ea1680b6b28fee0fcdcbb537"
+        },
+        "regression": {
+          "rc32Candidate": "9/9 PASS",
+          "rc32Startup": "8/8 PASS",
+          "rc32Batch": "7/7 PASS",
+          "totalRC32": "24/24 PASS",
+          "priorGreenSuiteAssertions": 143,
+          "allLuaSuiteAssertions": 167,
+          "allLuaSuiteCount": 10,
+          "addonLuaSyntaxFiles": 8,
+          "strictSourcePackage": "pass 10 sources",
+          "nodeCandidateTests": "6/6 PASS",
+          "roadmapValidation": "47 tasks, 11 milestones, 0 failures"
+        },
+        "fixtureSha256": {
+          "startup": "1ded37095ad97916a8268740e2e4fbe63f11bb5b8d3699265110830bc456a20d",
+          "rc30Interleaved": "6233d0c4bc1ee127e18bd63741702795687ce201608a9518fc4a1a92dc53dfde"
+        },
+        "workbridgeJobs": [
+          "rre_rc32_full_offline_20261105_1129_v1",
+          "rre_rc32_pkg_source_1125_v1",
+          "rre_rc32_candidates_node_1125_v1",
+          "rre_rc32_code_board_1125_v1"
+        ],
+        "pendingGates": [
+          "no addon deployment without separate approval",
+          "fresh v0.4.11 installed 10/10 parity not attempted",
+          "version-matched live RIFT UI/SavedVariables not attempted",
+          "RC30 strict archival evidence still missing"
+        ]
+      },
+      "latestProgress20261105": "11:29 EST: v0.4.11 repo source-only RC-32 fixed and reviewed; candidate 9/9, startup 8/8, batch 7/7 (24/24), seven older green suites 143/143 (including repaired RC-30 interleaved 36/36), all ten Lua suites 167/167 and eight Lua syntax checks pass, strict source package 10 files + six candidate Node checks pass. Physical RIFT remains installed v0.4.10; no game actions or SavedVariables modification. RC-30 strict archival and RC-32 deployment/runtime are pending."
     }
   ],
   "workingSource": {
@@ -1121,6 +1172,15 @@
     "rc26TooltipLiveVerified": true,
     "rc26KnownCandidatesBrowserLiveVerified": true,
     "rc26RowSelectionLiveVerified": true,
-    "rc26PinningLiveVerified": false
+    "rc26PinningLiveVerified": false,
+    "recordScope": "Historical installed/visually loaded physical v0.4.10 baseline only; see activeRepositoryAddon20261105 for newer source-only v0.4.11. Historical baseline flags are not claims about new source install."
+  },
+  "activeRepositoryAddon20261105": {
+    "version": "0.4.11",
+    "stage": "source-only-verified",
+    "physicalInstalledVersion": "0.4.10",
+    "physicalParityForStagedVersion": false,
+    "liveStagedVersionVerified": false,
+    "taskId": "RC-32"
   }
 }

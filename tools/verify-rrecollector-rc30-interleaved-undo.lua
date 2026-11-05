@@ -55,8 +55,11 @@ local collect=function()
     uniqueCount=69,detailCount=69},marker="new"}
 end
 local candidateLookup=function()
+  -- Mirror the actual producer: one listed control plus 57 unlisted queries.
   return {apiReady=true,counts={listed=39,unlisted=57,
-    unlistedReturned=50,queried=57},marker="new"}
+    listedControlQueried=1,unlistedQueried=57,queried=58,
+    returned=51,unlistedReturned=50,noDetail=7,
+    errors=0,inconclusiveTables=0,skipped=0},marker="new"}
 end
 ]==]
 local suffix = [==[

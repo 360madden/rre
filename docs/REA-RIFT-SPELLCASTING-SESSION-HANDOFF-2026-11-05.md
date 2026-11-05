@@ -1,6 +1,18 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 11:17 EST — operator-functional RC-30 tier approved for offline RC-32 fixes (newest)
+## November 5, 11:31 EST — RC-32 v0.4.11 repository source verified; physical addon unchanged (newest)
+
+**Result:** Under Joey's explicit offline-source-only RC-30 functional exception, the manager implemented three RC-32 reliability guards in repository source, staged **RRECollector v0.4.11** (core/TOC/README), extended startup fixtures by two compatibility cases, and corrected the older RC-30 interleaving mock from 57 to producer-accurate 58 Detail queries with error/inconclusive counters. No installed file copy or physical RIFT input occurred; **physical addon remains v0.4.10**, RC-30 strict archival gate PENDING, RC-31 deployment held, RC-32 runtime/host parity pending.
+
+- **Source-extracted verification:** `rre_rc32_full_offline_20261105_1129_v1` exit **0**, ten Lua suites **167/167** synthetic assertions green (RC-32 candidate 9, startup 8, batch 7, seven prior green suites 143 including RC-30 interleaved Undo 36); eight addon Lua source files parse. `rre_rc32_pkg_source_1125_v1` exit **0**, strict v0.4.11 source TOC/package ten files, installed parity not checked; `rre_rc32_candidates_node_1125_v1` exit **0**, six candidate catalog checks; `rre_rc32_code_board_1125_v1` exit **0**, 47 board tasks/11 milestones. An initial older RC-30 mock run failed due missing producer counters; the fixture alone was corrected and rerun green without relaxing production guards.
+- **After-fix SHA-256:** `addons/RRECollector/abilities.lua` 8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd; `main.lua` 7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e; `core.lua` d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f; `RiftAddon.toc` 83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a; `README.md` f86ef49733fec9616d97a98a2bf6ba6ef7f5b549ea1680b6b28fee0fcdcbb537; startup fixture 1ded37095ad97916a8268740e2e4fbe63f11bb5b8d3699265110830bc456a20d; RC-30 interleaved fixture 6233d0c4bc1ee127e18bd63741702795687ce201608a9518fc4a1a92dc53dfde. Source `candidates.lua` and `ui.lua` unchanged.
+- **Isolation/recovery:** Pre-source branch HEAD 745c10663ee55cb15e70802815174695fd112113; all eight historical user-owned untracked items preserved. One RRE manager owns main; three independent read-only reviewers confirmed code and fixture accuracy; Workbridge RRE agent owner registry remains empty. RC register records RC-32 result under `sourceResult20261105`, keeps task pending until deployment/runtime proof and separates historical physical v0.4.10 from new staged source. Before any next operation refresh Git HEAD/status and hashes. No approval to install or send game input is implied.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 11:31 EST","task":"RC-32","stagedSourceVersion":"0.4.11","installedVersion":"0.4.10","sourceFix":"verified-offline","luaSuitesPassed":10,"luaAssertionsPassed":167,"rc32FixedCasesPassed":24,"syntaxFilesParsed":8,"packageSources":10,"nodeCandidateChecks":6,"rc30Functional":"accepted-for-RC32-source-only","rc30Strict":"pending","installed":false,"gameInput":false,"untrackedPreserved":8}
+~~~
+
+## November 5, 11:17 EST — operator-functional RC-30 tier approved for offline RC-32 fixes (previous)
 
 **Joey explicitly approved** using his already completed Pin → Undo → Reload sequence as operator-functional RC-30 acceptance for RC-32 **repository source changes and offline regression tests only**. A/B/D images, postreload eight-slot fingerprints and 36/36 offline Undo checks support this scoped decision. Historical immediately-post-Undo screenshot C and same-trial pre-Pin save remain missing; **RC-30 strict archival acceptance stays PENDING**.
 

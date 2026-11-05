@@ -1,4 +1,4 @@
--- RRECollector v0.4.1: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.11: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -111,6 +111,43 @@ local function runCandidateLookup(trigger)
     }
     say("Candidate lookup " .. tostring(trigger) .. " deferred: "
       .. code .. "; previous records preserved.")
+    refreshUI(false)
+    return false
+  end
+  -- API readiness is necessary but not sufficient: reject unusable Detail batches.
+  -- Keep a previously recorded catalog and its sequence byte-for-byte intact.
+  local counts = report.counts
+  local function validCount(value)
+    return type(value) == "number" and value == value
+      and value >= 0 and value < math.huge
+      and value == math.floor(value)
+  end
+  local countersValid = type(counts) == "table"
+    and validCount(counts.queried) and counts.queried > 0
+    and validCount(counts.errors) and validCount(counts.inconclusiveTables)
+    and counts.errors + counts.inconclusiveTables <= counts.queried
+  local rejectedStatus, rejectedReason
+  if not countersValid then
+    rejectedStatus, rejectedReason = "incomplete", "detail-invalid-counts"
+  elseif counts.errors > 0 then
+    if counts.errors == counts.queried then
+      rejectedStatus, rejectedReason = "failed", "detail-all-error"
+    else
+      rejectedStatus, rejectedReason = "incomplete", "detail-partial-error"
+    end
+  elseif counts.inconclusiveTables == counts.queried then
+    rejectedStatus, rejectedReason = "incomplete", "detail-all-inconclusive"
+  end
+  if rejectedReason then
+    pendingContextRetry = false
+    lastMessage = "candidate-lookup-" .. rejectedStatus
+    RRECollectorData.candidateAttempt = {
+      schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
+      status = rejectedStatus, reason = rejectedReason,
+      automaticRetries = automaticCandidateRetries
+    }
+    say("Candidate lookup " .. tostring(trigger) .. " " .. rejectedStatus
+      .. ": " .. rejectedReason .. "; previous records preserved.")
     refreshUI(false)
     return false
   end
@@ -298,8 +335,24 @@ if savedEvent then
     lastMessage = "ready"
     say("v" .. VERSION .. " ready. /rre status")
     local prior = RRECollectorData.candidateLookup
+    local priorCounts = type(prior) == "table" and prior.counts or nil
+    local queried = type(priorCounts) == "table" and priorCounts.queried or nil
+    local errors = type(priorCounts) == "table" and priorCounts.errors or nil
+    local inconclusive = type(priorCounts) == "table"
+      and priorCounts.inconclusiveTables or nil
+    -- Backward-compatible older cached reports may omit this newer counter.
+    if inconclusive == nil then inconclusive = 0 end
+    local function validSavedCount(value)
+      return type(value) == "number" and value == value
+        and value >= 0 and value < math.huge
+        and value == math.floor(value)
+    end
     if type(prior) == "table" and prior.catalogVersion == candidateVersion
-      and prior.apiReady == true then
+      and prior.apiReady == true
+      and validSavedCount(queried) and queried > 0
+      and validSavedCount(errors) and errors < queried
+      and validSavedCount(inconclusive) and inconclusive < queried
+      and errors + inconclusive < queried then
       say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")
     else
       runCandidateLookup("startup")

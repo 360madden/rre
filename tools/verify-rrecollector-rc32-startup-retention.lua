@@ -3,8 +3,8 @@
 -- Never invokes RIFT, input, SavedVariables on disk, or addon deployment.
 -- Usage: lua tools/verify-rrecollector-rc32-startup-retention.lua --expect-red
 --        lua tools/verify-rrecollector-rc32-startup-retention.lua --require-fixed
--- Frozen v0.4.10 should yield exactly 2 RED and 4 PASS in --expect-red.
--- After an authorized source fix, --require-fixed must yield 6 PASS.
+-- Expanded eight-case frozen-source expectation: 3 RED and 5 PASS in --expect-red.
+-- After an authorized source fix, --require-fixed must yield 8 PASS.
 --
 -- Failure is deliberately strict: changing/extracting the startup branch
 -- incompatibly requires fixture review, not an automatic green result.
@@ -162,6 +162,18 @@ local function report(kind)
   }
 end
 
+local inconclusiveSaved = report("negative")
+inconclusiveSaved.counts.noDetail = 0
+inconclusiveSaved.counts.inconclusiveTables = 9
+inconclusiveSaved.entries[1].status = "inconclusive-table"
+inconclusiveSaved.entries[1].detail = {}
+for i = 40, 47 do
+  inconclusiveSaved.entries[i].status = "inconclusive-table"
+  inconclusiveSaved.entries[i].detail = {}
+end
+local legacySaved = report("negative")
+legacySaved.counts.inconclusiveTables = nil
+
 local tests = {
   {
     name = "all-error prior must retry startup",
@@ -199,6 +211,18 @@ local tests = {
     expected = 0,
     frozenRed = false,
   },
+  {
+    name = "all-inconclusive saved report must retry startup",
+    saved = inconclusiveSaved,
+    expected = 1,
+    frozenRed = true,
+  },
+  {
+    name = "legacy no-inconclusive-counter report retained",
+    saved = legacySaved,
+    expected = 0,
+    frozenRed = false,
+  },
 }
 tests[3].saved.catalogVersion = "rc32-obsolete-catalog"
 
@@ -223,7 +247,7 @@ for _, test in ipairs(tests) do
 end
 
 if mode == "--expect-red" then
-  assert(unexpected == 0 and failed == 2,
+  assert(unexpected == 0 and failed == 3,
     "expected-red startup baseline changed; review failures before proceeding")
   print(string.format("EXPECTED_RED_RC32_STARTUP %d/%d", failed, #tests))
 else

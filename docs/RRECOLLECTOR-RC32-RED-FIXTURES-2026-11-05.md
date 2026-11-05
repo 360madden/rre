@@ -1,6 +1,18 @@
 # RC-32 pre-gate regression fixtures — November 5, 2026
 
-**Status:** Offline test preparation expanded; **candidate replacement, startup retention and Detail batch safeguards remain UNIMPLEMENTED**. The physical-PC RRECollector addon **v0.4.10 is frozen and unchanged**. No RIFT inputs, addon deployment, game process access, SavedVariables writes, or quarantine release occurred.
+**Current source-only status (11:31 EST):** RC-32 reliability guards are **IMPLEMENTED AND VERIFIED OFFLINE** in staged RRECollector **v0.4.11** repo source. The physical RIFT installation remains **v0.4.10**; no install, UI reload/input, SavedVariables write or live v0.4.11 claim. **RC-30 strict archival PENDING; RC-32 deployment/runtime pending**.
+
+**Historical pre-gate status (superseded for repository source only):** Offline test preparation expanded; candidate replacement, startup retention and Detail batch safeguards were unimplemented on frozen v0.4.10. No earlier physical game or SavedVariables change occurred.
+
+## November 5, 11:31 EST — source-integrated fixed-version evidence
+
+- **Production change:** `abilities.lua` permits raw List batch Detail only when enumeration is complete and duplicate-free; `main.lua` preserves a prior candidate report and sequence for malformed/zero-query, any explicit Detail errors, or all-inconclusive tables, with bounded failed/incomplete diagnostics; startup rejects all-error, all-inconclusive and zero-query cache placeholders while retaining legacy nil-inconclusive-counter and valid no-detail negatives. No changes to `candidates.lua`, `ui.lua` or toolbar pins.
+- **Verifications with real exits:** Workbridge `rre_rc32_full_offline_20261105_1129_v1` exit **0**, ten source-extracted Lua suites **167/167** synthetic checks, including RC-32 candidate **9/9**, startup **8/8** (two new scenarios: all-inconclusive cache refresh, legacy missing counter retain), batch **7/7** and previously green RC-30 interleaved Undo **36/36**. All eight addon Lua sources pass syntax-only loadfile checks. `rre_rc32_pkg_source_1125_v1` exit **0**, strict source manifest/version v0.4.11 with ten files, explicitly no installed parity/runtime proof. `rre_rc32_candidates_node_1125_v1` exit **0**, six catalog checks; `rre_rc32_code_board_1125_v1` exit **0**. Original expected-red 12/22 historical receipt has not been retroactively rewritten.
+- **One fixture correction:** Original RC-30 mock claimed 57 successful queries but represented one listed control plus 57 unlisted queries, and omitted actual producer counters. The first post-fix prior-suite run failed at its 'successful candidate retry' assertion. The manager adjusted only its synthetic report to 58 queries, 51 returned, seven no-detail, zero errors and zero inconclusive, with 1/57 listed/unlisted query split. Re-run preserved its original 36/36 Undo checks. This was a mock-compatibility issue, not a proven RIFT defect.
+- **Hashes/source scope:** `abilities.lua` 8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd, `main.lua` 7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e, `core.lua` d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f, `RiftAddon.toc` 83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a; startup fixture 1ded37095ad97916a8268740e2e4fbe63f11bb5b8d3699265110830bc456a20d and RC-30 interleaved fixture 6233d0c4bc1ee127e18bd63741702795687ce201608a9518fc4a1a92dc53dfde.
+
+**Still blocked:** No v0.4.11 host deployment, source/installed ten-file parity, version-matched screenshot, or new SavedVariables receipt; they require separate approval. RC-30 operator-functional exception authorizes offline source only, while strict archival remains open.
+
 
 ## November 5, 11:17 EST — offline source-only implementation authorized
 

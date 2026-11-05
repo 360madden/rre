@@ -1,5 +1,7 @@
 # RRECollector modular research addon — implementation roadmap
 
+**November 5, 11:31 EST — RC-32 source-only milestone:** RRECollector **v0.4.11** repository source fixes are implemented and verified with **24/24 focused RC-32 cases, 143/143 prior green assertions, 8 Lua parses and strict source-only package validation**. The installed physical addon remains **v0.4.10**; no v0.4.11 installed hashes, loaded UI or SavedVariables receipt exists. RC-30 strict archival acceptance and RC-32 deployment remain pending; Joey's operator-functional authorization applies only to repository edits and offline tests.
+
 **November 5, 11:17 EST scoped RC-32 exception:** Joey approved treating his operator-attested Pin → Undo → Reload and supporting A/B/D plus preserved eight-slot saved evidence as sufficient to begin **offline RC-32 repository source fixes and tests only**. RC-30 strict archival evidence (immediate C image and same-trial pre-Pin receipt) remains **PENDING**. This supersedes older RC-32 source-hold language, but does not authorize addon deployment, physical game input/Reload UI, private SavedVariables edits or RC-31 release.
 
 **Planned:** November 1, 2026  

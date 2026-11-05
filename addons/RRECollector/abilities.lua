@@ -1,4 +1,4 @@
--- RRECollector v0.3.0: known API-listed ability catalog only.
+-- RRECollector v0.4.11: known API-listed ability catalog only.
 local shared = RRECollectorRuntime.core
 local call, fieldCopy = shared.call, shared.fieldCopy
 local snapshotContext = RRECollectorRuntime.context.snapshot
@@ -58,7 +58,12 @@ local function collect()
   local ids, enumeration = abilityIds(rawList)
   enumeration.apiAvailable = listOk and type(rawList) == "table"
   local batchOk, batch = false, nil
-  if enumeration.apiAvailable then batchOk, batch = call(newApi.Detail, rawList) end
+  -- Only pass an unchanged, fully qualified raw List into the batch endpoint.
+  -- Invalid, duplicate or capped inputs use the existing bounded scalar fallback.
+  if enumeration.apiAvailable and enumeration.enumerationComplete
+    and enumeration.duplicates == 0 then
+    batchOk, batch = call(newApi.Detail, rawList)
+  end
   enumeration.batchDetailAvailable = batchOk and type(batch) == "table"
   local records, failures, fallback = {}, {}, 0
   for _, id in ipairs(ids) do
