@@ -2,6 +2,16 @@
 
 **Status:** Offline test preparation expanded; **candidate replacement, startup retention and Detail batch safeguards remain UNIMPLEMENTED**. The physical-PC RRECollector addon **v0.4.10 is frozen and unchanged**. No RIFT inputs, addon deployment, game process access, SavedVariables writes, or quarantine release occurred.
 
+## November 5, 10:52 EST — Joey-approved all-inconclusive reliability requirement
+
+**Decision:** Joey explicitly approved the additional RC-32 requirement. This resolves the **policy decision**, not the source implementation, RC-30 gating, or runtime verification. The previous requirement covered explicit Detail errors; this extends it to all-inconclusive Detail-table attempts. Treat it as a newly approved reliability behavior, **not retroactive evidence of a production defect**.
+
+- **All-inconclusive definition:** at least one Detail was queried (`counts.queried > 0`) and **every queried Detail** resulted in `inconclusive-table` (`counts.inconclusiveTables == counts.queried`), e.g. `{}` lacking usable fields. Do not infer this solely from zero returned records.
+- **With a valid prior:** preserve the entire successful `candidateLookup` (including its sequence) when a new attempt has explicit errors or is all-inconclusive. Keep unrelated `latest`, `probe`, and saved toolbar slots untouched.
+- **Without a valid prior:** retain bounded attempt/error diagnostics, but do not label an all-inconclusive attempt `recorded` or advance a successful-report sequence.
+- **Truthful negative control:** error-free `nil` / no-detail API results remain valid negative evidence and may replace the prior according to the existing contract. Distinguish these from empty/inconclusive tables and actual exceptions.
+- **Evidence/gates:** existing source-extracted expected-red fixtures cover these new cases (candidate 6/9, startup 2/6, batch 4/7; combined **12/22 expected red, 10 controls green**). The nine-query all-inconclusive aggregate is synthetic. No source fix, independent live RIFT fault, installed addon change, or RC-30 acceptance is claimed; v0.4.10 remains frozen.
+
 ## Source-extracted tests
 
 | Fixture | Executed scenario count | Expected red on frozen source | Passing unchanged controls |

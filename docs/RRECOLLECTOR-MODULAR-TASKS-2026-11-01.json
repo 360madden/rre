@@ -947,7 +947,7 @@
     {
       "id": "RC-32",
       "phase": "M7-reliability",
-      "title": "Bound Detail batch requests and preserve prior good candidate results on explicit errors",
+      "title": "Bound Detail batches and preserve prior good candidate results on errors or all-inconclusive responses",
       "state": "pending",
       "dependsOn": ["RC-30"],
       "owner": "RRE/REA manager",
@@ -962,19 +962,30 @@
       ],
       "scope": [
         "Skip unbounded rawList batch Detail when enumeration is incomplete or contains duplicates; bounded per-ID fallback",
-        "Preserve existing successful candidateLookup and sequence when new Detail calls explicitly error",
+        "Preserve existing successful candidateLookup and sequence when new Detail calls explicitly error or every queried Detail returns an inconclusive table; do not falsely record a successful result on all-inconclusive attempts without prior good data",
         "Reject all-error and zero-query persisted candidateLookup placeholders during startup instead of silently retaining them; preserve usable API-negative results",
         "Distinguish API nil/no-detail, empty-table inconclusive, and exceptions; no learnability inference",
         "Do not change source or installed addon until RC-30 operator Pin to Undo and normal SavedVariables gate"
       ],
       "acceptance": [
         "Independent review and source-extracted Lua adversarial tests for clean/bad/duplicate/oversized API lists",
-        "Candidate prior-good all-error/partial-error/all-inconclusive preservation; error-free nil/no-detail negatives remain truthful",
+        "Candidate prior-good all-error/partial-error/all-inconclusive preservation without advancing sequence; all-inconclusive with no prior must report an inconclusive attempt rather than recorded success; error-free nil/no-detail negatives remain truthful",
         "Startup retention regression rejects all-error and zero-query placeholders while retaining healthy positive, no-detail, and listed-control-only evidence",
         "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
       ],
+      "policyDecision20261105": {
+        "approvedBy": "Joey",
+        "decision": "approved-additional-reliability-requirement",
+        "priorGoodPreservedFor": ["explicit-detail-errors", "all-queried-detail-inconclusive-tables"],
+        "allInconclusivePredicate": "counts.queried > 0 && counts.inconclusiveTables == counts.queried",
+        "preservePriorSequence": true,
+        "noPriorAllInconclusiveRecordedSuccess": false,
+        "errorFreeNilNoDetailRemainsValidNegative": true,
+        "implementationStatus": "pending-rc30-gate",
+        "qualification": "synthetic-offline-evidence-not-live-failure-proof"
+      },
       "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md", "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"],
-      "progress": "Three source-confirmed reliability paths independently reviewed: raw List batch can exceed normalized cap, candidate Detail exceptions overwrite useful previous records, and startup retains all-error or zero-query cached reports. November 5 producer-shaped candidate fixture strengthened with exact named-red classification and deep prior checks: 6/9 expected RED after adding two source-qualified all-inconclusive cases (original 4/7 receipt remains historical); new startup SavedVariables source-extracted fixture 2/6 expected RED with healthy positive, error-free no-detail, listed-control-only and catalog-mismatch controls green; strengthened batch fixture 4/7 named expected RED with exact API-call/record ID checks and a clean 512-ID boundary. All three --expect-red tests pass only by reproducing known defects; current totals are 12/22 RED with 10 green controls. The source-extracted empty-table Detail classifier is verified independently of the synthetic nine-query aggregate. Strengthened candidate, startup, and batch --require-fixed negative gates each exited 1 with expected diagnostics; the November 5 04:38 candidate 6/9 fail-closed supervisor independently verified exit 1. Roadmap validator passed 47/11. These are offline test preparations, not fixed-version acceptance or live failure reproduction. RRECollector v0.4.10 source/install remain unchanged under strict RC-30 evidence hold."
+      "progress": "Three source-confirmed reliability paths independently reviewed: raw List batch can exceed normalized cap, candidate Detail exceptions overwrite useful previous records, and startup retains all-error or zero-query cached reports. November 5 producer-shaped candidate fixture strengthened with exact named-red classification and deep prior checks: 6/9 expected RED after adding two source-qualified all-inconclusive cases (original 4/7 receipt remains historical); new startup SavedVariables source-extracted fixture 2/6 expected RED with healthy positive, error-free no-detail, listed-control-only and catalog-mismatch controls green; strengthened batch fixture 4/7 named expected RED with exact API-call/record ID checks and a clean 512-ID boundary. All three --expect-red tests pass only by reproducing known defects; current totals are 12/22 RED with 10 green controls. The source-extracted empty-table Detail classifier is verified independently of the synthetic nine-query aggregate. Strengthened candidate, startup, and batch --require-fixed negative gates each exited 1 with expected diagnostics; the November 5 04:38 candidate 6/9 fail-closed supervisor independently verified exit 1. Roadmap validator passed 47/11. These are offline test preparations, not fixed-version acceptance or live failure reproduction. Joey approved all-inconclusive prior-good preservation as an additional RC-32 reliability requirement on November 5; this resolves the policy decision only, not the failing source-extracted cases or pending RC-30 implementation/deployment gate. RRECollector v0.4.10 source/install remain unchanged under strict RC-30 evidence hold."
     }
   ],
   "workingSource": {

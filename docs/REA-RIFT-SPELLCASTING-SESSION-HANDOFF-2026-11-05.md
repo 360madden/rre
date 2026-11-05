@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 10:44 EST — five-commit handoff/register reconciliation (newest)
+## November 5, 10:52 EST — RC-32 all-inconclusive contract approved (newest)
+
+**User decision:** Joey explicitly approved recommendation #1 **only**, making all-inconclusive Detail-table preservation an **additional RC-32 reliability requirement**. This supersedes the 10:44 checkpoint's `extension-review-pending` flag without altering historical evidence. Initial verified `main` HEAD `182e91e3ae5d84bedd5ab7891f3a3865bf2387e5`, tracked clean, eight unrelated historical untracked entries preserved. Two independent read-only reasoning reviewers confirmed contract wording and existing fixture evidence; manager alone owns documentation integration.
+
+- **Accepted contract:** If a new candidate attempt contains explicit Detail errors or every queried Detail is an inconclusive table (`counts.queried > 0 && counts.inconclusiveTables == counts.queried`), preserve the previous successful `candidateLookup` report and its sequence. With no prior good report, store bounded attempt diagnostics but **do not claim `recorded` success or advance successful sequence**. An error-free `nil`/no-detail response remains a genuine negative API observation and may be persisted. No learnability/availability inference from these cases.
+- **Current proof boundary:** Candidate fixture 6/9 expected RED (including two all-inconclusive), startup 2/6 RED, batch 4/7 RED: **12 expected RED /22 synthetic cases, ten PASS controls**. Producer classification is source-extracted; all-inconclusive nine-query report is synthetic, not a captured live RIFT API failure. Source fixes and deployment are not authorized by passing these expected-red tests.
+- **Unchanged gates:** RC-32 task state remains **pending** and depends on strict RC-30 operator acceptance; v0.4.10 RRECollector source/install untouched. RC-30 and RC-31 status unchanged; no physical RIFT input, UI reload, SavedVariables writes, cross-repo updates or competing manager edits.
+- **Recovery:** Read this section, RC-32 register decision, approved red-fixture addendum and modular roadmap. Before integration verify current HEAD/status, hashes and untracked preservation; JSON parse, `node tools/validate-roadmap.mjs` and `git diff --check`. Commit only the manager-owned policy documentation if clean.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 10:52 EST","preEditHead":"182e91e3ae5d84bedd5ab7891f3a3865bf2387e5","decision":"rc32-all-inconclusive-preserve-prior-approved","approvedBy":"Joey","rc32State":"pending-implementation","allInconclusivePredicate":"counts.queried > 0 && counts.inconclusiveTables == counts.queried","rc32ExpectedRed":[12,22],"rc32GreenControls":10,"rc30Strict":"pending","physicalAddon":"0.4.10-frozen","preservedMainUntracked":8,"gameInputPerformed":false}
+~~~
+
+## November 5, 10:44 EST — five-commit handoff/register reconciliation (previous)
 
 **Manager checkpoint:** `C:\work\rre` `main` at verified pre-edit HEAD `f1250bc1b53004fdce8815607155e341b425d61e` (09:14:45 EST), tracked clean; all eight historical unrelated untracked entries preserved. Workbridge is active for bounded repository inspection, with no RRE owner assignments at preflight. Per `AGENTS.md`, current REA spellcasting targets **physical-PC local RIFT**, not VMware; VMware belongs to separate contextual workflows.
 
