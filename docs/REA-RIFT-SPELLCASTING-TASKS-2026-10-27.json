@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "SC-102/RC-08, RC-28/29 offline findings accepted. SC-103 recovered 2711-character in-client Detail documentation from existing RR2Casting saves; its 34 documented return members exactly match the 34 RRECollector exported fields (3/3 verifier plus independent review). No documented rank/variant/legendary/unlock member, but undocumented or UI/native mechanisms remain possible. RRECollector v0.4.10 source/host 10/10 and user-supplied screenshot visibly loaded (69 Known, 96 Static); a 06:24 UTC v0.4.10 SavedVariables receipt now proves preserved 69 known and 96 candidates; Pin/Undo/stale-pin rendering still unverified. SC-103 rank eligibility and SC-3 timing remain open.",
+  "status": "SC-102/RC-08, RC-28/29 offline findings accepted. SC-103 recovered 2711-character in-client Detail documentation from existing RR2Casting saves; its 34 documented return members exactly match the 34 RRECollector exported fields (3/3 verifier plus independent review). No documented rank/variant/legendary/unlock member, but undocumented or UI/native mechanisms remain possible. RRECollector v0.4.10 source/host 10/10 and user-supplied screenshot visibly loaded (69 Known, 96 Static); the November 5 post-/reloadui G1 SavedVariables receipt confirms v0.4.10, 69 Known, 96 candidates and eight distinct original slots. Joey attested Break Free Pin #1 → Undo → /reloadui; missing immediate pre-reload C screenshot and comparable same-trial pre-Pin saved receipt keep strict RC-30 Pin/Undo acceptance unverified. Stale-pin rendering is unverified. SC-103 rank eligibility and SC-3 timing remain open.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -181,7 +181,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-INSTALLED-TOOLTIP-REUSE-2026-11-03.md (921 installed Lua source files scanned, two own-button Inspect.Tooltip callers and source-hashed 596-character documentation; native Soul Tree ability ID not observed)",
         "docs/REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md (operator-run probe staged only; source-hash-gated Windows Lua 5.1.4 and 5.3 offline synthetic fixtures each passed 474/474, Python runner contract 22/22 after stop-call normalization; historical 119/454 checkpoints superseded; independent FreeBuff approval incomplete; physical RIFT/LuaPad execution and Legendary identity unverified)",
         "docs/REA-RIFT-SPELLCASTING-FREEBUFF-REVIEW-2026-11-03.md (two real FreeBuff ConPTY code reviews; accepted SC-103 transient-fault correction; RC-30 edge cases source-only and parked)",
-        "docs/REA-RIFT-SPELLCASTING-LOCAL-REASONING-WORKER-PILOT-2026-11-03.md (two completed local Gemma 4 reasoning reviewers with read-only tools; one missing negative fixture accepted, two false positives rejected)"
+        "docs/REA-RIFT-SPELLCASTING-LOCAL-REASONING-WORKER-PILOT-2026-11-03.md (two completed local Gemma 4 reasoning reviewers with read-only tools; one missing negative fixture accepted, two false positives rejected)",
+        "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json (redacted G1 saved snapshot, 0.4.10, 69 Known/96 candidates, eight-slot fingerprint; no SC-103 rank/Legendary identity or event/process proof)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
@@ -204,6 +205,14 @@
         "addonRuntimeV0410VisualVerified": true,
         "addonRuntimeV0410PinUndoVerified": false,
         "addonRuntimeV0410SavedVersionVerified": true,
+        "addonRuntimeV0410OperatorPinUndoReloadAttested": true,
+        "addonRuntimeV0410StrictABCDVerified": false,
+        "addonRuntimeV0410PostreloadReceipt": "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json",
+        "addonRuntimeV0410PostreloadSourceSha256": "79e9ef7ccfe7e784a49113917d0711a4952186cbb0e4b1934c46fc7d8070b5d4",
+        "addonRuntimeV0410PostreloadSavedModifiedAtUtc": "2026-11-05T05:48:13.553Z",
+        "addonRuntimeV0410PostreloadEightSlotFingerprint": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160",
+        "addonRuntimeV0410PostreloadFingerprintMatchesHistoricalNotSameTrialPrePin": true,
+        "addonRuntimeV0410PostreloadEventAndProcessProof": false,
         "livePinUndoVerified": false,
         "offlineKnownApiRecords": 69,
         "offlineKnownOutsideStatic": 30,
@@ -267,10 +276,14 @@
         "installedLuaPadCurrentRuntimeVerified": false,
         "sc103LuaPadHoverProbeStaged": true,
         "sc103LuaPadHoverProbeSource": "tools/sc103_luapad_hover_probe.lua",
-        "sc103LuaPadHoverProbeSourceSha256": "4b8a19e44dd5444393f631d1517bb6b18bcaee6a4cd9ac8c8b1d689caeed11c3",
-        "sc103LuaPadHoverProbeFixtureSha256": "194fbf53d9b2feb5a62d38b80d5ac1e0f2dc9eb7bd7bcc7841ae848424ff3e0c",
-        "sc103LuaPadHoverProbeOfflineLua54Assertions": 119,
-        "sc103LuaPadHoverProbeOfflineLua54AssertionsFixtureSha256": "194fbf53d9b2feb5a62d38b80d5ac1e0f2dc9eb7bd7bcc7841ae848424ff3e0c",
+        "sc103LuaPadHoverProbeSourceSha256": "e6c503dd195f46019d56f375a97b06656769eb02ea2ecf7c36ca960ba201a569",
+        "sc103LuaPadHoverProbeFixtureSha256": "4eeb630f9953aed56f6299dd24395ebf5bab0e93c82d354921cbf3dae8dff6a1",
+        "sc103LuaPadHoverProbeOfflineLua54AssertionsHistorical": 119,
+        "sc103LuaPadHoverProbeOfflineLua51AssertionsCurrent": 474,
+        "sc103LuaPadHoverProbeOfflineLua53AssertionsCurrent": 474,
+        "sc103LuaPadHoverProbeRunnerSha256": "dde511e32c6f8630182972be2a9986f1347315a351afde2a2d0712a9c3c602ce",
+        "sc103LuaPadHoverProbePythonContractTestsSha256": "d5ba9995c11a0c14b8756169ff637d47d5ecd6d9dbca935533359ec87c8818d8",
+        "sc103LuaPadHoverProbePythonContractTestsPassed": 22,
         "sc103LuaPadHoverProbeLatestFixtureFullRunVerified": true,
         "sc103LuaPadHoverProbeSourceExtractedFaultRedGreenPassed": true,
         "sc103FreebuffSourceReviewCompleted": 2,
@@ -311,7 +324,7 @@
           "selectedLegendaryModernIdResolved": false,
           "proofTier": "G1 user-supplied native UI snapshot, not repeated session-bound G2"
         },
-        "note": "RC-29 merges 323 historical static and 69 API-listed IDs; 96 candidate statuses. SC-103 recovered stored 34-member Detail documentation (34/34 exported). Current-client ability Add/Remove and Usable events are indexed; Inspect.Tooltip has a bounded in-client type/shown interface, neither yet captured for Protector's Fury. Historical publisher describes 66-70, Soul/role-specific Legendary selection, not current eligibility. All 51 returned candidate idNew match requested IDs. v0.4.10 collector visual load and separate 06:24 UTC persistence receipt confirmed; Pin/Undo and stale-ID tile rendering remain unverified. A newer user-supplied native Soul Tree PNG directly shows Righteous Defender, 45/15/0, and Legendary counters 0/3, 0/2, 0/1; capture time/PID and exact selected modern Legendary ID remain unverified. Native GCD unknown."
+        "note": "RC-29 merges 323 historical static and 69 API-listed IDs; 96 candidate statuses. SC-103 recovered stored 34-member Detail documentation (34/34 exported). Current-client ability Add/Remove and Usable events are indexed; Inspect.Tooltip has a bounded in-client type/shown interface, neither yet captured for Protector's Fury. Historical publisher describes 66-70, Soul/role-specific Legendary selection, not current eligibility. All 51 returned candidate idNew match requested IDs. v0.4.10 visual load confirmed; Joey attested Break Free Pin #1 → Undo → /reloadui, and the November 5 postreload redacted G1 SavedVariables receipt confirms eight distinct original slots and fingerprint b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160 (69 Known, 96 candidates). This matches a November 3 historical fingerprint, not a fresh same-trial pre-Pin receipt; immediate pre-reload Undo screenshot C is missing. Strict RC-30 acceptance, stale-ID tile rendering, source-writer PID and event delivery remain unverified. A newer user-supplied native Soul Tree PNG directly shows Righteous Defender, 45/15/0, and Legendary counters 0/3, 0/2, 0/1; capture time/PID and exact selected modern Legendary ID remain unverified. Native GCD unknown."
       }
     },
     {

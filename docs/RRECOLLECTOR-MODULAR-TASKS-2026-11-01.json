@@ -926,7 +926,7 @@
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
-      "progress": "Read-only source/screenshot audit and independent review complete. Planned page navigation must clear an off-page ability selection before Pin/Check can act; capture refresh may stale a previously known selected ID and requires guard tests. Caption omission marker must preserve distinguishable ability names and UTF-8. No implementation/deployment. Physical v0.4.10 remains frozen pending operator Pin/Undo and a post-Undo SavedVariables comparison; the separate pre-Pin v0.4.10 saved receipt is already verified."
+      "progress": "Read-only source/screenshot audit and independent review complete. Action state must disable Pin/Check for no selection, off-page selection, and selection invalidated or moved by an accepted Capture; page navigation and capture refresh require explicit regression coverage. Measured UTF-8-safe caption omission and duplicate-name fit remain planned. Joey attested Pin -> Undo -> Reload on November 5 and post-reload v0.4.10 SavedVariables eight-slot fingerprint was recorded, but strict RC-30 C screenshot and same-trial pre-Pin saved comparison remain missing. No source changes or deployment; do not request a repeat trial merely to repair assistant sequencing."
     },
     {
       "id": "RC-32",
@@ -940,21 +940,25 @@
         "addons/RRECollector/main.lua",
         "tools/verify-rrecollector-rc32-batch-bounds.lua",
         "tools/verify-rrecollector-rc32-candidate-preservation.lua",
-        "docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"
+        "tools/verify-rrecollector-rc32-startup-retention.lua",
+        "docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md",
+        "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"
       ],
       "scope": [
         "Skip unbounded rawList batch Detail when enumeration is incomplete or contains duplicates; bounded per-ID fallback",
         "Preserve existing successful candidateLookup and sequence when new Detail calls explicitly error",
+        "Reject all-error and zero-query persisted candidateLookup placeholders during startup instead of silently retaining them; preserve usable API-negative results",
         "Distinguish API nil/no-detail from exceptions; no learnability inference",
         "Do not change source or installed addon until RC-30 operator Pin to Undo and normal SavedVariables gate"
       ],
       "acceptance": [
         "Independent review and source-extracted Lua adversarial tests for clean/bad/duplicate/oversized API lists",
         "Candidate prior-good all-error/partial-error preservation; error-free negatives remain truthful",
+        "Startup retention regression rejects all-error and zero-query placeholders while retaining healthy positive, no-detail, and listed-control-only evidence",
         "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md", "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"],
-      "progress": "Two source-confirmed paths independently reviewed: P2 raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate evidence on explicit Detail exceptions. November 5 source-extracted expected-red fixtures executed on Windows Lua 5.3: candidate preservation 4/7 and batch bounds 4/6 deliberate red cases, with five passing controls; both jobs exited 0 only because their expected-red modes recognized the existing defects. Existing collector tests 6/6 and roadmap 47/11 passed. These are NOT fixed-version green tests. No physical runtime fault reproduced; no fixes or addon deployment performed. Frozen physical v0.4.10 baseline remains intact pending RC-30 operator acceptance."
+      "progress": "Three source-confirmed reliability paths independently reviewed: raw List batch can exceed normalized cap, candidate Detail exceptions overwrite useful previous records, and startup retains all-error or zero-query cached reports. November 5 producer-shaped candidate fixture strengthened with exact named-red classification and deep prior checks: 4/7 expected RED; new startup SavedVariables source-extracted fixture 2/6 expected RED with healthy positive, error-free no-detail, listed-control-only and catalog-mismatch controls green; earlier batch fixture 4/6 expected RED. All three --expect-red tests pass only by reproducing known defects; strengthened candidate and startup --require-fixed negative gates both exited 1, supervisor verified. Roadmap validator passed 47/11. These are offline test preparations, not fixed-version acceptance or live failure reproduction. RRECollector v0.4.10 source/install remain unchanged under strict RC-30 evidence hold."
     }
   ],
   "workingSource": {
