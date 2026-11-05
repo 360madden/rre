@@ -1,0 +1,102 @@
+{
+  "schema": "rre.sc103.offline_validation.v1",
+  "evidence_id": "SC103-LUA51-MSVC-20261104-1925-EST",
+  "description": "Independently reproducible offline Lua 5.1.4 parser and synthetic-fixture validation of the staged SC-103 LuaPad hover-probe materials.",
+  "status": "PASS_OFFLINE_ONLY",
+  "status_comment": "All three staged files parse with Lua 5.1.4 and the offline fixture returns exactly 454 successes; no physical RIFT runtime claim.",
+  "observed_date_local": "2026-11-04",
+  "observed_timezone": "America/New_York",
+  "environment": {
+    "repository": "C:\\work\\rre",
+    "repo_head_at_preflight": "1e9cf2e41a82043c8e7d8b7f76a96680a1ca9be3",
+    "vendor_source_root": "C:\\work\\tools\\cheat-engine-master\\lua\\src",
+    "vendor_version_declared": "Lua 5.1.4",
+    "vendor_luaconf_sha256": "bda76d3d6af870af98636ea8419c558d52d1063a7fdc9f20d9a21216e6deb877",
+    "vendor_config_mak_sha256": "5ca80749f97f380fd663a6ff4ad2b4a37890d6275971228efe3cd7c276cbf7bc",
+    "vendor_patch_note": "luaconf.h unconditionally defines LUA_BUILD_AS_DLL and LNUM_INT64; interpreter self-identifies as Lua 5.1.4 (double int64). This is not proven identical to RIFT's embedded Lua.",
+    "compiler": "MSVC Build Tools 18; cl.exe 19.51.36252 x64",
+    "compiler_setup": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\VsDevCmd.bat",
+    "isolated_output": "C:\\work\\rre\\artifacts\\sc103-lua51-msvc-20261104-1925-v1",
+    "output_git_ignored": true,
+    "game_process_interaction": false,
+    "addon_installs_or_writes": false,
+    "network_downloads": false
+  },
+  "build": {
+    "result": "PASS",
+    "job_id": "rre_sc103_lua51_build_artifact_run_20261104_1926_v1",
+    "exit_code": 0,
+    "command_receipt": "LUA51_BUILD_SUCCESS",
+    "build_script_sha256": "2dcde503754f83f1c549ec9f501b6c19661b5f897ef0ff05cb810c2630186d87",
+    "compilation_mode": "MSVC /nologo /W3 /O2 /MD /LD /DLUA_CORE /DLUA_LIB, 29 config.mak C units plus lnum.c; link lua51.dll and lua51.lib; compile standalone lua.c against import library.",
+    "excluded_file_comment": "No LUA_USER_H and no lua_user.c to avoid the optional Win32 locking hook and its MessageBox code; no vendor source edits.",
+    "lua_exe_sha256": "6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67",
+    "lua_dll_sha256": "9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096",
+    "lua_import_lib_sha256": "f9321e299ea031879a43014801a4e11f9cc98311cf30bf955eadbe48a838a3b9",
+    "stderr_comment": "MSVC emitted legacy source warnings (CRT deprecations and macro redefinitions); compilation and linking completed successfully."
+  },
+  "source_files": [
+    {
+      "path": "tools/sc103_luapad_hover_probe.lua",
+      "sha256": "fbf1199a7fc85f126157e477211044762dc3fbc0fcb943c05726941c70d1c816",
+      "syntax": "PASS"
+    },
+    {
+      "path": "tools/sc103_luapad_copy_result.lua",
+      "sha256": "478e81c2d83d7406c7998f8f6ebe311c3785a2acf4b7ca37b7689ad338f06406",
+      "syntax": "PASS"
+    },
+    {
+      "path": "tools/test_sc103_luapad_hover_probe.lua",
+      "sha256": "c196a950bdbd979c548db66ab34e272e4558b2dee50768ba3d4833a8c20075dc",
+      "syntax": "PASS"
+    }
+  ],
+  "tests": [
+    {
+      "id": "lua51-loadfile-three",
+      "job_id": "rre_sc103_lua51_parse_three_20261104_v1",
+      "exit_code": 0,
+      "status": "PASS",
+      "cwd": "C:\\work\\rre\\artifacts\\sc103-lua51-msvc-20261104-1925-v1",
+      "assertion": "loadfile() succeeds for all three staged Lua files without executing them"
+    },
+    {
+      "id": "lua51-fixture-454",
+      "job_id": "rre_sc103_lua51_fixture_454_rootcwd_20261104_v1",
+      "exit_code": 0,
+      "status": "PASS",
+      "cwd": "C:\\work\\rre",
+      "argv": [
+        "tools\\test_sc103_luapad_hover_probe.lua"
+      ],
+      "stdout_exact": "SC103_HOVER_PROBE_OFFLINE_TESTS_PASS 454\r\n",
+      "assertions_passed": 454
+    }
+  ],
+  "failed_preliminaries": [
+    {
+      "kind": "shell quoting",
+      "note": "A complex cmd.exe /s /c literal-argument launch failed before compilation; replaced by a hash-pinned script in the ignored output directory."
+    },
+    {
+      "kind": "fixture working directory",
+      "note": "Running the fixture from the output directory could not resolve relative tools/ paths; rerunning from the repository root succeeded."
+    }
+  ],
+  "qualification_boundary": {
+    "verified": [
+      "Vendored Lua 5.1.4 x64 interpreter builds",
+      "Three staged files parse under this interpreter",
+      "Synthetic SC-103 fixture passes exactly 454 checks"
+    ],
+    "not_verified": [
+      "RIFT embedded Lua ABI or runtime equivalence",
+      "Live Inspect.Tooltip and event attach/detach behavior",
+      "Any stable or authoritative Legendary selection ID",
+      "Physical game integration, role selection, casting, or UI interactions"
+    ],
+    "next_gate": "Operator-approved, live SC-103 hover run when physical RIFT is active; correlate source and captured output without promoting candidate ID to selector prematurely."
+  },
+  "provenance_comment": "Git-tracked source files and source-hash-pinned evidence retained; compilation artifacts and build.cmd live only under Git-ignored artifacts/."
+}
