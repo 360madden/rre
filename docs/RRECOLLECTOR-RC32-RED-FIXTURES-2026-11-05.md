@@ -17,6 +17,14 @@ All three run against the original source through the already-installed Windows 
 - Batch: real-source offline fixture now checks named failures, exact scalar call IDs/record sets, original batch argument identity, clean 512-ID inclusive boundary and clean mixed map/array input. Original raw List table is still sent to Detail for duplicate, invalid, 513-ID and 1,025-entry inputs despite normalized bounds. Three clean batch controls pass.
 - Source code was **not modified** in `addons/RRECollector`; two existing offline fixtures were retained/hardened and a new startup fixture added. This documentation records the updated state.
 
+### Additional bounded source-extracted all-inconclusive qualification (03:58 EST)
+
+Workbridge job `rre_rc32_inconclusive_readonly_fixed_20261105_0353` exited **0** under Windows Lua 5.3. The experiment extracted the **real** `query(item, phase)` from `candidates.lua` SHA-256 `f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85` and the **real** `runCandidateLookup(trigger)` from `main.lua` SHA-256 `3aca63c501686fca5ab6bef8a72d81e3b4fe9fdca4ca3558d379e0cf24a1e5c6`.
+
+An empty table returned by mocked `Detail(id)` produced `inconclusive-table` with no exception. A synthetic nine-query `apiReady=true`, all-inconclusive candidate report then **overwrote a prior successful candidate report**, incremented its sequence from 7 to 8 and labeled the attempt `recorded`. Green controls showed error-free `no-detail` remains accepted and `apiReady=false` still preserves the prior report. The initial ad hoc run had a test-string concatenation error and was corrected before the passing run.
+
+**Evidence limits:** The two real source functions ran offline but the nine-query report was constructed in memory; there is no observed RIFT outcome. This does not prove real Detail calls return empty tables in this sequence, introduce a source fix, or amend the three existing persisted expected-red fixtures. Independent model review and a reviewed persistent fourth fixture remain outstanding. Physical v0.4.10 source/install and SavedVariables were unchanged.
+
 ## Exact Windows job receipts
 
 - `rre-rc32-red-candidate-20261105-01`: exit 0, `EXPECTED_RED_RC32_CANDIDATES 4/7`.
