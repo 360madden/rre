@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "rc32_later_source_bound_savedvariables_receipt",
+  "observedAtUtc": "2026-11-05T22:23:41.817Z",
+  "modifiedAtUtc": "2026-11-05T22:21:00.331Z",
+  "sourceFilename": "RRECollector.lua",
+  "sourceBytes": 74216,
+  "sha256": "04aa55ec18db2dc6ff892b207d6c62cc5f04c1dd8046e4193ce7ab7f064c27b7",
+  "priorQualifiedSha256": "8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed",
+  "priorModifiedAtUtc": "2026-11-05T17:58:19.182Z",
+  "differentFileRevision": true,
+  "sameByteLengthAsPrior": true,
+  "rootAddonVersion": "0.4.11",
+  "candidateLookupAddonVersion": "0.4.10",
+  "candidateSequence": 5,
+  "candidateRows": 96,
+  "knownAbilityRows": 69,
+  "knownSnapshotOfflineStructureQualified": true,
+  "candidateCounts": {
+    "queried": 58,
+    "returned": 51,
+    "noDetail": 7,
+    "errors": 0,
+    "inconclusiveTables": 0,
+    "listed": 39,
+    "unlisted": 57,
+    "unlistedQueried": 57
+  },
+  "candidateSourceConsistency": {
+    "checksPassed": 14,
+    "checksTotal": 14,
+    "failures": []
+  },
+  "toolbar": {
+    "slots": 8,
+    "validDistinct": 8,
+    "duplicates": 0,
+    "knownIds": 8,
+    "eighthSlotEmpty": false,
+    "fingerprintSha256": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160"
+  },
+  "boundedReadOnlyJobs": [
+    {
+      "id": "rre_1105_1719_existing_saved_count_consistency_v1",
+      "exit": 1,
+      "reason": "Old saved SHA pin no longer matched after a newer physical file revision; failed closed before parsing; no source edits"
+    },
+    {
+      "id": "rre_1105_1723_newsaved_strict_receipt_v1",
+      "exit": 0,
+      "reason": "Strict read-once source identity, SHA/version, slot and parser receipt"
+    },
+    {
+      "id": "rre_1105_1723_newsaved_crosschecks_v1",
+      "exit": 0,
+      "reason": "Independent rehash and 14 numeric/status/catalog assertions"
+    }
+  ],
+  "gates": {
+    "rc30Strict": "pending",
+    "rc32PhysicalReliability": "pending",
+    "sc103LegendaryIdentity": "blocked",
+    "sc306QueueNumericMapping": "blocked",
+    "sc604Mechanism": "interim"
+  },
+  "proofLimits": [
+    "New SHA and filesystem mtime establish changed original bytes only, not writer PID, exact changing fields, or game-session identity.",
+    "Same length and unchanged redacted counters/fingerprint do not imply identical source content.",
+    "Existing candidate report is still stamped v0.4.10: no new persisted v0.4.11 lookup or recovery trial is established.",
+    "Offline structural consistency is not in-game Pin/Undo acceptance or RIFT API behavior.",
+    "No RIFT input, UI reload, process control, addon deployment, SavedVariables write, or desktop-lease intervention."
+  ]
+}
