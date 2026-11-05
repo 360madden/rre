@@ -25,6 +25,13 @@
 
 Historical source validation from `b28fceb`: 167/167 Lua assertions passed; not rerun today. Today's package and candidate checks were freshly run.
 
+## Runtime evidence — November 5, approximately 12:56 EST
+
+- **Operator-submitted original PNG:** `image(20261105-175633).png`, 1910 × 1071, SHA-256 `a039bec9745ea7d596de3254fb7664a561a2cdaf060414e5aa44bfada470b19e` (ChatGPT attachment `libfile_61f0ca0d4c6c8191854cd414fc3da841`). Screenshot visibly shows the physical RIFT client in Sanguine Shores with Atank, addon title `RRE v0.4.11 research`, toolbar and eight icons, Known 69 / Static 96, browser and controls. No visible Lua error in the displayed chat. This is **direct UI-load evidence**, not a full RC-32 behavior test or process-hash receipt.
+- **Fresh postreload SavedVariables read:** original character `RRECollector.lua` modified `2026-11-05T17:56:02.585Z`, 74,216 bytes, SHA-256 `773b6f1a67b06cca1051bcf5ed69ba505b9c37b99f0014aee8963831bc320528`. Read-only, expected-hash-pinned sanitized receipt job `rre_rc32_postreload_saved_receipt_20261105_01` exit 0: `addonVersion=0.4.10`, 69 known, 96 candidate entries (51 returned, 38 listed-not-queried, seven no-detail), eight valid distinct stored toolbar IDs, zero duplicates, fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160` unchanged.
+- The persisted `0.4.10` is **consistent with the old session flushing before the newly loaded 0.4.11**. The screenshot proves v0.4.11 UI loaded, but a fresh `addonVersion=0.4.11` saved-file receipt remains pending. Do not rerun `/reloadui` without Joey's new approval; one previously approved reload has already occurred. No automated keyboard/mouse input, game process restart or OS reboot was performed.
+- Workbridge desktop screenshot acquisition is still blocked by the pre-existing November 2 quarantined GUI turn (`UI_TURN_BUSY`), investigated separately under `workbridge-mcp/investigations/windows-desktop-automation/reports/`. Do not bypass or remove that lock as part of RRE deployment. This operator-provided PNG is the current visual evidence.
+
 ## Pending runtime gate
 
 1. Ask Joey before any `/reloadui`, restart, or reboot.
