@@ -1,0 +1,58 @@
+{
+  "schema": "rre.sc103.stop_argument_gap.v1",
+  "id": "SC103-STOP-ARGUMENT-TYPE-GAP-20261104",
+  "status": "REPRODUCED_OFFLINE_OPEN",
+  "priority": "P2_DEFENSIVE_HARDENING",
+  "date_local": "2026-11-04",
+  "timezone": "America/New_York",
+  "summary": "The staged LuaPad probe's public temporary state.stop callback is dot-call safe but does not normalize colon-call or arbitrary reason arguments. Cleanup is performed, then a table concatenation can raise or an unexpected caller-provided string can appear in terminal chat output.",
+  "source": {
+    "path": "tools/sc103_luapad_hover_probe.lua",
+    "sha256": "fbf1199a7fc85f126157e477211044762dc3fbc0fcb943c05726941c70d1c816",
+    "relevant_lines": [
+      67,
+      82,
+      103,
+      104,
+      106,
+      107,
+      108
+    ]
+  },
+  "reproducer": {
+    "path": "artifacts/sc103-lua51-msvc-20261104-1925-v1/stop_edge_repro.lua",
+    "sha256": "edf34af1c5ae39927613ed066dbd20b713149e17e0475145c12f4a1858fca634",
+    "ignored_artifact": true,
+    "executable_sha256": "6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67",
+    "test_job_id": "rre_sc103_stop_edge_lua51_negative_20261104_v1",
+    "cwd": "C:\\work\\rre",
+    "exit_code": 0,
+    "stdout_exact": "SC103_STOP_EDGE_REPRO colon_error=true raw_reason_echo=true detach_once=true\r\n",
+    "setup": "Standalone synthetic Inspect.Time.Frame, Inspect.Tooltip, Command.Event.Attach/Detach and Event.System.Update.Begin; no RIFT API/client invoked."
+  },
+  "behavior": [
+    {
+      "case": "dot",
+      "invoke": "state.stop('MANUAL_CANCEL')",
+      "observed": "No exception; one exact detachment."
+    },
+    {
+      "case": "colon",
+      "invoke": "state:stop('MANUAL_CANCEL')",
+      "observed": "Implicit state table used as reason; one detachment and state clearing occurred, then status string concatenation raised an error."
+    },
+    {
+      "case": "non_allowlisted_string",
+      "invoke": "state.stop('uPRIVATE_TEST_SENTINEL')",
+      "observed": "No exception; unexpected caller-supplied string appears in terminal notice."
+    }
+  ],
+  "fix_contract": [
+    "Normalize public state.stop arguments for either dot or colon invocation.",
+    "Map unknown argument types, arbitrary status strings and nil to a fixed allowed CANCELLED reason before passing to complete().",
+    "Preserve exact handler detachment, done state, cache and quarantine behavior.",
+    "Extend synthetic fixture with both negative controls; rerun genuine Lua 5.1 and existing hash-pinned Lua 5.3 gates."
+  ],
+  "integrity_note": "Do not change the source while its SHA is pinned in the LuaPad guide, preview20 note, session handoff, offline runner defaults and accepted Lua5.1 receipt. Treat the source fix and reference/hash migration as one reviewed integration.",
+  "scope_limit": "Defensive static/synthetic reproducibility only; documented operator snippet uses dot syntax. No physical in-game failure has been observed."
+}
