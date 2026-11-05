@@ -2,6 +2,14 @@
 
 **Created:** 2026-11-03. **Owner:** physical-PC RRE manager. **State as of November 5:** operator sequence performed and a fresh version-matched saved receipt obtained; strict complete-A/B/C/D-plus-fresh-pre/post evidence PASS remains pending.
 
+## November 5, 2026 offline cross-module Pin/Capture/Retry/Undo regression (08:30 EST)
+
+A new bounded source-extracted Windows Lua 5.3 regression `tools/verify-rrecollector-rc30-interleaved-undo.lua` passed **36 synthetic assertions** (Workbridge job `rre_rc30_interleave_test_20261105_0831_a2`, exit 0). It executes the original frozen v0.4.10 UI `pinSelected`, `undoPins`, UI `refresh`, and main `recordCapture`/`runCandidateLookup`/`refreshUI` bodies using synthetic known IDs and in-memory character data. UI SHA-256 `36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa`; main SHA-256 `3aca63c501686fca5ab6bef8a72d81e3b4fe9fdca4ca3558d379e0cf24a1e5c6`.
+
+In a successful interleaving, a pending Pin baseline survives complete Capture and successful candidate Retry, and Undo restores the **eight original slots, original toolbarSlots table reference, and initial Pin destination** while retaining the newer completed capture, candidate report, and unrelated probe. In a negative interleaving, incomplete Capture and explicit candidate lookup exception retain prior good reports; Undo still restores all eight original slots. The first harness invocation failed due to a Lua multi-return source-slice mistake; the corrected fixture passed, so the initial failure is not attributed to RIFT.
+
+**Proof limit:** This is an offline cross-module regression guard, not a recorded physical Pin, simulated persistence flush, current-session identification, screenshot, real API outcome or production source fix. Operator-reported RC-30 sequence and postreload eight-slot receipt are unchanged; missing same-trial C and pre-Pin receipt continue to block strict acceptance. No physical RRECollector source/install or SavedVariables change was made.
+
 ## November 5, 2026 operator and saved-state update (01:27 EST)
 
 - Joey explicitly confirmed selecting API-known **Break Free**, pinning to slot #1, clicking **Undo pins in the same session**, then using **/reloadui**. The manager previously gave an out-of-order repeat instruction after losing track of that completed sequence; **do not require him to repeat it on that basis**. RIFT /reloadui did not restart Workbridge.

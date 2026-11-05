@@ -863,7 +863,8 @@
         "tools/rc30-saved-receipt.mjs",
         "tools/test-rc30-saved-receipt.mjs",
         "docs/RRECOLLECTOR-RC30-OPERATOR-ACCEPTANCE-2026-11-03.md",
-        "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json"
+        "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json",
+        "tools/verify-rrecollector-rc30-interleaved-undo.lua"
       ],
       "postStartSavedReceipt": {
         "report": "docs/RRECOLLECTOR-RC30-POSTSTART-SAVED-2026-11-03.md",
