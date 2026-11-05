@@ -1,0 +1,56 @@
+{
+    "schemaVersion":  1,
+    "sourceKind":  "single stable read of original RRECollector SavedVariables; G1 saved data only",
+    "sourceFilename":  "RRECollector.lua",
+    "observedAtUtc":  "2026-11-05T06:20:12.968Z",
+    "modifiedAtUtc":  "2026-11-05T05:48:13.553Z",
+    "sourceSha256":  "79e9ef7ccfe7e784a49113917d0711a4952186cbb0e4b1934c46fc7d8070b5d4",
+    "sourceBytes":  74216,
+    "addonVersion":  "0.4.10",
+    "latestKnownCount":  69,
+    "latestCaptureComplete":  true,
+    "knownSnapshotReadiness":  {
+                                   "schemaVersion":  1,
+                                   "offlineStructureQualified":  true,
+                                   "reasons":  [
+
+                                               ],
+                                   "freshnessVerified":  false,
+                                   "processBuildVerified":  false,
+                                   "eventDeliveryVerified":  false,
+                                   "eventComparisonReady":  false,
+                                   "evidenceLimit":  "Single saved latest cannot prove a newly flushed capture, process/build, or events."
+                               },
+    "candidateCount":  96,
+    "candidateStatuses":  {
+                              "returned":  51,
+                              "listed-not-queried":  38,
+                              "no-detail":  7
+                          },
+    "candidateSequence":  5,
+    "slotCount":  8,
+    "slotStorageForm":  "implicit-lua-array",
+    "slotStates":  [
+                       "ability-id",
+                       "ability-id",
+                       "ability-id",
+                       "ability-id",
+                       "ability-id",
+                       "ability-id",
+                       "ability-id",
+                       "ability-id"
+                   ],
+    "validPinnedIds":  8,
+    "distinctValidPinnedIds":  8,
+    "duplicateValidPinnedIds":  0,
+    "validIdPresentInKnown":  8,
+    "validIdAbsentFromKnown":  0,
+    "eighthSlotEmpty":  false,
+    "slotFingerprintComplete":  true,
+    "slotArraySha256":  "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160",
+    "roleFromLiveProcessVerified":  false,
+    "sourceWriterPidVerified":  false,
+    "pinUndoInGameVerified":  false,
+    "rawAbilityIdsEmitted":  false
+}
+
