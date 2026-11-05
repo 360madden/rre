@@ -924,8 +924,8 @@
       "ownedPaths": [
         "addons/RRECollector/abilities.lua",
         "addons/RRECollector/main.lua",
-        "tools/verify-rrecollector-ability-boundaries.lua",
-        "tools/verify-rrecollector-candidate-preserve.lua",
+        "tools/verify-rrecollector-rc32-batch-bounds.lua",
+        "tools/verify-rrecollector-rc32-candidate-preservation.lua",
         "docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"
       ],
       "scope": [
@@ -939,8 +939,8 @@
         "Candidate prior-good all-error/partial-error preservation; error-free negatives remain truthful",
         "After RC-30 gate, focused Lua tests, strict TOC, source/installed 10/10 hash parity, version-matched runtime save"
       ],
-      "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md"],
-      "progress": "Two source-confirmed paths independently reviewed: P2 raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate evidence on explicit Detail exceptions. Added exact reviewer mock matrix and meaningful prior predicate requiring a non-error query, without requiring positive result. No physical runtime fault reproduced; no fixes or addon deployment performed. Frozen physical v0.4.10 baseline remains intact."
+      "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md", "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"],
+      "progress": "Two source-confirmed paths independently reviewed: P2 raw List batch exceeds normalized cap; P1 conditional replacement of useful prior candidate evidence on explicit Detail exceptions. November 5 source-extracted expected-red fixtures executed on Windows Lua 5.3: candidate preservation 4/7 and batch bounds 4/6 deliberate red cases, with five passing controls; both jobs exited 0 only because their expected-red modes recognized the existing defects. Existing collector tests 6/6 and roadmap 47/11 passed. These are NOT fixed-version green tests. No physical runtime fault reproduced; no fixes or addon deployment performed. Frozen physical v0.4.10 baseline remains intact pending RC-30 operator acceptance."
     }
   ],
   "workingSource": {

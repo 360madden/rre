@@ -2,6 +2,14 @@
 
 **Checkpoint:** 2026-11-05 00:06 EST (2026-11-05T05:06Z). **Owner:** single RRE/REA manager. **Repository:** `C:\work\rre`, branch `main`. **Verified HEAD before this handoff:** `70dd481838db565e54b401f0c974eec12f85d9a5`. The handoff's own commit will be newer; recheck actual HEAD on resume.
 
+## November 5, 00:38 EST continuation — RC-32 expected-red fixtures
+
+- **New offline-only files:** `tools/verify-rrecollector-rc32-candidate-preservation.lua`, `tools/verify-rrecollector-rc32-batch-bounds.lua`, and `docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md`. Frozen `addons/RRECollector/*.lua` source and physical v0.4.10 installation were not modified.
+- **Actual Windows Lua 5.3 receipts:** `rre-rc32-red-candidate-20261105-01` exit 0 with **4/7 expected-red** cases; `rre-rc32-red-batch-20261105-01` exit 0 with **4/6 expected-red** cases. These reproduce known defects and are **not a green fix gate**. Other 5 controls passed. Only child PATH was adjusted for the existing companion Lua DLL.
+- **Additional checks:** existing `verify-rrecollector-candidates.mjs` **6/6** pass; `roadmap_validate` **47 tasks, 11 milestones**, exit 0.
+- **RC-30 remains blocked:** fresh read-only Windows desktop inventory shows VMware Lab-1/Lab-2, but no visible physical `rift_x64.exe` window; no RIFT input/screenshot was attempted. The original operator A→B→C→D acceptance protocol remains required, as does owner recovery of the quarantined capture lease. No runtime acceptance or version/deployment change claimed.
+- **Restore plan:** inspect current Git HEAD and preserved original eight untracked entries, confirm source unchanged, read the RC-32 fixture report, then request operator-driven RC-30 evidence before authorized addon fixes or deployment. No automatic continuation of an operator trial is running.
+
 ## Completed in this session (read/write receipts)
 
 1. Reconnected Workbridge `0.16.4-dev` to `C:\work`; read `AGENTS.md`, `ROADMAP.md`, three task registers, the previous handoff, and 15 latest commits. Initial HEAD `c23fc078e30bf07648db23ba740ccc66865dfaaf`.
