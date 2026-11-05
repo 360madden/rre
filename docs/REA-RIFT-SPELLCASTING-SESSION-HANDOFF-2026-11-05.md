@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, about 02:30 EST — RC-31 real-handler regression checkpoint (newest)
+## November 5, about 02:40 EST — RC-31 catalog-caption collision checkpoint (newest)
+
+**Pre-checkpoint main HEAD:** `a24dc079245598d03126b750e3118ea13d2a6a13`. Manager-owned scoped files: new `tools/verify-rrecollector-rc31-caption-collisions.lua` (SHA `1e2176768cdaec03b83967be69d53c261136b6afea9521ea666676280164cab6`), updated RC-31 red fixture evidence doc, updated RC task register, and this handoff. Recheck actual HEAD after scoped commit and preserve the eight historical unrelated untracked entries.
+
+- **Source-backed offline finding:** Under the existing RC-25 6px/glyph mock, three *distinct* catalog entries `Shield of the Chosen/Hero/Vengeful` collapse to `Shield | of t...`; `Way of the Mountain/River/Wind` collapse to `Way of | the ...`. The fixture loads all 96 static entries with valid unique IDs, extracts the real frozen caption function and asserts exactly **2/5 expected-red groups, 3 PASS controls**. This is **mock-metric collision evidence**, not proof of the font's live RIFT pixels. Do not demand unique captions for identical ability names across souls.
+- **Windows receipts:** `rre-rc31-caption-collision-reviewed-20261105-n7`: exit **0**, named two-group expected-red output; supervised `--require-fixed` exited **1** with expected collision diagnostic. Original green `verify-rrecollector-ui-captions.lua` untouched, job `rre-rc31-caption-rc25-green-20261105-n8` exited **0** with **9/9** passing caption assertions. The initial catalog-bootstrap test invocation failed in the offline harness due to a Lua local/global mistake; manager repaired it before these final tests. No observed addon crash.
+- **Totals/status:** RC-31 offline **13 expected-red assertions / 20 total scenarios, 7 PASS controls** across draw/nav, direct handlers, and captions; source fix is not implemented. RC-32 **10 expected-red / 20** pending implementation; RC-30 strict pending; SC-103 remains blocked on a genuinely selected Legendary discriminator. RRECollector v0.4.10 source/install, physical RIFT, SavedVariables, and other repos untouched. No game actions/deployment.
+- **Prioritized continuation:** (1) source-extracted browser-row width-fit regression with representative metrics and short-row PASS control; (2) distinct RC-32 all-inconclusive Detail-table replacement regression while preserving nil/no-detail success; (3) evaluate bounded cross-module Pin → Capture → Retry → Undo in-memory identity tests. All future fixes, package deployment and physical acceptance remain gated by RC-30 or a separate explicit user authorization.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 ~02:40 EST","project":"C:\\work\\rre","branch":"main","preCheckpointHead":"a24dc079245598d03126b750e3118ea13d2a6a13","rc30Strict":"pending","rc31ExpectedRed":[13,20],"rc32ExpectedRed":[10,20],"sc103":"blocked","collectorFrozen":"0.4.10","gameInputPerformed":false,"preservedUntrackedEntries":8}
+~~~
+
+## November 5, about 02:30 EST — RC-31 real-handler regression checkpoint (previous)
 
 **Verified pre-checkpoint HEAD:** `9ea12bde0d2c335d36258b5d4ebb0e46e5f9181e` on `main`. Manager-owned scoped paths for this checkpoint: new `tools/verify-rrecollector-rc31-hidden-clicks.lua` (SHA-256 `d0c91c086490e15bf2ccf11d7c2215a7ef1257b9d7aecdc1d9a836fd19fa90d6`), updated `docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md`, updated `docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json`, and this handoff. Recheck actual HEAD after scoped commit. Preserve all eight existing unrelated untracked entries.
 

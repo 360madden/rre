@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; earlier user screenshot confirms visual load (69 Known, 96 Static). The exact 18:11 UTC SavedVariables original (SHA 2c3bd03d...) has 69 known, 96 candidates and eight distinct valid populated saved slots including slot #8 (corrected implicit Lua array indexing). The earlier 06:24/17:33 saved-slot counts are unverified. Saved bytes do not prove the writing PID, current in-memory toolbar, Pin -> Undo -> Reload UI or restored eight-slot baseline; RC-26/27/30 remain pending. RC-31/32 are queued, NOT implemented/deployed; physical v0.4.10 remains frozen for the live gate.",
+  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; earlier user screenshot confirms visual load (69 Known, 96 Static). The exact 18:11 UTC SavedVariables original (SHA 2c3bd03d...) has 69 known, 96 candidates and eight distinct valid populated saved slots including slot #8 (corrected implicit Lua array indexing). The earlier 06:24/17:33 saved-slot counts are unverified. Saved bytes do not prove the writing PID, current in-memory toolbar, Pin -> Undo -> Reload UI or restored eight-slot baseline; RC-26/27/30 remain pending. RC-31/32 offline regression fixtures are under active development, but no production fixes were implemented or deployed; physical v0.4.10 remains frozen for the live gate.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -913,7 +913,7 @@
       "state": "pending",
       "dependsOn": ["RC-30"],
       "owner": "RRE manager",
-      "ownedPaths": ["addons/RRECollector/ui.lua", "tools/verify-rrecollector-rc31-selection-state.lua", "tools/verify-rrecollector-rc31-hidden-clicks.lua", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
+      "ownedPaths": ["addons/RRECollector/ui.lua", "tools/verify-rrecollector-rc31-selection-state.lua", "tools/verify-rrecollector-rc31-hidden-clicks.lua", "tools/verify-rrecollector-rc31-caption-collisions.lua", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
       "scope": [
         "Selection-aware ordinary Pin and Check disabled state",
         "Measured, UTF-8-safe caption fallback for long ability names",
@@ -927,7 +927,7 @@
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
-      "progress": "November 5 offline source-extracted draw/navigation/refresh and Check-handle fixture is ready: 9/12 exact named expected RED, 3 controls PASS, Windows Lua5.3 exit 0 in --expect-red mode; --require-fixed child exits 1 with expected diagnostic. This confirms disabled action-state, off-page selection, accepted Capture reordering, Prev/Next clearing, and Check handle storage defects on frozen ui.lua v0.4.10. Companion source-extracted real Pin/Check handler regression now reproduces 2/3 named expected RED (hidden Pin mutates saved slots, hidden Check calls Detail-style mock) with one visible-known control green. Both offline suites combined: 11/15 named expected RED and four PASS controls; all --require-fixed variants fail closed. These are synthetic-handler tests, not physical RIFT input acceptance. Measured captions/browser fit remain planned. RC-30 strict gate remains pending due missing C screenshot/same-trial pre-Pin receipt despite Joey Pin -> Undo -> Reload and preserved original eight slots. No source changes, game input or deployment."
+      "progress": "November 5 offline source-extracted draw/navigation/refresh and Check-handle fixture is ready: 9/12 exact named expected RED, 3 controls PASS, Windows Lua5.3 exit 0 in --expect-red mode; --require-fixed child exits 1 with expected diagnostic. This confirms disabled action-state, off-page selection, accepted Capture reordering, Prev/Next clearing, and Check handle storage defects on frozen ui.lua v0.4.10. Companion source-extracted real Pin/Check handler regression now reproduces 2/3 named expected RED (hidden Pin mutates saved slots, hidden Check calls Detail-style mock) with one visible-known control green. Three offline suites combined: 13/20 named expected-red assertions, seven PASS controls; all --require-fixed variants fail closed. New source-extracted caption fixture uses the complete 96-entry static catalog and reproduces two three-way collision groups among six distinct ability names under the existing 6px/glyph mock (2/5 RED, 3 controls PASS), while original RC-25 caption suite remains 9/9 PASS. These are synthetic UI/source tests, not physical RIFT input or font-render acceptance. Omission markers, browser-row fitting and physical visuals remain planned. RC-30 strict gate remains pending due missing C screenshot/same-trial pre-Pin receipt despite Joey Pin -> Undo -> Reload and preserved original eight slots. No source changes, game input or deployment."
     },
     {
       "id": "RC-32",
