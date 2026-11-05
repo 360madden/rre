@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, about 02:24 EST — RC-31 draw-state regression checkpoint (newest)
+## November 5, about 02:30 EST — RC-31 real-handler regression checkpoint (newest)
+
+**Verified pre-checkpoint HEAD:** `9ea12bde0d2c335d36258b5d4ebb0e46e5f9181e` on `main`. Manager-owned scoped paths for this checkpoint: new `tools/verify-rrecollector-rc31-hidden-clicks.lua` (SHA-256 `d0c91c086490e15bf2ccf11d7c2215a7ef1257b9d7aecdc1d9a836fd19fa90d6`), updated `docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md`, updated `docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json`, and this handoff. Recheck actual HEAD after scoped commit. Preserve all eight existing unrelated untracked entries.
+
+- **Direct click-path evidence, frozen source:** Windows Lua 5.3 Workbridge final reviewed job `rre-rc31-hidden-clicks-reviewed-20261105-m6` exited **0** with exactly **2/3 named expected-red** and one green visible-known control. A supervising `--require-fixed` run returned child exit **1**, proving the future fixed-version acceptance gate rejects today's source. The fixture extracts the actual frozen `pinSelected()` and Check callback, constructs 16 synthetic API-known rows with an off-page remembered A01 and visible page-two A09, and asserts eight saved-slot contents/identity, baseline integrity, visible-Pin unrelated in-memory slots and original saved contents, Check destination/Undo-state invariants, unrelated receipt preservation and a counted `apiCheck` dispatch. A spy is not evidence of an actual live `Inspect.Ability.New.Detail` result.
+- **Current offline totals:** RC-31: **11 known RED / 15 total scenarios (4 controls PASS)** across draw-state and actual-handler fixtures. RC-32: **10 known RED / 20 total (10 controls PASS)** across candidate, startup and batch fixtures. These expected-red harness outcomes **do not mean addon fixes or acceptance**; they pin regression evidence against v0.4.10.
+- **Authorization/state:** RC-30 strict acceptance **pending**, RC-31/32 implementation **pending**, SC-103 **blocked**. Joey attests Pin → Undo → Reload, post-reload SavedVariables G1 receipt is available, but strict RC-30 same-trial intermediate C screenshot/pre-Pin receipt remain missing; do not ask Joey to redo the operation to repair earlier test sequencing. **No physical RIFT input, SavedVariables mutation, addon source/install/deployment edits, or cross-repo writes.** The eight preexisting untracked items are user-owned.
+- **Next priorities:** (1) read-only/synthetic RC-31 caption and browser-row fit regression; (2) evaluate cross-module Pin→Capture→Retry→Undo offline fixture if it adds coverage; (3) after a separately legitimate RC-30 gate or explicit source-change waiver, implement tiny common visible-known predicate and verify source, install, SavedVariables and UI parity. Keep v0.4.10 frozen until authorized.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 ~02:30 EST","project":"C:\\work\\rre","branch":"main","preCheckpointHead":"9ea12bde0d2c335d36258b5d4ebb0e46e5f9181e","rc30Strict":"pending","rc31ExpectedRed":[11,15],"rc32ExpectedRed":{"candidate":[4,7],"startup":[2,6],"batch":[4,7]},"sc103":"blocked","collectorFrozen":"0.4.10","gameInputPerformed":false,"preservedUntrackedEntries":8}
+~~~
+
+## November 5, about 02:24 EST — RC-31 draw-state regression checkpoint (previous)
 
 **Pre-checkpoint main HEAD:** a60f4bd86cf5695ba5114e0f59f11f6bdf63c764. Scoped files: new tools/verify-rrecollector-rc31-selection-state.lua (SHA 35faa6e482100d4c6b116f79bc3553c57b003726b7282884f7dcf3b345f304b3), new docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md, updated RC task register, and this handoff. Re-read current Git HEAD after commit. The eight historical untracked items remain user-owned and untouched.
 
