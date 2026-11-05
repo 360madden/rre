@@ -21,6 +21,14 @@ Both ran against the original source through the already-installed Windows Lua 5
 - `rre-rc32-red-batch-20261105-01`: exit 0, `EXPECTED_RED_RC32_BATCH 4/6`.
 - Direct `lua.exe -v` without the companion DLL search path exited `3221225781`; tests succeeded when the existing `C:\work\tools\cheat-engine-master\Cheat Engine\bin` folder was prepended only to the launched Lua process PATH. No installation or global PATH edit.
 
+### 01:10 EST negative-control gate (verified November 5)
+
+An additional **fail-closed check of the unfixed-source mode** ran under Workbridge job `rre-rc32-requirefixed-negative-20261105-01` (PowerShell supervisor exit **0** only if both Lua children fail with the specified diagnostic). With only the existing Lua DLL folder prepended to the child PATH, `--require-fixed` returned **exit 1** for the candidate test and **exit 1** for the batch test. Both required diagnostics were observed: `candidate protection not yet implemented` and `batch cap not yet implemented`. The supervisor reported `CANDIDATE_FAIL_CLOSED=True` and `BATCH_FAIL_CLOSED=True`; its output was not truncated.
+
+The frozen RRE source still hashes to `ui.lua` SHA-256 `36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa`, `abilities.lua` SHA-256 `d181ba0061a5959474dd3487b41c114f631122375a8b67421817fd54fdc1c510`, and `main.lua` SHA-256 `3aca63c501686fca5ab6bef8a72d81e3b4fe9fdca4ca3558d379e0cf24a1e5c6`. Fixture source hashes: candidate `c620daa011f9c928ae2d4cdf18606f39bf7c5e61c4c1582624a9b7d5b6d99868` and batch `5b46567f8b66b16ccc627a088f84f50717f2f46784f9b01828482b6fa2577bd3`.
+
+**This proves** the proposed future fixed-version test mode rejects the known frozen defects; an expected-red harness exit 0 cannot masquerade as fixed-version success. It **does not prove** corrected collector behavior, complete scenario coverage, live-game faults, RC-30 acceptance, or independent model approval. No FreeBuff worker was re-launched for already-reviewed fixed-prompt questions, and the physical addon remains untouched.
+
 To rerun from Windows PowerShell in `C:\work\rre`:
 
 ```powershell

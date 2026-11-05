@@ -2,6 +2,13 @@
 
 **Checkpoint:** 2026-11-05 00:06 EST (2026-11-05T05:06Z). **Owner:** single RRE/REA manager. **Repository:** `C:\work\rre`, branch `main`. **Verified HEAD before this handoff:** `70dd481838db565e54b401f0c974eec12f85d9a5`. The handoff's own commit will be newer; recheck actual HEAD on resume.
 
+## November 5, 01:10 EST continuation — RC-32 fail-closed negative control
+
+- **Recovered Git:** `main` at `3ad0f374088f4a21031d36a9d919a78653ae009f` before this documentation-only checkpoint; eight historical untracked entries in main were preserved. Read-only Git worktree inventory showed eight worktrees; the separate pathfinding worker retains two untracked scripts, with no edits performed. Workbridge agent registry showed zero assigned RRE owners and diagnostics zero running command jobs/occupied slots; its historical job catalog is **incomplete** (bounded inventory), not proof all historical jobs were enumerated. No external RR2/REA owner was contacted or altered.
+- **New offline negative control:** `rre-rc32-requirefixed-negative-20261105-01` (01:10 EST) ran both source-extracted Lua 5.3 RC-32 fixtures with `--require-fixed`. The candidate test exited **1** and the batch test exited **1**, each with its expected explicit not-yet-implemented diagnostic. The independent PowerShell supervisor checked both exit codes and messages, reporting `CANDIDATE_FAIL_CLOSED=True`, `BATCH_FAIL_CLOSED=True` and overall exit **0**. See the detailed source/fixture SHA-256 receipts in `docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md`.
+- **Scope:** RRECollector v0.4.10 `ui.lua`, `main.lua`, `abilities.lua` hashes remain unchanged; this is **test-gate verification, not a fixed collector**. Physical RC-30 Pin→Undo→Reload and fresh version-matched SavedVariables, SC-103 Legendary identity, SC-306 numeric queue mapping and SC-604 real mechanism remain unresolved. No live game/process/capture interaction, addon deployment, other repository writes or new FreeBuff model sessions; fixed FreeBuff questions were previously reviewed and do not cover this RC-32 fixture delta.
+- **Recovery:** Verify new HEAD and focused documentation commit, original eight untracked entries, and zero new owned jobs before working. Await operator RC-30 proof; do not run RC-31/32 fixes or v0.4.11 installation on this evidence.
+
 ## November 5, 00:38 EST continuation — RC-32 expected-red fixtures
 
 - **New offline-only files:** `tools/verify-rrecollector-rc32-candidate-preservation.lua`, `tools/verify-rrecollector-rc32-batch-bounds.lua`, and `docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md`. Frozen `addons/RRECollector/*.lua` source and physical v0.4.10 installation were not modified.
