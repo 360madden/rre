@@ -58,3 +58,41 @@
   "nextTask": "read_only_workbridge_preflight_then_safe_repair_tests"
 }
 ```
+
+## Later continuation — Thursday, November 5, 2026, 13:49 EST
+
+The above snapshot is a **historical checkpoint from before tooling repair**.
+Do not reinterpret its earlier pending gates as the latest status.
+
+- **RRE post-load evidence advanced independently:** commit `d3c26398566e88685ce4e5037aede3a72ea579c9` qualified a read-only `addonVersion=0.4.11` SavedVariables receipt (file SHA `8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed`) and reverified 10/10 source/physical package hashes. The visible loaded UI v0.4.11 and the post-load saved-version gate now **PASS**. Specific RC-32 retry/failure behavior and RC-30 strict archival gates remain **PENDING**; no additional reload authorized.
+- **Workbridge first repaired orphan sidecar veto:** `c5676b990930c68ced6b175cd8ea307d6dfeb724`, synthetic 38/38 pass.
+- **Fresh Nov 5 read-only live classification:** `6ba12a807b11e7d24ce9f712c8e10086f736fa5e`, exact historical lock hash/lease/request pinned; result `OWNER_PID_NOT_PRESENT`, `releaseEligible:false`, prior action `unknown`. Workbridge current owner PID 15064, instance `8eeaffd2-4e11-4228-8bac-daa06449b08c`, version 0.16.4-dev, diagnostics healthy at observation.
+- **Source-only shared admission gate:** `accee90fe2fb4d129d6894d6cb21ebfbbed8a388`. Atomic maintenance/producer lease, ownership-checked release, cross-producer synthetic tests.
+- **Sealed desktop runtime packaging:** `74d50de8bc1c43aa4084652cc922171ffe4b42d7`, staged helper included and checked in updater; stage/baseline 55 pass, 1 skip, updater 37/37 pass, isolated MCP 8/8 pass.
+- **C# watchdog gate:** `b6dac1ee0b196a72fa034619729cff4e9238e859`, .NET 10 publish plus normal/uncertain/foreign-lock synthetic checks pass.
+- **Standalone capture CLI contained:** `d3e98516becf24c2c3ad78afbf1c7c0f356ffd16`. Exact parent-owned admission/GUI stamps required; independent CLI refused. Positive staged child using fake screenshot backend invoked once; combined 56 pass / 1 skip / 0 fail.
+- **LIVE IS STILL BLOCKED:** All changes are Git source/doc changes, not a WB-001 deployed runtime. The original Nov 2 `desktop-input-turn.lock` and matching quarantine remain untouched, old screenshot settlement still UNKNOWN, and no GUI input/restart was performed.
+
+### Updated machine-readable continuation
+
+```json
+{
+  "schemaVersion": 1,
+  "kind": "rre_workbridge_handoff_continuation",
+  "dateEastern": "2026-11-05",
+  "rrePostLoadSavedVersion": "0.4.11",
+  "rrePostLoadVersionGate": "passed",
+  "rreLiveRc32FailureBehavior": "pending",
+  "workbridgeGuiSourceHardeningHead": "d3e98516becf24c2c3ad78afbf1c7c0f356ffd16",
+  "workbridgeRuntimeUpgraded": false,
+  "nov2GuiQuarantineRetained": true,
+  "nov2PriorCaptureOutcome": "unknown",
+  "guiReleaseEligible": false,
+  "nextTasks": [
+    "stage_and_qualify_wb001_release_without_restarting_running_service",
+    "review_cross_producer_quiescence_and_live_owner_evidence",
+    "request_joey_approval_for_runtime_upgrade_and_separate_exact_lease_archive"
+  ],
+  "gameReloadOrRestartAuthorizedNow": false
+}
+```
