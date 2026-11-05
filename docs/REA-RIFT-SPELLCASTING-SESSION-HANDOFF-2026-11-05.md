@@ -1,6 +1,12 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 11:08 EST — RC-32 fix mapped; RC-30 strict gate independently rechecked (newest)
+## November 5, 11:17 EST — operator-functional RC-30 tier approved for offline RC-32 fixes (newest)
+
+**Joey explicitly approved** using his already completed Pin → Undo → Reload sequence as operator-functional RC-30 acceptance for RC-32 **repository source changes and offline regression tests only**. A/B/D images, postreload eight-slot fingerprints and 36/36 offline Undo checks support this scoped decision. Historical immediately-post-Undo screenshot C and same-trial pre-Pin save remain missing; **RC-30 strict archival acceptance stays PENDING**.
+
+**Scope and recovery:** No installation, RIFT input/reload, SavedVariables edits, RC-31 release or live-functional claim is authorized. RRE main prior HEAD 0fb7649b3a8b62a83c7b52a261bb0986054721c8; tracked clean with eight historical untracked; Workbridge 0.16.4-dev, zero RRE workers/owners. Three read-only independent reviews confirmed the three localized RC-32 fixes and fixture extraction constraints; manager alone edits source and task register. Approval recorded in RC task register; after the source patch require 22/22 Lua scenarios green, offline package checks, hash-bound commit and a fresh handoff.
+
+## November 5, 11:08 EST — RC-32 fix mapped; RC-30 strict gate independently rechecked (previous)
 
 **Pre-edit main:** `896b331aaa07cd525f79be9bc930be6fea99e558`; tracked clean, all eight historical unrelated untracked paths preserved; Workbridge 0.16.4-dev responsive, zero RRE workers/owners registered. Parallel independent reasoning agents were launched on distinct read-only RC-32 fix analysis, RC-30 gate audit and missing-artifact search, with no second writer. Their source-qualified findings were checked by the manager.
 

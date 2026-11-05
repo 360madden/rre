@@ -2,6 +2,12 @@
 
 **Status:** Offline test preparation expanded; **candidate replacement, startup retention and Detail batch safeguards remain UNIMPLEMENTED**. The physical-PC RRECollector addon **v0.4.10 is frozen and unchanged**. No RIFT inputs, addon deployment, game process access, SavedVariables writes, or quarantine release occurred.
 
+## November 5, 11:17 EST — offline source-only implementation authorized
+
+**Joey-approved alternate dependency tier:** The completed operator-attested RC-30 Pin → Undo → Reload, A/B/D images and preserved eight-slot postreload SavedVariables support **RC-32 source edits and source-extracted tests on the RRE repository only**. Missing historical C/pre-Pin evidence remains unresolved; **RC-30 strict archival acceptance is not granted**. No installed addon updates, RIFT interaction or Reload UI, private SavedVariables changes, or RC-31 release. This section supersedes previous RC-32 source-hold language for offline repository changes alone.
+
+The manager must record source/test hashes and real --require-fixed exits after editing; all pre-approval expected-red receipts below remain valid historical evidence, not post-fix results.
+
 ## November 5, 10:52 EST — Joey-approved all-inconclusive reliability requirement
 
 **Decision:** Joey explicitly approved the additional RC-32 requirement. This resolves the **policy decision**, not the source implementation, RC-30 gating, or runtime verification. The previous requirement covered explicit Detail errors; this extends it to all-inconclusive Detail-table attempts. Treat it as a newly approved reliability behavior, **not retroactive evidence of a production defect**.

@@ -919,7 +919,26 @@
         "sameTrialPrePinSavedReceiptAvailable": false,
         "strictAcceptanceComplete": false
       },
-      "progress": "Physical v0.4.10 package 10/10, historic UI load, 69 Known and 96 candidates remain source-qualified. Original 18:11 UTC file SHA 2c3bd03... contains an implicit Lua array with EIGHT distinct valid populated slots, including slot 8, verified by original raw text and a read-once parser (canonical SHA b592926b...). Historical 06:24 and 17:33 pin counts had an unqualified JavaScript indexing error and their old bytes are unavailable for correction; do not claim they had seven or eight. New read-only RC-30 receipt tool passes 11 synthetic tests including source replacement race and redaction. One FreeBuff race reviewer completed; another did not. November 5: Joey operator-confirmed Break Free Pin #1 -> Undo pins -> /reloadui; original eight tiles visually restored and a read-only v0.4.10 saved file (SHA 79e9ef7c...) has eight distinct valid pins and canonical fingerprint b592926b..., matching the qualified historical baseline. The immediately-post-Undo/pre-reload C screenshot and fresh same-trial pre-Pin fingerprint were not retained, so the literal strict acceptance remains pending; no request to repeat gameplay purely to correct assistant sequencing. A separate later read-only SavedVariables receipt, modified 07:14:44 EST (SHA 7bdd5f88..., 74,217 bytes), again shows the same eight-slot fingerprint; it does not supply missing same-trial evidence or close RC-30."
+      "progress": "Physical v0.4.10 package 10/10, historic UI load, 69 Known and 96 candidates remain source-qualified. Original 18:11 UTC file SHA 2c3bd03... contains an implicit Lua array with EIGHT distinct valid populated slots, including slot 8, verified by original raw text and a read-once parser (canonical SHA b592926b...). Historical 06:24 and 17:33 pin counts had an unqualified JavaScript indexing error and their old bytes are unavailable for correction; do not claim they had seven or eight. New read-only RC-30 receipt tool passes 11 synthetic tests including source replacement race and redaction. One FreeBuff race reviewer completed; another did not. November 5: Joey operator-confirmed Break Free Pin #1 -> Undo pins -> /reloadui; original eight tiles visually restored and a read-only v0.4.10 saved file (SHA 79e9ef7c...) has eight distinct valid pins and canonical fingerprint b592926b..., matching the qualified historical baseline. The immediately-post-Undo/pre-reload C screenshot and fresh same-trial pre-Pin fingerprint were not retained, so the literal strict acceptance remains pending; no request to repeat gameplay purely to correct assistant sequencing. A separate later read-only SavedVariables receipt, modified 07:14:44 EST (SHA 7bdd5f88..., 74,217 bytes), again shows the same eight-slot fingerprint; it does not supply missing same-trial evidence or close RC-30.",
+      "operatorFunctionalAcceptance20261105": {
+        "approvedBy": "Joey",
+        "approvedEasternDate": "2026-11-05",
+        "tier": "operator-attested-functional",
+        "evidence": [
+          "A/B/D user screenshots",
+          "Pin → Undo → Reload UI operator confirmation",
+          "two original-eight-slot version-matched post-reload SavedVariables fingerprints",
+          "36/36 synthetic interleaved Undo tests"
+        ],
+        "functionalSequenceAcknowledged": true,
+        "strictArchivalAcceptanceComplete": false,
+        "missingEvidence": [
+          "immediate-pre-reload Undo screenshot C",
+          "same-trial pre-Pin SavedVariables receipt"
+        ],
+        "scope": "Unblocks RC-32 offline repository source changes and regression tests only; does not close RC-30 strict, authorize physical addon installation, reload UI, other game input or RC-31 deployment",
+        "repeatOperatorTrialRequired": false
+      }
     },
     {
       "id": "RC-31",
@@ -965,7 +984,7 @@
         "Preserve existing successful candidateLookup and sequence when new Detail calls explicitly error or every queried Detail returns an inconclusive table; do not falsely record a successful result on all-inconclusive attempts without prior good data",
         "Reject all-error and zero-query persisted candidateLookup placeholders during startup instead of silently retaining them; preserve usable API-negative results",
         "Distinguish API nil/no-detail, empty-table inconclusive, and exceptions; no learnability inference",
-        "Do not change source or installed addon until RC-30 operator Pin to Undo and normal SavedVariables gate"
+        "Offline repository source implementation is authorized under Joey's 2026-11-05 operator-functional RC-30 exception; strict RC-30 archival gate and separate installed-addon/live-game approval remain pending"
       ],
       "acceptance": [
         "Independent review and source-extracted Lua adversarial tests for clean/bad/duplicate/oversized API lists",
@@ -981,11 +1000,30 @@
         "preservePriorSequence": true,
         "noPriorAllInconclusiveRecordedSuccess": false,
         "errorFreeNilNoDetailRemainsValidNegative": true,
-        "implementationStatus": "pending-rc30-gate",
+        "implementationStatus": "offline-source-only-authorized-in-progress",
         "qualification": "synthetic-offline-evidence-not-live-failure-proof"
       },
       "evidence": ["docs/RRECOLLECTOR-RC32-RELIABILITY-PREFLIGHT-2026-11-03.md", "docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md"],
-      "progress": "Three source-confirmed reliability paths independently reviewed: raw List batch can exceed normalized cap, candidate Detail exceptions overwrite useful previous records, and startup retains all-error or zero-query cached reports. November 5 producer-shaped candidate fixture strengthened with exact named-red classification and deep prior checks: 6/9 expected RED after adding two source-qualified all-inconclusive cases (original 4/7 receipt remains historical); new startup SavedVariables source-extracted fixture 2/6 expected RED with healthy positive, error-free no-detail, listed-control-only and catalog-mismatch controls green; strengthened batch fixture 4/7 named expected RED with exact API-call/record ID checks and a clean 512-ID boundary. All three --expect-red tests pass only by reproducing known defects; current totals are 12/22 RED with 10 green controls. The source-extracted empty-table Detail classifier is verified independently of the synthetic nine-query aggregate. Strengthened candidate, startup, and batch --require-fixed negative gates each exited 1 with expected diagnostics; the November 5 04:38 candidate 6/9 fail-closed supervisor independently verified exit 1. Roadmap validator passed 47/11. These are offline test preparations, not fixed-version acceptance or live failure reproduction. Joey approved all-inconclusive prior-good preservation as an additional RC-32 reliability requirement on November 5; this resolves the policy decision only, not the failing source-extracted cases or pending RC-30 implementation/deployment gate. RRECollector v0.4.10 source/install remain unchanged under strict RC-30 evidence hold."
+      "progress": "Three source-confirmed reliability paths independently reviewed: raw List batch can exceed normalized cap, candidate Detail exceptions overwrite useful previous records, and startup retains all-error or zero-query cached reports. November 5 producer-shaped candidate fixture strengthened with exact named-red classification and deep prior checks: 6/9 expected RED after adding two source-qualified all-inconclusive cases (original 4/7 receipt remains historical); new startup SavedVariables source-extracted fixture 2/6 expected RED with healthy positive, error-free no-detail, listed-control-only and catalog-mismatch controls green; strengthened batch fixture 4/7 named expected RED with exact API-call/record ID checks and a clean 512-ID boundary. All three --expect-red tests pass only by reproducing known defects; current totals are 12/22 RED with 10 green controls. The source-extracted empty-table Detail classifier is verified independently of the synthetic nine-query aggregate. Strengthened candidate, startup, and batch --require-fixed negative gates each exited 1 with expected diagnostics; the November 5 04:38 candidate 6/9 fail-closed supervisor independently verified exit 1. Roadmap validator passed 47/11. These are offline test preparations, not fixed-version acceptance or live failure reproduction. Joey approved all-inconclusive prior-good preservation as an additional RC-32 reliability requirement on November 5; this resolves the policy decision only, not the failing source-extracted cases or pending RC-30 implementation/deployment gate. RRECollector v0.4.10 source/install remain unchanged under strict RC-30 evidence hold.",
+      "sourceOnlyAuthorization20261105": {
+        "approvedBy": "Joey",
+        "approvedEasternDate": "2026-11-05",
+        "decision": "operator-functional-RC30-tier-sufficient-for-offline-RC32-source-fix",
+        "approvedOperations": [
+          "edit RRE-owned source files in repository",
+          "run offline Lua/Node verification",
+          "record code/test evidence and commit locally"
+        ],
+        "excludedOperations": [
+          "copy/deploy RRECollector into physical RIFT",
+          "issue RIFT game input or Reload UI",
+          "modify private SavedVariables",
+          "treat RC-30 strict archival evidence as complete",
+          "authorize RC-31 deployment"
+        ],
+        "rc30StrictState": "pending",
+        "rc32Implementation": "in-progress"
+      }
     }
   ],
   "workingSource": {
