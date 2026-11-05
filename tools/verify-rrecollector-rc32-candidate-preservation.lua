@@ -203,6 +203,7 @@ runCandidateLookup("manual")
 check("all-inconclusive without prior not recorded",
   type(RRECollectorData.candidateAttempt) == "table"
   and RRECollectorData.candidateAttempt.status ~= "recorded"
+  and RRECollectorData.candidateSequence == 0
   and (RRECollectorData.candidateLookup == nil
     or RRECollectorData.candidateLookup == nextReport)
   and unchanged(latest, probe, toolbar))
