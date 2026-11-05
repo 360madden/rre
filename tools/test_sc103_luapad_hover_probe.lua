@@ -353,6 +353,28 @@ replacement.stop("MANUAL_CANCEL")
 check(h.detachCalls == 2, "manual cancel detaches replacement")
 check(rawget(_G, KEY) == nil, "manual cancel clears global")
 
+-- Public stop supports both Lua call syntaxes and only fixed status reasons.
+local colonCancel = setup()
+local colonState = rawget(_G, KEY)
+check(pcall(function() colonState:stop("MANUAL_CANCEL") end), "colon cancel cannot throw")
+check(colonCancel.detachCalls == 1, "colon cancel detaches exactly once")
+check(rawget(_G, KEY) == nil, "colon cancel clears temporary owner")
+check(colonCancel.outputs[#colonCancel.outputs]:find("MANUAL_CANCEL", 1, true) ~= nil,
+  "colon cancel prints fixed requested status")
+check(type(rawget(_G, RESULT_KEY)) == "table" and rawget(_G, RESULT_KEY).status == "MANUAL_CANCEL",
+  "colon cancel stores only allowed status")
+local arbitraryCancel = setup()
+local arbitraryState = rawget(_G, KEY)
+check(pcall(function() arbitraryState.stop("uPRIVATE_TEST_SENTINEL") end),
+  "unexpected caller status cannot throw")
+check(arbitraryCancel.detachCalls == 1, "unexpected caller status detaches once")
+check(arbitraryCancel.outputs[#arbitraryCancel.outputs]:find("CANCELLED", 1, true) ~= nil,
+  "unexpected caller status maps to fixed cancellation")
+check(table.concat(arbitraryCancel.outputs):find("uPRIVATE_TEST_SENTINEL", 1, true) == nil,
+  "unexpected caller string cannot reach notice")
+check(type(rawget(_G, RESULT_KEY)) == "table" and rawget(_G, RESULT_KEY).status == "CANCELLED",
+  "unexpected caller status caches only fixed reason")
+
 -- Supersession must fail closed when an existing stop callback throws or no-ops.
 local thrownStop = setup({registryModel=true})
 local thrownFormer = rawget(_G, KEY)

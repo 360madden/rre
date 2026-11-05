@@ -33,11 +33,11 @@ SOURCES = {
 }
 # Reviewed 2026-11-03 source snapshot. Default --run is fail-closed against drift.
 APPROVED_SOURCE_SHA256 = {
-    "probe": "fbf1199a7fc85f126157e477211044762dc3fbc0fcb943c05726941c70d1c816",
-    "fixture": "c196a950bdbd979c548db66ab34e272e4558b2dee50768ba3d4833a8c20075dc",
+    "probe": "e6c503dd195f46019d56f375a97b06656769eb02ea2ecf7c36ca960ba201a569",
+    "fixture": "4eeb630f9953aed56f6299dd24395ebf5bab0e93c82d354921cbf3dae8dff6a1",
     "copy": "478e81c2d83d7406c7998f8f6ebe311c3785a2acf4b7ca37b7689ad338f06406",
 }
-MIN_ASSERTIONS = 454
+MIN_ASSERTIONS = 474
 TIMEOUT_SECONDS = 30
 SUCCESS = re.compile(r"SC103_HOVER_PROBE_OFFLINE_TESTS_PASS ([1-9][0-9]*)")
 

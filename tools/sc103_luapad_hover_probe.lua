@@ -103,8 +103,13 @@ else
       local detail = candidate and (" id=" .. candidate) or " id=UNKNOWN"
       notice(reason .. detail .. (detached and "" or " DETACH_UNCONFIRMED"))
     end
-    state.stop = function(reason)
-      complete(reason or "CANCELLED", nil)
+    state.stop = function(reason, methodReason)
+      -- Lua colon calls pass self first; never pass arbitrary caller values to notices.
+      if reason == state then reason = methodReason end
+      if type(reason) ~= "string" or not RECORDABLE_STATUS[reason] then
+        reason = "CANCELLED"
+      end
+      complete(reason, nil)
     end
 
     onFrame = function()
