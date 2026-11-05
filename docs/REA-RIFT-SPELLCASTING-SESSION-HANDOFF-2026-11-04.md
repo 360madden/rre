@@ -15,6 +15,8 @@
 
 **Pinned current documents:** [SC-103 LuaPad hover guide](REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md) SHA-256 `fec94cb5482c255489696606253de71e1cf645a40bbd4dccfb852aca798b7374`; [SC-604 supplemental index](REA-RIFT-SPELLCASTING-SC604-EVIDENCE-DELTA-2026-11-04.md) SHA-256 `dbb2bace0ad37c8ec0556bb98ec4a1e2cfd94aa9fd5716688a940eddba2ecfef`. Source-hashed physical `rift_x64.exe`: `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. These **disk** hashes do not establish current running-process/session identity.
 
+**Evening source update (November 4):** The installed physical LuaPad disk source has advanced to **`2.0.0-preview20`** (TOC SHA `b3caba81…`, `main.lua` SHA `34bf8d96…`). The independent [preview20 source compatibility addendum](REA-RIFT-SPELLCASTING-SC103-LUAPAD-PREVIEW20-2026-11-04.md) confirms the staged SC-103 Run/Output/Copy workflow is still structurally supported. The preceding preview16 row is historical, and **no loaded-game version or live probe result is verified**. The pinned SC-103 guide and six-source SC-604 integrity checks remain unchanged.
+
 ## Evidence readiness and unresolved gates
 
 - **SC-103 (blocked):** No current same-epoch selected Legendary state, native Soul Tree/Protector's Fury tooltip or modern variant ID. The staged `tools/sc103_luapad_hover_probe.lua` has passed **454/454** source-exact Windows Lua 5.3 synthetic assertions, **not** a physical-client hover test. LuaPad's on-disk Run code captures synchronous Output and restores global `print`; a delayed probe callback should write to **RIFT chat**, not the LuaPad Output pane. Its one-shot Copy Output must be copied before another Run resets the buffer.
