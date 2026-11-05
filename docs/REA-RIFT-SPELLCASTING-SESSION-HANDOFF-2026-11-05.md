@@ -1,5 +1,15 @@
 # RRE session handoff — November 5, 2026
 
+## November 5, 18:31 EST — isolated FlaUI dummy-click harness, offline tests passed; physical RIFT untouched
+
+**Independent Workbridge source milestone:** Commit **`df2087ff7e68a95cfc6219dd5e28375e4f04ba7e`** added three narrowly owned files under `investigations/windows-desktop-automation/prototypes/flaui-dummy-click/`: `FlaUIDummyClick.csproj`, `Program.cs`, and `README.md`. It reuses local FlaUI Core `Mouse.LeftClick(Point)` and builds with **.NET 10**, **zero warnings/errors**. Its no-GUI, no-input dry-run and **6/6 synthetic checks passed**, with independent **offline PASS**. The separately gated `--dummy-live-once` branch, which can click only a self-owned disposable WinForms window after a distinct confirmation, was **not executed**; there is **no live click receipt**. It does not select or click physical RIFT, and neither stage nor submit of `/rre candidates` occurred.
+
+**Gate remains closed:** This advances the earlier 18:23 geometry-only planner toward a reusable tested transport, but does **not** validate the real monitor/DPI/Retry-button mapping, integrate a Workbridge physical-game one-shot input lease, or authorize a RIFT click. Joey must separately approve an isolated disposable-window click if desired, then separately acknowledge the equivalent one-time RRECollector Retry action before any actual game input. Preserve the previous physical RIFT PID/HWND/SavedVariables baseline as *last observed*, not a fresh live sample. RC-32 live candidate behavior stays **PENDING**.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 18:31 EST","task":"RC-32","flauiDummyHarnessCommit":"df2087ff7e68a95cfc6219dd5e28375e4f04ba7e","files":3,"framework":"net10.0-windows","build":"pass-zero-warnings","syntheticPassed":6,"dryRunInput":false,"dummyLiveClickAttempted":false,"riftClickAttempted":false,"slashAttempted":false,"rc32Live":"pending","next":["approval-disposable-click","qualify-physical-target-guard","approval-single-equivalent-Retry"]}
+~~~
+
 ## November 5, 18:23 EST — physical-RIFT Retry click OFFLINE planner verified, no live mouse transport
 
 **Workbridge independent milestone:** Commit **`f70dfc3ee8d4da301dee3598cc5004518bfc4951`** added exactly three files under `investigations/windows-desktop-automation/prototypes/`: `rift-retry-click-plan.mjs`, `rift-retry-click-plan.test.mjs`, `rift-retry-click-runbook.md`. The separate planner's **10/10 synthetic tests PASS** with independent review according to the supervising coordinator. It builds a **non-executable plan** and rejects stale/mismatched PID/HWND/start/session/window/UIA identity, screenshot SHA/30-second freshness, DPI/physical coordinate discrepancies, negative-monitor geometry mismatch, and missing visual Retry-button attestation. The plan has **no mouse, keyboard, focus, screenshot, or process invocation**, and no actual FlaUI sender has been bound or live-qualified. No RIFT click, slash command, `/reloadui`, restart, installed addon modification or SavedVariables write occurred.
