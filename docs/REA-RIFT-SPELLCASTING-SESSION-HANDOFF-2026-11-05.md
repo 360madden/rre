@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, about 02:10 EST — agentic RC-32 test-hardening checkpoint (current)
+## November 5, about 02:17 EST — RC-32 batch-regression checkpoint (newest)
+
+**Pre-checkpoint HEAD:** `e2669a05a52ba66ca769a6ebca9460b2d92063d8`. The manager strengthened only `tools/verify-rrecollector-rc32-batch-bounds.lua`, updated its evidence report and RC-32 register, and is committing these plus this handoff. The updated Lua fixture SHA is `d988b1f7947294266ac47878ef2e8809716347566bd36f2604740a33107303a2`.
+
+- **Exact offline verification:** Workbridge job `rre-rc32-batch-strong-final-20261105-h1` exited **0**: named `EXPECTED_RED_RC32_BATCH 4/7`, with three green controls (clean 69, clean 512 inclusive boundary, mixed numeric/map IDs). Exact scalar calls, return IDs, source-list membership, batch table identity and sorted bounded 512 fallback were checked. In the same supervising job, `--require-fixed` child exited **1** with its specific unfixed-source diagnostic, as intended.
+- **Independent senior review:** No serious blockers to narrow fixture hardening; ordinary source still vulnerable. The current suite totals **20 offline scenarios:** candidate 4 RED/3 PASS, startup 2 RED/4 PASS, batch 4 RED/3 PASS. RED means **known frozen-source defects**, not repaired behavior; test harness exits 0 only in `--expect-red` mode.
+- **State:** RC-32 pending, SC-103 blocked, RC-30 strict pending; RRECollector v0.4.10 source/install unchanged, no in-game actions, no source-change gate waiver, same eight user-owned untracked items preserved. Any future RC-32 production fix must await the RC-30 gate or explicit change authorization.
+- **Restart:** Check HEAD, Git status and batch fixture/evidence hashes; follow the older 02:10 section for SC-103 and RC-30 provenance. Priorities: RC-31 offline selection-state fixture, follow-on RC-32 negative/fault cases only if useful, and cross-project SC-103 selected-Legendary discriminator when actual operator evidence exists.
+
+```json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 ~02:17 EST","project":"C:\\work\\rre","branch":"main","preCheckpointHead":"e2669a05a52ba66ca769a6ebca9460b2d92063d8","rc30Strict":"pending","sc103":"blocked","rc32Fixed":false,"expectedRed":{"candidate":[4,7],"startup":[2,6],"batch":[4,7]},"gameInputPerformed":false,"preservedUserUntrackedEntries":8}
+```
+
+## November 5, about 02:10 EST — agentic RC-32 test-hardening checkpoint (previous)
 
 **Manager/pre-integration HEAD:** `4a977a1a57ab0e70a658d4cb623a099f160d5a3f`, branch `main`, `C:\work\rre`. Recheck HEAD and `git status` after this checkpoint commit. The eight pre-existing untracked backups/probe helpers listed below remain user-owned and must remain untouched. This section supersedes older recovery instructions in the historical chronology below.
 
