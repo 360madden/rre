@@ -186,6 +186,8 @@ class SupervisorTests(unittest.TestCase):
         self.assertIn("os.makedirs(os.path.dirname(target), exist_ok=True)", adapter)
         self.assertIn("FreeBuff copied-source layout is not preserved", adapter)
         self.assertIn("tools/sc103_luapad_hover_probe.lua", adapter)
+        # The fixture dofile()s this helper; source-copy QA must not report it missing.
+        self.assertIn('("tools", "sc103_luapad_copy_result.lua")', adapter)
         self.assertIn("addons/RRECollector/ui.lua", adapter)
 
     def test_fixed_independent_research_modes(self):

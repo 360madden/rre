@@ -42,7 +42,8 @@ def build(lane: str = "sc103"):
         '                                  "BoundedLineReader.cs")\n'
         '            shutil.copyfile(source, os.path.join(probe_dir, "BoundedLineReader.cs"))',
         '            for parts in (("tools", "sc103_luapad_hover_probe.lua"),\n'
-        '                          ("tools", "test_sc103_luapad_hover_probe.lua")):\n'
+        '                          ("tools", "test_sc103_luapad_hover_probe.lua"),\n'
+        '                          ("tools", "sc103_luapad_copy_result.lua")):\n'
         '                target = os.path.join(probe_dir, *parts)\n'
         '                os.makedirs(os.path.dirname(target), exist_ok=True)\n'
         '                shutil.copyfile(os.path.join(repo_root, *parts), target)')
@@ -214,6 +215,7 @@ def main():
         files = [
             ROOT / "tools" / "sc103_luapad_hover_probe.lua",
             ROOT / "tools" / "test_sc103_luapad_hover_probe.lua",
+            ROOT / "tools" / "sc103_luapad_copy_result.lua",
             ROOT / "addons" / "RRECollector" / "ui.lua",
             ROOT / "tools" / "verify-rrecollector-ui-pinning.lua",
             ROOT / "docs" / "RRECOLLECTOR-RC30-STALE-PIN-DISPLAY-2026-11-03.md",
