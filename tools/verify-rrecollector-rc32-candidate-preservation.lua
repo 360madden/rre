@@ -4,6 +4,31 @@ local f = assert(io.open("addons/RRECollector/main.lua", "rb"))
 local src = f:read("*a"); f:close()
 local section = assert(src:match("(local function runCandidateLookup%(trigger%).-)\n%-%- At most two event%-driven"),
   "candidate handler extraction failed (inspect source before updating fixture)")
+-- Producer-side qualification is extracted from the frozen candidate module too:
+-- an empty Detail table is neither a Detail error nor a nil/no-detail result.
+local cf = assert(io.open("addons/RRECollector/candidates.lua", "rb"))
+local csrc = cf:read("*a"); cf:close()
+local producerQuery = assert(csrc:match("(  local function query%(item, phase%).-)\n  %-%- A known%-list control"),
+  "candidate Detail query extraction failed (review source before updating fixture)")
+local producerPrefix = [==[
+local counts = {queried=0, listedControlQueried=0, unlistedQueried=0, errors=0,
+  noDetail=0, returned=0, unlistedReturned=0, inconclusiveTables=0}
+local newApi = {Detail=function() return {} end}
+local abilityCopyDetail = function(fields) return fields end
+]==]
+local producerSuffix = [==[
+local item = {id="SOURCE-BOUND-EMPTY-DETAIL", listed=true}
+local returned = query(item, "listed-control")
+assert(returned == false and item.status == "inconclusive-table"
+  and type(item.detail) == "table" and next(item.detail) == nil
+  and counts.queried == 1 and counts.listedControlQueried == 1
+  and counts.inconclusiveTables == 1 and counts.errors == 0
+  and counts.noDetail == 0 and counts.returned == 0,
+  "frozen source did not classify empty Detail table as inconclusive")
+print("PASS source-extracted empty Detail table classification (not a game API receipt)")
+]==]
+assert((loadstring or load)(producerPrefix .. producerQuery .. producerSuffix,
+  "RC32 source-extracted empty Detail table"))()
 local prefix = [==[
 local savedLoaded, lastMessage = true, "ready"
 local automaticCandidateRetries, pendingContextRetry = 0, false
@@ -15,12 +40,12 @@ local nextReport, RRECollectorData
 local function candidateLookup() return nextReport end
 ]==]
 local suffix = [==[
-local function report(queried, errors, noDetail)
+local function report(queried, errors, noDetail, inconclusive)
   -- Mirror candidates.lua's 39 listed + 57 unlisted shape and query policy.
   -- A positive unlisted canary expands to all 57 unlisted IDs; no-positive
   -- attempts stop after one listed control and eight unlisted canaries.
-  noDetail = noDetail or 0
-  local returned = queried - errors - noDetail
+  noDetail, inconclusive = noDetail or 0, inconclusive or 0
+  local returned = queried - errors - noDetail - inconclusive
   assert((queried == 9 or queried == 58) and returned >= 0)
   if queried == 9 then assert(returned <= 1, "unlisted positive requires expansion") end
   local entries, canaryIds = {}, {}
@@ -28,7 +53,8 @@ local function report(queried, errors, noDetail)
     "AFDD9D7E2A8F0E50B", "A768CF3B63EE8D6ED", "AFA78C0D582C9F2E5",
     "A37397DC597DDAF03", "A0E2112FD6FE262EE", "A411792DB5CF7E0E4"
   }
-  local remainingReturned, remainingNoDetail, remainingErrors = returned, noDetail, errors
+  local remainingReturned, remainingNoDetail, remainingInconclusive, remainingErrors =
+    returned, noDetail, inconclusive, errors
   for i = 1, 96 do
     local listed = i <= 39
     local item = {
@@ -50,6 +76,9 @@ local function report(queried, errors, noDetail)
       elseif remainingNoDetail > 0 then
         item.status = "no-detail"
         remainingNoDetail = remainingNoDetail - 1
+      elseif remainingInconclusive > 0 then
+        item.status, item.detail = "inconclusive-table", {}
+        remainingInconclusive = remainingInconclusive - 1
       else
         assert(remainingErrors > 0)
         item.status = "lookup-error"
@@ -59,7 +88,8 @@ local function report(queried, errors, noDetail)
     entries[i] = item
     if i >= 40 and i <= 47 then canaryIds[#canaryIds + 1] = item.id end
   end
-  assert(remainingReturned == 0 and remainingNoDetail == 0 and remainingErrors == 0)
+  assert(remainingReturned == 0 and remainingNoDetail == 0
+    and remainingInconclusive == 0 and remainingErrors == 0)
   if queried == 58 then assert(entries[40].status == "returned") end
   local unlistedQueried, listedReturned = queried - 1,
     (entries[1].status == "returned" and 1 or 0)
@@ -76,7 +106,7 @@ local function report(queried, errors, noDetail)
       listedControlQueried = 1, unlistedQueried = unlistedQueried,
       errors = errors, noDetail = noDetail, returned = returned,
       unlistedReturned = returned - listedReturned,
-      inconclusiveTables = 0, skipped = 57 - unlistedQueried
+      inconclusiveTables = inconclusive, skipped = 57 - unlistedQueried
     }
   }
 end
@@ -155,6 +185,27 @@ check("partial-error without prior classified incomplete", rejected("incomplete"
     or (RRECollectorData.candidateLookup == nextReport
       and RRECollectorData.candidateSequence == 1))
   and unchanged(latest, probe, toolbar))
+-- Source-qualified producer classification above, but nine-result aggregation below
+-- is synthetic: this is not a live RIFT result or proof of learnability.
+old, latest, probe, toolbar = reset(true)
+nextReport = report(9, 0, 0, 9)
+assert(nextReport.counts.inconclusiveTables == 9
+  and nextReport.counts.returned == 0 and nextReport.counts.errors == 0
+  and nextReport.counts.noDetail == 0)
+runCandidateLookup("manual")
+check("all-inconclusive preserves useful prior", RRECollectorData.candidateLookup == old
+  and RRECollectorData.candidateSequence == 7
+  and (rejected("incomplete") or rejected("failed")) and priorIntact()
+  and unchanged(latest, probe, toolbar))
+old, latest, probe, toolbar = reset(false)
+nextReport = report(9, 0, 0, 9)
+runCandidateLookup("manual")
+check("all-inconclusive without prior not recorded",
+  type(RRECollectorData.candidateAttempt) == "table"
+  and RRECollectorData.candidateAttempt.status ~= "recorded"
+  and (RRECollectorData.candidateLookup == nil
+    or RRECollectorData.candidateLookup == nextReport)
+  and unchanged(latest, probe, toolbar))
 old, latest, probe, toolbar = reset(true)
 nextReport = report(9, 0, 9)
 local noDetail = nextReport
@@ -182,12 +233,14 @@ if expectRed then
     ["all-error preserves useful prior"] = true,
     ["partial-error preserves useful prior"] = true,
     ["all-error without prior not successful"] = true,
-    ["partial-error without prior classified incomplete"] = true
+    ["partial-error without prior classified incomplete"] = true,
+    ["all-inconclusive preserves useful prior"] = true,
+    ["all-inconclusive without prior not recorded"] = true
   }
-  assert(checks == 7 and failures == 4, "expected exactly four of seven frozen-source defects; observed " .. failures)
+  assert(checks == 9 and failures == 6, "expected exactly six of nine frozen-source defects; observed " .. failures)
   for name in pairs(wanted) do assert(failedNames[name], "missing expected red: " .. name) end
   for name in pairs(failedNames) do assert(wanted[name], "unexpected red: " .. name) end
-  print("EXPECTED_RED_RC32_CANDIDATES " .. failures .. "/7 named scenarios; no addon changes")
+  print("EXPECTED_RED_RC32_CANDIDATES " .. failures .. "/9 named scenarios; no addon changes")
 else
   assert(failures == 0, "RC32 candidate protection not yet implemented (" .. failures .. " defects)")
   print("PASS_RC32_CANDIDATES " .. checks .. " scenarios")
