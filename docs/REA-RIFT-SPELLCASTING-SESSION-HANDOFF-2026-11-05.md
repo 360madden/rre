@@ -1,6 +1,8 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 11:31 EST — RC-32 v0.4.11 repository source verified; physical addon unchanged (newest)
+**Latest compact postcommit recovery packet (11:51 EST):** [RRE-RESUME-HANDOFF-2026-11-05-1151-EST.md](RRE-RESUME-HANDOFF-2026-11-05-1151-EST.md). It records verified `main` commit `b28fceb`, unchanged physical v0.4.10, source-only v0.4.11, all open gates and the exact resume plan; older checkpoints follow.
+
+## November 5, 11:31 EST — RC-32 v0.4.11 repository source verified; physical addon unchanged (previous checkpoint)
 
 **Result:** Under Joey's explicit offline-source-only RC-30 functional exception, the manager implemented three RC-32 reliability guards in repository source, staged **RRECollector v0.4.11** (core/TOC/README), extended startup fixtures by two compatibility cases, and corrected the older RC-30 interleaving mock from 57 to producer-accurate 58 Detail queries with error/inconclusive counters. No installed file copy or physical RIFT input occurred; **physical addon remains v0.4.10**, RC-30 strict archival gate PENDING, RC-31 deployment held, RC-32 runtime/host parity pending.
 
