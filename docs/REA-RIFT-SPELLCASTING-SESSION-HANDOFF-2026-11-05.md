@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, about 02:17 EST — RC-32 batch-regression checkpoint (newest)
+## November 5, about 02:24 EST — RC-31 draw-state regression checkpoint (newest)
+
+**Pre-checkpoint main HEAD:** a60f4bd86cf5695ba5114e0f59f11f6bdf63c764. Scoped files: new tools/verify-rrecollector-rc31-selection-state.lua (SHA 35faa6e482100d4c6b116f79bc3553c57b003726b7282884f7dcf3b345f304b3), new docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md, updated RC task register, and this handoff. Re-read current Git HEAD after commit. The eight historical untracked items remain user-owned and untouched.
+
+- **Offline verification:** Windows Lua 5.3 job rre-rc31-selection-refresh-red-20261105-j6 exited **0** with nine exact expected RED failures out of 12 cases; three controls green. Draw fragment, real Prev/Next callbacks and actual runtime.ui.refresh(true) body were source-extracted from frozen ui.lua. Static source check confirms Check button handle is not retained. Fail-closed job rre-rc31-selection-final-failclosed-20261105-j7 exited **0** only after later-fix mode Lua child exited **1** with its expected diagnostic.
+- **Independent review:** A senior reviewer approved the narrow draw/navigation/control-handle fixture after the missing Check-handle and real capture-refresh gaps were closed. Actual Pin/Check handlers are NOT covered and retain their off-page action risk; separate direct click-path test is required before claiming action safety.
+- **Safety:** RC-31 still pending behind RC-30 strict gate; physical addon v0.4.10 source/install and SavedVariables unchanged. No RIFT game input, desktop capture, process intervention, cross-repo write, or task status promotion.
+- **Next three tasks:** (1) source-extracted Pin/Check hidden-selection click-path regression; (2) source-extracted caption truncation and browser-row fitting controls; (3) only after explicit RC-30 source-change clearance, implement and validate the guarded UI and package/deployment parity.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 ~02:24 EST","project":"C:\\work\\rre","branch":"main","preCheckpointHead":"a60f4bd86cf5695ba5114e0f59f11f6bdf63c764","rc31ExpectedRed":[9,12],"rc32ExpectedRed":{"candidate":[4,7],"startup":[2,6],"batch":[4,7]},"rc30Strict":"pending","collectorFrozen":"0.4.10","gameInputPerformed":false,"preservedUntrackedEntries":8}
+~~~
+
+## November 5, about 02:17 EST — RC-32 batch-regression checkpoint (previous)
 
 **Pre-checkpoint HEAD:** `e2669a05a52ba66ca769a6ebca9460b2d92063d8`. The manager strengthened only `tools/verify-rrecollector-rc32-batch-bounds.lua`, updated its evidence report and RC-32 register, and is committing these plus this handoff. The updated Lua fixture SHA is `d988b1f7947294266ac47878ef2e8809716347566bd36f2604740a33107303a2`.
 

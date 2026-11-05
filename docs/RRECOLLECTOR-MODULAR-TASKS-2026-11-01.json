@@ -913,6 +913,7 @@
       "state": "pending",
       "dependsOn": ["RC-30"],
       "owner": "RRE manager",
+      "ownedPaths": ["addons/RRECollector/ui.lua", "tools/verify-rrecollector-rc31-selection-state.lua", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
       "scope": [
         "Selection-aware ordinary Pin and Check disabled state",
         "Measured, UTF-8-safe caption fallback for long ability names",
@@ -925,8 +926,8 @@
         "Strict 10/10 physical host/source package parity after safe versioned deployment",
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
-      "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md"],
-      "progress": "Read-only source/screenshot audit and independent review complete. Action state must disable Pin/Check for no selection, off-page selection, and selection invalidated or moved by an accepted Capture; page navigation and capture refresh require explicit regression coverage. Measured UTF-8-safe caption omission and duplicate-name fit remain planned. Joey attested Pin -> Undo -> Reload on November 5 and post-reload v0.4.10 SavedVariables eight-slot fingerprint was recorded, but strict RC-30 C screenshot and same-trial pre-Pin saved comparison remain missing. No source changes or deployment; do not request a repeat trial merely to repair assistant sequencing."
+      "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
+      "progress": "November 5 offline source-extracted draw/navigation/refresh and Check-handle fixture is ready: 9/12 exact named expected RED, 3 controls PASS, Windows Lua5.3 exit 0 in --expect-red mode; --require-fixed child exits 1 with expected diagnostic. This confirms disabled action-state, off-page selection, accepted Capture reordering, Prev/Next clearing, and Check handle storage defects on frozen ui.lua v0.4.10. It does NOT exercise actual Pin/Check handlers: separate source-extracted click-path guard regression must require zero saved-slot mutation/Detail calls for hidden selections. Measured captions/browser fit remain planned. RC-30 strict gate remains pending due missing C screenshot/same-trial pre-Pin receipt despite Joey Pin -> Undo -> Reload and preserved original eight slots. No source changes, game input or deployment."
     },
     {
       "id": "RC-32",
