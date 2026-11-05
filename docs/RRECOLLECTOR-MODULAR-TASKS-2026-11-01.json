@@ -864,6 +864,7 @@
         "tools/test-rc30-saved-receipt.mjs",
         "docs/RRECOLLECTOR-RC30-OPERATOR-ACCEPTANCE-2026-11-03.md",
         "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json",
+        "docs/RRECOLLECTOR-RC30-SUBSEQUENT-SAVED-2026-11-05.json",
         "tools/verify-rrecollector-rc30-interleaved-undo.lua"
       ],
       "postStartSavedReceipt": {
@@ -905,7 +906,20 @@
         "sameTrialPrePinSavedReceiptAvailable": false,
         "strictAcceptanceComplete": false
       },
-      "progress": "Physical v0.4.10 package 10/10, historic UI load, 69 Known and 96 candidates remain source-qualified. Original 18:11 UTC file SHA 2c3bd03... contains an implicit Lua array with EIGHT distinct valid populated slots, including slot 8, verified by original raw text and a read-once parser (canonical SHA b592926b...). Historical 06:24 and 17:33 pin counts had an unqualified JavaScript indexing error and their old bytes are unavailable for correction; do not claim they had seven or eight. New read-only RC-30 receipt tool passes 11 synthetic tests including source replacement race and redaction. One FreeBuff race reviewer completed; another did not. November 5: Joey operator-confirmed Break Free Pin #1 -> Undo pins -> /reloadui; original eight tiles visually restored and a read-only v0.4.10 saved file (SHA 79e9ef7c...) has eight distinct valid pins and canonical fingerprint b592926b..., matching the qualified historical baseline. The immediately-post-Undo/pre-reload C screenshot and fresh same-trial pre-Pin fingerprint were not retained, so the literal strict acceptance remains pending; no request to repeat gameplay purely to correct assistant sequencing."
+      "subsequentSavedReceipt20261105": {
+        "report": "docs/RRECOLLECTOR-RC30-SUBSEQUENT-SAVED-2026-11-05.json",
+        "savedSourceSha256": "7bdd5f880da7b9daea6323a756ae96dcf1f03a8340768fe9db36d37abfd191c5",
+        "savedModifiedUtc": "2026-11-05T12:14:44.559Z",
+        "savedBytes": 74217,
+        "addonVersion": "0.4.10",
+        "knownAbilities": 69,
+        "candidates": 96,
+        "savedEightSlotFingerprint": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160",
+        "independentLaterG1ObservationOnly": true,
+        "sameTrialPrePinSavedReceiptAvailable": false,
+        "strictAcceptanceComplete": false
+      },
+      "progress": "Physical v0.4.10 package 10/10, historic UI load, 69 Known and 96 candidates remain source-qualified. Original 18:11 UTC file SHA 2c3bd03... contains an implicit Lua array with EIGHT distinct valid populated slots, including slot 8, verified by original raw text and a read-once parser (canonical SHA b592926b...). Historical 06:24 and 17:33 pin counts had an unqualified JavaScript indexing error and their old bytes are unavailable for correction; do not claim they had seven or eight. New read-only RC-30 receipt tool passes 11 synthetic tests including source replacement race and redaction. One FreeBuff race reviewer completed; another did not. November 5: Joey operator-confirmed Break Free Pin #1 -> Undo pins -> /reloadui; original eight tiles visually restored and a read-only v0.4.10 saved file (SHA 79e9ef7c...) has eight distinct valid pins and canonical fingerprint b592926b..., matching the qualified historical baseline. The immediately-post-Undo/pre-reload C screenshot and fresh same-trial pre-Pin fingerprint were not retained, so the literal strict acceptance remains pending; no request to repeat gameplay purely to correct assistant sequencing. A separate later read-only SavedVariables receipt, modified 07:14:44 EST (SHA 7bdd5f88..., 74,217 bytes), again shows the same eight-slot fingerprint; it does not supply missing same-trial evidence or close RC-30."
     },
     {
       "id": "RC-31",
@@ -914,7 +928,7 @@
       "state": "pending",
       "dependsOn": ["RC-30"],
       "owner": "RRE manager",
-      "ownedPaths": ["addons/RRECollector/ui.lua", "tools/verify-rrecollector-rc31-selection-state.lua", "tools/verify-rrecollector-rc31-hidden-clicks.lua", "tools/verify-rrecollector-rc31-caption-collisions.lua", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
+      "ownedPaths": ["addons/RRECollector/ui.lua", "tools/verify-rrecollector-rc31-selection-state.lua", "tools/verify-rrecollector-rc31-hidden-clicks.lua", "tools/verify-rrecollector-rc31-caption-collisions.lua", "tools/verify-rrecollector-rc31-browser-duplicate-identity.lua", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
       "scope": [
         "Selection-aware ordinary Pin and Check disabled state",
         "Measured, UTF-8-safe caption fallback for long ability names",
@@ -928,7 +942,7 @@
         "Version-matched normal, hover/pressed visuals and new SavedVariables receipt separately observed"
       ],
       "evidence": ["docs/RRECOLLECTOR-RC31-UI-AFFORDANCE-AUDIT-2026-11-03.md", "docs/RRECOLLECTOR-RC31-SELECTION-RED-FIXTURE-2026-11-05.md"],
-      "progress": "November 5 offline source-extracted draw/navigation/refresh and Check-handle fixture is ready: 9/12 exact named expected RED, 3 controls PASS, Windows Lua5.3 exit 0 in --expect-red mode; --require-fixed child exits 1 with expected diagnostic. This confirms disabled action-state, off-page selection, accepted Capture reordering, Prev/Next clearing, and Check handle storage defects on frozen ui.lua v0.4.10. Companion source-extracted real Pin/Check handler regression now reproduces 2/3 named expected RED (hidden Pin mutates saved slots, hidden Check calls Detail-style mock) with one visible-known control green. Three offline suites combined: 13/20 named expected-red assertions, seven PASS controls; all --require-fixed variants fail closed. New source-extracted caption fixture uses the complete 96-entry static catalog and reproduces two three-way collision groups among six distinct ability names under the existing 6px/glyph mock (2/5 RED, 3 controls PASS), while original RC-25 caption suite remains 9/9 PASS. These are synthetic UI/source tests, not physical RIFT input or font-render acceptance. Omission markers, browser-row fitting and physical visuals remain planned. RC-30 strict gate remains pending due missing C screenshot/same-trial pre-Pin receipt despite Joey Pin -> Undo -> Reload and preserved original eight slots. No source changes, game input or deployment."
+      "progress": "November 5 offline source-extracted draw/navigation/refresh and Check-handle fixture is ready: 9/12 exact named expected RED, 3 controls PASS, Windows Lua5.3 exit 0 in --expect-red mode; --require-fixed child exits 1 with expected diagnostic. This confirms disabled action-state, off-page selection, accepted Capture reordering, Prev/Next clearing, and Check handle storage defects on frozen ui.lua v0.4.10. Companion source-extracted real Pin/Check handler regression now reproduces 2/3 named expected RED (hidden Pin mutates saved slots, hidden Check calls Detail-style mock) with one visible-known control green. Four offline suites combined: 14/25 named expected-red assertions, eleven PASS controls; all --require-fixed variants fail closed. The new source-extracted duplicate-label identity fixture adds 1/5 expected RED (ambiguous display labels) and four passing distinct-ID Detail/Pin/Undo controls without changing the frozen addon. New source-extracted caption fixture uses the complete 96-entry static catalog and reproduces two three-way collision groups among six distinct ability names under the existing 6px/glyph mock (2/5 RED, 3 controls PASS), while original RC-25 caption suite remains 9/9 PASS. These are synthetic UI/source tests, not physical RIFT input or font-render acceptance. Omission markers, browser-row fitting and physical visuals remain planned. RC-30 strict gate remains pending due missing C screenshot/same-trial pre-Pin receipt despite Joey Pin -> Undo -> Reload and preserved original eight slots. No source changes, game input or deployment."
     },
     {
       "id": "RC-32",

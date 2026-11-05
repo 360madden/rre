@@ -1,6 +1,20 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 09:11 EST — RC-30 subsequent persisted G1 receipt (newest)
+## November 5, 10:44 EST — five-commit handoff/register reconciliation (newest)
+
+**Manager checkpoint:** `C:\work\rre` `main` at verified pre-edit HEAD `f1250bc1b53004fdce8815607155e341b425d61e` (09:14:45 EST), tracked clean; all eight historical unrelated untracked entries preserved. Workbridge is active for bounded repository inspection, with no RRE owner assignments at preflight. Per `AGENTS.md`, current REA spellcasting targets **physical-PC local RIFT**, not VMware; VMware belongs to separate contextual workflows.
+
+- **Five newer commits since `8eef683`:** `e2c400f` RC-32 inconclusive-table research; `d17b9f9` RC-32 persisted candidate fixture; `86f16ce` RC-31 duplicate-label identity fixture; `54c5788` RC-30 interleaved Pin/Capture/Retry/Undo offline fixture (**36/36 synthetic assertions PASS**); `f1250bc` later source-bound RC-30 SavedVariables receipt. Earlier detailed 09:11, 08:30, 06:46 and 04:39 checkpoint sections below remain the original evidence. No source or physical addon change.
+- **Corrected task register:** RC-31 now shows **14/25 named expected-red scenarios, eleven passing controls** including duplicate-label **1/5 expected RED, four ID-routing controls PASS**, and owns `tools/verify-rrecollector-rc31-browser-duplicate-identity.lua`. RC-30 now links the later `docs/RRECOLLECTOR-RC30-SUBSEQUENT-SAVED-2026-11-05.json` observation: original SavedVariables SHA `7bdd5f880da7b9daea6323a756ae96dcf1f03a8340768fe9db36d37abfd191c5` (07:14:44 EST) and same eight-slot fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`. This is later independent G1 evidence, **not** the missing same-trial source.
+- **Strict gates unchanged:** RC-30 **PENDING** because the immediate post-Undo/pre-reload C screenshot and comparable same-trial pre-Pin SavedVariables receipt are unavailable. Do not require Joey to repeat the completed Pin→Undo→Reload merely for bookkeeping. RC-31/32 source/deployment held; SC-103 and SC-306 blocked; SC-604 interim. No new physical game input, UI reload, SavedVariables modification or cross-project write during this reconciliation.
+- **RC-32 review caution:** Current committed register/fixtures count **12/22 expected-red synthetic cases**, including two all-inconclusive Detail-table preservation cases. The previously reviewed contract addressed explicit errors; treating all-inconclusive results as mandatory preservation is a **later proposed policy extension pending independent manager/product review**. It is not proven to be a defect against the original agreed contract nor an observed live RIFT failure. Keep the current committed evidence, do not promote the feature to fixed/accepted without authorization.
+- **Recovery:** Verify current HEAD and eight existing untracked entries, read `AGENTS.md`, ROADMAP and SC/RC registers, then this newest checkpoint and supporting receipts. Run JSON parse, `node tools/validate-roadmap.mjs` and `git diff --check` before any scoped commit. Resume only previously authorized work; do not race the hourly coordinator.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 10:44 EST","verifiedPreEditHead":"f1250bc1b53004fdce8815607155e341b425d61e","reconciledCommits":["e2c400f","d17b9f9","86f16ce","54c5788","f1250bc"],"rc30Strict":"pending","rc30LaterG1SourceSha256":"7bdd5f880da7b9daea6323a756ae96dcf1f03a8340768fe9db36d37abfd191c5","rc31ExpectedRed":[14,25],"rc31PassingControls":11,"rc32ExpectedRed":[12,22],"rc32InconclusivePolicy":"extension-review-pending","sc103":"blocked","sc306":"blocked","sc604":"interim","physicalAddon":"0.4.10-frozen","preservedMainUntracked":8,"gameInputPerformed":false}
+~~~
+
+## November 5, 09:11 EST — RC-30 subsequent persisted G1 receipt (previous)
 
 **Pre-checkpoint main:** `54c578866f217eb6d2827b2606e8cc3a0e556406`; tracked main clean, eight historical untracked entries preserved. All seven other RRE worktrees reconciled; only pathfinding retains two historical untracked scripts. Workbridge 0.16.4-dev has zero active command jobs and zero RRE file owners (36 command slots, **not** independent model slots); historical job/change/patch inventory is bounded/incomplete. RR2 tracked clean, REA-Lab1's five uncommitted entries and fifteen reserved owners untouched.
 
