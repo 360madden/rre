@@ -1,5 +1,11 @@
 # RC-30 operator acceptance packet — eight-slot Pin → Undo → Reload UI
 
+## November 5, 2026 — Second persisted G1 observation (07:14 EST file modification)
+
+Read-only SHA-bound version-gated receipt `rre_rc30_new_saved_receipt_20261105_0906_a1` exited **0** against a **new** original SavedVariables file revision (SHA-256 `7bdd5f880da7b9daea6323a756ae96dcf1f03a8340768fe9db36d37abfd191c5`, 74,217 bytes; modified `2026-11-05T12:14:44.559Z`). `--expected-sha` required that exact revision and `--require-version 0.4.10` passed. This differs from the 05:48:13Z 74,216-byte source, while all **eight** distinct saved slots and the complete fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160` agree with the earlier receipt and November 3 historical baseline. Known **69**, candidates **96**, including **51 returned / 38 listed-not-queried / 7 no-detail**. Preserved redacted machine receipt: [subsequent G1 observation](RRECOLLECTOR-RC30-SUBSEQUENT-SAVED-2026-11-05.json).
+
+**Acceptance boundary unchanged:** Another persisted-source observation supports stable saved state but does not substitute for an immediately-after-Undo/pre-reload screenshot C or a comparable **same-trial pre-Pin** saved receipt. Source writer PID, event/session attribution, in-memory state and the physical input sequence remain unverified from saved bytes. Do not repeat operator Pin/Undo merely to fix the earlier instruction ordering; keep RC-30 strict **PENDING**.
+
 **Created:** 2026-11-03. **Owner:** physical-PC RRE manager. **State as of November 5:** operator sequence performed and a fresh version-matched saved receipt obtained; strict complete-A/B/C/D-plus-fresh-pre/post evidence PASS remains pending.
 
 ## November 5, 2026 offline cross-module Pin/Capture/Retry/Undo regression (08:30 EST)
