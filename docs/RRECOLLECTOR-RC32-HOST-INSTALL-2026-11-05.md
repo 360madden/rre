@@ -1,6 +1,6 @@
 # RRECollector RC-32 physical-host installation receipt — November 5, 2026
 
-**Status:** RRECollector v0.4.11 installed and hash-verified on the **physical Windows PC**. In-game v0.4.11 load/functionality remains unverified until Joey separately authorizes UI reload/restart and fresh runtime evidence.
+**Status (updated 13:08 EST):** RRECollector v0.4.11 installed and 10/10 hash-verified on the physical PC, visibly loaded in Joey's operator screenshot, and now confirmed in a subsequent **v0.4.11 character SavedVariables receipt**. Specific RC-32 retry/startup behavior remains unverified in-game; do not infer fresh ability capture or RC-30 strict archival acceptance.
 
 ## Scope and source
 
@@ -32,11 +32,17 @@ Historical source validation from `b28fceb`: 167/167 Lua assertions passed; not 
 - The persisted `0.4.10` is **consistent with the old session flushing before the newly loaded 0.4.11**. The screenshot proves v0.4.11 UI loaded, but a fresh `addonVersion=0.4.11` saved-file receipt remains pending. Do not rerun `/reloadui` without Joey's new approval; one previously approved reload has already occurred. No automated keyboard/mouse input, game process restart or OS reboot was performed.
 - Workbridge desktop screenshot acquisition is still blocked by the pre-existing November 2 quarantined GUI turn (`UI_TURN_BUSY`), investigated separately under `workbridge-mcp/investigations/windows-desktop-automation/reports/`. Do not bypass or remove that lock as part of RRE deployment. This operator-provided PNG is the current visual evidence.
 
-## Pending runtime gate
+## Fresh post-load SavedVariables qualification — 13:07 EST
 
-1. Ask Joey before any `/reloadui`, restart, or reboot.
-2. On approved normal addon load, obtain fresh physical RIFT v0.4.11 toolbar screenshot.
-3. Read a version-matched character SavedVariables receipt without editing it.
-4. Only then consider RC-32 live functional acceptance. RC-30's archival gap remains independently pending.
+A previously unseen saved-file revision modified **2026-11-05 17:58:19.181Z** was SHA-bound and parsed **read-only** with `--expected-sha 8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed --require-version 0.4.11`. Workbridge job `rre_rc32_saved_v0411_20261105_1305_a1` exited **0**. The 74,216-byte file reports addonVersion **0.4.11**, 69 retained Known entries, 96 retained candidates (51 returned / 38 listed-not-queried / 7 no-detail), sequence 5 and **8/8 distinct, valid slots**. The eight-slot fingerprint still equals the earlier qualified baseline `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`. An independent Workbridge `file_info(hash=true)` recheck showed identical SHA and mtime after the read. A fresh read-only strict package check `rre_rc32_postload_pkg_parity_20261105_1309_a1` exited **0**, confirming source/host **10/10 SHA parity** on the installed v0.4.11 package.
+
+The saved-file version now passes its **post-load version gate**, complementing Joey's already qualified v0.4.11 UI screenshot. It does **not** establish new Known/candidate capture freshness, writer PID, same-session association to the screenshot, or the RC-32 error/inconclusive behavior. No RIFT input, reload, process control, desktop lease alteration, SavedVariables modification or additional deployment occurred. Source-hashed sanitized details and limits: [v0.4.11 post-load receipt](RRECOLLECTOR-RC32-POSTLOAD-SAVED-2026-11-05.json).
+
+## Remaining runtime and archival gates
+
+- **PASS:** installed/source v0.4.11 hash parity, operator-visible loaded UI v0.4.11, and subsequent saved-file `addonVersion=0.4.11` with intact eight-slot fingerprint.
+- **PENDING:** specific RC-32 failure/retry/startup behavior under real RIFT API responses; no freshness or event-delivery claim from retained saved records.
+- **PENDING separately:** RC-30 strict A/B/C/D plus comparable same-trial pre-Pin evidence. Do not repeat Joey's completed Pin/Undo sequence for paperwork.
+- **Authorization:** no further `/reloadui`, process restart, reboot, game input or desktop lease override without a new, separate Joey decision.
 
 One RRE manager owned deployment; a separate read-only review identified no blocker.

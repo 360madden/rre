@@ -1028,6 +1028,22 @@
         "rc30StrictState": "pending",
         "rc32Implementation": "source-verified-offline-deployment-pending"
       },
+      "postLoadResult20261105": {
+        "qualifiedAtEastern": "2026-11-05 13:07 EST",
+        "installedAddonVersion": "0.4.11",
+        "installedSourceHashMatches": 10,
+        "loadedUiVersionQualifiedByOperatorScreenshot": true,
+        "postLoadCharacterSavedVersionQualified": true,
+        "postLoadSavedSha256": "8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed",
+        "postLoadSavedModifiedAtUtc": "2026-11-05T17:58:19.181Z",
+        "savedToolbarFingerprintMatchesHistorical": true,
+        "savedKnownAndCandidateCaptureFreshnessVerified": false,
+        "rc32SpecificLiveFailureRetryVerified": false,
+        "rc32OverallState": "pending-behavior-verification",
+        "rc30StrictArchivalState": "pending",
+        "evidence": "docs/RRECOLLECTOR-RC32-POSTLOAD-SAVED-2026-11-05.json",
+        "supersedes": "the 11:29 EST source-only installed/runtime statements below, not their historical test results"
+      },
       "sourceResult20261105": {
         "version": "0.4.11",
         "physicalInstalledVersion": "0.4.10",

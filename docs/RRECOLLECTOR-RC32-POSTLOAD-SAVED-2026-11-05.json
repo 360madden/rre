@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-32",
+  "dateEastern": "2026-11-05",
+  "observation": "first qualified version-matched post-load character SavedVariables receipt for installed RRECollector v0.4.11",
+  "source": "original physical Atank character RRECollector.lua; read-only; path intentionally omitted",
+  "savedFile": {
+    "modifiedAtUtc": "2026-11-05T17:58:19.181Z",
+    "observedAtUtc": "2026-11-05T18:06:00.638Z",
+    "bytes": 74216,
+    "sha256": "8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed",
+    "addonVersion": "0.4.11",
+    "knownCount": 69,
+    "captureCompleteFlag": true,
+    "candidateCount": 96,
+    "candidateStatuses": {
+      "returned": 51,
+      "listed-not-queried": 38,
+      "no-detail": 7
+    },
+    "candidateSequence": 5,
+    "slotCount": 8,
+    "validDistinctPinnedIds": 8,
+    "duplicateValidPinnedIds": 0,
+    "slotFingerprintComplete": true,
+    "slotArraySha256": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160"
+  },
+  "validation": {
+    "receiptJobId": "rre_rc32_saved_v0411_20261105_1305_a1",
+    "receiptExitCode": 0,
+    "requiredVersion": "0.4.11",
+    "expectedSha256": "8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed",
+    "postReadFileHashStable": true,
+    "installedPackageJobId": "rre_rc32_postload_pkg_parity_20261105_1309_a1",
+    "installedPackageExitCode": 0,
+    "installedSourceHashMatches": 10,
+    "installedSourceFileCount": 10
+  },
+  "uiEvidence": {
+    "source": "operator-provided 1910x1071 physical RIFT screenshot, November 5 approximately 12:56 EST",
+    "sha256": "a039bec9745ea7d596de3254fb7664a561a2cdaf060414e5aa44bfada470b19e",
+    "visibleAddonVersion": "0.4.11",
+    "qualification": "live UI-load supported; not RC-32 behavior proof"
+  },
+  "gates": {
+    "packageParity": "pass",
+    "loadedUiVersion": "pass-from-operator-screenshot",
+    "postLoadPersistedVersion": "pass-from-original-saved",
+    "unchangedEightSlotFingerprint": "pass-persisted-G1-only",
+    "newCaptureFreshness": "not-proven",
+    "sc103LegendaryIdentity": "unresolved",
+    "sc306QueueEnum": "unresolved",
+    "sc604Mechanism": "interim",
+    "rc30StrictArchival": "pending-missing-C-and-same-trial-prePin",
+    "rc32SpecificLiveBehavior": "pending",
+    "rc32OverallAcceptance": "pending"
+  },
+  "limitations": [
+    "SavedVariables does not identify writing RIFT process or prove the screenshot and file come from the same session.",
+    "Changed root addonVersion does not prove the retained known/candidate records were newly captured under v0.4.11.",
+    "Offline structure checks do not prove event delivery, build, fresh capture or successful RC-32 retry and startup guards.",
+    "Installed package verifier does not prove loaded runtime behavior; visual evidence is separate.",
+    "No game input/reload/process manipulation/desktop lease bypass/deployment/SavedVariables mutation in this iteration."
+  ]
+}
