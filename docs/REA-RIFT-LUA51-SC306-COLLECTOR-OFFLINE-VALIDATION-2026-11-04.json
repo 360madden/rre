@@ -1,0 +1,116 @@
+{
+  "schema": "rre.lua51.secondary_compatibility.v1",
+  "evidence_id": "RRE-LUA51-SC306-RC30-20261104",
+  "status": "PASS_OFFLINE_ONLY",
+  "comment": "Extends hash-pinned Lua5.1.4 SC103 qualification to SC306 two files and RRECollector eight frozen v0.4.10 modules. No live-game behavior has been tested.",
+  "date_local": "2026-11-04",
+  "timezone": "America/New_York",
+  "repository": "C:\\work\\rre",
+  "interpreter": {
+    "source_evidence": "docs/REA-RIFT-SPELLCASTING-SC103-LUA51-OFFLINE-VALIDATION-2026-11-04.json",
+    "version": "Lua 5.1.4 (double int64)",
+    "exe": "artifacts/sc103-lua51-msvc-20261104-1925-v1/lua.exe",
+    "exe_sha256": "6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67",
+    "dll_sha256": "9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096",
+    "note": "Vendored Cheat Engine-modified Lua; syntax/fixture evidence cannot prove RIFT runtime API equivalence."
+  },
+  "source_files": [
+    {
+      "path": "tools/sc306_luapad_queue_setting_probe.lua",
+      "sha256": "fb6eb4100b8e47343fb7dee795f8cc95fd18daaef7b841f61ed02742537d57b3",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "tools/test_sc306_luapad_queue_setting_probe.lua",
+      "sha256": "5a99460eb90df9d2676d928dc07061870a4316c030d85a89eaa890dbc1f0be95",
+      "parse_under_lua51": "PASS",
+      "executed": "synthetic fixture only"
+    },
+    {
+      "path": "addons/RRECollector/core.lua",
+      "sha256": "5e0492292992723ecbb3b04955ac1a2326a8ba03687e8c87dc3c39f1bf536563",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/context.lua",
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/abilities.lua",
+      "sha256": "d181ba0061a5959474dd3487b41c114f631122375a8b67421817fd54fdc1c510",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/capabilities.lua",
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/candidate_catalog.lua",
+      "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/candidates.lua",
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/ui.lua",
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    },
+    {
+      "path": "addons/RRECollector/main.lua",
+      "sha256": "3aca63c501686fca5ab6bef8a72d81e3b4fe9fdca4ca3558d379e0cf24a1e5c6",
+      "parse_under_lua51": "PASS",
+      "executed": false
+    }
+  ],
+  "checks": [
+    {
+      "scope": "sc306_probe_and_fixture_parse",
+      "job_id": "rre_sc306_lua51_parse_20261104_v1",
+      "exit_code": 0,
+      "passed": 2
+    },
+    {
+      "scope": "sc306_mocked_fixture",
+      "job_id": "rre_sc306_lua51_fixture_99_20261104_v1",
+      "exit_code": 0,
+      "assertions_passed": 99,
+      "stdout_exact": "SC306_LUA53_OFFLINE_PASS 99 checks\r\n",
+      "marker_comment": "Historical marker says LUA53 although executable actually was Lua 5.1.4.",
+      "cwd": "C:\\work\\rre"
+    },
+    {
+      "scope": "rrecollector_8_modules_loadfile_only",
+      "job_id": "rre_rrecollector_lua51_eight_parse_20261104_v1",
+      "exit_code": 0,
+      "passed": 8,
+      "executed_modules": false
+    }
+  ],
+  "aggregate": {
+    "lua_files_parsed": 13,
+    "fixture_assertions_passed": 553,
+    "includes_sc103_receipt": true,
+    "sc103_fixture_assertions": 454,
+    "sc306_fixture_assertions": 99
+  },
+  "boundaries": [
+    "Parse-only RRECollector checks do not execute addon initialization or prove physical-PC v0.4.10 is loaded/functional.",
+    "RC-30 eight-slot Pin->Undo->Reload UI and SavedVariables gates remain operator-blocked.",
+    "SC-306 setting probe syntax/fixture pass does not identify Full/Short/None native queue-setting values.",
+    "No RIFT process, physical PC addon deployment, input, network download or cross-repository write occurred."
+  ]
+}
