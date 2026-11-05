@@ -1,5 +1,11 @@
 # RRE session handoff — November 5, 2026
 
+## November 5, 12:15 EST — RC-32 v0.4.11 physical-host file installation verified; game load pending
+
+**New live deployment milestone:** Joey explicitly authorized a controlled v0.4.11 package copy with backup/verification and required a separate prompt before game reload, restart or reboot. The physical RIFT RRECollector installation was upgraded from v0.4.10 to v0.4.11 **on disk only**, with strict source/install **10/10 hash parity**, and no game-side action. The original ten v0.4.10 files and verified SHA manifest are preserved at `docs/rc32-v0410-host-backup-20261105/` (manifest SHA `ce16383991e7fb196f2289d827ba3e77d25f36140c70f7ab440988f03d3e809c`). The source package check and six candidate catalog tests freshly passed, and an independent read-only review confirmed the release procedure. Full receipts and recovery plan: [RC-32 physical install](RRECOLLECTOR-RC32-HOST-INSTALL-2026-11-05.md).
+
+**Exact boundary:** The installed TOC is v0.4.11 and bytes match Git source, but the currently running RIFT session has **not** been reloaded or restarted. No new loaded-UI screenshot or version-matched character SavedVariables receipt exists. RC-32 remains **runtime PENDING**, RC-30 strict archival gate remains PENDING; next action is **ask Joey for explicit permission before /reloadui**. Git `main` pre-receipt HEAD `e883a0c`; original eight untracked entries preserved, and one additional deliberate rollback-backup directory is now untracked. The manager owns integration; no game input, VMware changes or unrelated addon edits occurred.
+
 **Latest compact postcommit recovery packet (11:51 EST):** [RRE-RESUME-HANDOFF-2026-11-05-1151-EST.md](RRE-RESUME-HANDOFF-2026-11-05-1151-EST.md). It records verified `main` commit `b28fceb`, unchanged physical v0.4.10, source-only v0.4.11, all open gates and the exact resume plan; older checkpoints follow.
 
 ## November 5, 11:31 EST — RC-32 v0.4.11 repository source verified; physical addon unchanged (previous checkpoint)
