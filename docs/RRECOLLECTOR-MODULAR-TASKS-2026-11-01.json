@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "RC-30 v0.4.10 source and physical installation verified 10/10; earlier user screenshot confirms visual load (69 Known, 96 Static). The exact 18:11 UTC SavedVariables original (SHA 2c3bd03d...) has 69 known, 96 candidates and eight distinct valid populated saved slots including slot #8 (corrected implicit Lua array indexing). The earlier 06:24/17:33 saved-slot counts are unverified. Saved bytes do not prove the writing PID, current in-memory toolbar, Pin -> Undo -> Reload UI or restored eight-slot baseline; RC-26/27/30 remain pending. RC-31/32 offline regression fixtures are under active development, but no production fixes were implemented or deployed; physical v0.4.10 remains frozen for the live gate.",
+  "status": "2026-11-05 14:07 EST: RRECollector v0.4.11 is installed on the physical PC with 10/10 source-to-installed SHA matches; the operator's screenshot shows loaded UI v0.4.11, and a later original-character SavedVariables receipt reports addonVersion 0.4.11 with eight distinct original saved toolbar slots. These are package, UI-load and persisted-version gates only: RC-32 live error/inconclusive retry and startup behavior remains unverified; RC-30 strict same-trial Pin/Undo archival evidence remains incomplete; RC-31 remains pending. Previously dated v0.4.10 and source-only fields below are historical and are superseded for CURRENT runtime status by postLoadResult20261105 and currentQualifiedRuntime20261105. SC-103 and SC-306 remain blocked; SC-604 is interim.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -1193,10 +1193,33 @@
   },
   "activeRepositoryAddon20261105": {
     "version": "0.4.11",
-    "stage": "source-only-verified",
-    "physicalInstalledVersion": "0.4.10",
-    "physicalParityForStagedVersion": false,
-    "liveStagedVersionVerified": false,
-    "taskId": "RC-32"
+    "stage": "physical-v0.4.11-version-gates-qualified-behavior-pending",
+    "physicalInstalledVersion": "0.4.11",
+    "physicalParityForStagedVersion": true,
+    "liveStagedVersionVerified": true,
+    "taskId": "RC-32",
+    "postLoadSavedVersionVerified": true,
+    "rc32SpecificLiveBehaviorVerified": false
+  },
+  "currentQualifiedRuntime20261105": {
+    "asOfEastern": "2026-11-05 14:07 EST",
+    "taskId": "RC-32",
+    "version": "0.4.11",
+    "physicalInstalled": true,
+    "installedPackageSourceHashMatches": 10,
+    "operatorScreenshotVersionMatched": true,
+    "postLoadSavedVariablesVersionMatched": true,
+    "savedSourceSha256": "8321e9e3fa850c2b1500287cf72da4c0f4f29b47c1ad581b016a1de2a184c4ed",
+    "originalEightSlotFingerprint": "b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160",
+    "liveRc32FailureRetryOrStartupBehaviorVerified": false,
+    "retainedAbilityCaptureFreshnessVerified": false,
+    "screenshotSavedSameSessionBound": false,
+    "rc30StrictArchivalAcceptance": "pending",
+    "sc103LegendaryIdentity": "unresolved",
+    "sc306QueueEnum": "unresolved",
+    "sc604Synthesis": "interim",
+    "sourceReceipt": "docs/RRECOLLECTOR-RC32-POSTLOAD-SAVED-2026-11-05.json",
+    "hostReceipt": "docs/RRECOLLECTOR-RC32-HOST-INSTALL-2026-11-05.md",
+    "note": "Read-only reconciliation of already committed 13:08 evidence; no new game-side observation or live functionality claim."
   }
 }
