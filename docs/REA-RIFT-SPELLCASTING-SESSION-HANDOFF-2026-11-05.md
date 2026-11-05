@@ -1,6 +1,19 @@
 # RRE session handoff — November 5, 2026
 
-## November 5, 10:52 EST — RC-32 all-inconclusive contract approved (newest)
+## November 5, 11:08 EST — RC-32 fix mapped; RC-30 strict gate independently rechecked (newest)
+
+**Pre-edit main:** `896b331aaa07cd525f79be9bc930be6fea99e558`; tracked clean, all eight historical unrelated untracked paths preserved; Workbridge 0.16.4-dev responsive, zero RRE workers/owners registered. Parallel independent reasoning agents were launched on distinct read-only RC-32 fix analysis, RC-30 gate audit and missing-artifact search, with no second writer. Their source-qualified findings were checked by the manager.
+
+- **RC-32 implementation-ready mapping:** Three minimal production edit sites identified without modifying them: `abilities.lua:61` skip unbounded raw `Detail(rawList)` unless complete+unique; `main.lua:97–138` preserve previous `candidateLookup` object+sequence on explicit Detail errors or all queried Detail tables inconclusive, never falsely report success without prior; `main.lua:300–305` reject all-error, all-inconclusive and zero-query startup placeholders. `candidates.lua` already correctly distinguishes errors, `nil` no-detail and empty-table inconclusive. Detailed source-hash-bound blueprint and existing expected-red tests are recorded in `docs/RRECOLLECTOR-RC32-RED-FIXTURES-2026-11-05.md` (11:08 section). No test was rerun on unchanged code.
+- **Strict dependency recheck:** The operator previously completed Pin→Undo→Reload; matching A/B/D evidence, eight-slot postreload G1 fingerprints and 36/36 offline Undo controls exist. The separate immediately-post-Undo/pre-reload C image and comparable same-trial pre-Pin source receipt are absent from approved local RRE artifact and SavedVariables locations. Therefore **RC-30 remains strict PENDING**; do not infer missing evidence or make Joey repeat old gameplay purely for paperwork.
+- **Decision needed before source change:** A proposed *operator-attested functional tier* could be documented separately from the incomplete strict archival tier and, with Joey’s explicit scoped approval, become an alternative RC-32 source-integration dependency. This checkpoint **does not** change gates or claim approval to bypass them. Source/installed v0.4.10 untouched; no cross-repo writes, game input, reload or copy.
+- **Recovery:** Read AGENTS.md, current SC/RC registers, newest handoff and approved RC-32 policy. Check latest Git HEAD, eight historical untracked, owners/jobs before reusing lanes. Preserve existing three source-extracted red fixtures and new design; do not start a source mutation or deployment until a separately approved RC-30 dependency resolution.
+
+~~~json
+{"schemaVersion":1,"asOfEastern":"2026-11-05 11:08 EST","preEditHead":"896b331aaa07cd525f79be9bc930be6fea99e558","rc32Policy":"approved","rc32FixMap":"three-sites-reviewed-unimplemented","rc32ExpectedRed":[12,22],"rc30Strict":"pending","rc30HistoricalCRecovered":false,"rc30SameTrialPrePinRecovered":false,"alternativeGate":"proposal-awaiting-explicit-user-approval","sourceEdited":false,"installedAddon":"0.4.10-frozen","gameInputPerformed":false,"preservedMainUntracked":8}
+~~~
+
+## November 5, 10:52 EST — RC-32 all-inconclusive contract approved (previous)
 
 **User decision:** Joey explicitly approved recommendation #1 **only**, making all-inconclusive Detail-table preservation an **additional RC-32 reliability requirement**. This supersedes the 10:44 checkpoint's `extension-review-pending` flag without altering historical evidence. Initial verified `main` HEAD `182e91e3ae5d84bedd5ab7891f3a3865bf2387e5`, tracked clean, eight unrelated historical untracked entries preserved. Two independent read-only reasoning reviewers confirmed contract wording and existing fixture evidence; manager alone owns documentation integration.
 
