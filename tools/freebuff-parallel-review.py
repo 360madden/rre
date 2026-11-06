@@ -30,6 +30,14 @@ MODES = ("sc103", "rc30")
 RESEARCH_MODES = ("sc306", "sc503")
 SNAPSHOT_AUDIT_MODES = ("slots", "file")
 OPERATOR_PROOF_MODES = ("operator", "ability")
+# Bind the transport completion marker to the specific assigned review lane.
+# Distinct RRE questions share two upstream FreeBuff transport modes.
+EXPECTED_MODEL_MODES = {
+    "sc103": "freebuff-review-pilot", "sc306": "freebuff-review-pilot",
+    "slots": "freebuff-review-pilot", "ability": "freebuff-review-pilot",
+    "rc30": "freebuff-lifecycle-review", "sc503": "freebuff-lifecycle-review",
+    "file": "freebuff-lifecycle-review", "operator": "freebuff-lifecycle-review",
+}
 MAX_CHILD_SECONDS = 172
 MAX_OUTPUT_CHARS = 720_000
 RUN_ID = "rre-freebuff-dual-review-20261103"
@@ -97,7 +105,9 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
                 objects.append(record)
         except json.JSONDecodeError:
             pass
-    model_record = next((r for r in objects if r.get("mode", "").startswith("freebuff-")), {})
+    model_record = next((r for r in objects if str(r.get("mode", "")).startswith("freebuff-")), {})
+    expected_model_mode = EXPECTED_MODEL_MODES.get(mode)
+    marker_mode_matches = bool(expected_model_mode and model_record.get("mode") == expected_model_mode)
     wrapper = next((r for r in objects if r.get("rreReview") == mode), {})
     return {
         "mode": mode,
@@ -111,8 +121,10 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
         "elapsedSeconds": round(elapsed, 3),
         "receiptSha256": hashlib.sha256(out.encode("utf-8", errors="replace")).hexdigest(),
         "outputTruncated": len(out) > MAX_OUTPUT_CHARS or bool(model_record.get("rolling_tail_truncated")),
-        "markerObserved": bool(model_record.get("review_final_marker_seen")),
+        "markerObserved": bool(model_record.get("review_final_marker_seen")) and marker_mode_matches,
         "markerMode": model_record.get("mode"),
+        "expectedMarkerMode": expected_model_mode,
+        "markerModeMatches": marker_mode_matches,
         "modelObservationSeconds": model_record.get("review_observation_seconds"),
         "promptSent": bool(model_record.get("review_prompt_sent")),
         "ownedChildStopped": bool(model_record.get("owned_process_stopped")),
@@ -165,6 +177,8 @@ def clean_summary(records: list[dict], run_id: str = RUN_ID) -> dict:
     def verified_worker(r: dict) -> bool:
         return bool(r.get("state") == "settled" and r.get("exitCode") == 0 and
                     r.get("promptSent") and r.get("markerObserved") and
+                    r.get("markerModeMatches") and
+                    r.get("markerMode") == EXPECTED_MODEL_MODES.get(r.get("mode")) and
                     r.get("adapterCompletion") and r.get("ownedChildStopped") and
                     r.get("tempFolderCleaned"))
     # all([]) is True in Python. Require the two distinct assigned reviewers

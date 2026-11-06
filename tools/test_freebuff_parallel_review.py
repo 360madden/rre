@@ -14,6 +14,7 @@ def sample(mode, start, end, *, accepted=True):
     return {
         "mode": mode, "state": "settled", "exitCode": 0,
         "promptSent": True, "markerObserved": accepted, "adapterCompletion": accepted,
+        "markerMode": review.EXPECTED_MODEL_MODES[mode], "markerModeMatches": True,
         "ownedChildStopped": True, "tempFolderCleaned": True,
         "startedMonotonic": start, "endedMonotonic": end,
         "modelObservationSeconds": 28, "reviewLines": [],
@@ -38,6 +39,60 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(review.clean_summary([a, b])["completedReviewSessions"], 1)
         b["state"] = "settled"
         b["promptSent"] = False
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+
+    def test_wrong_upstream_mode_cannot_complete_a_review(self):
+        import json
+        from unittest.mock import patch
+        wrong_transport = {
+            "mode": "freebuff-review-pilot", "review_final_marker_seen": True,
+            "review_prompt_sent": True, "owned_process_stopped": True,
+            "probe_folder_cleaned": True,
+        }
+        wrapper = {"rreReview": "rc30", "acceptedCompletion": True}
+        class SyntheticChild:
+            pid = 12345
+            returncode = 0
+            def communicate(self, timeout=None):
+                return json.dumps(wrong_transport) + "\n" + json.dumps(wrapper) + "\n", ""
+        with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
+            receipt = review.run_child("rc30", ["synthetic-only"], timeout=2)
+        self.assertEqual(receipt["markerMode"], "freebuff-review-pilot")
+        self.assertEqual(receipt["expectedMarkerMode"], "freebuff-lifecycle-review")
+        self.assertTrue(receipt["adapterCompletion"])  # Wrapper alone is insufficient.
+        self.assertFalse(receipt["markerModeMatches"])
+        self.assertFalse(receipt["markerObserved"])
+        self.assertEqual(review.clean_summary([
+            receipt, sample("sc103", 1.0, 2.0)])["status"], "incomplete")
+
+    def test_correct_upstream_mode_is_still_accepted(self):
+        import json
+        from unittest.mock import patch
+        right_transport = {
+            "mode": "freebuff-lifecycle-review", "review_final_marker_seen": True,
+            "review_prompt_sent": True, "owned_process_stopped": True,
+            "probe_folder_cleaned": True,
+        }
+        wrapper = {"rreReview": "rc30", "acceptedCompletion": True}
+        class SyntheticChild:
+            pid = 12345
+            returncode = 0
+            def communicate(self, timeout=None):
+                return json.dumps(right_transport) + "\n" + json.dumps(wrapper) + "\n", ""
+        with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
+            receipt = review.run_child("rc30", ["synthetic-only"], timeout=2)
+        self.assertTrue(receipt["markerModeMatches"])
+        self.assertTrue(receipt["markerObserved"])
+        self.assertEqual(review.clean_summary([
+            receipt, sample("sc103", 1.0, 2.0)])["status"], "completed")
+
+    def test_tampered_mode_or_marker_fails_final_summary(self):
+        a, b = sample("sc103", 1, 4), sample("rc30", 2, 5)
+        self.assertEqual(review.clean_summary([a, b])["status"], "completed")
+        a["markerMode"] = "freebuff-lifecycle-review"
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+        a["markerMode"] = "freebuff-review-pilot"
+        a["markerModeMatches"] = False
         self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
 
     def test_failed_windows_taskkill_falls_back_to_own_child_kill(self):
