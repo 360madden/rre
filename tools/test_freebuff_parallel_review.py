@@ -228,6 +228,39 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(summary["status"], "completed")
         self.assertEqual(summary["runId"], "rre-operator-test")
 
+    def test_freebuff_stale_probe_folder_isolated_without_deletion(self):
+        import ast
+        import os
+        from unittest.mock import patch
+        adapter_path = Path(__file__).with_name("freebuff-rre-review.py")
+        tree = ast.parse(adapter_path.read_text(encoding="utf-8"))
+        original = 'probe_dir = os.path.join(repo_root, "temp", probe_name)'
+        replacements = [
+            node.args[2].value for node in ast.walk(tree)
+            if isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name) and node.func.id == "replace_once"
+            and len(node.args) == 3
+            and isinstance(node.args[1], ast.Constant)
+            and node.args[1].value == original
+            and isinstance(node.args[2], ast.Constant)
+        ]
+        self.assertEqual(len(replacements), 1)
+        assignment = replacements[0]
+        self.assertIn("os.urandom(16).hex()", assignment)
+        expr = compile(ast.parse(assignment.split(" = ", 1)[1], mode="eval"),
+                       "<rre-probe-folder>", "eval")
+        with patch.dict(os.environ, {"TEMP": os.path.abspath("C:/synthetic-temp")}):
+            paths = [eval(expr, {"os": os, "probe_name": "fixed-review-pilot"})
+                     for _ in range(3)]
+        self.assertEqual(len(set(paths)), 3)
+        self.assertTrue(all("rre-fixed-review-pilot-" in p for p in paths))
+        # The upstream pre-existing-folder veto remains intact; no folder is
+        # removed, reused or even created by this synthetic test.
+        upstream = Path("C:/work/workbridge-mcp/scripts/freebuff-conpty-probe.py")
+        source = upstream.read_text(encoding="utf-8")
+        self.assertIn("if os.path.exists(probe_dir):", source)
+        self.assertIn("raise FileExistsError(", source)
+
     def test_fake_children_actually_overlap(self):
         test_result = review.self_test()
         self.assertEqual(test_result["status"], "passed")

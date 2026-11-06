@@ -35,7 +35,7 @@ def build(lane: str = "sc103"):
     source = replace_once(
         source,
         'probe_dir = os.path.join(repo_root, "temp", probe_name)',
-        'probe_dir = os.path.join(os.environ["TEMP"], "rre-" + probe_name)')
+        'probe_dir = os.path.join(os.environ["TEMP"], "rre-" + probe_name + "-" + os.urandom(16).hex())')
     source = replace_once(
         source,
         '            source = os.path.join(repo_root, "desktop", "Workbridge.ControlCenter",\n'
