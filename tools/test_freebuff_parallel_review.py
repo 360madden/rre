@@ -65,6 +65,57 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(review.clean_summary([
             receipt, sample("sc103", 1.0, 2.0)])["status"], "incomplete")
 
+    def test_repeated_or_conflicting_transport_receipts_fail_closed(self):
+        import json
+        from unittest.mock import patch
+        legitimate = {
+            "mode": "freebuff-lifecycle-review", "review_final_marker_seen": True,
+            "review_prompt_sent": True, "owned_process_stopped": True,
+            "probe_folder_cleaned": True,
+        }
+        contradictory = dict(legitimate, mode="freebuff-review-pilot")
+        wrapper = {"rreReview": "rc30", "acceptedCompletion": True}
+        for records in ([legitimate, contradictory, wrapper],
+                        [contradictory, legitimate, wrapper],
+                        [legitimate, legitimate, wrapper]):
+            with self.subTest(transportModes=[r.get("mode") for r in records]):
+                class SyntheticChild:
+                    pid = 12345
+                    returncode = 0
+                    def communicate(self, timeout=None):
+                        return "\n".join(json.dumps(r) for r in records) + "\n", ""
+                with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
+                    result = review.run_child("rc30", ["synthetic-only"], timeout=2)
+                self.assertEqual(result["transportReceiptCount"], 2)
+                self.assertEqual(result["wrapperReceiptCount"], 1)
+                self.assertFalse(result["markerModeMatches"])
+                self.assertFalse(result["markerObserved"])
+                self.assertFalse(result["adapterCompletion"])
+
+    def test_duplicate_or_misassigned_wrapper_receipts_fail_closed(self):
+        import json
+        from unittest.mock import patch
+        transport = {
+            "mode": "freebuff-lifecycle-review", "review_final_marker_seen": True,
+            "review_prompt_sent": True, "owned_process_stopped": True,
+            "probe_folder_cleaned": True,
+        }
+        valid = {"rreReview": "rc30", "acceptedCompletion": True}
+        wrong = {"rreReview": "sc103", "acceptedCompletion": True}
+        for records in ([transport, valid, wrong], [transport, valid, valid]):
+            with self.subTest(wrapperModes=[r.get("rreReview") for r in records]):
+                class SyntheticChild:
+                    pid = 12345
+                    returncode = 0
+                    def communicate(self, timeout=None):
+                        return "\n".join(json.dumps(r) for r in records) + "\n", ""
+                with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
+                    result = review.run_child("rc30", ["synthetic-only"], timeout=2)
+                self.assertEqual(result["transportReceiptCount"], 1)
+                self.assertEqual(result["wrapperReceiptCount"], 2)
+                self.assertFalse(result["markerObserved"])
+                self.assertFalse(result["adapterCompletion"])
+
     def test_correct_upstream_mode_is_still_accepted(self):
         import json
         from unittest.mock import patch

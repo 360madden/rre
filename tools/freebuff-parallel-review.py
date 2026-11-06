@@ -105,10 +105,16 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
                 objects.append(record)
         except json.JSONDecodeError:
             pass
-    model_record = next((r for r in objects if str(r.get("mode", "")).startswith("freebuff-")), {})
+    # A transcript with conflicting or repeated transport/wrapper receipts must
+    # never be accepted based on the first parseable JSON line alone.
+    model_records = [r for r in objects if str(r.get("mode", "")).startswith("freebuff-")]
+    wrapper_records = [r for r in objects if "rreReview" in r]
+    unambiguous_receipts = len(model_records) == 1 and len(wrapper_records) == 1
+    model_record = model_records[0] if unambiguous_receipts else {}
+    wrapper = wrapper_records[0] if unambiguous_receipts else {}
     expected_model_mode = EXPECTED_MODEL_MODES.get(mode)
-    marker_mode_matches = bool(expected_model_mode and model_record.get("mode") == expected_model_mode)
-    wrapper = next((r for r in objects if r.get("rreReview") == mode), {})
+    marker_mode_matches = bool(unambiguous_receipts and expected_model_mode and
+                               model_record.get("mode") == expected_model_mode)
     return {
         "mode": mode,
         "state": state,
@@ -125,6 +131,8 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
         "markerMode": model_record.get("mode"),
         "expectedMarkerMode": expected_model_mode,
         "markerModeMatches": marker_mode_matches,
+        "transportReceiptCount": len(model_records),
+        "wrapperReceiptCount": len(wrapper_records),
         "modelObservationSeconds": model_record.get("review_observation_seconds"),
         "promptSent": bool(model_record.get("review_prompt_sent")),
         "ownedChildStopped": bool(model_record.get("owned_process_stopped")),
