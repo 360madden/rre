@@ -15,6 +15,7 @@ def sample(mode, start, end, *, accepted=True):
         "mode": mode, "state": "settled", "exitCode": 0,
         "promptSent": True, "markerObserved": accepted, "adapterCompletion": accepted,
         "markerMode": review.EXPECTED_MODEL_MODES[mode], "markerModeMatches": True,
+        "wrapperMode": mode, "wrapperModeMatches": True,
         "ownedChildStopped": True, "tempFolderCleaned": True,
         "startedMonotonic": start, "endedMonotonic": end,
         "modelObservationSeconds": 28, "reviewLines": [],
@@ -116,6 +117,40 @@ class SupervisorTests(unittest.TestCase):
                 self.assertFalse(result["markerObserved"])
                 self.assertFalse(result["adapterCompletion"])
 
+    def test_single_wrong_wrapper_mode_fails_closed(self):
+        import json
+        from unittest.mock import patch
+        transport = {
+            "mode": "freebuff-lifecycle-review", "review_final_marker_seen": True,
+            "review_prompt_sent": True, "owned_process_stopped": True,
+            "probe_folder_cleaned": True,
+        }
+        class SyntheticChild:
+            pid = 12345
+            returncode = 0
+            def communicate(self, timeout=None):
+                wrapper = {"rreReview": "sc103", "acceptedCompletion": True}
+                return json.dumps(transport) + "\n" + json.dumps(wrapper) + "\n", ""
+        with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
+            result = review.run_child("rc30", ["synthetic-only"], timeout=2)
+        self.assertEqual(result["transportReceiptCount"], 1)
+        self.assertEqual(result["wrapperReceiptCount"], 1)
+        self.assertTrue(result["markerModeMatches"])
+        self.assertEqual(result["wrapperMode"], "sc103")
+        self.assertFalse(result["wrapperModeMatches"])
+        self.assertFalse(result["adapterCompletion"])
+        self.assertEqual(review.clean_summary([
+            result, sample("sc103", 1.0, 2.0)])["status"], "incomplete")
+
+    def test_tampered_wrapper_mode_fails_final_summary(self):
+        a, b = sample("sc103", 1.0, 4.0), sample("rc30", 2.0, 5.0)
+        self.assertEqual(review.clean_summary([a, b])["status"], "completed")
+        b["wrapperMode"] = "sc103"
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+        b["wrapperMode"] = "rc30"
+        b["wrapperModeMatches"] = False
+        self.assertEqual(review.clean_summary([a, b])["status"], "incomplete")
+
     def test_correct_upstream_mode_is_still_accepted(self):
         import json
         from unittest.mock import patch
@@ -133,6 +168,9 @@ class SupervisorTests(unittest.TestCase):
         with patch.object(review.subprocess, "Popen", return_value=SyntheticChild()):
             receipt = review.run_child("rc30", ["synthetic-only"], timeout=2)
         self.assertTrue(receipt["markerModeMatches"])
+        self.assertEqual(receipt["wrapperMode"], "rc30")
+        self.assertTrue(receipt["wrapperModeMatches"])
+        self.assertTrue(receipt["adapterCompletion"])
         self.assertTrue(receipt["markerObserved"])
         self.assertEqual(review.clean_summary([
             receipt, sample("sc103", 1.0, 2.0)])["status"], "completed")

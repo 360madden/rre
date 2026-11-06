@@ -115,6 +115,9 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
     expected_model_mode = EXPECTED_MODEL_MODES.get(mode)
     marker_mode_matches = bool(unambiguous_receipts and expected_model_mode and
                                model_record.get("mode") == expected_model_mode)
+    # An accepted wrapper must belong to this exact RRE review assignment.
+    # A single receipt from another lane was previously accepted by count alone.
+    wrapper_mode_matches = bool(unambiguous_receipts and wrapper.get("rreReview") == mode)
     return {
         "mode": mode,
         "state": state,
@@ -133,11 +136,13 @@ def run_child(mode: str, args: list[str], timeout: int = MAX_CHILD_SECONDS) -> d
         "markerModeMatches": marker_mode_matches,
         "transportReceiptCount": len(model_records),
         "wrapperReceiptCount": len(wrapper_records),
+        "wrapperMode": wrapper.get("rreReview"),
+        "wrapperModeMatches": wrapper_mode_matches,
         "modelObservationSeconds": model_record.get("review_observation_seconds"),
         "promptSent": bool(model_record.get("review_prompt_sent")),
         "ownedChildStopped": bool(model_record.get("owned_process_stopped")),
         "tempFolderCleaned": bool(model_record.get("probe_folder_cleaned")),
-        "adapterCompletion": bool(wrapper.get("acceptedCompletion")),
+        "adapterCompletion": bool(wrapper_mode_matches and wrapper.get("acceptedCompletion")),
         "reviewLines": relevant_lines(model_record),
         "errorTail": err[-650:] if state != "settled" or proc.returncode != 0 else "",
         "cleanupFault": cleanup_fault,
@@ -187,6 +192,7 @@ def clean_summary(records: list[dict], run_id: str = RUN_ID) -> dict:
                     r.get("promptSent") and r.get("markerObserved") and
                     r.get("markerModeMatches") and
                     r.get("markerMode") == EXPECTED_MODEL_MODES.get(r.get("mode")) and
+                    r.get("wrapperModeMatches") and r.get("wrapperMode") == r.get("mode") and
                     r.get("adapterCompletion") and r.get("ownedChildStopped") and
                     r.get("tempFolderCleaned"))
     # all([]) is True in Python. Require the two distinct assigned reviewers
