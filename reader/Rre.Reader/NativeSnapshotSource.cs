@@ -104,6 +104,7 @@ public sealed class NativeSnapshotSource(string input, string requestFile, strin
             DataRules.Require(copied.TryAdd(address, raw), "native-duplicate-chunk");
         }
         var frames = new List<JsonObject>();
+        bool? production = null;
         foreach (var plan in plans)
         {
             var bytes = new byte[plan.Length];
@@ -113,19 +114,28 @@ public sealed class NativeSnapshotSource(string input, string requestFile, strin
                 DataRules.Require(copied.Remove(plan.Start + (ulong)offset, out var part) && part.Length == count, "native-missing-or-misaligned-chunk");
                 part!.CopyTo(bytes, offset);
             }
-            frames.Add(MemoryScanSource.DecodeFrame(bytes, session, sequence, allowContextTail: true));
+            var isProduction = bytes.AsSpan().StartsWith("RREC2|"u8);
+            DataRules.Require(production is null || production == isProduction, "native-mixed-frame-contracts");
+            production = isProduction;
+            frames.Add(isProduction ? ProductionFrameCodec.DecodeFrame(bytes, session, sequence, allowContextTail: true)
+                : MemoryScanSource.DecodeFrame(bytes, session, sequence, allowContextTail: true));
         }
         DataRules.Require(copied.Count == 0, "native-unrequested-chunk");
-        return new(MemoryScanSource.Assemble(frames), null, new JsonObject
+        var publication = production == true ? ProductionFrameCodec.Assemble(frames) : null;
+        return new(publication?.Abilities ?? MemoryScanSource.Assemble(frames), publication?.Context, new JsonObject
         {
             ["kind"] = "native-snapshot-replay", ["path"] = inputLabel, ["sha256"] = DataRules.Sha(snapshotBytes),
             ["bytes"] = snapshotBytes.Length, ["requestPath"] = requestLabel, ["requestSha256"] = requestSha,
-            ["producer"] = "RRE-feasibility-fixture", ["partCount"] = frames.Count,
+            ["producer"] = publication is null ? "RRE-feasibility-fixture" : "RRECollector", ["partCount"] = frames.Count,
+            ["producerVersion"] = publication is null ? null : ProductionFrameCodec.AddonVersion,
+            ["publicationContract"] = publication is null ? "RREC1-fixture" : "RREC2",
+            ["payloadSha256"] = publication?.PayloadSha256, ["payloadBytes"] = publication?.PayloadBytes,
+            ["counts"] = publication?.Counts.DeepClone(), ["expectedSession"] = session,
             ["expectedProcessId"] = pid, ["expectedProcessStartUtcTicks"] = ticks.ToString(CultureInfo.InvariantCulture),
             ["expectedExecutableSha256"] = executableSha, ["producerDeclaredBundleSha256"] = bundleSha,
             ["capturedAtUtc"] = completedText, ["artifactIdentityMatchesRequest"] = true,
             ["limit"] = "Snapshot/request consistency is verified; producer declarations and replay do not prove current target or authenticity."
-        }, sequence, true);
+        }, sequence, publication is null);
     }
     private static ulong Address(JsonNode? node)
     {

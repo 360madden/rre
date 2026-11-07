@@ -128,13 +128,15 @@ public static class ObservationModules
         };
         return new JsonObject
         {
-            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.1.1",
+            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.1.2",
             ["observedAtUtc"] = DateTimeOffset.UtcNow.ToString("O"), ["sequence"] = capture.Sequence,
             ["source"] = capture.Evidence.DeepClone(), ["modules"] = modules,
             ["qualification"] = new JsonObject
             {
                 ["offlineStructureVerified"] = true, ["complete"] = module == "abilities" || capture.Context is not null, ["live"] = false,
                 ["fixture"] = capture.Fixture, ["freshnessVerified"] = false, ["processBuildVerified"] = false,
+                ["fixtureMeaning"] = "Uses a feasibility-only contract. False does not prove a non-fixture origin or game execution.",
+                ["runtimeProducerVerified"] = false, ["sourceAuthenticityVerified"] = false,
                 ["atomicSnapshotVerified"] = false, ["restartQualified"] = false,
                 ["limit"] = "Persisted/replayed data only. Host observation time is not game capture time."
             }

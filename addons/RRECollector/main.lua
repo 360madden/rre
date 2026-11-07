@@ -1,9 +1,10 @@
--- RRECollector v0.4.11: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.12: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
 local say, finite = RRECollectorRuntime.core.say, RRECollectorRuntime.core.finite
 local collect = RRECollectorRuntime.abilities.collect
+local wire = RRECollectorRuntime.wire
 local candidateLookup = RRECollectorRuntime.candidates.lookup
 local candidateVersion = RRECollectorRuntime.candidateCatalog.version
 local savedLoaded = false
@@ -193,7 +194,9 @@ end
 -- RC27-CAPTURE-BEGIN
 -- Transient API/context failures must never replace a complete prior catalog.
 local function recordCapture()
+  if type(wire) == "table" then wire.beginAttempt() end
   if not savedLoaded then
+    if type(wire) == "table" then wire.abort("saved-not-ready") end
     say("SavedVariables not ready; retry after initialization.")
     return
   end
@@ -202,6 +205,7 @@ local function recordCapture()
     or type(record.abilityList) ~= "table"
     or record.abilityList.apiAvailable ~= true then
     lastMessage = "capture-error"
+    if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("api-capture-error") end
     say("Capture unavailable; prior ability snapshot preserved.")
     return
   end
@@ -209,6 +213,7 @@ local function recordCapture()
   if type(prior) == "table" and prior.captureComplete == true
     and record.captureComplete ~= true then
     lastMessage = "capture-incomplete-preserved"
+    if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("capture-incomplete") end
     say("Capture incomplete; previous complete ability snapshot preserved.")
     return
   end
@@ -219,6 +224,14 @@ local function recordCapture()
     tostring(record.abilityList.uniqueCount) .. " IDs, " ..
     tostring(record.abilityList.detailCount) ..
     " details. /rre status; /reloadui to save.")
+  if type(wire) == "table" then
+    local publication = wire.publish(record)
+    RRECollectorData.memoryPublication = publication
+    if publication.status == "complete" then
+      say("Wire RREC2 session=" .. publication.session .. " seq=" .. tostring(publication.sequence)
+        .. " parts=" .. tostring(publication.parts) .. " bytes=" .. tostring(publication.payloadBytes))
+    else say("Wire not published: " .. tostring(publication.reason or "unknown")) end
+  end
   refreshUI(true)
 end
 -- RC27-CAPTURE-END
@@ -331,6 +344,7 @@ if savedEvent then
     if type(RRECollectorData) ~= "table" then RRECollectorData = {} end
     RRECollectorData.schemaVersion = SCHEMA
     RRECollectorData.addonVersion = VERSION
+    if type(wire) == "table" then RRECollectorData.memoryPublication = wire.receipt() end
     savedLoaded = true
     lastMessage = "ready"
     say("v" .. VERSION .. " ready. /rre status")

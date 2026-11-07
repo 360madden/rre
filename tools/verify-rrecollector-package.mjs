@@ -15,7 +15,7 @@ const requiredStrings = [
 const requiredTables = ["SavedVariables", "RunOnStartup"];
 const expectedScripts = [
   "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-  "candidate_catalog.lua", "candidates.lua", "ui.lua", "main.lua"
+  "candidate_catalog.lua", "candidates.lua", "wire.lua", "ui.lua", "main.lua"
 ];
 
 function parseToc(input) {

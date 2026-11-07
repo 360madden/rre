@@ -1787,7 +1787,14 @@
       ],
       "gameInputAuthorized": false,
       "authorizationBeforeLive": "Reconcile current broad user approvals and explicit bridge request with applicable Lab2-only target/addon policy; do source/contract work first, no automatic permission inference from old physical install receipts.",
-      "evidence": []
+      "evidence": [
+        "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json",
+        "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md",
+        "reader/contract-rrec2.md"
+      ],
+      "offlineMilestone": "accepted-source-package-interoperability",
+      "liveGate": "held-no-Lab2-isolated-addon-load-root",
+      "acceptedScope": "RRECollector0.4.12 source/11file package + reader0.1.2 production RREC2;130C#20Node, hostLua/Python/C#54-record5part interoperability. No installed/loaded/live bridge acceptance."
     }
   ],
   "checkpointPolicy": {

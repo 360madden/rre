@@ -1,9 +1,10 @@
-# RRECollector v0.4.11 (repository source only) — read-only RIFT ability toolbar and research scaffold
+# RRECollector v0.4.12 (repository source only) — read-only RIFT ability toolbar and research scaffold
 
-A standalone addon for the physical-PC RIFT client. It does not depend on RiftReader2, BotDsBridge, SpellDump, ProjectAbilityBook, or other addons. Its source is under RRE; the game loads a separate installed copy from `Interface/AddOns/RRECollector`. Source edits do not affect a running client's already-loaded Lua until its next normal UI load.
+A standalone RIFT addon. **Lab2 is the only current live testing target** under the [current target policy](../../docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md); physical-PC results below are historical evidence. It does not depend on RiftReader2, BotDsBridge, SpellDump, ProjectAbilityBook, or other addons. Its source is under RRE; the game loads a separate installed copy from `Interface/AddOns/RRECollector`. Source edits do not affect a running client's already-loaded Lua until its next normal UI load.
 
 ## Source and evidence
 
+- **v0.4.12 (source/offline validation; not installed):** adds bounded RREC2 memory publication after the existing manual Capture. One per-load correlation token, strictly increasing capture sequence, complete context/counts/ability payload, canonical Base64 parts and whole-payload Adler32 are validated by the host reader. Load, each attempt and any failure clear retained frames. Prior-good SavedVariables preservation and secure Reload UI controls remain in force. This is outbound serialization only; no inbound commands, memory writes, event polling, or live bridge qualification. See the [wire contract](../../reader/contract-rrec2.md).
 - **v0.1 baseline:** Atank L45 Warrior, Righteous Defender role, 69/69 API-known ability IDs and detail records, separately confirmed by SpellDump v2.1.0.
 - **v0.2:** the independent API capability receipt observed 1,910 indexed documentation names, 22 research-relevant names, zero documented probe errors; existing `latest` remained untouched.
 - **v0.3:** adds 96 static Warrior candidate IDs from source-hashed, disabled ProjectAbilityBook Paladin (34), Void Knight (33), and Paragon (29) files. In the prior Atank snapshot, 39 of these exact IDs were listed and 57 were absent. These are **candidates**, not evidence of a learned, locked, unlearned, currently available, or castable ability. The six named Paladin IDs from original screenshots are among the absent candidates.
@@ -23,7 +24,7 @@ A standalone addon for the physical-PC RIFT client. It does not depend on RiftRe
 
 ## Installation and loading
 
-Deploy only this `RRECollector` directory into the physical-PC `RIFT/Interface/AddOns/RRECollector` directory, preserving the complete `RiftAddon.toc` metadata **including Email**. The TOC loads: `core.lua`, `context.lua`, `abilities.lua`, `capabilities.lua`, `candidate_catalog.lua`, `candidates.lua`, `ui.lua`, `main.lua`, in that order.
+Deploy only this `RRECollector` directory into a **proved Lab2-isolated** `RIFT/Interface/AddOns/RRECollector` destination, preserving the complete `RiftAddon.toc` metadata **including Email**. Lab2's currently observed Documents addon root is inside an active OneDrive sync root; deployment there is held pending an isolation route or an explicit target-policy exception. A local staging directory alone does not prove a game load root. The TOC loads: `core.lua`, `context.lua`, `abilities.lua`, `capabilities.lua`, `candidate_catalog.lua`, `candidates.lua`, `wire.lua`, `ui.lua`, `main.lua`, in that order.
 
 The candidate lookup runs after character-scoped SavedVariables load when a Warrior player and `Inspect.Ability.New.List/Detail` are available, unless a successful receipt for this static catalog version already exists. On the exact `warrior-player-context-not-ready` startup deferral, it can automatically retry on `Event.Addon.Startup.End` or a `player` entry in `Event.Unit.Availability.Full`, with a combined limit of two automatic retries. No periodic polling, input, casting, or gameplay commands are issued. `/rre candidates` and the toolbar **Retry** remain manual fallbacks. The game operator controls any UI reload or logout. Existing saved records survive these attempts.
 

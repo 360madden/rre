@@ -97,6 +97,7 @@ try
     await Run("publish refuses existing evidence", () => Sync(() => { Rre.Reader.Program.Publish(published,"original"); try { Rre.Reader.Program.Publish(published,"overwrite"); throw new Exception("overwrite accepted"); } catch(ReaderFailure) { Check(File.ReadAllText(published)=="original","evidence changed"); } }));
     await Run("no publish temporary survives", () => Sync(() => Check(Directory.GetFiles(output,".rre-*.tmp").Length==0,"temp leak")));
     passed.AddRange(Rre.Reader.Checks.NativeChecks.Run());
+    passed.AddRange(Rre.Reader.Checks.ProductionChecks.Run());
     var summary = new {status="passed",count=passed.Count,checks=passed,output};
     await File.WriteAllTextAsync(Path.Combine(output,"checks.json"),JsonSerializer.Serialize(summary));
     Console.WriteLine(JsonSerializer.Serialize(summary));

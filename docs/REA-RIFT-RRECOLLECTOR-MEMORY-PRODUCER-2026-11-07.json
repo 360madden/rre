@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-622",
+  "status": "offline-source-package-interoperability-accepted-live-held",
+  "createdAtUtc": "2026-11-07T19:06:41.503011+00:00",
+  "baseHead": "77ba6254dbbff28a6efa0a4efec9b5013ec7c07b",
+  "addonVersion": "0.4.12",
+  "readerVersion": "0.1.2",
+  "sources": [
+    {
+      "path": "addons/RRECollector/README.md",
+      "sha256": "a704d331eb62cd2a58ca375f1250f562f04b725402a33cc36f8ecb9cafc7b9d3"
+    },
+    {
+      "path": "addons/RRECollector/RiftAddon.toc",
+      "sha256": "478544d3664875163f3d048a242ea30290e199b4472d3789c2428797b72d4029"
+    },
+    {
+      "path": "addons/RRECollector/abilities.lua",
+      "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd"
+    },
+    {
+      "path": "addons/RRECollector/candidate_catalog.lua",
+      "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd"
+    },
+    {
+      "path": "addons/RRECollector/candidates.lua",
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85"
+    },
+    {
+      "path": "addons/RRECollector/capabilities.lua",
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef"
+    },
+    {
+      "path": "addons/RRECollector/context.lua",
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10"
+    },
+    {
+      "path": "addons/RRECollector/core.lua",
+      "sha256": "96b512eca5e2d7fe79007682b8ea1550381cea547bcb021424061e0af205d792"
+    },
+    {
+      "path": "addons/RRECollector/main.lua",
+      "sha256": "a3d7ea24533258375bcd1c6772607c025fc72dab32c9f1b87e54d73eae80b399"
+    },
+    {
+      "path": "addons/RRECollector/ui.lua",
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa"
+    },
+    {
+      "path": "addons/RRECollector/wire.lua",
+      "sha256": "9ae00905665e6b3e4e4c5b2f1e5e0f5b4041d8324b651bc2e03859e999e39e7b"
+    },
+    {
+      "path": "reader/README.md",
+      "sha256": "1e7c2bfa23c5814db104ea9f7a9ae02fa96febeb9adac371488a89cd8aabdf25"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/NativeChecks.cs",
+      "sha256": "528344dba5f9562fdb791139ae02b7f044eb73fb2eabafe953c48fea242ce8a1"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/ProductionChecks.cs",
+      "sha256": "fd3e58c6d776e62690cf215f1790cdd804df80f9e4c6d96645062bfe1946081f"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Program.cs",
+      "sha256": "df4adff4dc996d6b40f4acefbd54782476221d2d10ddba7b32e249275c76b8c5"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj",
+      "sha256": "58e097d496990c1f60ba5e135d57a88d8ef66d3c77e7ab0df1bf0d5e5707f03f"
+    },
+    {
+      "path": "reader/Rre.Reader/Contracts.cs",
+      "sha256": "bddc1eb7302863b4bc6c1bff51e69197330aeabfc3216496a11a5d0a38202b8f"
+    },
+    {
+      "path": "reader/Rre.Reader/MemoryScanSource.cs",
+      "sha256": "03addbd91b3ed8fcd68d5a5ddc295269da43875360f58586edc1a9063b8fe5ab"
+    },
+    {
+      "path": "reader/Rre.Reader/NativeSnapshotSource.cs",
+      "sha256": "aeb82415ba9303dc226884ed48f229ebd56fc4ab317028b557e996fad578b427"
+    },
+    {
+      "path": "reader/Rre.Reader/ProductionFrameCodec.cs",
+      "sha256": "10854561091afa52063b109f3bec0daa733bfd88ea1f12301d62814bd57353c4"
+    },
+    {
+      "path": "reader/Rre.Reader/Program.cs",
+      "sha256": "4783b75dfad407a71c0c2af38a01209614ea1fefbb84ac3b82100963cb253cb7"
+    },
+    {
+      "path": "reader/Rre.Reader/PublicationSource.cs",
+      "sha256": "eb14a4318b56758a00870321c1bc2a3a7592488caf1ba6707fc885d460bfe5be"
+    },
+    {
+      "path": "reader/Rre.Reader/Rre.Reader.csproj",
+      "sha256": "930f8b423f931f4d57e844358472d5b5dfbaae39f415aae52c5cf6322f2f77ff"
+    },
+    {
+      "path": "reader/Rre.Reader/SavedSource.cs",
+      "sha256": "9fdf3a588a40e86e394020abf9a6e29cdd8e6f12b0c5261b4de5644f100a3b64"
+    },
+    {
+      "path": "reader/contract-rrec2.md",
+      "sha256": "a0f1d5130b09150be78beefd13b37e1f9a11677e6425751e8afe41c15d87cca6"
+    },
+    {
+      "path": "tools/tests_reader/capture-wire-lifecycle.lua",
+      "sha256": "d80d0607c3ed809e6f309bfee907c1e8b922657d94a25ef39e324171afb384fd"
+    },
+    {
+      "path": "tools/tests_reader/verify-wire-publisher.py",
+      "sha256": "7dbd35689bc71d6bc09700fcbe3362bc1ca298e6fb23e4d3dfac688ea976818e"
+    },
+    {
+      "path": "tools/tests_reader/wire-publisher-fixture.lua",
+      "sha256": "e1aec748ddc201ef8c6565a33b41bbc4cb891226f8859bef4b2c46bccaeaef0c"
+    },
+    {
+      "path": "tools/verify-rrecollector-package.mjs",
+      "sha256": "e3889e33fbc9906f3730af6529089b04b88ecca46422496c3eb438a111deed6f"
+    }
+  ],
+  "package": {
+    "manifest": "artifacts/RRECollector-0.4.12-accepted-package-20261107/manifest.json",
+    "manifestSha256": "708021837f00679dd32e0958669130641436ff50d9530fcf2dcb4db376c92264",
+    "archive": "artifacts\\RRECollector-0.4.12-accepted-package-20261107\\RRECollector-0.4.12.zip",
+    "archiveSha256": "b69d8361674f7cbffa02460de1485c880cea805a2eab2d0cc107fb9749a6158e",
+    "files": 11,
+    "installed": false,
+    "loaded": false,
+    "recognizedTocReference": {
+      "path": "artifacts\\lab2-live-20261107-0922\\recognized-reference-toc.lua",
+      "sha256": "7fba47c0102c5925a792c9a8edd4e6acb8a2142210a57386633cb5af8ef5acdb",
+      "identifier": "BotDsBridge",
+      "version": "0.3.3",
+      "emailPresent": true,
+      "environmentMatches": true
+    }
+  },
+  "readerRelease": {
+    "path": "artifacts/Rre.Reader-0.1.2-accepted-20261107/Rre.Reader.dll",
+    "sha256": "92008d80b72001683a32eae1f82d7b9b15461c4f3c96fc0d5dd2ef0e3225d949"
+  },
+  "checks": {
+    "csharp": {
+      "count": 130,
+      "path": "artifacts/reader-checks-d92acdbc25114e98bf0eb2b0ffae1d2b/checks.json",
+      "sha256": "f3b882da689eec71fc8f77cafdacaa7964752ee3d25b66fa7fbd941b5e89a41f"
+    },
+    "nodePassed": 20,
+    "wireInterop": {
+      "path": "artifacts/sc622-wire-accepted-20261107-1406/receipt.json",
+      "sha256": "f8fbc0030db72324443a46a7f7e40f4eb303d0b51744f7e203a7d363eb3e1ff6",
+      "cases": [
+        {
+          "case": "synthetic",
+          "session": "b761c38000b90348c71f7514ecd70249",
+          "sequence": 33,
+          "parts": 2,
+          "payloadBytes": 4796,
+          "payloadSha256": "69603659cf3daa78d237a1e5cbbfc7834ca7b9c41432e32a5b8eeefd8ab9cb07",
+          "luaChecks": 39,
+          "artifactSha256": "f33d3c0c4f1af17cc53cce5e92fc1d986a617c153dbc8f679f25661fa02734a7",
+          "outputSha256": "961ea082a5fb0eade17b5275ee3dd017ceb47418c567e7e3b8516c10961019ad",
+          "abilities": 1
+        },
+        {
+          "case": "historical54",
+          "session": "0a8e5c813c191b5c58ee6c11c15098ee",
+          "sequence": 4,
+          "parts": 5,
+          "payloadBytes": 18201,
+          "payloadSha256": "1bb278780026d95ab104f86339afb99f93ecdd82e22768ff654c747256d3c86c",
+          "luaChecks": 0,
+          "artifactSha256": "048d2da3db302119ae538c212733bb9e0f0ae7a63bbe06a06e378a217a711d15",
+          "outputSha256": "f12c5808fd97f471cc7c3ef9e8f811ce754ab982156b7ac7f7ea433b1d752c55",
+          "abilities": 54
+        }
+      ],
+      "captureWireLifecycle": "SC622_CAPTURE_WIRE_LIFECYCLE_PASS 13",
+      "capturePreservation": "PASS 10 RC-27 capture preservation assertions (mock handler)",
+      "luaRuntimeHashes": {
+        "luaExe": "702502820320538d06409d7818754ce529087ef8ff608a723f49b1ccffdc2d6f",
+        "luaDll": "58b206ab9a3d84fdafb537b419f721ecdeade489707dbab227b043d5343db369",
+        "probe": "e6c503dd195f46019d56f375a97b06656769eb02ea2ecf7c36ca960ba201a569",
+        "fixture": "4eeb630f9953aed56f6299dd24395ebf5bab0e93c82d354921cbf3dae8dff6a1",
+        "copy": "478e81c2d83d7406c7998f8f6ebe311c3785a2acf4b7ca37b7689ad338f06406"
+      }
+    },
+    "oldAdapters": {
+      "path": "artifacts/sc622-old-adapters-release-20261107-1404/integration.json",
+      "sha256": "39b34b5229d9a0dc318ee9aec12e23d6464536386b4df5a88ae67f4ecc0a9dc6",
+      "fourInputsEach54": true
+    },
+    "legacyGate": {
+      "path": "artifacts/sc622-fullgate-20261107-1403/validation.json",
+      "sha256": "72113f5e6d30f6c2fe489f6f17dfa2e394bb48b4faea3fa92f6a741c2c693ca7",
+      "exitCode": 1,
+      "testCount": 500,
+      "sourcesUnchanged": true,
+      "groups": [
+        {
+          "group": "validation",
+          "testCount": 153,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "c2m",
+          "testCount": 30,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "follow",
+          "testCount": 73,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "collision",
+          "testCount": 38,
+          "status": "failed",
+          "exitCode": 1
+        },
+        {
+          "group": "pathfinding",
+          "testCount": 36,
+          "status": "failed",
+          "exitCode": 1
+        },
+        {
+          "group": "navigation-evidence",
+          "testCount": 95,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "visual-evidence",
+          "testCount": 58,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "review-adapter",
+          "testCount": 17,
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "group": "roadmap",
+          "testCount": 0,
+          "status": "passed",
+          "exitCode": 0
+        }
+      ],
+      "failures": "Historical exact original-executable SHA guards in collision/pathfinding and downstream expected-error assertion. Pins unchanged. New .NET/Lua interoperability suites are separate."
+    }
+  },
+  "review": {
+    "providers": [
+      "built-in addon_protocol_research",
+      "built-in addon_discovery_research"
+    ],
+    "readOnly": true,
+    "fixedFindings": [
+      "UTF8 validity",
+      "capture count equations",
+      "scalar-map context shapes",
+      "consistent fixture-contract classification",
+      "failure reason digit preservation",
+      "stale header comments"
+    ],
+    "remainingLimits": [
+      "RIFT Lua5.1 parser/locale/global visibility not run",
+      "Actual slash/UI/SavedVariables event binding remains live gate",
+      "Session token correlation only; GC copies and preassignment strings remain possible",
+      "No live memory acquisition/source authenticity/currentness/restart acceptance"
+    ]
+  },
+  "installationGate": {
+    "state": "held",
+    "reason": "Proved Lab2 addon root is inside active registered OneDrive syncroot. No isolated game load root established.",
+    "receipt": "artifacts/sc622-isolation-preflight-20261107-1328/receipt.json",
+    "sha256": "2db00f107929efae47109da2c2c80d25a925aef83ae438b6b4b518eb902aaf5d",
+    "metadata": "artifacts/sc622-isolation-preflight-20261107-1328/metadata.json",
+    "metadataSha256": "f62a2407e70bb2e2c817f70557859dddef18e62dec41eb3083cfaad88656a81d",
+    "settingChanges": false,
+    "excludedMachineOperations": false
+  },
+  "historicalFixture": {
+    "sourceVersion": "0.4.11",
+    "retaggedVersion": "0.4.12",
+    "offlineOnly": true,
+    "emptySavedLuaContextTablesNormalizedToMaps": true,
+    "inputSavedSha256": "ddcd29a64dc58f65990bbe4af19a8cc4dd18bb43c1116a0a75306e85585c4bca"
+  },
+  "liveBridgeQualified": false,
+  "guestOperationsForSourceIntegration": 0,
+  "gameInputSent": false,
+  "ollama": false,
+  "freebuff": false
+}

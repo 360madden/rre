@@ -62,12 +62,12 @@ public static class NativeChecks
         return passed;
     }
     private static byte[] Bytes(JsonNode node)=>Encoding.UTF8.GetBytes(node.ToJsonString());
-    private static (JsonObject Request,JsonObject Snapshot) Fixture()
+    internal static (JsonObject Request,JsonObject Snapshot) Fixture(byte[]? productionWire = null)
     {
         var body=new JsonObject { ["schemaVersion"]=1,["producer"]="RRE-feasibility-fixture",["session"]=Session,["sequence"]=2,["part"]=1,["parts"]=1,
             ["records"]=new JsonArray(new JsonObject{["lookupId"]="A0000000100000000",["name"]="Fixture",["description"]=new string('x',4096),["passive"]=false,["cooldown"]=0})};
         var payload=Bytes(body);var wire=Encoding.ASCII.GetBytes($"RREC1|{Session}|{payload.Length:X8}|").Concat(payload).Concat("|ENDRREC1"u8.ToArray()).ToArray();
-        var memory=new byte[8192];wire.CopyTo(memory,0);
+        var memory=new byte[8192];(productionWire ?? wire).CopyTo(memory,0);
         var target=new JsonObject{["processId"]=123,["processStartUtcTicks"]=639296711399704025L,["executableSha256"]=new string('A',64)};
         var request=new JsonObject{["schemaVersion"]=1,["evidenceKind"]="native-memory-snapshot-request/1",["target"]=target.DeepClone(),["maxDurationMilliseconds"]=5000,
             ["ranges"]=new JsonArray(new JsonObject{["addressKind"]="absolute-session-address",["address"]="0x10000",["byteLength"]=8192})};
