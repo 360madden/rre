@@ -48,10 +48,12 @@ public sealed class SavedSource(string input, string repositoryRoot) : IObservat
 public sealed record ProcessResult(int ExitCode, string Stdout, string Stderr);
 public static class OwnedProcess
 {
-    public static async Task<ProcessResult> RunAsync(string executable, IReadOnlyList<string> args, string cwd, CancellationToken ct)
+    public static async Task<ProcessResult> RunAsync(string executable, IReadOnlyList<string> args, string cwd, CancellationToken ct, TimeSpan? timeout = null)
     {
+        var duration=timeout ?? TimeSpan.FromSeconds(10);
+        DataRules.Require(duration>TimeSpan.Zero && duration<=TimeSpan.FromSeconds(240),"child-timeout-limit");
         using var limit = CancellationTokenSource.CreateLinkedTokenSource(ct);
-        limit.CancelAfter(TimeSpan.FromSeconds(10));
+        limit.CancelAfter(duration);
         using var process = new Process { StartInfo = new ProcessStartInfo(executable)
         {
             WorkingDirectory = cwd, UseShellExecute = false, CreateNoWindow = true,
@@ -60,6 +62,7 @@ public static class OwnedProcess
         } };
         foreach (var arg in args) process.StartInfo.ArgumentList.Add(arg);
         process.Start();
+        Exception? primary=null;
         try
         {
             var stdout = ReadBoundedAsync(process.StandardOutput, 4_000_000, limit.Token);
@@ -70,9 +73,23 @@ public static class OwnedProcess
             await Task.WhenAll(stdout, stderr, exit);
             return new(process.ExitCode, await stdout, await stderr);
         }
+        catch(Exception error) { primary=error;throw; }
         finally
         {
-            if (!process.HasExited) { process.Kill(entireProcessTree: true); await process.WaitForExitAsync(CancellationToken.None); }
+            try
+            {
+                if (!process.HasExited)
+                {
+                    process.Kill(entireProcessTree: true);
+                    using var cleanup=new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                    await process.WaitForExitAsync(cleanup.Token);
+                }
+            }
+            catch(Exception cleanupError)
+            {
+                if(primary is not null)primary.Data["ownedProcessCleanupError"]=cleanupError.GetType().Name;
+                else throw new ReaderFailure("owned-child-cleanup-failed");
+            }
         }
     }
     private static async Task<string> ReadBoundedAsync(StreamReader stream, int cap, CancellationToken ct)

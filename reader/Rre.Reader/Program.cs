@@ -11,11 +11,12 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine("RRE host reader 0.1.3 (offline adapters; no live acquisition)\n"
+                Console.WriteLine("RRE host reader 0.2.0 (file adapters and explicit read-only Lab2 acquisition)\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source publication --input FRAME_ARTIFACT_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
+                    + "capture --source lab2 --input BINDING_JSON --window WINDOW_JSON --evidence NEW_ARTIFACT_DIR --repo C:\\work\\rre [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "doctor --repo RRE_ROOT\nOutputs one JSON document per invocation; diagnostics go to stderr. Existing files are never overwritten.");
                 return 0;
             }
@@ -30,11 +31,12 @@ public static class Program
                 var node = await OwnedProcess.RunAsync("node", ["--version"], repo, CancellationToken.None);
                 output = new JsonObject
                 {
-                    ["readerVersion"] = "0.1.3", ["dotnet"] = Environment.Version.ToString(),
+                    ["readerVersion"] = "0.2.0", ["dotnet"] = Environment.Version.ToString(),
                     ["nodeAvailable"] = node.ExitCode == 0, ["nodeVersion"] = node.ExitCode == 0 ? node.Stdout.Trim() : null,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
-                    ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay", "publication-replay"), ["liveAcquisitionImplemented"] = false,
+                    ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
+                    ["lab2AcquisitionImplemented"] = true,["liveAcceptanceRequiresCurrentEvidence"] = true,
                     ["gameInputImplemented"] = false
                 };
             }
@@ -45,7 +47,16 @@ public static class Program
                 var module = options.GetValueOrDefault("--module", "all");
                 DataRules.Require(module is "all" or "abilities" or "context", "unknown-module");
                 IObservationSource adapter;
-                if (source == "saved")
+                if (source == "lab2")
+                {
+                    DataRules.Require(command=="capture","lab2-capture-only");
+                    Only(options,"--source","--input","--window","--evidence","--repo","--module","--output");
+                    var repo=Path.GetFullPath(Required(options,"--repo"));
+                    var evidence=Path.GetFullPath(Required(options,"--evidence"));
+                    Lab2Source.Preflight(repo,evidence,options.GetValueOrDefault("--output"));
+                    adapter=new Lab2Source(input,Path.GetFullPath(Required(options,"--window")),evidence,repo);
+                }
+                else if (source == "saved")
                 {
                     Only(options, "--source", "--input", "--repo", "--module", "--output");
                     adapter = new SavedSource(input, Path.GetFullPath(Required(options, "--repo")));

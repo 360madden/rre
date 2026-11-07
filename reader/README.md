@@ -1,6 +1,6 @@
 # RRE modular host reader
 
-One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.1.3 is **offline**: it reads persisted SavedVariables or replays saved memory-scan/native-snapshot/publication artifacts. It does not open a game/VM process, acquire live memory, issue input, start a service, deploy addons or change another repository.
+One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.0 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
 
 ## Build and use
 
@@ -61,3 +61,14 @@ node --test tools/tests_reader/test_saved_adapter.mjs tools/verify-rrecollector-
 The package-free C# check executable covers both contracts' frame/assembly failures, source limits, target/version preservation, context/freshness boundaries, native request/chunk coherence and evidence publication. Node tests cover the adapter and legacy literal parser. To verify the actual retained trial, run `tools/tests_reader/verify-reader-evidence.py` with explicit `--repo`, `--saved`, `--scan1`, `--scan2`, and fresh `--output` directory. Add `--native-snapshot`, `--native-request` and `--native-session` for the SC620fixture pair. It compares all54 IDs and every historical fixture field, verifies preserved saved targets and false live qualifications, rejects stale sequence, and confirms no overwrite. It performs no VM access.
 
 `tools/tests_reader/verify-wire-publisher.py --output NEW_DIR --saved SAVED_LUA --reader READER_DLL` additionally runs the existing SHA-pinned host Lua5.3 runtime (or `--lua-runtime lua51` for the retained Lua5.1 runtime) (no install), synthetic malformed/lifecycle cases and prior-good capture preservation, then an independently audited Python Base64/zlib roundtrip through the C# reader. The retained0.4.11 capture is safely literal-parsed, converted to byte-escaped Lua fixture data, and explicitly retagged to the current source version only offline. Empty Lua context tables are normalized to object maps for comparison; no populated values are changed. These are host interoperability checks, not RIFT runtime acceptance. Retagging is not proof of exact historical0.4.12 carrier compatibility; the separate SC628 regression replays the original SC622 snapshot/request. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.
+
+
+## Explicit Lab2 acquisition (SC625, live acceptance pending)
+
+First coordinate a new exclusive Lab2 window with its current owner and manually Capture a fresh collector generation using the existing reviewed external mouse setup. Create exact binding/window JSON under the [contract](contract-lab2-acquisition.md); they record context, not permission. Then use the same entry point:
+
+```powershell
+dotnet $reader capture --source lab2 --input C:\work\rre\artifacts\binding.json --window C:\work\rre\artifacts\window.json --evidence C:\work\rre\artifacts\new-lab2-trial --repo C:\work\rre --output C:\work\rre\artifacts\observation.json
+```
+
+The evidence directory and observation file must not exist; the output file must be outside the evidence directory. `--module context` or `abilities` selects the same canonical modules. `validate --source lab2` is deliberately rejected. The helper pins the fixed Lab2/1935build/F414/native/runtime dependencies and performs at most three bounded scouts plus one complete frame snapshot. C# reuses its strict decoder and publishes `acceptance.json` only after hash/identity/version/parts/bytes, source/image, native-exit journals and guest cleanup pass. Unknown process/data state quarantines the run; inspect `failure.json`/`guest-scope.json`, never auto-retry or assume cleanup. A parent timeout cannot clean the guest by itself. See the [source gate](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md). The adapter has not yet been live-accepted; all publication qualification flags remainfalse even when an active read is recorded.

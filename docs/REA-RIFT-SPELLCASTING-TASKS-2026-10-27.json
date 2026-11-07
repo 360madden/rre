@@ -1887,7 +1887,8 @@
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md",
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.json",
         "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        ".gitattributes"
       ],
       "researchQuestion": "Can the same C# reader orchestrate the proved existing GuestSession/F414 read-only route with explicit generation/control-window binding, bounded scan/copy, complete cleanup and one canonical output?",
       "acceptance": [
@@ -1898,8 +1899,11 @@
         "Any live acceptance only after a new explicit owner window; no current lease or permission inferred from old receipts"
       ],
       "gameInputAuthorized": false,
-      "evidence": [],
-      "progress": "Pure stdlib admission/locator core and10focusedofflinechecks implemented; independent review fixes applied. No live orchestration/CLI/C# integration yet; task remains pending."
+      "evidence": [
+        "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.json"
+      ],
+      "progress": "Source/offline integration accepted: reader0.2.0 lab2 adapter + pinned existing-tool orchestrator;165C#/16Python normal+optimized/20Node, exact10sourceinterop, original.12/.13 replay, legacy500sameoldSHAfail. Live trial pending newpeerwindow."
     },
     {
       "id": "SC-626",
@@ -1997,6 +2001,42 @@
       ],
       "sourceGate": "accepted offline; live install/load/Capture pending new coordinated window",
       "acceptedScope": "Bounded0.4.13 install11/11/load/manualseq7fiveparts54records/new3metadata+freshSaved accepted; return20:43:52Z. No passive/restart/auth/inbound claim."
+    },
+    {
+      "id": "SC-629",
+      "milestone": "SC6",
+      "title": "Reuse existing API stat references and add only missing documented experience context",
+      "state": "pending",
+      "dependsOn": [
+        "SC-625",
+        "SC-628"
+      ],
+      "owner": "single RRE manager; read-only addon API reviewer",
+      "lane": "manager-minimal-experience-reference",
+      "ownedPaths": [
+        "addons/RRECollector/",
+        "reader/",
+        "tools/tests_reader/",
+        "tools/rre-reader-saved-snapshot.mjs",
+        "docs/agents/rre-experience-api-reference-2026-11-07.md",
+        "docs/agents/rre-experience-api-reference-2026-11-07.json",
+        "docs/REA-RIFT-EXPERIENCE-REFERENCE-2026-11-07.md",
+        "docs/REA-RIFT-EXPERIENCE-REFERENCE-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "acceptance": [
+        "First reuse SC628 existing Inspect.Stat result for10ordinary/Unbuffed requestedfields; no duplicate statcall",
+        "Verify matching-build primary API docs for Inspect.Experience exact three scalars and failure semantics",
+        "Only after SC625 source integration: minimal optional experience capture, one existing manual path APIcall; absence/failure explicit, no new events/polling/gameplay",
+        "Keep 0.4.12/0.4.13 readers compatible, strict versioned0.4.14 contract and package/source gates before any deployment",
+        "Live changes only after concrete reviewedpackage and new peerwindow; Lab2only, existing externalmouse/F414/same modularreader, no otherrepo runtime dependency"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "artifacts/rre-rr2-stats-reference-20261107-1614/api-stats.json"
+      ],
+      "progress": "Existing10statvalues already supplied from SC628 acceptedcapture; Experience docs research only before sequential source work."
     }
   ],
   "checkpointPolicy": {

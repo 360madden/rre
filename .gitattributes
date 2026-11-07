@@ -2,3 +2,4 @@
 *.md text eol=lf
 *.ps1 text eol=crlf
 *.sh text eol=lf
+tools/rre_lab2_acquire.py text eol=lf

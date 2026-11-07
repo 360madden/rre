@@ -128,7 +128,7 @@ public static class ObservationModules
         };
         return new JsonObject
         {
-            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.1.3",
+            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.2.0",
             ["observedAtUtc"] = DateTimeOffset.UtcNow.ToString("O"), ["sequence"] = capture.Sequence,
             ["source"] = capture.Evidence.DeepClone(), ["modules"] = modules,
             ["qualification"] = new JsonObject
@@ -138,7 +138,7 @@ public static class ObservationModules
                 ["fixtureMeaning"] = "Uses a feasibility-only contract. False does not prove a non-fixture origin or game execution.",
                 ["runtimeProducerVerified"] = false, ["sourceAuthenticityVerified"] = false,
                 ["atomicSnapshotVerified"] = false, ["restartQualified"] = false,
-                ["limit"] = "Persisted/replayed data only. Host observation time is not game capture time."
+                ["limit"] = "Persisted, replayed or actively acquired retained-memory data. Host observation time alone does not establish API freshness, authorship, atomicity or restart qualification."
             }
         };
     }

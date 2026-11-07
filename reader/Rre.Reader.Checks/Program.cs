@@ -98,6 +98,7 @@ try
     await Run("no publish temporary survives", () => Sync(() => Check(Directory.GetFiles(output,".rre-*.tmp").Length==0,"temp leak")));
     passed.AddRange(Rre.Reader.Checks.NativeChecks.Run());
     passed.AddRange(Rre.Reader.Checks.ProductionChecks.Run());
+    passed.AddRange(await Rre.Reader.Checks.Lab2Checks.RunAsync(repo,output));
     var summary = new {status="passed",count=passed.Count,checks=passed,output};
     await File.WriteAllTextAsync(Path.Combine(output,"checks.json"),JsonSerializer.Serialize(summary));
     Console.WriteLine(JsonSerializer.Serialize(summary));

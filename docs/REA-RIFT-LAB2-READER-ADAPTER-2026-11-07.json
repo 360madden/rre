@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-625",
+  "status": "source-offline-accepted-live-pending",
+  "createdAtUtc": "2026-11-07T21:19:44.718068+00:00",
+  "readerVersion": "0.2.0",
+  "onlyLiveTarget": "Lab2",
+  "sourceHashes": {
+    "tools/rre_lab2_acquire.py": "2ec86c1183bc16c42936b07bc55aa6ff368d9a6fbcc152b5b257923ed44f998c",
+    "tools/tests_reader/test_lab2_acquisition.py": "c8e293b2867aa90c1d06c101e007d6d47cacd4a0885e92c1b7b936eed443774a",
+    "reader/Rre.Reader/Lab2Source.cs": "d7dd2a458972b52160f78efb5f852fcb87fdb91573a2597ed1bb557bcd978203",
+    "reader/Rre.Reader/Program.cs": "1ca8ed6cc57af35a4dae031ac5e99c6a5d810eaace201e829e209d2d9ee81cc0",
+    "reader/Rre.Reader/SavedSource.cs": "52464954db6d7cb91f85780665d78f84e8165a22af9d6a0df252bcb1b7daf456",
+    "reader/Rre.Reader/Contracts.cs": "45e1f1999fc0842cedf4fc5b3af19d15d570dd885c012f2db2b601acea37519f",
+    "reader/Rre.Reader/Rre.Reader.csproj": "a41e26d516d18d660be40aecf16b3ebceced872bc8c25ce8a8ef32dd3da9569a",
+    "reader/Rre.Reader/NativeSnapshotSource.cs": "79a0e16ecbfc0243546ae4255206b1f1523c151bdfb6ef52d076a26953a61607",
+    "reader/Rre.Reader/ProductionFrameCodec.cs": "f333dbd3513614304b05c9da86e8ba11c32ad9d8b0e7fb7d0b1657875c0298fa",
+    "reader/Rre.Reader.Checks/Program.cs": "3dcc7a717edb2286922676a20059fdb13972371761756495b5349355ab2042ed",
+    "reader/Rre.Reader.Checks/Lab2Checks.cs": "41fced52d854e0f600c40efb7bdfe2153c6c22a8fbf6c1bd95e198a68f6ec310",
+    ".gitattributes": "8f5fcab02cfb85c9f93c47d5f3ee2d83de18e09b1568916d4013fadff6aff152"
+  },
+  "evidenceHashes": {
+    "artifacts/reader-checks-48db7525af9c4e52b620f9bc686a595c/checks.json": "fbb391aca971614dab7ee6384b3cc3ba1503ddb20c1d4571cd4c32dfb3254272",
+    "artifacts/sc625-offline-20261107-1618/receipt.json": "d3470850f7a96e829528778a7a7badb7f785ceea30635638dbdcb6258f9ed96b",
+    "artifacts/sc625-fullgate-20261107-1618/validation.json": "15094ec8bf0c251575e831cc356d82203ec802dd2a60c2bd8ab4710dcdd2674e",
+    "artifacts/sc625-offline-20261107-1618/original0412.reader.json": "7a4eff24718e024d2633fb3605533c00596b66382a8062fdd7dd64bcdb93cdd2",
+    "artifacts/sc625-offline-20261107-1618/original0413.reader.json": "2549de7ead19741b81f965057c26f70c6b453ac42232e3a52a16bc1fd68dd742"
+  },
+  "releaseManifest": "artifacts\\Rre.Reader-0.2.0-sc625-20261107\\manifest.json",
+  "releaseManifestSha256": "89b6b3234c3246ae9018afd94ddd39886841cce52bfbd090c743d271d42d6ab9",
+  "readerDllSha256": "f9575afafa69a35f3ce6e5b41110c6792f70b2630cf9549e52b4ad2537ba398a",
+  "helperSha256": "2ec86c1183bc16c42936b07bc55aa6ff368d9a6fbcc152b5b257923ed44f998c",
+  "checks": {
+    "csharp": 165,
+    "pythonMethods": 16,
+    "pythonOptimizedMethods": 16,
+    "node": 20,
+    "realPowerShellAstParse": true,
+    "original0412ModulesExact": true,
+    "original0413ModulesExact": true,
+    "controlledHostChildTimeoutExit": true,
+    "pythonCsharpExact10SourceHashes": true,
+    "collectorPackageUnchanged": "0.4.13 strict11files pass",
+    "legacyFullGate": {
+      "tests": 500,
+      "exitCode": 1,
+      "sameOldBuildGuards": true,
+      "sourcesUnchanged": true
+    },
+    "helperLfCheckoutPolicy": true
+  },
+  "reviewers": [
+    "/root/addon_discovery_research",
+    "/root/addon_protocol_research"
+  ],
+  "operationsThisMilestone": {
+    "vmOperations": 0,
+    "gameInputs": 0,
+    "sourceOnly": true
+  },
+  "ownership": "Lab2 returned20:43:52Z; newpeerwindow required",
+  "limits": [
+    "One bounded manually UI-bound generation, not continuous freshness",
+    "Caller window/owner text is provenance context, not verifiedpermission or authentication",
+    "Runtime source/build/API freshness/authorship/atomicity/restart flags remainfalse",
+    "240secondlocaloperationtimeout plus5secondterminationgrace cannotproveguestcleanup",
+    "Unknown nativeprocess/data state quarantines run; no automatic retry/controllerstart/queuereset"
+  ]
+}
