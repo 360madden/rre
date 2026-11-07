@@ -49,6 +49,8 @@ try
     await Run("oversize record string rejected", () => Reject(() => { var row = Row(); row["name"] = new string('x',4097); DataRules.Abilities(new JsonArray(row)); }));
     await Run("no empty catalog claimed complete", () => Reject(() => DataRules.Abilities(new JsonArray())));
     await Run("malformed ID rejected", () => Reject(() => Decode(Body(id:"not-an-id"))));
+    await Run("newline-suffixed ID rejected", () => Reject(() => Decode(Body(id:"A0000000100000000\n"))));
+    await Run("newline-suffixed session rejected", () => Reject(() => MemoryScanSource.DecodeFrame(Wire(Body()),session+"\n",2)));
     await Run("record budget rejected", () => Reject(() => { var rows = new JsonArray(); for(var i=0;i<513;i++) rows.Add(Row($"A{i:X16}")); DataRules.Abilities(rows); }));
     await Run("public assembler validates schema", () => Reject(() => { var b = Decode(Body()); b["unknown"] = true; MemoryScanSource.Assemble([b]); }));
     await Run("public assembler rejects empty individual part", () => Reject(() => { var b = Decode(Body(parts:2)); b["records"] = new JsonArray(); MemoryScanSource.Assemble([b,Decode(Body(part:2,parts:2,id:"A0000000200000000"))]); }));
@@ -94,6 +96,7 @@ try
     var published = Path.Combine(output,"published.json");
     await Run("publish refuses existing evidence", () => Sync(() => { Rre.Reader.Program.Publish(published,"original"); try { Rre.Reader.Program.Publish(published,"overwrite"); throw new Exception("overwrite accepted"); } catch(ReaderFailure) { Check(File.ReadAllText(published)=="original","evidence changed"); } }));
     await Run("no publish temporary survives", () => Sync(() => Check(Directory.GetFiles(output,".rre-*.tmp").Length==0,"temp leak")));
+    passed.AddRange(Rre.Reader.Checks.NativeChecks.Run());
     var summary = new {status="passed",count=passed.Count,checks=passed,output};
     await File.WriteAllTextAsync(Path.Combine(output,"checks.json"),JsonSerializer.Serialize(summary));
     Console.WriteLine(JsonSerializer.Serialize(summary));

@@ -36,6 +36,7 @@ export function exportSavedSnapshot(bytes) {
   const rawById = new Map(Object.values(saved.latest.abilities).map(row=>[row.lookupId,row]));
   const abilities = crosswalk.knownOutsideStatic.map(row=>{
     const detail = {...row.currentDetail};
+    if (detail.lookupId.length !== 17 || !/^A[0-9A-F]{16}$/.test(detail.lookupId)) throw Error('ability-id-unqualified');
     const original = rawById.get(detail.lookupId);
     if (Object.hasOwn(original,'target')) {
       const target = original.target;

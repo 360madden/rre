@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import {exportSavedSnapshot,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
+import {parseSavedLua} from '../read-rrecollector-saved.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
 const read=s=>exportSavedSnapshot(Buffer.from(s));
@@ -31,4 +32,9 @@ test('rejects unsupported target shape rather than losing data silently',()=>{
 test('bounds exact byte size and rejects invalid UTF8',()=>{
   assert.throws(()=>exportSavedSnapshot(Buffer.alloc(MAX_BYTES+1)),/byte-limit/);
   assert.throws(()=>exportSavedSnapshot(Buffer.from([0xff,0xfe])));
+});
+test('rejects newline-suffixed IDs consistently at the data boundary',()=>{
+  const malformed=source.replace('A0000000100000000','A0000000100000000\\n');
+  assert.equal(Object.values(parseSavedLua(malformed).latest.abilities)[0].lookupId,'A0000000100000000\n');
+  assert.throws(()=>read(malformed),/ability-id-unqualified|ABILITY_IDS_UNQUALIFIED/);
 });

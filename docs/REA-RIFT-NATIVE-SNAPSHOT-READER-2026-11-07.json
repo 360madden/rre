@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-621",
+  "version": "0.1.1",
+  "status": "accepted-native-snapshot-offline-adapter",
+  "sources": [
+    {
+      "path": "reader/README.md",
+      "sha256": "300e4c1b18acaa9ff1236e5d385ca7fd67b379cc5aac101875f0041e7264c4e7"
+    },
+    {
+      "path": "reader/Rre.Reader/Contracts.cs",
+      "sha256": "eff71aa0156c3e6c147e8f6cf9f03e87db57aad922e2245554cbe5a9f2936e6c"
+    },
+    {
+      "path": "reader/Rre.Reader/MemoryScanSource.cs",
+      "sha256": "03addbd91b3ed8fcd68d5a5ddc295269da43875360f58586edc1a9063b8fe5ab"
+    },
+    {
+      "path": "reader/Rre.Reader/NativeSnapshotSource.cs",
+      "sha256": "0966a2866ee37b195659a87db3fdda45f5f63621c5694d32c24fb0720a7c1489"
+    },
+    {
+      "path": "reader/Rre.Reader/Program.cs",
+      "sha256": "bd13c4b1e79fa50d8d7d74559255507cb5cae51690a9c27abe33b1608b9ac867"
+    },
+    {
+      "path": "reader/Rre.Reader/Rre.Reader.csproj",
+      "sha256": "418f6db180963b284e7d052b498a5fcc42e3fb4ebfea84249b2c89b9daf79fc2"
+    },
+    {
+      "path": "reader/Rre.Reader/SavedSource.cs",
+      "sha256": "9fdf3a588a40e86e394020abf9a6e29cdd8e6f12b0c5261b4de5644f100a3b64"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/NativeChecks.cs",
+      "sha256": "9ecf4618b02876002456708190b2c2657c28a8afd0cf399df003b9194bf7f723"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Program.cs",
+      "sha256": "9e80a0532092071342c37bbfb914fbeac712bbeca54ee3136d2b903319cd65b7"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj",
+      "sha256": "58e097d496990c1f60ba5e135d57a88d8ef66d3c77e7ab0df1bf0d5e5707f03f"
+    },
+    {
+      "path": "tools/rre-reader-saved-snapshot.mjs",
+      "sha256": "6b4e5be472d68b71edabaa56e049028bbaff67d76c80e35c30d12f7c9039e9f0"
+    },
+    {
+      "path": "tools/tests_reader/test_saved_adapter.mjs",
+      "sha256": "7559ff598dd586020e4fc3386150802cdb52edb0973ef4ef49c9fc62b8496355"
+    },
+    {
+      "path": "tools/tests_reader/verify-reader-evidence.py",
+      "sha256": "39d6d556b5bf1759c2c9745b52aa9f6aceddd5ce5c30db6dd609007620ab4727"
+    }
+  ],
+  "publication": [
+    {
+      "path": "artifacts/Rre.Reader-0.1.1-accepted-20261107/Rre.Reader.deps.json",
+      "sha256": "7c5275de64d38eff69601a2c90918d4e8ea2900a2e4a8a3f0a4d4bca5e53ffa5",
+      "bytes": 424
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.1-accepted-20261107/Rre.Reader.dll",
+      "sha256": "c14579fbcc3d689397803a70194e140d1cb870cbfda0e895cef7a0093567a8ac",
+      "bytes": 61440
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.1-accepted-20261107/Rre.Reader.exe",
+      "sha256": "1722496eadde1ab4d883917312c70567c1f4972aa2354afd25f1507816a7cc94",
+      "bytes": 162304
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.1-accepted-20261107/Rre.Reader.pdb",
+      "sha256": "c1d4d94f8b1660fb4c1084e371105fd84e1899c757ddcb59cbdeb0bcd7310853",
+      "bytes": 19192
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.1-accepted-20261107/Rre.Reader.runtimeconfig.json",
+      "sha256": "c230a317a54dd960bcbeb5f347f52e18dc665a26f7efda2159fced9a5ac7e097",
+      "bytes": 342
+    }
+  ],
+  "csharpChecks": {
+    "count": 73,
+    "exitCode": 0,
+    "path": "artifacts/reader-checks-6298b03777eb4f529a366cae2d5ee5a6/checks.json",
+    "sha256": "fc2add2fa1139bb14a2f3db1d96d3a149f81331c730a4feff346a0eae7ebc437"
+  },
+  "nodeChecks": {
+    "count": 20,
+    "exitCode": 0,
+    "new": 9,
+    "legacyUnchanged": 11,
+    "rawLogInConversation": true
+  },
+  "actualEvidenceIntegration": {
+    "status": "passed",
+    "scope": "offline SC614saved / SC618memory and optional SC620native snapshot",
+    "runs": [
+      {
+        "name": "saved",
+        "exitCode": 0,
+        "inputSha256": "ddcd29a64dc58f65990bbe4af19a8cc4dd18bb43c1116a0a75306e85585c4bca",
+        "outputSha256": "a5f774c6000a50c7f28154893d8ba585c01001106e33d54bff788f07bcad464e",
+        "abilityCount": 54
+      },
+      {
+        "name": "memory1",
+        "exitCode": 0,
+        "inputSha256": "84aaa7829bdb30b63482aa9fccc8faee6f6950804e687909a8ffdaf442e36510",
+        "outputSha256": "42e32303eba326a4d51f265b45da6ed56911a36e7855a89d22e1fb0d3fcb77e8",
+        "abilityCount": 54
+      },
+      {
+        "name": "memory2",
+        "exitCode": 0,
+        "inputSha256": "5154f983efd298c9bd8780ad39171128c3114d421594c177160b75d187501c30",
+        "outputSha256": "ed64fcf7a7f6f803770ab8f5db27757e27d9b75f55c1b1bbef26d9a0d086b7fd",
+        "abilityCount": 54
+      },
+      {
+        "name": "native",
+        "exitCode": 0,
+        "inputSha256": "05b1dc44e5bce0515a368e7def0299eeecdfffdb579003fcbf57fa6c00c4fc2c",
+        "outputSha256": "209f6c52512ef5f93d6ff8fda4867ff320439c00c4a32164334ced9a3961161a",
+        "abilityCount": 54
+      }
+    ],
+    "exactIds": 54,
+    "allFixtureFieldsCompared": true,
+    "savedTargetFieldsPreserved": 1,
+    "historicalMemoryFixtureHasNoTargetFields": true,
+    "allLiveQualificationsFalse": true,
+    "staleSequenceRejected": true,
+    "existingOutputPreserved": true,
+    "nativeSnapshotIncluded": true,
+    "liveVMAccess": false,
+    "readerDllSha256": "c14579fbcc3d689397803a70194e140d1cb870cbfda0e895cef7a0093567a8ac"
+  },
+  "integrationSha256": "87d6afa7d9a477054687734e92042a31330321bff705c086fb6fb349d98ede93",
+  "legacyFullGate": {
+    "tests": 500,
+    "exitCode": 1,
+    "path": "artifacts/reader-sc621-fullgate-20261107-1316/validation.json",
+    "sha256": "49724757129b0b5e00a2e3683dc573e09c535758a4cb45e8c85ff76d60dd6c4a",
+    "failedGroups": [
+      "collision",
+      "pathfinding"
+    ],
+    "historicalExecutablePinFailures": true,
+    "sourcesUnchangedDuringRun": true,
+    "coversDotnetReader": false
+  },
+  "review": {
+    "agent": "/root/addon_protocol_research",
+    "readOnly": true,
+    "closed": [
+      "exact schema and required nulls",
+      "metadata types",
+      "process creation precedes acquisition"
+    ],
+    "managerAdditionalHardening": "absolute-end anchors and strict saved lookup-ID length; regressions passed"
+  },
+  "liveAcquisition": false,
+  "productionAddonWire": false,
+  "vmAccess": false,
+  "ollama": false,
+  "freebuff": false
+}

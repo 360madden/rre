@@ -1,6 +1,6 @@
 # RRE modular host reader
 
-One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. This0.1.0 milestone is **offline**: it reads persisted SavedVariables or replays a saved memory-scan artifact. It does not open a game/VM process, acquire live memory, issue input, start a service, deploy addons or change another repository.
+One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.1.1 is **offline**: it reads persisted SavedVariables or replays saved memory-scan/native-snapshot artifacts. It does not open a game/VM process, acquire live memory, issue input, start a service, deploy addons or change another repository.
 
 ## Build and use
 
@@ -23,6 +23,14 @@ dotnet $reader capture --source memory-scan --input C:\path\scan.json --session 
 
 This adapter intentionally accepts only the experimental `RRE-feasibility-fixture` producer. It is not a decoder for an installed/live RRE memory producer. `memory-scan` names an input format, not a live acquisition command. Both adapters can be used behind the same core without adding separate semantic readers.
 
+Version0.1.1 also consumes the standard snapshot/request pair emitted by the existing F414/B8 RR2 tools, without needing the original Reader scan format:
+
+```powershell
+dotnet $reader capture --source native-snapshot --input C:\path\snapshot.json --request C:\path\request.json --session HEX32 --sequence 1
+```
+
+The adapter verifies exact schema/key/type boundaries, request raw-byte SHA, declared PID/start/executable SHA agreement, known producer bundle declaration, ordered source clocks, complete chunks, canonical Base64 and per-chunk hashes, and the exact contiguous4KiB partition of≤16nonoverlapping≤8KiB absolute ranges. It then uses the same fixture frame/part/ability validator. Missing, partial, duplicate, overlapping, misaligned, unrequested or hash-inconsistent bytes fail. Process-start ticks are emitted as a string to preserve precision for JSON consumers. Artifact consistency is not current target/authenticity proof; all live qualifications remain false and fixture context unavailable.
+
 ## Contract and truth boundaries
 
 The output has schemaVersion1, reader/version, host observedAtUtc, sequence, source hashes/provenance, modules and qualification. `abilities` contains validated unique API-listed IDs and bounded scalar Detail fields; this does not establish learnability, current usability or game bindings. `context` is available only when provided by the source. Optional missing fields remain unknown; false/zero survive. Root SavedVariables addon version is separate from the version that produced a retained capture. The new local data adapter preserves ability targets; the older research crosswalk remains unchanged and deliberately omits private target IDs.
@@ -42,4 +50,4 @@ dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- C:\wor
 node --test tools/tests_reader/test_saved_adapter.mjs tools/verify-rrecollector-saved.mjs
 ```
 
-The package-free C# check executable covers frame/assembly failures, source limits, target/version preservation, context/freshness boundaries and evidence publication. Node tests cover the adapter and legacy literal parser. To verify the actual retained trial, run `tools/tests_reader/verify-reader-evidence.py` with explicit `--repo`, `--saved`, `--scan1`, `--scan2`, and fresh `--output` directory. It compares all54 IDs and every historical fixture field, verifies preserved saved targets and false live qualifications, rejects stale sequence, and confirms no overwrite. It performs no VM access. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.
+The package-free C# check executable covers frame/assembly failures, source limits, target/version preservation, context/freshness boundaries, native request/chunk coherence and evidence publication. Node tests cover the adapter and legacy literal parser. To verify the actual retained trial, run `tools/tests_reader/verify-reader-evidence.py` with explicit `--repo`, `--saved`, `--scan1`, `--scan2`, and fresh `--output` directory. Add `--native-snapshot`, `--native-request` and `--native-session` for the SC620fixture pair. It compares all54 IDs and every historical fixture field, verifies preserved saved targets and false live qualifications, rejects stale sequence, and confirms no overwrite. It performs no VM access. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.

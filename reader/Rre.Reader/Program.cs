@@ -11,9 +11,10 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine("RRE host reader 0.1.0 (offline adapters; no live acquisition)\n"
+                Console.WriteLine("RRE host reader 0.1.1 (offline adapters; no live acquisition)\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
+                    + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "doctor --repo RRE_ROOT\nOutputs one JSON document per invocation; diagnostics go to stderr. Existing files are never overwritten.");
                 return 0;
             }
@@ -28,11 +29,11 @@ public static class Program
                 var node = await OwnedProcess.RunAsync("node", ["--version"], repo, CancellationToken.None);
                 output = new JsonObject
                 {
-                    ["readerVersion"] = "0.1.0", ["dotnet"] = Environment.Version.ToString(),
+                    ["readerVersion"] = "0.1.1", ["dotnet"] = Environment.Version.ToString(),
                     ["nodeAvailable"] = node.ExitCode == 0, ["nodeVersion"] = node.ExitCode == 0 ? node.Stdout.Trim() : null,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
-                    ["adapters"] = new JsonArray("saved", "memory-scan-replay"), ["liveAcquisitionImplemented"] = false,
+                    ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay"), ["liveAcquisitionImplemented"] = false,
                     ["gameInputImplemented"] = false
                 };
             }
@@ -53,6 +54,12 @@ public static class Program
                     Only(options, "--source", "--input", "--session", "--sequence", "--module", "--output");
                     DataRules.Require(long.TryParse(Required(options, "--sequence"), out var sequence), "sequence-format");
                     adapter = new MemoryScanSource(input, Required(options, "--session"), sequence);
+                }
+                else if (source == "native-snapshot")
+                {
+                    Only(options, "--source", "--input", "--request", "--session", "--sequence", "--module", "--output");
+                    DataRules.Require(long.TryParse(Required(options, "--sequence"), out var sequence), "sequence-format");
+                    adapter = new NativeSnapshotSource(input, Path.GetFullPath(Required(options, "--request")), Required(options, "--session"), sequence);
                 }
                 else throw new ReaderFailure("unknown-source");
                 var capture = await adapter.ReadAsync();

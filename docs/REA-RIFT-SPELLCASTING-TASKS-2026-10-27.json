@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC620 existing F414 numeric scout reuse accepted on controlled host:4shifted windows recover unaligned serialized prefixes; exact54 records copied by identity-bound snapshot. SC621 same-reader native artifact adapter next. SC619 host core committed ee2bc27; no live bridge/producer yet. Lab2 only; no FreeBuff/Ollama; broader gates retained.",
+  "status": "2026-11-07 SC621 reader0.1.1 native snapshot replay accepted:73C#20Node checks, four54-ID inputs agree, source/identity/chunk/clock and newline hardening. Legacy500 retains old-SHA collision/pathfinding failures. SC622 RRECollector production memory frames next; live gates remain unaccepted. Goal extended to17:22:21EST minimum. Lab2 only; no FreeBuff/Ollama.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-621",
+  "nextTaskId": "SC-622",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1722,7 +1722,7 @@
       "id": "SC-621",
       "milestone": "SC6",
       "title": "Add exact native-snapshot replay to the existing modular RRE host reader",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-619",
         "SC-620"
@@ -1734,7 +1734,9 @@
         "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.md",
         "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.json",
         "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "tools/rre-reader-saved-snapshot.mjs",
+        "tools/tests_reader/"
       ],
       "researchQuestion": "Can the same host reader consume existing RR2 snapshot/request bytes directly, verify identity/hash/chunk coverage, and assemble the same fixture catalog without the original scanner format?",
       "acceptance": [
@@ -1745,6 +1747,46 @@
         "No live process/VM/addon/controller access, new dependency/backend, cross-repo edit, game input or provider CLI; scoped checkpoint/commit"
       ],
       "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.md",
+        "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.json",
+        "reader/README.md"
+      ],
+      "acceptedScope": "Reader0.1.1 standard native snapshot/request replay,73C#20Node checks and4\u00d754-ID integration; no live addon bridge/producer claim."
+    },
+    {
+      "id": "SC-622",
+      "milestone": "SC6",
+      "title": "Add and qualify a bounded RRECollector serialized memory producer for the host reader",
+      "state": "pending",
+      "dependsOn": [
+        "SC-621"
+      ],
+      "owner": "single RRE manager; read-only implementation reviewers",
+      "lane": "manager-rrecollector-memory-producer",
+      "ownedPaths": [
+        "addons/RRECollector/",
+        "reader/",
+        "tools/verify-rrecollector-package.mjs",
+        "tools/tests_reader/",
+        "tools/tests_wire/",
+        "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md",
+        "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Can the current RRECollector publish a small bounded read-only serialized generation in retained Lua memory, and can the existing acquisition route deliver it to the same host reader with exact version/session/sequence/context evidence?",
+      "acceptance": [
+        "Define strict production RREC2 contract separately from RREC1fixtures; version/session/sequence/part/count/completeness/context and byte bounds; no arbitrary dispatch",
+        "Reuse one existing addon and current manual Capture; preserve prior-good saved captures, clear stale wire on failure/load, publish only complete immutable bounded frames",
+        "Focused Lua and C# malformed/compatibility/source tests, package/TOC/order/reference checks before live steps",
+        "Manager must reconcile latest user authority/currentLab2ownership, exact process/build, source/install/loaded-version three gates before deployment or input; only RRECollector files/TOClast and reviewed existing mouse/reload route",
+        "Existing hash-pinned numeric scout4reference phases + snapshot, exact prefix/session/sequence and independent source/hash/coherency checks; stop on ambiguity/partial not absence",
+        "Compare real Lab2 wire to current saved/API data through one host reader; never claim server/cast/eligibility/restart results from transfer",
+        "No new guest mouse helpers/backend, game memory writes/injection/debugger, cross-repo source edits, Ollama/FreeBuff; checkpoint/commit coherent milestones"
+      ],
+      "gameInputAuthorized": false,
+      "authorizationBeforeLive": "Reconcile current broad user approvals and explicit bridge request with applicable Lab2-only target/addon policy; do source/contract work first, no automatic permission inference from old physical install receipts.",
       "evidence": []
     }
   ],
@@ -2258,5 +2300,18 @@
     "ollamaAllowed": false,
     "resumeRequiresExplicitUserDirective": true,
     "goalPaused": false
+  },
+  "activeGoal20261107": {
+    "startedAtUtc": "2026-11-07T15:22:21Z",
+    "originalMinimumHours": 3,
+    "userExtensionHours": 4,
+    "minimumTotalHours": 7,
+    "earliestCompletionUtc": "2026-11-07T22:22:21Z",
+    "earliestCompletionEastern": "2026-11-07 17:22:21 EST",
+    "extensionReceivedAtUtc": "2026-11-07T18:10:59Z",
+    "status": "active",
+    "onlyLiveTarget": "Lab2",
+    "ollama": false,
+    "freebuff": false
   }
 }

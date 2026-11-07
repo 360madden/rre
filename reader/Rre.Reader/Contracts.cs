@@ -18,8 +18,8 @@ public static class DataRules
     public const int MaxRecords = 512;
     public const int MaxFrameBytes = 8192;
     public const int MaxParts = 16;
-    public static readonly Regex Id = new("^A[0-9A-F]{16}$", RegexOptions.CultureInvariant);
-    public static readonly Regex Session = new("^[0-9a-f]{32}$", RegexOptions.CultureInvariant);
+    public static readonly Regex Id = new("\\AA[0-9A-F]{16}\\z", RegexOptions.CultureInvariant);
+    public static readonly Regex Session = new("\\A[0-9a-f]{32}\\z", RegexOptions.CultureInvariant);
     public static string Sha(byte[] bytes) => Convert.ToHexStringLower(SHA256.HashData(bytes));
     public static void Require(bool condition, string code) { if (!condition) throw new ReaderFailure(code); }
     public static JsonNode Parse(byte[] bytes)
@@ -128,7 +128,7 @@ public static class ObservationModules
         };
         return new JsonObject
         {
-            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.1.0",
+            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.1.1",
             ["observedAtUtc"] = DateTimeOffset.UtcNow.ToString("O"), ["sequence"] = capture.Sequence,
             ["source"] = capture.Evidence.DeepClone(), ["modules"] = modules,
             ["qualification"] = new JsonObject
