@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-628",
+  "status": "source-offline-accepted-live-pending",
+  "createdAtUtc": "2026-11-07T20:29:58.338093+00:00",
+  "collectorVersion": "0.4.13",
+  "readerVersion": "0.1.3",
+  "fields": [
+    "race",
+    "raceName",
+    "zone"
+  ],
+  "newApiCalls": 0,
+  "unitMapLimits": {
+    "0.4.12": 20,
+    "0.4.13": 23
+  },
+  "supportedProducerVersions": [
+    "0.4.12",
+    "0.4.13"
+  ],
+  "rawScalarPolicy": "Missing is unknown; non-string/empty raw values are semantically unqualified; no decoration.",
+  "sourceHashes": {
+    "addons/RRECollector/abilities.lua": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd",
+    "addons/RRECollector/candidate_catalog.lua": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd",
+    "addons/RRECollector/candidates.lua": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85",
+    "addons/RRECollector/capabilities.lua": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef",
+    "addons/RRECollector/context.lua": "5125db3dde63b8c5852f37b98b04285b2e3fd4241e6d938988d6e2251df563e4",
+    "addons/RRECollector/core.lua": "a3db03658a4396e03d673ac2ade5eabb8e9d07f0172658abe7e72fe5b02bae03",
+    "addons/RRECollector/main.lua": "525aca24fa51f4c462cd906212bd75ebe15128617e69b8f4b40326c8bcca6be1",
+    "addons/RRECollector/README.md": "4421c03ca993d7d7736a7fc49687288dd0c2649b2a78a31085d8bb7d362d4d05",
+    "addons/RRECollector/RiftAddon.toc": "defa3c2c00d97361976617359d460453ccf0a9c979505b169b1dfc1113ac3dd2",
+    "addons/RRECollector/ui.lua": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa",
+    "addons/RRECollector/wire.lua": "a2860ede7611de1158a63ffcee678176cfa226e0fe4b98e55550ef046c71b5f4"
+  },
+  "evidenceHashes": {
+    "artifacts/reader-checks-9aaaaaaa6d0d4de4b0220647eeabed56/checks.json": "1eebc777a053b067655f6f446828431f27d22b3e70cebea903d3e589ecded840",
+    "artifacts/sc628-commit-lua51/receipt.json": "efdd7649964195e91fdd10e3ce3f87488921fa4f25358f462e162fbf8dc61b70",
+    "artifacts/sc628-commit-lua53/receipt.json": "cb5a324054d43efe2ed601cc057fb8fe61e22f3bef24ec338b10295eaf2c5600",
+    "artifacts/sc628-original0412-reader.json": "39f7ac3e06242b1990018fcece6b5ebdf396138a0799da2071ca6191b3c2ed34",
+    "artifacts/sc628-fullgate-20261107-1534/validation.json": "d4be2898fb491c47f0ab93cce5013c28590e1ad7c747ce5b7d2dc524944f7388",
+    "artifacts/lab2-live-20261107-0922/recognized-reference-toc.lua": "7fba47c0102c5925a792c9a8edd4e6acb8a2142210a57386633cb5af8ef5acdb"
+  },
+  "checks": {
+    "csharp": 140,
+    "node": 20,
+    "luaRuntimes": [
+      "lua51",
+      "lua53"
+    ],
+    "contextMetadataPerRuntime": 11,
+    "captureLifecyclePerRuntime": 13,
+    "priorPreservationPerRuntime": 10,
+    "syntheticFramesIdentical": true,
+    "historicalFramesIdentical": true,
+    "original0412ModulesExactlyEqual": true,
+    "original0412AbilityRecords": 54,
+    "strictPackageFiles": 11,
+    "recognizedTocReferenceCompared": true,
+    "legacyFullGate": {
+      "tests": 500,
+      "exitCode": 1,
+      "failures": "Unchanged older-build SHA collision/pathfinding guards; sourcesUnchanged=true"
+    }
+  },
+  "reviewers": [
+    "/root/addon_discovery_research",
+    "/root/addon_protocol_research"
+  ],
+  "reviewCorrections": [
+    "versioned normative docs",
+    "target metadata projection tests",
+    "explicit Lua field assertions",
+    "exact original 0.4.12 replay",
+    "raw scalar semantics"
+  ],
+  "installed": false,
+  "loaded": false,
+  "liveOperationsThisMilestone": 0,
+  "lab2ControlWindow": "returned; new coordinated window required",
+  "acquisitionAdapter": "SC625 design only; not implemented"
+}

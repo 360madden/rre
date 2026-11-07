@@ -1,4 +1,4 @@
--- RRECollector v0.4.12: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.13: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA

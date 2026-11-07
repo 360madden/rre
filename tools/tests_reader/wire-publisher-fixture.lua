@@ -2,15 +2,15 @@
 local root, output = assert(arg[1]), assert(arg[2])
 local checks = 0
 local function check(value, reason) assert(value, reason); checks = checks + 1 end
-RRECollectorRuntime = {VERSION = "0.4.12", core = {finite = function(v)
-  return type(v) == "number" and v == v and v ~= math.huge and v ~= -math.huge
-end}}
+dofile(root .. "/addons/RRECollector/core.lua")
+local VERSION = RRECollectorRuntime.VERSION
 local function loadWire() dofile(root .. "/addons/RRECollector/wire.lua"); return RRECollectorRuntime.wire end
 local wire = loadWire()
 local function record(sequence)
-  return {captureComplete = true, addonVersion = "0.4.12", sequence = sequence or 1,
+  return {captureComplete = true, addonVersion = VERSION, sequence = sequence or 1,
     frameTime = 12.125, realTime = 1794078000,
-    player = {id = "uFIXTURE", name = "Bolinao fixture", calling = "rogue", level = 43, combat = false, power = 0},
+    player = {id = "uFIXTURE", name = "Bolinao fixture", calling = "rogue", level = 43, combat = false, power = 0,
+      race = "mathosian", raceName = "Mathosian", zone = "zFIXTURE"},
     roleSlot = 1, capabilities = {player = true},
     abilityList = {apiAvailable = true, batchDetailAvailable = true, enumerationComplete = true,
       rawEntries = 1, uniqueCount = 1, detailCount = 1, detailFailures = 0, duplicates = 0, ignored = 0, truncated = 0, fallbackCalls = 0},

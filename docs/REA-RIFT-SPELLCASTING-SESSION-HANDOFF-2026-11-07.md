@@ -1,4 +1,4 @@
-# RRE current session handoff — 2026-11-07 15:10 EST
+# RRE current session handoff — 2026-11-07 15:31 EST
 
 ## Goal, authority and ownership
 
@@ -9,10 +9,10 @@
 
 ## Git and checkpoint status
 
-- Branchmain. Last verified research/integration commit **ca550b8dac8f0263762d14d2ff36e0f42b4242b7** (SC624 bounded descriptor/PE mapping result); prior838adb6 (SC622 live bridge),9990750 (SC623 source/tests),90ea10a (publisher/reader). Last known-good source commit9990750. Read current Git HEAD/status on resume; a documentation checkpoint may follow this recorded research commit.
-- SC622 live documentation committed838adb6; SC624 bounded-negative report committedca550b8. Both milestones are integrated. This requested checkpoint refresh changes only this handoff; no runtime/source change or new Lab2 operation. No RRE live job/fixture child known running. Both built-in reviewers terminal/read-only.
-- Preserve **nine historical untracked paths**: docs/rc18-v042-host-backup-20261102/, rc19-v043-host-backup-20261102/, rc20-v044-host-backup-20261102/, rc21-v045-host-backup-20261102/, rc23-source-backup-20261102/, rc23-v046-host-backup-20261102/, rc32-v0410-host-backup-20261105/, docs/rea-raw-probe-profile-2026-10-18.json, tools/agents/ghidra/prepare_raw_probe.py. Do not stage/reset them.
-- Workbridge last0runningjobs/36free and0RRE durable owners/tasks; retained historical inventory incomplete at20k. Reconcile before new assignments. Built-in model agents are distinct from Workbridge jobs.
+- Branch main; checkpoint parent6915ca46af7349d6d1598d59c935e228e948edd3. User requested commit. Current milestone collector0.4.13/reader0.1.3 is source/offline accepted, not installed/loaded. Read current HEAD after the scoped commit; this handoff records its parent to avoid self-reference.
+- Owned changes to commit: six collector files; reader README, wire contract, seven core/project files, ProductionChecks; three updated fixtures/runner and new context fixture; SC625 design-only contract; SC626/627 four reports; SC628 report pair; SC register and this handoff. No blanket staging. No supported live acquisition helper was implemented.
+- Preserve nine historical untracked paths: docs/rc18-v042-host-backup-20261102/, rc19-v043-host-backup-20261102/, rc20-v044-host-backup-20261102/, rc21-v045-host-backup-20261102/, rc23-source-backup-20261102/, rc23-v046-host-backup-20261102/, rc32-v0410-host-backup-20261105/, docs/rea-raw-probe-profile-2026-10-18.json, tools/agents/ghidra/prepare_raw_probe.py. Do not stage/reset them.
+- Both built-in read-only investigators finished SC626/627 and SC628 source reviews; source documentation/coverage findings addressed. No new guest operation, provider CLI or running fixture/job. Last Workbridge0running/36free and0RRE durable owners/tasks remains historical.
 
 ## Accepted bridge result and evidence
 
@@ -32,16 +32,18 @@
 
 ## Validation and next work
 
-- Source integration:130C#checks,20Node, hostLua5.3+existingpinnedLua5.1.4:9modulesparse/40synthetic/13Capturewire/10priorpreservation. BothLua runtimes producedidenticalframes; RIFT equivalence still independentlylivebounded. SC623fourcleanupfailureunitcases+fullcontrolledhost54record5part transfer pass.
-- Legacyfullgate oncepercoherentsourceintegration:500tests/exit1sameoldexactbinarySHA collision/pathfinding guards;7othergroupspass, sourcesunchanged. Do not rebaselinepins or repeat500tests for docs. Latest sourcegate artifacts/sc623-fullgate-20261107-1417/validation.json; new.NET/Lua checks are separate.
-- **SC624accepted/parked:** 417validfile-backed originalbytes independentlyverified; initial128B descriptorfile slice invalidated after raw-section boundary QA. Getter1899BF0→18B09D0 is lazytypedescriptorgetter for344A6B0, not C9fieldgetter; noC9access/name inwindow. C9remainsrawAPI-list discriminator for54/134cohort, notlearned/locked/usable. Parkafter2probes. [SC624 report](REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.md), artifacts/sc624-type51-bounded-20261107-1435/mapping-audit.json.
-- SC624deviation: delegated REA rawPE analyze_function implicitlytriggeredfullGhidraimportwithoutmanagerapproval, contraryguard. Cellg108:167 terminated~124s, noREAresult; close_binary returnednull, binary_session openfalse/noanalysis, rootCIMnoJava. No retry. Futureknownnativequeriesmustreuseanalysisorlocalbytewindows unlessexplicitmanagerdirection.
-- Next **offline**: SC622157artifacthash/link checks and SC624source/window/mapping checks passed; both reports are committed. Next register a supported boundedacquisitionadapter behindsamehostreader, usingexistingGuestSession/F414 and explicit UIbinding; source/testfirst, no autoVM/controller/input. Any futurelivecheck requiresnewpeerwindow, currentidentity and exactexpectedUIgeneration. Keep allreplay/live composite/freshness/auth/atomic/restart claims distinct.
+- **SC628 source/offline gate accepted; live pending.** Collector0.4.13 adds exactly race/raceName/zone to existing player/target projection, no new API calls. Reader0.1.3 accepts exactly0.4.12/0.4.13, binds all part/document versions, preserves old20-field maps and permits23 only for0.4.13. Missing is unknown; raw non-string/empty scalars semantically unqualified. No decoration. [Report](REA-RIFT-UNIT-CONTEXT-EXPANSION-2026-11-07.md)/[hashes](REA-RIFT-UNIT-CONTEXT-EXPANSION-2026-11-07.json).
+- Focused checks140C# (artifacts/reader-checks-9aaaaaaa6d0d4de4b0220647eeabed56/checks.json),20Node, pinned Lua5.1/5.3 each11actual context/target/call-count,13Capture lifecycle,10prior preservation plus synthetic publisher checks. artifacts/sc628-commit-lua51/ and -lua53/. Both runtimes produced identical frames. Exact original SC6220.4.12 snapshot/request replays with all modules exactly equal and producerVersion0.4.12: artifacts/sc628-original0412-reader.json. Strict11-file package passes; recognized TOC metadata/environment independently compared.
+- Coherent source fullgate ran once:500tests/exit1, same older-build SHA collision/pathfinding guards, seven othergroups pass, sourcesUnchanged=true. artifacts/sc628-fullgate-20261107-1534/validation.json. No pin rebaseline; no repeat for docs.
+- **SC626/627 completed:** matching-build1940-entry zero-error docs support the three optional fields; no decoration. docs/agents/rre-context-api-reference-2026-11-07.md/.json. Codec research docs/agents/rre-wire-codec-options-2026-11-07.md/.json recommends JSON/Base64 and optimizing scan/RPC first. LibDeflate only a future measured payload-size trial; no library/dependency copied/installed.
+- **SC625 pending, design only:** reader/contract-lab2-acquisition.md proposes explicit publication/window/budget/cleanup bindings. No actual helper/C# live adapter yet.
+- SC624 accepted/parked:417valid file-backed bytes; original128B descriptor slice invalidated by raw/virtual mapping QA. Lazy getter1899BF0→18B09D0/descriptor344A6B0 is not C9 access. RawPE REA full-import deviation was terminated/closed; no retry. See committed report and archive.
+- Next: finalize reviewed0.4.13 ZIP/reader0.1.3 release hashes, then request a specific new Lab2 window from peer. Existing user RRECollector-only OneDrive sync exception/direct coordination approval persist. No guest access before grant/fresh mode/mutex/identity checks. Use actual0.4.12 baseline backups,11files/TOClast/readback, normal reload/manual Capture and version-matching new Saved/wire evidence; return by deadline. External vncdotool only. No Ollama/FreeBuff. Then continue boundedSC625 if useful within the active goal.
 
 ## Archive and machine state
 
 Full prior same-day checkpoint history preserved byte-for-byte at [1455 archive](REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07-1455-ARCHIVE.md), SHA63816617cc340599274009708eda76f1dc3ee5e2bb95f2e1924c855ff9f36ffa. Directory label1455 is an archive label; actual write time is this handoff timestamp. Prior dated handoffs and original evidence remain intact.
 
 ```json
-{"branch":"main","lastResearchCommit":"ca550b8dac8f0263762d14d2ff36e0f42b4242b7","lastSourceCommit":"9990750","goalStatus":"active","earliestCompletionUtc":"2026-11-07T22:22:21Z","onlyLiveTarget":"Lab2","rreLiveLease":"returned","nextTask":"register-unified-acquisition-adapter-before-source-work","ollama":false,"freebuff":false,"pendingApprovals":[],"liveJobsPending":false}
+{"branch":"main","checkpointParent":"6915ca46af7349d6d1598d59c935e228e948edd3","goalStatus":"active","earliestCompletionUtc":"2026-11-07T22:22:21Z","onlyLiveTarget":"Lab2","rreLiveLease":"returned","nextTask":"SC628-package-and-request-new-live-window","collectorSource":"0.4.13","lastAcceptedLiveCollector":"0.4.12","readerSource":"0.1.3","sc625":"design-only","ollama":false,"freebuff":false,"pendingApprovals":[],"liveJobsPending":false}
 ```

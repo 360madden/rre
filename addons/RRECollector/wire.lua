@@ -145,7 +145,7 @@ local CONTEXT = {"player", "target", "roleSlot", "roleNames", "clientVersion", "
 local COUNTS = {"rawEntries", "uniqueCount", "detailCount", "detailFailures", "duplicates", "ignored", "truncated", "fallbackCalls"}
 local UNIT_FIELDS = {}
 for _, key in ipairs({"id", "name", "calling", "level", "role", "health", "healthMax", "power", "powerMax", "mana", "manaMax",
-  "energy", "energyMax", "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ"}) do UNIT_FIELDS[key] = true end
+  "energy", "energyMax", "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ", "race", "raceName", "zone"}) do UNIT_FIELDS[key] = true end
 local CAPABILITIES = {}
 for _, key in ipairs({"frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats"}) do CAPABILITIES[key] = true end
 local function scalarValue(value, maximum)
@@ -161,8 +161,8 @@ local function scalarMap(value, maximum, stringMaximum, allowed, booleans)
   end
 end
 local function validateContext(record)
-  scalarMap(record.player, 20, 2048, UNIT_FIELDS)
-  if record.target ~= nil then scalarMap(record.target, 20, 2048, UNIT_FIELDS) end
+  scalarMap(record.player, 23, 2048, UNIT_FIELDS)
+  if record.target ~= nil then scalarMap(record.target, 23, 2048, UNIT_FIELDS) end
   scalarMap(record.capabilities, 8, 256, CAPABILITIES, true)
   if record.roleNames ~= nil then scalarMap(record.roleNames, 32, 256) end
   if record.stats ~= nil then scalarMap(record.stats, 256, 256) end

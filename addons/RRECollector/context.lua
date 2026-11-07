@@ -6,7 +6,8 @@ local MAX_STATS = 256
 local UNIT_FIELDS = {
   "id", "name", "calling", "level", "role", "health", "healthMax",
   "power", "powerMax", "mana", "manaMax", "energy", "energyMax",
-  "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ"
+  "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ",
+  "race", "raceName", "zone"
 }
 
 local function snapshotContext()

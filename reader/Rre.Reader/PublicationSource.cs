@@ -28,7 +28,7 @@ public sealed class PublicationSource(string input, string session, long sequenc
         return new(publication.Abilities, publication.Context, new JsonObject
         {
             ["kind"] = "publication-artifact-replay", ["path"] = Path.GetFullPath(input), ["sha256"] = DataRules.Sha(bytes),
-            ["bytes"] = bytes.Length, ["producer"] = "RRECollector", ["producerVersion"] = ProductionFrameCodec.AddonVersion,
+            ["bytes"] = bytes.Length, ["producer"] = "RRECollector", ["producerVersion"] = publication.AddonVersion,
             ["publicationContract"] = "RREC2", ["declaredOrigin"] = origin, ["partCount"] = frames.Count,
             ["payloadSha256"] = publication.PayloadSha256, ["payloadBytes"] = publication.PayloadBytes,
             ["counts"] = publication.Counts.DeepClone(), ["expectedSession"] = session,

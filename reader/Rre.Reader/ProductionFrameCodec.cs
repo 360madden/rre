@@ -4,12 +4,14 @@ using System.Text.Json.Nodes;
 
 namespace Rre.Reader;
 
-public sealed record ProductionPublication(JsonArray Abilities, JsonObject Context, JsonObject Counts, string PayloadSha256, int PayloadBytes);
+public sealed record ProductionPublication(JsonArray Abilities, JsonObject Context, JsonObject Counts, string PayloadSha256, int PayloadBytes, string AddonVersion);
 
 /// <summary>Strict RREC2 decoding only. Does not acquire memory or prove source authenticity.</summary>
 public static class ProductionFrameCodec
 {
     public const string AddonVersion = "0.4.12";
+    public const string LatestAddonVersion = "0.4.13";
+    private static bool SupportedVersion(string version) => version is AddonVersion or LatestAddonVersion;
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
     public static JsonObject DecodeFrame(ReadOnlySpan<byte> bytes, string session, long sequence, bool allowContextTail = false)
     {
@@ -34,7 +36,7 @@ public static class ProductionFrameCodec
         DataRules.ExactKeys(body, "schemaVersion", "producer", "addonVersion", "session", "sequence", "part", "parts", "encoding", "payloadBytes", "adler32", "data");
         DataRules.Require(DataRules.Integer(body["schemaVersion"], "production-schema") == 2
             && DataRules.Text(body["producer"], "production-producer") == "RRECollector"
-            && DataRules.Text(body["addonVersion"], "production-version") == AddonVersion
+            && SupportedVersion(DataRules.Text(body["addonVersion"], "production-version"))
             && DataRules.Text(body["encoding"], "production-encoding") == "base64", "production-contract");
         DataRules.Require(DataRules.Session.IsMatch(session) && sequence is > 0 and <= 9_007_199_254_740_991
             && DataRules.Text(body["session"], "production-session") == session
@@ -60,12 +62,14 @@ public static class ProductionFrameCodec
         var sequence = DataRules.Integer(first["sequence"], "production-sequence");
         var payloadBytes = DataRules.Integer(first["payloadBytes"], "production-payload-length");
         var checksum = DataRules.Text(first["adler32"], "production-adler32");
+        var addonVersion = DataRules.Text(first["addonVersion"], "production-version");
         var ordered = new SortedDictionary<long, byte[]>();
         foreach (var body in frames)
         {
             var raw = ValidateBody(body, session, sequence);
             DataRules.Require(DataRules.Integer(body["parts"], "production-parts") == frames.Count
                 && DataRules.Integer(body["payloadBytes"], "production-payload-length") == payloadBytes
+                && DataRules.Text(body["addonVersion"], "production-version") == addonVersion
                 && DataRules.Text(body["adler32"], "production-adler32") == checksum, "production-mixed-publication");
             DataRules.Require(ordered.TryAdd(DataRules.Integer(body["part"], "production-part"), raw), "production-duplicate-part");
         }
@@ -77,7 +81,7 @@ public static class ProductionFrameCodec
         DataRules.ExactKeys(document, "schemaVersion", "producer", "addonVersion", "session", "sequence", "source", "counts", "context", "abilities");
         DataRules.Require(DataRules.Integer(document["schemaVersion"], "production-document-schema") == 1
             && DataRules.Text(document["producer"], "production-document-producer") == "RRECollector"
-            && DataRules.Text(document["addonVersion"], "production-document-version") == AddonVersion
+            && DataRules.Text(document["addonVersion"], "production-document-version") == addonVersion
             && DataRules.Text(document["source"], "production-document-source") == "rift-api"
             && DataRules.Text(document["session"], "production-document-session") == session
             && DataRules.Integer(document["sequence"], "production-document-sequence") == sequence, "production-document-binding");
@@ -104,14 +108,15 @@ public static class ProductionFrameCodec
         if (context["roleSlot"] is JsonValue role && role.GetValueKind() == System.Text.Json.JsonValueKind.String) Nonempty(role, 128);
         else Number(context["roleSlot"]);
         DataRules.Require(DataRules.Boolean(DataRules.Object(context["capabilities"], "production-capabilities")["player"], "production-player-capability"), "production-player-unavailable");
-        ValidateContext(context);
-        return new(abilities, (JsonObject)context.DeepClone(), (JsonObject)counts.DeepClone(), DataRules.Sha(payload), payload.Length);
+        ValidateContext(context, addonVersion);
+        return new(abilities, (JsonObject)context.DeepClone(), (JsonObject)counts.DeepClone(), DataRules.Sha(payload), payload.Length, addonVersion);
     }
-    private static void ValidateContext(JsonObject context)
+    private static void ValidateContext(JsonObject context, string addonVersion)
     {
         string[] unitFields = ["id", "name", "calling", "level", "role", "health", "healthMax", "power", "powerMax", "mana", "manaMax", "energy", "energyMax", "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ"];
-        ScalarMap(context["player"], 20, 2048, unitFields);
-        if(context.ContainsKey("target")) ScalarMap(context["target"], 20, 2048, unitFields);
+        if(addonVersion == LatestAddonVersion) unitFields = [..unitFields, "race", "raceName", "zone"];
+        ScalarMap(context["player"], unitFields.Length, 2048, unitFields);
+        if(context.ContainsKey("target")) ScalarMap(context["target"], unitFields.Length, 2048, unitFields);
         ScalarMap(context["capabilities"], 8, 256, ["frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats"], true);
         if(context.ContainsKey("roleNames")) ScalarMap(context["roleNames"], 32, 256);
         if(context.ContainsKey("stats")) ScalarMap(context["stats"], 256, 256);

@@ -127,7 +127,7 @@ public sealed class NativeSnapshotSource(string input, string requestFile, strin
             ["kind"] = "native-snapshot-replay", ["path"] = inputLabel, ["sha256"] = DataRules.Sha(snapshotBytes),
             ["bytes"] = snapshotBytes.Length, ["requestPath"] = requestLabel, ["requestSha256"] = requestSha,
             ["producer"] = publication is null ? "RRE-feasibility-fixture" : "RRECollector", ["partCount"] = frames.Count,
-            ["producerVersion"] = publication is null ? null : ProductionFrameCodec.AddonVersion,
+            ["producerVersion"] = publication?.AddonVersion,
             ["publicationContract"] = publication is null ? "RREC1-fixture" : "RREC2",
             ["payloadSha256"] = publication?.PayloadSha256, ["payloadBytes"] = publication?.PayloadBytes,
             ["counts"] = publication?.Counts.DeepClone(), ["expectedSession"] = session,

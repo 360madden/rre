@@ -73,41 +73,61 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--saved', required=True, type=Path)
     parser.add_argument('--reader', required=True, type=Path)
+    parser.add_argument('--lua-runtime', choices=['lua53', 'lua51'], default='lua53')
     args = parser.parse_args()
+    version = re.search(r'^Version = "([0-9]+\.[0-9]+\.[0-9]+)"$', (ROOT / 'addons/RRECollector/RiftAddon.toc').read_text(encoding='utf-8'), re.M).group(1)
     out = args.output.resolve(); out.mkdir(parents=True, exist_ok=False)
-    paths = [ROOT / 'addons/RRECollector/wire.lua', ROOT / 'addons/RRECollector/main.lua', ROOT / 'addons/RRECollector/core.lua', Path(__file__),
+    paths = [ROOT / 'addons/RRECollector/wire.lua', ROOT / 'addons/RRECollector/main.lua', ROOT / 'addons/RRECollector/core.lua',
+             ROOT / 'addons/RRECollector/context.lua', ROOT / 'addons/RRECollector/RiftAddon.toc', Path(__file__),
              ROOT / 'tools/tests_reader/wire-publisher-fixture.lua', ROOT / 'tools/tests_reader/capture-wire-lifecycle.lua',
+             ROOT / 'tools/tests_reader/context-metadata-fixture.lua',
              ROOT / 'tools/verify-rrecollector-capture-preserve.lua', ROOT / 'tools/rre-reader-saved-snapshot.mjs',
              ROOT / 'tools/read-rrecollector-saved.mjs', args.reader, args.saved]
     before = {str(p): sha(p) for p in paths}
-    runtime_before = lua_runtime.all_hashes(); lua_runtime.check_runtime(runtime_before)
-    env = dict(os.environ); env['PATH'] = str(lua_runtime.LUA_DLL.parent) + os.pathsep + env.get('PATH', '')
+    if args.lua_runtime == 'lua53':
+        exe, dll = lua_runtime.LUA_EXE, lua_runtime.LUA_DLL
+        runtime_hashes = lua_runtime.all_hashes
+        runtime_before = runtime_hashes(); lua_runtime.check_runtime(runtime_before)
+    else:
+        exe = ROOT / 'artifacts/sc103-lua51-msvc-20261104-1925-v1/lua.exe'
+        dll = exe.with_name('lua51.dll')
+        def runtime_hashes(): return {'luaExe':sha(exe), 'luaDll':sha(dll)}
+        runtime_before = runtime_hashes()
+        assert runtime_before == {'luaExe':'6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67',
+                                  'luaDll':'9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096'}
+        win = Path(os.environ.get('SystemRoot', r'C:\Windows'))
+        for folder in [exe.parent, ROOT, win, win/'System', win/'System32', win/'SysWOW64']:
+            candidate = folder / dll.name
+            if candidate.is_file(): assert sha(candidate) == runtime_before['luaDll'], 'unqualified-shadow-DLL'
+    env = dict(os.environ); env['PATH'] = str(dll.parent) + os.pathsep + env.get('PATH', '')
     synthetic = out / 'synthetic.frames.txt'
-    stdout = run([lua_runtime.LUA_EXE, ROOT / 'tools/tests_reader/wire-publisher-fixture.lua', ROOT, synthetic], env)
+    stdout = run([exe, ROOT / 'tools/tests_reader/wire-publisher-fixture.lua', ROOT, synthetic], env)
     assert re.fullmatch(rb'RRE_WIRE_FIXTURE_PASS [0-9]+\r?\n', stdout)
-    preservation = run([lua_runtime.LUA_EXE, ROOT / 'tools/verify-rrecollector-capture-preserve.lua'], env)
+    preservation = run([exe, ROOT / 'tools/verify-rrecollector-capture-preserve.lua'], env)
     assert re.fullmatch(rb'PASS [0-9]+ RC-27 capture preservation assertions \(mock handler\)\r?\n', preservation)
-    lifecycle = run([lua_runtime.LUA_EXE, ROOT / 'tools/tests_reader/capture-wire-lifecycle.lua', ROOT], env)
+    lifecycle = run([exe, ROOT / 'tools/tests_reader/capture-wire-lifecycle.lua', ROOT], env)
     assert re.fullmatch(rb'SC622_CAPTURE_WIRE_LIFECYCLE_PASS [0-9]+\r?\n', lifecycle)
+    context_metadata = run([exe, ROOT / 'tools/tests_reader/context-metadata-fixture.lua', ROOT], env)
+    assert re.fullmatch(rb'SC628_CONTEXT_METADATA_PASS [0-9]+\r?\n', context_metadata)
     exported = json.loads(run(['node', ROOT / 'tools/rre-reader-saved-snapshot.mjs', args.saved]))
     assert exported['sourceSha256'] == sha(args.saved)
-    record = dict(exported['context'], addonVersion='0.4.12', sequence=exported['sequence'],
+    record = dict(exported['context'], addonVersion=version, sequence=exported['sequence'],
                   captureComplete=True, abilityList=exported['counts'], abilities=exported['abilities'])
     historical = out / 'historical.frames.txt'
     script = out / 'historical-fixture.lua'
-    script.write_text('RRECollectorRuntime={VERSION="0.4.12",core={finite=function(v) return type(v)=="number" and v==v and v~=math.huge and v~=-math.huge end}}\n'
+    script.write_text('dofile(' + literal(str(ROOT / 'addons/RRECollector/core.lua')) + ')\n'
         + 'dofile(' + literal(str(ROOT / 'addons/RRECollector/wire.lua')) + ')\n'
         + 'local r=' + literal(record) + '\n'
         + 'local p=RRECollectorRuntime.wire.publish(r); assert(p.status=="complete",p.reason)\n'
         + 'local f=assert(io.open(' + literal(str(historical)) + ',"wb")); f:write("RRE_WIRE_FIXTURE_PASS 0 ",p.session," ",p.sequence," ",p.parts,"\\n")\n'
         + 'for _,v in ipairs(RRECollector_WireFrames) do f:write(v,"\\n") end; f:close()\n', encoding='utf-8')
-    run([lua_runtime.LUA_EXE, script], env)
+    run([exe, script], env)
     receipts = []
     for label, source in [('synthetic', synthetic), ('historical54', historical)]:
         result = unpack(source)
         artifact = out / f'{label}.publication.json'
         artifact.write_text(json.dumps(dict(schemaVersion=1, evidenceKind='rrec2-publication-artifact/1',
-            origin='offline-lua53-fixture-' + label, frames=result['frames']), separators=(',', ':')), encoding='utf-8')
+            origin='offline-' + args.lua_runtime + '-fixture-' + label, frames=result['frames']), separators=(',', ':')), encoding='utf-8')
         output = out / f'{label}.reader.json'
         run(['dotnet', args.reader, 'capture', '--source', 'publication', '--input', artifact,
              '--session', result['session'], '--sequence', result['sequence'], '--output', output])
@@ -115,6 +135,7 @@ def main():
         assert decoded['modules']['abilities']['records'] == result['document']['abilities']
         assert decoded['modules']['context']['value'] == result['document']['context']
         assert decoded['source']['payloadSha256'] == result['payloadSha256']
+        assert decoded['source']['producerVersion'] == version
         q = decoded['qualification']
         assert not q['fixture'] and all(q[k] is False for k in ['live', 'freshnessVerified', 'processBuildVerified', 'atomicSnapshotVerified', 'restartQualified', 'runtimeProducerVerified', 'sourceAuthenticityVerified'])
         if label == 'historical54':
@@ -128,17 +149,20 @@ def main():
             row = result['document']['abilities'][0]
             assert row['name'] == 'Éclair 水 😀' and row['passive'] is False and row['cooldown'] == 0 and row['target'] == 'uTARGET'
             assert result['document']['context']['player']['power'] == 0 and result['document']['context']['player']['combat'] is False
+            assert {k:result['document']['context']['player'][k] for k in ['race','raceName','zone']} == {'race':'mathosian','raceName':'Mathosian','zone':'zFIXTURE'}
+            assert 'decoration' not in result['document']['context']['player']
         receipts.append(dict(case=label, session=result['session'], sequence=result['sequence'], parts=len(result['frames']),
             payloadBytes=result['payloadBytes'], payloadSha256=result['payloadSha256'], luaChecks=result['luaChecks'],
             artifactSha256=sha(artifact), outputSha256=sha(output), abilities=len(result['document']['abilities'])))
     assert before == {str(p): sha(p) for p in paths}, 'source drift'
-    assert runtime_before == lua_runtime.all_hashes(), 'runtime drift'
-    receipt = dict(status='passed', runtimeHashes=runtime_before, sourceHashes=before, cases=receipts,
-                   historicalSourceVersion=exported['addonVersion'], offlineFixtureRetaggedVersion='0.4.12',
+    assert runtime_before == runtime_hashes(), 'runtime drift'
+    receipt = dict(status='passed', runtime=args.lua_runtime, runtimeHashes=runtime_before, sourceHashes=before, cases=receipts,
+                   historicalSourceVersion=exported['addonVersion'], offlineFixtureRetaggedVersion=version,
                    capturePreservation=preservation.decode('ascii').strip(), captureWireLifecycle=lifecycle.decode('ascii').strip(),
+                   contextMetadata=context_metadata.decode('ascii').strip(),
                    emptySavedContextTablesNormalizedToMaps=True,
                    gameExecution=False, liveAcceptance=False,
-                   limit='Host Lua5.3 offline checks; no RIFT Lua5.1 load, VM read, addon deployment, or memory acquisition.')
+                   limit='Pinned host Lua offline checks; no RIFT runtime load, VM read, addon deployment, or memory acquisition.')
     (out / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(dict(status='passed', output=str(out), cases=receipts)))
 

@@ -1,0 +1,17 @@
+# Lab2 acquisition adapter v1 — design only (SC625)
+
+This proposed contract would add one read-only acquisition source behind the existing RRE reader. It reuses the existing host Python environment, RR2 GuestSession/VM identity/mutex code and the installed F414 native reader. It neither installs software nor deploys addons, enters input, starts a controller, injects code or writes game memory.
+
+The caller supplies an explicit publication binding and an unexpired coordinated control-window record. These files record operator context; they are not authentication or permission grants. A past handoff never authorizes a new operation.
+
+Binding JSON has exactly: schemaVersion=1, evidenceKind=`rre-lab2-publication-binding/1`, processId (positive32-bit integer), processStartUtcTicks (canonical positive decimal string), executableSha256 (the current1935a05c build), addonVersion (exactly `0.4.12` or `0.4.13`), session (32lowerhex), sequence (positive safe integer), parts (1..16), payloadBytes (1..65536 with parts=ceil(bytes/4096)), imagePath (original PNG under this repo's artifacts), imageSha256, observedAtUtc (UTC timestamp). The image hash is verified; image contents/visual review and cryptographic producer authorship are not inferred by the reader. Binding age≤15minutes.
+
+Window JSON has exactly: schemaVersion=1, evidenceKind=`rre-lab2-window/1`, target=`Lab2`, startsAtUtc, endsAtUtc and owner (nonempty≤256characters). Duration≤15minutes. The operation starts inside that interval with≥60seconds remaining. The helper acquires the existing console mutex nonabandoned and verifies the exact fixed Lab2 VMX/port before guest operations. No force release, queue reset or automatic native-controller startup is defined.
+
+The helper pins existing dependency bytes and F414 bundle, obtains fresh actual guest process/start/executable SHA, then performs at most3 scout passes, each≤1GiB/5seconds/128matches. Four references at exact expected prefix offsets34..37 cover absolute alignment; candidate frame starts are computed from matched offsets and exact prefix bytes. Partial coverage/holes/caps are retained, not converted to absence. Resume uses the reported cursor without incrementing it. Duplicate or saturated frame-start sets fail closed; this first adapter requires exactly the expected part count and no ambiguous aliases.
+
+Five or other complete expected frames are copied with standard snapshot-native at≤8KiB per range. The existing strict native-snapshot/RREC2 decoder remains the semantic authority. The host verifies expected process/build/session/sequence/parts/payload length plus helper/request/source hashes. All guest request/output data uses unique RRE-owned paths and hash-guarded nonrecursive cleanup; host evidence remains in a fresh repo artifacts directory.
+
+Helper timeout/budget is bounded and records incomplete cleanup instead of claiming success. It emits a manifest only after guest cleanup and complete native snapshot publication. Child cancellation may require recovery of the recorded guest artifact scope; it must never silently retry. No live qualification is accepted until a new coordinated Lab2 trial actually exercises this adapter.
+
+The output distinguishes active acquisition from data qualification: source evidence records the current read and control window, while the existing live/freshness/authentication/atomicity/restart qualification flags remain false. Reading a retained publication now does not make its API snapshot fresh, prove installed Lua byte authorship, or establish server/cast outcomes.

@@ -19,7 +19,7 @@ public static class ProductionChecks
             catch (Exception e) when (e is ReaderFailure or JsonException or FormatException or ArgumentException) { passed.Add(name); return; }
             throw new Exception("Production invalid input accepted: " + name);
         }
-        ProductionPublication Decode(JsonObject doc) => ProductionFrameCodec.Assemble(Frames(Bytes(doc)).Select(b => ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2)).ToList());
+        ProductionPublication Decode(JsonObject doc) => ProductionFrameCodec.Assemble(Frames(Bytes(doc),DataRules.Text(doc["addonVersion"],"fixture-version")).Select(b => ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2)).ToList());
         void BadDoc(string name, Action<JsonObject> mutate) { Reject(name, () => { var d = Document(); mutate(d); Decode(d); }); }
         void BadBody(string name, Action<JsonObject> mutate) { Reject(name, () => { var b = Frames(Bytes(Document()))[0]; mutate(b); ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2); }); }
         Accept("production Unicode false zero and target survive", () =>
@@ -37,6 +37,20 @@ public static class ProductionChecks
         Accept("production scalar fallback accepted", () => { var d=Document();d["counts"]!["batchDetailAvailable"]=false;d["counts"]!["fallbackCalls"]=1;Decode(d); });
         Accept("production duplicate-list accounting accepted", () => { var d=Document();d["counts"]!["rawEntries"]=2;d["counts"]!["duplicates"]=1;Decode(d); });
         Accept("Adler32 independent RFC vector", () => { if(ProductionFrameCodec.Adler32("Wikipedia"u8)!="11e60398")throw new Exception("Adler32"); });
+        Accept("production0413 optional unit metadata preserved",()=>
+        {
+            var d=Document("0.4.13");var p=d["context"]!["player"]!;p["race"]="mathosian";p["raceName"]="Mathosian";p["zone"]="zOPAQUE";
+            var result=Decode(d);if(result.AddonVersion!="0.4.13" || result.Context["player"]!["zone"]!.GetValue<string>()!="zOPAQUE")throw new Exception("metadata loss");
+        });
+        Accept("production0413 absent metadata remains unknown",()=>{var p=Decode(Document("0.4.13"));if(p.Context["player"]!.AsObject().ContainsKey("race"))throw new Exception("invented metadata");});
+        Accept("production0413 raw metadata scalar types retained",()=>{var d=Document("0.4.13");d["context"]!["player"]!["race"]=false;d["context"]!["player"]!["raceName"]=0;var p=Decode(d);if(p.Context["player"]!["race"]!.GetValue<bool>() || p.Context["player"]!["raceName"]!.GetValue<int>()!=0)throw new Exception("scalar loss");});
+        BadDoc("production0412 does not silently gain new fields",d=>d["context"]!["player"]!["race"]="mathosian");
+        Accept("production0413 target metadata retained",()=>{var d=Document("0.4.13");d["context"]!["target"]=new JsonObject{["race"]="mathosian",["raceName"]="Mathosian",["zone"]="zTARGET"};if(Decode(d).Context["target"]!["zone"]!.GetValue<string>()!="zTARGET")throw new Exception("target metadata loss");});
+        BadDoc("production0412 target metadata rejected",d=>d["context"]!["target"]=new JsonObject{["race"]="mathosian"});
+        Reject("production document and frame versions must agree",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.12");ProductionFrameCodec.Assemble(b);});
+        Reject("production mixed supported frame versions rejected",()=>{var d=Document();d["abilities"]![0]!["description"]=new string('x',4096);var b=Frames(Bytes(d));b[1]["addonVersion"]="0.4.13";ProductionFrameCodec.Assemble(b);});
+        Reject("production0413 undocumented decoration rejected",()=>{var d=Document("0.4.13");d["context"]!["player"]!["decoration"]=1704;Decode(d);});
+        Accept("production0413 native carrier reports actual producer version",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.13")[0];var(r,s)=NativeChecks.Fixture(Wire(b));var c=NativeSnapshotSource.Decode(Bytes(s),Bytes(r),Session,2);if(c.Evidence["producerVersion"]!.GetValue<string>()!="0.4.13")throw new Exception("wrong version");});
         Accept("production native snapshot carrier preserves contract context", () =>
         {
             var body=Frames(Bytes(Document()))[0];var (request,snapshot)=NativeChecks.Fixture(Wire(body));
@@ -97,12 +111,12 @@ public static class ProductionChecks
         return passed;
     }
     private static byte[] Bytes(JsonObject d)=>Encoding.UTF8.GetBytes(d.ToJsonString(JsonOptions));
-    private static List<JsonObject> Frames(byte[] payload)
+    private static List<JsonObject> Frames(byte[] payload,string addonVersion="0.4.12")
     {
         var result=new List<JsonObject>();var parts=(payload.Length+4095)/4096;
         for(var part=1;part<=parts;part++)result.Add(new JsonObject
         {
-            ["schemaVersion"]=2,["producer"]="RRECollector",["addonVersion"]="0.4.12",["session"]=Session,["sequence"]=2,
+            ["schemaVersion"]=2,["producer"]="RRECollector",["addonVersion"]=addonVersion,["session"]=Session,["sequence"]=2,
             ["part"]=part,["parts"]=parts,["encoding"]="base64",["payloadBytes"]=payload.Length,
             ["adler32"]=ProductionFrameCodec.Adler32(payload),["data"]=Convert.ToBase64String(payload.AsSpan((part-1)*4096,Math.Min(4096,payload.Length-(part-1)*4096)))
         });
@@ -113,9 +127,9 @@ public static class ProductionChecks
         var b=Encoding.ASCII.GetBytes(body.ToJsonString());
         return Encoding.ASCII.GetBytes($"RREC2|{Session}|{2:X16}|{b.Length:X8}|").Concat(b).Concat("|ENDRREC2"u8.ToArray()).ToArray();
     }
-    private static JsonObject Document()=>new()
+    private static JsonObject Document(string addonVersion="0.4.12")=>new()
     {
-        ["schemaVersion"]=1,["producer"]="RRECollector",["addonVersion"]="0.4.12",["session"]=Session,["sequence"]=2,["source"]="rift-api",
+        ["schemaVersion"]=1,["producer"]="RRECollector",["addonVersion"]=addonVersion,["session"]=Session,["sequence"]=2,["source"]="rift-api",
         ["counts"]=new JsonObject{["apiAvailable"]=true,["batchDetailAvailable"]=true,["enumerationComplete"]=true,["rawEntries"]=1,["uniqueCount"]=1,["detailCount"]=1,["detailFailures"]=0,["duplicates"]=0,["ignored"]=0,["truncated"]=0,["fallbackCalls"]=0},
         ["context"]=new JsonObject{["player"]=new JsonObject{["id"]="uFIXTURE",["name"]="Fixture",["calling"]="rogue",["level"]=43},["roleSlot"]=1,["frameTime"]=1.5,["realTime"]=2.5,["capabilities"]=new JsonObject{["player"]=true}},
         ["abilities"]=new JsonArray(new JsonObject{["lookupId"]="A0000000100000000",["name"]="Éclair 水 😀",["passive"]=false,["cooldown"]=0,["target"]="uTARGET"})

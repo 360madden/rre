@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-627",
+  "status": "accepted-keep-current-codec-prioritize-scan-rpc",
+  "createdAtUtc": "2026-11-07T20:19:49.778804+00:00",
+  "baseline": {
+    "payloadBytes": 18226,
+    "parts": 5,
+    "scanAttemptedBytes": 749604864,
+    "scanApproxSeconds": 5.1,
+    "snapshotBytes": 40960,
+    "snapshotApproxMilliseconds": 96.7
+  },
+  "decision": "KeepcurrentJSON/Base64. If payloadsizebecomesbottleneck, exact-payload benchmarkpinnedLibDeflatezlib first; no codec/libraryintakenow.",
+  "options": [
+    {
+      "name": "dkjson2.11",
+      "route": "pureLua5.1-5.5/MIT",
+      "decision": "no sizebenefit; generic serializer assurance reset",
+      "source": "https://dkolf.de/dkjson-lua/documentation"
+    },
+    {
+      "name": "rxi/json.lua",
+      "route": "pureLua5.1+/MIT",
+      "decision": "no transportbenefit; decodednull\u2192nil",
+      "source": "https://github.com/rxi/json.lua"
+    },
+    {
+      "name": "lua-MessagePack",
+      "route": "pureLua5.1variant/MIT-X11; C#NuGet",
+      "decision": "defer; stringkeys/Base64remain, number/schemaqualification",
+      "source": "https://fperrad.frama.io/lua-MessagePack/"
+    },
+    {
+      "name": "Lua-CBOR",
+      "route": "Lua5.1-5.4; optionalstruct/bitops; licenseunprovedfromaccessiblepage",
+      "decision": "notcurrentfit; text/byte andarray/maprulesneedadaptation",
+      "source": "https://www.zash.se/lua-cbor.html"
+    },
+    {
+      "name": "LibDeflate",
+      "route": "pureLua5.1+/zliblicense; builtinC#ZLibStream",
+      "decision": "futurebenchmarkonlyifsizeproblemmeasured",
+      "source": "https://github.com/SafeteeWoW/LibDeflate/blob/main/README.md"
+    }
+  ],
+  "noRreCompressionBenchmarkPerformed": true,
+  "dependencyInstalled": false,
+  "libraryCopied": false,
+  "liveOperations": false,
+  "worker": "built-in read-only addon_protocol_research"
+}
