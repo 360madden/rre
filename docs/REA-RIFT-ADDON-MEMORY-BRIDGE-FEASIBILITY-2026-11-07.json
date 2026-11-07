@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-618",
+  "status": "conditional-go-for-modular-host-reader-and-outbound-prototype",
+  "liveLab2BridgeQualified": false,
+  "decision": "Use one RRE-owned host reader with separate acquisition, strict envelope/assembly, feature modules and output. Prefer serialized addon frames over speculative nested Lua-table traversal. Reuse existing acquisition tools first.",
+  "userClarification": "Lab2 addons publish back to RRE physical-host consumers; one main multifunction modular reader for the repo. No all-host-only acquisition requirement inferred.",
+  "studyStartedAtUtc": "2026-11-07T17:10:49Z",
+  "reportCreatedAtUtc": "2026-11-07T17:29:35.647127+00:00",
+  "existingToolRejection": {
+    "exitCode": 2,
+    "durationMs": 170.27569998754188,
+    "sha256": "f4148b838af694ef95fd46de76859ce9df55194a9fe8be1df74fc2f8f0bce80f",
+    "outputCreated": false
+  },
+  "syntheticProof": {
+    "rr2MarkerRejection": {
+      "exitCode": 2,
+      "durationMs": 170.27569998754188,
+      "sha256": "f4148b838af694ef95fd46de76859ce9df55194a9fe8be1df74fc2f8f0bce80f",
+      "outputCreated": false
+    },
+    "syntheticHostFixtureOnly": true,
+    "riftProcessRead": false,
+    "guestOperations": 0,
+    "addonChanged": false,
+    "reader": {
+      "exe": "C:\\rift modding\\RiftReader\\reader\\RiftReader.Reader\\bin\\Release\\net10.0-windows\\RiftReader.Reader.exe",
+      "exeSha256": "aca92f1ea60becc3351a7fb46e24c5e44d925b7948ff8e532e1c5edac3d098b9",
+      "dllSha256": "938c0bd27fdfb1f634392c03c7fecfe4cd5b11960bf159f84fe95bf7675481af"
+    },
+    "captures": [
+      {
+        "sequence": 1,
+        "exitCode": 0,
+        "wallMilliseconds": 174.30269997566938,
+        "returnedContexts": 3,
+        "partCount": 3,
+        "frameBytes": [
+          7993,
+          8167,
+          492
+        ],
+        "all54ExactRecordsTransferred": true,
+        "joinedRecordsSha256": "088345f668a43e553b3a4915ac07ea4099c98e96544212fc35f153702be41882",
+        "reportSha256": "84aaa7829bdb30b63482aa9fccc8faee6f6950804e687909a8ffdaf442e36510"
+      },
+      {
+        "sequence": 2,
+        "exitCode": 0,
+        "wallMilliseconds": 164.64099998120219,
+        "returnedContexts": 3,
+        "partCount": 3,
+        "frameBytes": [
+          7993,
+          8167,
+          492
+        ],
+        "all54ExactRecordsTransferred": true,
+        "joinedRecordsSha256": "088345f668a43e553b3a4915ac07ea4099c98e96544212fc35f153702be41882",
+        "reportSha256": "5154f983efd298c9bd8780ad39171128c3114d421594c177160b75d187501c30"
+      }
+    ],
+    "negativeControls": [
+      "stale-sequence",
+      "duplicate-part",
+      "missing-part"
+    ],
+    "status": "passed",
+    "fixtureExited": true
+  },
+  "envelopeAudit": {
+    "status": "passed",
+    "positivePublicationChecks": [
+      "exact54 records/publication1/3parts/8KiBcap/exact schema",
+      "exact54 records/publication2/3parts/8KiBcap/exact schema"
+    ],
+    "negativeControls": [
+      "truncated frame",
+      "trailing bytes",
+      "wrong session",
+      "stale sequence",
+      "bad length digit",
+      "oversize",
+      "bad suffix",
+      "missing part",
+      "duplicate part",
+      "mixed/torn publication",
+      "mixed load identity",
+      "unknown field",
+      "wrong producer",
+      "part zero",
+      "part budget",
+      "boolean sequence",
+      "nonASCII wire",
+      "duplicate JSON property",
+      "nonfinite JSON number"
+    ],
+    "negativeCount": 19,
+    "productionDecoderImplemented": false,
+    "gameOrLuaRuntimeTest": false
+  },
+  "sourceAuditSha256": "6fdbf7ba419be942da62adf59652907214c068a14b0aafcf92a39e98dcaabb12",
+  "sourceManifest": [
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/TypedApiPrefixMatcher.cs",
+      "sha256": "7b9099a805fcc776d0c78c35ad55ba5794f6709d364b812c981438fd7969a67b",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/TypedApiPrefixMatcher.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/MemoryDiscoveryCommand.cs",
+      "sha256": "c2f0d0d04421fc23428a8024d4205c5baa0f30af9d4b21fec964c2e499177bad",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/MemoryDiscoveryCommand.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/NativeCommandRunner.cs",
+      "sha256": "d522ca96c4a52b7384b33ecf6d7719f0542d9249dbd12f20498de4f7b3b2d19b",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/NativeCommandRunner.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "60acdfba0229a840deb13ee7eb3f7d988ad96c0c",
+      "path": "src/RiftReader2.Cli/TypedWireSnapshotCommand.cs",
+      "sha256": "c856937aaea9862970b18743e7217aa5cf12585d682c2a9824d17f22ca528d2b",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Cli/TypedWireSnapshotCommand.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "60acdfba0229a840deb13ee7eb3f7d988ad96c0c",
+      "path": "src/RiftReader2.Live/TypedApiImmediateNeighborhood.cs",
+      "sha256": "0dd748da08001f79747f1a80e2bc0110d066d3f876efe26f1943866f2b37e026",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/TypedApiImmediateNeighborhood.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "60acdfba0229a840deb13ee7eb3f7d988ad96c0c",
+      "path": "src/RiftReader2.Live/CastingReferenceInlineCaptureCore.cs",
+      "sha256": "caccb8495cba69678742c2fbe1cf9816e73dd801f72871b4b054692f87fd1c20",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/CastingReferenceInlineCaptureCore.cs"
+    },
+    {
+      "repo": "C:\\work\\riftreader2",
+      "commit": "60acdfba0229a840deb13ee7eb3f7d988ad96c0c",
+      "path": "src/RiftReader2.Live/CastingReferenceInlineCaptureCommand.cs",
+      "sha256": "9c7a90121953b15c23bd88533e7c300a82b4d7e49cdc28f16370293d62b6870c",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/CastingReferenceInlineCaptureCommand.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "reader/RiftReader.Reader/Cli/ReaderOptionsParser.cs",
+      "sha256": "fe3011c637bc9e8f7fa32679145fc47bfd81b5b36dbf37e96788d30959478bad",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Cli/ReaderOptionsParser.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "reader/RiftReader.Reader/Program.cs",
+      "sha256": "d34b5ca4dbbf31319b57f66e75eddca667fa9cc703fe7ddcb5c66633ef18db15",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Program.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "reader/RiftReader.Reader/Scanning/ProcessStringScanner.cs",
+      "sha256": "93141da64bd5884e6e48f1a90150cfd050fcbc2b644c0ba4e48a01798c27820c",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Scanning/ProcessStringScanner.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "reader/RiftReader.Reader/Memory/ProcessMemoryReader.cs",
+      "sha256": "3cf127bbcaaa9e648fb4a95c722fd3fca16e9ac6ba183fd5436c5e9ac35d3c34",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Memory/ProcessMemoryReader.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "reader/RiftReader.Reader/Memory/ProcessMemoryRegion.cs",
+      "sha256": "13a31b538eaeb432cadce6e4fe12a041bac558ad7e3195a08091bc35a8cc34d6",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Memory/ProcessMemoryRegion.cs"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "scripts/lua_memory/__main__.py",
+      "sha256": "3e2dcbc731e8d6c2befd6c5f87e1d43a45179031850c9b0dfde95fb21ba40b94",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/__main__.py"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "scripts/lua_memory/reader.py",
+      "sha256": "2d50332ae37df13361d74efaba4e0e2daa92057717651d0fc4d4e8ab88361eb5",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/reader.py"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "scripts/lua_memory/lua_types.py",
+      "sha256": "a20ad483d3c8371edcc33aa0b190590069fa10f70d3e8cf12097fac81d65a4a3",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/lua_types.py"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "scripts/lua_memory/scanner.py",
+      "sha256": "22d06f6e8cac5f4fa03aab3d334cb59b84838e3c82f7e8e52ed1790c9ed07635",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/scanner.py"
+    },
+    {
+      "repo": "C:\\rift modding\\RiftReader",
+      "commit": "099ddf8bf62d3076e3f9712fd243d86cf79e86c9",
+      "path": "scripts/lua_memory/process.py",
+      "sha256": "53af3cfa93ebe2571b3d8cee855cd70557805ba06609d4609ff9956310c39957",
+      "retainedPath": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/process.py"
+    }
+  ],
+  "architecture": {
+    "producer": "RRECollector in Lab2, bounded retained serialized observations",
+    "hostEntryPoint": "one RRE-owned modular reader; implementation language C# proposed, common JSON/JSONL contract for PowerShell and other consumers",
+    "layers": [
+      "acquisition adapters",
+      "strict frame validation/assembly and source/identity binding",
+      "ability/context/event/diagnostic modules",
+      "JSON/JSONL and immutable evidence outputs"
+    ],
+    "qualifiedCurrentCarrier": "SavedVariables after normal save, existing literal-only parser reused",
+    "memoryCarrier": "proposed; acquisition reuse verified only on controlled host fixture, not installed Lab2",
+    "direction": "addon-to-consumer only",
+    "control": "reviewed external mouse and explicit addon completion receipts; no arbitrary inbound/memory writes"
+  },
+  "missingBeforeLive": [
+    "RRE-owned Lua frame producer with exact version/TOC/package/source gates",
+    "Current Lab2 generic locator/reader binary and runtime availability, or separately qualified host acquisition adapter",
+    "Exact VM/process/start/build/player/load/session binding and UI-visible request completion",
+    "Bounded initial discovery plus stale/GC/relocation handling; no highest-sequence-across-unknown-load shortcut",
+    "Two coherent complete advancing publications; source clock/data change tests where a freshness claim is intended",
+    "Guest-to-host transfer and complete end-to-end timing; no two-sample host timing extrapolation",
+    "Restart/load-regression and stale/partial/torn/duplicate/overflow negative acceptance"
+  ],
+  "hostOnlyAlternative": {
+    "project": "LeechCore/MemProcFS",
+    "documentationUrl": "https://github.com/ufrisk/LeechCore/wiki/Device_VMWare",
+    "readOnlyExample": "vmware://ro=1,id=<Lab2-vmware-vmx-PID>",
+    "newDependencyAndElevatedHostRequired": true,
+    "tpmSecureBootExcludedByDocs": true,
+    "runtimeTested": false,
+    "installed": false,
+    "selectedAsDefault": false
+  },
+  "noChanges": {
+    "RiftProcessMemoryRead": true,
+    "gameMemoryWrite": true,
+    "injectionDebugger": true,
+    "guestOperations": true,
+    "addonSourceOrInstall": true,
+    "controller": true,
+    "externalRepoSource": true,
+    "softwareInstall": true,
+    "ollama": true,
+    "freebuff": true
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/audit-envelope.py",
+      "sha256": "4a9ee788f3db2bc64ae07f6cf0a7304ec988728f265a545351ba06b67f5a6d3e",
+      "bytes": 5425
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/envelope-audit.json",
+      "sha256": "ae06641981ac363cf27bf6ddd92ad92675a19601784af36fd697a5a3fcd14135",
+      "bytes": 775
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/feasibility-probe.json",
+      "sha256": "2147cfa13b6aeb81f211a3aa7297c306a863dcab15ea2750a341c3a5c4c7458d",
+      "bytes": 1746
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/retain-sources.py",
+      "sha256": "bc6df7f54772100ea3afe1412a87e32127642a52912ea9bdc5d7edc53662647f",
+      "bytes": 3418
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/rr2-marker-rejection.stderr.txt",
+      "sha256": "00b979c53c6dea37d4f85fd04cb35f87cf9d3ee6d4ba72cd414fb5e4455a4ff5",
+      "bytes": 81
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/rr2-marker-rejection.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/scan-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/scan-1.stdout.json",
+      "sha256": "84aaa7829bdb30b63482aa9fccc8faee6f6950804e687909a8ffdaf442e36510",
+      "bytes": 224600
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/scan-2.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/scan-2.stdout.json",
+      "sha256": "5154f983efd298c9bd8780ad39171128c3114d421594c177160b75d187501c30",
+      "bytes": 224600
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/source-audit.json",
+      "sha256": "6fdbf7ba419be942da62adf59652907214c068a14b0aafcf92a39e98dcaabb12",
+      "bytes": 7605
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Cli/ReaderOptionsParser.cs",
+      "sha256": "fe3011c637bc9e8f7fa32679145fc47bfd81b5b36dbf37e96788d30959478bad",
+      "bytes": 138145
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Memory/ProcessMemoryReader.cs",
+      "sha256": "3cf127bbcaaa9e648fb4a95c722fd3fca16e9ac6ba183fd5436c5e9ac35d3c34",
+      "bytes": 7448
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Memory/ProcessMemoryRegion.cs",
+      "sha256": "13a31b538eaeb432cadce6e4fe12a041bac558ad7e3195a08091bc35a8cc34d6",
+      "bytes": 376
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Program.cs",
+      "sha256": "d34b5ca4dbbf31319b57f66e75eddca667fa9cc703fe7ddcb5c66633ef18db15",
+      "bytes": 161268
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/reader/RiftReader.Reader/Scanning/ProcessStringScanner.cs",
+      "sha256": "93141da64bd5884e6e48f1a90150cfd050fcbc2b644c0ba4e48a01798c27820c",
+      "bytes": 11517
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/__main__.py",
+      "sha256": "3e2dcbc731e8d6c2befd6c5f87e1d43a45179031850c9b0dfde95fb21ba40b94",
+      "bytes": 6421
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/lua_types.py",
+      "sha256": "a20ad483d3c8371edcc33aa0b190590069fa10f70d3e8cf12097fac81d65a4a3",
+      "bytes": 11110
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/process.py",
+      "sha256": "53af3cfa93ebe2571b3d8cee855cd70557805ba06609d4609ff9956310c39957",
+      "bytes": 10444
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/reader.py",
+      "sha256": "2d50332ae37df13361d74efaba4e0e2daa92057717651d0fc4d4e8ab88361eb5",
+      "bytes": 7144
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/original-reader/scripts/lua_memory/scanner.py",
+      "sha256": "22d06f6e8cac5f4fa03aab3d334cb59b84838e3c82f7e8e52ed1790c9ed07635",
+      "bytes": 21081
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/MemoryDiscoveryCommand.cs",
+      "sha256": "c2f0d0d04421fc23428a8024d4205c5baa0f30af9d4b21fec964c2e499177bad",
+      "bytes": 37218
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/NativeCommandRunner.cs",
+      "sha256": "d522ca96c4a52b7384b33ecf6d7719f0542d9249dbd12f20498de4f7b3b2d19b",
+      "bytes": 14904
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/published-rr2-source-reference/src/RiftReader2.Live/TypedApiPrefixMatcher.cs",
+      "sha256": "7b9099a805fcc776d0c78c35ad55ba5794f6709d364b812c981438fd7969a67b",
+      "bytes": 3708
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Cli/TypedWireSnapshotCommand.cs",
+      "sha256": "c856937aaea9862970b18743e7217aa5cf12585d682c2a9824d17f22ca528d2b",
+      "bytes": 25724
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/CastingReferenceInlineCaptureCommand.cs",
+      "sha256": "9c7a90121953b15c23bd88533e7c300a82b4d7e49cdc28f16370293d62b6870c",
+      "bytes": 13290
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/CastingReferenceInlineCaptureCore.cs",
+      "sha256": "caccb8495cba69678742c2fbe1cf9816e73dd801f72871b4b054692f87fd1c20",
+      "bytes": 21625
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/sources/rr2-other-contracts/src/RiftReader2.Live/TypedApiImmediateNeighborhood.cs",
+      "sha256": "0dd748da08001f79747f1a80e2bc0110d066d3f876efe26f1943866f2b37e026",
+      "bytes": 6868
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/synthetic-fixture.json",
+      "sha256": "fc8ee8098b512cfedff0540214721ad8f244bd2d2ecb30731b38f45978b5a0b9",
+      "bytes": 304
+    },
+    {
+      "path": "artifacts/memory-bridge-feasibility-20261107-1219/unsupported-marker.request.json",
+      "sha256": "c148192846f55f9a323ed60b72eff51ec226eff8c58cc001195b5fc2975a7a2a",
+      "bytes": 366
+    }
+  ]
+}
