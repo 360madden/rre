@@ -1,0 +1,1370 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-614",
+  "baseCommit": "06aaefa8ac06de54834cf51131d57951c2852199",
+  "policyCheckpoint": "e1992071f3042061cf52ba95cfb9b2163e38bafa",
+  "status": "accepted-observational-list-agreement-with-scene-interruption",
+  "acceptedScope": "For the sampled Lab2 character/role, all134 map keys resolve typed definitions;54 nonzero+C9 exact full IDs equal both bracket API lists. No continuous state/freshness/restart/learnability claim.",
+  "nativeIdentity": {
+    "processId": 9752,
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "executableSha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+    "moduleBaseAddress": "0x7ff61fec0000",
+    "moduleSize": 63164416
+  },
+  "producerInputs": "134 independently discovered map keys, not the API list; two67-key supplied record lookups",
+  "mapBefore": {
+    "count": 134,
+    "secondaryMapCount": 0,
+    "startedAtUtc": "2026-11-07T16:28:42.7588897+00:00",
+    "sha256": "b71806bf13b308e05c31d5e97330e04eef992f83708ec661b98ba170b7c59e12"
+  },
+  "mapAfter": {
+    "count": 134,
+    "secondaryMapCount": 0,
+    "startedAtUtc": "2026-11-07T16:31:46.9154986+00:00",
+    "sha256": "19af312720a2ab4e8584dd11030b1e917d19b081d27331ff22337c662cc50d55"
+  },
+  "partition": {
+    "typeVerifiedRecords": 134,
+    "flagNonzero": 54,
+    "flagZero": 80,
+    "observedRawFlags": [
+      0,
+      1
+    ],
+    "filteredApiMisses": 0,
+    "filteredApiExtras": 0,
+    "unfilteredExtras": 80,
+    "sameMapKeySetAtEndpoints": true
+  },
+  "apiCaptures": [
+    {
+      "phase": "before",
+      "sha256": "6cecebf3a715d0cb80c3b8c74a96ab90f3c091bd968ead51c76392966ff90188",
+      "length": 21672,
+      "version": "0.4.11",
+      "sequence": 3,
+      "player": {
+        "name": "Bolinao",
+        "calling": "rogue",
+        "level": 43
+      },
+      "roleSlot": 1,
+      "count": 54,
+      "literalStructureQualified": true,
+      "singleFileFreshnessVerified": false
+    },
+    {
+      "phase": "after",
+      "sha256": "ddcd29a64dc58f65990bbe4af19a8cc4dd18bb43c1116a0a75306e85585c4bca",
+      "length": 21670,
+      "version": "0.4.11",
+      "sequence": 4,
+      "player": {
+        "name": "Bolinao",
+        "calling": "rogue",
+        "level": 43
+      },
+      "roleSlot": 1,
+      "count": 54,
+      "literalStructureQualified": true,
+      "singleFileFreshnessVerified": false
+    }
+  ],
+  "independentVerification": {
+    "method": "independent Python stdlib signed32/truncate0/hash formatter and raw map byte replay; existing producer not imported",
+    "checkCount": 1783,
+    "negativeControls": [
+      "omitted flag-positive",
+      "unfiltered map",
+      "low word mutation",
+      "missing native key",
+      "wrong player"
+    ],
+    "full134IdsReconstructed": true,
+    "verificationSha256": "cf0210cf93106f8fb5671b808f7964fb5ed93ae2650e36e9535493fad484e990",
+    "rawSpotcheck": {
+      "distinctExistingGenericReader": true,
+      "records": 2,
+      "ranges": 22,
+      "bytes": 146,
+      "checks": 44,
+      "verificationSha256": "8c5fef5859722a1a11d07c8fff0aa0cdbf90a4ae36211d3c90b01aa9dad00cd2",
+      "acquiredAfterSceneTransition": true
+    }
+  },
+  "sourceReferences": [
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs",
+      "sha256": "d4ee3e1b2b19ac5892956dc06f36311a88a660e4c55dab158fdf856de7c91a0c"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs",
+      "sha256": "f00dc810b4692d4f2471796c7ebc993f71109a216c967081325f6e0bf3ad7627"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "scripts/sample_current_native_ability_records.py",
+      "sha256": "d1c2d0a5e93108d31c2a42d70bf991dafe32f469034ae7362f9f499bc71244f7"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "scripts/sample_current_native_ability_maps.py",
+      "sha256": "218e88e662c64bc8b258a71151ac8aadf9e7caf80c64900585c9b37030c63135"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "docs/reference/native-ability-ownership-findings-2026-11-06.md",
+      "sha256": "3f5856bfe78afb18637259d3f0385ebd0efff557381aefd0878b25198b8e199d"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "c7a39ed1bb6a14ced9034acadcf3b0a6248783cf",
+      "path": "docs/reference/native-cooldown-static-followup-2026-11-06.md",
+      "sha256": "4cc2c83c1556b3ae7fb06815d3a46cd00fa4b6fba08c7d1a463cd61459be2d00"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs",
+      "sha256": "349162b6a11f347a9470c0f301e403ac90e5375f234817bf11001ddb343a8a25",
+      "role": "source of existing F414 record-reader route; excludes later raw-cost extension",
+      "retainedPath": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs"
+    },
+    {
+      "repository": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs",
+      "sha256": "b4f2828cc2d277c16696e62f6301a82e765df02cdb5054335be28d11e8ae927f",
+      "role": "source of existing F414 record-reader route; excludes later raw-cost extension",
+      "retainedPath": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs"
+    }
+  ],
+  "sourceQualificationSha256": "a29f844149a442cb30710d9ba47d961b68875478217968c550fbd76ffb4da10b",
+  "packageVerification": {
+    "package": "RRECollector",
+    "version": "0.4.11",
+    "manifest": "strict-pass",
+    "sources": 10,
+    "installedShaMatches": 10,
+    "runtimeUiVerified": false,
+    "note": "Runtime requires a normal RIFT addon load and observed toolbar/save."
+  },
+  "executions": [
+    {
+      "name": "native-map-before",
+      "command": "sample-current-ability-maps",
+      "readerSha256": "BF3EFA6508E4AFDE2C0201BF7B193EE5AE7955E5BE6C5A386B9B625BD33979C7",
+      "exitCode": 0,
+      "sourceReportSha256": "b71806bf13b308e05c31d5e97330e04eef992f83708ec661b98ba170b7c59e12",
+      "validatorMetrics": {
+        "entryCount": 134,
+        "mapCount": 2,
+        "clockBefore": 175944.45,
+        "clockAfter": 175944.45,
+        "acquisitionDurationMilliseconds": 13.826,
+        "qualification": "candidate-only; learned-ability, API-cooldown, freshness and restart semantics unverified"
+      },
+      "ownedGuestDataCleaned": true,
+      "receiptRecoveredFromPersistedReportAndValidationFailurePosition": true
+    },
+    {
+      "name": "native-records-1",
+      "command": "sample-current-ability-records",
+      "readerSha256": "F4148B838AF694EF95FD46DE76859CE9DF55194A9FE8BE1DF74FC2F8F0BCE80F",
+      "exitCode": 0,
+      "sourceReportSha256": "e00884ad79d11aaa606efe80ded5cb32fd5df5a721bf91286409d5d15b3e8ad8",
+      "keysSha256": "0E5F2D0350349FB3B33F795750DE8C9D825FEA029BE460284732E37F11A9A53B",
+      "requestedKeyCount": 67,
+      "validatorMetrics": {
+        "recordCount": 67,
+        "acquisitionDurationMilliseconds": 33.347,
+        "qualification": "candidate-only; membership, freshness and restart unverified"
+      },
+      "ownedGuestDataCleaned": true
+    },
+    {
+      "name": "native-records-2",
+      "command": "sample-current-ability-records",
+      "readerSha256": "F4148B838AF694EF95FD46DE76859CE9DF55194A9FE8BE1DF74FC2F8F0BCE80F",
+      "exitCode": 0,
+      "sourceReportSha256": "ea0b0cc0747f0cc074bb7a97961333d53df2514b2ff61df564830302bc9822a4",
+      "keysSha256": "788B85BDDF5DB820CF7EB09BE8C7BB3FD8A221768C27E60E4631FAB493226650",
+      "requestedKeyCount": 67,
+      "validatorMetrics": {
+        "recordCount": 67,
+        "acquisitionDurationMilliseconds": 32.097,
+        "qualification": "candidate-only; membership, freshness and restart unverified"
+      },
+      "ownedGuestDataCleaned": true
+    },
+    {
+      "name": "native-map-after",
+      "command": "sample-current-ability-maps",
+      "readerSha256": "BF3EFA6508E4AFDE2C0201BF7B193EE5AE7955E5BE6C5A386B9B625BD33979C7",
+      "exitCode": 0,
+      "sourceReportSha256": "19af312720a2ab4e8584dd11030b1e917d19b081d27331ff22337c662cc50d55",
+      "keysSha256": null,
+      "requestedKeyCount": null,
+      "validatorMetrics": {
+        "entryCount": 134,
+        "mapCount": 2,
+        "clockBefore": 176128.6,
+        "clockAfter": 176128.6,
+        "acquisitionDurationMilliseconds": 12.226,
+        "qualification": "candidate-only; learned-ability, API-cooldown, freshness and restart semantics unverified"
+      },
+      "ownedGuestDataCleaned": true
+    }
+  ],
+  "uiOperations": [
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/after-first-reload",
+      "action": "capture",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": false,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/capture-api-after",
+      "action": "click",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "1e76f783e22eefdb2e707c2a2dab2c6a7ffea2ea035673c105aedc27cf92e667"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/capture-api-before",
+      "action": "click",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "e24a484966d2b136367136b495e63cdd30dfb112eeaee7a671ea4373529b6c6f"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/final-scene",
+      "action": "capture",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": false,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay",
+      "action": "click",
+      "status": "blocked",
+      "inputMayHaveBeenSent": false,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": false,
+      "resultSha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay-after-reconcile",
+      "action": "click",
+      "status": "blocked",
+      "inputMayHaveBeenSent": false,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": false,
+      "resultSha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/initial-scene",
+      "action": "capture",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": false,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro",
+      "action": "move",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "6d3386603325caacdc64cf4e9536f6030c28a38f5f0f4dd5b2b6a78298c1fb62"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after",
+      "action": "move",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "f38a3690980ce2b281e90741cd21c8dcb6984e368e569484af1ce1424100bebe"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/save-api-after",
+      "action": "click",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "50257054879278ae43e73dd4e37dfcf1665aea5e8fef76dc78ea7929cf51472c"
+    },
+    {
+      "artifactDirectory": "artifacts/lab2-sc614-20261107-1118/save-api-before",
+      "action": "click",
+      "status": "completed-awaiting-visual-review",
+      "inputMayHaveBeenSent": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleasedFlag": true,
+      "resultSha256": "9c6a7396af4b6ed285713f0416c0e601105b0437fe9d2235f1c8f61c67cbf96c"
+    }
+  ],
+  "continuity": {
+    "sceneChangedExternally": true,
+    "firstScene": "Silver Coast",
+    "intermediateScene": "Dimension: Sanguine Shores",
+    "lastScene": "Silver Coast",
+    "rreTravelRequested": false,
+    "pendingHideClicksRejected": 2,
+    "rejectionsSentInput": false,
+    "userConfirmedLab2Free": true,
+    "freshProcessRequalificationSha256": "e830524f4ce04a9b12f7f1cef6cad963e54dea5e9adc022803846176275df092",
+    "independentRejectedMutexCheckSha256": "fad7d8ca0ed8a158f11cdcb037732032dcf5a029cd7c12ed33b1f7c9f4b94e49",
+    "blockedResultMutexFlagDefectRecorded": true,
+    "continuousRoleAndWorldUnchangedProven": false
+  },
+  "qualifiedListedRecords": [
+    {
+      "key": 59720525,
+      "fullId": "A038F434D3D2E1D31",
+      "name": "Call: Razorbeast",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 541691534,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 121585151,
+      "fullId": "A073F3DFFEF67CBE0",
+      "name": "Concussive Blast",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 205190436,
+      "secondaryLocalizationKey": 902714145
+    },
+    {
+      "key": 153369428,
+      "fullId": "A09243B5494D34A9E",
+      "name": "Fan Out",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 685625777,
+      "secondaryLocalizationKey": 971613010
+    },
+    {
+      "key": 215889466,
+      "fullId": "A0CDE363AA305A3B5",
+      "name": "Legacy of the Shade",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 82988844,
+      "secondaryLocalizationKey": 700040094
+    },
+    {
+      "key": 234392523,
+      "fullId": "A0DF88BCB80FEDC55",
+      "name": "Call: Greater Griffon",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 2053827755,
+      "secondaryLocalizationKey": 2141349688
+    },
+    {
+      "key": 255121041,
+      "fullId": "A0F34D691A15D4BAB",
+      "name": "Call: Greater Razorbeast",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 983567354,
+      "secondaryLocalizationKey": 1432528799
+    },
+    {
+      "key": 280691459,
+      "fullId": "A10BB0303D519D2DE",
+      "name": "Quick Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1207051587,
+      "secondaryLocalizationKey": 1933186758
+    },
+    {
+      "key": 298432740,
+      "fullId": "A11C9B8E483EA5935",
+      "name": "Swift Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1613489914,
+      "secondaryLocalizationKey": 432162426
+    },
+    {
+      "key": 319676123,
+      "fullId": "A130DDEDBB446436D",
+      "name": "Rejuvenate",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1735769180,
+      "secondaryLocalizationKey": 987384774
+    },
+    {
+      "key": 383201413,
+      "fullId": "A16D7308576BFEECD",
+      "name": "Feral Instincts",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1381926906,
+      "secondaryLocalizationKey": 1271273709
+    },
+    {
+      "key": 385560679,
+      "fullId": "A16FB30674E516F58",
+      "name": "Fleeting Instincts",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 151483221,
+      "secondaryLocalizationKey": 1966307457
+    },
+    {
+      "key": 553401968,
+      "fullId": "A20FC3E70868C72C2",
+      "name": "Shadow Fire",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1260283103,
+      "secondaryLocalizationKey": 1656529330
+    },
+    {
+      "key": 565744715,
+      "fullId": "A21B8944BDE18BAC9",
+      "name": "Ranged Combat Mastery",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 373972625,
+      "secondaryLocalizationKey": 734809090
+    },
+    {
+      "key": 620626305,
+      "fullId": "A24FE01816BA3C9E7",
+      "name": "Call of the Ascended",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 102509582,
+      "secondaryLocalizationKey": 182276487
+    },
+    {
+      "key": 622800436,
+      "fullId": "A251F2E341BED68A3",
+      "name": "Nexus Infusion",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 348058970,
+      "secondaryLocalizationKey": 1426227129
+    },
+    {
+      "key": 668136976,
+      "fullId": "A27D2F610774FC075",
+      "name": "Escape Artist",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 991483429,
+      "secondaryLocalizationKey": 1037162498
+    },
+    {
+      "key": 694086817,
+      "fullId": "A295EECA15ADDAE79",
+      "name": "Track Fish",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 489178066,
+      "secondaryLocalizationKey": 245480586
+    },
+    {
+      "key": 696164155,
+      "fullId": "A297E9F3B6BD45B18",
+      "name": "Ranged Weapon Mastery",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1047376565,
+      "secondaryLocalizationKey": 1731414174
+    },
+    {
+      "key": 699978571,
+      "fullId": "A29B8D34BD7B991A3",
+      "name": "Predatory Instincts",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 582120896,
+      "secondaryLocalizationKey": 2094431239
+    },
+    {
+      "key": 725181609,
+      "fullId": "A2B3964A98DE82D41",
+      "name": "Toggle Ranged Attack",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 507994655,
+      "secondaryLocalizationKey": 1960341301
+    },
+    {
+      "key": 769841220,
+      "fullId": "A2DE2D8448BF4B909",
+      "name": "Break Free",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 659874270,
+      "secondaryLocalizationKey": 1841425216
+    },
+    {
+      "key": 770425075,
+      "fullId": "A2DEBC0F3EAB4AA48",
+      "name": "Changing Role",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 490260487,
+      "secondaryLocalizationKey": 1916581436
+    },
+    {
+      "key": 787798814,
+      "fullId": "A2EF4DB1EAACF6AE0",
+      "name": "Blood Thirsty",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 2043182028,
+      "secondaryLocalizationKey": 1849470292
+    },
+    {
+      "key": 790869978,
+      "fullId": "A2F23B7DA3B6FE174",
+      "name": "Planar Lure",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1600118186,
+      "secondaryLocalizationKey": 1562327072
+    },
+    {
+      "key": 930603599,
+      "fullId": "A3777E24FE9204B1C",
+      "name": "Call: Dire Wolf",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1799812015,
+      "secondaryLocalizationKey": 2052398416
+    },
+    {
+      "key": 947831449,
+      "fullId": "A387EC2995D3B2CE3",
+      "name": "Changing Role",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1262832411,
+      "secondaryLocalizationKey": 508452320
+    },
+    {
+      "key": 954190722,
+      "fullId": "A38DFCB8220EE4A2D",
+      "name": "Ascended Resurrection",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1071143829,
+      "secondaryLocalizationKey": 996514460
+    },
+    {
+      "key": 1012591716,
+      "fullId": "A3C5AEC64D3793518",
+      "name": "Soul Recall",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1612084406,
+      "secondaryLocalizationKey": 1324098564
+    },
+    {
+      "key": 1073734775,
+      "fullId": "A3FFFE4771A8B7EB9",
+      "name": "Empowered Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 2063563173,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1077803094,
+      "fullId": "A403DF8568166E3DF",
+      "name": "Repelling Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 514348485,
+      "secondaryLocalizationKey": 1473036781
+    },
+    {
+      "key": 1086659173,
+      "fullId": "A40C51A65DBA71310",
+      "name": "Dismiss Pet",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 2093028770,
+      "secondaryLocalizationKey": 606398683
+    },
+    {
+      "key": 1094811219,
+      "fullId": "A41417E536E1DEFA2",
+      "name": "On the Double",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1451102026,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1101153811,
+      "fullId": "A41A2461312F9E51C",
+      "name": "Divert Rage",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 2063811164,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1150046740,
+      "fullId": "A448C52144241E729",
+      "name": "Pin Down",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 127578333,
+      "secondaryLocalizationKey": 4988583
+    },
+    {
+      "key": 1208234224,
+      "fullId": "A480430F07827A1ED",
+      "name": "Cadence",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 870255221,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1233824687,
+      "fullId": "A498AABAF3071FDED",
+      "name": "Ace Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 4206852169,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1348119195,
+      "fullId": "A505AAA9B6EB8673D",
+      "name": "Fury of the Ascended",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1554017659,
+      "secondaryLocalizationKey": 483691587
+    },
+    {
+      "key": 1422534837,
+      "fullId": "A54CA28B521DB5B2F",
+      "name": "Call: Blood Raptor",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 357400610,
+      "secondaryLocalizationKey": 966363215
+    },
+    {
+      "key": 1488596729,
+      "fullId": "A58BA2EF9600D8B32",
+      "name": "Trick Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 479286604,
+      "secondaryLocalizationKey": 2119076665
+    },
+    {
+      "key": 1532247126,
+      "fullId": "A5B543C56F68674C8",
+      "name": "Motif of Bravery",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 787202412,
+      "secondaryLocalizationKey": 1626806607
+    },
+    {
+      "key": 1545376891,
+      "fullId": "A5C1C947BB5B016ED",
+      "name": "Hasted Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 349446231,
+      "secondaryLocalizationKey": 1826328879
+    },
+    {
+      "key": 1601690278,
+      "fullId": "A5F77DAA65FAED9E3",
+      "name": "Summon Guild Rally Banner",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 197609303,
+      "secondaryLocalizationKey": 771390149
+    },
+    {
+      "key": 1673239866,
+      "fullId": "A63BB9D3AB5175722",
+      "name": "Call: Greater Dire Wolf",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1317298034,
+      "secondaryLocalizationKey": 557570668
+    },
+    {
+      "key": 1697749612,
+      "fullId": "A65319A6C5A45D8A8",
+      "name": "Motivational Roar",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 240121454,
+      "secondaryLocalizationKey": 580144629
+    },
+    {
+      "key": 1729337725,
+      "fullId": "A6713997D6CFF894C",
+      "name": "Recycle",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 328378941,
+      "secondaryLocalizationKey": 779523237
+    },
+    {
+      "key": 1785647112,
+      "fullId": "A6A6ED0086D590AFC",
+      "name": "Splinter Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1291895890,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 1803733676,
+      "fullId": "A6B82CAACCD1A03D8",
+      "name": "Changing Role",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1332764844,
+      "secondaryLocalizationKey": 2079366819
+    },
+    {
+      "key": 1812387454,
+      "fullId": "A6C06D67EAB161708",
+      "name": "Piercing Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1142897501,
+      "secondaryLocalizationKey": 11959408
+    },
+    {
+      "key": 1871006214,
+      "fullId": "A6F854A06833ADE2E",
+      "name": "Toggle Auto Attack",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 563033769,
+      "secondaryLocalizationKey": 964114368
+    },
+    {
+      "key": 1916678497,
+      "fullId": "A723E316171474642",
+      "name": "Rain of Arrows",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 1944145269,
+      "secondaryLocalizationKey": 994239597
+    },
+    {
+      "key": 1954212245,
+      "fullId": "A747AE9953E18CD8F",
+      "name": "Call: Griffon",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 410664842,
+      "secondaryLocalizationKey": 1808178220
+    },
+    {
+      "key": 2085294259,
+      "fullId": "A7C4B10B3A62367B4",
+      "name": "Head Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 722426154,
+      "secondaryLocalizationKey": 795301615
+    },
+    {
+      "key": 2088453728,
+      "fullId": "A7C7B46607CE456D2",
+      "name": "Deadeye Shot",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 238932723,
+      "secondaryLocalizationKey": 0
+    },
+    {
+      "key": 4200075730,
+      "fullId": "AFA5811D27121CC4D",
+      "name": "Spirit of the Wilderness",
+      "apiListFilterNonzeroRaw": 1,
+      "primaryLocalizationKey": 4275220467,
+      "secondaryLocalizationKey": 4199320112
+    }
+  ],
+  "failuresAndRecovery": [
+    "v1 guest map command passed; wrapper failed locally due omitted GAME_SHA namespace. Existing report was validated without replaying acquisition; v2 completed.",
+    "Independent audit drafts failed on assuming overflow nodes were stride-aligned bucket heads, on differing private identity-summary field names, and on cohort JSON object shape. Corrected audit then passed1783 checks; original samples unchanged.",
+    "Two planned Hide reviews rejected because scene/panel geometry differed; no Hide input sent. Blocked-path mutex flag false was independently reconciled, not treated as a retained lock."
+  ],
+  "limits": [
+    "C9 correspondence describes API-listed status for this observed cohort, not learned/eligible/locked/usable/bound or server accepted state.",
+    "Native map floats0/-1 do not prove cooldown semantics.",
+    "Sequential snapshots are not atomic; endpoint equality cannot exclude transient/ABA/role changes.",
+    "On-disk executable and pinned tool hashes are not whole mapped-memory attestation or reproducible-build proof.",
+    "Two raw records were independently spotchecked via generic reader; all134 typed outputs were not independently reread from raw memory.",
+    "No restart, event-delivery, passive freshness, unlearned/Legendary, cast/queue/GCD or server proof."
+  ],
+  "noOllama": true,
+  "noFreebuff": true,
+  "readerDeployed": false,
+  "externalSourcesEdited": false,
+  "nativeGameFunctionsInvoked": false,
+  "gameMemoryWritten": false,
+  "artifacts": [
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/after-first-reload/before.png",
+      "length": 1126731,
+      "sha256": "34cf760897a03934cb119f47fdd2f13375650bdd940d0bccc2bd1e5dfed8ae43"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/after-first-reload/capture.json",
+      "length": 309,
+      "sha256": "3ec861969f31a20dea33cdd1f6c932a5701f01378873bf538cf0c55f59c02a88"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/after-first-reload/result.json",
+      "length": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-after-identity-private.json",
+      "length": 132,
+      "sha256": "b2452d98a9ae50c62bf83fb25651f59e821ed5771e0c6bbbbde62d5510e93066"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-after-summary.json",
+      "length": 21115,
+      "sha256": "1b5f13b8198846e31baf4f3a41ce92077c5bb41621dd9f8f70c4c48907ec2aad"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-after.lua",
+      "length": 21670,
+      "sha256": "ddcd29a64dc58f65990bbe4af19a8cc4dd18bb43c1116a0a75306e85585c4bca"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-before-identity-private.json",
+      "length": 151,
+      "sha256": "a890d3833d3df027aa3d47520877c64659f48d817a1c7407499f650e704adbb7"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-before-summary.json",
+      "length": 21115,
+      "sha256": "23fb6684816de308566a8f4f3d1889ced55d7066788599cb9a060b9d8f314105"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/api-before.lua",
+      "length": 21672,
+      "sha256": "6cecebf3a715d0cb80c3b8c74a96ab90f3c091bd968ead51c76392966ff90188"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/benchmark-mouse-capture.py",
+      "length": 3456,
+      "sha256": "e4dbe68c396e1e29e9b25db0159f16bc5e242a309b82ca99dae349d00a329b81"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-after/after.png",
+      "length": 974287,
+      "sha256": "7370de2991a585a12abfbfd3a0810adc3a016d6d0749791eaf5fed60fca6db7d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-after/before.png",
+      "length": 972908,
+      "sha256": "ba99347844a2967d6e9d2fcbdfde85a4f9edf5314a3c86ca034ede262dec25fa"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-after/capture.json",
+      "length": 305,
+      "sha256": "63e6b58e00b9b5d44e4550f62f5ef8b1f6ee574c26abec0a408c1423f5193e02"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-after/result.json",
+      "length": 1033,
+      "sha256": "1e76f783e22eefdb2e707c2a2dab2c6a7ffea2ea035673c105aedc27cf92e667"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-after/review.json",
+      "length": 207,
+      "sha256": "f1132e5cecbd4bfd804d1fac775660cca97d42a121dc031b48ca9fe8f0d9b636"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-before/after.png",
+      "length": 1276761,
+      "sha256": "0d307ca9169905b9dd4dbc72ac4ff8955fdb84196f080980f31acb852c31040c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-before/before.png",
+      "length": 1275478,
+      "sha256": "27baebc5ce2d2e861b7d7621c05bc5ac2a6dba27af50e75411b4c96d37a4312c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-before/capture.json",
+      "length": 306,
+      "sha256": "ea087fe59f6e0dcec6f91fdbc2141e3c41025e34d32a83923571cc7597688d9d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-before/result.json",
+      "length": 1033,
+      "sha256": "e24a484966d2b136367136b495e63cdd30dfb112eeaee7a671ea4373529b6c6f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/capture-api-before/review.json",
+      "length": 172,
+      "sha256": "8684bcdce02882b7eb0cc9251a8fc0884c8fc20af1354dd9ed96133f6b290c9c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/checkpoint-research-switch.py",
+      "length": 4191,
+      "sha256": "9012ed3a2b4b1e7c0523bbc19482e3a1083d0f225e725a232987dbbc2b578dce"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/docs/reference/native-ability-ownership-findings-2026-11-06.md",
+      "length": 19440,
+      "sha256": "3f5856bfe78afb18637259d3f0385ebd0efff557381aefd0878b25198b8e199d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/docs/reference/native-cooldown-static-followup-2026-11-06.md",
+      "length": 16035,
+      "sha256": "4cc2c83c1556b3ae7fb06815d3a46cd00fa4b6fba08c7d1a463cd61459be2d00"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/scripts/sample_current_native_ability_maps.py",
+      "length": 10213,
+      "sha256": "218e88e662c64bc8b258a71151ac8aadf9e7caf80c64900585c9b37030c63135"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/scripts/sample_current_native_ability_records.py",
+      "length": 11613,
+      "sha256": "d1c2d0a5e93108d31c2a42d70bf991dafe32f469034ae7362f9f499bc71244f7"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs",
+      "length": 11965,
+      "sha256": "d4ee3e1b2b19ac5892956dc06f36311a88a660e4c55dab158fdf856de7c91a0c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-rr2-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs",
+      "length": 3254,
+      "sha256": "f00dc810b4692d4f2471796c7ebc993f71109a216c967081325f6e0bf3ad7627"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/committed-source-manifest.json",
+      "length": 2664,
+      "sha256": "ab9a340c48f0fe8ac813f7515779a45749f590c18dda8046845bf9304805fd31"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/copy-api-reference.py",
+      "length": 1608,
+      "sha256": "31f6116d396d96e4a6757856beb544bc0b2273a9989b3868c30ba5089bc53b9c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/execution-receipts.json",
+      "length": 3192,
+      "sha256": "f4478ebfbc442f4927029fca232887b2689d3f02234518c60b104d14298a8b0e"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/final-scene/before.png",
+      "length": 1101217,
+      "sha256": "ea4354f32319fd701e711a2de85e983dd902bf7ae7ec99c6c3004181671b3000"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/final-scene/capture.json",
+      "length": 302,
+      "sha256": "e567f4e1a80118f0d12498085ea7fc2b68b0f8ecd290925780a45db9660ac4dc"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/final-scene/result.json",
+      "length": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/full-cohort-verification.json",
+      "length": 66377,
+      "sha256": "cf0210cf93106f8fb5671b808f7964fb5ed93ae2650e36e9535493fad484e990"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/game-after-scene-cleanup.json",
+      "length": 444,
+      "sha256": "7990a37f8821171c0d6e9b2b46292b126ffedf844b196286d39a29aabb6038fb"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/game-after-scene.json",
+      "length": 288,
+      "sha256": "e830524f4ce04a9b12f7f1cef6cad963e54dea5e9adc022803846176275df092"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/game-after-scene.query.ps1",
+      "length": 558,
+      "sha256": "a9fc797c2a595999007b4e20a6905af8183f75136af133289d6c0ac5f7856029"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/game-preflight.json",
+      "length": 288,
+      "sha256": "296abaa52f40dbcc887ba029e481e96d4f5fd88579e71bb7c5515f132ae5c7e5"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/game-preflight.query.ps1",
+      "length": 559,
+      "sha256": "dda0501bb75f95c4d2104df49f15382786dd2cae5930442bd149e383ce9813a2"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/abilities.lua",
+      "length": 4558,
+      "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/candidate_catalog.lua",
+      "length": 10648,
+      "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/candidates.lua",
+      "length": 6847,
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/capabilities.lua",
+      "length": 4618,
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/context.lua",
+      "length": 3191,
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/core.lua",
+      "length": 2231,
+      "sha256": "d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/main.lua",
+      "length": 16040,
+      "sha256": "7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/README.md",
+      "length": 13128,
+      "sha256": "f86ef49733fec9616d97a98a2bf6ba6ef7f5b549ea1680b6b28fee0fcdcbb537"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/RiftAddon.toc",
+      "length": 488,
+      "sha256": "83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/guest-addon/AddOns/RRECollector/ui.lua",
+      "length": 39107,
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay/before.png",
+      "length": 1297515,
+      "sha256": "10893cd176ad8eb7d5f3c750580fa8b1091ed3bfc4c331dc2ecd691c629ecf8c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay/capture.json",
+      "length": 305,
+      "sha256": "64d153efbd38dca725a8749ea2b0febaa98ad668096043b693a016c08a8c1dbe"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay/result.json",
+      "length": 597,
+      "sha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay-after-reconcile/before.png",
+      "length": 974811,
+      "sha256": "bf63d70d8cfb9910528bfed0e9d6d1c994a59fc7220308ab9fedb9e16b2e1052"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay-after-reconcile/capture.json",
+      "length": 321,
+      "sha256": "c21511e0630f4b360d0c5786002d92514e722346c1b406c06fd0198dd305d3a0"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/hide-idle-overlay-after-reconcile/result.json",
+      "length": 597,
+      "sha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/id-codec-positive-controls.json",
+      "length": 1284,
+      "sha256": "ea49a5d30d4a454f4b826a4ae978b012b5b5d6dd71bdfde8666df8c5e6074fef"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/initial-scene/before.png",
+      "length": 1274270,
+      "sha256": "6c6f9c31bf715195cc58658016276253df882b6dd844e66688c05da00353dd31"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/initial-scene/capture.json",
+      "length": 304,
+      "sha256": "3b3ec400364760648cdd14b0bb32bd6405fb3c2681e82952a5db8038329c4f5a"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/initial-scene/result.json",
+      "length": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro/after.png",
+      "length": 1277939,
+      "sha256": "a8ff24b51ade86c643e9c0bd01010748b2e7ea680523a32b675c7ee2a6cbd41b"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro/before.png",
+      "length": 1268890,
+      "sha256": "0390435f307dd70a1cf60ca5c9d45d39de737df96b735696bc801d07d6cad6af"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro/capture.json",
+      "length": 306,
+      "sha256": "1907de399d8caf6c8f118d87af3e277fabd6d0fb427b11a6941cf139990b18b0"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro/result.json",
+      "length": 1032,
+      "sha256": "6d3386603325caacdc64cf4e9536f6030c28a38f5f0f4dd5b2b6a78298c1fb62"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro/review.json",
+      "length": 199,
+      "sha256": "8d8f3df91d9770236c927711e0c86f0798276c09d2e720a973395c199e31b53f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after/after.png",
+      "length": 976234,
+      "sha256": "eba4c7abcb1f733aaf4bce98354677ebaeb6f814de3e4573462cbd0debe9e6df"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after/before.png",
+      "length": 980000,
+      "sha256": "143a7d95b7ff4e8105ebce8049094dd574b3ca14eab67ead1750bf750a29f6f1"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after/capture.json",
+      "length": 312,
+      "sha256": "131349874e3ae7a1f631045578a8a7ef65505f984b12823e4418c237149d4823"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after/result.json",
+      "length": 1032,
+      "sha256": "f38a3690980ce2b281e90741cd21c8dcb6984e368e569484af1ce1424100bebe"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/inspect-reload-macro-after/review.json",
+      "length": 183,
+      "sha256": "5514c4d64fc1a2fb5beefc33a8bb7ee8a4af9814e66bdbd5f793c58300e3eab1"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-acquisition-summary.json",
+      "length": 259,
+      "sha256": "8962dde146dfce806ca1a522a9c98d316e91be9f39b42f009755aff88719e271"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-cohort.keys.json",
+      "length": 2247,
+      "sha256": "7afb8ed9287d68eb3ecd7fa3f4e19bd5dcf7a2694293668781a7ff9880e48c84"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-map-after.invoke.ps1",
+      "length": 1126,
+      "sha256": "7c3c4c0d5026d111c55d0f3cade3e2c49f1fad6b70067e55b60c772a9e1c215f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-map-after.json",
+      "length": 43334,
+      "sha256": "19af312720a2ab4e8584dd11030b1e917d19b081d27331ff22337c662cc50d55"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-map-before.invoke.ps1",
+      "length": 1127,
+      "sha256": "d693a5bc8eba66d29a4f603f06858af5240c03b638379650c7eec16ebb1fe1a1"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-map-before.json",
+      "length": 43336,
+      "sha256": "b71806bf13b308e05c31d5e97330e04eef992f83708ec661b98ba170b7c59e12"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-1.invoke.ps1",
+      "length": 1434,
+      "sha256": "4ed7ce9cc4fc65f5729f84bb8b09280bb3029feb4adc9422069a1b760c7f9362"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-1.json",
+      "length": 37358,
+      "sha256": "e00884ad79d11aaa606efe80ded5cb32fd5df5a721bf91286409d5d15b3e8ad8"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-1.keys.txt",
+      "length": 596,
+      "sha256": "0e5f2d0350349fb3b33f795750de8c9d825fea029be460284732e37f11a9a53b"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-2.invoke.ps1",
+      "length": 1434,
+      "sha256": "b61d12675d62b1a582ee7f2dfab5b20f1841370b4ba00c783aaea0ff3c7a469d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-2.json",
+      "length": 37493,
+      "sha256": "ea0b0cc0747f0cc074bb7a97961333d53df2514b2ff61df564830302bc9822a4"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/native-records-2.keys.txt",
+      "length": 736,
+      "sha256": "788b85bddf5db820cf7eb09be8c7bb3fd8a221768c27e60e4631fab493226650"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/package-verification.json",
+      "length": 213,
+      "sha256": "0796c0b22c65a93cb8fc52fdd243793fc3443c6c7d1dffbc9dfb90532ee15fe2"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/prepare.py",
+      "length": 3972,
+      "sha256": "d4985c5347660e98bab203d73a85c9f0fb92483077eea6750cccc68246308dcb"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs",
+      "length": 8106,
+      "sha256": "349162b6a11f347a9470c0f301e403ac90e5375f234817bf11001ddb343a8a25"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs",
+      "length": 3058,
+      "sha256": "b4f2828cc2d277c16696e62f6301a82e765df02cdb5054335be28d11e8ae927f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck-cleanup.json",
+      "length": 511,
+      "sha256": "ecf2dc4091ab50bba53b744da19247d5979347be6a8424d6540236059bfd452d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck-plan.json",
+      "length": 1046,
+      "sha256": "1f81c456f96fe4f8488ce6ce8e38e96efab6090aab4467cb8e409a947b149e30"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck-verification.json",
+      "length": 2639,
+      "sha256": "8c5fef5859722a1a11d07c8fff0aa0cdbf90a4ae36211d3c90b01aa9dad00cd2"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck.invoke.ps1",
+      "length": 1172,
+      "sha256": "94b2d26bb1a29634ffa37b876978dad05c50f1cc8248f3413080a2665bdc2987"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck.json",
+      "length": 8437,
+      "sha256": "0992271e72d8f59ca2131d9b796ac72cb090622b379c6876865195224d419bc7"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck.py",
+      "length": 4682,
+      "sha256": "626211501cf98341cefd04376b5628001f7ce45273d433839e199dfa650f3c4f"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/raw-spotcheck.request.json",
+      "length": 2121,
+      "sha256": "c27017d802592851a4b25079c2dd655e04a40395b9eb7f69e8420af814c59c15"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/reader-preflight.json",
+      "length": 471,
+      "sha256": "eacf251522227f77be256ccfb8d3fcbe5e8464ac3322fbce804bd168bfff9949"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/reader-preflight.query.ps1",
+      "length": 502,
+      "sha256": "86b631ab5d7d9eccf3bc37eb264269cac58247926596a293e183248aaff84242"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/register-parallel-research.py",
+      "length": 1776,
+      "sha256": "57e3446fd233fbf08f8e24f2f04b6d32ff42b1f171eee41fdf0fc5fd1e9b4bdd"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/rejected-input-mutex-check.json",
+      "length": 167,
+      "sha256": "fad7d8ca0ed8a158f11cdcb037732032dcf5a029cd7c12ed33b1f7c9f4b94e49"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/requalify-after-scene.py",
+      "length": 2663,
+      "sha256": "0055ba61c5eec7066a6844f63834b09ef3963045ec3dc2d7bdf94450a0039000"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/sample-native-v2.py",
+      "length": 6930,
+      "sha256": "893136ff0bb0ba423f56d85dae836bf49a7a33aad730655c1ec6f49cdc804fe4"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/sample-native.py",
+      "length": 6370,
+      "sha256": "2dd791f9b25d8201820b4289eb087824265d6abdfa068b56834d0e56c7b2832d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-after/after.png",
+      "length": 906739,
+      "sha256": "2f19d5c99a962d87aaba475ec02f33b2181ffda2cb23a8a56ebedb5064d1a774"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-after/before.png",
+      "length": 981625,
+      "sha256": "c5c479204f47e87fcb29e8869da9867a4c036ea901b33f9e6df86ba836b6e68d"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-after/capture.json",
+      "length": 301,
+      "sha256": "44605cf64779b1d89caa651b80c3001d63401ceff33767bae001f7575417d8cf"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-after/result.json",
+      "length": 1033,
+      "sha256": "50257054879278ae43e73dd4e37dfcf1665aea5e8fef76dc78ea7929cf51472c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-after/review.json",
+      "length": 206,
+      "sha256": "8ed67e657b26cd2932dde6e738ecc7870f0cf54cd5e86e465a576dc55f9adbee"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-before/after.png",
+      "length": 907315,
+      "sha256": "70ba4cffa30f2a340b7b0bb155ca3382edb2029e8dbebe39f5e9e3a4b03c91fa"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-before/before.png",
+      "length": 1277151,
+      "sha256": "4dac044dc072c2d092cbbe5b98d3e7252a3a79d89751b73e7f0ccfa272e3bb00"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-before/capture.json",
+      "length": 302,
+      "sha256": "50fb95c87e089539616dda4353a4aaa6a15f2ea4e31db167e3d99d054e568bb1"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-before/result.json",
+      "length": 1033,
+      "sha256": "9c6a7396af4b6ed285713f0416c0e601105b0437fe9d2235f1c8f61c67cbf96c"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/save-api-before/review.json",
+      "length": 216,
+      "sha256": "74c9a97589a3ea47cad9b158870f10abe365c5e145e6ea97d15e4ccfb6d815a3"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/source-qualification.json",
+      "length": 3001,
+      "sha256": "a29f844149a442cb30710d9ba47d961b68875478217968c550fbd76ffb4da10b"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/summarize-api.mjs",
+      "length": 1654,
+      "sha256": "cf98d4fecdc0229d8e1f6dcfc0aab380821bea243ff654bfc1f15a696a09a8b9"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/verify-full-cohort.py",
+      "length": 7135,
+      "sha256": "ba63b33a1c07868e9a200c8d978cc5d9c3f07bb66aa8ff5c9229a5e3db67ed1f"
+    }
+  ]
+}

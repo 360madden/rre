@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC615 external mouse research accepted: retain installed vncdotool; nine capture-only timings, no backend switch. SC614 native/API set comparison pending full audit/report. SC616/617 two user-requested read-only built-in agents investigate richer addon discovery and actual bidirectional channels. Lab2 only; no FreeBuff/Ollama. Earlier accepted SC611/612/613 and blocked broader gates retained.",
+  "status": "2026-11-07 SC614 accepted bounded native/API list agreement:134 typed records partition54C9nonzero/80zero; exact54 full IDs equal both sequence3/4 API lists; scene interruption retained, no freshness/restart/learnability claim. SC615 mouse reuse/timing research accepted. SC616/617 read-only agent findings await manager source validation/integration. Lab2 only; no FreeBuff/Ollama; broader gates unchanged.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-614",
+  "nextTaskId": "SC-616",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1426,7 +1426,7 @@
       "id": "SC-614",
       "milestone": "SC1",
       "title": "Test native typed-definition filter against fresh Lab-2 API-listed ability IDs",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-610",
         "SC-612"
@@ -1457,7 +1457,23 @@
       ],
       "gameInputAuthorized": true,
       "authorizationScope": "external reviewed addon Capture and existing normal reloadui macro only; passive read-only installed native tools and owned temporary data",
-      "evidence": []
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC614-NATIVE-API-LIST-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC614-NATIVE-API-LIST-2026-11-07.json"
+      ],
+      "acceptedScope": "For the sampled Lab2 character/role, all134 map keys resolve typed definitions;54 nonzero+C9 exact full IDs equal both bracket API lists. No continuous state/freshness/restart/learnability claim.",
+      "partialEvidence": {
+        "nativeMapKeys": 134,
+        "typedRecords": 134,
+        "flagNonzero": 54,
+        "flagZero": 80,
+        "apiBeforeAndAfter": 54,
+        "fullIdsIndependentlyReconstructed": 134,
+        "independentChecksIncludingFiveNegatives": 1783,
+        "rawIndependentSpotcheckRecords": 2,
+        "sceneInterruptionPreserved": true,
+        "freshnessOrRestartQualified": false
+      }
     },
     {
       "id": "SC-615",
