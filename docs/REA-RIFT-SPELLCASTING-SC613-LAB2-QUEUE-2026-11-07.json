@@ -1,0 +1,809 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-613",
+  "baseCommit": "e4585cc34a8505a38ff26d4711aecd1ffeb7cf89",
+  "researchQuestion": "Can unchanged Lab-2 Ability Queue mode be paired with same-epoch native field without changing a setting?",
+  "acceptedScope": "one observed build/session pair:1->Short; unobserved0/2 and actual queue behavior remain unknown",
+  "nativeIdentity": {
+    "processId": 9752,
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "executableSha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+    "moduleBaseAddress": "0x7ff61fec0000",
+    "moduleSize": 63164416
+  },
+  "reader": {
+    "alreadyInstalled": true,
+    "guestAndHostShaMatch": true,
+    "sha256": "B8A725E6A9CE663C36CB836681ED660261B07FDA4118A0167262E92131B2373E",
+    "length": 117159776,
+    "hostPublication": "C:/work/riftreader2/artifacts/native-current-sampler-20261105/publish/RiftReader2.Live.exe",
+    "commands": [
+      "inspect-native",
+      "snapshot-native",
+      "follow-pointer",
+      "follow-pointer"
+    ],
+    "newDeployment": false
+  },
+  "uiBracket": [
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-pre-read/before.png",
+      "sha256": "e4393f73f69c06ad99d4e9496a2e743b5cdcb1883645dad7790511d6f5e89688",
+      "imageFileLastWriteUtc": "2026-11-07T15:51:21.284475+00:00",
+      "displayedSelection": "Short",
+      "applyDisabledVisuallyObserved": true,
+      "dropdownChanged": false
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-post-read/before.png",
+      "sha256": "b0a76fa1a59259ef9ab94dc71d7a0e9f5285ebc772c54b3ffe40d3626c8bd38f",
+      "imageFileLastWriteUtc": "2026-11-07T15:52:15.969098+00:00",
+      "displayedSelection": "Short",
+      "applyDisabledVisuallyObserved": true,
+      "dropdownChanged": false
+    }
+  ],
+  "field": {
+    "source": "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-FIELD-2026-10-27.json",
+    "name": "ActionBars_AbilityQueue",
+    "rootRva": "0x33958C0",
+    "offset": "0xA4",
+    "terminalBytes": 4,
+    "sampleCount": 2,
+    "samples": [
+      {
+        "report": "queue-field-a-v2.json",
+        "completedAtUtc": "2026-11-07T15:51:38.9134000Z",
+        "value": 1,
+        "bytesHex": "01000000",
+        "identityMatchesSnapshot": true,
+        "sameSettingsObject": true
+      },
+      {
+        "report": "queue-field-b-v2.json",
+        "completedAtUtc": "2026-11-07T15:51:47.4376733Z",
+        "value": 1,
+        "bytesHex": "01000000",
+        "identityMatchesSnapshot": true,
+        "sameSettingsObject": true
+      }
+    ],
+    "sameSettingsObject": true,
+    "uiLabel": "Short",
+    "acceptedValue": 1,
+    "unobservedValues": [
+      0,
+      2
+    ]
+  },
+  "loadedByteEvidence": {
+    "codeWindowRva": "0xBD2DA7",
+    "codeWindowBytes": 39,
+    "getterRva": "0xBD7153",
+    "getterBytes": 6,
+    "literalRva": "0x26ECC70",
+    "literalBytes": 24,
+    "rootPointerBytes": 8,
+    "loadedCodeAndLiteralMatchOriginal": true,
+    "globalRipTargetIndependentlyVerified": true,
+    "noAllMappedPagesClaim": true
+  },
+  "independentVerification": {
+    "schemaVersion": 1,
+    "method": "independent standard-library original PE mapping, loaded-code byte comparison, pointer-chain/identity/base64/hash checks; no memory access by verifier",
+    "status": "passed",
+    "checkCount": 38,
+    "checks": [
+      "original guest SHA",
+      "original PE signature",
+      "snapshot complete",
+      "exact target",
+      "four requested chunks",
+      "chunk complete 0xbd2da7",
+      "chunk hash 0xbd2da7",
+      "loaded==original 0xbd2da7",
+      "chunk complete 0xbd7153",
+      "chunk hash 0xbd7153",
+      "loaded==original 0xbd7153",
+      "chunk complete 0x26ecc70",
+      "chunk hash 0x26ecc70",
+      "loaded==original 0x26ecc70",
+      "chunk complete 0x33958c0",
+      "chunk hash 0x33958c0",
+      "queue-field-a-v2.json resolution complete",
+      "queue-field-a-v2.json identity",
+      "queue-field-a-v2.json chain root and offset",
+      "queue-field-a-v2.json single hop",
+      "queue-field-a-v2.json same root pointer",
+      "queue-field-a-v2.json resolved field",
+      "queue-field-a-v2.json complete four-byte read",
+      "queue-field-b-v2.json resolution complete",
+      "queue-field-b-v2.json identity",
+      "queue-field-b-v2.json chain root and offset",
+      "queue-field-b-v2.json single hop",
+      "queue-field-b-v2.json same root pointer",
+      "queue-field-b-v2.json resolved field",
+      "queue-field-b-v2.json complete four-byte read",
+      "two identical values",
+      "original getter bytes",
+      "original writer bytes",
+      "key literal prefix",
+      "negative wrong enum rejected",
+      "negative changed code rejected",
+      "loaded global MOV opcode",
+      "loaded global RIP target equals declared settings root"
+    ],
+    "negativeControls": 2,
+    "loadedCodeAndLiteralByteMatches": 3,
+    "samples": [
+      {
+        "report": "queue-field-a-v2.json",
+        "completedAtUtc": "2026-11-07T15:51:38.9134000Z",
+        "value": 1,
+        "bytesHex": "01000000",
+        "identityMatchesSnapshot": true,
+        "sameSettingsObject": true
+      },
+      {
+        "report": "queue-field-b-v2.json",
+        "completedAtUtc": "2026-11-07T15:51:47.4376733Z",
+        "value": 1,
+        "bytesHex": "01000000",
+        "identityMatchesSnapshot": true,
+        "sameSettingsObject": true
+      }
+    ],
+    "observedUiBeforeAfter": "Short, manually reviewed original screenshots",
+    "acceptedObservedPair": {
+      "value": 1,
+      "label": "Short"
+    },
+    "unobservedEnumValues": [
+      0,
+      2
+    ],
+    "limits": [
+      "Bracketed stable UI and two sequential native reads, not atomic screenshot/native capture",
+      "No setting toggle or queue behavior test; full enum mapping not proven"
+    ]
+  },
+  "requestBindingChecks": [
+    {
+      "report": "loaded-code-and-settings-root-v2.json",
+      "actualGuestPayloadShaMatchesReport": true,
+      "hostArtifactTrailingLineEndingRemovedForPayloadComparison": true,
+      "guestPayloadHashGuardedDuringCleanup": true,
+      "implementationBundleShaMatches": true
+    },
+    {
+      "report": "queue-field-a-v2.json",
+      "actualGuestPayloadShaMatchesReport": true,
+      "hostArtifactTrailingLineEndingRemovedForPayloadComparison": true,
+      "guestPayloadHashGuardedDuringCleanup": true,
+      "implementationBundleShaMatches": true
+    },
+    {
+      "report": "queue-field-b-v2.json",
+      "actualGuestPayloadShaMatchesReport": true,
+      "hostArtifactTrailingLineEndingRemovedForPayloadComparison": true,
+      "guestPayloadHashGuardedDuringCleanup": true,
+      "implementationBundleShaMatches": true
+    }
+  ],
+  "executionReceipts": {
+    "vmIdentity": {
+      "vmx": "c:\\rift modding\\vms\\rift-lab-2\\rift-lab.vmx",
+      "port": 5962,
+      "logEpoch": "2026-11-05T15:31:17.951Z",
+      "listenerPid": 17848,
+      "pid": 17848,
+      "image": "C:\\Program Files\\VMware\\VMware Workstation\\x64\\vmware-vmx.exe",
+      "startTicks": 134383662779267832
+    },
+    "steps": [
+      {
+        "name": "native-inspection",
+        "command": "inspect-native",
+        "exitCode": 0,
+        "outputSha256": "76317148d062a813e81cc21d0010723e8cff4c35e0752c1a79bb55a58e93ec76",
+        "ownedRequestAndOutputCleaned": true
+      },
+      {
+        "name": "loaded-code-and-settings-root-v2",
+        "command": "snapshot-native",
+        "exitCode": 0,
+        "outputSha256": "12d5f68fdeb830a561bca4e8af4488c445442d5716fae0f0811e65abd04557bf",
+        "ownedRequestAndOutputCleaned": true
+      },
+      {
+        "name": "queue-field-a-v2",
+        "command": "follow-pointer",
+        "exitCode": 0,
+        "outputSha256": "ef1ae4af78cb78f05781938dc54b185ce8dfe97b10cefc459568ac289b25d8c6",
+        "ownedRequestAndOutputCleaned": true
+      },
+      {
+        "name": "queue-field-b-v2",
+        "command": "follow-pointer",
+        "exitCode": 0,
+        "outputSha256": "2fbb74e268984053b20230b71bacd9e0365acd2c3078da1fc97361293ed967d6",
+        "ownedRequestAndOutputCleaned": true
+      }
+    ]
+  },
+  "workbridgeJobs": [
+    {
+      "id": "rre_20261107_sc613_existing_reader_queue_v1",
+      "exitCode": 1,
+      "outputTruncated": false,
+      "reason": "native inspection succeeded; oversized encoded snapshot script rejected before guest execution"
+    },
+    {
+      "id": "rre_20261107_sc613_existing_reader_queue_v2",
+      "exitCode": 0,
+      "outputTruncated": false,
+      "startedAtUtc": "2026-11-07T15:51:22.418Z",
+      "endedAtUtc": "2026-11-07T15:51:52.305Z",
+      "reason": "bounded split staging/command continuation; snapshot and two follows complete"
+    }
+  ],
+  "liveOperations": [
+    {
+      "name": "cancel-settings",
+      "action": "click",
+      "position": [
+        957,
+        555
+      ],
+      "captureId": "4f13e8faabc84003af1abd2ba9d464a1",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/cancel-settings/after.png",
+          "sha256": "25a8aa528f64206b980fc7819ef4430e955e64dc116d0840422e4e81e546fbfe",
+          "length": 1259751
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/cancel-settings/before.png",
+          "sha256": "09c7614aff3b9077e31e2d9d1ba7d7acd39bce2374a4d5cfb25364258b2d2150",
+          "length": 1257561
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/cancel-settings/capture.json",
+          "sha256": "4d7418c971b19b4e9f17bff383b9066a59dc9cfde026c8333ebe229dd5ab5826",
+          "length": 302
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/cancel-settings/result.json",
+          "sha256": "541dd8fd8c6cde42568b3638212749df7e12ac4e5e91a3b84225d1ba056d2e31",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/cancel-settings/review.json",
+          "sha256": "7e17b22a48cff0c63c4401c0c26b7316b3fa3072cd798b89f0794ab91bbd8a6f",
+          "length": 196
+        }
+      ]
+    },
+    {
+      "name": "hover-system",
+      "action": "move",
+      "position": [
+        127,
+        709
+      ],
+      "captureId": "f16d911b8a6a40a698f1e8a817e4a506",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/hover-system/after.png",
+          "sha256": "839ec984abc5f862f766beae28f78bc19d085369418150a59088594308163f03",
+          "length": 1268993
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/hover-system/before.png",
+          "sha256": "cf674d1e38f9b578114b92c920ffc12107b5d766528e49cf6e9c7245e876e6a8",
+          "length": 1266487
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/hover-system/capture.json",
+          "sha256": "82d9589a026d5cfa86f87373bd37ab9785bec7b6063fe20e6c70f92d69e5ee18",
+          "length": 298
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/hover-system/result.json",
+          "sha256": "a36a181124ed0e2699d038f12298b62b106f9d067625e1d254459e09aa641d17",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/hover-system/review.json",
+          "sha256": "8295f0311974d48b1dece74f5a389863b7c918c56041dc5d8b0140bfc9386e80",
+          "length": 185
+        }
+      ]
+    },
+    {
+      "name": "open-action-bars",
+      "action": "click",
+      "position": [
+        644,
+        338
+      ],
+      "captureId": "7a706a16503d4679911cd3648e6a4047",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-action-bars/after.png",
+          "sha256": "308b1251101e164eace87fdec4e4bc372ffb8f8a951dc23bab3c40508c69cc45",
+          "length": 1240562
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-action-bars/before.png",
+          "sha256": "01512402f0a091e17c214e4af8cc7b966408ffa2d984e52bebc0a9f6df164448",
+          "length": 1250274
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-action-bars/capture.json",
+          "sha256": "978c5d114142b9739fd91b0ee54f95fd0fa6f554e98cb4da88a6d0380b12e1ca",
+          "length": 303
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-action-bars/result.json",
+          "sha256": "d7abd33d3217b207eb4e0e8d6fea71f8d7fc75e343cf0b2570dc84f0f26e3490",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-action-bars/review.json",
+          "sha256": "bab3533a1de27dec038b4fcb8365d30556084089fcceba733922885846b0a0b3",
+          "length": 192
+        }
+      ]
+    },
+    {
+      "name": "open-interface-settings",
+      "action": "click",
+      "position": [
+        629,
+        206
+      ],
+      "captureId": "dfcc7e5f68f64faab673e5df28c71ad0",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-interface-settings/after.png",
+          "sha256": "b9b1455d94cafac6d187d021ef602dc8df0d1fbacc86d5841d4ad8690dadd3b7",
+          "length": 1249728
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-interface-settings/before.png",
+          "sha256": "c1b078e0d659c0731659d10b02c299366b9b4f4028cec03a2534870df6aa346c",
+          "length": 1233566
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-interface-settings/capture.json",
+          "sha256": "ee0d8a0e38568efa3ffce4eae57978c1fefe7c21116134d571b2d8ddb55e9b53",
+          "length": 310
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-interface-settings/result.json",
+          "sha256": "f0d84333e6c379b874341d6c2f2d3d4e393bfef73cd799cf5b0169484381d390",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-interface-settings/review.json",
+          "sha256": "cc57ba4acc5c0a9ac727f601bbbd4ebb295adc6353151174b22741f55d03bea5",
+          "length": 177
+        }
+      ]
+    },
+    {
+      "name": "open-settings",
+      "action": "click",
+      "position": [
+        54,
+        538
+      ],
+      "captureId": "29ae14cda7c148b8aca1d1a03ac8c842",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-settings/after.png",
+          "sha256": "d0728c2fb2f428cab2eb6cbba13273ff4592e7ea672e36d1097cf9a766121f45",
+          "length": 1270781
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-settings/before.png",
+          "sha256": "8c9a90ec581cc18fea3c2029ed3a471d7d6a0ef8edadb36ccc93ec473fbf373a",
+          "length": 1271027
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-settings/capture.json",
+          "sha256": "c842382e757743174724b2d3da8f62803fa487d40158fc756ecb9eb838d062a9",
+          "length": 299
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-settings/result.json",
+          "sha256": "f60179317adf7e1425da61bcdd2f1565fb59e707960291e8cbec4fcc1b97ca1c",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-settings/review.json",
+          "sha256": "0e9870552f3e97db2344a8043e60ac134a76b207b510ff54dcd322fbccb12100",
+          "length": 152
+        }
+      ]
+    },
+    {
+      "name": "open-system",
+      "action": "click",
+      "position": [
+        127,
+        709
+      ],
+      "captureId": "a0b0f5e4dd4e4745981d98ba1bfa6bfd",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-system/after.png",
+          "sha256": "a0c8c22a4b19395d800818e82c3afbcdd7e4ed8e191e8dfc513b6e014b79fec4",
+          "length": 1270459
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-system/before.png",
+          "sha256": "290f88337886b2c3f7570e2f14e2ed72735bcd77bc5e26de2b297f592ec6e719",
+          "length": 1271166
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-system/capture.json",
+          "sha256": "d701dda499db10a133283a99f3d2735bf51abf4825793b7cca9950ee4c62d78c",
+          "length": 298
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-system/result.json",
+          "sha256": "1ec9e040ffdb9f2e60f70247863377018657e1412405eee5cfccb78fddfe3b25",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/open-system/review.json",
+          "sha256": "b9ff434c66db40ca74682959f18cf5af246016060311162e903a60f2e129f7e1",
+          "length": 154
+        }
+      ]
+    },
+    {
+      "name": "queue-ui-post-read",
+      "action": "capture",
+      "position": [
+        null,
+        null
+      ],
+      "captureId": "7281498ff54a48649de6437636125d39",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-post-read/before.png",
+          "sha256": "b0a76fa1a59259ef9ab94dc71d7a0e9f5285ebc772c54b3ffe40d3626c8bd38f",
+          "length": 1255648
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-post-read/capture.json",
+          "sha256": "7ac0485988e0091ba74141051bdd43cbfbbb41a67cf4d17bc615cb07767af187",
+          "length": 309
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-post-read/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    },
+    {
+      "name": "queue-ui-pre-read",
+      "action": "capture",
+      "position": [
+        null,
+        null
+      ],
+      "captureId": "ed3cc0148a1548558d0eb9e27f5a30ec",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-pre-read/before.png",
+          "sha256": "e4393f73f69c06ad99d4e9496a2e743b5cdcb1883645dad7790511d6f5e89688",
+          "length": 1257372
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-pre-read/capture.json",
+          "sha256": "efcec78284afd8e23e68a210b6c4a8eaf710cdca8769060e278b9b7d4df5a6fa",
+          "length": 308
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/queue-ui-pre-read/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    },
+    {
+      "name": "settings-settled",
+      "action": "capture",
+      "position": [
+        null,
+        null
+      ],
+      "captureId": "ccb85c403ae740b79892c82a84f3d204",
+      "originalsVisuallyReviewed": true,
+      "vmIdentityBeforeAfterEqual": true,
+      "buttonReleaseSent": false,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/settings-settled/before.png",
+          "sha256": "0654a2fbad5e56003bebdfdd492435b7bff28bd5f86832c3877a6855143edbba",
+          "length": 1233845
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/settings-settled/capture.json",
+          "sha256": "7beae9b180226d87fa73ee1cb1c233368e8b05c10466e18360a48375b0a5bc23",
+          "length": 307
+        },
+        {
+          "path": "artifacts/lab2-sc613-20261107-1044/settings-settled/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    }
+  ],
+  "authority": {
+    "liveTarget": "Lab-2 only",
+    "externalHostVncdotoolReused": true,
+    "nativeController41888IntentionallyStopped": true,
+    "noSettingDropdownChange": true,
+    "settingsClosedViaCancel": true,
+    "noGameMemoryWriteDebugInjectionPrivilegeEscalationOrCasting": true,
+    "noNewGuestSoftwareOrMouseHelper": true,
+    "noExternalSourceEdits": true,
+    "noOllama": true
+  },
+  "review": {
+    "provider": "FreeBuff installed CLI, existing fixed sc306 mode",
+    "visibleModelLabel": "DeepSeek V4.1 Flash 10/17; UI label only, no model configuration changed",
+    "jobId": "rre_20261107_sc613_freebuff_sc306_new_pair",
+    "jobExitCode": 0,
+    "jobOutputTruncated": false,
+    "startedAtUtc": "2026-11-07T16:01:09.029Z",
+    "endedAtUtc": "2026-11-07T16:01:36.895Z",
+    "transportAcceptedCompletion": true,
+    "finalVerdictQualified": false,
+    "reason": "retained excerpt shows a completion-marker mention in interim text but no usable final verdict; adapter completion is not accepted as substantive review",
+    "ownedProcessStopped": true,
+    "temporaryWorkspaceCleaned": true,
+    "genuineProviderLaunches": 1,
+    "acceptedModelReviews": 0,
+    "scope": "text-only changed SC305/SC306 copies; originals not delivered; no visual-validation claim",
+    "sourceCopies": [
+      {
+        "path": "docs/REA-RIFT-SPELLCASTING-SC305-QUEUE-DOSSIER-2026-10-27.md",
+        "sha256": "f88ec863158597518ec40b0dc06e34595b8018c86356e1d3ffa75828ef436e5c"
+      },
+      {
+        "path": "docs/REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md",
+        "sha256": "c243190a6a3ac84dd317827aa92628f2ea0eb3d213e9c0ef030669ab2d661070"
+      }
+    ]
+  },
+  "sourceArtifacts": [
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/execution-receipts.json",
+      "sha256": "1f8c287fbb2584f458fba968306eb9918eaff94d289e509d0d47f546976fbb72",
+      "length": 1334
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/freebuff-review-receipt.json",
+      "sha256": "c696cc5d2fcb21f495869ae1ef49a40941e8abb0a5890799c05d19b8138eda62",
+      "length": 9739
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/guest-build.json",
+      "sha256": "a9e4a4f08548a2f9bf707b14dc499fe36518170b673ae06cf128012f9a4c9ef6",
+      "length": 1368
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/guest-query.ps1",
+      "sha256": "b1f635175abc0a0d4da380423be459135988f8317f623e4ed9665b981e42705e",
+      "length": 963
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/identity-cleanup.json",
+      "sha256": "7990a37f8821171c0d6e9b2b46292b126ffedf844b196286d39a29aabb6038fb",
+      "length": 444
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/independent-correlation.json",
+      "sha256": "3ab16c1ab2f65c4a3616c05c6f6d7caa1fba4b2abba59d0797746e9481af573a",
+      "length": 2648
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/inventory-readers.py",
+      "sha256": "99af2c073f01552f05ec117b4ee05f720446202a5d37885eb1f4a667923d89d1",
+      "length": 3047
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root-v2.invoke.ps1",
+      "sha256": "66a50e67288288e5fd1367f61f393584157d9a78367b921187347e7fd716af1d",
+      "length": 1074
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root-v2.json",
+      "sha256": "12d5f68fdeb830a561bca4e8af4488c445442d5716fae0f0811e65abd04557bf",
+      "length": 2847
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root-v2.request.json",
+      "sha256": "634ab59eb22c34b09326d0745a18a2fb744381e09cbb90bfaa36408b91b4f9a9",
+      "length": 569
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root-v2.stage.ps1",
+      "sha256": "cfcefbfdd50b833e3499e5bd0966e19981e72549b1c02257cd6e42166c8414ec",
+      "length": 745
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root.invoke.ps1",
+      "sha256": "1c14288f729431db4aafabc22ef8953682e901e4ea767dac5f65fdec258d36c7",
+      "length": 1810
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/loaded-code-and-settings-root.request.json",
+      "sha256": "634ab59eb22c34b09326d0745a18a2fb744381e09cbb90bfaa36408b91b4f9a9",
+      "length": 569
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/native-inspection.invoke.ps1",
+      "sha256": "f8327f2262a838ffdd754c5d48199bc7527bbef49863376c7aad1fe3013b6cf7",
+      "length": 929
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/native-inspection.json",
+      "sha256": "76317148d062a813e81cc21d0010723e8cff4c35e0752c1a79bb55a58e93ec76",
+      "length": 1781
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-a-v2.invoke.ps1",
+      "sha256": "f533ecaff95f96d282d6fb3b75b0c8e41e7870a303ba93f62db11dfe48bef96a",
+      "length": 1041
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-a-v2.json",
+      "sha256": "ef1ae4af78cb78f05781938dc54b185ce8dfe97b10cefc459568ac289b25d8c6",
+      "length": 2046
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-a-v2.request.json",
+      "sha256": "52a190b2d2be543ddc85558bebabbfda92e8b852a60c9c28132653f4089d43ad",
+      "length": 321
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-a-v2.stage.ps1",
+      "sha256": "2cd64db153489ab0257b428d43b1c5c0f6ab54aa3f244dc491cb2733ea1b9c89",
+      "length": 481
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-b-v2.invoke.ps1",
+      "sha256": "074f216d6d6ea10c0dda7ff6bafe9dd2d39ca8d25fefb3004473eead9b4b3cb9",
+      "length": 1041
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-b-v2.json",
+      "sha256": "2fbb74e268984053b20230b71bacd9e0365acd2c3078da1fc97361293ed967d6",
+      "length": 2046
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-b-v2.request.json",
+      "sha256": "52a190b2d2be543ddc85558bebabbfda92e8b852a60c9c28132653f4089d43ad",
+      "length": 321
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/queue-field-b-v2.stage.ps1",
+      "sha256": "5e8ad7d34f62defaba9ceec13a46928f69b23d709f420c6ea228694ca4942876",
+      "length": 481
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/reader-preflight-cleanup.json",
+      "sha256": "7990a37f8821171c0d6e9b2b46292b126ffedf844b196286d39a29aabb6038fb",
+      "length": 444
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/reader-preflight.json",
+      "sha256": "2f4441f3958bf8cd210ca257a2308ef965fafd9a51a7833283a3e53b687beacf",
+      "length": 523
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/reader-preflight.ps1",
+      "sha256": "d2561f5b297829e99db860e0d1b13b513acbfe138a3300b40e89512815f2d46b",
+      "length": 936
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/reader-preflight.py",
+      "sha256": "1446e48c3a8e858a16d490dbed00ea86dd92aba42c892297422748ed3cf03558",
+      "length": 3048
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/sample-queue-v2.py",
+      "sha256": "4868d5178360dd0424465e74b474bf9874c1ef05c2b787bc23cfb2670b3a24fe",
+      "length": 5188
+    },
+    {
+      "path": "artifacts/lab2-sc613-20261107-1044/sample-queue.py",
+      "sha256": "d14ae0d13a2b8e0dc07191a7f4e5c69dfe8824fb2e884191077a86063bba409e",
+      "length": 4822
+    }
+  ],
+  "validation": {
+    "originalHashChecks": 68,
+    "actualGuestRequestPayloadHashes": 3,
+    "independentChecks": 38,
+    "negativeControls": 2,
+    "jsonLinksRoadmapDiff": "pass; source/JSON/links/roadmap checked; staged diff required before commit",
+    "fullSuiteRun": false,
+    "reason": "documentation/evidence only; no implementation integration",
+    "sourceCopyHashes": 2,
+    "otherTaskChanges": "SC306 intended partial evidence only; all other preexisting tasks unchanged"
+  },
+  "remainingGates": [
+    "SC306 full enum0/2 open",
+    "SC103 Warrior Legendary/identity blocked",
+    "actualqueue/GCD/server acceptance unproven",
+    "broaderSC604interim",
+    "RC26/30/31/32pending",
+    "NAV002blocked"
+  ],
+  "cleanup": {
+    "observedAtUtc": "2026-11-07T16:08:22Z",
+    "workbridgeRunningJobs": 0,
+    "rreRegisteredTasks": 0,
+    "rreRegisteredOwners": 0,
+    "historicalJobCatalogComplete": false,
+    "establishedVncConnections": 0,
+    "externalMouseProcesses": 0,
+    "nativeController41888Running": false,
+    "ownedGuestRequestAndOutputCleanupConfirmed": true,
+    "ownedFreebuffProcessStopped": true,
+    "ownedFreebuffWorkspaceCleaned": true
+  }
+}

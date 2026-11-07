@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-612: Lab-2 BolinaoL43Rogue Role1 native allocation43Ranger/14Marksman/0Bard,57spent/0remaining; eight Ranger names uniquely match SC610 APIcatalog with native Builder/Finisher/Damage groups. Saved file unchanged; build/process bracket matches. Future-root tooltip/unlock binding inconclusive. SC103/306 blocked; broaderSC604/RC/NAV unchanged; native controller stopped/external mode/no Ollama.",
+  "status": "2026-11-07 SC-613 accepted observed Lab2 pair1->Short with unchanged UI bracket, two read-only native field samples, exact loaded-source/request/identity checks. SC306 full enum remains open0/2; SC103, broaderSC604/RC/NAV gates unchanged. SC612 native Rogue43Ranger/14Marksman/0Bard and SC611generic word-key container finding retained. External mode/controller stopped; no Ollama. One genuine FreeBuff launch but no qualified final review.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -26,7 +26,7 @@
       "path": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
       "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
       "scope": "Lab-2 sole live target; existing exact-byte offline source reusable without transferring runtime qualification",
-      "lastObservedAt": "2026-11-07T14:44:51.2510073Z",
+      "lastObservedAt": "2026-11-07T15:51:47.4376733Z",
       "lastObservedProcessId": 9752,
       "processStartUtcTicks": "639294897826627677",
       "processIdIsVolatile": true,
@@ -36,7 +36,7 @@
       "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
       "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
       "gameInputScope": "SC-610 reviewed external addon Capture, tooltip hover, normal UI reload/save and UI-only Hide; no casting/movement",
-      "currentEvidence": "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json"
+      "currentEvidence": "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json"
     },
     "historicalPhysicalResearchTarget20261027": {
       "kind": "physical-pc-local-RIFT",
@@ -721,7 +721,23 @@
         "Do not steal desktop/game focus or input when RIFT is background",
         "No assumption raw 1 corresponds to any particular label",
         "SC3 GCD not declared complete"
-      ]
+      ],
+      "partialEvidence": {
+        "lab2ObservedPair20261107": {
+          "value": 1,
+          "label": "Short",
+          "report": "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.md",
+          "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json",
+          "buildSha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+          "sameEpochNativeReads": 2,
+          "unobservedValues": [
+            0,
+            2
+          ],
+          "atomicAcquisition": false,
+          "actualQueueBehaviorProven": false
+        }
+      }
     },
     {
       "id": "SC-407",
@@ -1370,6 +1386,41 @@
         "docs/REA-RIFT-SPELLCASTING-SC612-ROGUE-UI-2026-11-07.json"
       ],
       "assessment": "Accepted native Lab-2 role1 Rogue allocation43Ranger/14Marksman/0Bard and eight unique name-correlated native Builder/Finisher/Damage entries. Future-root tooltip binding/thresholds not qualified; saved bytes unchanged; no role/allocation/casting changes."
+    },
+    {
+      "id": "SC-613",
+      "milestone": "SC3",
+      "title": "Correlate Lab-2 native Ability Queue UI mode with existing read-only native field sample",
+      "state": "completed",
+      "dependsOn": [
+        "SC-305",
+        "SC-610"
+      ],
+      "owner": "single RRE manager; external console for UI only",
+      "lane": "manager-lab2-queue-correlation",
+      "ownedPaths": [
+        "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md"
+      ],
+      "researchQuestion": "Can unchanged Lab-2 Ability Queue UI mode be paired with same-epoch native +0xA4 value using an already-installed read-only RR2 executable?",
+      "acceptance": [
+        "Fresh VM/process/build identity and original selected-mode screenshots",
+        "No setting toggle, keyboard/movement/casting, new guest software or competing controller",
+        "Inspect installed tool and exact host/source hash before reuse; existing snapshot/follow-pointer only, read-only handles and narrow bytes",
+        "Match selected native code bytes to exact guest executable and bracket value with UI/identity; report only observed pair, not all enum values or queue behavior",
+        "If no existing safe reader or UI route, stop and record precise gap; no new memory reader",
+        "Scoped evidence/hash/JSON/link/roadmap/diff validation, handoff and commit"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "reviewed reversible native UI opening/tab viewing only; existing read-only memory/file diagnostics, no setting changes",
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json"
+      ],
+      "assessment": "Accepted observed Lab2 build/session pair1->Short: unchanged UI bracket, two same-epoch field reads, loaded code and exact request hashes, independent38checks/2negative controls. 0/2 and queue behavior remain unproven. FreeBuff transport completion yielded no usable verdict; no accepted model review."
     }
   ],
   "checkpointPolicy": {
@@ -1617,7 +1668,21 @@
       "rea-localpc-queue-config-scan-20261027-01",
       "rea-localpc-queue-global-xrefs-20261027-01",
       "rea-localpc-game-foreground-windows-20261027-01"
-    ]
+    ],
+    "lab2ObservedPair20261107": {
+      "value": 1,
+      "label": "Short",
+      "report": "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.md",
+      "machineEvidence": "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json",
+      "buildSha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+      "sameEpochNativeReads": 2,
+      "unobservedValues": [
+        0,
+        2
+      ],
+      "atomicAcquisition": false,
+      "actualQueueBehaviorProven": false
+    }
   },
   "sc407Evidence": {
     "status": "completed-narrow-native-command-entry",

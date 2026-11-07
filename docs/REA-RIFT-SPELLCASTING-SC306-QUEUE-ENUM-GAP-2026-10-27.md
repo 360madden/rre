@@ -57,3 +57,22 @@ An independent read-only QA review found that the staged fixture originally matc
 - **Negative controls:** Three **in-memory only** source substitutions independently triggered intentional assertion failures: (1) injecting an extra emitted line and (2) allowing `3` in the numeric allowlist, and (3) emitting `print(status, synthetic_secret)` with two arguments. Jobs `rre-sc306-exact-output-red-mutants-20261104-a1` and `rre-sc306-multiarg-red-mutant-20261104-a1` returned exit 0 after detecting all three expected-red outcomes, with no mutant files written.
 
 **Gate remains blocked:** This confirms that the fixture detects output drift and protects against unknown numeric values; it does **not** map `0/1/2` to Full/Short/None, prove that `3` is a real mode, establish same-epoch native `+0xA4`, or authorize in-game input or setting changes.
+
+## November 7, 2026 — Lab-2 observed pair 1 → Short
+
+The newer [SC-613 source-bound report](REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.md) qualifies one pair without changing the setting. Native Lab-2 UI showed **Ability Queue: Short**, Apply disabled, before/after the reads. The already-installed, host-matching RR2 reader B8A725E6A9CE663C36CB836681ED660261B07FDA4118A0167262E92131B2373E used read-only snapshot/follow-pointer commands; no new reader, debugger, injection, input controller or memory write.
+
+Exact game SHA1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8/PID9752/start639294897826627677 was revalidated. Three code/literal windows matched the qualified original guest executable, including getter8b98a4000000 and writer8999a4000000. Current rootRVA0x33958C0 resolved to the same settings object for both reads. At **15:51:38.9134000Z** and **15:51:47.4376733Z**, terminal+0xA4 yielded **01000000 = unsigned1**; exact expected/observed identities agreed. Original UI images show unchanged **Short** at10:51:21EST and10:52:15EST. No dropdown change; Cancel closed the panel afterward.
+
+Independent original-PE/byte/hash/base64/identity/pointer/field verification passed **38 checks/two negative controls**. Existing-tool continuation jobrre_20261107_sc613_existing_reader_queue_v2 exited0/untruncated; earlier oversized-script failure occurred before any snapshot, preserved as a failed receipt. This is a stable UI bracket with sequential native reads, **not an atomic acquisition or a controlled mode contrast**.
+
+**Narrow accepted association: 1 → Short for this exact build and Lab-2 epoch. Values0/2 remain unmapped; full enum mapping, actual queue behavior/GCD/server timing remain open.** Historical physical-session pointers were not transferred. A text-only independent reviewer can audit this claim and its limits; original screenshots/native reports are retained locally, not copied into the fixed FreeBuff text-review workspace.
+
+Original artifact SHA-256 receipts under `artifacts/lab2-sc613-20261107-1044/`:
+
+- `queue-ui-pre-read/before.png`: `e4393f73f69c06ad99d4e9496a2e743b5cdcb1883645dad7790511d6f5e89688`
+- `queue-ui-post-read/before.png`: `b0a76fa1a59259ef9ab94dc71d7a0e9f5285ebc772c54b3ffe40d3626c8bd38f`
+- `queue-field-a-v2.json`: `ef1ae4af78cb78f05781938dc54b185ce8dfe97b10cefc459568ac289b25d8c6`
+- `queue-field-b-v2.json`: `2fbb74e268984053b20230b71bacd9e0365acd2c3078da1fc97361293ed967d6`
+- `loaded-code-and-settings-root-v2.json`: `12d5f68fdeb830a561bca4e8af4488c445442d5716fae0f0811e65abd04557bf`
+- `independent-correlation.json`: `3ab16c1ab2f65c4a3616c05c6f6d7caa1fba4b2abba59d0797746e9481af573a`
