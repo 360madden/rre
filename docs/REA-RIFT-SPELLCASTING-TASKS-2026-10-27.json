@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-613 accepted observed Lab2 pair1->Short with unchanged UI bracket, two read-only native field samples, exact loaded-source/request/identity checks. SC306 full enum remains open0/2; SC103, broaderSC604/RC/NAV gates unchanged. SC612 native Rogue43Ranger/14Marksman/0Bard and SC611generic word-key container finding retained. External mode/controller stopped; no Ollama. One genuine FreeBuff launch but no qualified final review.",
+  "status": "2026-11-07 SC615 external mouse research accepted: retain installed vncdotool; nine capture-only timings, no backend switch. SC614 native/API set comparison pending full audit/report. SC616/617 two user-requested read-only built-in agents investigate richer addon discovery and actual bidirectional channels. Lab2 only; no FreeBuff/Ollama. Earlier accepted SC611/612/613 and blocked broader gates retained.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-614",
   "gameInputAuthorized": false,
@@ -1458,6 +1458,104 @@
       "gameInputAuthorized": true,
       "authorizationScope": "external reviewed addon Capture and existing normal reloadui macro only; passive read-only installed native tools and owned temporary data",
       "evidence": []
+    },
+    {
+      "id": "SC-615",
+      "milestone": "SC6",
+      "title": "Research optimal external Lab-2 mouse transport and measure existing capture overhead",
+      "state": "completed",
+      "dependsOn": [
+        "SC-609"
+      ],
+      "owner": "single RRE manager",
+      "lane": "manager-external-mouse-options-research",
+      "ownedPaths": [
+        "docs/REA-RIFT-LAB2-MOUSE-OPTIONS-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-MOUSE-OPTIONS-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Which reused third-party host-side mouse path best fits Lab2 speed, reliability, efficiency and future toolset?",
+      "acceptance": [
+        "Compare official GitHub/source documentation for existing vncdotool, asyncvnc, noVNC, LibVNCClient and desktop-input alternatives",
+        "Measure existing Lab2 capture-only connection/frame costs with same identity/mutex; no click benchmark, software install or backend switch",
+        "Separate measured local results from unmeasured cross-library performance; publish a concrete recommendation and qualification limits",
+        "Preserve Lab2-only/external-only/provider hold and SC614 original evidence; checkpoint and scoped validation"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-LAB2-MOUSE-OPTIONS-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-MOUSE-OPTIONS-2026-11-07.json"
+      ],
+      "acceptedScope": "Contextual reuse recommendation and nine capture-only frame timings; no backend implementation/switch or new live mouse function."
+    },
+    {
+      "id": "SC-616",
+      "milestone": "SC6",
+      "title": "Assess richer RRECollector discovery features using existing documented addon APIs",
+      "state": "pending",
+      "dependsOn": [
+        "SC-605",
+        "SC-610"
+      ],
+      "owner": "RRE manager integrates; one read-only built-in subagent",
+      "lane": "read-only-addon-discovery-investigation",
+      "ownedPaths": [
+        "docs/agents/read-only-addon-discovery-investigation.md",
+        "docs/agents/read-only-addon-discovery-investigation.json"
+      ],
+      "researchQuestion": "Which richer addon features close actual unresolved discovery gaps with less capture/reconciliation work?",
+      "acceptance": [
+        "Read current RRECollector source/RC roadmap and authoritative local API reference; reuse existing tools and protocols before proposing new ones",
+        "Report exact supported capabilities, unresolved assumptions, source paths/lines, prioritized value and concrete offline/live acceptance checks",
+        "Read-only investigation only: no source edits, game input, deployments, provider CLI or recursive delegation",
+        "Manager independently reviews output and persists scoped report/task/handoff after validating provenance"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [],
+      "workerReceipt": {
+        "provider": "built-in collaboration subagent",
+        "canonicalTask": "/root/addon_discovery_research",
+        "readOnly": true,
+        "managerSoleWriter": true,
+        "statusAtCheckpoint": "running",
+        "freebuff": false,
+        "ollama": false
+      }
+    },
+    {
+      "id": "SC-617",
+      "milestone": "SC6",
+      "title": "Assess bidirectional addon data protocols and existing transport reuse",
+      "state": "pending",
+      "dependsOn": [
+        "SC-605",
+        "SC-610"
+      ],
+      "owner": "RRE manager integrates; one read-only built-in subagent",
+      "lane": "read-only-addon-protocol-investigation",
+      "ownedPaths": [
+        "docs/agents/read-only-addon-protocol-investigation.md",
+        "docs/agents/read-only-addon-protocol-investigation.json"
+      ],
+      "researchQuestion": "What inbound/outbound channels actually exist in RIFT, and which framed protocols are feasible without claiming unsupported external inbound capability?",
+      "acceptance": [
+        "Read current RRECollector source/RC roadmap and authoritative local API reference; reuse existing tools and protocols before proposing new ones",
+        "Report exact supported capabilities, unresolved assumptions, source paths/lines, prioritized value and concrete offline/live acceptance checks",
+        "Read-only investigation only: no source edits, game input, deployments, provider CLI or recursive delegation",
+        "Manager independently reviews output and persists scoped report/task/handoff after validating provenance"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [],
+      "workerReceipt": {
+        "provider": "built-in collaboration subagent",
+        "canonicalTask": "/root/addon_protocol_research",
+        "readOnly": true,
+        "managerSoleWriter": true,
+        "statusAtCheckpoint": "running",
+        "freebuff": false,
+        "ollama": false
+      }
     }
   ],
   "checkpointPolicy": {

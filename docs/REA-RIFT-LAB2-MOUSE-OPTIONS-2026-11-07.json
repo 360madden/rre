@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-615",
+  "observedAtUtc": "2026-11-07T16:57:07.693134+00:00",
+  "recommendation": "Keep direct VMware VNC and installed vncdotool1.4.2. First optimize bounded same-connection sessions and observation/review overhead; do not switch libraries without comparable end-to-end measurements.",
+  "recommendationIsContextualNotUniversalFastest": true,
+  "currentAdapter": "tools/external-lab2-mouse.py",
+  "currentAdapterSha256": "abcbc67fe535fb26ecef2f8b61962a7609ddb7c67113e9f5eddfd663d6d5def1",
+  "measured": {
+    "firstFrameIncludingConnectMedianMs": 88.32605001225602,
+    "firstFrameIncludingConnectRangeMs": [
+      81.64419999229722,
+      367.7355000108946
+    ],
+    "persistentLaterFrameMedianMs": 72.6538999879267,
+    "persistentLaterFrameRangeMs": [
+      65.47309999587014,
+      1019.6926000062376
+    ],
+    "firstFrameSamples": 4,
+    "laterFrameSamples": 5,
+    "crossLibraryBenchmark": false,
+    "clickOrVisibleResponseLatencyMeasured": false,
+    "smallSequentialSample": true
+  },
+  "benchmarkArtifact": "artifacts/lab2-mouse-options-20261107-1157/capture-benchmark.json",
+  "benchmarkSha256": "bd9660023cfdb01760784ac2bf1b55b0599c6431d7cfc7ef0197ddbb96aac6f8",
+  "sourceHelperSha256": "5b6863660f23712c14c9548dff96a10fc0e7bf1dee95cf3b3d3362e35a4e6990",
+  "installedVersion": "1.4.2",
+  "desktop": [
+    1211,
+    757
+  ],
+  "vmx": "c:\\rift modding\\vms\\rift-lab-2\\rift-lab.vmx",
+  "port": 5962,
+  "noInputSent": true,
+  "mutexReleased": true,
+  "allConnectionsClosed": true,
+  "crossLibraryBenchmark": false,
+  "backendChanged": false,
+  "softwareInstalled": false,
+  "ollamaUsed": false,
+  "freebuffUsed": false,
+  "sources": [
+    {
+      "project": "vncdotool",
+      "url": "https://github.com/sibson/vncdotool",
+      "role": "current installed backend"
+    },
+    {
+      "project": "vncdotool1.4.2 synchronous API",
+      "url": "https://github.com/sibson/vncdotool/blob/v1.4.2/docs/library.rst",
+      "role": "persistent client; single caller thread; explicit shutdown"
+    },
+    {
+      "project": "vncdotool1.4.2 primitives",
+      "url": "https://github.com/sibson/vncdotool/blob/v1.4.2/vncdotool/client.py",
+      "role": "mouse buttons/move/drag, capture and ROI implementation"
+    },
+    {
+      "project": "AsyncVNC",
+      "url": "https://github.com/barneygale/asyncvnc",
+      "role": "async alternative; no Lab2 qualification or speed comparison"
+    },
+    {
+      "project": "noVNC",
+      "url": "https://github.com/novnc/noVNC",
+      "role": "browser viewer; WebSocket requirement and optional TCP proxy"
+    },
+    {
+      "project": "LibVNCClient",
+      "url": "https://libvnc.github.io/doc/html/group__libvncclient__api.html",
+      "role": "native API with framebuffer-relative pointer events"
+    },
+    {
+      "project": "VNC Agent Bridge",
+      "url": "https://github.com/Ganzzi/vnc-agent-bridge",
+      "role": "richer advertised agent facade; not independently qualified"
+    },
+    {
+      "project": "PyAutoGUI",
+      "url": "https://pyautogui.readthedocs.io/en/latest/",
+      "role": "host desktop/window input alternative"
+    },
+    {
+      "project": "PyDirectInput",
+      "url": "https://github.com/learncodebygaming/pydirectinput",
+      "role": "Windows SendInput alternative; host viewer would require focus/geometry mapping"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-1.png",
+      "sha256": "d5992d7ee4bc217fa6bdce970dbe265eddc7673b6e6fb686f8395235e4af1f21",
+      "length": 1104046
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-2.png",
+      "sha256": "76dc1034bb03ab8f1a5225fad900840eb3de3dc1ac473eaf9da47c4ef66f6531",
+      "length": 1102577
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-3.png",
+      "sha256": "5d76bbc4a9a978af92f2aff46bcd82282ad926a6218c7d016815a8dd168df305",
+      "length": 1102286
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-4.png",
+      "sha256": "a447f4215829671a064adb062b275cf8f56905121c2f35fbf2444b6f4393624d",
+      "length": 1102660
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-5.png",
+      "sha256": "577a13d54d5e5a28dede25259e30aad4cc6797ae247682eed411a090580296ce",
+      "length": 1102435
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/persistent-6.png",
+      "sha256": "4ba2d94ddcef5bab0f00ce019dfe81d5d104145c29a05088c902231d5f388626",
+      "length": 1102799
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/reconnect-1-1.png",
+      "sha256": "37507d7cca0f9de4514e37477a3aacb5ecf17791cdcbf822dc712f4ae6c4eac4",
+      "length": 1104815
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/reconnect-2-1.png",
+      "sha256": "1eadcdb53ddeeec753522dd05e264b3e57f06e67c97aa24b66190312911e0734",
+      "length": 1104262
+    },
+    {
+      "path": "artifacts/lab2-mouse-options-20261107-1157/reconnect-3-1.png",
+      "sha256": "248357294343ada03d06c29de7713b0d32c396c5b67559ed2844cfe7e52d8b87",
+      "length": 1104216
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/benchmark-mouse-capture.py",
+      "sha256": "e4dbe68c396e1e29e9b25db0159f16bc5e242a309b82ca99dae349d00a329b81"
+    }
+  ],
+  "qualifiedFunctions": [
+    "capture",
+    "absolute move/hover",
+    "reviewed left click"
+  ],
+  "notQualified": [
+    "right click",
+    "wheel",
+    "drag",
+    "continuous relative camera input",
+    "unattended gameplay"
+  ],
+  "limitations": [
+    "Small sequential capture-only sample, not a randomized library comparison.",
+    "First-frame measurement includes lazy protocol authentication/first framebuffer and first-use library work; it is not pure TCP handshake latency.",
+    "Capture includes full frame fetch, PNG encode/write and image verification; it does not measure click or game-visible response latency.",
+    "Persistent frame outlier1019.693ms retained; no sustained FPS or p95 claim.",
+    "Existing adapter adds100ms left-button hold plus350ms observation delay and separate screenshot/review/tool-call overhead.",
+    "Current blocked-path consoleMutexReleased flag can be false after actual context-manager release; independent ownership check required."
+  ]
+}
