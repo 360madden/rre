@@ -6,7 +6,7 @@
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
   "status": "2026-11-07 SC-607: RIFT-Lab-2 is the sole live-testing target. Fresh-byte executable SHA matches recent SC-604 static evidence; guarded native/UI inspection and watchdog release passed. Bolinao L43 in-world, collector UI v0.4.10 Known0/Static96/no saved candidate receipt; Lab-2 collector parity, persisted version and functional capture unverified. SC-103/SC-306 remain blocked, SC-604 interim; physical-PC v0.4.11 results remain historical and separate.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-608",
+  "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1181,13 +1181,14 @@
       "id": "SC-608",
       "milestone": "SC6",
       "title": "Qualify reliable guarded mouse interaction in Lab-2",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-607"
       ],
       "owner": "single RRE manager; sole live input owner per acquired Lab-2 lease",
       "lane": "manager-lab2-mouse",
       "ownedPaths": [
+        "AGENTS.md",
         "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.md",
         "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.json",
         "tools/qualify-lab2-mouse.py",
@@ -1208,7 +1209,13 @@
       ],
       "gameInputAuthorized": true,
       "authorizationScope": "bounded Lab-2 mouse qualification; start with reversible addon UI controls",
-      "evidence": []
+      "evidence": [
+        "tools/qualify-lab2-mouse.py",
+        "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "assessment": "Accepted bounded current-session position-verified left-click route: 6/6 delivered/released/cleaned clicks and visually reviewed UI responses, 3 reversible round trips. One early image inconclusive; independent confirmation and added 350ms settled capture. Full gate exit1 on preexisting historical collision/pathfinding SHA pins; focused negative admission checks passed. No broader mouse/restart/gameplay qualification."
     }
   ],
   "checkpointPolicy": {

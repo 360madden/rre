@@ -1,0 +1,651 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-608",
+  "timezone": "America/New_York",
+  "target": "RIFT-LAB-2 only",
+  "baseCommit": "c83015ff5d88af2b582a917aa425dee3f3f9f4f6",
+  "buildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "processId": 9752,
+  "processStartUtcTicks": "639294897826627677",
+  "windowHandle": "0x401BC",
+  "clientSize": [
+    1211,
+    702
+  ],
+  "authority": "November 7 user approved needed mouse-qualification operations; no Ollama",
+  "method": "existing managed RR2 controller + RRE adapter; per-click fresh-byte identity, original screenshot review, queue grant, one-use arm, position-verified left click, button release, STOP, exact-generation watchdog cleanup",
+  "adapter": {
+    "path": "tools/qualify-lab2-mouse.py",
+    "sha256": "71747d627477e5cfe0969ca795d998d81036eae0aef1fb19dba91e73df2a8996",
+    "newInputBackend": false,
+    "externalSourceEdits": false
+  },
+  "summary": {
+    "deliveredClicks": 6,
+    "releasedClicks": 6,
+    "positionVerifiedClicks": 6,
+    "visuallyVerifiedUIResponses": 6,
+    "verifiedCleanups": 6,
+    "reversibleRoundTrips": 3,
+    "immediateFramesInconclusive": 1,
+    "inputTrialFailures": 0,
+    "preInputAdapterFailureCount": 1,
+    "finalBrowserVisible": false,
+    "elapsedMillisecondsRange": [
+      182.6809,
+      238.5254
+    ],
+    "qualification": "bounded reversible left-click and positioning route accepted for this build/session/window; no general statistical reliability or restart/resize/drag/right-click/wheel qualification"
+  },
+  "findings": [
+    "Opening the browser moved the toolbar from y522 to y303; later clicks used newly reviewed client coordinates.",
+    "Screen cursor equals client rectangle center plus guest client origin (0,23); all six guest position events match.",
+    "close-02 immediate capture remained open 141ms after button-up; separate later guarded capture showed closed. No repeat click was sent.",
+    "Adapter retains immediate image and adds a distinct 350ms-settled capture; final two clicks visually passed on settled images. The delay is not a universal UI response bound."
+  ],
+  "trials": [
+    {
+      "name": "browse-02",
+      "purpose": "open-browser",
+      "startedAtUtc": "2026-11-07T13:12:39.259766+00:00",
+      "completedAtUtc": "2026-11-07T13:12:39.4982918+00:00",
+      "clientRectangle": [
+        890,
+        522,
+        48,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 914,
+        "y": 554
+      },
+      "verifiedScreenPosition": {
+        "x": 914,
+        "y": 554
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2509,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": true,
+      "immediateFrameConclusive": true,
+      "settledFrameAdded": false,
+      "reviewImage": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\after\\capture\\image.bmp",
+      "elapsedMilliseconds": 238.5254,
+      "adapterSha256AtTrial": "07a1e7bb1c8126eb0ac6efcfe7d5b31907b6e92deefb2b0b697483a21e618cb9",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\intent.json",
+          "sha256": "99bdad7497239826a29d4a6e0be8968be5d5e58eb16bbe49808313387af656e4"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\action.json",
+          "sha256": "b06c9d5411014cb6fd31af3bb1f4dc0ae022b0631e5c0d8f0321bbe0934ba6d0"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\cleanup.json",
+          "sha256": "d01c6dab23afb1a03119e671f88f2a58fabd251f7f3150afba87cafd5f0fa84d"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\final-status.json",
+          "sha256": "eb6b7a27fa689e54b8b751190d0f8ebe82264b7ac4f725ebde3e7cede60d7a52"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\result.json",
+          "sha256": "9bbce46fc7ef3347c505748866865c0d55f957b9bc9fe291b697c62171f849a8"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\before\\capture\\capture.json",
+          "sha256": "160056f5b559aa22ded36165e6059ccd7c0a53bbd001b345449c3f75dad7a536"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\before\\capture\\image.bmp",
+          "sha256": "aa9f949d8a2e004fe9cfde31dc713ada84e6ddae3d47fc6af45b5cbfc225a067"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\after\\capture\\capture.json",
+          "sha256": "ba06d786d7a87c09f8fb9d0ab7e97ddfc4e51912144807a0ea9c50148c647e9f"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-02\\after\\capture\\image.bmp",
+          "sha256": "c29525feb3368989c8d8d61b48dea81b25f801ddd7287919fe320edf5c5020f9"
+        }
+      ]
+    },
+    {
+      "name": "close-01",
+      "purpose": "close-browser",
+      "startedAtUtc": "2026-11-07T13:13:18.5695367+00:00",
+      "completedAtUtc": "2026-11-07T13:13:18.7562025+00:00",
+      "clientRectangle": [
+        1124,
+        399,
+        76,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 1162,
+        "y": 431
+      },
+      "verifiedScreenPosition": {
+        "x": 1162,
+        "y": 431
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2511,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": false,
+      "immediateFrameConclusive": true,
+      "settledFrameAdded": false,
+      "reviewImage": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\after\\capture\\image.bmp",
+      "elapsedMilliseconds": 186.6654,
+      "adapterSha256AtTrial": "07a1e7bb1c8126eb0ac6efcfe7d5b31907b6e92deefb2b0b697483a21e618cb9",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\intent.json",
+          "sha256": "8f4a12e8e5221e1c077607ee61e9fbae94d012e65bafbc0e02c663594ea64282"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\action.json",
+          "sha256": "3fd20fb4e6666e780160e03ceb5a92d26e3f151313f1969607e2987676ae45f3"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\cleanup.json",
+          "sha256": "9d0de02aef90017274a469c8d3c7b6695f47dcb8acdfb389c333cf6067de2b3a"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\final-status.json",
+          "sha256": "ad32e472cdb346e6d1da2ff074fc9daea15092f6f977de96547504daf1698ca0"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\result.json",
+          "sha256": "62e89efd8c2df76eecac6ac0368804005f377474d4f228a93544a54eacdeadf4"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\before\\capture\\capture.json",
+          "sha256": "97b1b6d22bb319fd20516df0dc70bb0c19956b4e8a9e358d3137fcadc6e9ed5c"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\before\\capture\\image.bmp",
+          "sha256": "9f5fca13d40db91c33d4b802c493ecb9fc973188e368216c68bb8c2d66bdd039"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\after\\capture\\capture.json",
+          "sha256": "ffbe4e745e5785ae6c57cf3db73f84ccb571c8bfc946121f6941fcc914570ef3"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-01\\after\\capture\\image.bmp",
+          "sha256": "24fa50a2ec9db1a7ea1f383f29c5fbd3f5205cfdd55a1901baf29ae474ad2fdf"
+        }
+      ]
+    },
+    {
+      "name": "browse-03",
+      "purpose": "open-browser",
+      "startedAtUtc": "2026-11-07T13:13:59.1774874+00:00",
+      "completedAtUtc": "2026-11-07T13:13:59.3711071+00:00",
+      "clientRectangle": [
+        890,
+        303,
+        48,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 914,
+        "y": 335
+      },
+      "verifiedScreenPosition": {
+        "x": 914,
+        "y": 335
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2513,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": true,
+      "immediateFrameConclusive": true,
+      "settledFrameAdded": false,
+      "reviewImage": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\after\\capture\\image.bmp",
+      "elapsedMilliseconds": 193.619,
+      "adapterSha256AtTrial": "07a1e7bb1c8126eb0ac6efcfe7d5b31907b6e92deefb2b0b697483a21e618cb9",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\intent.json",
+          "sha256": "f8798062948cc6ae91b52de8ab06fdef83e2192530154da3396a7e31e5b4b3f6"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\action.json",
+          "sha256": "d831c85ce9f8b0a4af41a8b6785bb777ae3a08876ff16c1026b0045ec25cdeda"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\cleanup.json",
+          "sha256": "14613f8d4a1f6024fc97239d8c40f17c02525c90eef921d8cfdd749d950ba10a"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\final-status.json",
+          "sha256": "8ef997fefb7ff916ab88537b0192cf1b5e5c7bd6cc97986f34b2f237d80b7abf"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\result.json",
+          "sha256": "776b15172e780e507c88101c822f2d7df73ba8580d383117f1b8b41eb5691459"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\before\\capture\\capture.json",
+          "sha256": "7cf7a8cd73cfd7a3cf0c3f307e022a04fe9de4702b277b611db0311f737129c5"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\before\\capture\\image.bmp",
+          "sha256": "b4f3e80891ecb8c2c451569fb442e884d8000d624c24407983a9ed8878bce5fb"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\after\\capture\\capture.json",
+          "sha256": "27426ce22c899aeee2ec75ed13839dccaafc73d1ecbb171ddbf343f243ab1db0"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-03\\after\\capture\\image.bmp",
+          "sha256": "9f73165204db99a9b41765132e08cfbc41eeda9f8049901498edf3eecf0ae3c3"
+        }
+      ]
+    },
+    {
+      "name": "close-02",
+      "purpose": "close-browser",
+      "startedAtUtc": "2026-11-07T13:14:31.5428507+00:00",
+      "completedAtUtc": "2026-11-07T13:14:31.7455709+00:00",
+      "clientRectangle": [
+        1124,
+        399,
+        76,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 1162,
+        "y": 431
+      },
+      "verifiedScreenPosition": {
+        "x": 1162,
+        "y": 431
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2515,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": false,
+      "immediateFrameConclusive": false,
+      "settledFrameAdded": false,
+      "reviewImage": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-mouse-confirm-1794057286462\\capture\\image.bmp",
+      "elapsedMilliseconds": 202.7197,
+      "adapterSha256AtTrial": "07a1e7bb1c8126eb0ac6efcfe7d5b31907b6e92deefb2b0b697483a21e618cb9",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\intent.json",
+          "sha256": "8f4a12e8e5221e1c077607ee61e9fbae94d012e65bafbc0e02c663594ea64282"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\action.json",
+          "sha256": "ea0b25577aa4a0c72ce4fd99b654135782aff10a634dffb558f05688ac20ddde"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\cleanup.json",
+          "sha256": "06b35b906fcb4f0043da7c404c2af2cfdffda276f1b22e6920c459bd089072fc"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\final-status.json",
+          "sha256": "34c2586c4623afb6ec332dc20385b174484f6a8850f2e4be5858b2968af4ef24"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\result.json",
+          "sha256": "07b54c194982e165b3509953c3f7cb42c1076bfec076082478123086b0173bb2"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\before\\capture\\capture.json",
+          "sha256": "52d6123cb6aeab7f15bf9d2330ecfaa0d61abaedbcd9cda2896acbbe003d36eb"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\before\\capture\\image.bmp",
+          "sha256": "9baff8e8fac848f114d8575f4271fb7983a59c0294b7773a9d83dd1cbe3db498"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\after\\capture\\capture.json",
+          "sha256": "872d0cb887dabe52be55239b9295d2fceff5e3cd8ee1cbf254fee3f6e914a3b8"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-02\\after\\capture\\image.bmp",
+          "sha256": "c61862494c840c4b07d9583b30e424732b5ddaadfe4d77f4088aed432a8e9582"
+        }
+      ]
+    },
+    {
+      "name": "browse-04",
+      "purpose": "open-browser",
+      "startedAtUtc": "2026-11-07T13:15:45.0781927+00:00",
+      "completedAtUtc": "2026-11-07T13:15:45.2730168+00:00",
+      "clientRectangle": [
+        890,
+        303,
+        48,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 914,
+        "y": 335
+      },
+      "verifiedScreenPosition": {
+        "x": 914,
+        "y": 335
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2519,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": true,
+      "immediateFrameConclusive": true,
+      "settledFrameAdded": true,
+      "reviewImage": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\settled\\capture\\image.bmp",
+      "elapsedMilliseconds": 194.8233,
+      "adapterSha256AtTrial": "71747d627477e5cfe0969ca795d998d81036eae0aef1fb19dba91e73df2a8996",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\intent.json",
+          "sha256": "91c65374c1c048ea54b5d58c1423f8c4b27602a5a27e40fafe066034078db25b"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\action.json",
+          "sha256": "43eb1bef1e2e78a02a0a6b0ff60b03ca588f813a754286611ed789ce9eb94357"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\cleanup.json",
+          "sha256": "811f27442f1c7130ed3ff9a5e8a869b0b4982ea57a8da99ecbf717b8aebad686"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\final-status.json",
+          "sha256": "56379b139c08bcc068343beca688813ddb413079d234a3fc8f070f5e4527ec77"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\result.json",
+          "sha256": "738d1e0d5bef0d0f60e6f1b0619915d69e51326b6798812b8fe53d95170f5c55"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\before\\capture\\capture.json",
+          "sha256": "3b293b8b6018221878244c7b652e166f110cc51978f08b4d53edc65764960e5b"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\before\\capture\\image.bmp",
+          "sha256": "c9e7895183bccb715336834981b72b01249ca043dbb21a7f2605193927f6e53e"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\after\\capture\\capture.json",
+          "sha256": "3de057e7c4f9ee8b24b854f9ba6fa8a608f212a0a326547ea15a5df7b00ef47f"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\after\\capture\\image.bmp",
+          "sha256": "3f73f11dff18a42467d80826ac1d53b4d65a26d5ff395dabe8677c58e6327462"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\settled\\capture\\capture.json",
+          "sha256": "7e50e7215fac30e9ecf0947c64781900022dafa510cc2417fd9c338c3a560040"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-04\\settled\\capture\\image.bmp",
+          "sha256": "76a8884c45d454fe63639001d34bbb35d28922ada1ab9f093d1baaf9e9f5af1f"
+        }
+      ]
+    },
+    {
+      "name": "close-03",
+      "purpose": "close-browser",
+      "startedAtUtc": "2026-11-07T13:16:18.1819071+00:00",
+      "completedAtUtc": "2026-11-07T13:16:18.3645882+00:00",
+      "clientRectangle": [
+        1124,
+        399,
+        76,
+        19
+      ],
+      "expectedScreenCenter": {
+        "x": 1162,
+        "y": 431
+      },
+      "verifiedScreenPosition": {
+        "x": 1162,
+        "y": 431
+      },
+      "cursorRepositioned": true,
+      "deliveryVerified": true,
+      "releaseVerified": true,
+      "cleanupVerified": true,
+      "cleanupGeneration": 2521,
+      "requestTerminal": "succeeded",
+      "backendResponseVerified": false,
+      "visualResponseReviewed": true,
+      "browserVisibleAfterReview": false,
+      "immediateFrameConclusive": true,
+      "settledFrameAdded": true,
+      "reviewImage": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\settled\\capture\\image.bmp",
+      "elapsedMilliseconds": 182.6809,
+      "adapterSha256AtTrial": "71747d627477e5cfe0969ca795d998d81036eae0aef1fb19dba91e73df2a8996",
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\intent.json",
+          "sha256": "f1c332dfbd73accd38da2d1d4cd970bd75a881b0367d29007ef8d471a1566324"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\action.json",
+          "sha256": "f1aa9a29a3eb1c01c36c6418e9a51d14c44281c3407d6a6a8ed96b46c068e316"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\cleanup.json",
+          "sha256": "4dc32efa2ac5220423aa14cba3404ed2a21ba2b4e02564375f43c1962a3b70ad"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\stop.json",
+          "sha256": "2f42e7e73b5ee9d97728aaf566027b55bb4f3876312032847bc11f83a1de1a38"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\final-status.json",
+          "sha256": "606ecf9f84e353cfc39f9c5fd5186540fb47b864dff21cdde67e5cc3ac226a91"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\result.json",
+          "sha256": "4ac22e1321c02a8ce4251bb9b5f597a2dc3d69f86e55751f548f095d41bc99f8"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\before\\capture\\capture.json",
+          "sha256": "29175d88728c5c408d0e6401f5156af10aef284d0c07d1733678f81248811394"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\before\\capture\\image.bmp",
+          "sha256": "6cce8b7135425376d7b19e16276c3a82fe0a78114a17702f8ef53ead8b56e72f"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\after\\capture\\capture.json",
+          "sha256": "10bb81133f53103ea181ef1566efea7675007926555142b9a6889ceb1b585d0d"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\after\\capture\\image.bmp",
+          "sha256": "bb7ba4300556a85237ed25d8bf6bf5ede2129ff3eaf1209d7739b78d97257011"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\settled\\capture\\capture.json",
+          "sha256": "a7d0307cf32b692d8bf71738986f571e69d890e5d6a2c134751c57820a8365b7"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\close-03\\settled\\capture\\image.bmp",
+          "sha256": "9f50ff511cf57f54bc0a73ba110c5a1a9cedb7c6efeeabe10eb6de4407427ee2"
+        }
+      ]
+    }
+  ],
+  "independentCloseConfirmation": {
+    "report": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-mouse-confirm-1794057286462\\report.json",
+    "reportSha256": "297b4a2e491b1bbefa5854250027f07d8fca59ec7074175e23db4db04ad2cb39",
+    "image": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-mouse-confirm-1794057286462\\capture\\image.bmp",
+    "imageSha256": "ad17791fd534eefa1231dde0257da300a9dfc721d40a9b3d1332e3f9b08644ce",
+    "visuallyReviewed": true,
+    "browserVisible": false
+  },
+  "failedPreInputAttempt": {
+    "directory": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\browse-01",
+    "cause": "missing local capture parent directories; fixed before the first click",
+    "gameInputSent": false,
+    "cleanup": {
+      "terminal": "failed",
+      "generation": 2507,
+      "cleanupReceipt": "nav-cleanup:50a09fe38d072f1f9502398cadaecbc1de15e11500cbb56252eec888e0c26e18",
+      "stopVerified": true
+    }
+  },
+  "validation": {
+    "syntaxAndHelp": "passed",
+    "negativeAdmissionChecks": 6,
+    "negativeAdmissionLiveIO": false,
+    "fullGate": {
+      "path": "C:\\work\\rre\\artifacts\\research-gate-lab2-mouse-20261107-venv\\validation.json",
+      "sha256": "fc6847bfebb98f081bd120d05ae448857687538d40ab82c72457c3a40e189df4",
+      "exitCode": 1,
+      "totalTestsReported": 500,
+      "sourcesUnchanged": true,
+      "groups": [
+        {
+          "group": "validation",
+          "status": "passed",
+          "tests": 153,
+          "exitCode": 0
+        },
+        {
+          "group": "c2m",
+          "status": "passed",
+          "tests": 30,
+          "exitCode": 0
+        },
+        {
+          "group": "follow",
+          "status": "passed",
+          "tests": 73,
+          "exitCode": 0
+        },
+        {
+          "group": "collision",
+          "status": "failed",
+          "tests": 38,
+          "exitCode": 1
+        },
+        {
+          "group": "pathfinding",
+          "status": "failed",
+          "tests": 36,
+          "exitCode": 1
+        },
+        {
+          "group": "navigation-evidence",
+          "status": "passed",
+          "tests": 95,
+          "exitCode": 0
+        },
+        {
+          "group": "visual-evidence",
+          "status": "passed",
+          "tests": 58,
+          "exitCode": 0
+        },
+        {
+          "group": "review-adapter",
+          "status": "passed",
+          "tests": 17,
+          "exitCode": 0
+        },
+        {
+          "group": "roadmap",
+          "status": "passed",
+          "tests": 0,
+          "exitCode": 0
+        }
+      ],
+      "failureScope": "existing collision/pathfinding tests pinned to historical executable hash; no build gates or old tests changed"
+    },
+    "firstGateAttempt": {
+      "path": "C:\\work\\rre\\artifacts\\research-gate-lab2-mouse-20261107\\validation.json",
+      "exitCode": 1,
+      "cause": "system Python lacks pefile/Capstone; rerun used existing RRE .venv without installing packages"
+    },
+    "finalEvidenceAudit": {
+      "checksPassed": 82,
+      "originalTrialArtifactsHashVerified": 64,
+      "adapterHashMatchesFullGateSourceInventory": true,
+      "roadmapValidatorExitCode": 0,
+      "roadmapTasks": 47,
+      "roadmapMilestones": 11,
+      "diffCheckExitCode": 0
+    }
+  },
+  "gameplay": {
+    "castingOrMovementCommandsSent": false,
+    "keyboardCommandsSent": false,
+    "reloadOrAddonInstallationPerformed": false,
+    "afkClearedAfterFirstClick": true,
+    "toolbarPositionChangedByBrowserExpansion": true
+  },
+  "agents": {
+    "ollamaUsed": false,
+    "newModelReviewers": 0,
+    "reason": "supported FreeBuff fixed modes do not contain a novel mouse question; no paid provider substitution"
+  },
+  "nextUse": "Choose the current UI rectangle from a fresh capture. Run the adapter interactively with the current managed Lab-2 plan. Review the exact capture ID, submit one click, then review settled original pixels and cleanup. Never auto-repeat based only on an early unchanged frame.",
+  "finalReadinessCheck": {
+    "observedAt": "2026-11-07T08:21:10-05:00",
+    "freshBytesRechecked": true,
+    "machine": "RIFT-LAB-2",
+    "processId": 9752,
+    "foreground": true,
+    "armed": false,
+    "busy": false,
+    "inputsDown": [],
+    "recoveryRequired": false,
+    "queueHolder": null,
+    "queueBlocked": false,
+    "generation": 2521,
+    "controllerConsoleReservationRetained": true,
+    "exitCode": 0
+  }
+}
