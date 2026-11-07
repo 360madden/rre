@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC614 accepted bounded native/API list agreement:134 typed records partition54C9nonzero/80zero; exact54 full IDs equal both sequence3/4 API lists; scene interruption retained, no freshness/restart/learnability claim. SC615 mouse reuse/timing research accepted. SC616/617 read-only agent findings await manager source validation/integration. Lab2 only; no FreeBuff/Ollama; broader gates unchanged.",
+  "status": "2026-11-07 SC616/617 accepted read-only richer-addon and data-bridge investigations with18 independently hash-checked sources; no implementation/live acceptance. SC618 outbound memory bridge feasibility active after user suggestion. SC614134-to54 API correlation and SC615 mouse timings committed; broader gates unchanged. Lab2 only; no FreeBuff/Ollama.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-616",
+  "nextTaskId": "SC-618",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1509,7 +1509,7 @@
       "id": "SC-616",
       "milestone": "SC6",
       "title": "Assess richer RRECollector discovery features using existing documented addon APIs",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-605",
         "SC-610"
@@ -1528,22 +1528,26 @@
         "Manager independently reviews output and persists scoped report/task/handoff after validating provenance"
       ],
       "gameInputAuthorized": false,
-      "evidence": [],
+      "evidence": [
+        "docs/agents/read-only-addon-discovery-investigation.md",
+        "docs/agents/read-only-addon-discovery-investigation.json"
+      ],
       "workerReceipt": {
         "provider": "built-in collaboration subagent",
         "canonicalTask": "/root/addon_discovery_research",
         "readOnly": true,
         "managerSoleWriter": true,
-        "statusAtCheckpoint": "running",
+        "statusAtCheckpoint": "completed-and-manager-reviewed",
         "freebuff": false,
         "ollama": false
-      }
+      },
+      "acceptedScope": "Source-bound recommendations and future qualification gates only; no code, deployment or live capability acceptance."
     },
     {
       "id": "SC-617",
       "milestone": "SC6",
       "title": "Assess bidirectional addon data protocols and existing transport reuse",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-605",
         "SC-610"
@@ -1562,16 +1566,52 @@
         "Manager independently reviews output and persists scoped report/task/handoff after validating provenance"
       ],
       "gameInputAuthorized": false,
-      "evidence": [],
+      "evidence": [
+        "docs/agents/read-only-addon-protocol-investigation.md",
+        "docs/agents/read-only-addon-protocol-investigation.json"
+      ],
       "workerReceipt": {
         "provider": "built-in collaboration subagent",
         "canonicalTask": "/root/addon_protocol_research",
         "readOnly": true,
         "managerSoleWriter": true,
-        "statusAtCheckpoint": "running",
+        "statusAtCheckpoint": "completed-and-manager-reviewed",
         "freebuff": false,
         "ollama": false
-      }
+      },
+      "acceptedScope": "Source-bound recommendations and future qualification gates only; no code, deployment or live capability acceptance."
+    },
+    {
+      "id": "SC-618",
+      "milestone": "SC6",
+      "title": "Feasibility of outbound read-only addon memory data bridge",
+      "state": "pending",
+      "dependsOn": [
+        "SC-614",
+        "SC-617"
+      ],
+      "owner": "single RRE manager; read-only protocol-agent source follow-up",
+      "lane": "manager-memory-bridge-feasibility",
+      "ownedPaths": [
+        "docs/REA-RIFT-ADDON-MEMORY-BRIDGE-FEASIBILITY-2026-11-07.md",
+        "docs/REA-RIFT-ADDON-MEMORY-BRIDGE-FEASIBILITY-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Can existing installed read-only tools locate and extract a bounded RRE-owned retained Lua frame reliably and efficiently, without a new backend or changes to RR2?",
+      "acceptance": [
+        "Time-box study to roughly20-30minutes from12:10:49EST; report concrete go/no-go and smallest missing components",
+        "Audit actual existing producer/scanner/inline-reader/decoder marker and schema bounds; demonstrate actual incompatibility before proposing replacement",
+        "Use retained source/published binaries and offline adversarial fixtures first; Lab2 read-only proof only if existing tools and source gates allow it without addon deployment/controller restart",
+        "Study frame byte limits, multiple stale Lua strings, load/session binding, sequence/clocks/player/build, torn/partial frames and advancement",
+        "Separate raw acquisition from validation and end-to-end latency; no generic fastest or live-ready claim without observed evidence",
+        "Outbound-only; no memory writes/injection/debugger, native game calls, new guest software or cross-repo source edits; no Ollama/FreeBuff",
+        "Preserve SavedVariables fallback, current addon source/installation and practical milestone/handoff commit"
+      ],
+      "gameInputAuthorized": false,
+      "studyStartedAtUtc": "2026-11-07T17:10:49Z",
+      "studyTimeboxEndUtc": "2026-11-07T17:40:49Z",
+      "evidence": []
     }
   ],
   "checkpointPolicy": {

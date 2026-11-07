@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-616",
+  "status": "accepted-read-only-feasibility-recommendations-only",
+  "agent": "/root/addon_discovery_research",
+  "agentReadOnly": true,
+  "managerIndependentlyInspectedSource": true,
+  "sourceAudit": "artifacts/addon-investigation-20261107-1209/source-audit.json",
+  "sourceAuditSha256": "3b843a1513a71b8721f282da69f62e774b24d837b9ef02b319c84d8557fd16fc",
+  "sourceManifest": [
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\RiftAddon.toc",
+      "sha256": "83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a",
+      "bytes": 488,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/01-RiftAddon.toc"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\abilities.lua",
+      "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd",
+      "bytes": 4558,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/02-abilities.lua"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\context.lua",
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10",
+      "bytes": 3191,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/03-context.lua"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\ui.lua",
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa",
+      "bytes": 39107,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/04-ui.lua"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\main.lua",
+      "sha256": "7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e",
+      "bytes": 16040,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/05-main.lua"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\capabilities.lua",
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef",
+      "bytes": 4618,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/06-capabilities.lua"
+    },
+    {
+      "path": "C:\\work\\rre\\addons\\RRECollector\\candidates.lua",
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85",
+      "bytes": 6847,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/07-candidates.lua"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\.local\\live-snapshot.json",
+      "sha256": "6aee10589341c7462539d15adb726e1fddf14af31d936505195020370b954ec0",
+      "bytes": 1388851,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/08-live-snapshot.json"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\.local\\live-snapshot-020.json",
+      "sha256": "ddb389c4ec5c3fff9113798f5689706dd8209298bab030ada76f882b64c8f736",
+      "bytes": 1389270,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/09-live-snapshot-020.json"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\addon\\ApiAtlas\\Collector.lua",
+      "sha256": "8382fc3ebbf211ef974526ab38a22dafa24ced9e33cf26c914e910ef27bf7d4d",
+      "bytes": 16963,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/10-Collector.lua"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\addon\\ApiAtlas\\UI.lua",
+      "sha256": "f88544a29e29b8392a7d42c0e7dd12caeb96ec10ef19e34d78c31a9a6ff45dc5",
+      "bytes": 28877,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/11-UI.lua"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\addon\\ApiAtlas\\Public.lua",
+      "sha256": "408eea07342a930e0a50dbe556b2b74506cfbfa572699dfa20af1bdae87beb58",
+      "bytes": 2742,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/12-Public.lua"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\docs\\architecture.md",
+      "sha256": "0c290fa471f983ebe86ab5209e209b768ca907f401672c07a7b83acac8753c8e",
+      "bytes": 6124,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/13-architecture.md"
+    },
+    {
+      "path": "C:\\work\\API Atlas\\docs\\validation.md",
+      "sha256": "299978b9269aa69a76ef61385ef64ced08a6b2c9657913ecfbe43f940c390c0f",
+      "bytes": 32521,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/14-validation.md"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\scripts\\vmware_guest_session.py",
+      "sha256": "a3808f907224fea709f2709cab56345859474d268b910087a4236b2a0aed4048",
+      "bytes": 17274,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/15-vmware_guest_session.py"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\contracts\\addon\\reference-v1.md",
+      "sha256": "0ad1a338fdd4a7306e0b7472850c82db55caa9e6ece080b8b6438cd986b0ed76",
+      "bytes": 2675,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/16-reference-v1.md"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\docs\\reference\\self-contained-api-reference.md",
+      "sha256": "f1a09e85cde5132f07461e82918312cfaf1d2a06ee96d334ee62db54bd485bb2",
+      "bytes": 8278,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/17-self-contained-api-reference.md"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\docs\\reference\\addon-guidance.md",
+      "sha256": "8a882ddb8778e2be2abb8628fb055ba20e3447cf3a2d6e4615e599184943e357",
+      "bytes": 12179,
+      "retainedPath": "artifacts/addon-investigation-20261107-1209/sources/18-addon-guidance.md"
+    }
+  ],
+  "documentedAbilityEvents": [
+    "Event.Ability.New.Add",
+    "Event.Ability.New.Cooldown.Begin",
+    "Event.Ability.New.Cooldown.End",
+    "Event.Ability.New.Range.False",
+    "Event.Ability.New.Range.True",
+    "Event.Ability.New.Remove",
+    "Event.Ability.New.Target",
+    "Event.Ability.New.Usable.False",
+    "Event.Ability.New.Usable.True"
+  ],
+  "documentedAdditionalUnitFields": [
+    "zone",
+    "availability",
+    "focus",
+    "planar",
+    "planarMax",
+    "mentoring",
+    "relation",
+    "type",
+    "radius"
+  ],
+  "exactAbsentPaths": [
+    "Inspect.Soul.List",
+    "Inspect.Soul.Detail",
+    "Inspect.Action.List",
+    "Inspect.Action.Detail"
+  ],
+  "channelNameAudit": [
+    "Command.CopyToClipboard"
+  ],
+  "absenceIsDocumentationIndexOnly": true,
+  "newRuntimeAvailabilityProven": false,
+  "codeImplemented": false,
+  "addonDeployed": false,
+  "guestClipboardRead": false,
+  "memoryBridgeImplemented": false,
+  "liveInputSent": false,
+  "crossRepoWrites": false,
+  "freebuffUsed": false,
+  "ollamaUsed": false,
+  "nextStudy": "SC-618 outbound-only memory bridge feasibility",
+  "reportSha256": "220f51e8dec6831b32033a23c4a4e3ada9fd55e3b244ccb1b19ecccf75c5b566"
+}
