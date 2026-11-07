@@ -1,0 +1,1176 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-610",
+  "sourceKind": "RRE SC-605/API-first live catalog qualification using existing external VNC mouse and literal-only SavedVariables reader",
+  "baseCommit": "30df4d4c80f4eb50229c4467a211d287d9bf6be6",
+  "target": "VMware RIFT-Lab-2 only",
+  "executionMode": "host-only external vncdotool1.4.2; native controller intentionally stopped",
+  "researchQuestion": "Can existing Lab-2 RRECollector capture and persist a complete current-character API-known catalog with build/source/version/role provenance?",
+  "methodInstructions": [
+    "docs/REA-RIFT-SPELLCASTING-SC605-CUSTOM-ADDON-PLAYBOOK-2026-11-01.md",
+    "docs/REA-RIFT-SPELLCASTING-OFFLINE-TOOL-ROUTING-M2-2026-11-03.md",
+    "docs/REA-RIFT-LAB2-EXTERNAL-MOUSE-2026-11-07.md"
+  ],
+  "reusedTools": [
+    "tools/external-lab2-mouse.py",
+    "tools/verify-rrecollector-package.mjs",
+    "tools/read-rrecollector-saved.mjs parseSavedLua and assessSnapshotForComparison",
+    "tools/test-rc30-saved-receipt.mjs",
+    "RR2 cached per-VM read-only GuestSession and VM identity helpers"
+  ],
+  "buildIdentity": {
+    "machine": "RIFT-LAB-2",
+    "processId": 9752,
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "length": 60493640,
+    "postTestObservedAtUtc": "2026-11-07T14:44:51.2510073Z",
+    "beforeAfterIdentityEqual": true,
+    "hostCopiedGuestBytesHashMatches": true,
+    "mappedMemoryAttested": false,
+    "continuousRuntimeValuesProven": false
+  },
+  "package": {
+    "installedDiskVersion": "0.4.11",
+    "initialVisibleVersion": "0.4.10",
+    "finalVisibleVersion": "0.4.11",
+    "sourceInstallShaMatches": 10,
+    "strictVerifierExitCode": 0,
+    "sourceGuestFiles": [
+      {
+        "file": "abilities.lua",
+        "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "candidate_catalog.lua",
+        "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "candidates.lua",
+        "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "capabilities.lua",
+        "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "context.lua",
+        "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "core.lua",
+        "sha256": "d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "main.lua",
+        "sha256": "7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "README.md",
+        "sha256": "f86ef49733fec9616d97a98a2bf6ba6ef7f5b549ea1680b6b28fee0fcdcbb537",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "RiftAddon.toc",
+        "sha256": "83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a",
+        "sourceAndGuestBytesEqual": true
+      },
+      {
+        "file": "ui.lua",
+        "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa",
+        "sourceAndGuestBytesEqual": true
+      }
+    ],
+    "recognizedGuestReference": {
+      "identifier": "BotDsBridge",
+      "version": "0.3.3",
+      "emailMetadataPresent": true,
+      "tocSha256": "7fba47c0102c5925a792c9a8edd4e6acb8a2142210a57386633cb5af8ef5acdb"
+    },
+    "guestAddonDeploymentPerformed": false,
+    "normalReloadLoadedAlreadyInstalledVersion": true
+  },
+  "savedEvidence": {
+    "initialSavedBytes": 23,
+    "initialSavedValue": "nil",
+    "v0410": {
+      "path": "artifacts\\lab2-live-20261107-0922\\saved-after-first-reload.lua",
+      "sha256": "2eac10ba8f704ed9e872899b1c8b972366c3bb138be401945c3f25d50ede5b41",
+      "length": 21670,
+      "rootAndSnapshotVersion": "0.4.10",
+      "sequence": 1
+    },
+    "v0411": {
+      "path": "artifacts\\lab2-live-20261107-0922\\saved-v0411.lua",
+      "sha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+      "length": 21670,
+      "guestLastWriteUtc": "2026-11-07T14:39:49.3826873Z",
+      "rootAndSnapshotVersion": "0.4.11",
+      "sequence": 2
+    },
+    "originalRawFilesRetainedUnmodified": true,
+    "rawCharacterAndTargetIdentifiersNotPublished": true
+  },
+  "catalog": {
+    "schemaVersion": 1,
+    "sourceKind": "Lab-2 source-qualified current API-listed known ability catalog; no static Warrior classification",
+    "savedSha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+    "rootVersion": "0.4.11",
+    "snapshotVersion": "0.4.11",
+    "sequence": 2,
+    "snapshotSequence": 2,
+    "player": {
+      "name": "Bolinao",
+      "calling": "rogue",
+      "level": 43
+    },
+    "roleSlot": 1,
+    "roleNames": {
+      "h0000000000000000": "Role 1",
+      "h0000000000000001": "Role 2",
+      "h0000000000000002": "Role 3"
+    },
+    "clientVersion": {
+      "build": "Oct 23 2026 11:32:27 RIFT-BUILD-12",
+      "external": "1.0.0",
+      "internal": "STABLE-1-1178-A-1256632"
+    },
+    "sourceClocks": {
+      "frameTime": 169375.6875,
+      "realTime": 169375.703125,
+      "wallClockInterpretation": "not asserted"
+    },
+    "counts": {
+      "apiAvailable": true,
+      "batchDetailAvailable": true,
+      "detailCount": 54,
+      "detailFailures": 0,
+      "duplicates": 0,
+      "enumerationComplete": true,
+      "fallbackCalls": 0,
+      "ignored": 0,
+      "rawEntries": 54,
+      "truncated": 0,
+      "uniqueCount": 54
+    },
+    "structure": {
+      "schemaVersion": 1,
+      "offlineStructureQualified": true,
+      "reasons": [],
+      "freshnessVerified": false,
+      "processBuildVerified": false,
+      "eventDeliveryVerified": false,
+      "eventComparisonReady": false,
+      "evidenceLimit": "Single saved latest cannot prove a newly flushed capture, process/build, or events."
+    },
+    "uiReloadMacro": {
+      "addonVersion": "0.4.11",
+      "reason": "readback-matched",
+      "status": "registered"
+    },
+    "candidateAttempt": {
+      "addonVersion": "0.4.11",
+      "automaticRetries": 2,
+      "reason": "warrior-player-context-not-ready",
+      "schemaVersion": 1,
+      "status": "deferred",
+      "trigger": "auto-player-full"
+    },
+    "comparison": {
+      "earlierSnapshotVersion": "0.4.10",
+      "earlierSequence": 1,
+      "exactIdSetsEqual": true,
+      "exactNameMismatches": 0
+    },
+    "evidenceLimits": [
+      "API listed-known set only; no full learnable/future/usable/bound set",
+      "Role number is observed, soul point allocation is not",
+      "These clocks are retained as reported, not converted to UTC",
+      "Macro registration is separate from the observed failed toolbar reload click",
+      "Warrior static candidate lookup deferred on Rogue; not a negative eligibility verdict"
+    ],
+    "catalog": [
+      {
+        "lookupId": "A498AABAF3071FDED",
+        "id": "A498AABAF3071FDED",
+        "idNew": "A498AABAF3071FDED",
+        "name": "Ace Shot",
+        "rangeMax": 35,
+        "costEnergy": 24,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\tempest_difficult_target_z.dds"
+      },
+      {
+        "lookupId": "A38DFCB8220EE4A2D",
+        "id": "A38DFCB8220EE4A2D",
+        "idNew": "A38DFCB8220EE4A2D",
+        "name": "Ascended Resurrection",
+        "description": "Brings the fallen ally back to life, restoring 20% health and mana. Cannot be used in combat.",
+        "castingTime": 8,
+        "rangeMax": 35,
+        "icon": "Data/\\UI\\ability_icons\\resurrect4d.dds"
+      },
+      {
+        "lookupId": "A2EF4DB1EAACF6AE0",
+        "id": "A2EF4DB1EAACF6AE0",
+        "idNew": "A2EF4DB1EAACF6AE0",
+        "name": "Blood Thirsty",
+        "description": "Killing a player heals the bearer a percentage of their maximum health over 10 seconds. Cannot be applied more than once every 10 seconds. Lasts 1 hour.",
+        "cooldown": 15.000000953674,
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\life-drain3.dds"
+      },
+      {
+        "lookupId": "A2DE2D8448BF4B909",
+        "id": "A2DE2D8448BF4B909",
+        "idNew": "A2DE2D8448BF4B909",
+        "name": "Break Free",
+        "description": "Removes all control and movement impairing effects. Does not trigger a global cooldown.",
+        "cooldown": 120.00000762939,
+        "unusable": true,
+        "icon": "Data/\\UI\\item_icons\\magicitem4a.dds"
+      },
+      {
+        "lookupId": "A480430F07827A1ED",
+        "id": "A480430F07827A1ED",
+        "idNew": "A480430F07827A1ED",
+        "name": "Cadence",
+        "castingTime": 2,
+        "channeled": true,
+        "rangeMax": 35,
+        "costEnergy": 40,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\cadence_a.dds"
+      },
+      {
+        "lookupId": "A24FE01816BA3C9E7",
+        "id": "A24FE01816BA3C9E7",
+        "idNew": "A24FE01816BA3C9E7",
+        "name": "Call of the Ascended",
+        "description": "Bring all raid members within 50 meters back from the dead with 10% Health and Mana. Resets the cooldown of all combat resurrection abilities. Cannot be used in combat. When used in a Dungeon, all party and raid members must be out of combat.",
+        "castingTime": 20,
+        "costPlanarCharge": 3,
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_008.dds"
+      },
+      {
+        "lookupId": "A54CA28B521DB5B2F",
+        "id": "A54CA28B521DB5B2F",
+        "idNew": "A54CA28B521DB5B2F",
+        "name": "Call: Blood Raptor",
+        "description": "Summons a Blood Raptor. Best used for Damage.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\pet_raptor.dds"
+      },
+      {
+        "lookupId": "A3777E24FE9204B1C",
+        "id": "A3777E24FE9204B1C",
+        "idNew": "A3777E24FE9204B1C",
+        "name": "Call: Dire Wolf",
+        "description": "Summons a Dire Wolf (max level 36). Best used for PvP.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\pet_dire-wolf.dds"
+      },
+      {
+        "lookupId": "A63BB9D3AB5175722",
+        "id": "A63BB9D3AB5175722",
+        "idNew": "A63BB9D3AB5175722",
+        "name": "Call: Greater Dire Wolf",
+        "description": "Summons a Dire Wolf. Best used for PvP.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\pet_dire-wolf_a.dds"
+      },
+      {
+        "lookupId": "A0DF88BCB80FEDC55",
+        "id": "A0DF88BCB80FEDC55",
+        "idNew": "A0DF88BCB80FEDC55",
+        "name": "Call: Greater Griffon",
+        "description": "Summons a Greater Griffon. Best used for Ranged Damage.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\world_event_griffon_pet_01.dds"
+      },
+      {
+        "lookupId": "A0F34D691A15D4BAB",
+        "id": "A0F34D691A15D4BAB",
+        "idNew": "A0F34D691A15D4BAB",
+        "name": "Call: Greater Razorbeast",
+        "description": "Summons a Greater Razorbeast. Best used for Tanking.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\pet_razorbeast_a.dds"
+      },
+      {
+        "lookupId": "A747AE9953E18CD8F",
+        "id": "A747AE9953E18CD8F",
+        "idNew": "A747AE9953E18CD8F",
+        "name": "Call: Griffon",
+        "description": "Summons a Griffon (max level 36). Best used for Ranged Damage.",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\world_event_griffon_pet_01.dds"
+      },
+      {
+        "lookupId": "A038F434D3D2E1D31",
+        "id": "A038F434D3D2E1D31",
+        "idNew": "A038F434D3D2E1D31",
+        "name": "Call: Razorbeast",
+        "castingTime": 8,
+        "costEnergy": 100,
+        "icon": "Data/\\UI\\item_icons\\pet_razorbeast.dds"
+      },
+      {
+        "lookupId": "A2DEBC0F3EAB4AA48",
+        "id": "A2DEBC0F3EAB4AA48",
+        "idNew": "A2DEBC0F3EAB4AA48",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "unusable": true,
+        "icon": "Data/\\UI\\item_icons\\soul_ranger.dds"
+      },
+      {
+        "lookupId": "A387EC2995D3B2CE3",
+        "id": "A387EC2995D3B2CE3",
+        "idNew": "A387EC2995D3B2CE3",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "icon": "Data/\\UI\\item_icons\\soul_nightblade.dds"
+      },
+      {
+        "lookupId": "A6B82CAACCD1A03D8",
+        "id": "A6B82CAACCD1A03D8",
+        "idNew": "A6B82CAACCD1A03D8",
+        "name": "Changing Role",
+        "description": "Changes your current ability and class set to the selected Role.",
+        "castingTime": 2,
+        "cooldown": 2,
+        "icon": "Data/\\UI\\ability_icons\\customcraft1b.dds"
+      },
+      {
+        "lookupId": "A073F3DFFEF67CBE0",
+        "id": "A073F3DFFEF67CBE0",
+        "idNew": "A073F3DFFEF67CBE0",
+        "name": "Concussive Blast",
+        "description": "Interrupts up to 5 enemies.",
+        "cooldown": 10,
+        "rangeMax": 35,
+        "costEnergy": 11,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\concussive_blast_01.dds"
+      },
+      {
+        "lookupId": "A7C7B46607CE456D2",
+        "id": "A7C7B46607CE456D2",
+        "idNew": "A7C7B46607CE456D2",
+        "name": "Deadeye Shot",
+        "castingTime": 1.5000001192093,
+        "rangeMax": 35,
+        "costEnergy": 20,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\headshot1b.dds"
+      },
+      {
+        "lookupId": "A40C51A65DBA71310",
+        "id": "A40C51A65DBA71310",
+        "idNew": "A40C51A65DBA71310",
+        "name": "Dismiss Pet",
+        "description": "Dismiss your Pet.",
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\redirect1a.dds"
+      },
+      {
+        "lookupId": "A41A2461312F9E51C",
+        "id": "A41A2461312F9E51C",
+        "idNew": "A41A2461312F9E51C",
+        "name": "Divert Rage",
+        "cooldown": 60.000003814697,
+        "unusable": true,
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\divert_rage_01.dds"
+      },
+      {
+        "lookupId": "A3FFFE4771A8B7EB9",
+        "id": "A3FFFE4771A8B7EB9",
+        "idNew": "A3FFFE4771A8B7EB9",
+        "name": "Empowered Shot",
+        "castingTime": 1.5000001192093,
+        "cooldown": 8,
+        "rangeMax": 35,
+        "costEnergy": 30,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rapidshot4a.dds"
+      },
+      {
+        "lookupId": "A27D2F610774FC075",
+        "id": "A27D2F610774FC075",
+        "idNew": "A27D2F610774FC075",
+        "name": "Escape Artist",
+        "description": "Removes all crowd control effects.",
+        "cooldown": 60.000003814697,
+        "unusable": true,
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\escape_artist_01.dds"
+      },
+      {
+        "lookupId": "A09243B5494D34A9E",
+        "id": "A09243B5494D34A9E",
+        "idNew": "A09243B5494D34A9E",
+        "name": "Fan Out",
+        "description": "Deals 216 to 220 Air damage to up to 5 enemies.",
+        "rangeMax": 35,
+        "costEnergy": 26,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rainofarrows1.dds"
+      },
+      {
+        "lookupId": "A16D7308576BFEECD",
+        "id": "A16D7308576BFEECD",
+        "idNew": "A16D7308576BFEECD",
+        "name": "Feral Instincts",
+        "description": "Increases both the Rogue and their pet's damage by 5% and reduces the damage they take by 5%.",
+        "costEnergy": 20,
+        "icon": "Data/\\UI\\ability_icons\\menacingroar2.dds"
+      },
+      {
+        "lookupId": "A16FB30674E516F58",
+        "id": "A16FB30674E516F58",
+        "idNew": "A16FB30674E516F58",
+        "name": "Fleeting Instincts",
+        "description": "Increases movement speed by 15%.",
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\fleeting_instincts_02_b.dds"
+      },
+      {
+        "lookupId": "A505AAA9B6EB8673D",
+        "id": "A505AAA9B6EB8673D",
+        "idNew": "A505AAA9B6EB8673D",
+        "name": "Fury of the Ascended",
+        "description": "Increases targeted damage against Colossi by 20%. Reduces damage taken from Colossi by 50%.\n\nIncreases targeted damage against Planar Invasions by 150%. Reduces damage taken from Planar Invasions by 75%. Lasts for 60s.",
+        "cooldown": 80,
+        "costPlanarCharge": 1,
+        "icon": "Data/\\UI\\ability_icons\\anthem_of_fervor_b.dds"
+      },
+      {
+        "lookupId": "A5C1C947BB5B016ED",
+        "id": "A5C1C947BB5B016ED",
+        "idNew": "A5C1C947BB5B016ED",
+        "name": "Hasted Shot",
+        "description": "Increases movement speed by 20% for a duration based on Combo Points. Deals additional damage per Combo Point.\n\n1 Point: Lasts 3s, 366 damage\n2 Points: Lasts 6s, 464 damage\n3 Points: Lasts 9s, 596 damage\n4 Points: Lasts 12s, 760 damage\n5 Points: Lasts 15s, 957 damage",
+        "rangeMax": 35,
+        "costEnergy": 16,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rapidshot3.dds"
+      },
+      {
+        "lookupId": "A7C4B10B3A62367B4",
+        "id": "A7C4B10B3A62367B4",
+        "idNew": "A7C4B10B3A62367B4",
+        "name": "Head Shot",
+        "description": "Deals additional damage per Combo Point. Increases the damage of the pet by 5%. Lasts 12s per Combo Point.\n\n1 Point: 366 damage\n2 Points: 464 damage\n3 Points: 596 damage\n4 Points: 760 damage\n5 Points: 957 damage",
+        "rangeMax": 35,
+        "costEnergy": 16,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\headshot3.dds"
+      },
+      {
+        "lookupId": "A0CDE363AA305A3B5",
+        "id": "A0CDE363AA305A3B5",
+        "idNew": "A0CDE363AA305A3B5",
+        "name": "Legacy of the Shade",
+        "description": "Death resistance increased by 20.",
+        "passive": true,
+        "racial": true,
+        "icon": "Data/\\UI\\ability_icons\\ward1a.dds"
+      },
+      {
+        "lookupId": "A5B543C56F68674C8",
+        "id": "A5B543C56F68674C8",
+        "idNew": "A5B543C56F68674C8",
+        "name": "Motif of Bravery",
+        "description": "Increases Attack Power and Spell Power by 53 and increases Critical Hit chance by 1% on all party or raid members for 20s.",
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\motif_of_bravery.dds"
+      },
+      {
+        "lookupId": "A65319A6C5A45D8A8",
+        "id": "A65319A6C5A45D8A8",
+        "idNew": "A65319A6C5A45D8A8",
+        "name": "Motivational Roar",
+        "description": "Increases the movement speed of the Mathosian and nearby group members by 30% for 10 seconds. This ability cannot be used in combat.",
+        "cooldown": 120.00000762939,
+        "racial": true,
+        "icon": "Data/\\UI\\ability_icons\\combat_survival.dds"
+      },
+      {
+        "lookupId": "A251F2E341BED68A3",
+        "id": "A251F2E341BED68A3",
+        "idNew": "A251F2E341BED68A3",
+        "name": "Nexus Infusion",
+        "description": "Heals and Upgrades special upgradable units. Consumes one Planar Charge when used. Allows movement.",
+        "castingTime": 6.0000004768372,
+        "channeled": true,
+        "rangeMax": 25,
+        "costPlanarCharge": 1,
+        "icon": "Data/\\UI\\ability_icons\\sentinel-shards_of_light_a.dds"
+      },
+      {
+        "lookupId": "A41417E536E1DEFA2",
+        "id": "A41417E536E1DEFA2",
+        "idNew": "A41417E536E1DEFA2",
+        "name": "On the Double",
+        "cooldown": 40,
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\fleeting_instincts_01_a.dds"
+      },
+      {
+        "lookupId": "A6C06D67EAB161708",
+        "id": "A6C06D67EAB161708",
+        "idNew": "A6C06D67EAB161708",
+        "name": "Piercing Shot",
+        "description": "Deals 331 to 338 damage. Reduces Armor by 250 for 30s. Awards 1 Combo Point.",
+        "cooldown": 10,
+        "rangeMax": 35,
+        "costEnergy": 24,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\piercing_shot_01_a.dds"
+      },
+      {
+        "lookupId": "A448C52144241E729",
+        "id": "A448C52144241E729",
+        "idNew": "A448C52144241E729",
+        "name": "Pin Down",
+        "description": "Roots all enemies in the target area for 5s.",
+        "cooldown": 30.000001907349,
+        "rangeMax": 30,
+        "costEnergy": 10,
+        "positioned": true,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\pin_down_01.dds"
+      },
+      {
+        "lookupId": "A2F23B7DA3B6FE174",
+        "id": "A2F23B7DA3B6FE174",
+        "idNew": "A2F23B7DA3B6FE174",
+        "name": "Planar Lure",
+        "description": "Use at a tear to lure out the planar forces breaking through and start a rift event.",
+        "castingTime": 2,
+        "cooldown": 5,
+        "unusable": true,
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_030.dds"
+      },
+      {
+        "lookupId": "A29B8D34BD7B991A3",
+        "id": "A29B8D34BD7B991A3",
+        "idNew": "A29B8D34BD7B991A3",
+        "name": "Predatory Instincts",
+        "description": "Increases the Rogue and the pet's Attack Power and Weapon Damage by 4%.",
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\spiritoflion3.dds"
+      },
+      {
+        "lookupId": "A10BB0303D519D2DE",
+        "id": "A10BB0303D519D2DE",
+        "idNew": "A10BB0303D519D2DE",
+        "name": "Quick Shot",
+        "description": "Deals 388 to 396 damage. Awards 1 Combo Point.",
+        "rangeMax": 35,
+        "costEnergy": 24,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rapidshot1.dds"
+      },
+      {
+        "lookupId": "A723E316171474642",
+        "id": "A723E316171474642",
+        "idNew": "A723E316171474642",
+        "name": "Rain of Arrows",
+        "description": "Deals 1665 damage over 6s to up to 8 enemies in the target area. If fully channeled, this zone persists for any remaining duration.",
+        "castingTime": 1,
+        "channeled": true,
+        "cooldown": 6.0000004768372,
+        "rangeMax": 30,
+        "costEnergy": 40,
+        "positioned": true,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rainofarrows2.dds"
+      },
+      {
+        "lookupId": "A21B8944BDE18BAC9",
+        "id": "A21B8944BDE18BAC9",
+        "idNew": "A21B8944BDE18BAC9",
+        "name": "Ranged Combat Mastery",
+        "description": "Buffs the Rogue to increase their ranged damage done by 5% and damage done by channels by 5%. Lasts 1h. ",
+        "cooldown": 10,
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\close_combat.dds"
+      },
+      {
+        "lookupId": "A297E9F3B6BD45B18",
+        "id": "A297E9F3B6BD45B18",
+        "idNew": "A297E9F3B6BD45B18",
+        "name": "Ranged Weapon Mastery",
+        "description": "Automatically switches between ranged and melee weapons as the situation demands.",
+        "passive": true,
+        "icon": "Data/\\UI\\item_icons\\ranged_bow_020.dds"
+      },
+      {
+        "lookupId": "A6713997D6CFF894C",
+        "id": "A6713997D6CFF894C",
+        "idNew": "A6713997D6CFF894C",
+        "name": "Recycle",
+        "description": "Recycle Planar Fragments for materials.",
+        "icon": "Data/\\UI\\item_icons\\alchemy_item3.dds"
+      },
+      {
+        "lookupId": "A130DDEDBB446436D",
+        "id": "A130DDEDBB446436D",
+        "idNew": "A130DDEDBB446436D",
+        "name": "Rejuvenate",
+        "description": "When you activate a Rogue Finisher your pet is healed for 960 health over 8s. Cannot happen more than once every 7s. ",
+        "passive": true,
+        "icon": "Data/\\UI\\ability_icons\\triage3.dds"
+      },
+      {
+        "lookupId": "A403DF8568166E3DF",
+        "id": "A403DF8568166E3DF",
+        "idNew": "A403DF8568166E3DF",
+        "name": "Repelling Shot",
+        "description": "Deals weapon damage and knocks the enemy back.",
+        "cooldown": 20,
+        "rangeMax": 8,
+        "costEnergy": 10,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\repelling_shot.dds"
+      },
+      {
+        "lookupId": "A20FC3E70868C72C2",
+        "id": "A20FC3E70868C72C2",
+        "idNew": "A20FC3E70868C72C2",
+        "name": "Shadow Fire",
+        "description": "Deals 1191 to 1215 damage. Increases the Rogue's damage with ranged weapon attacks by 5% for 30s. Awards 2 Combo Points.\n\nYour damaging abilities have a 40% chance to reset the cooldown of Shadow Fire and improve the damage of the next Shadow Fire within 6 seconds by 30%. This effect can only trigger once every 6 seconds.",
+        "cooldown": 20,
+        "rangeMax": 35,
+        "costEnergy": 26,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rapidshot2.dds"
+      },
+      {
+        "lookupId": "A3C5AEC64D3793518",
+        "id": "A3C5AEC64D3793518",
+        "idNew": "A3C5AEC64D3793518",
+        "name": "Soul Recall",
+        "description": "Returns you to your recall point in Sanctum. You may speak to a Porticulum Master to change this recall point.",
+        "castingTime": 8,
+        "cooldown": 3000.0002441406,
+        "icon": "Data/\\UI\\ability_icons\\soulbind.dds"
+      },
+      {
+        "lookupId": "AFA5811D27121CC4D",
+        "id": "AFA5811D27121CC4D",
+        "idNew": "AFA5811D27121CC4D",
+        "name": "Spirit of the Wilderness",
+        "description": "15% of the damage done by the pet heals the Rogue. Lasts 1 hr.",
+        "unusable": true,
+        "costEnergy": 10,
+        "icon": "Data/\\UI\\ability_icons\\generic_ability_011.dds"
+      },
+      {
+        "lookupId": "A6A6ED0086D590AFC",
+        "id": "A6A6ED0086D590AFC",
+        "idNew": "A6A6ED0086D590AFC",
+        "name": "Splinter Shot",
+        "rangeMax": 35,
+        "costEnergy": 20,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\killer_instinct.dds"
+      },
+      {
+        "lookupId": "A5F77DAA65FAED9E3",
+        "id": "A5F77DAA65FAED9E3",
+        "idNew": "A5F77DAA65FAED9E3",
+        "name": "Summon Guild Rally Banner",
+        "description": "Summons a Banner that allows guild members to teleport to its location.",
+        "cooldown": 3600.0002441406,
+        "unusable": true,
+        "icon": "Data/\\UI\\item_icons\\totem1c.dds"
+      },
+      {
+        "lookupId": "A11C9B8E483EA5935",
+        "id": "A11C9B8E483EA5935",
+        "idNew": "A11C9B8E483EA5935",
+        "name": "Swift Shot",
+        "description": "Deals 365 to 373 damage. Increases movement speed by 15% for 10s. Awards 1 Combo Point.",
+        "rangeMax": 35,
+        "costEnergy": 24,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\rapidshot4.dds"
+      },
+      {
+        "lookupId": "A6F854A06833ADE2E",
+        "id": "A6F854A06833ADE2E",
+        "idNew": "A6F854A06833ADE2E",
+        "name": "Toggle Auto Attack",
+        "description": "Toggles Auto Attack",
+        "rangeMax": 30,
+        "autoattack": "melee",
+        "icon": "Data/\\UI\\item_icons\\1h_dagger_017.dds"
+      },
+      {
+        "lookupId": "A2B3964A98DE82D41",
+        "id": "A2B3964A98DE82D41",
+        "idNew": "A2B3964A98DE82D41",
+        "name": "Toggle Ranged Attack",
+        "description": "Toggles Auto Ranged Attack",
+        "rangeMax": 35,
+        "autoattack": "ranged",
+        "weapon": "ranged",
+        "icon": "Data/\\UI\\item_icons\\ranged_gun_water_epic_a.dds"
+      },
+      {
+        "lookupId": "A295EECA15ADDAE79",
+        "id": "A295EECA15ADDAE79",
+        "idNew": "A295EECA15ADDAE79",
+        "name": "Track Fish",
+        "description": "Shows the location of all Schools of Fish on the minimap.",
+        "icon": "Data/\\UI\\item_icons\\fish_51.dds"
+      },
+      {
+        "lookupId": "A58BA2EF9600D8B32",
+        "id": "A58BA2EF9600D8B32",
+        "idNew": "A58BA2EF9600D8B32",
+        "name": "Trick Shot",
+        "description": "Deals 209 to 213 damage to up to 5 enemies. Awards 1 Combo Point.\n\nAdditionally, your currently active pet grants you a buff for 15 seconds.",
+        "rangeMax": 35,
+        "costEnergy": 26,
+        "weapon": "any",
+        "icon": "Data/\\UI\\ability_icons\\ricochet1.dds"
+      }
+    ]
+  },
+  "liveOperations": [
+    {
+      "name": "reload-load-v0411",
+      "action": "click",
+      "desktopPosition": [
+        1125,
+        335
+      ],
+      "captureId": "58c1349c6d9846b886da9d0e2040f9f0",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "toolbar Reload requested; no visible reload/load effect",
+      "intendedUiEffectObserved": false,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-load-v0411\\before.png",
+          "sha256": "7cd825def1225ae728c24a8939cdbef36d2364bd31e0a6b3a3411e1c1cf49c9f"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-load-v0411\\after.png",
+          "sha256": "8b8808e6803cd72e7561407f10a2167e71f1b9bac012bd173f7ab227b6a3c5b9"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-load-v0411\\capture.json",
+          "sha256": "3dfa104826e033ff33aaadcc823061ce30998d71d94c8f8aab93d2c071c61819"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-load-v0411\\review.json",
+          "sha256": "6a479e3a2bb76f9707f5dcf26cbe4da9340788be9cfaa97b4bd5101ccaccd3f3"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-load-v0411\\result.json",
+          "sha256": "1d2169bcb7aa4045765d6244d1b8b6cfcc1fc90ee67514842c2c9072a8b2f3ab"
+        }
+      ]
+    },
+    {
+      "name": "capture-current-known",
+      "action": "click",
+      "desktopPosition": [
+        1020,
+        335
+      ],
+      "captureId": "44e57f467c6d44908255ee305e5419bc",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "loaded v0.4.10 UI reports capture-complete54/54",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-current-known\\before.png",
+          "sha256": "aff38e74a8276f8669e54eab242967a7153ec2df17adc0da379a7271f5956134"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-current-known\\after.png",
+          "sha256": "40fd9703acda60cb30d2a4f5ad4482f580f01b08586d39ec74316170c48c4b0d"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-current-known\\capture.json",
+          "sha256": "1e6c324237acf1569987ddd6540be1c652e0f8f46d37352592fe47c070ad12ff"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-current-known\\review.json",
+          "sha256": "35a87a3a04dc8019aa279aaf862d9963f2a68d515b24dd8d6406065c520f4613"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-current-known\\result.json",
+          "sha256": "4941d8b7e215baefe09b28a05dc40d46345ebf0c068416e7350157cf2656d2aa"
+        }
+      ]
+    },
+    {
+      "name": "inspect-existing-reload-macro",
+      "action": "move",
+      "desktopPosition": [
+        765,
+        705
+      ],
+      "captureId": "b33f0b2e62714d5b847090940aca2d96",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "existing action-bar tooltip directly displays reloadui name/body",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\inspect-existing-reload-macro\\before.png",
+          "sha256": "e76b5457439b8992931605afbfcfab070c5042133b9fbd57da3aa6a6a1116882"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\inspect-existing-reload-macro\\after.png",
+          "sha256": "498f4136a1df978717f5c4824c5b4bce6443514e2ad8bf3c5b21275cab5990d2"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\inspect-existing-reload-macro\\capture.json",
+          "sha256": "7ae83a20912753a475bc3483a1aadad3525540c990595eb5f72a760d39f51043"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\inspect-existing-reload-macro\\review.json",
+          "sha256": "65c98681aa59e081f3dbc11d6e2912e576ee1826dd516a216d3096d1a04cbacf"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\inspect-existing-reload-macro\\result.json",
+          "sha256": "79eabdbf29df080a22d9af51eb44233bd7f816f463e906131416650b7d3f0fed"
+        }
+      ]
+    },
+    {
+      "name": "reload-existing-macro-save-v0410",
+      "action": "click",
+      "desktopPosition": [
+        765,
+        705
+      ],
+      "captureId": "d7340b90147243698ffcbd7f966b866e",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "normal reload produced addon-shutdown/loading and persisted v0.4.10 capture",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-existing-macro-save-v0410\\before.png",
+          "sha256": "915e3a4bd16f3b3f92cc5658b33cbe98cc3ea2be4b491b75ca4609da10648c88"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-existing-macro-save-v0410\\after.png",
+          "sha256": "a08abf191f6feeac84e8668a03b74468b5b76c1942ad7213fd78247c49c740d7"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-existing-macro-save-v0410\\capture.json",
+          "sha256": "7cd648d0ed1dbf0d6c82febcf4cd3ee5fa45d72eea7ed671bf4af7bd22c97811"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-existing-macro-save-v0410\\review.json",
+          "sha256": "f589bc9ab52bb9e4714273ff5e56820d3f6263cf21882082f9939b4d4e1a2052"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\reload-existing-macro-save-v0410\\result.json",
+          "sha256": "707ddc20c4bd586ce9f8dc62022c36b4c9baa7b226bd50485cf2f173c412a1d8"
+        }
+      ]
+    },
+    {
+      "name": "hide-idle-casting-panel",
+      "action": "click",
+      "desktopPosition": [
+        1015,
+        238
+      ],
+      "captureId": "2807b23caabb47e983c0c11b658a35e2",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "idle NOT RECORDING panel hidden; RRE v0.4.11 header visible",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\hide-idle-casting-panel\\before.png",
+          "sha256": "618abc0dcbd883672578bae48897d9cd4ff14c4122865ebfa4039e3a5b9417be"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\hide-idle-casting-panel\\after.png",
+          "sha256": "c239784d2e3875cae062c958d8e8707b525c6f0980b8eb1373abc01037e354c4"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\hide-idle-casting-panel\\capture.json",
+          "sha256": "eeabae3b8447776e7eeaaea4fd2b1d6dd209e2b992ce40ce86ed44aefe63b012"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\hide-idle-casting-panel\\review.json",
+          "sha256": "e9652ffb95d6b17322431d79247563f9185c2854f231dfe11e290db9d4dd1bd8"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\hide-idle-casting-panel\\result.json",
+          "sha256": "2c54916f688515dde88394502ce5dd457aa3c419aaaf5a2aad875eb97c5c6bf8"
+        }
+      ]
+    },
+    {
+      "name": "capture-v0411",
+      "action": "click",
+      "desktopPosition": [
+        1020,
+        335
+      ],
+      "captureId": "39c64ce4b60e4c56b75fd4579827bf73",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "visible v0.4.11 capture-complete54/54",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-v0411\\before.png",
+          "sha256": "a3fa53c9a2cabca171e0082f9dd91fcd019b663af35dd20146333427b994372f"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-v0411\\after.png",
+          "sha256": "60f42e2a27a1b96ea5630d002d0d9a2b877190f1fcc0e1a007374ad2cbf57b15"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-v0411\\capture.json",
+          "sha256": "00cb6d20ef6de8e7f7156a206f7eb75ae41de2c5d63c3b11c38e0d9fe5038d5d"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-v0411\\review.json",
+          "sha256": "628a89415c9f73fbb56832bc3ef8f139ca8246584d463aac19a764846c8be577"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\capture-v0411\\result.json",
+          "sha256": "f543fc96073b02514640e38be49c39d5eb051ede503e48809c2e0a64ebc7a798"
+        }
+      ]
+    },
+    {
+      "name": "save-v0411-via-existing-macro",
+      "action": "click",
+      "desktopPosition": [
+        765,
+        705
+      ],
+      "captureId": "78ba7993df974487ad7e1d6c7e217f0d",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "normal reload/loading; v0.4.11 capture persisted",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\save-v0411-via-existing-macro\\before.png",
+          "sha256": "31d73a0eb4222d33d34ea1ee3e5563e947318575bf87758d1d673eaca0d5fe32"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\save-v0411-via-existing-macro\\after.png",
+          "sha256": "1ba3bf5e33f31f83fd0534634265b56252f2c779e4c35e1d164be73d4e3a8642"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\save-v0411-via-existing-macro\\capture.json",
+          "sha256": "a08bdc02ed8438b1bce2f0d189d7d0bc0433b71fa2cc0ef23c45da297cdb1d39"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\save-v0411-via-existing-macro\\review.json",
+          "sha256": "a6be26145b32b8911c446fe934424ad2bc6cd8ce9085bf1e02b7908b58d41109"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\save-v0411-via-existing-macro\\result.json",
+          "sha256": "e7f123306eb2a8d47d9b78dc39f35e8ad48d159aa895464dad5e565183c3c12c"
+        }
+      ]
+    },
+    {
+      "name": "final-show-rre",
+      "action": "click",
+      "desktopPosition": [
+        1015,
+        238
+      ],
+      "captureId": "71f6a36176ab4472ba8f5608501f523a",
+      "originalImagesVisuallyReviewed": true,
+      "observation": "idle panel hidden; final v0.4.11 Known54 toolbar visible",
+      "intendedUiEffectObserved": true,
+      "releaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "artifacts": [
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\final-show-rre\\before.png",
+          "sha256": "4222dfd96c496c01e37f5919da307b2683122d02f54048fd69f58c63f4468428"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\final-show-rre\\after.png",
+          "sha256": "b0c3988a4178365fc6c44c7bcf0e2944a4fc26541e13ef90bf35e6603dff6de2"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\final-show-rre\\capture.json",
+          "sha256": "2b9ffaf1818c937f5d3c0b497ab137bd231269570ae4ea1b433e5f96e7bace0b"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\final-show-rre\\review.json",
+          "sha256": "096037068c96bf6d5cf9d6504b1ea391430b13f7ae3dc9215c6d70dd9de9475f"
+        },
+        {
+          "path": "artifacts\\lab2-live-20261107-0922\\final-show-rre\\result.json",
+          "sha256": "6c466e88e018e8d6af1226b72dd3d17df06213f2f49a05d31392fd9f7ff8a704"
+        }
+      ]
+    }
+  ],
+  "findings": {
+    "catalogThreeGatesSatisfied": true,
+    "knownCatalogCount": 54,
+    "exactIdSetsStableAcrossUiReloadAndVersion": true,
+    "castingSuccessProven": false,
+    "nativeMechanismNewFinding": false,
+    "toolbarReload": {
+      "loadedVersion": "0.4.10",
+      "oneReviewedAttempt": true,
+      "immediateAndLaterFrameStillOldVersion": true,
+      "registrationReceipt": "registered/readback-matched",
+      "functionalSuccessVerified": false,
+      "causeKnown": false,
+      "blindRetryPerformed": false
+    },
+    "workingReloadRoute": "existing action-bar macro; tooltip directly exposed name and body reloadui; two observed reload/save transitions",
+    "rogueStaticWarriorCatalogApplicable": false,
+    "candidateLookup": "deferred: warrior-player-context-not-ready; no eligibility inference"
+  },
+  "validation": {
+    "literalParserStructureQualified": true,
+    "existingSavedReceiptTests": 15,
+    "existingSavedReceiptTestsExitCode": 0,
+    "strictPackageVerifierExitCode": 0,
+    "fullResearchGateRun": false,
+    "reasonNoFullGate": "Documentation/evidence/task metadata only; no code or addon implementation changed",
+    "documentationIntegration": {
+      "roadmapValidator": "pass; 47 tasks, 11 milestones, zero failures; exit 0",
+      "artifactHashes": "pass; 60 original/source/executable hash checks",
+      "jsonAndRelativeLinks": "pass",
+      "diffCheck": "pass; exit 0",
+      "originalLuaLiteralParseAndRootSnapshotContract": "pass",
+      "exactIdAndScalarComparison": 54,
+      "unchangedOtherScAndRcTasks": true
+    }
+  },
+  "unchangedGates": {
+    "SC103": "blocked; current Legendary Protector Fury identity/selection not answered by Rogue known catalog",
+    "SC306": "blocked; numeric queue mode mapping not tested",
+    "SC604": "accepted interim native mechanism only",
+    "RC26_RC30_RC31_RC32": "pending; no Pin/Undo archival acceptance or candidate error/retry qualification",
+    "NAV002": "blocked"
+  },
+  "authority": {
+    "noOllama": true,
+    "newModelAgents": 0,
+    "freebuffCapabilityOnly": true,
+    "guestMouseSoftwareInstalled": false,
+    "addonOrToolSourceChanged": false,
+    "externalRepositorySourceEdited": false,
+    "guestAddonDeploymentPerformed": false,
+    "castingOrMovementInputSent": false,
+    "normalUiReloadsObserved": 2,
+    "uiOnlyHideOfIdleCastingPanel": 2,
+    "guestReadOnlyDiagnosticsUsed": true,
+    "temporaryGuestJsonReceiptsRemoved": true
+  },
+  "sourceArtifacts": [
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\saved-before.lua",
+      "sha256": "6fc8d27e415d255bb9f0d1b82bc1062b390b8fb6ac461e5b543ecfc0746fd5fa",
+      "length": 23
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\saved-after-first-reload.lua",
+      "sha256": "2eac10ba8f704ed9e872899b1c8b972366c3bb138be401945c3f25d50ede5b41",
+      "length": 21670
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\saved-v0411.lua",
+      "sha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+      "length": 21670
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\guest-readiness.json",
+      "sha256": "84091abe115d8ed2ea2dfa69cf0ce09c4ab8a2bc1416789731f5e90fc7c99c22",
+      "length": 576
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\guest-readiness-after.json",
+      "sha256": "214c6b9e530fd4548c792fd8474e9587d15beeb0b5acc7e789f5406a3f7d5373",
+      "length": 626
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\readiness-query.ps1",
+      "sha256": "5641759ad785528ed0eccf82f12bcf7468e45aa654990f752fa74df514683957",
+      "length": 990
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\addon-source-comparison.json",
+      "sha256": "88a4dfeb75eca9a772e6807755de5b53ed759e94f874c5ebc1324f04a6886caa",
+      "length": 2814
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\recognized-reference-toc.lua",
+      "sha256": "7fba47c0102c5925a792c9a8edd4e6acb8a2142210a57386633cb5af8ef5acdb",
+      "length": 312
+    },
+    {
+      "path": "artifacts\\lab2-live-20261107-0922\\catalog-summary.json",
+      "sha256": "52d091f843c7341eda8d1c8b013732609aa53e55d1081bb32954d79d7dfbed66",
+      "length": 22577
+    }
+  ],
+  "cleanup": {
+    "observedAtUtc": "2026-11-07T14:50:33Z",
+    "workbridgeVersion": "0.16.4-dev",
+    "workbridgeRunningJobs": 0,
+    "rreRegisteredTasks": 0,
+    "rreRegisteredOwners": 0,
+    "historicalJobInventoryComplete": false,
+    "nativeController41888Running": false,
+    "externalMouseProcessesRunning": 0,
+    "consoleConnectionCheck": "0 established VNC connections; listener remains available"
+  }
+}

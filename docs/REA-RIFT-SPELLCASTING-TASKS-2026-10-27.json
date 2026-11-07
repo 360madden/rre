@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-609: host-only vncdotool1.4.2 setup accepted for positioning and left clicks; no guest mouse install or guest-agent input. Two standalone moves and a browser open/close pair visually verified with exclusive console ownership and disconnected clients. Native controller41888 gracefully stopped and intentionally remains stopped in external mode. SC-103/306 remain blocked, SC-604 interim; old native/collector observations remain separately dated evidence.",
+  "status": "2026-11-07 SC-610 accepted: Lab-2 Bolinao L43 Rogue role1 current-known capture/save qualified, RRECollector loaded/saved v0.4.11, 54 unique IDs/54 Details, 10/10 installed source hashes and unchanged before/after guest build identity. Existing host-only external mouse and action-bar reloadui reused; first old-v0.4.10 toolbar Reload remains unverified. No new native mechanism or casting result; SC-103/306 blocked, SC-604 broader gate interim, RC-26/30/31/32 pending. Native controller intentionally stopped; no Ollama.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -26,15 +26,17 @@
       "path": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
       "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
       "scope": "Lab-2 sole live target; existing exact-byte offline source reusable without transferring runtime qualification",
-      "lastObservedAt": "2026-11-07T13:00:39.4495815+00:00",
+      "lastObservedAt": "2026-11-07T14:44:51.2510073Z",
       "lastObservedProcessId": 9752,
       "processStartUtcTicks": "639294897826627677",
       "processIdIsVolatile": true,
-      "gameInputSent": false,
+      "gameInputSent": true,
       "vmwareRequired": true,
       "nativeCodeSemanticsQualified": false,
       "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
-      "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json"
+      "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+      "gameInputScope": "SC-610 reviewed external addon Capture, tooltip hover, normal UI reload/save and UI-only Hide; no casting/movement",
+      "currentEvidence": "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json"
     },
     "historicalPhysicalResearchTarget20261027": {
       "kind": "physical-pc-local-RIFT",
@@ -1261,6 +1263,45 @@
         "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
       ],
       "assessment": "External selected functions accepted: installed host vncdotool1.4.2 reused, no guest install, two visually verified standalone positions and two clicks opening/closing RRE browser, all releases/disconnects/mutex exits verified. Ten focused tests passed. Native owner gracefully stopped and intentionally remains stopped for external mode. Historical collision/pathfinding full-gate SHA failures remain documented."
+    },
+    {
+      "id": "SC-610",
+      "milestone": "SC1",
+      "title": "Establish a source-qualified Lab-2 current-known RRECollector catalog with existing external mouse and SavedVariables reader",
+      "state": "completed",
+      "dependsOn": [
+        "SC-609"
+      ],
+      "owner": "single RRE manager; exclusive external Lab-2 console per action",
+      "lane": "manager-lab2-known-catalog",
+      "ownedPaths": [
+        "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "sourceInputs": [
+        "SC-605 addon-first playbook and M2 tool-routing contract",
+        "Existing RRECollector Capture/Reload UI controls",
+        "Existing literal-only SavedVariables reader",
+        "Fresh Lab-2 build, installed source, character/role and original VNC images"
+      ],
+      "deliverable": "One Lab-2 character-role current-known API catalog with source/build/version/save provenance and explicit known/learnable/usable limits",
+      "acceptance": [
+        "Reuse host-only external mouse route, per-action screenshot review and cleanup; no Ollama, guest mouse install, addon deployment or combat",
+        "Freshly bind unique Lab-2 game process/file SHA and characterize installed/loaded addon versions before normal UI capture/save",
+        "Inspect fresh UI result and original character SavedVariables using existing literal-only reader; preserve prior saves as read-only copies",
+        "Record exact IDs/counts/completeness/role/version and keep Warrior Legendary, eligibility, queue and casting gates unresolved",
+        "Scoped source/hash/link/JSON/roadmap/diff validation and handoff; preserve offline SC-604 work and other repositories"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "existing RRECollector capture and normal UI reload/save through reviewed external left clicks; no casting/movement",
+      "evidence": [
+        "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json"
+      ],
+      "assessment": "Accepted for API-current-known catalog/capture/save provenance only: 54/54 Bolinao L43 Rogue role1; no Warrior eligibility, actual casting or native mechanism qualification."
     }
   ],
   "checkpointPolicy": {
@@ -1735,5 +1776,22 @@
     "nextAddonTask": "RC-02",
     "latestReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md"
   },
-  "historicalStatus20261105": "2026-11-05 14:07 EST reconciliation: RRECollector physical v0.4.11 source/host 10/10 hashes, operator-visible loaded UI version, and first matching post-load character SavedVariables addonVersion=0.4.11 receipt qualified; eight saved slots retain the original distinct fingerprint. These receipts do not prove fresh ability capture, same-session linkage, or RC-32 live failure/retry guards. RC-30 strict operator archival evidence (immediate post-Undo pre-reload screenshot C and same-trial pre-Pin save) remains pending; Joey's operator-functional source-only exception remains documented. SC-103 current Legendary Protector's Fury exact ID/selection and SC-306 queue enum remain blocked; SC-604 is an accepted interim mechanism only. Historical v0.4.10 snapshots in task records remain valid only for their recorded times."
+  "historicalStatus20261105": "2026-11-05 14:07 EST reconciliation: RRECollector physical v0.4.11 source/host 10/10 hashes, operator-visible loaded UI version, and first matching post-load character SavedVariables addonVersion=0.4.11 receipt qualified; eight saved slots retain the original distinct fingerprint. These receipts do not prove fresh ability capture, same-session linkage, or RC-32 live failure/retry guards. RC-30 strict operator archival evidence (immediate post-Undo pre-reload screenshot C and same-trial pre-Pin save) remains pending; Joey's operator-functional source-only exception remains documented. SC-103 current Legendary Protector's Fury exact ID/selection and SC-306 queue enum remain blocked; SC-604 is an accepted interim mechanism only. Historical v0.4.10 snapshots in task records remain valid only for their recorded times.",
+  "sc610Evidence": {
+    "report": "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.md",
+    "machineEvidence": "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json",
+    "state": "accepted-current-known-catalog-only",
+    "character": "Bolinao",
+    "calling": "rogue",
+    "level": 43,
+    "roleSlot": 1,
+    "uniqueIds": 54,
+    "details": 54,
+    "loadedAndSavedVersion": "0.4.11",
+    "sourceInstallShaMatches": 10,
+    "savedSha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+    "nativeMechanismNewFinding": false,
+    "toolbarReloadFunctionalSuccessVerified": false,
+    "noOllama": true
+  }
 }

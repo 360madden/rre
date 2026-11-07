@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-07: Lab-2 is the sole RRE live-testing target. Current reviewed Lab-2 UI v0.4.10 Known0/Static96/no saved candidate receipt. Package parity, persisted version and functional captures are unverified for Lab-2. Physical-PC v0.4.11 qualification remains historical; RC-26/30/31/32 pending and SC-103/306 blocked.",
+  "status": "2026-11-07 SC-610: Lab-2 sole live target; Bolinao L43 Rogue role1 current-known capture/save qualified on loaded/saved RRECollector v0.4.11, 54/54 and 10/10 installed source hashes. Existing action-bar reloadui worked; old-v0.4.10 toolbar Reload success unverified. Warrior candidate attempt deferred/context-inapplicable. RC-26/30/31/32 remain pending and SC-103/306 blocked; physical runtime records historical.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -784,9 +784,7 @@
       "phase": "M7-UI",
       "title": "Inspect physical hover cards, browser clicks and pinning",
       "state": "pending",
-      "dependsOn": [
-        "RC-25"
-      ],
+      "dependsOn": ["RC-25"],
       "owner": "RRE manager",
       "scope": [
         "Verify full-name hover card above/below screen bounds with actual RIFT pointer position",
@@ -814,7 +812,9 @@
       "phase": "M7-UI",
       "title": "Reversible pin validation and complete-capture preservation",
       "state": "pending",
-      "dependsOn": ["RC-25"],
+      "dependsOn": [
+        "RC-25"
+      ],
       "owner": "RRE manager",
       "scope": [
         "Add visible next pin destination and in-session undo of exact pre-edit SavedVariables slots",
@@ -1227,13 +1227,23 @@
     "kind": "vmware-lab2-only",
     "machineName": "RIFT-LAB-2",
     "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
-    "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
-    "observedAt": "2026-11-07T13:00:39.4495815+00:00",
-    "uiVersionObserved": "0.4.10",
-    "sourceInstallParityVerified": false,
-    "persistedVersionVerified": false,
-    "functionalCaptureVerified": false,
+    "readinessReceipt": "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json",
+    "observedAt": "2026-11-07T14:44:51.2510073Z",
+    "uiVersionObserved": "0.4.11",
+    "sourceInstallParityVerified": true,
+    "persistedVersionVerified": true,
+    "functionalCaptureVerified": true,
     "physicalRuntimeRecordsAreHistorical": true,
-    "guestDeploymentAuthorizedByTargetSwitch": false
+    "guestDeploymentAuthorizedByTargetSwitch": false,
+    "initialReadinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+    "qualificationScope": "SC-610 current-known catalog and normal UI capture/save only; no RC-26/30/31/32 acceptance",
+    "character": "Bolinao",
+    "calling": "rogue",
+    "level": 43,
+    "roleSlot": 1,
+    "uniqueIds": 54,
+    "details": 54,
+    "toolbarReloadFunctionalSuccessVerified": false,
+    "warriorCandidateApplicable": false
   }
 }
