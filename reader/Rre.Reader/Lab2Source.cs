@@ -80,8 +80,7 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
         {
             var local=Path.Combine(evidenceDirectory,remote[(DataRules.Text(scope["root"],"root").Length+1)..]);
             var bytes=await DataRules.ReadFileAsync(local,8192,cancellationToken);
-            DataRules.Require(Same(DataRules.Sha(bytes),DataRules.Text(scope["knownFiles"]![remote],"journal-sha"))
-                && JsonNode.DeepEquals(DataRules.Parse(bytes),node!["identity"]),"lab2-process-journal-drift");
+            ValidateOwnedProcessJournal(bytes,DataRules.Text(scope["knownFiles"]![remote],"journal-sha"),node!["identity"]);
             finalFiles[local]=DataRules.Sha(bytes);
         }
         await CheckFiles(finalFiles,cancellationToken);
@@ -244,4 +243,15 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
         return text;
     }
     private static bool Same(string a,string b)=>a.Length==64 && b.Length==64 && a.Equals(b,StringComparison.OrdinalIgnoreCase);
+    public static void ValidateOwnedProcessJournal(byte[] raw,string declaredSha,JsonNode? identity)
+    {
+        DataRules.Require(raw.Length is >0 and <=8192 && Same(DataRules.Sha(raw),declaredSha),"lab2-process-journal-raw-hash");
+        // Windows PowerShell5 Set-Content UTF8 prepends one BOM. Preserve/hash
+        // original bytes; normalize only this owned journal's semantic parse.
+        var json=raw.AsSpan().StartsWith(new byte[]{0xEF,0xBB,0xBF}) ? raw[3..] : raw;
+        JsonNode? parsed;
+        try { parsed=DataRules.Parse(json); }
+        catch(System.Text.Json.JsonException) { throw new ReaderFailure("lab2-owned-process-journal-json"); }
+        DataRules.Require(JsonNode.DeepEquals(parsed,identity),"lab2-process-journal-identity");
+    }
 }

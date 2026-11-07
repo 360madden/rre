@@ -106,6 +106,44 @@ public static class Lab2Checks
         ScopeCase("Lab2 unconfirmed native exit prevents acceptance",s=>s["processes"]!.AsObject().First().Value!["exitConfirmed"]=false);
         ScopeCase("Lab2 foreign host process journal rejected",s=>s["processes"]!.AsObject().First().Value!["hostJournal"]=Path.Combine(repo,"outside.json"));
         ScopeCase("Lab2 foreign native process path rejected",s=>s["processes"]!.AsObject().First().Value!["identity"]!["path"]=@"C:\RIFT_TRANSFER\RIFT\rift_x64.exe");
+        var actualScope=Read("../sc625-live-adapter-trial2-20261107-1655/acquisition/guest-scope.json");
+        Accept("Trial2 exact retained acquisition decodes offline without relabeling failed CLI",()=>
+        {
+            var trial=Path.Combine(repo,"artifacts","sc625-live-adapter-trial2-20261107-1655");
+            var acquired=Path.Combine(trial,"acquisition");
+            byte[] Raw(string path)=>File.ReadAllBytes(path);
+            var receipt=JsonNode.Parse(Raw(Path.Combine(acquired,"acquisition.json")))!.AsObject();
+            var pins=new Dictionary<string,string>(Lab2Source.Dependencies,StringComparer.Ordinal)
+            {
+                [Path.Combine(repo,"tools","rre_lab2_acquire.py")]=Lab2Source.HelperSha,
+                [Path.Combine(trial,"binding.json")]=DataRules.Sha(Raw(Path.Combine(trial,"binding.json"))),
+                [Path.Combine(trial,"window.json")]=DataRules.Sha(Raw(Path.Combine(trial,"window.json")))
+            };
+            var decoded=Lab2Source.DecodeAcquired(Raw(Path.Combine(trial,"binding.json")),Raw(Path.Combine(trial,"window.json")),Raw(Path.Combine(acquired,"acquisition.json")),Raw(Path.Combine(acquired,"request.json")),Raw(Path.Combine(acquired,"snapshot.json")),acquired,pins);
+            Lab2Source.ValidateScope(actualScope,receipt,acquired);
+            if(decoded.Abilities.Count!=54 || decoded.Sequence!=9)throw new Exception("trial2 publication mismatch");
+            File.WriteAllText(Path.Combine(output,"trial2-offline-reader.json"),ObservationModules.Build(decoded,"all").ToJsonString()+"\n");
+        });
+        foreach(var (remote,node) in actualScope["processes"]!.AsObject())
+        {
+            var file=Path.Combine(repo,"artifacts","sc625-live-adapter-trial2-20261107-1655","acquisition",Path.GetFileName(node!["hostJournal"]!.GetValue<string>()));
+            var raw=File.ReadAllBytes(file);var declared=actualScope["knownFiles"]![remote]!.GetValue<string>();var identity=node!["identity"];
+            Accept("Owned PowerShell BOM journal retains exact raw SHA: "+Path.GetFileName(remote),()=>Lab2Source.ValidateOwnedProcessJournal(raw,declared,identity));
+            var plain=raw[3..];Accept("Owned no-BOM journal remains valid: "+Path.GetFileName(remote),()=>Lab2Source.ValidateOwnedProcessJournal(plain,DataRules.Sha(plain),identity));
+        }
+        var journal=Encoding.UTF8.GetBytes("{\"pid\":1}");var bom=new byte[]{0xEF,0xBB,0xBF};
+        void BadJournal(string name,byte[] bytes,string? declared=null,JsonNode? identity=null)
+        {
+            try{Lab2Source.ValidateOwnedProcessJournal(bytes,declared??DataRules.Sha(bytes),identity??JsonNode.Parse(journal));}
+            catch(Exception error) when(error is ReaderFailure or System.Text.Json.JsonException){passed.Add(name);return;}
+            throw new Exception("Bad journal accepted: "+name);
+        }
+        BadJournal("Owned journal mutation still fails original raw hash",bom.Concat(journal).ToArray(),new string('0',64));
+        BadJournal("Owned journal identity mismatch rejected",bom.Concat(journal).ToArray(),identity:JsonNode.Parse("{\"pid\":2}"));
+        BadJournal("Owned journal repeated BOM rejected",bom.Concat(bom).Concat(journal).ToArray());
+        BadJournal("Owned journal UTF16 BOM rejected",new byte[]{0xFF,0xFE}.Concat(journal).ToArray());
+        BadJournal("Owned journal BOM-only rejected",bom);
+        Accept("Global strict JSON parser still rejects BOM",()=>{try{DataRules.Parse(bom.Concat(journal).ToArray());}catch(System.Text.Json.JsonException){return;}throw new Exception("global parser widened");});
         Accept("Lab2 decoded publication must match optional-field producer version",()=>
         {
             var b=Binding();b["addonVersion"]="0.4.12";var w=Window();

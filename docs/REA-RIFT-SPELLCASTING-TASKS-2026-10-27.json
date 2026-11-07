@@ -1903,7 +1903,7 @@
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md",
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.json"
       ],
-      "progress": "First0.2.1live35.656sfailedsnapshotidentity/outputcollision; quarantined, independentzeroUUIDresidual/processrecovery andreturn21:40:32Z. Fixed0.2.2: disjointidentitypath, sanitizedSessionError,nativeintervalbinding;167C#/18Pythonnormal+optimized/20Node/oldregressionreproduced,legacy500sameoldSHAfail. Newlivewindowrequired; noacceptedfulltrialyet."
+      "progress": "Trial1 0.2.1 failed prelaunch namespace collision and recovered. Trial2 0.2.2 acquired full seq9/54 records in38.672s and cleaned both native exits, but originalCLI exit2 on owned PowerShell UTF8BOM journals; no acceptance/observation. Independent recovery and peer-confirmed return22:04:51Z. Fixed0.2.3 narrow raw-hash-preserving journal parser;178 focused checks including exact retained trial2 offline decode/scope/journals pass;legacy500 sameoldSHAguard failure. No third live trial. Uninterrupted liveCLI acceptance pending; new peergrant required."
     },
     {
       "id": "SC-626",
