@@ -2562,9 +2562,12 @@
     "earliestCompletionUtc": "2026-11-07T22:22:21Z",
     "earliestCompletionEastern": "2026-11-07 17:22:21 EST",
     "extensionReceivedAtUtc": "2026-11-07T18:10:59Z",
-    "status": "active",
+    "status": "completed",
     "onlyLiveTarget": "Lab2",
     "ollama": false,
-    "freebuff": false
+    "freebuff": false,
+    "completedAtUtc": "2026-11-07T22:23:30.023883+00:00",
+    "completionAudit": "artifacts/sc625-live-adapter-trial3-20261107-1714/completion-audit.json",
+    "acceptedMilestoneCommit": "4983a1d19f78659b29372a66ab98f0c83c1ca807"
   }
 }
