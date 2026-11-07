@@ -2034,9 +2034,12 @@
       ],
       "gameInputAuthorized": false,
       "evidence": [
-        "artifacts/rre-rr2-stats-reference-20261107-1614/api-stats.json"
+        "artifacts/rre-rr2-stats-reference-20261107-1614/api-stats.json",
+        "docs/agents/rre-experience-api-reference-2026-11-07.md",
+        "docs/agents/rre-experience-api-reference-2026-11-07.json"
       ],
-      "progress": "Existing10statvalues already supplied from SC628 acceptedcapture; Experience docs research only before sequential source work."
+      "progress": "Existing10statvalues already supplied from SC628 acceptedcapture; Experience docs research only before sequential source work.",
+      "researchGate": "Matching-build primary API/reference accepted; existing10stats reused, one missing Experience call proposed, no source/live expansion yet."
     }
   ],
   "checkpointPolicy": {

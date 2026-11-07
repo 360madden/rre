@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-629",
+  "status": "primary-reference-accepted-source-expansion-pending",
+  "createdAtUtc": "2026-11-07T21:25:58.096385+00:00",
+  "primarySource": "C:\\work\\API Atlas\\.local\\live-snapshot-020.json",
+  "primarySourceSha256": "ddb389c4ec5c3fff9113798f5689706dd8209298bab030ada76f882b64c8f736",
+  "retainedSelection": "artifacts\\sc629-experience-reference-20261107-1625\\selected-api-documentation.json",
+  "selectionSha256": "dc4918501cbd4895b682001dac86e73e90f1bff8d698b7750035b79a5f8fc1b7",
+  "fields": {
+    "accumulated": "current-level progress",
+    "needed": "amount required to gain a level",
+    "rested": "available rested experience"
+  },
+  "currentSignature": "result = Inspect.Experience() -- table <- void",
+  "currentMemberTypesExplicitlyAnnotated": false,
+  "numericTypeEvidence": "Inference from matching-build deprecated predecessor documented number/number/number, not explicit current member annotations; do not call deprecated API.",
+  "existingStats": {
+    "packet": "artifacts/rre-rr2-stats-reference-20261107-1614/api-stats.json",
+    "sha256": "bfcfb4fac67cb024e51923d9278863d4060c9acc1d082f6ee1d2569bf79ca2bc",
+    "newStatCallsRequired": 0,
+    "all10RequestedFieldsAlreadyCaptured": true
+  },
+  "proposal": {
+    "additionalCalls": 1,
+    "call": "Inspect.Experience() on existing manual snapshot only",
+    "contextField": "experience",
+    "allowedMembers": [
+      "accumulated",
+      "needed",
+      "rested"
+    ],
+    "types": "finite Lua numbers only; zero retained; no coercion/defaults",
+    "unavailable": "missing/throw/non-table => capabilities.experience=false, omitmap",
+    "partial": "table => capabilitytrue; missing/inaccessible/nonnumeric/nonfinite members omitted asunknown",
+    "collectorVersion": "0.4.14",
+    "compatibility": "explicit version-only allowance; exact0.4.12/.13 schemas/replay retained",
+    "forbiddenExpansion": [
+      "duplicateInspect.Stat",
+      "events",
+      "polling",
+      "gameplay",
+      "deprecatedAPI fallback"
+    ]
+  },
+  "sourceEdits": false,
+  "liveOperations": 0,
+  "worker": "/root/addon_discovery_research",
+  "primaryMirror": "https://raw.githubusercontent.com/360madden/360madden-Rift-Addon-API-Docs/98aa30971f7d6a02dec9cebb7565cfc4783ee4f7/inspect_experience.html"
+}
