@@ -321,5 +321,13 @@
     "scope": "Only RRECollector addon files may propagate through existing OneDrive root. No settings or excluded-machine live operation.",
     "isolationHoldResolvedForThisFolder": true,
     "installLoadTransferStillPending": true
+  },
+  "laterLiveAcceptance": {
+    "report": "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.md",
+    "receipt": "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.json",
+    "scope": "one bounded manual seq5transfer, not continuous/passive/repeated/restart/inbound",
+    "sourceInstallHashes": 11,
+    "loadedAndFreshSavedVersion": "0.4.12",
+    "decoderQualificationsRemainFalse": true
   }
 }

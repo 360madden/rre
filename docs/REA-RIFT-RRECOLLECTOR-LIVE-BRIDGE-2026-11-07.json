@@ -1,0 +1,1151 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-622",
+  "status": "accepted-bounded-manual-live-outbound-prototype",
+  "createdAtUtc": "2026-11-07T19:59:02.787758+00:00",
+  "sourceHeadAtLive": "9990750",
+  "onlyLiveTarget": "RIFT-Lab-2",
+  "gameIdentity": {
+    "sha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "processId": 9752,
+    "observedAtUtc": "2026-11-07T19:35:38.1677253Z",
+    "machine": "RIFT-LAB-2",
+    "length": 60493640
+  },
+  "vmIdentity": {
+    "vmx": "c:\\rift modding\\vms\\rift-lab-2\\rift-lab.vmx",
+    "port": 5962,
+    "logEpoch": "2026-11-05T15:31:17.951Z",
+    "listenerPid": 17848,
+    "pid": 17848,
+    "image": "C:\\Program Files\\VMware\\VMware Workstation\\x64\\vmware-vmx.exe",
+    "startTicks": 134383662779267832
+  },
+  "addonVersion": "0.4.12",
+  "readerVersion": "0.1.2",
+  "sourcePackageArchive": "artifacts/RRECollector-0.4.12-accepted-package-20261107/RRECollector-0.4.12.zip",
+  "sourcePackageSha256": "b69d8361674f7cbffa02460de1485c880cea805a2eab2d0cc107fb9749a6158e",
+  "gates": {
+    "sourceStrictPackage": true,
+    "recognizedTocReference": true,
+    "installedSourceHashes": 11,
+    "tocCopiedLast": true,
+    "loadedVersionObservedInOriginalUi": true,
+    "freshMatchingVersionCharacterSavedReceipt": true,
+    "functionalManualCaptureObserved": true
+  },
+  "sequence5": {
+    "uiExpected": {
+      "session": "0b2a76e89de07abd58ee6c1149237445",
+      "sequence": 5,
+      "parts": 5,
+      "payloadBytes": 18226,
+      "source": "fresh original Lab2 screenshot after reviewed manual Capture",
+      "image": "artifacts\\sc622-live-bridge-20261107-1428\\capture-seq5\\after.png",
+      "imageSha256": "e3b4ea84598fac4a2956c64070cb0bf740005b01d24f5144d120e078c60b81ae",
+      "loadedUiVersion": "0.4.12",
+      "abilityCount": 54,
+      "nativeAcquisitionPending": true
+    },
+    "outerLiveTransferReceipt": {
+      "status": "live-frame-transfer-observed",
+      "vmIdentity": {
+        "vmx": "c:\\rift modding\\vms\\rift-lab-2\\rift-lab.vmx",
+        "port": 5962,
+        "logEpoch": "2026-11-05T15:31:17.951Z",
+        "listenerPid": 17848,
+        "pid": 17848,
+        "image": "C:\\Program Files\\VMware\\VMware Workstation\\x64\\vmware-vmx.exe",
+        "startTicks": 134383662779267832
+      },
+      "expected": {
+        "session": "0b2a76e89de07abd58ee6c1149237445",
+        "sequence": 5,
+        "parts": 5,
+        "payloadBytes": 18226,
+        "source": "fresh original Lab2 screenshot after reviewed manual Capture",
+        "image": "artifacts\\sc622-live-bridge-20261107-1428\\capture-seq5\\after.png",
+        "imageSha256": "e3b4ea84598fac4a2956c64070cb0bf740005b01d24f5144d120e078c60b81ae",
+        "loadedUiVersion": "0.4.12",
+        "abilityCount": 54,
+        "nativeAcquisitionPending": true
+      },
+      "scriptSha256": "682f318aa7089470806d494167dad9b5ef9b72ec03f99fa07d92d43dd17e69dc",
+      "ownedGuestRequestAndReportRemoved": true,
+      "gameInputSent": false,
+      "parts": 5,
+      "payloadBytes": 18226,
+      "payloadSha256": "0ee46de7f87b5e59dc4f7dfc9c763d662a678677993cc6f041e5782364630a8a",
+      "abilityCount": 54,
+      "exactConsumerRecordsAndContext": true,
+      "sourceSnapshotSha256": "fb66713c772f909342f22833465fe9abc7f586b851b1901ce491892bad8d3b6c",
+      "readerOutputSha256": "c7ae46665d430a30aaa7812c34f2d0f4a9aaf6edd0cc1c41198e9948fcd9993d",
+      "restartQualified": false,
+      "passiveFreshnessVerified": false,
+      "savedComparisonPending": true
+    },
+    "nativeSnapshotStartedAtUtc": "2026-11-07T19:43:07.5298960Z",
+    "nativeSnapshotCompletedAtUtc": "2026-11-07T19:43:07.6262195Z",
+    "sourceSnapshotSha256": "fb66713c772f909342f22833465fe9abc7f586b851b1901ce491892bad8d3b6c",
+    "payloadSha256": "0ee46de7f87b5e59dc4f7dfc9c763d662a678677993cc6f041e5782364630a8a",
+    "savedPublication": {
+      "addonVersion": "0.4.12",
+      "sequence": 5,
+      "captureVersion": "0.4.12",
+      "captureSequence": 5,
+      "memoryPublication": {
+        "abilities": 54,
+        "addonVersion": "0.4.12",
+        "adler32": "5bbe5b13",
+        "parts": 5,
+        "payloadBytes": 18226,
+        "sequence": 5,
+        "session": "0b2a76e89de07abd58ee6c1149237445",
+        "status": "complete"
+      }
+    },
+    "savedComparison": {
+      "status": "agreement-with-explicit-observed-Saved-number-formatting",
+      "sequence": 5,
+      "addonVersion": "0.4.12",
+      "abilityCount": 54,
+      "idsTextBooleansCountsStrictlyEqual": true,
+      "numericComparisonPolicy": "Exact unless differing Saved number equals native JSON value formatted to14 significant digits. Observed serialization relationship, not verified RIFT serializer implementation.",
+      "bitExactAllNumbers": false,
+      "numericDifferences": [
+        {
+          "path": "/abilities/14/castingTime",
+          "savedValue": 6.0000004768372,
+          "wireValue": 6.000000476837158,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 4.1744385725905886e-14,
+          "relativeDifference": 6.957397068060025e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.8000020000000p+2",
+          "savedFloat64Hex": "0x1.800002000002fp+2"
+        },
+        {
+          "path": "/abilities/15/cooldown",
+          "savedValue": 60.000003814697,
+          "wireValue": 60.000003814697266,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 2.6290081223123707e-13,
+          "relativeDifference": 4.381679925274244e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+5",
+          "savedFloat64Hex": "0x1.e00001fffffdbp+5"
+        },
+        {
+          "path": "/abilities/20/cooldown",
+          "savedValue": 120.00000762939,
+          "wireValue": 120.00000762939453,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 4.533262654149439e-12,
+          "relativeDifference": 3.777718638276983e-14,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+6",
+          "savedFloat64Hex": "0x1.e00001ffffec1p+6"
+        },
+        {
+          "path": "/abilities/22/cooldown",
+          "savedValue": 15.000000953674,
+          "wireValue": 15.000000953674316,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 3.161915174132446e-13,
+          "relativeDifference": 2.107943315402204e-14,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+3",
+          "savedFloat64Hex": "0x1.e00001fffff4ep+3"
+        },
+        {
+          "path": "/abilities/27/cooldown",
+          "savedValue": 3000.0002441406,
+          "wireValue": 3000.000244140625,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 2.5011104298755527e-11,
+          "relativeDifference": 8.337034087782272e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.7700020000000p+11",
+          "savedFloat64Hex": "0x1.770001fffffc9p+11"
+        },
+        {
+          "path": "/abilities/28/castingTime",
+          "savedValue": 1.5000001192093,
+          "wireValue": 1.5000001192092896,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 1.0436096431476471e-14,
+          "relativeDifference": 6.957397068060025e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.8000020000000p+0",
+          "savedFloat64Hex": "0x1.800002000002fp+0"
+        },
+        {
+          "path": "/abilities/32/cooldown",
+          "savedValue": 60.000003814697,
+          "wireValue": 60.000003814697266,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 2.6290081223123707e-13,
+          "relativeDifference": 4.381679925274244e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+5",
+          "savedFloat64Hex": "0x1.e00001fffffdbp+5"
+        },
+        {
+          "path": "/abilities/33/cooldown",
+          "savedValue": 30.000001907349,
+          "wireValue": 30.000001907348633,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 3.659295089164516e-13,
+          "relativeDifference": 1.2197649521709233e-14,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+4",
+          "savedFloat64Hex": "0x1.e000020000067p+4"
+        },
+        {
+          "path": "/abilities/41/cooldown",
+          "savedValue": 3600.0002441406,
+          "wireValue": 3600.000244140625,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 2.5011104298755527e-11,
+          "relativeDifference": 6.947528500717104e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.c200020000000p+11",
+          "savedFloat64Hex": "0x1.c20001fffffc9p+11"
+        },
+        {
+          "path": "/abilities/43/cooldown",
+          "savedValue": 120.00000762939,
+          "wireValue": 120.00000762939453,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 4.533262654149439e-12,
+          "relativeDifference": 3.777718638276983e-14,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.e000020000000p+6",
+          "savedFloat64Hex": "0x1.e00001ffffec1p+6"
+        },
+        {
+          "path": "/abilities/49/cooldown",
+          "savedValue": 6.0000004768372,
+          "wireValue": 6.000000476837158,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 4.1744385725905886e-14,
+          "relativeDifference": 6.957397068060025e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.8000020000000p+2",
+          "savedFloat64Hex": "0x1.800002000002fp+2"
+        },
+        {
+          "path": "/abilities/52/castingTime",
+          "savedValue": 1.5000001192093,
+          "wireValue": 1.5000001192092896,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 1.0436096431476471e-14,
+          "relativeDifference": 6.957397068060025e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.8000020000000p+0",
+          "savedFloat64Hex": "0x1.800002000002fp+0"
+        },
+        {
+          "path": "/context/player/coordX",
+          "savedValue": 7183.5600585938,
+          "wireValue": 7183.56005859375,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 5.002220859751105e-11,
+          "relativeDifference": 6.963428744173822e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.c0f8f60000000p+12",
+          "savedFloat64Hex": "0x1.c0f8f60000037p+12"
+        },
+        {
+          "path": "/context/player/coordY",
+          "savedValue": 820.78997802734,
+          "wireValue": 820.7899780273438,
+          "savedEqualsWire14g": true,
+          "absoluteDifference": 3.751665644813329e-12,
+          "relativeDifference": 4.5707985541318904e-15,
+          "sameFloat32Bits": true,
+          "wireFloat64Hex": "0x1.9a651e0000000p+9",
+          "savedFloat64Hex": "0x1.9a651dfffffdfp+9"
+        }
+      ],
+      "compared": {
+        "numbers": 164,
+        "exactNumbers": 150,
+        "otherScalars": 378,
+        "emptyMapsNormalized": 1
+      },
+      "emptyContextMapPolicy": "Only empty Lua table parser ambiguity []\u2192{}; populated values exact.",
+      "savedSha256": "871dc11f9e661eca130f8a7d355d91d35afb7c9fd3c1591f1915a7fd91f544e1",
+      "wirePayloadSha256": "0ee46de7f87b5e59dc4f7dfc9c763d662a678677993cc6f041e5782364630a8a",
+      "liveTransferObserved": true,
+      "passiveFreshnessVerified": false,
+      "restartQualified": false
+    },
+    "phaseFlagsCompletedLater": [
+      "nativeAcquisitionPending",
+      "savedComparisonPending"
+    ],
+    "decoderQualificationFlagsUnchanged": true,
+    "runtimeByteAuthorshipCryptographicallyProven": false
+  },
+  "sequence6": {
+    "status": "ui-and-header-evidence-only",
+    "uiSequence": 6,
+    "correctedSession": "0b328f4bbd7fbe6f58ee6c1128a85efe",
+    "fiveMatchingHeaderStarts": true,
+    "fiveUniquePartsProven": false,
+    "fullPayloadCopied": false,
+    "savedFlushed": false,
+    "advancingFullTransferQualified": false,
+    "transcriptionCorrection": {
+      "originalExpectedPath": "artifacts\\sc622-live-bridge-20261107-1428\\expected-wire-seq6.json",
+      "originalExpectedSha256": "37d5f85abc8fbb9fd4a4df9713e5940e66e26f5e2b3ffaaab1900dbf666fde12",
+      "originalSession": "0b328f4bdd7fbe6f58ee6c1128a85efe",
+      "position": 8,
+      "from": "d",
+      "to": "b",
+      "method": "Reinspect original UI screenshot and independently retained exact candidate headers; no new live request or source change",
+      "requestReferenceDwordsUnchanged": true
+    },
+    "correctionReceipt": "artifacts/sc622-live-bridge-20261107-1428/expected-wire-seq6-corrected.json"
+  },
+  "mouse": {
+    "backend": "existing external host vncdotool1.4.2",
+    "successfulLeftClicks": 4,
+    "successfulPositioningMoves": 2,
+    "scope": "RRE ReloadUI and Capture only",
+    "rejectedOrTimedOutClickReviewsNoInput": 2,
+    "initialControllerBusyCaptureAttempts": 2,
+    "independentFinalMutexNonabandonedAcquireRelease": true,
+    "generalDragScrollRightClickQualification": false
+  },
+  "coordination": {
+    "userAuthorizedRreCollectorOnlySync": true,
+    "userAuthorizedDirectChatCoordination": true,
+    "peerThread": "01a1b35a-3d44-7d60-bee1-4331bebb6709",
+    "peerTitle": "Execute RiftReader2 optimization handoff",
+    "peerGracefulControllerExitPid": 68496,
+    "peerGrantedWindowUntilEastern": "2026-11-07 14:49:00 EST",
+    "peerReceiptDirectory": "C:/work/riftreader2/artifacts/lab2-rre-handoff-20261107/",
+    "extensionRequestedButNotAcceptedAndCanceled": true,
+    "lastGuestOperationCompletedAtUtc": "2026-11-07T19:48:02Z",
+    "hostMutexReturnCheckAtUtc": "2026-11-07T19:49:14.045461+00:00",
+    "noGuestReadInputAfterDeadline": true,
+    "nativeControllerRestored": false,
+    "queueReset": false,
+    "furtherRreLab2OperationsRequireNewWindow": true
+  },
+  "retainedArtifacts": [
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/after-save-scene/before.png",
+      "bytes": 1098052,
+      "sha256": "e3f21cda2b4c789cc25d096ff06b2dd4a7dd79ac63cc82cd6442f0d6725982df"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/after-save-scene/capture.json",
+      "bytes": 314,
+      "sha256": "fcb8c31f7ffc595c3a2358310ca67ccb13c82ebe782bcea40aac50f18cdc6f54"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/after-save-scene/result.json",
+      "bytes": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq5/after.png",
+      "bytes": 1104143,
+      "sha256": "e3b4ea84598fac4a2956c64070cb0bf740005b01d24f5144d120e078c60b81ae"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq5/before.png",
+      "bytes": 1101743,
+      "sha256": "49701e5e0272c54781bec1a2a511a9255baf4625b03882435c87902030ef6118"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq5/capture.json",
+      "bytes": 307,
+      "sha256": "a95df058255d1be2c8302646d6a06d8913a3792edcdfffad7ac9bdeae4b6e2f0"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq5/result.json",
+      "bytes": 1033,
+      "sha256": "b1f28afe0ac7bdc7246d004f9efeac69b3726633a2256427b3af294b44c553e3"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq5/review.json",
+      "bytes": 155,
+      "sha256": "ec0bba661f635640cc1b994b515747c684a0bcd550cc8307192f83adb076ac32"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6/before.png",
+      "bytes": 1102754,
+      "sha256": "e8dcaad3e4b485e2a79e6b3b5e8e0ecd5055f9926de04cff2eca670474dd3ec2"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6/capture.json",
+      "bytes": 307,
+      "sha256": "7f4e4dd02156992d595867407b531fd051ad74f917a1676f41d5234588e9d388"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6/result.json",
+      "bytes": 597,
+      "sha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6-retry/after.png",
+      "bytes": 1103021,
+      "sha256": "5beaf0e381eec231347026b8480c1e48c3fa2f1d6d5eb38317da0686ae3caa47"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6-retry/before.png",
+      "bytes": 1101863,
+      "sha256": "1adf42ecce571bef2bee8df8e5d116454c4c1f92e5bfa97a09c85fa6291497b9"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6-retry/capture.json",
+      "bytes": 313,
+      "sha256": "d4f995e5b2be6cfc881f581d6c363b05964fc1fce4726491dab1fb81b1a91a8f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6-retry/result.json",
+      "bytes": 1033,
+      "sha256": "794c992a7f63273a05fa3badf99cc906a5785ec621b4273f61a02a42f17439a6"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/capture-seq6-retry/review.json",
+      "bytes": 165,
+      "sha256": "c5a281c66ae37687a9286b76dddb38eeb6dbc27e1b59a9bff8f1c7404a0e8b92"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/control-return.json",
+      "bytes": 530,
+      "sha256": "aad5c06a3ef9d75e11b42d2de73f8b01b272d56ac6040c7b962c2ba39077f6df"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/coordination-summary.json",
+      "bytes": 755,
+      "sha256": "6adace044ec135c79059b05bebad666ec3ba376e088985303531380e0ff1c924"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/copy-wire.py",
+      "bytes": 6174,
+      "sha256": "682f318aa7089470806d494167dad9b5ef9b72ec03f99fa07d92d43dd17e69dc"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/deploy-rrecollector.py",
+      "bytes": 8104,
+      "sha256": "c5898b52e5b13c91564ad66f22ce07244f92786c4be5e6c35a034d67e54ef001"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/expected-wire-seq5.json",
+      "bytes": 452,
+      "sha256": "2713f946a72cd06f7d0b7a9f530d97a8b7ea93e52ab8333bb7a0798aa3aced8b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/expected-wire-seq6-corrected.json",
+      "bytes": 2485,
+      "sha256": "eb01844c71447cf142f9c61d82e5c94663beab1602f5a39e32b81cbc97ffb4c2"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/expected-wire-seq6.json",
+      "bytes": 482,
+      "sha256": "37d5f85abc8fbb9fd4a4df9713e5940e66e26f5e2b3ffaaab1900dbf666fde12"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/expected-wire.json",
+      "bytes": 482,
+      "sha256": "37d5f85abc8fbb9fd4a4df9713e5940e66e26f5e2b3ffaaab1900dbf666fde12"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-reload/after.png",
+      "bytes": 1110935,
+      "sha256": "62643740bb3b33a8442e8c64009c9ac20fbf6a80da7d507294d6ef1695dc4349"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-reload/before.png",
+      "bytes": 1103096,
+      "sha256": "a3553c6b84d7f0c1f0e8d9c7eb72535a615ea76ad248602af749ef1770791929"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-reload/capture.json",
+      "bytes": 306,
+      "sha256": "07389a1a6c98a2d39b9ce4e904ed775483c7db34f9d8b38719f120d6cf20ccf1"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-reload/result.json",
+      "bytes": 1032,
+      "sha256": "0ac8ac9c32d1944d144eaad838a104cfc831ef7fb724490a42cdef909b2638fa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-reload/review.json",
+      "bytes": 152,
+      "sha256": "20a3c940416b858e90571ac46d25dc67bfaeb9c2311ada5b1c64a195953aadcf"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-rre-reload/after.png",
+      "bytes": 1111181,
+      "sha256": "eed6ed4fc90715bb9dbb2970bb247b45393abb35da3f4a5341a43cfd7a459a9c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-rre-reload/before.png",
+      "bytes": 1107000,
+      "sha256": "372078f18b4978a3d819df2caac07ed5ad4548063f8f7f964416f01bf0ab0cee"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-rre-reload/capture.json",
+      "bytes": 310,
+      "sha256": "7104f25990eaa60de179dbe23ef2b34f017b849ca549e68a5fe70d3b8d3fe74f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-rre-reload/result.json",
+      "bytes": 1032,
+      "sha256": "4cb47bc48626b3a3400405099d31fb44720314349c1d4f6f8f0d05e9116a7f86"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/hover-rre-reload/review.json",
+      "bytes": 145,
+      "sha256": "590164ca56d69beb20f34e518d49b118d92f40b3df928237d45eb44f3839a009"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/addon-after.json",
+      "bytes": 1531,
+      "sha256": "5d0d5d60e11983866845fa49f38f275c4868908c8ab56fd851528809c9d6b576"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/addon-after.query.ps1",
+      "bytes": 521,
+      "sha256": "d8cafb3ad5e4fccbd88a49d9c701bf81719d312938fa6a021ea499ab4593e1bf"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/addon-before.json",
+      "bytes": 1404,
+      "sha256": "524bec25656def2c9f4fb7e2002d2e5747f4f3c64cef9f7f8950be731f1290fb"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/addon-before.query.ps1",
+      "bytes": 521,
+      "sha256": "f29428ecb67ff6f4c3fb5c5b6c7133062b90594527677b80cc5102b3d4e51dc6"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/game-after.json",
+      "bytes": 288,
+      "sha256": "e51d3342a3eacfc028abcdc11900499cbcc01e146f6632e493f09281a6f41dff"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/game-after.query.ps1",
+      "bytes": 559,
+      "sha256": "b46e9768f2b7ee35392198997b17e59a9c71dcb4191ec73b0bd47a5731130839"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/game-before.json",
+      "bytes": 288,
+      "sha256": "87a2e13f0e153b9f08edc4b856314fcbc4fcbc4f0ce2a57803515c68ffc2086f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/game-before.query.ps1",
+      "bytes": 559,
+      "sha256": "141ccc691b5b87f539b1650077da03da4001e3c4a1dd67dfe41bbce782d2f117"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/abilities.lua",
+      "bytes": 4558,
+      "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/candidate_catalog.lua",
+      "bytes": 10648,
+      "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/candidates.lua",
+      "bytes": 6847,
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/capabilities.lua",
+      "bytes": 4618,
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/context.lua",
+      "bytes": 3191,
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/core.lua",
+      "bytes": 2231,
+      "sha256": "96b512eca5e2d7fe79007682b8ea1550381cea547bcb021424061e0af205d792"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/main.lua",
+      "bytes": 16978,
+      "sha256": "a3d7ea24533258375bcd1c6772607c025fc72dab32c9f1b87e54d73eae80b399"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/README.md",
+      "bytes": 14201,
+      "sha256": "a704d331eb62cd2a58ca375f1250f562f04b725402a33cc36f8ecb9cafc7b9d3"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/RiftAddon.toc",
+      "bytes": 504,
+      "sha256": "478544d3664875163f3d048a242ea30290e199b4472d3789c2428797b72d4029"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/ui.lua",
+      "bytes": 39107,
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/installed/AddOns/RRECollector/wire.lua",
+      "bytes": 12806,
+      "sha256": "9ae00905665e6b3e4e4c5b2f1e5e0f5b4041d8324b651bc2e03859e999e39e7b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/reader-before.json",
+      "bytes": 232,
+      "sha256": "2550e4994191f2251941042f404f70327065efd4be6da7c15f588f34b175da6c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/reader-before.query.ps1",
+      "bytes": 410,
+      "sha256": "81912d623a177b6d62c2a8d71fcf6eabbcd68ebc4ecf20f682bdd570bdea7164"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/install/receipt.json",
+      "bytes": 4671,
+      "sha256": "9e35682faae4f64d967a024f965ab54544e05dd8b7445a2d5fc17da35b7ba657"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/loaded-scene/before.png",
+      "bytes": 1104102,
+      "sha256": "e75dfbf4bc5d6c948848738988ba09b71f48b11c45870dc430dcf8e7bf5d858e"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/loaded-scene/capture.json",
+      "bytes": 310,
+      "sha256": "ba1cd7ec460e09f798a2ebf9642dfa82e8c15931642a12a4781819275b6473b4"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/loaded-scene/result.json",
+      "bytes": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/addon-before.json",
+      "bytes": 1404,
+      "sha256": "524bec25656def2c9f4fb7e2002d2e5747f4f3c64cef9f7f8950be731f1290fb"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/addon-before.query.ps1",
+      "bytes": 521,
+      "sha256": "cbe0d8fd0eba83f521ef88c454c24ebf8b9791be223166473f83ad786b81cdc9"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/abilities.lua",
+      "bytes": 4558,
+      "sha256": "8536f486753899ba168f2368ec6be1e8e8bb6ade3979e1b34d4eae9cb9eb26bd"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/candidate_catalog.lua",
+      "bytes": 10648,
+      "sha256": "10dddab8779fdb6253fa372ca47632c2396e1d3a15edddb40c17c495bd3adccd"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/candidates.lua",
+      "bytes": 6847,
+      "sha256": "f558b68cab4804f78bbff4d5d1c4a234a6973fbdce60c76d93be77b487c38e85"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/capabilities.lua",
+      "bytes": 4618,
+      "sha256": "0ed3ccf0fad438008d9e76d0ec5ddeefd31b5b28c860ba523d53392659f202ef"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/context.lua",
+      "bytes": 3191,
+      "sha256": "f0e1750e815a7e43cbf4c36231ffd7f354b27a7b3636a23637de1c57129f5e10"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/core.lua",
+      "bytes": 2231,
+      "sha256": "d1d40245e8056260dddb0b2ef8fab1fa495dd91d2da982c9cfa739de1d5b807f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/main.lua",
+      "bytes": 16040,
+      "sha256": "7770b8a08b45ea91d750946bd4bbdb00e14178bcaf7dbd24c53e026a6edda34e"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/README.md",
+      "bytes": 13128,
+      "sha256": "f86ef49733fec9616d97a98a2bf6ba6ef7f5b549ea1680b6b28fee0fcdcbb537"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/RiftAddon.toc",
+      "bytes": 488,
+      "sha256": "83f9f1492b430f80a4a481569eab8649039d474827adddb12570b81497be756a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/backup/AddOns/RRECollector/ui.lua",
+      "bytes": 39107,
+      "sha256": "36889ec1d848b723f602d0bf873250a5ef59b6e5e66d5288fc5608a96c6143aa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/deployment-source.py",
+      "bytes": 8104,
+      "sha256": "c5898b52e5b13c91564ad66f22ce07244f92786c4be5e6c35a034d67e54ef001"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/game-after.json",
+      "bytes": 288,
+      "sha256": "5c281a525dd5b03602f36636fec1383345b1f1d18ab03eb03b05b0cab24a1987"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/game-after.query.ps1",
+      "bytes": 559,
+      "sha256": "df7a04961092c073b9e0c96a6860c8e08dc736961d295298237b3cc75f264aca"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/game-before.json",
+      "bytes": 288,
+      "sha256": "b5f50ffcbae81e906be9dbd15a31e75eef51ceb206f376f12f9b0c3789ddc07b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/game-before.query.ps1",
+      "bytes": 559,
+      "sha256": "e1674fefea97fb906d0ff4de89344c7aecd1fae1775c67c7674cbcfb88fb4e8a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/reader-before.json",
+      "bytes": 232,
+      "sha256": "2550e4994191f2251941042f404f70327065efd4be6da7c15f588f34b175da6c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/reader-before.query.ps1",
+      "bytes": 410,
+      "sha256": "87f5a842d26ec0177e6f7989de6f48ab3970692f49d34b845bcb5330ebc3a4ec"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/preflight/receipt.json",
+      "bytes": 3967,
+      "sha256": "5f8259f1d687c4cec9706aee11a63c8faedcfc590cb4795791f4202f7e55a3c9"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-rre-v0412/after.png",
+      "bytes": 909402,
+      "sha256": "2ab915b188b9635c063a10feb02185b8abd3baa3172b15576697bdc49ad1fc4b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-rre-v0412/before.png",
+      "bytes": 1107201,
+      "sha256": "20a1fd9cf6817d3a1bc0bcbda248ecee4db835f0ca23f83a85da3b69f2060977"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-rre-v0412/capture.json",
+      "bytes": 311,
+      "sha256": "2d5ee4bc8590320d1294f6c6fb216bf1e07e15db76f1101da7438f63d1b588dc"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-rre-v0412/result.json",
+      "bytes": 1033,
+      "sha256": "3b6fd51d272b5b6daf5ef5003d754fd1a3712c3f7d6aa1036890183d79b2b023"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-rre-v0412/review.json",
+      "bytes": 177,
+      "sha256": "607b29a30e0246db44847c23049639e87ca91c4ad3d3dcc74a3bb230feab694c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-v0412/before.png",
+      "bytes": 1105987,
+      "sha256": "d65b221ed95b9d18114a31f5ab14d515f3efcd4332bb8cf6d90b180aea719a79"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-v0412/capture.json",
+      "bytes": 307,
+      "sha256": "2f74311aa9854a0386e818be0312b637a2eb6ffaeab53ba1db5fce95510767aa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/reload-v0412/result.json",
+      "bytes": 597,
+      "sha256": "b893817d62da591982ee8443ca53917564270ebd52c2ba794ac506e5c64c3588"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/save-seq5-reload/after.png",
+      "bytes": 907578,
+      "sha256": "9d0b257aa99dd7b09f417ae4a60727402cb9b99120f86c0d3f572fb726f8d174"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/save-seq5-reload/before.png",
+      "bytes": 1107971,
+      "sha256": "cc2d6dd22974001897e884297bee83b2a943b11ae84a84681b18448c8debfc6c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/save-seq5-reload/capture.json",
+      "bytes": 311,
+      "sha256": "74ca1b6defc8db38d3140ffd035c42c99950fe8b6c1dfea4cc0f660f71b004b7"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/save-seq5-reload/result.json",
+      "bytes": 1033,
+      "sha256": "bf8c4a4b952b97d146a911bb388d235c0a74c38d3efaf9642840f156a2419393"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/save-seq5-reload/review.json",
+      "bytes": 174,
+      "sha256": "382d57fbe2ed0a3de44e1afb3233433c01a3f62d317af8019a2e4a25fedc29ea"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/saved-seq5-export.json",
+      "bytes": 18474,
+      "sha256": "3e586be91ebddddd49b9ceb0bbeadf5d498f051dab3540594d2f29d4c9ab80d8"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/saved-seq5-publication.json",
+      "bytes": 348,
+      "sha256": "b9c82b931179b6f0cc25685761634651f41dcaa111e359f7e78eae0eac773aac"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/saved-seq5-query.ps1",
+      "bytes": 583,
+      "sha256": "66cd74ecdd566c8087f91503b1d657e1bb414435889b8da5147fe5d1bb168ff2"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/saved-seq5-source.json",
+      "bytes": 284,
+      "sha256": "1feeede9cd5130f23c7a398e996aeaae7348cfc13d6814f92bd8e6ca54232b0b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/saved-seq5.lua",
+      "bytes": 21891,
+      "sha256": "871dc11f9e661eca130f8a7d355d91d35afb7c9fd3c1591f1915a7fd91f544e1"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/cleanup.json",
+      "bytes": 4406,
+      "sha256": "7a5f0523001905e470a410e668bd6b2f489e4cf48f332eb5b4858455acaa6f99"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/invoke.ps1",
+      "bytes": 1359,
+      "sha256": "39511cb23fab06d880afa65f0806b601649bb6aefe13b4493ae6b90b0f775783"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-001.request.json",
+      "bytes": 445,
+      "sha256": "8607cda3a5a5597f63a663e8728f380be063c20804155360c9250fe788829b43"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-001.snapshot.json",
+      "bytes": 1847,
+      "sha256": "9c97f2c42874a2eccb0b480e299cab50e566cbdc4afce8426a8b2c5ec73ba248"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-002.request.json",
+      "bytes": 445,
+      "sha256": "5f1d3d55feb102a08cbb4a644e8e13258059fe3171aaed985d52cbcd3fa2c76c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-002.snapshot.json",
+      "bytes": 1847,
+      "sha256": "3bd7d2ff38effb9b82cf31e3d30bb5117d930e8874872b437affdfeac81bad73"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-003.request.json",
+      "bytes": 445,
+      "sha256": "c6da953b8ec26208470ace884b5ce6bc32fc35d797a355c5ff7346c3b92d017e"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-003.snapshot.json",
+      "bytes": 1852,
+      "sha256": "081abff2d8d7f75328c910bfb888568d45e2c3640cc2bc39bb2164ee4b7248f6"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-004.request.json",
+      "bytes": 445,
+      "sha256": "d2d52731af73e1c914f4ba94f12f5338a30e611c588b07431d768b6afc27b04a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-004.snapshot.json",
+      "bytes": 1847,
+      "sha256": "dd8b3046de593698ee36933a9f6eaf452fa50f278f555e193e97688953138683"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-005.request.json",
+      "bytes": 445,
+      "sha256": "009d74e4bd2bfdd1d7b2a68fcdbc051beefde6bb6b83832f0eb7939344c6dc1a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-005.snapshot.json",
+      "bytes": 1847,
+      "sha256": "f675578b55d8b1356442b778adc549bb9a0f3afc9ff430905f4901dedb65cdee"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-006.request.json",
+      "bytes": 445,
+      "sha256": "c10c916ab4c49f3ee1c358d595fd14867947ae0df16fc94974cfba341176fb6d"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-006.snapshot.json",
+      "bytes": 1847,
+      "sha256": "81258bd1d9a08e70549b409b2793ec1555a8f69f2dd0310cd29f49026f37f83f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-007.request.json",
+      "bytes": 445,
+      "sha256": "a2483f089e9de0b6a57986128720815af4677d73c226129c472e57cd2186ae75"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-007.snapshot.json",
+      "bytes": 1847,
+      "sha256": "5f5538d65bc9819b34b1a77d4a314faa26b19fd097449d19b085dec120dbf99b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-008.request.json",
+      "bytes": 445,
+      "sha256": "f6a4b7ed497a03fe18aa315410c67994cd2e7e6051872ffe81196bcbac89ed32"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/capture-008.snapshot.json",
+      "bytes": 1847,
+      "sha256": "4351d9c4ef1254ea18a1557520f25332ea2a466e86f43d1f1432a9f5951313b0"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/index.json",
+      "bytes": 23375,
+      "sha256": "1a607f3b73f241dfbacc4ff6843f3e83c4500ba48bc983a6d5ad16a07e66519c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/native/source-request.json",
+      "bytes": 881,
+      "sha256": "1a141503d41aac8b06ee48d899f79e546dd75388d471923b2dff25b567f658fa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/receipt.json",
+      "bytes": 2731,
+      "sha256": "53ac6ee54892dd8878fe62508ab67f254d333b46b17e0d0c8f39ae30583bd69c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/request.json",
+      "bytes": 881,
+      "sha256": "1a141503d41aac8b06ee48d899f79e546dd75388d471923b2dff25b567f658fa"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-001/scout.zip",
+      "bytes": 19511,
+      "sha256": "fba62a26281b7cbf94c610753608d8ecae68a4ca9a5ab78d9efa5a4e13d987f0"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/cleanup.json",
+      "bytes": 4851,
+      "sha256": "a994f0784e97f9df728ef5019a2265840e07b21356eb2854a50f0d8b272cc462"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/invoke.ps1",
+      "bytes": 1359,
+      "sha256": "3fa213c14c444d6177ec24e1ee63b50c1f7f0406d96ae2bfd2cbe9d7167a1b56"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-001.request.json",
+      "bytes": 445,
+      "sha256": "b8c6805294fab431f1dd719c1a787813995eb338600238eb01c52f1f335cbe70"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-001.snapshot.json",
+      "bytes": 1847,
+      "sha256": "d88e5da219cbf509b5de1651cd453cbcf71559624f411411ebb067b22f59830a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-002.request.json",
+      "bytes": 445,
+      "sha256": "c745a56636c56fd0ec44a3088b98628f59603556375b3c0099495d732402367a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-002.snapshot.json",
+      "bytes": 1847,
+      "sha256": "c335e59067d11cf83516393d07fc11a3dadd18d960561e133bc0958a71ad429f"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-003.request.json",
+      "bytes": 445,
+      "sha256": "9f1fa05738454c6a5b344b55d408f395a5db78b3cc6ed9c8d4c75b38b9fb5b19"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-003.snapshot.json",
+      "bytes": 1847,
+      "sha256": "e8276d4aaca6253f08c77bbe7335e12c48dd7baf120319dbd1e70ca3a440c270"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-004.request.json",
+      "bytes": 445,
+      "sha256": "0ba871ff6b07d5ac931fe7b8a16926f3236773840635b5334d142c718837dae8"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-004.snapshot.json",
+      "bytes": 1847,
+      "sha256": "cc5b4f301b26b690951a9c6f5f6334301cc6996dc471a41e9211c1b877a337d5"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-005.request.json",
+      "bytes": 445,
+      "sha256": "9350f8d0adcde0114d3b76ad720550accba1ccf89dfd535348a3cb937618678c"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-005.snapshot.json",
+      "bytes": 1847,
+      "sha256": "a854a2c91e2fd398f7383778516e67dac02843a42fcef9f6afcdd5714cb7d78d"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-006.request.json",
+      "bytes": 445,
+      "sha256": "9f523bddbe4aa31b0e7098fa384eab053f46370e41a2677171976a90d43fccfc"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-006.snapshot.json",
+      "bytes": 1847,
+      "sha256": "ad2a38b7d74ce8a236b51577386db0e631830c545c90e4909622b9fde583266a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-007.request.json",
+      "bytes": 445,
+      "sha256": "3b1eda2e8db4e9ab71d03c6db30e8874bc16b56464118b576876a0a3f32faf83"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-007.snapshot.json",
+      "bytes": 1852,
+      "sha256": "c21797ce06d1c1a2e957008b7c7f34999c670b0840f4f236c0d69e91c4bf3813"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-008.request.json",
+      "bytes": 445,
+      "sha256": "ae2588e7c8e22805d5116c127339b46d39c3565e1e45868d347ad1b5c489968b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-008.snapshot.json",
+      "bytes": 1847,
+      "sha256": "f9825727776b7ee9e9f7a19815fbe68d4264a6b640d562e5b5d23931fa140cdf"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-009.request.json",
+      "bytes": 448,
+      "sha256": "822d9c35832d4dc69d3dd72e56ce026d9ac89994cc4f6c87eb6cca30ad99c0c2"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/capture-009.snapshot.json",
+      "bytes": 1860,
+      "sha256": "83357e810db194ce172059d55df4b2712ee42f28278da003d33a2dd02fad21e4"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/index.json",
+      "bytes": 36473,
+      "sha256": "836b6bc6fad797941429736d9eaaa29a04962d1df6f4a3e5d9dce7a4ee70b566"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/native/source-request.json",
+      "bytes": 882,
+      "sha256": "6b6cd201e9ac7df781c65933cbd7450ffd522744730885b16d5b2a3b7c08da5d"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/receipt.json",
+      "bytes": 2647,
+      "sha256": "54da8c4ab1ec12bb42018fc9e5c251cf06a37b3e2fa4cc48cf2460edacf23095"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/request.json",
+      "bytes": 882,
+      "sha256": "6b6cd201e9ac7df781c65933cbd7450ffd522744730885b16d5b2a3b7c08da5d"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-002/scout.zip",
+      "bytes": 22787,
+      "sha256": "7ddfa2aa719142ddfa60212f4c2ea2c34fe77a9d3bf9bacdac7d23d3ba860ce4"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scan-wire.py",
+      "bytes": 7382,
+      "sha256": "e2b9346c7d34ac0fed7ddcac5d18d3f2f32881fef5edfcf5267e610f91e8498b"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scene-before/before.png",
+      "bytes": 1103471,
+      "sha256": "d298777ba0928187420fb8713e3928013653af3add2db815b40661ef0be7cbd2"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scene-before/capture.json",
+      "bytes": 310,
+      "sha256": "1a5480bfd28d6b9467c82447c92846fb92916cbac6e2133c1ecfdfd45149a16a"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/scene-before/result.json",
+      "bytes": 946,
+      "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/document.json",
+      "bytes": 23778,
+      "sha256": "d69414c1b1c2b3e79bcf949d9fb1ae0aba5fe9e564bd8f09a6026ebd0c98b9d0"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/invoke.ps1",
+      "bytes": 875,
+      "sha256": "b6ddaa200c9516a8a75462ae94323481d1d8869ecdeb64f192a6caa91356f698"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/reader.json",
+      "bytes": 20047,
+      "sha256": "c7ae46665d430a30aaa7812c34f2d0f4a9aaf6edd0cc1c41198e9948fcd9993d"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/reader.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/receipt.json",
+      "bytes": 1505,
+      "sha256": "40a051a07c35b1e2ff091bdfedd6e9a53a5e8bfd7f742cad051a31033ff4e775"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/request.json",
+      "bytes": 940,
+      "sha256": "0741b3be82dca2179d31727e3b59154bf772349593f8ac7417b7874f6bff2061"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/saved-comparison.json",
+      "bytes": 6640,
+      "sha256": "91cfe23b67537d7786a4204af9ae81c5f93ed18ecbad7c90a87995e89f2ebb90"
+    },
+    {
+      "path": "artifacts/sc622-live-bridge-20261107-1428/wire-seq5/snapshot.json",
+      "bytes": 59883,
+      "sha256": "fb66713c772f909342f22833465fe9abc7f586b851b1901ce491892bad8d3b6c"
+    }
+  ],
+  "independentReview": {
+    "provider": "built-in read-only addon_discovery_research",
+    "unexplainedContentDiscrepancies": 0,
+    "limits": [
+      "composite live observation does not flip file-replay decoder qualifications",
+      "numeric formatting equivalence is observed, not a proved serializer algorithm",
+      "empty target table is no target data, not an independent target-state observation",
+      "seq6 matching prefixes contain no part indices or bodies"
+    ]
+  },
+  "qualification": {
+    "manualLiveTransferObserved": true,
+    "passiveFreshnessVerified": false,
+    "changedStateResponseVerified": false,
+    "sourceAuthenticityVerified": false,
+    "atomicGameApiSnapshotVerified": false,
+    "restartQualified": false,
+    "serverCastLearnabilityOutcomeProven": false,
+    "inboundBridgeImplemented": false,
+    "continuousLiveAcquisitionAdapterImplemented": false
+  },
+  "directDeploymentScope": "Only RRECollector package files. Normal RIFT UI reloads/persistence were operator-authorized; no other addon code/settings edited.",
+  "ollama": false,
+  "freebuff": false
+}

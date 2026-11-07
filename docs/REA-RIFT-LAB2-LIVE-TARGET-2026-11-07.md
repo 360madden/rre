@@ -1,5 +1,7 @@
 # RRE — Lab-2 sole live-testing target and readiness
 
+**Later SC-622 live observation:** [RRECollector0.4.12 manual outbound memory prototype](REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.md) passed source/install/load/Saved gates and one complete54-record/five-part transfer through the existing native tools to the one host reader. The RRE window ended14:49EST; control was explicitly returned, with no controller restart or queue reset. Fresh coordination is required before any further Lab2 operation. The earlier readiness table below is historical, not current ownership or permission.
+
 **Later explicit operator exception — November7 14:17 EST:** “Allow only RRECollector addon files to sync; keep all testing in Lab2.” The manager may additively deploy the reviewed RRECollector package to Lab2’s existing OneDrive Documents AddOns/RRECollector load root, accepting synchronization of only those RRECollector addon files. This resolves the no-silent-propagation gate for that folder only; no other addon, OneDrive/Windows setting, physical-PC/Lab1 live interaction or process is included. Keep source/package/install/load evidence, backups and TOC-last deployment. No further generic permission question is required for this authorized route.
 
 

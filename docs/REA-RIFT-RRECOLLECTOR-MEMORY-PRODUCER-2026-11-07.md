@@ -1,6 +1,6 @@
 # SC-622 — RRECollector memory publisher and one host reader
 
-**Accepted scope:** offline source, package and interoperability only. RRECollector0.4.12 is not installed or loaded. The initial OneDrive deployment hold was resolved by the later explicit RRECollector-only synchronization authorization recorded below; fresh install/load/transfer gates remain pending. Physical-PC and Lab1 remain excluded from live testing. [Machine-readable source/package/test receipt](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json).
+**Original acceptance scope:** offline source, package and interoperability only. **Later:** [one bounded manual Lab2 transfer is accepted](REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.md); the original pre-live receipts below remain historical. RRECollector0.4.12 is not installed or loaded. The initial OneDrive deployment hold was resolved by the later explicit RRECollector-only synchronization authorization recorded below; fresh install/load/transfer gates remain pending. Physical-PC and Lab1 remain excluded from live testing. [Machine-readable source/package/test receipt](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json).
 
 ## Result
 

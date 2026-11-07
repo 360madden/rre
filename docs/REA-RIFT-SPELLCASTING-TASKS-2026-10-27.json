@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC621 reader0.1.1 native snapshot replay accepted:73C#20Node checks, four54-ID inputs agree, source/identity/chunk/clock and newline hardening. Legacy500 retains old-SHA collision/pathfinding failures. SC622 RRECollector production memory frames next; live gates remain unaccepted. Goal extended to17:22:21EST minimum. Lab2 only; no FreeBuff/Ollama.",
+  "status": "2026-11-07 SC622 bounded manual Lab2 RREC2 live transfer accepted: RRECollector0.4.12 installed11/11 and loaded, seq5fiveparts54records\u2192samehostreader0.1.2; freshSaved comparison explicitly accounts for14numeric formatting differences. Seq6UI/header only. Lab2returned; next offlineSC624 report then unified acquisition adapter. Goalminimum17:22:21EST; noOllama/noFreeBuff.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-622",
+  "nextTaskId": "SC-624",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1758,7 +1758,7 @@
       "id": "SC-622",
       "milestone": "SC6",
       "title": "Add and qualify a bounded RRECollector serialized memory producer for the host reader",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-621"
       ],
@@ -1773,7 +1773,12 @@
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md",
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json",
         "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.md",
+        "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.json",
+        "AGENTS.md",
+        "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07-1455-ARCHIVE.md"
       ],
       "researchQuestion": "Can the current RRECollector publish a small bounded read-only serialized generation in retained Lua memory, and can the existing acquisition route deliver it to the same host reader with exact version/session/sequence/context evidence?",
       "acceptance": [
@@ -1790,11 +1795,13 @@
       "evidence": [
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json",
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md",
-        "reader/contract-rrec2.md"
+        "reader/contract-rrec2.md",
+        "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.md",
+        "docs/REA-RIFT-RRECOLLECTOR-LIVE-BRIDGE-2026-11-07.json"
       ],
       "offlineMilestone": "accepted-source-package-interoperability",
-      "liveGate": "operator-approved-RRECollector-only-sync; fresh-preflight-install-load-and-transfer-pending",
-      "acceptedScope": "RRECollector0.4.12 source/11file package + reader0.1.2 production RREC2;130C#20Node, hostLua/Python/C#54-record5part interoperability. No installed/loaded/live bridge acceptance."
+      "liveGate": "accepted-one-bounded-manual-Lab2-transfer; passive-repeated-inbound-restart-gates-remain",
+      "acceptedScope": "RRECollector0.4.12 installed11/11/loaded/freshseq5Saved; fivecomplete18226byteRREC2parts→samehostreader54records/context/counts. ExplicitSaved14numeric14g/f32equivalence, notbitexactdouble. Seq6UI/headeronly. Controlreturned; nofreshness/auth/atomic/restart/inboundclaim."
     },
     {
       "id": "SC-623",
@@ -1831,6 +1838,32 @@
         "docs/REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.json"
       ],
       "acceptedScope": "Controlled host-only actual Lua RREC2 frames→existing F414 scout/snapshot→same host reader;54 exact records/context/counts,4alignments, selective boundary anchors, stale/clear guards and cleanup. No Lab2/runtime qualification."
+    },
+    {
+      "id": "SC-624",
+      "milestone": "SC6",
+      "title": "Bounded source-first interpretation of the native type51 C9 API-list discriminator",
+      "state": "pending",
+      "dependsOn": [
+        "SC-614"
+      ],
+      "owner": "single RRE manager; read-only native metadata investigator",
+      "lane": "manager-type51-list-discriminator-research",
+      "ownedPaths": [
+        "docs/REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.md",
+        "docs/REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Does already retained matching-build typed-definition metadata or local static source explain the observed +C9 flag that selected54/134 API-listed entries, without inferring learned/locked/usable semantics?",
+      "acceptance": [
+        "Read currentRRE findings and pinned typed-reader source first; exact1935a05c build and source hashes",
+        "Prefer known type51 descriptor0x344A6B0/vtable0x28A08C0/getter0x1899BF0 local metadata/code; no broad import/scan or repeat parked registration-only route without new discriminator",
+        "At most two distinct bounded probes; distinguish directly observed offsets/names/code from inference and unknown semantics",
+        "No live guest/process/game input or writes, no external repo changes/providers; source-hashed narrow report/checkpoint/commit including useful negative result"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": []
     }
   ],
   "checkpointPolicy": {
