@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-609",
+  "objective": "get mouse functions setup",
+  "selectedInitialScope": [
+    "positioning",
+    "left click"
+  ],
+  "requiredExecutionLocation": "external to Lab-2; physical host only",
+  "baseCommit": "88f2aa29edc579533bb417dc12a164acce8ff824",
+  "backend": {
+    "project": "sibson/vncdotool",
+    "githubUrl": "https://github.com/sibson/vncdotool",
+    "version": "1.4.2",
+    "documentation": "https://github.com/sibson/vncdotool/blob/v1.4.2/docs/usage.rst",
+    "documentationBlobSha": "105080113d80f09167fb672c798e54dc2671d97c",
+    "hostInterpreter": "C:\\work\\riftreader2\\artifacts\\tools\\control-python\\Scripts\\python.exe",
+    "alreadyInstalled": true,
+    "newHostInstallPerformed": false,
+    "newGuestInstallPerformed": false,
+    "newInputBackendImplemented": false,
+    "mouseFunctionsUsed": [
+      "mouseMove",
+      "mouseDown",
+      "mouseUp"
+    ],
+    "protocol": "VMware VNC over host loopback127.0.0.1:5962",
+    "sameConnectionMoveBeforeEveryClick": true,
+    "sourceHashes": [
+      {
+        "path": "C:\\work\\riftreader2\\artifacts\\tools\\control-python\\Lib\\site-packages\\vncdotool\\__init__.py",
+        "sha256": "aa39e02a68dcc0a9f573f070028b9575a8be4db9ee299a39e846ea45d20bc5a2"
+      },
+      {
+        "path": "C:\\work\\riftreader2\\artifacts\\tools\\control-python\\Lib\\site-packages\\vncdotool\\client.py",
+        "sha256": "70718aa14b385114ee551a99e2c2ae2521ce28c56129519e847b3b2f368cdd85"
+      },
+      {
+        "path": "C:\\work\\riftreader2\\artifacts\\tools\\control-python\\Lib\\site-packages\\vncdotool\\api.py",
+        "sha256": "0bcc33d173d2a9a549e6f930f545711e7d10994c983916bd8c11f9dfd0b4956a"
+      },
+      {
+        "path": "C:\\work\\riftreader2\\scripts\\vm_console_native.py",
+        "sha256": "5b6863660f23712c14c9548dff96a10fc0e7bf1dee95cf3b3d3362e35a4e6990"
+      }
+    ]
+  },
+  "adapter": {
+    "path": "tools/external-lab2-mouse.py",
+    "sha256": "abcbc67fe535fb26ecef2f8b61962a7609ddb7c67113e9f5eddfd663d6d5def1",
+    "commands": [
+      "capture",
+      "move",
+      "click"
+    ],
+    "inputsOutsideReviewedDesktopRejected": true,
+    "freshOriginalImageReviewRequired": true,
+    "noAutomaticInputRetry": true
+  },
+  "ownerHandoff": {
+    "preflight": {
+      "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-owner-preflight.json",
+      "sha256": "0cc4f5444b4291bf527f16a1cc54844ff6a44bd03dfe97459b5356a4d7f649f4"
+    },
+    "receipt": {
+      "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-owner-handoff.json",
+      "sha256": "21cddd1986958eba07a7ee9442cc0f9cc8c97565e220a8cb7ae05bfb47db0cb5"
+    },
+    "controllerPid": 41888,
+    "authenticatedStopVerified": true,
+    "controllerProcessExitVerified": true,
+    "nonAbandonedMutexAcquisitionVerified": true,
+    "nativeControllerIntentionallyStoppedForExternalMode": true,
+    "guestControlAgentMouseRouteUsed": false,
+    "guestSoftwareModified": false,
+    "vmOrGameRestarted": false
+  },
+  "trials": [
+    {
+      "name": "external-move-01",
+      "action": "move",
+      "desktopPosition": [
+        914,
+        335
+      ],
+      "desktopSize": [
+        1211,
+        757
+      ],
+      "captureId": "15132da25b864178aa494fd053544aef",
+      "imageReviewPerformed": true,
+      "observation": "Browse hover, browser stayed closed",
+      "browserVisibleAfter": false,
+      "hostOnly": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "guestOSInputStateIndependentlyAttested": false,
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-01\\before.png",
+          "sha256": "75b8c1921ea3595afdc2ec9ac31e192d10db7a76ee85d50a81f1dd631a2c2446"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-01\\after.png",
+          "sha256": "f8fa7e5b0259059d7a4ca807cb8a8e257b0a1a892241499cf211dda127088b5d"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-01\\capture.json",
+          "sha256": "45fc03ff73f8c1937cefd849de16128c18e19acc8ebdb66e339258b8fe7f1cdc"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-01\\review.json",
+          "sha256": "a201000b90c58754d512ed4b788fe49824ee0330b029b0e661b083dcfe83a9a7"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-01\\result.json",
+          "sha256": "c8dc3afd0b57c0efd6f6acc872c6c9eb4345aee02b567ec6e1c61d4d301b8f2d"
+        }
+      ]
+    },
+    {
+      "name": "external-click-open-01",
+      "action": "click",
+      "desktopPosition": [
+        914,
+        335
+      ],
+      "desktopSize": [
+        1211,
+        757
+      ],
+      "captureId": "7728d5bc00f24cf8897873f6edfdc5c7",
+      "imageReviewPerformed": true,
+      "observation": "Browser opened",
+      "browserVisibleAfter": true,
+      "hostOnly": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "guestOSInputStateIndependentlyAttested": false,
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-open-01\\before.png",
+          "sha256": "bd30c68b46c1819642e6008620b7f64e140db6ddffa0f513f5da0a25f8b2abc0"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-open-01\\after.png",
+          "sha256": "0754e20bde2c6cede9fe3181d151aafdc56a4e256f6a4c3b8c12abc768374590"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-open-01\\capture.json",
+          "sha256": "a0ecd8e4e0cbe7feda5028a4dce9f11e16cde9fda230f4a6098275f71a1e8f2a"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-open-01\\review.json",
+          "sha256": "cf76cea8e7ae4b95b0c16e4e23dd3ad2310828ce6d14cd2e3c93ab0e091f5cfc"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-open-01\\result.json",
+          "sha256": "e376e357db98487b22156846c00a006ba55669a4704c66d37c964b38d0f313fe"
+        }
+      ]
+    },
+    {
+      "name": "external-move-02",
+      "action": "move",
+      "desktopPosition": [
+        1162,
+        431
+      ],
+      "desktopSize": [
+        1211,
+        757
+      ],
+      "captureId": "99a7482a6e8944989b6da1e303a10d41",
+      "imageReviewPerformed": true,
+      "observation": "Close hover, browser stayed open",
+      "browserVisibleAfter": true,
+      "hostOnly": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "guestOSInputStateIndependentlyAttested": false,
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-02\\before.png",
+          "sha256": "03d145b436d8c2955bbf5912fda803161c1d7b814e27fdab16ffc395b7fce1b3"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-02\\after.png",
+          "sha256": "9324a065e6d8278841a98e4aadf3042832e46e3a9a31972e4e5b39fe7fa01a8e"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-02\\capture.json",
+          "sha256": "c64086bee8a920361073fefaf7b61bc37abfe660cc91f948304554a0f6096da8"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-02\\review.json",
+          "sha256": "5e4df3f5d1974dc29f6bd8979c8de83abd0d0224e4bbe53e6768a5709d881d1f"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-move-02\\result.json",
+          "sha256": "a9af3a5c1be592f26961bbd844b14a7432129af8c1665a13fa6ea624bed16f6d"
+        }
+      ]
+    },
+    {
+      "name": "external-click-close-01",
+      "action": "click",
+      "desktopPosition": [
+        1162,
+        431
+      ],
+      "desktopSize": [
+        1211,
+        757
+      ],
+      "captureId": "e61709c3dfcc4d219f39b3afe03a8b88",
+      "imageReviewPerformed": true,
+      "observation": "Browser closed",
+      "browserVisibleAfter": false,
+      "hostOnly": true,
+      "buttonReleaseSent": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "guestOSInputStateIndependentlyAttested": false,
+      "artifacts": [
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-close-01\\before.png",
+          "sha256": "777112269cc879045dce76f269b3cb4dfc60a7a33ed88d2301069311e61e2df5"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-close-01\\after.png",
+          "sha256": "16d33ad59d06967c4cd4cf75dc1dbf6ff94928d64719cb01ca96cb1a5b2bc8ad"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-close-01\\capture.json",
+          "sha256": "88f0d7dc4a6a63fff65b6508fe996da6791d00a3ffa2e3094ccb67adb86e597f"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-close-01\\review.json",
+          "sha256": "a3056ba963838d772767cb888f917bde118a95e34d8e6fb41333fe46370ad84d"
+        },
+        {
+          "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-click-close-01\\result.json",
+          "sha256": "17be1eb8222a4a8e024438868de9d277d54f409310e5f2d447fd6ba36868ceae"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "externalStandaloneMovesVisuallyVerified": 2,
+    "externalLeftClicksVisuallyVerified": 2,
+    "reversibleRoundTrips": 1,
+    "allFourConnectionClosesVerified": true,
+    "allFourMutexReleasesVerified": true,
+    "finalBrowserVisible": false,
+    "positionVerificationScope": "original VNC pixels show pointer over intended highlighted control; no independent post-handoff guest-OS cursor telemetry",
+    "guestProcessAttestationScope": "fresh guest PID/hash verified before controller handoff only; subsequent VNC checks bind VM epoch and desktop pixels, not continuous guest process identity"
+  },
+  "finalCapture": {
+    "status": "completed-awaiting-visual-review",
+    "inputSent": false,
+    "connectionClosed": true,
+    "consoleMutexReleased": true,
+    "desktopSize": [
+      1211,
+      757
+    ],
+    "browserClosedVisuallyReviewed": true,
+    "artifacts": [
+      {
+        "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-final-capture\\before.png",
+        "sha256": "4ec35858e34d4df4ec4973d27cb61e72f9b092bdb5643266478d5a885315c970"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-final-capture\\capture.json",
+        "sha256": "a7ef43b7e5cbba2359c0c0e94a352c21772cfdd8a58d8daf5b1c8a39b5f1b9ec"
+      },
+      {
+        "path": "C:\\work\\rre\\artifacts\\lab2-mouse-20261107\\external-final-capture\\result.json",
+        "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8"
+      }
+    ]
+  },
+  "validation": {
+    "focusedUnitTests": 10,
+    "focusedExitCode": 0,
+    "fullGate": {
+      "path": "C:\\work\\rre\\artifacts\\research-gate-external-mouse-20261107\\validation.json",
+      "sha256": "c69f7ccea71f4b5175fac82a659181623aea4493d1c707cc547b2bd028340fcb",
+      "exitCode": 1,
+      "reportedTests": 500,
+      "sourcesUnchanged": true,
+      "groups": [
+        {
+          "name": "validation",
+          "status": "passed",
+          "tests": 153
+        },
+        {
+          "name": "c2m",
+          "status": "passed",
+          "tests": 30
+        },
+        {
+          "name": "follow",
+          "status": "passed",
+          "tests": 73
+        },
+        {
+          "name": "collision",
+          "status": "failed",
+          "tests": 38
+        },
+        {
+          "name": "pathfinding",
+          "status": "failed",
+          "tests": 36
+        },
+        {
+          "name": "navigation-evidence",
+          "status": "passed",
+          "tests": 95
+        },
+        {
+          "name": "visual-evidence",
+          "status": "passed",
+          "tests": 58
+        },
+        {
+          "name": "review-adapter",
+          "status": "passed",
+          "tests": 17
+        },
+        {
+          "name": "roadmap",
+          "status": "passed",
+          "tests": 0
+        }
+      ],
+      "failureReason": "existing collision/pathfinding old-executable SHA pins; unchanged tests/guards"
+    },
+    "newMouseTestCoverage": "capture has no input; move has no buttonDown; same-client position initialization; declined review; invalid coordinates; busy/abandoned mutex; VM drift; release after button failure; disconnect uncertainty",
+    "finalAudit": {
+      "checksPassed": 62,
+      "sourceMatchesGateInventory": true,
+      "previousTaskRecordsUnchanged": true,
+      "roadmapValidatorExitCode": 0,
+      "roadmapTasks": 47,
+      "roadmapMilestones": 11,
+      "diffCheckExitCode": 0
+    }
+  },
+  "authority": {
+    "userApprovedNeededOperations": true,
+    "userRequiredExternalTooling": true,
+    "userRequestedGitHubReuse": true,
+    "noOllama": true,
+    "newModelReviewers": 0,
+    "freebuffCapabilityOnly": true,
+    "externalRepositorySourceEdits": false
+  },
+  "completionScope": "host-only positioning and left clicks set up and live verified; other mouse classes not requested for this first scope",
+  "finalCleanup": {
+    "establishedVncConnections": 0,
+    "externalMouseProcesses": 0,
+    "oldControllerProcesses": 0,
+    "nativeControllerIntentionallyStopped": true,
+    "guestInstallationPerformed": false
+  }
+}

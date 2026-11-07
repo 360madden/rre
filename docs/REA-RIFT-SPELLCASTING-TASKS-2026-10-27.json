@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-607: RIFT-Lab-2 is the sole live-testing target. Fresh-byte executable SHA matches recent SC-604 static evidence; guarded native/UI inspection and watchdog release passed. Bolinao L43 in-world, collector UI v0.4.10 Known0/Static96/no saved candidate receipt; Lab-2 collector parity, persisted version and functional capture unverified. SC-103/SC-306 remain blocked, SC-604 interim; physical-PC v0.4.11 results remain historical and separate.",
+  "status": "2026-11-07 SC-609: host-only vncdotool1.4.2 setup accepted for positioning and left clicks; no guest mouse install or guest-agent input. Two standalone moves and a browser open/close pair visually verified with exclusive console ownership and disconnected clients. Native controller41888 gracefully stopped and intentionally remains stopped in external mode. SC-103/306 remain blocked, SC-604 interim; old native/collector observations remain separately dated evidence.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -1216,6 +1216,51 @@
         "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
       ],
       "assessment": "Accepted bounded current-session position-verified left-click route: 6/6 delivered/released/cleaned clicks and visually reviewed UI responses, 3 reversible round trips. One early image inconclusive; independent confirmation and added 350ms settled capture. Full gate exit1 on preexisting historical collision/pathfinding SHA pins; focused negative admission checks passed. No broader mouse/restart/gameplay qualification."
+    },
+    {
+      "id": "SC-609",
+      "milestone": "SC6",
+      "title": "Set up external host-side mouse positioning and left clicks with existing third-party VNC tooling",
+      "state": "completed",
+      "dependsOn": [
+        "SC-607",
+        "SC-608"
+      ],
+      "owner": "single RRE manager; sole Lab-2 console owner after verified graceful handoff",
+      "lane": "manager-external-lab2-mouse",
+      "ownedPaths": [
+        "AGENTS.md",
+        "tools/external-lab2-mouse.py",
+        "tools/tests_mouse/test_external_lab2_mouse.py",
+        "docs/REA-RIFT-LAB2-EXTERNAL-MOUSE-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-EXTERNAL-MOUSE-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md"
+      ],
+      "sourceInputs": [
+        "User narrowed first scope to positioning and left-clicking",
+        "User requires tooling external to Lab-2 and requests GitHub reuse over custom implementation",
+        "Installed host vncdotool1.4.2 and existing RR2 VM console identity/mutex/authentication helpers"
+      ],
+      "deliverable": "Host-only move/click functions using installed third-party vncdotool, live reversible verification, safe sole-owner controller handoff and concise reuse instructions",
+      "acceptance": [
+        "No new guest mouse package/helper installed; no Ollama or external repository source edits",
+        "Reuse existing vncdotool movement/click API and existing identity/console mutex/authentication helpers",
+        "Before VNC access require idle native controller STOP and its supported graceful shutdown, verified process exit and exclusive mutex; never bypass ownership",
+        "Verify standalone positioning and left-click UI response using original before/after images; initialize VNC position in the same connection as every click",
+        "Focused tests, scoped evidence/roadmap/diff checks, current handoff and local commit; preserve existing research and unrelated work"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "host-side external mouse positioning and reviewed left clicks; necessary owner-coordinated handoff, no guest installation",
+      "evidence": [
+        "tools/external-lab2-mouse.py",
+        "tools/tests_mouse/test_external_lab2_mouse.py",
+        "docs/REA-RIFT-LAB2-EXTERNAL-MOUSE-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-EXTERNAL-MOUSE-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "assessment": "External selected functions accepted: installed host vncdotool1.4.2 reused, no guest install, two visually verified standalone positions and two clicks opening/closing RRE browser, all releases/disconnects/mutex exits verified. Ten focused tests passed. Native owner gracefully stopped and intentionally remains stopped for external mode. Historical collision/pathfinding full-gate SHA failures remain documented."
     }
   ],
   "checkpointPolicy": {
