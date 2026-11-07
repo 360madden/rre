@@ -6,7 +6,7 @@
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
   "status": "2026-11-07 SC-613 accepted observed Lab2 pair1->Short with unchanged UI bracket, two read-only native field samples, exact loaded-source/request/identity checks. SC306 full enum remains open0/2; SC103, broaderSC604/RC/NAV gates unchanged. SC612 native Rogue43Ranger/14Marksman/0Bard and SC611generic word-key container finding retained. External mode/controller stopped; no Ollama. One genuine FreeBuff launch but no qualified final review.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-103",
+  "nextTaskId": "SC-614",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1421,6 +1421,43 @@
         "docs/REA-RIFT-SPELLCASTING-SC613-LAB2-QUEUE-2026-11-07.json"
       ],
       "assessment": "Accepted observed Lab2 build/session pair1->Short: unchanged UI bracket, two same-epoch field reads, loaded code and exact request hashes, independent38checks/2negative controls. 0/2 and queue behavior remain unproven. FreeBuff transport completion yielded no usable verdict; no accepted model review."
+    },
+    {
+      "id": "SC-614",
+      "milestone": "SC1",
+      "title": "Test native typed-definition filter against fresh Lab-2 API-listed ability IDs",
+      "state": "pending",
+      "dependsOn": [
+        "SC-610",
+        "SC-612"
+      ],
+      "owner": "single RRE manager; external console per UI action",
+      "lane": "manager-lab2-native-api-list-correlation",
+      "ownedPaths": [
+        "docs/REA-RIFT-SPELLCASTING-SC614-NATIVE-API-LIST-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC614-NATIVE-API-LIST-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "AGENTS.md"
+      ],
+      "researchQuestion": "For an unchanged Lab-2 Rogue role, does typed native definition resolution plus nonzero record+0xC9 distinguish the API-listed set from other player-map keys?",
+      "sourceInputs": [
+        "SC610/SC612 Lab2 Rogue API catalog and native role context",
+        "Committed RR2 ability owner/type/public-ID route and immutable existing Lab2 map/8-record reports",
+        "Fresh existing native-map/native-record CLI outputs and bracketed RRECollector captures if all exact source/tool gates pass"
+      ],
+      "acceptance": [
+        "First audit supplied-key vs discovered-map provenance; preserve candidate-only producer semantics",
+        "Fresh exact VM/process/build and installed-reader SHA; no new reader/backend/software/source edits",
+        "Reuse external reviewed RRECollector Capture and normal UI reload/save only, no casting/role/point/settings changes",
+        "Fresh API captures bracket native sampling; two native map samples bound complete key cohort; at most256keys/two existing record-reader batches128max",
+        "Independently reconstruct IDs from child localization-key hashes and compare exact IDs/filter outputs to both API sets; no key-prefix-only proof",
+        "Stop on source/identity/anchor/version instability or unavailable safe existing route; record mismatch rather than force acceptance",
+        "No learnability/Legendary/queue/freshness/restart/server claims from cache overlap; hash/checkpoint/validate/commit scoped result"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "external reviewed addon Capture and existing normal reloadui macro only; passive read-only installed native tools and owned temporary data",
+      "evidence": []
     }
   ],
   "checkpointPolicy": {
@@ -1926,5 +1963,12 @@
     "nativeMechanismNewFinding": false,
     "toolbarReloadFunctionalSuccessVerified": false,
     "noOllama": true
+  },
+  "providerHold20261107": {
+    "observedAtLocal": "2026-11-07 11:23 EST",
+    "freebuffAllowed": false,
+    "ollamaAllowed": false,
+    "resumeRequiresExplicitUserDirective": true,
+    "goalPaused": false
   }
 }
