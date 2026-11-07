@@ -1,6 +1,6 @@
 # Lab2 acquisition adapter v1 (SC625; source/offline accepted)
 
-Reader0.2.0 adds one read-only acquisition source behind the existing RRE reader. It reuses the existing host Python environment, RR2 GuestSession/VM identity/mutex code and the installed F414 native reader. It neither installs software nor deploys addons, enters input, starts a controller, injects code or writes game memory.
+Reader0.2.2 adds one read-only acquisition source behind the existing RRE reader. It reuses the existing host Python environment, RR2 GuestSession/VM identity/mutex code and the installed F414 native reader. It neither installs software nor deploys addons, enters input, starts a controller, injects code or writes game memory.
 
 The caller supplies an explicit publication binding and an unexpired coordinated control-window record. These files record operator context; they are not authentication or permission grants. A past handoff never authorizes a new operation.
 
@@ -18,3 +18,5 @@ The output distinguishes active acquisition from data qualification: source evid
 
 
 Implementation: `tools/rre_lab2_acquire.py` and `reader/Rre.Reader/Lab2Source.cs`. Only `capture --source lab2` performs acquisition; `validate --source lab2` fails before guest access. Binding/window owner text is caller provenance, not independently verified permission. Final output must be outside the fresh evidence directory and preflight before execution. The helper uses a200second overall monotonic deadline starting at entry, refuses new noncleanup dispatch with less than60seconds headroom, and uses15second cleanup RPC/10second cleanup copies. The parent240second operation timeout has5seconds local kill grace. Scoped native PID/start/path journals and unknown-exit quarantine are mandatory; local child termination never implies guest cleanup. The intermediate receipt is not acceptance. C# verifies cleanup and process/scope journals and exact source/payload bindings before `acceptance.json` is atomically published. Live acceptance is still pending; [source report](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md).
+
+First0.2.1 live trial failed a prelaunch identity/output filename collision and was independently recovered/returned. Fixed0.2.2 separates namespaces and binds native timestamps to the acquisition interval; live acceptance is pending a new owner window. See the source report for preserved failure/recovery evidence.

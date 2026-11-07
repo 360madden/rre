@@ -1,4 +1,4 @@
-# RRE current session handoff — 2026-11-07 16:25 EST
+# RRE current session handoff — 2026-11-07 16:50 EST
 
 ## Goal and authority
 
@@ -41,3 +41,20 @@ SC624type51descriptorleadparkedafterboundednegative/mappingcorrection. No rawPE 
 ```json
 {"branch":"main","checkpointParent":"c4d3f65da06692694f8edfe29d2a79a40b2a77d0","goalStatus":"active","earliestCompletionUtc":"2026-11-07T22:22:21Z","onlyLiveTarget":"Lab2","rreLiveLease":"returned","nextTask":"SC625-await-new-window-then-first-live-adapter-trial","readerSource":"0.2.0","collectorInstalledAccepted":"0.4.13","sc625LiveAccepted":false,"sc629":"primary-docs-and-existing-stats-only","ollama":false,"freebuff":false,"pendingApprovals":[],"liveJobsPending":false}
 ```
+
+
+## EMERGENCY SC625 recovery packet — 2026-11-07T21:36:39.022164+00:00
+
+Livewindow21:32–21:47UTC explicitlygranted;0.2.1DLL9847cf4093049f7313df6b0ab9c052c37e8ea149c3dc467721f3e46129268d54 amendmentapproved. Branchmain/HEAD2b15bb1, lastsourcecommitc4d3f65. Uncommitted0.2.1source: Lab2Source.cs,Lab2Checks.cs,Program.cs,Contracts.cs,csproj; helperunchanged2ec86c... . Freshpreflightsamegame9752/start639294897826627677/build1935... passed; manualCaptureseq8/session0b9409263a43bfdb58ee6c11872dea26/fiveparts18295B, originalPNGcaptured. Firstnewreaderinvocationfailedexit2/35.656s, helperSessionError21:35:17Z. No observation/acceptance published.
+
+**Controlquarantined; no retry/input.** artifacts/sc625-live-adapter-20261107-1627/acquisition/guest-scope.json ownsUUID RRE-Acquire-f7dacbf40f9d4a6597edad723f5da20b underguestPublicDocuments. ScoutPID7676/start639296840922354572 exitconfirmed; snapshotprocessjournalabsent/unverified. Suspectedcausedirectsource: verify_game(snapshot) writesroot-snapshot.json whichcollideswithsnapshotoutput, thenowned-output-existsguardbeforeStartProcess. Knownsnapshot.jsonhashisidentitymetadata, notnativeframecapture. Batchcleanupknownhashfiles/dirreturnedbutcompletefalsebecauseunknownjournal/quarantine. Rootpeerinformed, ALLLab2holdcontinues. NextONLYessentialrecovery: freshCIMprocessinventory scopedF414commandlineexactUUID andfilesunderexactUUIDprefix, verifyallknowncleanupandPIDabsence; capturehashedreceipts, removeonlyownedrecoveryreportfiles. Ifunknownprocess/bytesremainretainquarantine. Noautomaticreacquisition/sourcefixuntilrecoveryverified. ExistingmouseCapturebuttonreleased/connectionclosed/mutexreleased; needfinalnonabandonedmutexcheckbeforecleanreturn. NoRIFTcontrol/controllerstart/queuereset. Goalactiveuntilatleast17:22:21EST.
+
+
+## Quarantine independently resolved — 2026-11-07T21:42:17.453288+00:00
+
+FreshguestCIM/fileinventory21:39:07.9284134Z foundzeroexactUUIDscopeentries/ownednativeprocessesandnounreadableNativecommandlines. UnrelatedmanagedcontrolagentPID3252scopeMatchfalsewasuntouched. Recoverymetadatahashchecked/removed,lastguestoperation21:39:11.277428Z. Finalhostnonabandonedmutexacquire/releasepassed; oneCaptureleftclickreleased/VNCclosed; nokeys/noprocesskilled/nocontroller/queuechange. ControlRETURNED21:40:32.616283Z, originalfailure/quarantinepreserved. artifacts/sc625-live-adapter-20261107-1627/{recovery/inventory.json,recovery/receipt.json,control-return.json}. Rootpeerinformed. No furtherliveops/retryunderreturnedwindow. Nextsourcefixoffline: verify_game remoteidentitysuffixmustbe.identity.json, notnativeoutput.json; addrealidentity-pathcollisionregression (oldunitmockedverify_game); preserveknownsanitizedSessionErrorcategory; new0.2.2helper/DLLpins/gates/review/sourcecommitthenrequestNEWwindow. SC625notliveaccepted.
+
+
+## Current restart — fixed0.2.2 source ready
+
+QuarantineRESOLVED/cleanreturn21:40:32Zindependentlyverified; noRRELab2operationafter21:39:11Z. FirstadaptertrialFAILED, noobservation/acceptance; originalreceiptsimmutable. Fixedhelper4f3315324df204d9c40f0477a65578b3126ba5c8db74cfb159c9e9e739d95154 and0.2.2DLLb8d297866cf92bd30f4a987e72d5cd6a6822ac1952d2ad8c960b9995d19ccc04;167C#/18Pythonnormal+optimized/20Nodepass; oldGithelperregressionreproducescollision. Source0.2.1temporalfix+0.2.2namespace/safeerrorfixpendingcoherentcommit, parent2b15bb1. Source/helpermanifest artifacts/Rre.Reader-0.2.2-sc625-20261107/manifest.json SHA4f1b3ae46a5728967a958c3ded27d5d582d471d300aab17a80ac38a2f7f3efac. Source report now owns allfailed/recoveryhashes. Nextcommitfix/docs andrequestNEW10–15minpeerwindowwiththesehashes; freshidentity+Capture+one.2.2CLI, nooldwindow/tokenreuse. Existingpreflight.py pinsold2ecandoldreturnedwindow: prepareNEWtrial2artifactscriptpinned4f, doNOTeditoldrecords. Collector0.4.13unchanged. SC629all40documentedstatsalreadycaptured/noadditionalStatcall; api-stats-all40.json providedtopeer. ExperienceonecalladditionremainsplannedafterSC625livegate. Goalactiveuntil>=17:22:21EST.

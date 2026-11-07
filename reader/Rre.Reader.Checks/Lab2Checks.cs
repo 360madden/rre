@@ -70,6 +70,8 @@ public static class Lab2Checks
         BadReceipt("Lab2 foreign guest scope rejected",a=>a["guestRoot"]=@"C:\Windows\foreign");
         BadReceipt("Lab2 false fresh process ticks rejected",a=>a["freshGameIdentity"]!["processStartUtcTicks"]="639294897826627678");
         BadReceipt("Lab2 reversed acquisition interval rejected",a=>a["completedAtUtc"]="2026-11-07T20:40:00Z");
+        BadReceipt("Lab2 retained native capture cannot predate claimed active acquisition",a=>a["startedAtUtc"]="2026-11-07T20:41:58Z");
+        BadReceipt("Lab2 native capture cannot finish after acquisition receipt",a=>a["completedAtUtc"]="2026-11-07T20:41:56Z");
         BadReceipt("Lab2 unbounded scout rejected",a=>a["scoutPasses"]![0]!["attemptedBytes"]=1_073_741_825L);
         BadReceipt("Lab2 late admission cannot be replayed as valid",a=>{a["startedAtUtc"]="2026-11-07T20:51:31Z";a["completedAtUtc"]="2026-11-07T20:51:32Z";});
         Accept("Lab2 malformed image binding rejected before composite acceptance",()=>

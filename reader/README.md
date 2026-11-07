@@ -1,6 +1,6 @@
 # RRE modular host reader
 
-One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.0 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
+One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.2 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
 
 ## Build and use
 
@@ -72,3 +72,5 @@ dotnet $reader capture --source lab2 --input C:\work\rre\artifacts\binding.json 
 ```
 
 The evidence directory and observation file must not exist; the output file must be outside the evidence directory. `--module context` or `abilities` selects the same canonical modules. `validate --source lab2` is deliberately rejected. The helper pins the fixed Lab2/1935build/F414/native/runtime dependencies and performs at most three bounded scouts plus one complete frame snapshot. C# reuses its strict decoder and publishes `acceptance.json` only after hash/identity/version/parts/bytes, source/image, native-exit journals and guest cleanup pass. Unknown process/data state quarantines the run; inspect `failure.json`/`guest-scope.json`, never auto-retry or assume cleanup. A parent timeout cannot clean the guest by itself. See the [source gate](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md). The adapter has not yet been live-accepted; all publication qualification flags remainfalse even when an active read is recorded.
+
+First0.2.1 live trial failed a prelaunch identity/output filename collision and was independently recovered/returned. Fixed0.2.2 separates namespaces and binds native timestamps to the acquisition interval; live acceptance is pending a new owner window. See the source report for preserved failure/recovery evidence.

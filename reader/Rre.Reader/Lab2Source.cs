@@ -12,7 +12,7 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
     public const string Bundle = "F4148B838AF694EF95FD46DE76859CE9DF55194A9FE8BE1DF74FC2F8F0BCE80F";
     public const string NativeHelperPath = @"C:\Users\mrkoo\AppData\Local\RiftReader2\codex-jobs\current-ability-records-F4148B838AF694EF\RiftReader2.Live.exe";
     public const string Build = "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8";
-    public const string HelperSha = "2EC86C1183BC16C42936B07BC55AA6FF368D9A6FBCC152B5B257923ED44F998C";
+    public const string HelperSha = "4F3315324DF204D9C40F0477A65578B3126BA5C8DB74CFB159C9E9E739D95154";
     public static readonly IReadOnlyDictionary<string,string> Dependencies = new Dictionary<string,string>(StringComparer.Ordinal)
     {
         [@"C:\work\riftreader2\scripts\vmware_guest_session.py"]="A3808F907224FEA709F2709CAB56345859474D268B910087A4236B2A0AED4048",
@@ -147,6 +147,8 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
             foreach(var address in p["exactStarts"]!.AsArray())located.Add(Address(address));
         }
         var session=DataRules.Text(b["session"],"session");var sequence=DataRules.Integer(b["sequence"],"sequence");
+        var snapshotDocument=DataRules.Object(DataRules.Parse(snapshot),"snapshot");
+        DataRules.Require(Time(snapshotDocument["startedAtUtc"])>=begin && Time(snapshotDocument["completedAtUtc"])<=end,"lab2-native-outside-acquisition-interval");
         var capture=NativeSnapshotSource.Decode(snapshot,request,session,sequence,Path.Combine(evidence,"snapshot.json"),Path.Combine(evidence,"request.json"));
         var n=capture.Evidence;
         var requested=DataRules.Object(DataRules.Parse(request),"request")["ranges"]!.AsArray().Select(x=>DataRules.Text(x!["address"],"range-address")).ToHashSet(StringComparer.Ordinal);

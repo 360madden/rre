@@ -8,6 +8,7 @@ import tempfile
 import unittest
 import subprocess
 import shutil
+import re
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -137,6 +138,36 @@ class RetainedLocatorChecks(unittest.TestCase):
 
 
 class OrchestrationChecks(unittest.TestCase):
+    def test_actual_identity_path_cannot_precreate_native_snapshot_output(self):
+        target=dict(processId=9752,processStartUtcTicks=639294897826627677,executableSha256=m.GAME_SHA.upper())
+        class Guest:
+            def __init__(self):self.files={};self.native_launches=0
+            def powershell(self,text,timeout):
+                destination=re.search(r"Set-Content -LiteralPath '([^']+)'",text)
+                if 'Get-Process -Id' in text:
+                    self.files[destination[1]]=json.dumps(dict(processId=9752,processStartUtcTicks=str(target['processStartUtcTicks']),
+                        executablePath=r'C:\RIFT_TRANSFER\RIFT\rift_x64.exe',executableSha256=target['executableSha256'],machine='RIFT-LAB-2')).encode()
+                elif 'Start-Process' in text:
+                    output=re.search(r"if\(Test-Path -LiteralPath '([^']+)'\)\{throw 'owned-output-exists'",text)[1]
+                    if output in self.files:raise m.AcquisitionFailure('owned-output-exists')
+                    self.native_launches+=1;self.files[output]=b'controlled-native-fixture'
+                    self.files[destination[1]]=json.dumps(dict(pid=123,ticks='1',path=m.NATIVE)).encode()
+            def run(self,command,local,remote,**kwargs):self.files[remote]=Path(local).read_bytes()
+            def copy_from_guest(self,remote,local,**kwargs):local.write_bytes(self.files[remote])
+        with tempfile.TemporaryDirectory() as directory:
+            out=Path(directory);guest=Guest();op=m.GuestAcquisition(guest,out,target,dict(endsAtUtc=(datetime.now(timezone.utc)+timedelta(minutes=10)).isoformat()))
+            request=out/'request.json';request.write_text('{}',encoding='utf-8')
+            output=op.root+'-snapshot.json'
+            op.native('snapshot-native',request,output,'snapshot')
+            self.assertEqual(guest.native_launches,1)
+            self.assertIn(op.root+'-snapshot.identity.json',op.known)
+            self.assertNotEqual(op.known[op.root+'-snapshot.identity.json'],None)
+            self.assertTrue(op.processes[op.root+'-snapshot.process.json']['exitConfirmed'])
+
+    def test_only_pinned_sanitized_session_error_details_are_preserved(self):
+        session=type('SessionError',(RuntimeError,),{'__module__':'scripts.vmware_guest_session'})
+        self.assertIn('guest-command-failed',m.error_code(session('guest-command-failed:runProgramInGuest:exit=1:category=program')))
+        self.assertEqual(m.error_code(RuntimeError('do-not-expose-arbitrary-arguments')),'RuntimeError')
     def test_invalid_admission_keeps_failure_receipt_without_rr2_import(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'artifacts') as directory:
             root=Path(directory);binding=root/'binding.json';window=root/'window.json';binding.write_text('{}');window.write_text('{}')

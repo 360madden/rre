@@ -11,7 +11,7 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine("RRE host reader 0.2.0 (file adapters and explicit read-only Lab2 acquisition)\n"
+                Console.WriteLine("RRE host reader 0.2.2 (file adapters and explicit read-only Lab2 acquisition)\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
@@ -31,7 +31,7 @@ public static class Program
                 var node = await OwnedProcess.RunAsync("node", ["--version"], repo, CancellationToken.None);
                 output = new JsonObject
                 {
-                    ["readerVersion"] = "0.2.0", ["dotnet"] = Environment.Version.ToString(),
+                    ["readerVersion"] = "0.2.2", ["dotnet"] = Environment.Version.ToString(),
                     ["nodeAvailable"] = node.ExitCode == 0, ["nodeVersion"] = node.ExitCode == 0 ? node.Stdout.Trim() : null,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),

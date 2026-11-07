@@ -44,6 +44,9 @@ class AcquisitionFailure(ValueError):
 
 def error_code(error):
     # Never expose an arbitrary dependency exception's arguments/command line.
+    if type(error).__module__ == 'scripts.vmware_guest_session' and type(error).__name__ == 'SessionError':
+        # The pinned dependency deliberately emits only sanitized categories.
+        return 'SessionError:'+str(error)[:100]
     return str(error)[:120] if isinstance(error, AcquisitionFailure) else type(error).__name__
 
 
@@ -324,7 +327,7 @@ class GuestAcquisition:
 
     def verify_game(self, label):
         self.remaining()
-        remote = self.root + '-' + label + '.json'
+        remote = self.root + '-' + label + '.identity.json'
         self.known[remote] = None
         self.persist_scope()
         body = 'if(Test-Path -LiteralPath '+quoted(remote)+"){throw 'owned-destination-exists'};$g=Get-Process -Id " + str(self.target['processId']) + ";@{processId=$g.Id;processStartUtcTicks=$g.StartTime.ToUniversalTime().Ticks.ToString();executablePath=$g.Path;executableSha256=(Get-FileHash -LiteralPath $g.Path -Algorithm SHA256).Hash;machine=$env:COMPUTERNAME}|ConvertTo-Json -Compress|Set-Content -LiteralPath " + quoted(remote) + ' -Encoding UTF8'
