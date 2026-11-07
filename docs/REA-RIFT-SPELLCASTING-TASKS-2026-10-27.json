@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC618 feasibility accepted conditional GO: original generic reader transferred54 records in3 bounded frames twice in a controlled host fixture;19 malformed/stale cases rejected; RR2 rejected RREC marker. No live bridge yet. User clarified one RRE-owned physical-host modular consumer; SC619 core/adapters registered. Prior SC614/615/616/617 milestones accepted, broader gates unchanged. Lab2 only; no FreeBuff/Ollama.",
+  "status": "2026-11-07 SC619 offline modular RRE host reader accepted:46C#checks/19Nodechecks, actual saved54 + both memory54 fixture integrations pass, target/version/qualification preservation. Legacy500 gate retains collision/pathfinding old-SHA failures. SC620 existing numeric-scout frame-locator reuse registered before producer work. Lab2 only; no FreeBuff/Ollama; broader gates unchanged.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-619",
+  "nextTaskId": "SC-620",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1641,7 +1641,7 @@
       "id": "SC-619",
       "milestone": "SC6",
       "title": "Build one modular RRE host reader core with reused saved-data and bounded memory-capture adapters",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-618"
       ],
@@ -1655,7 +1655,8 @@
         "tools/tests_reader/",
         "docs/REA-RIFT-MODULAR-HOST-READER-2026-11-07.md",
         "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "docs/REA-RIFT-MODULAR-HOST-READER-2026-11-07.json"
       ],
       "researchQuestion": "Can one host entry point normalize current RRE SavedVariables and bounded framed-memory artifacts into shared ability/context/evidence output for PowerShell/C# consumers, without duplicate parsers or acquisition frameworks?",
       "acceptance": [
@@ -1666,6 +1667,49 @@
         "Meaningful offline failure/compatibility tests, focused checks first, one full coherent source gate with known historical failures reported not rebaselined",
         "No addon source/install change, new guest executable/driver, controller/memory writes/debugger/injection, cross-repo source changes, network service or provider CLI in this MVP",
         "Document current source/adapter limits and next Lab2 live-source/producer gates; checkpoint/commit scoped milestone"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-MODULAR-HOST-READER-2026-11-07.md",
+        "docs/REA-RIFT-MODULAR-HOST-READER-2026-11-07.json",
+        "reader/README.md"
+      ],
+      "acceptedScope": "One offline host reader/core with saved and memory-fixture replay adapters;46C#checks/19Nodechecks/3actual-evidence integrations pass. No live memory bridge/producer readiness.",
+      "partialEvidence": {
+        "csharpChecks": 46,
+        "nodeChecks": 19,
+        "exactIdsPerInput": 54,
+        "savedTargetFieldsPreserved": 1,
+        "legacyFullGateExit": 1,
+        "legacyFullGateTests": 500,
+        "historicalHashPinnedFailuresRetained": true,
+        "liveAcquisition": false
+      }
+    },
+    {
+      "id": "SC-620",
+      "milestone": "SC6",
+      "title": "Qualify an existing numeric scout as a bounded serialized-frame locator before RRE producer work",
+      "state": "pending",
+      "dependsOn": [
+        "SC-618",
+        "SC-619"
+      ],
+      "owner": "single RRE manager; read-only source reviewer",
+      "lane": "manager-existing-frame-acquisition-reuse",
+      "ownedPaths": [
+        "docs/REA-RIFT-MEMORY-FRAME-LOCATOR-2026-11-07.md",
+        "docs/REA-RIFT-MEMORY-FRAME-LOCATOR-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Can the already installed hash-pinned RR2 numeric int32 scout locate aligned RREC bytes and immediately capture an exact prefix, avoiding a new guest scanner/runtime?",
+      "acceptance": [
+        "Audit published/installed-compatible request/source and exact DWORD decimal1128616530/alignment/budgets",
+        "First run a controlled host fixture with exact process/start/file hash and bounded bytes, retaining false-positive/alignment/partial limits",
+        "Do not confuse4-byte candidate with a full frame; require exact session/sequence prefix and source-hashed immediate snapshot",
+        "If meaningful and existing safe route permits, only Lab2 read-only qualification; no addon changes, new guest executable/dependency, controller restart, game input/memory writes/injection/debugger",
+        "Record source/binary distinction, failures/coverage, checkpoint/validate/commit; no provider CLI/Ollama/FreeBuff"
       ],
       "gameInputAuthorized": false,
       "evidence": []

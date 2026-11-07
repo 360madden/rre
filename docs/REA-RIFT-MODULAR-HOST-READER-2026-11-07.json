@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-619",
+  "status": "accepted-offline-modular-host-reader",
+  "version": "0.1.0",
+  "implementation": "package-free C# .NET10 console/core with reusable Node literal parser adapter",
+  "sourceManifest": [
+    {
+      "path": "reader/README.md",
+      "sha256": "edc6f76e55a90c5c1cb325945270e2154bfe797b1e3ed8173139af49a7d74866"
+    },
+    {
+      "path": "reader/Rre.Reader/Contracts.cs",
+      "sha256": "f2cff7400a67925c78f314d67574869911e572e28f0b45cd0f4630c9b92badd6"
+    },
+    {
+      "path": "reader/Rre.Reader/MemoryScanSource.cs",
+      "sha256": "03addbd91b3ed8fcd68d5a5ddc295269da43875360f58586edc1a9063b8fe5ab"
+    },
+    {
+      "path": "reader/Rre.Reader/Program.cs",
+      "sha256": "3b318de8300dd2dc98a5a18cd52dc4be6d16958b75da80a24a10d618da0c3845"
+    },
+    {
+      "path": "reader/Rre.Reader/Rre.Reader.csproj",
+      "sha256": "4d8e3930a2c1e8ab974a54bce4385ef38af9105aaeca443164a04afec4fd7295"
+    },
+    {
+      "path": "reader/Rre.Reader/SavedSource.cs",
+      "sha256": "9fdf3a588a40e86e394020abf9a6e29cdd8e6f12b0c5261b4de5644f100a3b64"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Program.cs",
+      "sha256": "f7d1e0ad6d01bb736b48bed8461a33850a4a9f3e7ceb7a30aa72f673f9c8869e"
+    },
+    {
+      "path": "reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj",
+      "sha256": "58e097d496990c1f60ba5e135d57a88d8ef66d3c77e7ab0df1bf0d5e5707f03f"
+    },
+    {
+      "path": "tools/rre-reader-saved-snapshot.mjs",
+      "sha256": "e229af7fb8051ec6bb85087de66203a9d895bd2cc81d821001caf5731808620d"
+    },
+    {
+      "path": "tools/tests_reader/test_saved_adapter.mjs",
+      "sha256": "daaa63b44940d12f7fa72ec0adfce9d07422cb42f0d73f1cc09bcd849be78537"
+    },
+    {
+      "path": "tools/tests_reader/verify-reader-evidence.py",
+      "sha256": "55a651d8192a4055d9868704c80ed696f379e3bf0cf5c02d0b3de014e2efc946"
+    }
+  ],
+  "publication": [
+    {
+      "path": "artifacts/Rre.Reader-0.1.0-accepted-20261107/Rre.Reader.deps.json",
+      "sha256": "6ee58229efe533cef08455c9e95eb0c53d002dc00f3a938b5d6c1e783f0802ba",
+      "bytes": 424
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.0-accepted-20261107/Rre.Reader.dll",
+      "sha256": "59e814773c97cf7c34ed8b38f4bf45090fa5d98a4366f1d422dc107f698b8c71",
+      "bytes": 50176
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.0-accepted-20261107/Rre.Reader.exe",
+      "sha256": "b814164761208efe83517f98a2a11e9e60ad680413c72ccbc79f4a23a1860750",
+      "bytes": 162304
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.0-accepted-20261107/Rre.Reader.pdb",
+      "sha256": "02f12da841714a57735bac8c6c12e51416dd16bb48d0e771870cff11cdd612d3",
+      "bytes": 17480
+    },
+    {
+      "path": "artifacts/Rre.Reader-0.1.0-accepted-20261107/Rre.Reader.runtimeconfig.json",
+      "sha256": "c230a317a54dd960bcbeb5f347f52e18dc665a26f7efda2159fced9a5ac7e097",
+      "bytes": 342
+    }
+  ],
+  "csharpChecks": {
+    "command": "dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj --no-launch-profile --no-restore -- C:\\work\\rre",
+    "exitCode": 0,
+    "count": 46,
+    "artifact": "artifacts/reader-checks-789a5d5e22e84636840a8200340ee709/checks.json",
+    "sha256": "c3b11033c417385c1c255f8d80338a24cbb4806c7b11defee4e9e3269a363b84"
+  },
+  "nodeChecks": {
+    "command": "node --test tools/tests_reader/test_saved_adapter.mjs tools/verify-rrecollector-saved.mjs",
+    "exitCode": 0,
+    "count": 19,
+    "newAdapterTests": 8,
+    "legacyTests": 11,
+    "rawLogInConversation": true
+  },
+  "realEvidenceIntegration": {
+    "status": "passed",
+    "scope": "offline real SC614saved and both SC618controlled memory captures",
+    "runs": [
+      {
+        "name": "saved",
+        "exitCode": 0,
+        "inputSha256": "ddcd29a64dc58f65990bbe4af19a8cc4dd18bb43c1116a0a75306e85585c4bca",
+        "outputSha256": "24ede825f2caec24de7edf1e473efa25303021a0c8fed818b5c6f041ef19a3e4",
+        "abilityCount": 54
+      },
+      {
+        "name": "memory1",
+        "exitCode": 0,
+        "inputSha256": "84aaa7829bdb30b63482aa9fccc8faee6f6950804e687909a8ffdaf442e36510",
+        "outputSha256": "aabe36a0e30f4153303499f5e6d53a850bc1384ccde6bae857840d76e75bb23d",
+        "abilityCount": 54
+      },
+      {
+        "name": "memory2",
+        "exitCode": 0,
+        "inputSha256": "5154f983efd298c9bd8780ad39171128c3114d421594c177160b75d187501c30",
+        "outputSha256": "5972dff3159c7ba4eca9dc4d632bb23bd1981e992bcf85af001b3b419c87252b",
+        "abilityCount": 54
+      }
+    ],
+    "exactIds": 54,
+    "allFixtureFieldsCompared": true,
+    "savedTargetFieldsPreserved": 1,
+    "historicalMemoryFixtureHasNoTargetFields": true,
+    "allLiveQualificationsFalse": true,
+    "staleSequenceRejected": true,
+    "existingOutputPreserved": true,
+    "liveVMAccess": false,
+    "readerDllSha256": "59e814773c97cf7c34ed8b38f4bf45090fa5d98a4366f1d422dc107f698b8c71"
+  },
+  "integrationArtifact": "artifacts/reader-sc619-accepted-integration-20261107-1253/integration.json",
+  "integrationSha256": "8bfda4e87a77c7bfec5c99fe0eb9ba33cf266e79cc8270c09c48b8febf5a85e5",
+  "legacyFullGate": {
+    "command": "C:\\work\\rre\\.venv\\Scripts\\python.exe -B tools/validate-research.py --output-dir C:\\work\\rre\\artifacts\\reader-sc619-fullgate-20261107-1247",
+    "exitCode": 1,
+    "tests": 500,
+    "failedGroups": [
+      "collision",
+      "pathfinding"
+    ],
+    "reason": "Historical executable SHA guards reject current newer binary; no pins/tests changed. Downstream pathfinding assertion receives the hash error first.",
+    "sourcesUnchanged": true,
+    "doesNotCoverNewDotnetProject": true,
+    "artifact": "artifacts/reader-sc619-fullgate-20261107-1247/validation.json",
+    "sha256": "d812ccf17fdc973e5c87fb93ec95cd7e001a8944896a73064e7f48fefbea908f"
+  },
+  "review": {
+    "readOnlyBuiltInAgents": [
+      "/root/addon_discovery_research",
+      "/root/addon_protocol_research"
+    ],
+    "findingsClosed": [
+      "canonical original scanner envelope/hex",
+      "public assembler schema validation",
+      "requested-module completeness",
+      "root/capture version separation",
+      "target preservation without altering historical redaction"
+    ],
+    "latestLibraryGuardManagerReviewedAndTested": true
+  },
+  "liveAcquisitionImplemented": false,
+  "productionMemoryProducerImplemented": false,
+  "gameInputImplemented": false,
+  "newDependenciesInstalled": false,
+  "externalSourceEdits": false,
+  "ollama": false,
+  "freebuff": false
+}
