@@ -1,0 +1,989 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-612",
+  "baseCommit": "942e7c6d66ac1ec376a66f3b44af8e2fe6757f9a",
+  "researchQuestion": "What exact Lab-2 Rogue allocation and native ability classification scope the saved 54-ID catalog?",
+  "acceptedScope": "native role/soul UI and bounded name-correlated spellbook group evidence; no complete spellbook/eligibility/native-code/casting acceptance",
+  "character": {
+    "name": "Bolinao",
+    "level": 43,
+    "calling": "rogue",
+    "savedRoleSlot": 1,
+    "savedRoleLabel": "Role 1",
+    "nativeRoleLabel": "Role 1",
+    "nativeRoleStyle": "CUSTOM"
+  },
+  "soulAllocation": {
+    "Ranger": 43,
+    "Marksman": 14,
+    "Bard": 0,
+    "pointsSpent": 57,
+    "pointsRemaining": 0
+  },
+  "displayedMaxLegendary": {
+    "Ranger": "0/2",
+    "Marksman": "0/1",
+    "Bard": "0/1"
+  },
+  "legendaryLimit": "displayed UI counters only; no selection/unlock threshold/variant ID established",
+  "allocationOriginal": "artifacts/lab2-sc612-20261107-1026/soul-tree-settled/before.png",
+  "diagnosticCrop": "artifacts/lab2-sc612-20261107-1026/legendary-labels-diagnostic.png",
+  "diagnosticCropLimit": "magnification for label reading only; original remains authoritative",
+  "nativeAbilityCategoriesObserved": [
+    "General",
+    "Marksman",
+    "Ranger",
+    "Bard",
+    "Role",
+    "Guild Perks",
+    "Ascended Powers",
+    "Patron Abilities"
+  ],
+  "nativeRangerPage": {
+    "source": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/after.png",
+    "completeRangerList": false,
+    "visibleNamedEntries": 8,
+    "rows": [
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Ace Shot",
+        "apiLookupId": "A498AABAF3071FDED",
+        "apiRecord": {
+          "lookupId": "A498AABAF3071FDED",
+          "id": "A498AABAF3071FDED",
+          "idNew": "A498AABAF3071FDED",
+          "name": "Ace Shot",
+          "rangeMax": 35,
+          "costEnergy": 24,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\tempest_difficult_target_z.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Piercing Shot",
+        "apiLookupId": "A6C06D67EAB161708",
+        "apiRecord": {
+          "lookupId": "A6C06D67EAB161708",
+          "id": "A6C06D67EAB161708",
+          "idNew": "A6C06D67EAB161708",
+          "name": "Piercing Shot",
+          "description": "Deals 331 to 338 damage. Reduces Armor by 250 for 30s. Awards 1 Combo Point.",
+          "cooldown": 10,
+          "rangeMax": 35,
+          "costEnergy": 24,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\piercing_shot_01_a.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Quick Shot",
+        "apiLookupId": "A10BB0303D519D2DE",
+        "apiRecord": {
+          "lookupId": "A10BB0303D519D2DE",
+          "id": "A10BB0303D519D2DE",
+          "idNew": "A10BB0303D519D2DE",
+          "name": "Quick Shot",
+          "description": "Deals 388 to 396 damage. Awards 1 Combo Point.",
+          "rangeMax": 35,
+          "costEnergy": 24,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\rapidshot1.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Shadow Fire",
+        "apiLookupId": "A20FC3E70868C72C2",
+        "apiRecord": {
+          "lookupId": "A20FC3E70868C72C2",
+          "id": "A20FC3E70868C72C2",
+          "idNew": "A20FC3E70868C72C2",
+          "name": "Shadow Fire",
+          "description": "Deals 1191 to 1215 damage. Increases the Rogue's damage with ranged weapon attacks by 5% for 30s. Awards 2 Combo Points.\n\nYour damaging abilities have a 40% chance to reset the cooldown of Shadow Fire and improve the damage of the next Shadow Fire within 6 seconds by 30%. This effect can only trigger once every 6 seconds.",
+          "cooldown": 20,
+          "rangeMax": 35,
+          "costEnergy": 26,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\rapidshot2.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Splinter Shot",
+        "apiLookupId": "A6A6ED0086D590AFC",
+        "apiRecord": {
+          "lookupId": "A6A6ED0086D590AFC",
+          "id": "A6A6ED0086D590AFC",
+          "idNew": "A6A6ED0086D590AFC",
+          "name": "Splinter Shot",
+          "rangeMax": 35,
+          "costEnergy": 20,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\killer_instinct.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Builder",
+        "name": "Trick Shot",
+        "apiLookupId": "A58BA2EF9600D8B32",
+        "apiRecord": {
+          "lookupId": "A58BA2EF9600D8B32",
+          "id": "A58BA2EF9600D8B32",
+          "idNew": "A58BA2EF9600D8B32",
+          "name": "Trick Shot",
+          "description": "Deals 209 to 213 damage to up to 5 enemies. Awards 1 Combo Point.\n\nAdditionally, your currently active pet grants you a buff for 15 seconds.",
+          "rangeMax": 35,
+          "costEnergy": 26,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\ricochet1.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Finisher",
+        "name": "Head Shot",
+        "apiLookupId": "A7C4B10B3A62367B4",
+        "apiRecord": {
+          "lookupId": "A7C4B10B3A62367B4",
+          "id": "A7C4B10B3A62367B4",
+          "idNew": "A7C4B10B3A62367B4",
+          "name": "Head Shot",
+          "description": "Deals additional damage per Combo Point. Increases the damage of the pet by 5%. Lasts 12s per Combo Point.\n\n1 Point: 366 damage\n2 Points: 464 damage\n3 Points: 596 damage\n4 Points: 760 damage\n5 Points: 957 damage",
+          "rangeMax": 35,
+          "costEnergy": 16,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\headshot3.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      },
+      {
+        "nativeCategory": "Ranger",
+        "nativeGroup": "Damage",
+        "name": "Rain of Arrows",
+        "apiLookupId": "A723E316171474642",
+        "apiRecord": {
+          "lookupId": "A723E316171474642",
+          "id": "A723E316171474642",
+          "idNew": "A723E316171474642",
+          "name": "Rain of Arrows",
+          "description": "Deals 1665 damage over 6s to up to 8 enemies in the target area. If fully channeled, this zone persists for any remaining duration.",
+          "castingTime": 1,
+          "channeled": true,
+          "cooldown": 6.0000004768372,
+          "rangeMax": 30,
+          "costEnergy": 40,
+          "positioned": true,
+          "weapon": "any",
+          "icon": "Data/\\UI\\ability_icons\\rainofarrows2.dds"
+        },
+        "matchBasis": "unique exact-name join to SC-610 sequence2; native UI did not expose ID",
+        "exactIdObservedInNativeUi": false
+      }
+    ]
+  },
+  "generalVisibleNamedApiMatches": [
+    "Rejuvenate",
+    "Dismiss Pet",
+    "Legacy of the Shade",
+    "Motivational Roar",
+    "Ranged Weapon Mastery",
+    "Recycle",
+    "Soul Recall",
+    "Toggle Auto Attack"
+  ],
+  "professionLabelsAlsoVisible": [
+    "Fishing",
+    "Survival"
+  ],
+  "professionLimit": "separate UI labels; no claim API ability enumeration should include profession skill records",
+  "tooltipAcceptance": {
+    "Pin Down": "transient only; name/description resembles saved API record, but exact root position not qualified",
+    "Diffuse": "transient only; not bound to future-root marker/unlock threshold",
+    "noFutureUnlockClaim": true
+  },
+  "liveOperations": [
+    {
+      "name": "close-abilities",
+      "action": "click",
+      "captureId": "7062d52b71da4e30a727fb199a26bd8d",
+      "position": [
+        477,
+        213
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "ABILITIES visibly closed",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-abilities/after.png",
+          "sha256": "c883c3611251b1ed85ad4f968eac3d6fefeea08e4f0eefa48b0c7644e60f0518",
+          "length": 1275771
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-abilities/before.png",
+          "sha256": "be0f1a464d62557045881a866da815088df943219a479d9a77599c2249959bae",
+          "length": 1242608
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-abilities/capture.json",
+          "sha256": "c0b10586b85526626b35717760a46243eaece168ead598f083af77352ba24dbd",
+          "length": 302
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-abilities/result.json",
+          "sha256": "84781de0d8f74f06d5032a8bd3926c20f8e3ee52c08b4e4cfddfb0aef879d5e9",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-abilities/review.json",
+          "sha256": "87dcd8fdcfb96d68965f194e482c3a1917aec35a4875d084377b280018571e9c",
+          "length": 163
+        }
+      ]
+    },
+    {
+      "name": "close-soul-tree",
+      "action": "click",
+      "captureId": "4b7b1c7c307948a7a9787140abae72c0",
+      "position": [
+        825,
+        656
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "Soul Tree visibly closed",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-soul-tree/after.png",
+          "sha256": "7d123773f12dea3d6d302b5186688f579a8da62c8f1e2a2500a82dac1118276b",
+          "length": 1206393
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-soul-tree/before.png",
+          "sha256": "650653c0df36f83020fdc755b5d4a7cd2f74b98fab1fd38ae0cd1cd77b98031a",
+          "length": 1008641
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-soul-tree/capture.json",
+          "sha256": "aef14358a354cf7f36f0bd59aafff1d949f5401be58659e734ff717984a36f4e",
+          "length": 302
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-soul-tree/result.json",
+          "sha256": "fa14e43dcffc42af365835f6ac48ae01e8c9d7ac98fb18e42421d8ad1a78f8b7",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/close-soul-tree/review.json",
+          "sha256": "36800542fc73b82388f3bb2aa2abebfe0d544eebd39a5360d12ebc9715ecd3e6",
+          "length": 186
+        }
+      ]
+    },
+    {
+      "name": "future-tooltip-settled",
+      "action": "capture",
+      "captureId": "64b86d7eadfd403594af457da69ce754",
+      "position": [
+        null,
+        null
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": false,
+      "originalsVisuallyReviewed": true,
+      "observation": "capture-only original reviewed; no input",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/future-tooltip-settled/before.png",
+          "sha256": "8548367e05c24323e5fd56305cc5dec573a14d4c22c9e488013ddb2b8af7ccb0",
+          "length": 1007530
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/future-tooltip-settled/capture.json",
+          "sha256": "6f16af94c498a8bb706f6753e5af9c6beb34b00fd33f57b5ce87769e243b872c",
+          "length": 313
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/future-tooltip-settled/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    },
+    {
+      "name": "hover-character-menu",
+      "action": "move",
+      "captureId": "56dca157e74d4deaa46f44d964171b40",
+      "position": [
+        18,
+        709
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "PLAYER label; no click",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-character-menu/after.png",
+          "sha256": "39f11b2e74159f61e3dd21f3c24611dbc04052e1029f5ebbe09222b554af8b69",
+          "length": 1273728
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-character-menu/before.png",
+          "sha256": "6b57fabc650e78b5cbe2df4bf6200f42c1d66ff1fc969d555b284586c75a90a8",
+          "length": 1267127
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-character-menu/capture.json",
+          "sha256": "dc82de3c94086a25b632d4e01da21af984d1adc0c984a4a2c9cba4b2710b55f3",
+          "length": 305
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-character-menu/result.json",
+          "sha256": "7c8927a321245073687fc4421ca4d6a208a4ecf7b47464f61315f0dc92ca2c05",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-character-menu/review.json",
+          "sha256": "6e5afec77a34d2d5b0be1156af63904995cd60b02a9858d65a70fd7f2a8cd15b",
+          "length": 165
+        }
+      ]
+    },
+    {
+      "name": "hover-hud-menu",
+      "action": "move",
+      "captureId": "f7bcd64e0e274e4d8f2c3c014076a25d",
+      "position": [
+        46,
+        709
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "ACTIVITIES label; no click",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-hud-menu/after.png",
+          "sha256": "e735e4fe20e8edccab1aba15d3c82fd813a9349a8e1e6473d1c74913fa7ec024",
+          "length": 1274965
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-hud-menu/before.png",
+          "sha256": "b098f3016687ba83bcbb24e048b38375aa5af2868988187470cec344cdbd6112",
+          "length": 1276273
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-hud-menu/capture.json",
+          "sha256": "a569c8687f45069b63021421ba34f8becf532d7f09cf6be27034209b6a3b9e2d",
+          "length": 299
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-hud-menu/result.json",
+          "sha256": "faed0118957f022e82a1c8a601516e01b3c2d90d599175efcdd1cb1bd3c46a94",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-hud-menu/review.json",
+          "sha256": "d43a4087ee7acb57cffe9cf68a42fedf71478260bb5b2f714a51f8b4d0ec721c",
+          "length": 186
+        }
+      ]
+    },
+    {
+      "name": "hover-menu",
+      "action": "move",
+      "captureId": "b73db14ad30e43209d404026803328a8",
+      "position": [
+        1187,
+        709
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "Auto-Sort Bags tooltip; no click",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-menu/after.png",
+          "sha256": "ff1f5dc038982c22d17b526c7d6528e81b2240b11ac849a8287c41223db1d4d7",
+          "length": 1274080
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-menu/before.png",
+          "sha256": "44d50fa1859f3d8531acc713b83c6d2f03b81f27f602e52e869023b8dd111e3c",
+          "length": 1270980
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-menu/capture.json",
+          "sha256": "c89aa1c589afdd25bb4b905bbebfbd70f67bc8e7bd138b7db92fd449bd537437",
+          "length": 297
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-menu/result.json",
+          "sha256": "15db103962e8fc193afcca2af6707664933aee26da3df0c5c9e7aedcad43d97a",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-menu/review.json",
+          "sha256": "be95c7084a140d839fe857b21ea296875037d39ebc6b24dfe32ae9c4d299fd86",
+          "length": 185
+        }
+      ]
+    },
+    {
+      "name": "hover-ranger-current",
+      "action": "move",
+      "captureId": "7174703c8069477d960adf5a9a28a997",
+      "position": [
+        342,
+        547
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "transient Pin Down tooltip; no accepted exact root/unlock binding",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-current/after.png",
+          "sha256": "19eb88d563eb171b527fc6d55c81f5dc76592eb8b1b80e9232d09a92d12d6a55",
+          "length": 1009010
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-current/before.png",
+          "sha256": "dfed7f2b28fa00d752a5404ee830bb671fb5872fc40c0118735398ff7be7057d",
+          "length": 1005052
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-current/capture.json",
+          "sha256": "63024feca1262f62b87543dcf866480d45d61a631a8904c004e88368bcbea321",
+          "length": 306
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-current/result.json",
+          "sha256": "897090fa3825b0bcae7b2288c60a4852005e8d10bb6ac9d1517ebde668c7f5c3",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-current/review.json",
+          "sha256": "415b3288adb05fd74ac99ee51bebfd5515f4209bebaa5bb765dfa3a99d76802f",
+          "length": 190
+        }
+      ]
+    },
+    {
+      "name": "hover-ranger-future",
+      "action": "move",
+      "captureId": "ca3db5a9cb014cf8aa86d3958e30b9b4",
+      "position": [
+        342,
+        573
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "transient Diffuse tooltip; settled capture lacks tooltip; no accepted future-root/name/threshold binding",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-future/after.png",
+          "sha256": "b08773cb3a5affadf703d4d0ab951da986e9233200c403064a6b264598e771a7",
+          "length": 1001212
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-future/before.png",
+          "sha256": "5c0c8948f7c75e18d6241b8fc4a2290cef53430dde63e4d290ae2f19efca8ad2",
+          "length": 1008661
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-future/capture.json",
+          "sha256": "a447f5ddbaa6ebe80ccf6c5ff81731b8ff5a654e146cb0f81d3a5f0577142df0",
+          "length": 305
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-future/result.json",
+          "sha256": "d054d7a90a74ac33c870b244dc32b46f29fcf18d9330b545d08fa5ce32de056e",
+          "length": 1032
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/hover-ranger-future/review.json",
+          "sha256": "7f88e524d0f318b487fbc6b251d9175371ecafbcceb548aeaca46a4ec2d55424",
+          "length": 198
+        }
+      ]
+    },
+    {
+      "name": "menu-tooltip-settled",
+      "action": "capture",
+      "captureId": "bf8bc868096d428ba0d448d02ae62315",
+      "position": [
+        null,
+        null
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": false,
+      "originalsVisuallyReviewed": true,
+      "observation": "capture-only original reviewed; no input",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/menu-tooltip-settled/before.png",
+          "sha256": "4883c3a9cae61a380e394a06e86cfd4c5eafba27ab97db1f08f60e2ede51b4c4",
+          "length": 1274916
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/menu-tooltip-settled/capture.json",
+          "sha256": "a47de15437ed657126ef8fff26691992881663d89df5643d32f869504e95240f",
+          "length": 311
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/menu-tooltip-settled/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    },
+    {
+      "name": "open-abilities",
+      "action": "click",
+      "captureId": "2880cf56c7e84b65be99e332298f95c1",
+      "position": [
+        55,
+        555
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "native ABILITIES/GENERAL with left category labels",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-abilities/after.png",
+          "sha256": "141a17119b0c080f09269c52d4794b7f9919773c37dc60d0ae291820eed90286",
+          "length": 1232649
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-abilities/before.png",
+          "sha256": "0091920c1fc9bc4cad095704adde362a43a9eeb36cbc21770322e2c4e817651d",
+          "length": 1278436
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-abilities/capture.json",
+          "sha256": "aa09d60eaecfea94f5b3849bc8d4d97ae6bc1b0e7b696e03ee7e0b6dd9250d14",
+          "length": 300
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-abilities/result.json",
+          "sha256": "7487863fb2de5c0254838c683a9b41fd65a27882c13b7498195f69486adab5b2",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-abilities/review.json",
+          "sha256": "2707a446fe6bb3427fae29b3bcd3ecbea6fb1fe9713ce54ca8fb95ba899c5897",
+          "length": 166
+        }
+      ]
+    },
+    {
+      "name": "open-player-abilities",
+      "action": "click",
+      "captureId": "484b565bb8204478af38a3b9f6850c2d",
+      "position": [
+        18,
+        709
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "PLAYER menu opened",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-abilities/after.png",
+          "sha256": "84d4a151b8de890297548432fbaa3188f80ba3bc4eba13f0b9166e07a377bf10",
+          "length": 1266676
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-abilities/before.png",
+          "sha256": "b09157f3d1aa7331c145ef2996b2d6f134608d99fd0e98cf2e28c843c0d900da",
+          "length": 1275141
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-abilities/capture.json",
+          "sha256": "8f4918b2bb97fa22e974259f5bb6e167526b967387351a5e99b839610641d81c",
+          "length": 307
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-abilities/result.json",
+          "sha256": "05947eb619d54013335bf2421ae559001a46f75bcbfac41dba1d2e7e89937db2",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-abilities/review.json",
+          "sha256": "4e289db891c5211cbeb071093e0aa1add392980ff3e883f53fbc8e7831d29d1e",
+          "length": 164
+        }
+      ]
+    },
+    {
+      "name": "open-player-menu",
+      "action": "click",
+      "captureId": "03ddf73d4fb94235a4498c704cd3cd05",
+      "position": [
+        18,
+        709
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "PLAYER menu opened with named Soul Tree and Abilities entries",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-menu/after.png",
+          "sha256": "97248c7d09cd3e55e513d7d433154ed134bb090ee611a74da46d293f38e3868b",
+          "length": 1279437
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-menu/before.png",
+          "sha256": "d8bfb60f26566e546ab3fd47affdc69c40378a68c72f7a602bf27267a144fea4",
+          "length": 1279047
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-menu/capture.json",
+          "sha256": "244ab62ee18d6da35e31a3108993a96097e3368e7a42c6eb32e4cc62fa4cea1b",
+          "length": 302
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-menu/result.json",
+          "sha256": "ef024af0828569e01e292401388bab851aa494fc80083571d69338f4fee827d4",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-player-menu/review.json",
+          "sha256": "9627f9c8b83326fd2cbf82bf951409d43df210f6bb6e49c5f64da0bec1bbfd81",
+          "length": 176
+        }
+      ]
+    },
+    {
+      "name": "open-soul-tree",
+      "action": "click",
+      "captureId": "a299fa5f1003435998f7278405b12e9c",
+      "position": [
+        54,
+        672
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "early after frame unchanged; settled capture independently shows Soul Tree",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-soul-tree/after.png",
+          "sha256": "29d05a4ca8b7ba9ec08dc740ba17b46930c9e7d25f54df09cb28bd33b01a1820",
+          "length": 1264644
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-soul-tree/before.png",
+          "sha256": "0268847ce61f4c69dc6df28ea8bccd74468004bc3675938b8f7094dc1722845f",
+          "length": 1269401
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-soul-tree/capture.json",
+          "sha256": "a6753211030771a71edc22a64cf4d3c4ada3c20c68ffa48bf088e65250661a97",
+          "length": 300
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-soul-tree/result.json",
+          "sha256": "01e7e361f0c19c05ed693f620296821f9ba298b33038effa30abaf8afbdbf343",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/open-soul-tree/review.json",
+          "sha256": "101a2cb1519264a26feb2ca20711aeb7895bc64db4b9bf7c1e0c95296ccb2782",
+          "length": 183
+        }
+      ]
+    },
+    {
+      "name": "ranger-category-settled",
+      "action": "capture",
+      "captureId": "485504e2a28f4a9bbd2fdbe488a80e29",
+      "position": [
+        null,
+        null
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": false,
+      "originalsVisuallyReviewed": true,
+      "observation": "capture-only original reviewed; no input",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/ranger-category-settled/before.png",
+          "sha256": "4e9032357b32f67671038fa8b9145b0d7660d200714210f8b4a7a35be43b3182",
+          "length": 1252542
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/ranger-category-settled/capture.json",
+          "sha256": "e1fae7eaa05b69c5c56f3e4447064f4080d6e92e702b158dee3b8ba59ca72a02",
+          "length": 314
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/ranger-category-settled/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    },
+    {
+      "name": "select-ranger-category",
+      "action": "click",
+      "captureId": "76d3155d350a4ee49697ab6967410f4f",
+      "position": [
+        87,
+        315
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "text click had no verified effect; immediate and settled still GENERAL",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-category/after.png",
+          "sha256": "dd490990c62f3284b754068e7fb0522a78229d2b03fa106680a52ddf76154ca6",
+          "length": 1252915
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-category/before.png",
+          "sha256": "d70677a7d304c46d79f7c74260c7f2b8121f28cdd2f6ac1e9104991059fbe320",
+          "length": 1249651
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-category/capture.json",
+          "sha256": "71f73ddb3a3bfd127f22b172fedd59a9dd9c6be8225b4400d112c49316ddbe71",
+          "length": 308
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-category/result.json",
+          "sha256": "50b396922b52483e8a98a73791ad4590972f67309ebb999e0e64a939221eab3b",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-category/review.json",
+          "sha256": "d99db21943298f76b02c83a493cd57dac83ce6bf76dbb202bfbc670563466421",
+          "length": 191
+        }
+      ]
+    },
+    {
+      "name": "select-ranger-icon",
+      "action": "click",
+      "captureId": "26d17e3325e24e689da9e531b4112a93",
+      "position": [
+        55,
+        320
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": true,
+      "originalsVisuallyReviewed": true,
+      "observation": "RANGER selected; 8 stable names and Builder/Finisher/Damage groups visible",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/after.png",
+          "sha256": "f2c0e94624263110b1072e86fbaee7d8085ebb402879d4665be2543eb4631a94",
+          "length": 1241472
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/before.png",
+          "sha256": "5fe969a73c175fd182a24c71dd87893c7775eac59f2bdd68a51fd57929a51162",
+          "length": 1248652
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/capture.json",
+          "sha256": "65f4b494b7393c8d275502542101e8e4e2e671547466897b42a7aa9ec2011f74",
+          "length": 304
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/result.json",
+          "sha256": "c02b09e5c8fdead3d22906cd9f5021a22cd18ad63d0e9b8c411bcbbb9504ae63",
+          "length": 1033
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/select-ranger-icon/review.json",
+          "sha256": "730a6674db330ef1173773757533c27e29a9af4188df10992a334635263a5120",
+          "length": 206
+        }
+      ]
+    },
+    {
+      "name": "soul-tree-settled",
+      "action": "capture",
+      "captureId": "f61f364a5f4f465ba733172660bdc1dd",
+      "position": [
+        null,
+        null
+      ],
+      "vmIdentityBeforeAfterEqual": true,
+      "connectionClosed": true,
+      "consoleMutexReleased": true,
+      "buttonReleaseSent": false,
+      "originalsVisuallyReviewed": true,
+      "observation": "capture-only original reviewed; no input",
+      "artifacts": [
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/soul-tree-settled/before.png",
+          "sha256": "f18845fe285c19596c12e63b6698f9501ce90b59be65fb8f029cd1c8b8d08941",
+          "length": 1001946
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/soul-tree-settled/capture.json",
+          "sha256": "bd92920d2f22b7d8bf9944056cc0e9c59e11a04b8bf5b13cc61dbf2019d487fd",
+          "length": 308
+        },
+        {
+          "path": "artifacts/lab2-sc612-20261107-1026/soul-tree-settled/result.json",
+          "sha256": "0bc89f3613ceb8fb6572bbffc2c4a1a8b376a36f3668d6fa267af23a0f9355b8",
+          "length": 946
+        }
+      ]
+    }
+  ],
+  "buildBefore": {
+    "sha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "processId": 9752,
+    "observedAtUtc": "2026-11-07T15:12:32.7439676Z",
+    "machine": "RIFT-LAB-2",
+    "length": 60493640
+  },
+  "buildAfter": {
+    "sha256": "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8",
+    "processStartUtcTicks": "639294897826627677",
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "processId": 9752,
+    "observedAtUtc": "2026-11-07T15:35:43.3881249Z",
+    "machine": "RIFT-LAB-2",
+    "length": 60493640
+  },
+  "processBuildBeforeAfterEqual": true,
+  "savedInvariant": {
+    "byteIdenticalToSc610": true,
+    "sha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+    "length": 21670,
+    "rootSnapshotVersion": "0.4.11",
+    "sequence": 2
+  },
+  "interactionLessons": [
+    "Named menu entries and native icon hotspot worked",
+    "Ranger category text click unverified; distinct category icon succeeded",
+    "Immediate frames may precede UI change; no blind repetition",
+    "Transient hover tooltip must not be promoted to root/name/unlock binding without stable source"
+  ],
+  "authority": {
+    "externalHostVncdotoolReused": true,
+    "newGuestMouseInstall": false,
+    "newBackend": false,
+    "noOllama": true,
+    "nativeControllerRemainsStopped": true,
+    "noRoleCharacterPointSettingsOrCastChangeRequested": true,
+    "noAddonOrExternalSourceEdits": true,
+    "guestReadOnlyFileObservationAndOwnedTemporaryJsonCleanupOnly": true
+  },
+  "validation": {
+    "originalHashes": 83,
+    "uniqueNameJoins": 8,
+    "inputOperations": 13,
+    "clicks": 8,
+    "moves": 5,
+    "captureOnly": 4,
+    "buildAndSavedInvariant": "pass",
+    "roadmap": "pass;47tasks/11milestones/0failures,exit0",
+    "fullSuiteRun": false,
+    "relativeLinks": "pass",
+    "otherTasksUnchanged": true,
+    "diffCheck": "pass; staged check required before commit"
+  },
+  "sourceArtifacts": [
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/saved-after-ui.lua",
+      "sha256": "5e2f8bab564fb4916dc87ba929fc3c1d022bab913bb7b4896cd2923197aae7fb",
+      "length": 21670
+    },
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/guest-build.json",
+      "sha256": "1a1c3a860f7c0c20633f5131f07cb462892479f62312c4a00ac727d1ded9e484",
+      "length": 288
+    },
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/guest-query.ps1",
+      "sha256": "2a728a0dc225cabdb3b17bc31110021a0a8d4890a43b691441975eb31672b5e6",
+      "length": 552
+    },
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/qualify-build-after.py",
+      "sha256": "847e9f0d95610aaa32c5bcf81111f751821567bfb3445afa7e0abc1ef8bbabec",
+      "length": 2883
+    },
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/identity-cleanup.json",
+      "sha256": "7990a37f8821171c0d6e9b2b46292b126ffedf844b196286d39a29aabb6038fb",
+      "length": 444
+    },
+    {
+      "path": "artifacts/lab2-sc612-20261107-1026/legendary-labels-diagnostic.png",
+      "sha256": "c4ae2adf0a77b505d60a1a61f3d4f54690b538632cb29e004773f7dfcde49c3d",
+      "length": 132305
+    }
+  ]
+}

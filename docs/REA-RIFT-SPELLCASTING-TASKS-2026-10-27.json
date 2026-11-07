@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-611: fresh Lab-2 build/scene qualified; selector-pointer helper 0x128E884 established as word-keyed bucket/output-aggregate machinery, hashed-container lookup-or-create semantics inferred. 54 independent original-byte/metadata/edge checks passed, no game input, no new spell discriminator. Generic recursion parked; SC-103/306 blocked, SC-604 broader mechanism interim, RC/NAV gates unchanged. External mode retained, no Ollama.",
+  "status": "2026-11-07 SC-612: Lab-2 BolinaoL43Rogue Role1 native allocation43Ranger/14Marksman/0Bard,57spent/0remaining; eight Ranger names uniquely match SC610 APIcatalog with native Builder/Finisher/Damage groups. Saved file unchanged; build/process bracket matches. Future-root tooltip/unlock binding inconclusive. SC103/306 blocked; broaderSC604/RC/NAV unchanged; native controller stopped/external mode/no Ollama.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -1338,6 +1338,38 @@
         "docs/REA-RIFT-SPELLCASTING-SC611-SELECTOR-128E884-2026-11-07.json"
       ],
       "assessment": "Accepted narrow original-byte/local dataflow: 16-bit key-derived bucket/output aggregate with prior-null byte; lookup-or-create container semantics inferred. No new spell-state discriminator or live traversal; generic container recursion parked."
+    },
+    {
+      "id": "SC-612",
+      "milestone": "SC1",
+      "title": "Bind Lab-2 Rogue current-known catalog to native soul allocation and spellbook UI",
+      "state": "completed",
+      "dependsOn": [
+        "SC-610"
+      ],
+      "owner": "single RRE manager; exclusive external console per operation",
+      "lane": "manager-lab2-rogue-ui-context",
+      "ownedPaths": [
+        "docs/REA-RIFT-SPELLCASTING-SC612-ROGUE-UI-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC612-ROGUE-UI-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "What exact role/soul allocation and native spellbook context does the actual Lab-2 L43 Rogue expose, and how does it scope the saved 54-ID catalog?",
+      "acceptance": [
+        "Fresh original images and VM/process/build provenance; reuse external-only reviewed operations and existing sources",
+        "Identify UI controls by actual tooltip/text before clicking; no guessed commands, key input, role/character/point/settings changes or casting",
+        "Observe native soul allocation and bounded named spellbook evidence; retain unknowns and distinguish UI names from exact API IDs",
+        "No transfer of Warrior Legendary/eligibility acceptance; no broad repeated catalog capture",
+        "Hash original images/receipts, validate task/links/JSON/diff and commit finding or blocker"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "reviewed external hover and reversible native UI open/close only; no casting/movement/allocation changes",
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC612-ROGUE-UI-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC612-ROGUE-UI-2026-11-07.json"
+      ],
+      "assessment": "Accepted native Lab-2 role1 Rogue allocation43Ranger/14Marksman/0Bard and eight unique name-correlated native Builder/Finisher/Damage entries. Future-root tooltip binding/thresholds not qualified; saved bytes unchanged; no role/allocation/casting changes."
     }
   ],
   "checkpointPolicy": {
