@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "taskId": "SC-622",
-  "status": "offline-source-package-interoperability-accepted-live-held",
+  "status": "offline-source-package-interoperability-accepted-live-install-pending",
   "createdAtUtc": "2026-11-07T19:06:41.503011+00:00",
   "baseHead": "77ba6254dbbff28a6efa0a4efec9b5013ec7c07b",
   "addonVersion": "0.4.12",
@@ -283,14 +283,15 @@
     ]
   },
   "installationGate": {
-    "state": "held",
+    "state": "operator-approved-RRECollector-only-sync; fresh-install-load-transfer-pending",
     "reason": "Proved Lab2 addon root is inside active registered OneDrive syncroot. No isolated game load root established.",
     "receipt": "artifacts/sc622-isolation-preflight-20261107-1328/receipt.json",
     "sha256": "2db00f107929efae47109da2c2c80d25a925aef83ae438b6b4b518eb902aaf5d",
     "metadata": "artifacts/sc622-isolation-preflight-20261107-1328/metadata.json",
     "metadataSha256": "f62a2407e70bb2e2c817f70557859dddef18e62dec41eb3083cfaad88656a81d",
     "settingChanges": false,
-    "excludedMachineOperations": false
+    "excludedMachineOperations": false,
+    "originalState": "held-no-isolated-destination"
   },
   "historicalFixture": {
     "sourceVersion": "0.4.11",
@@ -303,5 +304,22 @@
   "guestOperationsForSourceIntegration": 0,
   "gameInputSent": false,
   "ollama": false,
-  "freebuff": false
+  "freebuff": false,
+  "laterLua51Qualification": {
+    "path": "artifacts/sc622-lua51-qualification-20261107-1418/receipt.json",
+    "sha256": "a8609c4be670c4af56ccea9f2c3d7fc8bafcb83d0796351dde1ed5afe5d4a417",
+    "parseFiles": 9,
+    "syntheticAssertions": 40,
+    "manualCaptureAssertions": 13,
+    "preservationAssertions": 10,
+    "framesIdenticalToLua53": true,
+    "runtime": "Existing pinned Lua5.1.4 double-int64 vendored artifact",
+    "riftRuntimeEquivalent": false
+  },
+  "laterOperatorAuthorization": {
+    "reply": "Allow only RRECollector addon files to sync; keep all testing in Lab2",
+    "scope": "Only RRECollector addon files may propagate through existing OneDrive root. No settings or excluded-machine live operation.",
+    "isolationHoldResolvedForThisFolder": true,
+    "installLoadTransferStillPending": true
+  }
 }

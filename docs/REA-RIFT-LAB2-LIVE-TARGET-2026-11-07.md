@@ -1,5 +1,8 @@
 # RRE — Lab-2 sole live-testing target and readiness
 
+**Later explicit operator exception — November7 14:17 EST:** “Allow only RRECollector addon files to sync; keep all testing in Lab2.” The manager may additively deploy the reviewed RRECollector package to Lab2’s existing OneDrive Documents AddOns/RRECollector load root, accepting synchronization of only those RRECollector addon files. This resolves the no-silent-propagation gate for that folder only; no other addon, OneDrive/Windows setting, physical-PC/Lab1 live interaction or process is included. Keep source/package/install/load evidence, backups and TOC-last deployment. No further generic permission question is required for this authorized route.
+
+
 **Decision:** November 7, 2026, America/New_York. **Task:** SC-607, sole RRE manager, documentation/read-only-readiness lane. The user replaced physical-PC live testing with **VMware RIFT-Lab-2 only**. This policy supersedes the October 27 physical-PC target policy and physical-host testing/deployment directions in older RRE instructions, roadmaps and handoffs. Their observations remain valid only at their recorded scope and time.
 
 ## Target and operational ownership

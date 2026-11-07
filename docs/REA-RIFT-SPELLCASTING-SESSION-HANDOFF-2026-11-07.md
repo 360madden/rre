@@ -1,5 +1,39 @@
 # RRE session handoff — November 7, 2026 (America/New_York)
 
+## 14:20 EST — SC623 accepted; existing Lua5.1 qualification and sync exception integrated
+
+- [SC623 report](REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.md)/[83artifact hashes](REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.json): final host-only proof artifacts/sc623-native-accepted-20261107-1420/receipt.json. Same exact54records/5frames/context/counts/payloadSHA,4alignments,7boundarycandidates/735contextbytes vs11/2959interior. Reader+nativebinarypinned, dotnethostresolved+hashed. Four cleanupfailure tests andactualchildexit0/noerrors. Fullgateonce500tests/exit1sameoldpins; laterreviewfixesfocused/unit/integrationchecked. SC623completed atcontrolledhostscope only.
+- Existing RRE Lua5.1.4 double-int64 artifact reused, no rebuild/install:9modulesparse,40synthetic/13actualCapture/10priorpreservation pass; synthetic2part andhistorical54record5part frames exactlyequalLua53andC#decode. Evidence artifacts/sc622-lua51-qualification-20261107-1418/receipt.json. RIFTembeddedAPI/locale/globalmemory/load equivalence stillunproved. SC622report additivefollowupholdsupdated.
+- ExplicitoperatoronlyRRECollectorfilesync exception persistedintargetpolicy+SC622register; no OneDrive/settings/otheraddon/excludedlive scope. Liveinstall/load/transferpending, package unchanged SHA b69d8361674f7cbffa02460de1485c880cea805a2eab2d0cc107fb9749a6158e. Next freshLab2VM/process/build/owner/sourceinstallpreflight, additive11filedeploy/TOClast/backups, strictinstalledgate, currentexternalmouse reload/load/Capture, thenexistingF414exactRREC2acquisition. No repeatedpermission needed.
+- Currentmain90ea10a precommit; pendingowned9files:SC623helper/unit/reportpair, SC622reportpair, Lab2targetpolicy, SCregister,handoff. Ninehistoricuntrackeduntouched, solemanagerwriter, bothreviewersterminal. Goalactiveearliest17:22:21EST/noOllama/noFreeBuff. No persistentownedjobs/fixturechildrenknownrunning.
+
+
+## 14:17 EST — Operator authorized RRECollector-only synchronized deployment
+
+- Explicit answer: “Allow only RRECollector addon files to sync; keep all testing in Lab2.” Narrow policy exception recorded in currentLab2targetpolicy andSC622register; previous installation-isolation hold resolved for thisfolder only. No OneDrive/Windowssettingschange, otheraddon sync, physical/Lab1liveoperation. Userapproval persists; no repeatconfirmation needed.
+- Next finishSC623 source/receiptcommit then reuse existing pinned Lua5.1 offline runtime before freshLab2ownership/process/build/sourceinstall preflight. Reviewed0.4.12package only11files withTOClast/backups; externalmouse/currentreloadmacro onlyforLab2load/Capture, existingF414toolsforread-onlywireacquisition. Allinstall/load/liveclaims remainpendinguntilobserved. Goalactiveearliest17:22:21EST/noOllama/noFreeBuff.
+
+
+## 14:14 EST — SC623 exact native transfer and better locator proved on host fixture
+
+- Sourcebase90ea10a. Newowned tools/tests_reader/probe-native-publication.py; actual pinnedF414→standard snapshot→releasehostreader0.1.2 transferred unchanged Lua-produced54records/5frames/18201decodedbytes and exactcontext/counts. All4absolute bytealignments recovered. No game/VM read/input, newbackend/original Reader/guest helper/OneDrivechange. Proof artifacts/sc623-native-boundary-20261107-1416/receipt.json, frames.request.json/snapshot.json, reader.json. Fixtureexited0; staleexpectedsequence and clearedownaddresses rejected.
+- Same256KiB/cap64fixture: session-interior anchors offsets10..13 produced11candidates/2959contextbytes; boundaryoffsets34..37 produced7/735, both5exactframes. Genericfragment cap8 saturatedondecoys/noexactframes. Allscanspartial; noabsenceclaim. Timingonefixture/no universal speedclaim. Agentpinnedsource audit confirms4residue math, before37/after64, exact computed S=M-o notfuzzysearch, seven-byte overlap, capcursorfirstunretained/noincrement; earlierreadholesneedseparateretry orcoverageincomplete. Fullprefix/session/seq remainsmandatory.
+- Initialvenvredirector childPID mismatch rejectedbeforescans (artifacts/sc623-native-production-20261107-1413/receipt.json runs=[]/childexited0). Helper nowdirectlylaunchespreexisting basePython, exactOSchildhandle/reportPID/exeSHA. Freshcorrectedproofs passed; no guardweakened. FinalsourcehelperSHAe2952845a80da9b1a33763f2fcc69790ad6b3f562f8a0bdf24f8d8918a6ea2cc. Protocolreviewerreturned read-only; fixturehelperreviewinprogress.
+- SC622deployment remains **held** pendingpolicychoice; priorcommentary “live gate open” meant unresolved, not approved. Userquestionpending; no answerinferred. Goalactiveearliest17:22:21EST. Next source review→scoped fullgate once→hashboundreport/register/commit; ninehistoricuntrackedpreserved, solemanagerwrites.
+
+
+## 14:09 EST — SC623 controlled-host acquisition registered
+
+- SC622 source commit90ea10a accepted offline; live OneDrive policy question pending asynchronously. No answer inferred. SC623 is independent of live deployment: existing F414 numeric scout +snapshot against explicit disposable host fixture containing actual unchanged Lua-produced54record5frames. Investigate selective session/sequence DWORD anchors and all byte alignments; no new backend/original Reader/VM/game/OneDrive operations. Sole manager owns tools/tests_reader source/report/register/handoff; protocol reviewer read-only. Preserve partial/cap/resume limits and exact fixture cleanup. Goal earliest17:22:21EST; noOllama/noFreeBuff.
+
+
+## 14:08 EST — SC622 source committed90ea10a; live policy choice pending
+
+- Verified source commit **90ea10a0f4c43d107f0fa0ddc5880b8413f0d481**,24ownedfiles, source/package/reader/tests/reports/register/checkpoint. Tracked/index clean immediately aftercommit; ninehistoricaluntrackedpaths preserved. This postcommit checkpoint is the only new owned dirtyfile until next task registration. No persistentjobs/guestinputs/OneDrivechanges; bothread-onlyreviewers terminal.
+- Concrete acceptedpackage and130C#/20Node/Lua13Capture+39recordedsynthetic/10preservation/54record5part evidence linked in precedingcheckpoint andSC622report. Liveinstall/load/transfer stillunqualified. Seven-hourgoalactive, earliest17:22:21EST. NoOllama/noFreeBuff.
+- Need userpolicychoice because actualLab2loadroot activelyOneDrive-synced andcurrenttargetpolicy forbids silentpropagation: informed RRECollector-file sync exception, broader Lab2Documentsisolation route, or holddeployment andcontinueoffline. Do not infer approval from elapsedtime or broadpriorauthorization. Independenthost-onlynativeacquisition work canproceed whileanswerpending; no overallgoalblock.
+
+
 ## 14:07 EST — SC622 offline milestone accepted; source commit pending
 
 - [SC622 report](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md)/[29source hashes and receipts](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json): source/package/interoperability accepted only. SC622 remains pending for isolated installed/loaded/live transfer gates. No live VM/game operation in source integration. Main77ba6254dbbff28a6efa0a4efec9b5013ec7c07b precommit.

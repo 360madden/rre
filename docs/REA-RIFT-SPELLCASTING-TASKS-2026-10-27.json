@@ -1786,15 +1786,51 @@
         "No new guest mouse helpers/backend, game memory writes/injection/debugger, cross-repo source edits, Ollama/FreeBuff; checkpoint/commit coherent milestones"
       ],
       "gameInputAuthorized": false,
-      "authorizationBeforeLive": "Reconcile current broad user approvals and explicit bridge request with applicable Lab2-only target/addon policy; do source/contract work first, no automatic permission inference from old physical install receipts.",
+      "authorizationBeforeLive": "Explicit user reply November7 14:17 EST: Allow only RRECollector addon files to sync; keep all testing in Lab2. Existing OneDrive addon root now allowed for this folder only. No other sync/settings/excluded-live scope.",
       "evidence": [
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json",
         "docs/REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.md",
         "reader/contract-rrec2.md"
       ],
       "offlineMilestone": "accepted-source-package-interoperability",
-      "liveGate": "held-no-Lab2-isolated-addon-load-root",
+      "liveGate": "operator-approved-RRECollector-only-sync; fresh-preflight-install-load-and-transfer-pending",
       "acceptedScope": "RRECollector0.4.12 source/11file package + reader0.1.2 production RREC2;130C#20Node, hostLua/Python/C#54-record5part interoperability. No installed/loaded/live bridge acceptance."
+    },
+    {
+      "id": "SC-623",
+      "milestone": "SC6",
+      "title": "Reuse existing native tools for controlled acquisition of actual RREC2 Lua frames",
+      "state": "completed",
+      "dependsOn": [
+        "SC-620",
+        "SC-621"
+      ],
+      "owner": "single RRE manager; read-only locator reviewer",
+      "lane": "manager-controlled-host-rrec2-acquisition",
+      "ownedPaths": [
+        "tools/tests_reader/",
+        "docs/REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.md",
+        "docs/REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "inputs": [
+        "SC-622 accepted offline producer/export artifacts; no dependency on its unresolved live gate"
+      ],
+      "researchQuestion": "Can the existing hash-pinned numeric scout and standard snapshot transfer actual Lua-serialized production frames to the one host reader, with selective alignment-complete locators and no original Reader/new backend?",
+      "acceptance": [
+        "Only an explicitly created disposable host fixture process and its own bounded allocation; exact PID/start/executable SHA; never RIFT or VM",
+        "Use actual SC622 Lua-produced54-record5part export unchanged; verify exact payload/context/counts through existing F414 snapshot and release RRE host reader",
+        "Compare fragment anchors with selective full expected-session/sequence anchors; preserve partial/cap/resume ambiguity and all alignment cases",
+        "Host-only stale/truncation/false-positive controls and exact child cleanup; source/binary/artifact hashes; no currentness/authenticity/restart/live claims",
+        "No dependency install, cross-repo source edit, guest operation, OneDrive/settings change, game input, Ollama or FreeBuff; concise report/checkpoint/scoped commit"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.md",
+        "docs/REA-RIFT-RREC2-NATIVE-ACQUISITION-2026-11-07.json"
+      ],
+      "acceptedScope": "Controlled host-only actual Lua RREC2 frames→existing F414 scout/snapshot→same host reader;54 exact records/context/counts,4alignments, selective boundary anchors, stale/clear guards and cleanup. No Lab2/runtime qualification."
     }
   ],
   "checkpointPolicy": {

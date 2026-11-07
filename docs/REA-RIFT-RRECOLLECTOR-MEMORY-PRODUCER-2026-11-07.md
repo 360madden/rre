@@ -1,6 +1,6 @@
 # SC-622 — RRECollector memory publisher and one host reader
 
-**Accepted scope:** offline source, package and interoperability only. RRECollector0.4.12 is not installed or loaded. The Lab2 live gate is held because the actual addon directory is inside an active OneDrive sync root. Physical-PC and Lab1 remain excluded from live testing. [Machine-readable source/package/test receipt](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json).
+**Accepted scope:** offline source, package and interoperability only. RRECollector0.4.12 is not installed or loaded. The initial OneDrive deployment hold was resolved by the later explicit RRECollector-only synchronization authorization recorded below; fresh install/load/transfer gates remain pending. Physical-PC and Lab1 remain excluded from live testing. [Machine-readable source/package/test receipt](REA-RIFT-RRECOLLECTOR-MEMORY-PRODUCER-2026-11-07.json).
 
 ## Result
 
@@ -41,3 +41,9 @@ The currently qualified addon load root is `C:\Users\mrkoo\OneDrive\Documents\RI
 A Windows Documents Known Folder Move change is a broader system-profile migration, not an evidenced RIFT option. Microsoft's [folder-backup documentation](https://support.microsoft.com/en-us/onedrive/back-up-your-folders-with-onedrive?country=us&culture=en-us) describes stopping backup and choosing PC-only files; [Known Folder Move documentation](https://learn.microsoft.com/en-us/sharepoint/redirect-known-folders) describes Documents redirection. RIFT's resolution after such a change remains an inference requiring fresh current-client proof. No OneDrive, Documents, profile, symlink or excluded-machine setting was changed.
 
 Next live step therefore needs either a proved isolated Lab2 load root or an explicit informed exception to the [no silent propagation target policy](REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md). Then require source/install/load receipts and fresh process/build/scene before existing external mouse Capture. Acquire exact current frames using already pinned native tools and compare advancing wire/SavedVariables observations; no new backend is needed unless reuse actually fails. Until this gate resolves, controlled host-memory acquisition and bounded native/API research can continue independently.
+
+## Later operator authorization and reused Lua5.1 validation
+
+The operator explicitly answered: **“Allow only RRECollector addon files to sync; keep all testing in Lab2.”** This resolves the no-silent-propagation gate only for this addon folder; it does not change Windows/OneDrive settings or permit physical/Lab1 live interaction. Fresh install/load/transfer gates remain pending.
+
+The repository's existing hash-pinned Lua5.1.4 double-int64 interpreter was reused without rebuilding/installing it. All9 current modules parse;40 synthetic publisher assertions,13 actual Capture/wire assertions and10 prior preservation assertions pass. Both the synthetic Unicode2part and historical54record5part frames are byte-for-byte identical to Lua5.3 output and decode through release0.1.2. [Exact compatibility receipt](../artifacts/sc622-lua51-qualification-20261107-1418/receipt.json). This is stronger offline compatibility evidence, not equivalence to RIFT's embedded Lua/API/locale/global-memory behavior.
