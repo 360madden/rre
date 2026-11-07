@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC619 offline modular RRE host reader accepted:46C#checks/19Nodechecks, actual saved54 + both memory54 fixture integrations pass, target/version/qualification preservation. Legacy500 gate retains collision/pathfinding old-SHA failures. SC620 existing numeric-scout frame-locator reuse registered before producer work. Lab2 only; no FreeBuff/Ollama; broader gates unchanged.",
+  "status": "2026-11-07 SC620 existing F414 numeric scout reuse accepted on controlled host:4shifted windows recover unaligned serialized prefixes; exact54 records copied by identity-bound snapshot. SC621 same-reader native artifact adapter next. SC619 host core committed ee2bc27; no live bridge/producer yet. Lab2 only; no FreeBuff/Ollama; broader gates retained.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-620",
+  "nextTaskId": "SC-621",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1690,7 +1690,7 @@
       "id": "SC-620",
       "milestone": "SC6",
       "title": "Qualify an existing numeric scout as a bounded serialized-frame locator before RRE producer work",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-618",
         "SC-619"
@@ -1710,6 +1710,39 @@
         "Do not confuse4-byte candidate with a full frame; require exact session/sequence prefix and source-hashed immediate snapshot",
         "If meaningful and existing safe route permits, only Lab2 read-only qualification; no addon changes, new guest executable/dependency, controller restart, game input/memory writes/injection/debugger",
         "Record source/binary distinction, failures/coverage, checkpoint/validate/commit; no provider CLI/Ollama/FreeBuff"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-MEMORY-FRAME-LOCATOR-2026-11-07.md",
+        "docs/REA-RIFT-MEMORY-FRAME-LOCATOR-2026-11-07.json"
+      ],
+      "acceptedScope": "Existing F414 numeric scout + snapshot route verified only on controlled host fixtures; four shifted refs recover unaligned prefix; exact54 records copied. No Lab2 live producer."
+    },
+    {
+      "id": "SC-621",
+      "milestone": "SC6",
+      "title": "Add exact native-snapshot replay to the existing modular RRE host reader",
+      "state": "pending",
+      "dependsOn": [
+        "SC-619",
+        "SC-620"
+      ],
+      "owner": "single RRE manager",
+      "lane": "manager-native-snapshot-reader-adapter",
+      "ownedPaths": [
+        "reader/",
+        "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.md",
+        "docs/REA-RIFT-NATIVE-SNAPSHOT-READER-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "researchQuestion": "Can the same host reader consume existing RR2 snapshot/request bytes directly, verify identity/hash/chunk coverage, and assemble the same fixture catalog without the original scanner format?",
+      "acceptance": [
+        "Explicit snapshot and request input paths, raw request SHA and exact PID/start/exe identity crosscheck",
+        "Bounded complete contiguous range/chunk reconstruction, per-chunk hash/length/status and overlap/partial rejection",
+        "Use shared frame/part/ability validation; keep replay/fixture/all live qualifications false",
+        "Actual SC620native artifact54-ID integration, malformed/source-coherence tests, existing adapters preserved",
+        "No live process/VM/addon/controller access, new dependency/backend, cross-repo edit, game input or provider CLI; scoped checkpoint/commit"
       ],
       "gameInputAuthorized": false,
       "evidence": []

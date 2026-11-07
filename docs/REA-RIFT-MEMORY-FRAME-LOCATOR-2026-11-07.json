@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-620",
+  "status": "accepted-controlled-host-existing-acquisition-route",
+  "alignedVerification": {
+    "status": "passed",
+    "checks": 23,
+    "candidates": 4,
+    "exactPrefixCandidates": 3,
+    "falsePositiveCandidates": 1,
+    "partialScanPreserved": true,
+    "wholeProcessAbsenceClaim": false,
+    "rows": [
+      {
+        "address": "0x25EFB86AF00",
+        "exactSessionPrefix": true,
+        "immediateBytes": 256,
+        "snapshotSha256": "67BC03EEB445AB49E3B3CEA7807522B1A116E23E899D2984E54DECCB7078983D"
+      },
+      {
+        "address": "0x25EFB86CE34",
+        "exactSessionPrefix": false,
+        "immediateBytes": 256,
+        "snapshotSha256": "99AF134E5E6E687ECB9B409B3F5A51589143DCE93F284FE2ED519CAE67AA6F32"
+      },
+      {
+        "address": "0x25EFB872F00",
+        "exactSessionPrefix": true,
+        "immediateBytes": 256,
+        "snapshotSha256": "D47800CA1B291082854367571B5CCAAF73D2F6E299FBB4A2DE17C66F31287D8E"
+      },
+      {
+        "address": "0x25EFB87AF00",
+        "exactSessionPrefix": true,
+        "immediateBytes": 256,
+        "snapshotSha256": "D2719907AC4852B7DEEBAA8142FE845C0A0E684E217B3107D22D4F10A74E9A6E"
+      }
+    ],
+    "fixtureExited": true,
+    "fullFramesTransferred": false
+  },
+  "unalignedAndFullCopy": {
+    "fixtureOnly": true,
+    "RiftProcessRead": false,
+    "guestOperations": 0,
+    "readerSha256": "f4148b838af694ef95fd46de76859ce9df55194a9fe8be1df74fc2f8f0bce80f",
+    "runs": [
+      {
+        "name": "single",
+        "exitCode": 3,
+        "wallMilliseconds": 411.4786999998614,
+        "references": [
+          {
+            "name": "rrec-shift-0",
+            "type": "int32",
+            "value": "1128616530"
+          }
+        ],
+        "candidateCount": 1,
+        "exactPrefixCount": 0,
+        "status": "partial",
+        "reason": "byte-budget-exceeded"
+      },
+      {
+        "name": "four-phase",
+        "exitCode": 3,
+        "wallMilliseconds": 413.1467999832239,
+        "references": [
+          {
+            "name": "rrec-shift-0",
+            "type": "int32",
+            "value": "1128616530"
+          },
+          {
+            "name": "rrec-shift-1",
+            "type": "int32",
+            "value": "826492242"
+          },
+          {
+            "name": "rrec-shift-2",
+            "type": "int32",
+            "value": "2083603269"
+          },
+          {
+            "name": "rrec-shift-3",
+            "type": "int32",
+            "value": "1685860675"
+          }
+        ],
+        "candidateCount": 5,
+        "exactPrefixCount": 3,
+        "status": "partial",
+        "reason": "byte-budget-exceeded"
+      }
+    ],
+    "status": "passed",
+    "unalignedSingleProbeMissed": true,
+    "fourPhaseRecoveredAll3": true,
+    "knownAddressReadTransferredExact54": true,
+    "joinedRecordsSha256": "088345f668a43e553b3a4915ac07ea4099c98e96544212fc35f153702be41882",
+    "sourceSnapshotSha256": "05b1dc44e5bce0515a368e7def0299eeecdfffdb579003fcbf57fa6c00c4fc2c",
+    "fixtureExited": true
+  },
+  "sourceReferences": [
+    {
+      "repo": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/NativeValueScoutCommand.cs",
+      "sha256": "9074dce73ff05a016a2cf118bab68b45f68ef7a0790032eb77270b596adb0c09"
+    },
+    {
+      "repo": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Live/WindowsNativeMemorySession.cs",
+      "sha256": "b17593eff780f31a2a0befcb7ec25bfc22248cdca4fa1d29caea073b48e1af2b"
+    },
+    {
+      "repo": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Application/NativeValueScout.cs",
+      "sha256": "a05a81dcc7b889ccab1efcefc12f74a5562211d3f42864398756331d10bb5537"
+    },
+    {
+      "repo": "C:/work/riftreader2",
+      "commit": "01bea03039549a901ce21aa7a9facf1602f5ac8a",
+      "path": "src/RiftReader2.Infrastructure/NativeValueScoutRequestFile.cs",
+      "sha256": "4d9f5960e3d46d4e2097f7a3ef1b16c0f63e7eb755fafdb9b469e6625e5a1005"
+    }
+  ],
+  "liveLab2Qualified": false,
+  "softwareDeployed": false,
+  "replacementBackendBuilt": false,
+  "artifactHashes": [
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/execution-receipt.json",
+      "sha256": "0fb9ae177a41b5f92ed3154581d37b3333afcc03939d799b3c209edf4fea703c"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/fixture-private.json",
+      "sha256": "07e0e41b261c1b1092f8dffa3ab56e91e9e441a99e4af9d8d009993cabc17081"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/probe-alignment.py",
+      "sha256": "0052412a94d33e5c26de0123f0aa8ad18c929126f431867fa8dddc5eebebf224"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/request.json",
+      "sha256": "520cd018e73a0759551d1727ef04fedfcf9e36ca8e83e741bc2904411e5826b1"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-001.request.json",
+      "sha256": "6aa75e380f9a130b5a411cedc6d9536cd87a733f8c973272053a5af7e0c7f534"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-001.snapshot.json",
+      "sha256": "67bc03eeb445ab49e3b3cea7807522b1a116e23e899d2984e54deccb7078983d"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-002.request.json",
+      "sha256": "34a11d1b0db73d0237817294e94e767e8c0763ee62b9f97f95a5f217c9fe72e5"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-002.snapshot.json",
+      "sha256": "99af134e5e6e687ecb9b409b3f5a51589143dce93f284fe2ed519cae67aa6f32"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-003.request.json",
+      "sha256": "fe0a2549902598169199d74b29779300f25b2a5aa63022b73ac1dc24d0c5ca3f"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-003.snapshot.json",
+      "sha256": "d47800ca1b291082854367571b5ccaaf73d2f6e299fbb4a2de17c66f31287d8e"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-004.request.json",
+      "sha256": "b1d5007e3bdb90f74e9981f42ca026005cfd250a2871d5c5b089d74dc524204d"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/capture-004.snapshot.json",
+      "sha256": "d2719907ac4852b7deebaa8142fe845c0a0e684e217b3107d22d4f10a74e9a6e"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/index.json",
+      "sha256": "5f535a102f26e40d14a553b774b21968ea00e48d3e5ca3990f2ade47c53b66fb"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/scout/source-request.json",
+      "sha256": "520cd018e73a0759551d1727ef04fedfcf9e36ca8e83e741bc2904411e5826b1"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/stdout.txt",
+      "sha256": "550db30b87538d11c5725aa26f89f7944db2e6ecf5291deab765235ff5101461"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-20261107-1259-v2/verification.json",
+      "sha256": "87d787487851c0d9659b5ea974495c892d9409922538f7b86825feaed8ecf5a0"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/fixture-private.json",
+      "sha256": "e041bd63f9386be0d0d76cc458931c0b8b458b999ffd609731c5984836edf339"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-001.request.json",
+      "sha256": "7bfa76007be130d6d7ba59c70d64ef23372078a309de0a0af8b45b713a2af6a0"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-001.snapshot.json",
+      "sha256": "bb68cbd377a34c73de8147a058dd4872b9b6333d7ba4c8614d5f319660376378"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-002.request.json",
+      "sha256": "d49c9d1cdb7aef5556e11911703afbc8f754425e41005c8e23e55bbac42d6776"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-002.snapshot.json",
+      "sha256": "cd259131e3b6310e6cb3f74eb8c003f05ccdd4f12563a4094dc24f580621debf"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-003.request.json",
+      "sha256": "eb86c5e259b485294e3518c2879fe98f8116b461cfb8ecf9ca4e5a65ef5a5fed"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-003.snapshot.json",
+      "sha256": "a93372c21ef0c0508434136b2c1b89b0710babed7ff11dee857edca3cc49e021"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-004.request.json",
+      "sha256": "960ce77c1d14bd2080aa703c18fddb818c79ec35fef9928e76fc31d3ee1e48be"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-004.snapshot.json",
+      "sha256": "f54de8402ab3fb3aa659543107c6996915513e7730556091d06a6a91fc373fcc"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-005.request.json",
+      "sha256": "6058b03190509d7e7e2c13d7fec3929e65b19d017efd20454c94e505f465ac59"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/capture-005.snapshot.json",
+      "sha256": "c1ed9ea237b379d72d1741d3887ae39d37d56eee21cccbef380ea894a67a72cf"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/index.json",
+      "sha256": "b37ffcd865f29a6511aa9116232e090a7fd836a0158c1ef0ea3e64c0dcd3142b"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase/source-request.json",
+      "sha256": "4578f12c9c4e593805753d1d0abb10437f5b8c793ef0edb115b43f6417e3a8ee"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase.request.json",
+      "sha256": "4578f12c9c4e593805753d1d0abb10437f5b8c793ef0edb115b43f6417e3a8ee"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/four-phase.stdout.txt",
+      "sha256": "33a9870e7b722cc6fec4b53a3644d2598c3d1c59fb21a7c66d831dd0831d3399"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/full-frames.request.json",
+      "sha256": "46ef99a0dd0a7466926dead6f50c9c443b48a3b1f6c9de0f8bacb83ae3f6f610"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/full-frames.snapshot.json",
+      "sha256": "05b1dc44e5bce0515a368e7def0299eeecdfffdb579003fcbf57fa6c00c4fc2c"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/receipt.json",
+      "sha256": "f99c5aa9ab8c3bec3378a6fd4b80597c023e62539f5d6521c368f149c760780b"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single/capture-001.request.json",
+      "sha256": "6058b03190509d7e7e2c13d7fec3929e65b19d017efd20454c94e505f465ac59"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single/capture-001.snapshot.json",
+      "sha256": "38f6a9416f8ef391e3c4c3442cf0127b3a04c2ae7c0349dceb2b6ccc7e5170ce"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single/index.json",
+      "sha256": "2ffc535ed55d18b12ae745a993ea6fb9fbfb7514bb7437aa5f0cab05828c68bd"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single/source-request.json",
+      "sha256": "1b06af10a32cba6ea8ff089212cc07918d2b9bd4a8fc9a804963a43bb6d5362b"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single.request.json",
+      "sha256": "1b06af10a32cba6ea8ff089212cc07918d2b9bd4a8fc9a804963a43bb6d5362b"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/single.stdout.txt",
+      "sha256": "bd0bae896bf1057f077fb5352359852d892910989c4348807f602fadd74ec5f5"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/sources/src/RiftReader2.Application/NativeValueScout.cs",
+      "sha256": "a05a81dcc7b889ccab1efcefc12f74a5562211d3f42864398756331d10bb5537"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/sources/src/RiftReader2.Infrastructure/NativeValueScoutRequestFile.cs",
+      "sha256": "4d9f5960e3d46d4e2097f7a3ef1b16c0f63e7eb755fafdb9b469e6625e5a1005"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/sources/src/RiftReader2.Live/NativeValueScoutCommand.cs",
+      "sha256": "9074dce73ff05a016a2cf118bab68b45f68ef7a0790032eb77270b596adb0c09"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/sources/src/RiftReader2.Live/WindowsNativeMemorySession.cs",
+      "sha256": "b17593eff780f31a2a0befcb7ec25bfc22248cdca4fa1d29caea073b48e1af2b"
+    },
+    {
+      "path": "artifacts/frame-locator-sc620-unaligned-20261107-1302/unaligned-fixture.py",
+      "sha256": "e127eb09712c7267727c4c474be0db9e6580e59477c30be5ce8eae7f01391e0b"
+    }
+  ]
+}
