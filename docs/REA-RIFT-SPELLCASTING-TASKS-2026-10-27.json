@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC-610 accepted: Lab-2 Bolinao L43 Rogue role1 current-known capture/save qualified, RRECollector loaded/saved v0.4.11, 54 unique IDs/54 Details, 10/10 installed source hashes and unchanged before/after guest build identity. Existing host-only external mouse and action-bar reloadui reused; first old-v0.4.10 toolbar Reload remains unverified. No new native mechanism or casting result; SC-103/306 blocked, SC-604 broader gate interim, RC-26/30/31/32 pending. Native controller intentionally stopped; no Ollama.",
+  "status": "2026-11-07 SC-611: fresh Lab-2 build/scene qualified; selector-pointer helper 0x128E884 established as word-keyed bucket/output-aggregate machinery, hashed-container lookup-or-create semantics inferred. 54 independent original-byte/metadata/edge checks passed, no game input, no new spell discriminator. Generic recursion parked; SC-103/306 blocked, SC-604 broader mechanism interim, RC/NAV gates unchanged. External mode retained, no Ollama.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-103",
   "gameInputAuthorized": false,
@@ -1302,6 +1302,42 @@
         "docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json"
       ],
       "assessment": "Accepted for API-current-known catalog/capture/save provenance only: 54/54 Bolinao L43 Rogue role1; no Warrior eligibility, actual casting or native mechanism qualification."
+    },
+    {
+      "id": "SC-611",
+      "milestone": "SC6",
+      "title": "Classify selector-pointer helper 0x128E884 on the freshly requalified Lab-2 executable",
+      "state": "completed",
+      "dependsOn": [
+        "SC-604",
+        "SC-610"
+      ],
+      "owner": "single RRE manager",
+      "lane": "manager-lab2-selector-helper",
+      "ownedPaths": [
+        "docs/REA-RIFT-SPELLCASTING-SC611-SELECTOR-128E884-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC611-SELECTOR-128E884-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "sourceInputs": [
+        "SC-604 selector-gated 0x128D198 report and exact callsite",
+        "SC-610 original Lab-2 guest executable copy",
+        "fresh guest process/file identity and external VNC original scene"
+      ],
+      "researchQuestion": "Does 0x128E884 consume the referenced 16-bit selector as a classification or as a container key, and what exact local return/write behavior is established?",
+      "acceptance": [
+        "Fresh Lab-2 build identity and preserved source/hash, external capture with no competing native controller",
+        "Reuse bounded PE/unwind/Capstone helper; independent original-PE byte/branch check or existing second decoder; no full import or new backend",
+        "Prove only local instructions/dataflow; no native live traversal, ability identity, cast success or queue semantics inferred",
+        "Stop after two distinct nondecisive probes; record negative/unresolved result, validate docs/board and commit scoped finding"
+      ],
+      "gameInputAuthorized": false,
+      "evidence": [
+        "docs/REA-RIFT-SPELLCASTING-SC611-SELECTOR-128E884-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-SC611-SELECTOR-128E884-2026-11-07.json"
+      ],
+      "assessment": "Accepted narrow original-byte/local dataflow: 16-bit key-derived bucket/output aggregate with prior-null byte; lookup-or-create container semantics inferred. No new spell-state discriminator or live traversal; generic container recursion parked."
     }
   ],
   "checkpointPolicy": {
