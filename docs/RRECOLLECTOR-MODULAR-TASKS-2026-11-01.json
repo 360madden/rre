@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-05 14:07 EST: RRECollector v0.4.11 is installed on the physical PC with 10/10 source-to-installed SHA matches; the operator's screenshot shows loaded UI v0.4.11, and a later original-character SavedVariables receipt reports addonVersion 0.4.11 with eight distinct original saved toolbar slots. These are package, UI-load and persisted-version gates only: RC-32 live error/inconclusive retry and startup behavior remains unverified; RC-30 strict same-trial Pin/Undo archival evidence remains incomplete; RC-31 remains pending. Previously dated v0.4.10 and source-only fields below are historical and are superseded for CURRENT runtime status by postLoadResult20261105 and currentQualifiedRuntime20261105. SC-103 and SC-306 remain blocked; SC-604 is interim.",
+  "status": "2026-11-07: Lab-2 is the sole RRE live-testing target. Current reviewed Lab-2 UI v0.4.10 Known0/Static96/no saved candidate receipt. Package parity, persisted version and functional captures are unverified for Lab-2. Physical-PC v0.4.11 qualification remains historical; RC-26/30/31/32 pending and SC-103/306 blocked.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -1221,5 +1221,19 @@
     "sourceReceipt": "docs/RRECOLLECTOR-RC32-POSTLOAD-SAVED-2026-11-05.json",
     "hostReceipt": "docs/RRECOLLECTOR-RC32-HOST-INSTALL-2026-11-05.md",
     "note": "Read-only reconciliation of already committed 13:08 evidence; no new game-side observation or live functionality claim."
+  },
+  "historicalStatus20261105": "2026-11-05 14:07 EST: RRECollector v0.4.11 is installed on the physical PC with 10/10 source-to-installed SHA matches; the operator's screenshot shows loaded UI v0.4.11, and a later original-character SavedVariables receipt reports addonVersion 0.4.11 with eight distinct original saved toolbar slots. These are package, UI-load and persisted-version gates only: RC-32 live error/inconclusive retry and startup behavior remains unverified; RC-30 strict same-trial Pin/Undo archival evidence remains incomplete; RC-31 remains pending. Previously dated v0.4.10 and source-only fields below are historical and are superseded for CURRENT runtime status by postLoadResult20261105 and currentQualifiedRuntime20261105. SC-103 and SC-306 remain blocked; SC-604 is interim.",
+  "liveTestingTarget": {
+    "kind": "vmware-lab2-only",
+    "machineName": "RIFT-LAB-2",
+    "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+    "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+    "observedAt": "2026-11-07T13:00:39.4495815+00:00",
+    "uiVersionObserved": "0.4.10",
+    "sourceInstallParityVerified": false,
+    "persistedVersionVerified": false,
+    "functionalCaptureVerified": false,
+    "physicalRuntimeRecordsAreHistorical": true,
+    "guestDeploymentAuthorizedByTargetSwitch": false
   }
 }

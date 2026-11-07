@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-607",
+  "observedAt": "2026-11-07T13:00:39.4495815+00:00",
+  "observedAtUtc": "2026-11-07T13:00:39.449581+00:00",
+  "timezone": "America/New_York",
+  "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+  "liveTestingTarget": "lab2-only",
+  "excludedLiveTargets": [
+    "physical-pc",
+    "lab1"
+  ],
+  "startingHead": "ebe2afcdd7fc23a772a821f0c8430f210ca69d00",
+  "ownedPaths": [
+    "AGENTS.md",
+    "ROADMAP.md",
+    "docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md",
+    "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+    "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+    "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md",
+    "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
+    "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+    "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+    "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
+    "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json"
+  ],
+  "vmIdentity": {
+    "image": "C:\\Program Files\\VMware\\VMware Workstation\\x64\\vmware-vmx.exe",
+    "listenerPid": 17848,
+    "logEpoch": "2026-11-05T15:31:17.951Z",
+    "pid": 17848,
+    "port": 5962,
+    "startTicks": "134383662779267832",
+    "vmx": "c:\\rift modding\\vms\\rift-lab-2\\rift-lab.vmx"
+  },
+  "target": {
+    "clientHeight": 702,
+    "clientWidth": 1211,
+    "clientX": 0,
+    "clientY": 23,
+    "executablePath": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+    "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "isForeground": true,
+    "machineName": "RIFT-LAB-2",
+    "processId": 9752,
+    "processStartUtcTicks": "639294897826627677",
+    "windowHandle": "0x401BC"
+  },
+  "build": {
+    "method": "authenticated control-agent fresh-bytes with VM identity brackets",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "matchesRecentSC604StaticBuild": true,
+    "fileLengthIndependentlyObserved": false,
+    "productOrApiBuildStringObserved": false,
+    "separateFreshByteRecheckExitCode": 0,
+    "mappedMemoryBytesAttested": false
+  },
+  "visualReview": {
+    "performed": true,
+    "method": "original hash-bound capture image delivered and visually inspected after lease release",
+    "character": "Bolinao",
+    "level": 43,
+    "afk": true,
+    "locationLabel": "SILVER COAST",
+    "inWorldVisible": true,
+    "loadingOrDisconnectModalVisible": false,
+    "callingAndRoleIndependentlyQualified": false,
+    "collectorVisibleVersion": "0.4.10",
+    "collectorKnownCountDisplayed": 0,
+    "collectorStaticCountDisplayed": 96,
+    "collectorCandidateReceiptDisplayed": "no saved receipt",
+    "collectorResearchSlotsVisiblyEmpty": true
+  },
+  "controller": {
+    "resource": "vm:rift-lab-2",
+    "connected": true,
+    "coordinationState": "ready",
+    "armed": false,
+    "busy": false,
+    "desktopInputsDown": [],
+    "recoveryRequired": false,
+    "nativeTextEntryState": "unknown",
+    "responseVerified": false,
+    "persistentConsoleReservationHeld": true,
+    "freshIdentityVersion": 1,
+    "nativeVitalsVersion": 1
+  },
+  "capture": {
+    "captureId": "d8bb004e22ce48a69abe6d5871afb501",
+    "requestId": "lab2-inspect-b034a0fd57f74c7ba772b5909d928c6e",
+    "image": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\capture\\image.bmp",
+    "imageSha256": "cd01b6f595bc3ac7689cd335b4e906e1ad1d1c2208b34ab9ee8d588f6dc411ba",
+    "status": "captured-and-released",
+    "watchdogCleanup": {
+      "generation": 2505,
+      "receipt": "nav-cleanup:ca8397cc9538279c2cf9b4830db18d13dc5228fc49101f9390e6e3ce74b918f8",
+      "stopVerified": true
+    },
+    "workflowExitCode": 0,
+    "workflowSeconds": 3.8034404999925755
+  },
+  "nativeBaseline": {
+    "health": {
+      "current": 10635,
+      "maximum": 10635,
+      "status": "calculated-candidate"
+    },
+    "energy": {
+      "current": 100,
+      "maximum": 100,
+      "status": "calculated-candidate"
+    },
+    "manaStatus": "unavailable",
+    "manaUnavailableReason": "not-mana-kind-three",
+    "qualification": "candidate-only; semantics/passive-freshness/restart-unverified; UI review required",
+    "sampleToScreenshotSeconds": 0.637713
+  },
+  "readiness": {
+    "guardedReadOnlyObservation": "passed at observation time; refresh before reuse",
+    "gameplayExperimentAccepted": false,
+    "lab2CollectorSourceInstallParityVerified": false,
+    "lab2CollectorPersistedVersionVerified": false,
+    "freshKnownAbilityCatalogVerified": false,
+    "changedStateAndPassiveFreshnessQualified": false,
+    "restartQualified": false
+  },
+  "authority": {
+    "gameplayInputSent": false,
+    "gameReloadPerformed": false,
+    "addonDeploymentPerformed": false,
+    "vmGameOrHelperProcessControlPerformed": false,
+    "externalSourceEdited": false,
+    "existingRR2RuntimeReceiptsAndQueueCaptureUsed": true
+  },
+  "agents": {
+    "freebuffCapabilityCheckExitCode": 0,
+    "noModelExecution": true,
+    "newIndependentReasoningAgents": 0,
+    "reason": "supported FreeBuff modes are fixed previously answered questions, without a novel Lab-2 policy/readiness mode"
+  },
+  "sourceArtifacts": [
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\report.json",
+      "sha256": "f403149c467c4ac5938a04e795777ba449d3f212989a5c491f376a2544847461",
+      "length": 5538
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\capture-receipt.json",
+      "sha256": "d266b8347ca6a813f5a57c935db9508663e51da05f235f05a241ed51c5eb20fd",
+      "length": 633
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\run-timings.json",
+      "sha256": "8f559ee59a1d72560a76e87514c0b9f5d3d3205b4122e7fd54e7da5c57124d8a",
+      "length": 5374
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\state.json",
+      "sha256": "0ce73bd15ffab90cf7c8db8400543c7b9ab348b68d74584bfd6fa6a0f15088ee",
+      "length": 1251
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\state.sha256.json",
+      "sha256": "3c44a7fc831331a6210bd9182f664c8ee4ca75b016e47733ca9cd7c9e4d40431",
+      "length": 83
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\native-vitals-receipt.json",
+      "sha256": "9cdd20b799a2d63388d42e070b4ecd9b623a76ce47694f4c7ab44d10e5a61164",
+      "length": 2556
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\native-vitals-receipt.sha256.json",
+      "sha256": "718606cceb256f4a2ed4e1bd83c0fbc71b6aec3c3b6245ceecc27a59bd91fbe8",
+      "length": 83
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\capture\\capture.json",
+      "sha256": "d3fa196a8415716dc14e6a721dc421342ee2d84c8ee05bc5ad757c86f32d2511",
+      "length": 1014
+    },
+    {
+      "path": "C:\\work\\riftreader2\\artifacts\\e2e-latency-20261106\\lab2-handoff-rre-20261107-readiness-1794056436197\\capture\\image.bmp",
+      "sha256": "cd01b6f595bc3ac7689cd335b4e906e1ad1d1c2208b34ab9ee8d588f6dc411ba",
+      "length": 3400542
+    }
+  ],
+  "operationalSourceHashes": [
+    {
+      "path": "C:\\work\\riftreader2\\scripts\\inspect_lab2_tool.py",
+      "sha256": "ac7baefc5a43531232647ff92df1a9f55dc3896d3df498dd12ce1d99b375d9cd"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\scripts\\inspect_lab2_workflow.py",
+      "sha256": "cc5fb347f35e1160e99f5190629672008b8669e7be39289448c8d748e235b917"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\scripts\\lab2_tool_handoff.js",
+      "sha256": "5050368f3f9efe740f57b5a233514e84882369aa2c9522193e2b4f2d905ab79f"
+    },
+    {
+      "path": "C:\\work\\riftreader2\\scripts\\fresh_game_identity.py",
+      "sha256": "9df007162cc60e45a780118a1e43a910443c211a999f9d0fd377ceed70d47baf"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # RRE navigation research roadmap
 
+**Current target override — November 7, 2026:** [RIFT-Lab-2 is the ONLY RRE live-testing target](docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md). This supersedes physical-PC target/deployment directions below; retain them as dated history. The active casting register records SC-607 for the switch. Existing NAV acceptance and live-input gates remain unchanged.
+
 **REA casting active location (Oct 27 user instruction):** physical-PC RIFT installation **only**, not VMware. [Local target and SHA policy](docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md). Keep old navigation/VM roadmap as historical independent work; resume [REA casting tasks](docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) from their current `nextTaskId` (SC-102 as of November 1), not this historical NAV board.
 
 **New, separate ACTIVE REA research track — October 27:** [RIFT spellbook, spellcasting, GCD and ability mechanics](docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md). Its [SC task register](docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) and [Chat-mode resume handoff](docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md) are independent of this **historical navigation** roadmap and NAV task board. For an unqualified “continue REA spellcasting” turn, follow the casting register's current `nextTaskId` and resumption handoff (SC-102 as of November 1), not the stale SC-000/NAV-002 starting points. Preserve RR2/Workbridge ownership and commit every bounded research finding.

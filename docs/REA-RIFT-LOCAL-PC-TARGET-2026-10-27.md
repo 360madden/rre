@@ -1,5 +1,7 @@
 # REA RIFT spellcasting — Physical-PC target policy (October 27, 2026)
 
+**SUPERSEDED November 7, 2026:** the user selected [VMware RIFT-Lab-2 as the sole RRE live-testing target](REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md). Everything below records the historical October 27 policy and observations; it is not current physical-PC testing or deployment authority. Preserve its exact-build static evidence, subject to matching the actual Lab-2 executable bytes.
+
 **Authorized target:** the RIFT client installed and running on this physical Windows PC, **not either VMware lab**. REA owns this research. RiftReader2 and Workbridge retain their own development/coordination roadmaps. User explicitly requested local-target research and authorized the work on October 27, 2026.
 
 ## Confirmed host target

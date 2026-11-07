@@ -4,13 +4,13 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-05 14:07 EST reconciliation: RRECollector physical v0.4.11 source/host 10/10 hashes, operator-visible loaded UI version, and first matching post-load character SavedVariables addonVersion=0.4.11 receipt qualified; eight saved slots retain the original distinct fingerprint. These receipts do not prove fresh ability capture, same-session linkage, or RC-32 live failure/retry guards. RC-30 strict operator archival evidence (immediate post-Undo pre-reload screenshot C and same-trial pre-Pin save) remains pending; Joey's operator-functional source-only exception remains documented. SC-103 current Legendary Protector's Fury exact ID/selection and SC-306 queue enum remain blocked; SC-604 is an accepted interim mechanism only. Historical v0.4.10 snapshots in task records remain valid only for their recorded times.",
+  "status": "2026-11-07 SC-607: RIFT-Lab-2 is the sole live-testing target. Fresh-byte executable SHA matches recent SC-604 static evidence; guarded native/UI inspection and watchdog release passed. Bolinao L43 in-world, collector UI v0.4.10 Known0/Static96/no saved candidate receipt; Lab-2 collector parity, persisted version and functional capture unverified. SC-103/SC-306 remain blocked, SC-604 interim; physical-PC v0.4.11 results remain historical and separate.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-103",
+  "nextTaskId": "SC-608",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
-    "currentSessionProof": false,
+    "currentSessionProof": true,
     "observedPhysicalHost20261027": {
       "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
       "length": 60493640,
@@ -20,6 +20,23 @@
       "nativeOldOffsetsQualified": false
     },
     "researchTarget": {
+      "kind": "vmware-lab2-RIFT",
+      "machineName": "RIFT-LAB-2",
+      "vmx": "C:\\rift modding\\VMs\\RIFT-Lab-2\\RIFT-Lab.vmx",
+      "path": "C:\\RIFT_TRANSFER\\RIFT\\rift_x64.exe",
+      "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "scope": "Lab-2 sole live target; existing exact-byte offline source reusable without transferring runtime qualification",
+      "lastObservedAt": "2026-11-07T13:00:39.4495815+00:00",
+      "lastObservedProcessId": 9752,
+      "processStartUtcTicks": "639294897826627677",
+      "processIdIsVolatile": true,
+      "gameInputSent": false,
+      "vmwareRequired": true,
+      "nativeCodeSemanticsQualified": false,
+      "policy": "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+      "readinessReceipt": "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json"
+    },
+    "historicalPhysicalResearchTarget20261027": {
       "kind": "physical-pc-local-RIFT",
       "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
       "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
@@ -32,7 +49,8 @@
       "vmwareRequired": false,
       "nativeCodeSemanticsQualified": false,
       "policy": "docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md"
-    }
+    },
+    "currentSessionProofScope": "Bounded November 7 Lab-2 VM/game/disk-byte identity only; refresh before reuse, no gameplay or mapped-memory attestation."
   },
   "milestones": [
     {
@@ -1117,6 +1135,80 @@
       ],
       "result": "Executable small-milestone plan: RC00 feasibility, optional compatible module split, guarded probe, conditional producers, independent SC102 UI reconciliation, one smoke/commit, optional deferred telemetry.",
       "limitation": "No evidence yet that soul/trainer/locked APIs exist; no new addon functionality implemented. SC102 remains blocked on UI."
+    },
+    {
+      "id": "SC-607",
+      "milestone": "SC6",
+      "title": "Switch RRE live testing to Lab-2 only and check current read-only readiness",
+      "state": "completed",
+      "dependsOn": [],
+      "owner": "single RRE manager; documentation and read-only Lab-2 inspection only",
+      "lane": "manager-lab2-target-policy",
+      "ownedPaths": [
+        "AGENTS.md",
+        "ROADMAP.md",
+        "docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md",
+        "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-HANDOFF-2026-10-27.md",
+        "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
+        "docs/RRECOLLECTOR-MODULAR-TASKS-2026-11-01.json"
+      ],
+      "sourceInputs": [
+        "User November 7 Lab-2-only target decision",
+        "Existing RR2 Lab-2 inspection and fresh-byte identity helpers",
+        "Original November 7 Lab-2 report/capture/cleanup receipts"
+      ],
+      "deliverable": "Consistent RRE target instructions, superseded physical policy, dated handoff and source-hashed sanitized Lab-2 build/readiness receipt",
+      "acceptance": [
+        "All current RRE entry points and SC/RC metadata select Lab-2 only; retain historical physical evidence",
+        "Fresh exact Lab-2 VM/game/disk-byte identity and current scene reviewed via existing guarded route",
+        "Distinguish read-only observation readiness from collector/gameplay acceptance; preserve SC/RC/NAV blockers",
+        "JSON/source-hash/link checks, roadmap validator and diff checks pass; preserve unrelated work and commit only owned paths"
+      ],
+      "gameInputSent": false,
+      "evidence": [
+        "docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-READINESS-2026-11-07.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "assessment": "Target policy and read-only build/scene/controller/cleanup checks accepted; scoped documentation validation and local commit are recorded in the dated handoff."
+    },
+    {
+      "id": "SC-608",
+      "milestone": "SC6",
+      "title": "Qualify reliable guarded mouse interaction in Lab-2",
+      "state": "pending",
+      "dependsOn": [
+        "SC-607"
+      ],
+      "owner": "single RRE manager; sole live input owner per acquired Lab-2 lease",
+      "lane": "manager-lab2-mouse",
+      "ownedPaths": [
+        "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.md",
+        "docs/REA-RIFT-LAB2-MOUSE-2026-11-07.json",
+        "tools/qualify-lab2-mouse.py",
+        "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07.md"
+      ],
+      "sourceInputs": [
+        "November 7 user approval for needed operations; mouse reliability now priority; no Ollama",
+        "Existing RR2 guarded targeted-click and managed Lab-2 controller primitives",
+        "Fresh per-action original screenshots and release/cleanup receipts"
+      ],
+      "deliverable": "Bounded reversible Lab-2 UI click/position trials with original screenshots, delivery/release/cleanup evidence and explicit qualification limits; reuse existing controls before any minimal RRE-only adapter",
+      "acceptance": [
+        "Use fresh Lab-2 VM/game/build/window identity, sole queue owner and reviewed client-pixel target per click",
+        "Demonstrate positioning and reversible UI state changes from independent visual before/after evidence",
+        "Require mouse-button release, disarmed idle state and verified queue cleanup; stop on uncertainty",
+        "No casting/movement or unrelated gameplay; no Ollama or cross-project source edits; retain original evidence and checkpoint results"
+      ],
+      "gameInputAuthorized": true,
+      "authorizationScope": "bounded Lab-2 mouse qualification; start with reversible addon UI controls",
+      "evidence": []
     }
   ],
   "checkpointPolicy": {
@@ -1315,7 +1407,7 @@
     "lastExitCode": 0,
     "next": "Trace whether metadata registration code reaches a native ability enumeration callback; no whole-image import or old RVA transplant"
   },
-  "currentExecutionLocation": "physical-pc-host-only",
+  "currentExecutionLocation": "vmware-lab2-only-for-live-testing",
   "sc305Evidence": {
     "status": "completed",
     "buildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
@@ -1590,5 +1682,6 @@
     "installedAddonChanged": true,
     "nextAddonTask": "RC-02",
     "latestReceipt": "docs/RRECOLLECTOR-RC02-PROBE-INSTALL-2026-11-02.md"
-  }
+  },
+  "historicalStatus20261105": "2026-11-05 14:07 EST reconciliation: RRECollector physical v0.4.11 source/host 10/10 hashes, operator-visible loaded UI version, and first matching post-load character SavedVariables addonVersion=0.4.11 receipt qualified; eight saved slots retain the original distinct fingerprint. These receipts do not prove fresh ability capture, same-session linkage, or RC-32 live failure/retry guards. RC-30 strict operator archival evidence (immediate post-Undo pre-reload screenshot C and same-trial pre-Pin save) remains pending; Joey's operator-functional source-only exception remains documented. SC-103 current Legendary Protector's Fury exact ID/selection and SC-306 queue enum remain blocked; SC-604 is an accepted interim mechanism only. Historical v0.4.10 snapshots in task records remain valid only for their recorded times."
 }
