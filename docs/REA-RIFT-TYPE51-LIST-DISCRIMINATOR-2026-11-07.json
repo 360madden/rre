@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-624",
+  "status": "accepted-bounded-negative; C9-semantic-route-parked",
+  "observedAtUtc": "2026-11-07T20:05:21.623950+00:00",
+  "sourcePe": "artifacts\\lab2-live-20261107-0922\\guest-rift_x64.exe",
+  "sourcePeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "sourcePeBytes": 60493640,
+  "preferredBase": "0x140000000",
+  "sources": [
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsCandidateReader.cs",
+      "sha256": "349162b6a11f347a9470c0f301e403ac90e5375f234817bf11001ddb343a8a25"
+    },
+    {
+      "path": "artifacts/lab2-sc614-20261107-1118/published-record-reader-source/src/RiftReader2.Live/CurrentBuildAbilityRecordsSampleCommand.cs",
+      "sha256": "b4f2828cc2d277c16696e62f6301a82e765df02cdb5054335be28d11e8ae927f"
+    },
+    {
+      "path": "docs/REA-RIFT-SPELLCASTING-SC614-NATIVE-API-LIST-2026-11-07.md",
+      "sha256": "fa2d89848245195a7b29d822659ee357bec8027f6a71b5a8ff3c1ebef9473407"
+    }
+  ],
+  "directFindings": {
+    "typedGetterThunkRva": "0x1899BF0",
+    "thunkTargetRva": "0x18B09D0",
+    "lazyInPlaceDescriptorStorageRva": "0x344A6B0",
+    "objectVtableRva": "0x28A08C0",
+    "objectSlot40Target": "0x141899BF0",
+    "descriptorVtableRva": "0x28A9C38",
+    "descriptorSlot8Target": "0x1418C06C0",
+    "getterWindowBytes": 156,
+    "getterC9MemoryAccesses": 0,
+    "nativeC9SemanticNameRecovered": false,
+    "C9Scope": "Observed nonzero54of134 exactAPIListcohort; no learned/locked/usable/owned/role/restart semantics"
+  },
+  "mappingAudit": {
+    "status": "mapping-qa-correction-four-valid-windows-one-unbacked",
+    "originalReceiptSha256": "9a51ddc7aefa2a5d4910548ca3f3d6247c3672b3cb35a737925c004d510f4109",
+    "sourceSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "windows": [
+      {
+        "name": "thunk",
+        "rva": "0x1899bf0",
+        "bytes": 5,
+        "section": ".text",
+        "sectionRva": "0x1000",
+        "sectionVirtualSize": "0x25ede13",
+        "sectionRawSize": "0x25ee000",
+        "deltaInSection": "0x1898bf0",
+        "entireWindowFileBacked": true,
+        "originalExtractedSha256": "74e3a63efd8460f799fc4a05f0c4ed1616b36cde2ce0167a9aff324255c4a3de"
+      },
+      {
+        "name": "getter",
+        "rva": "0x18b09d0",
+        "bytes": 156,
+        "section": ".text",
+        "sectionRva": "0x1000",
+        "sectionVirtualSize": "0x25ede13",
+        "sectionRawSize": "0x25ee000",
+        "deltaInSection": "0x18af9d0",
+        "entireWindowFileBacked": true,
+        "originalExtractedSha256": "6b407efc83f450b38f129f80af1df6a23cf59e355d9b90f38e1f16ffa8b80cda"
+      },
+      {
+        "name": "object-vtable",
+        "rva": "0x28a08c0",
+        "bytes": 128,
+        "section": ".rdata",
+        "sectionRva": "0x25ef000",
+        "sectionVirtualSize": "0x9660fa",
+        "sectionRawSize": "0x966200",
+        "deltaInSection": "0x2b18c0",
+        "entireWindowFileBacked": true,
+        "originalExtractedSha256": "2deb2c4642ec844a8422ec121d4a9837cb780e555da86409b1e3d32e9061d6af"
+      },
+      {
+        "name": "descriptor-vtable",
+        "rva": "0x28a9c38",
+        "bytes": 128,
+        "section": ".rdata",
+        "sectionRva": "0x25ef000",
+        "sectionVirtualSize": "0x9660fa",
+        "sectionRawSize": "0x966200",
+        "deltaInSection": "0x2bac38",
+        "entireWindowFileBacked": true,
+        "originalExtractedSha256": "679e55b650748cdff5ed67ce3a053523f3007bd3a81ebbbace37705ad44dcf9f"
+      },
+      {
+        "name": "descriptor-storage",
+        "rva": "0x344a6b0",
+        "bytes": 128,
+        "section": ".data",
+        "sectionRva": "0x2f56000",
+        "sectionVirtualSize": "0x695660",
+        "sectionRawSize": "0x40bc00",
+        "deltaInSection": "0x4f46b0",
+        "entireWindowFileBacked": false,
+        "originalExtractedSha256": "26e1e0f94cc6bfedf369c5f3a05d4d32a2560b31df4c963230a01216f9650ea6",
+        "originalFileOffsetDoesNotMapRva": true,
+        "discardAsRvaEvidence": true,
+        "loaderState": "virtual-zero-fill-before-runtime-initialization",
+        "correction": "pefile.get_offset_from_rva permitted offset arithmetic beyond section raw bytes; original extracted bytes are unrelated file data, not descriptor storage"
+      }
+    ],
+    "validFileBackedBytes": 417,
+    "unbackedVirtualBytes": 128,
+    "noAdditionalSemanticProbe": true,
+    "spec": "https://learn.microsoft.com/en-us/windows/win32/debug/pe-format"
+  },
+  "validFileBackedWindows": [
+    {
+      "name": "thunk",
+      "rva": "0x1899bf0",
+      "fileOffset": "0x1898ff0",
+      "bytes": 5,
+      "sha256": "74e3a63efd8460f799fc4a05f0c4ed1616b36cde2ce0167a9aff324255c4a3de",
+      "instructions": [
+        {
+          "rva": "0x1899bf0",
+          "bytes": "e9db6d0100",
+          "mnemonic": "jmp",
+          "operands": "0x1418b09d0"
+        }
+      ]
+    },
+    {
+      "name": "getter",
+      "rva": "0x18b09d0",
+      "fileOffset": "0x18afdd0",
+      "bytes": 156,
+      "sha256": "6b407efc83f450b38f129f80af1df6a23cf59e355d9b90f38e1f16ffa8b80cda",
+      "instructions": [
+        {
+          "rva": "0x18b09d0",
+          "bytes": "4883ec28",
+          "mnemonic": "sub",
+          "operands": "rsp, 0x28"
+        },
+        {
+          "rva": "0x18b09d4",
+          "bytes": "8b0dde24d301",
+          "mnemonic": "mov",
+          "operands": "ecx, dword ptr [rip + 0x1d324de]"
+        },
+        {
+          "rva": "0x18b09da",
+          "bytes": "65488b042558000000",
+          "mnemonic": "mov",
+          "operands": "rax, qword ptr gs:[0x58]"
+        },
+        {
+          "rva": "0x18b09e3",
+          "bytes": "baec090000",
+          "mnemonic": "mov",
+          "operands": "edx, 0x9ec"
+        },
+        {
+          "rva": "0x18b09e8",
+          "bytes": "488b04c8",
+          "mnemonic": "mov",
+          "operands": "rax, qword ptr [rax + rcx*8]"
+        },
+        {
+          "rva": "0x18b09ec",
+          "bytes": "8b0402",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [rdx + rax]"
+        },
+        {
+          "rva": "0x18b09ef",
+          "bytes": "3905fb9cb901",
+          "mnemonic": "cmp",
+          "operands": "dword ptr [rip + 0x1b99cfb], eax"
+        },
+        {
+          "rva": "0x18b09f5",
+          "bytes": "7f0c",
+          "mnemonic": "jg",
+          "operands": "0x1418b0a03"
+        },
+        {
+          "rva": "0x18b09f7",
+          "bytes": "488d05b29cb901",
+          "mnemonic": "lea",
+          "operands": "rax, [rip + 0x1b99cb2]"
+        },
+        {
+          "rva": "0x18b09fe",
+          "bytes": "4883c428",
+          "mnemonic": "add",
+          "operands": "rsp, 0x28"
+        },
+        {
+          "rva": "0x18b0a02",
+          "bytes": "c3",
+          "mnemonic": "ret",
+          "operands": ""
+        },
+        {
+          "rva": "0x18b0a03",
+          "bytes": "488d0de69cb901",
+          "mnemonic": "lea",
+          "operands": "rcx, [rip + 0x1b99ce6]"
+        },
+        {
+          "rva": "0x18b0a0a",
+          "bytes": "e83906c300",
+          "mnemonic": "call",
+          "operands": "0x1424e1048"
+        },
+        {
+          "rva": "0x18b0a0f",
+          "bytes": "833dda9cb901ff",
+          "mnemonic": "cmp",
+          "operands": "dword ptr [rip + 0x1b99cda], -1"
+        },
+        {
+          "rva": "0x18b0a16",
+          "bytes": "75df",
+          "mnemonic": "jne",
+          "operands": "0x1418b09f7"
+        },
+        {
+          "rva": "0x18b0a18",
+          "bytes": "33d2",
+          "mnemonic": "xor",
+          "operands": "edx, edx"
+        },
+        {
+          "rva": "0x18b0a1a",
+          "bytes": "c705c49cb901ffffffff",
+          "mnemonic": "mov",
+          "operands": "dword ptr [rip + 0x1b99cc4], 0xffffffff"
+        },
+        {
+          "rva": "0x18b0a24",
+          "bytes": "0f57c0",
+          "mnemonic": "xorps",
+          "operands": "xmm0, xmm0"
+        },
+        {
+          "rva": "0x18b0a27",
+          "bytes": "6689158a9cb901",
+          "mnemonic": "mov",
+          "operands": "word ptr [rip + 0x1b99c8a], dx"
+        },
+        {
+          "rva": "0x18b0a2e",
+          "bytes": "488d050392ff00",
+          "mnemonic": "lea",
+          "operands": "rax, [rip + 0xff9203]"
+        },
+        {
+          "rva": "0x18b0a35",
+          "bytes": "8915819cb901",
+          "mnemonic": "mov",
+          "operands": "dword ptr [rip + 0x1b99c81], edx"
+        },
+        {
+          "rva": "0x18b0a3b",
+          "bytes": "488d0dae9cb901",
+          "mnemonic": "lea",
+          "operands": "rcx, [rip + 0x1b99cae]"
+        },
+        {
+          "rva": "0x18b0a42",
+          "bytes": "660f7f05769cb901",
+          "mnemonic": "movdqa",
+          "operands": "xmmword ptr [rip + 0x1b99c76], xmm0"
+        },
+        {
+          "rva": "0x18b0a4a",
+          "bytes": "8915889cb901",
+          "mnemonic": "mov",
+          "operands": "dword ptr [rip + 0x1b99c88], edx"
+        },
+        {
+          "rva": "0x18b0a50",
+          "bytes": "488915899cb901",
+          "mnemonic": "mov",
+          "operands": "qword ptr [rip + 0x1b99c89], rdx"
+        },
+        {
+          "rva": "0x18b0a57",
+          "bytes": "488905529cb901",
+          "mnemonic": "mov",
+          "operands": "qword ptr [rip + 0x1b99c52], rax"
+        },
+        {
+          "rva": "0x18b0a5e",
+          "bytes": "4889156b9cb901",
+          "mnemonic": "mov",
+          "operands": "qword ptr [rip + 0x1b99c6b], rdx"
+        },
+        {
+          "rva": "0x18b0a65",
+          "bytes": "e87205c300",
+          "mnemonic": "call",
+          "operands": "0x1424e0fdc"
+        },
+        {
+          "rva": "0x18b0a6a",
+          "bytes": "eb8b",
+          "mnemonic": "jmp",
+          "operands": "0x1418b09f7"
+        }
+      ],
+      "C9MemoryAccesses": 0
+    },
+    {
+      "name": "object-vtable",
+      "rva": "0x28a08c0",
+      "fileOffset": "0x289fcc0",
+      "bytes": 128,
+      "sha256": "2deb2c4642ec844a8422ec121d4a9837cb780e555da86409b1e3d32e9061d6af",
+      "slot40": "0x141899bf0"
+    },
+    {
+      "name": "descriptor-vtable",
+      "rva": "0x28a9c38",
+      "fileOffset": "0x28a9038",
+      "bytes": 128,
+      "sha256": "679e55b650748cdff5ed67ce3a053523f3007bd3a81ebbbace37705ad44dcf9f",
+      "slot8": "0x1418c06c0"
+    }
+  ],
+  "retainedArtifacts": [
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/descriptor-storage.bin",
+      "sha256": "26e1e0f94cc6bfedf369c5f3a05d4d32a2560b31df4c963230a01216f9650ea6"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/descriptor-vtable.bin",
+      "sha256": "679e55b650748cdff5ed67ce3a053523f3007bd3a81ebbbace37705ad44dcf9f"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/getter.bin",
+      "sha256": "6b407efc83f450b38f129f80af1df6a23cf59e355d9b90f38e1f16ffa8b80cda"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/mapping-audit.json",
+      "sha256": "5cede9a06e49f6908a57db95a5f7bf74d7185143848f3146d354319aaead308d"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/object-vtable.bin",
+      "sha256": "2deb2c4642ec844a8422ec121d4a9837cb780e555da86409b1e3d32e9061d6af"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/receipt.json",
+      "sha256": "9a51ddc7aefa2a5d4910548ca3f3d6247c3672b3cb35a737925c004d510f4109"
+    },
+    {
+      "path": "artifacts/sc624-type51-bounded-20261107-1435/thunk.bin",
+      "sha256": "74e3a63efd8460f799fc4a05f0c4ed1616b36cde2ce0167a9aff324255c4a3de"
+    }
+  ],
+  "reaAttemptDeviation": {
+    "managerFullImportApproval": false,
+    "violation": "Focused analyze_function on raw PE triggered ephemeral full-program Ghidra import prerequisite contrary to no-full-import rule",
+    "openTool": "mcp__rea__open_binary",
+    "openArguments": {
+      "path": "C:\\work\\rre\\artifacts\\lab2-live-20261107-0922\\guest-rift_x64.exe",
+      "provider_id": "ghidra"
+    },
+    "functionTool": "mcp__rea__analyze_function",
+    "functionArguments": {
+      "procedure": "0x141899BF0"
+    },
+    "codexCellId": "g108:167",
+    "terminationAfterApproxSeconds": 124,
+    "terminationResult": "Script terminated",
+    "reaOperationOrEvidenceIdReturned": null,
+    "usefulAnalysisResult": false,
+    "closeBinaryResult": null,
+    "postCloseBinarySession": {
+      "open": false,
+      "analysis_activity": {
+        "status": "not_observed",
+        "providers": []
+      },
+      "analysis_provider_binding": null,
+      "analysis_run": null,
+      "provider_operation_health": null
+    },
+    "rootOsCheck": "No java.exe/javaw.exe visible at19:32:50Z",
+    "retryPerformed": false
+  },
+  "decision": "Park after two probes. Known getter is descriptor initialization, not a C9 field getter. Raw virtual-tail offset is not valid PE data evidence. Future source schema/name or independently discriminating changed-state observation required.",
+  "primarySpecification": "https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#section-table-section-headers",
+  "gameInput": false,
+  "liveProcessRead": false,
+  "externalSourceWrites": false,
+  "ollama": false,
+  "freebuff": false
+}

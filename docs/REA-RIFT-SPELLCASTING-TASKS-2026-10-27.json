@@ -1843,7 +1843,7 @@
       "id": "SC-624",
       "milestone": "SC6",
       "title": "Bounded source-first interpretation of the native type51 C9 API-list discriminator",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-614"
       ],
@@ -1863,7 +1863,11 @@
         "No live guest/process/game input or writes, no external repo changes/providers; source-hashed narrow report/checkpoint/commit including useful negative result"
       ],
       "gameInputAuthorized": false,
-      "evidence": []
+      "evidence": [
+        "docs/REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.md",
+        "docs/REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.json"
+      ],
+      "acceptedScope": "Bounded negative/parked:1899BF0→18B09D0 lazy descriptor getter,417validbyte windows;344A6B0virtualzero-fill, initial128Bmapping invalidated. No C9semanticname. ImplicitunapprovedGhidraimport canceled/closed/deviationrecorded."
     }
   ],
   "checkpointPolicy": {
