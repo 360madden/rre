@@ -4,9 +4,9 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC628 accepted bounded Lab2 collector0.4.13 install/load/manual5part54record transfer through reader0.1.3; race/raceName/zone exact in APIwire and freshSaved. Control returned20:43:52Z. SC626/627 completed; SC625 guard core partial, live orchestration pending. Goal minimum17:22:21EST; no Ollama/FreeBuff.",
+  "status": "2026-11-07 SC625 accepted one bounded0.2.3 Lab2 liveCLI seq10/5parts54records/exit0/40.476s with independent cleanup and return22:16:50Z. SC628 collector0.4.13 accepted unchanged. SC629 Experience source-first follow-up planned; no extraAPIcall/deploy. No Ollama/FreeBuff.",
   "completedReviewPasses": 5,
-  "nextTaskId": "SC-625",
+  "nextTaskId": "SC-629",
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
@@ -1873,7 +1873,7 @@
       "id": "SC-625",
       "milestone": "SC6",
       "title": "Support bounded Lab2 native acquisition behind the one RRE host reader",
-      "state": "pending",
+      "state": "completed",
       "dependsOn": [
         "SC-622",
         "SC-623"
@@ -1903,7 +1903,8 @@
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md",
         "docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.json"
       ],
-      "progress": "Trial1 0.2.1 failed prelaunch namespace collision and recovered. Trial2 0.2.2 acquired full seq9/54 records in38.672s and cleaned both native exits, but originalCLI exit2 on owned PowerShell UTF8BOM journals; no acceptance/observation. Independent recovery and peer-confirmed return22:04:51Z. Fixed0.2.3 narrow raw-hash-preserving journal parser;178 focused checks including exact retained trial2 offline decode/scope/journals pass;legacy500 sameoldSHAguard failure. No third live trial. Uninterrupted liveCLI acceptance pending; new peergrant required."
+      "progress": "Source0.2.3 committed1ca5c99/178focusedchecks; ONE newly granted trial3 CLI exit0/40.4759826s, fresh reviewed external manual seq10/fiveparts18296B/54records, acceptance+canonicalobservation. Bothnativeexits/cleanup and independent zeroUUIDinventory verified; return22:16:50Z. Firsttwofailures preserved. Allfreshness/auth/atomic/restartflagsfalse; boundedoutboundgenerationonly.",
+      "acceptedScope": "Single Lab2 live acquisition-to-canonical-output CLI, existingF414/GuestSession/externalmouse, unchangedcollector0.4.13; no continuous/inbound/restart claim."
     },
     {
       "id": "SC-626",
