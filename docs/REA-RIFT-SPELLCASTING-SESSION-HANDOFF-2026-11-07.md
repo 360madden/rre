@@ -1,4 +1,4 @@
-# RRE current session handoff — 2026-11-07 15:02 EST
+# RRE current session handoff — 2026-11-07 15:10 EST
 
 ## Goal, authority and ownership
 
@@ -7,10 +7,10 @@
 - User explicitly allowed **only RRECollector addon files to synchronize through OneDrive** and authorized direct coordination with the active RR2 chat. No Windows/OneDrive configuration change follows. See [current policy](REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md).
 - **Lab2 was returned.** Peer chat “Execute RiftReader2 optimization handoff”, thread01a1b35a-3d44-7d60-bee1-4331bebb6709/hostlocal, granted hold until14:49. Last RRE guest operation ended14:48:02; host-only nonabandoned mutex return check14:49:14 followed by explicit return notice. Extension was never accepted and was canceled. **No further Lab2 reads/input/reload/controller auto-start without a new coordinated window.** RR2 controller was not restarted; queue was not reset. Do not infer native mode restored.
 
-## Git and pending integration
+## Git and checkpoint status
 
-- Branchmain, HEAD838adb61d3b1619225fdc5a35d493308bdbaffdb (SC622 live evidence/instructions/concise handoff); previous9990750 (SC623 source/tests),90ea10a (source publisher/reader),77ba6254 (native artifact adapter). Last known-good source commit9990750.
-- SC622 live documentation integration committed 838adb6: AGENTS/current target policy, live report.md/.json, register and concise handoff/archive. Only this postcommit checkpoint is newly dirty; SC624 bounded-negative report now prepared;417validfile-backed bytes, one128Bvirtualtail extraction invalidated. No RRE live job/fixture child known running. Two built-in reviewers terminal/read-only.
+- Branchmain. Last verified research/integration commit **ca550b8dac8f0263762d14d2ff36e0f42b4242b7** (SC624 bounded descriptor/PE mapping result); prior838adb6 (SC622 live bridge),9990750 (SC623 source/tests),90ea10a (publisher/reader). Last known-good source commit9990750. Read current Git HEAD/status on resume; a documentation checkpoint may follow this recorded research commit.
+- SC622 live documentation committed838adb6; SC624 bounded-negative report committedca550b8. Both milestones are integrated. This requested checkpoint refresh changes only this handoff; no runtime/source change or new Lab2 operation. No RRE live job/fixture child known running. Both built-in reviewers terminal/read-only.
 - Preserve **nine historical untracked paths**: docs/rc18-v042-host-backup-20261102/, rc19-v043-host-backup-20261102/, rc20-v044-host-backup-20261102/, rc21-v045-host-backup-20261102/, rc23-source-backup-20261102/, rc23-v046-host-backup-20261102/, rc32-v0410-host-backup-20261105/, docs/rea-raw-probe-profile-2026-10-18.json, tools/agents/ghidra/prepare_raw_probe.py. Do not stage/reset them.
 - Workbridge last0runningjobs/36free and0RRE durable owners/tasks; retained historical inventory incomplete at20k. Reconcile before new assignments. Built-in model agents are distinct from Workbridge jobs.
 
@@ -34,14 +34,14 @@
 
 - Source integration:130C#checks,20Node, hostLua5.3+existingpinnedLua5.1.4:9modulesparse/40synthetic/13Capturewire/10priorpreservation. BothLua runtimes producedidenticalframes; RIFT equivalence still independentlylivebounded. SC623fourcleanupfailureunitcases+fullcontrolledhost54record5part transfer pass.
 - Legacyfullgate oncepercoherentsourceintegration:500tests/exit1sameoldexactbinarySHA collision/pathfinding guards;7othergroupspass, sourcesunchanged. Do not rebaselinepins or repeat500tests for docs. Latest sourcegate artifacts/sc623-fullgate-20261107-1417/validation.json; new.NET/Lua checks are separate.
-- **SC624pendingreport:** 417validfile-backed originalbytes independentlyverified; initial128B descriptorfile slice invalidated after raw-section boundary QA. Getter1899BF0→18B09D0 is lazytypedescriptorgetter for344A6B0, not C9fieldgetter; noC9access/name inwindow. C9remainsrawAPI-list discriminator for54/134cohort, notlearned/locked/usable. Parkafter2probes. [SC624 report](REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.md), artifacts/sc624-type51-bounded-20261107-1435/mapping-audit.json.
+- **SC624accepted/parked:** 417validfile-backed originalbytes independentlyverified; initial128B descriptorfile slice invalidated after raw-section boundary QA. Getter1899BF0→18B09D0 is lazytypedescriptorgetter for344A6B0, not C9fieldgetter; noC9access/name inwindow. C9remainsrawAPI-list discriminator for54/134cohort, notlearned/locked/usable. Parkafter2probes. [SC624 report](REA-RIFT-TYPE51-LIST-DISCRIMINATOR-2026-11-07.md), artifacts/sc624-type51-bounded-20261107-1435/mapping-audit.json.
 - SC624deviation: delegated REA rawPE analyze_function implicitlytriggeredfullGhidraimportwithoutmanagerapproval, contraryguard. Cellg108:167 terminated~124s, noREAresult; close_binary returnednull, binary_session openfalse/noanalysis, rootCIMnoJava. No retry. Futureknownnativequeriesmustreuseanalysisorlocalbytewindows unlessexplicitmanagerdirection.
-- Next **offline**: SC622 hash/link/roadmap/diff verification completed (157artifacthashes); finishSC624negative report andcommit. Then register supported boundedacquisitionadapter behindsamehostreader, usingexistingGuestSession/F414 and explicit UIbinding; source/testfirst, no autoVM/controller/input. Any futurelivecheck requiresnewpeerwindow, currentidentity and exactexpectedUIgeneration. Keep allreplay/live composite/freshness/auth/atomic/restart claims distinct.
+- Next **offline**: SC622157artifacthash/link checks and SC624source/window/mapping checks passed; both reports are committed. Next register a supported boundedacquisitionadapter behindsamehostreader, usingexistingGuestSession/F414 and explicit UIbinding; source/testfirst, no autoVM/controller/input. Any futurelivecheck requiresnewpeerwindow, currentidentity and exactexpectedUIgeneration. Keep allreplay/live composite/freshness/auth/atomic/restart claims distinct.
 
 ## Archive and machine state
 
 Full prior same-day checkpoint history preserved byte-for-byte at [1455 archive](REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-07-1455-ARCHIVE.md), SHA63816617cc340599274009708eda76f1dc3ee5e2bb95f2e1924c855ff9f36ffa. Directory label1455 is an archive label; actual write time is this handoff timestamp. Prior dated handoffs and original evidence remain intact.
 
 ```json
-{"branch":"main","head":"838adb61d3b1619225fdc5a35d493308bdbaffdb","lastSourceCommit":"9990750","goalStatus":"active","earliestCompletionUtc":"2026-11-07T22:22:21Z","onlyLiveTarget":"Lab2","rreLiveLease":"returned","nextTask":"SC-624-report-then-unified-adapter","ollama":false,"freebuff":false,"pendingApprovals":[],"liveJobsPending":false}
+{"branch":"main","lastResearchCommit":"ca550b8dac8f0263762d14d2ff36e0f42b4242b7","lastSourceCommit":"9990750","goalStatus":"active","earliestCompletionUtc":"2026-11-07T22:22:21Z","onlyLiveTarget":"Lab2","rreLiveLease":"returned","nextTask":"register-unified-acquisition-adapter-before-source-work","ollama":false,"freebuff":false,"pendingApprovals":[],"liveJobsPending":false}
 ```
