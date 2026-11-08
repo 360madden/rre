@@ -141,13 +141,13 @@ local function newSession(record)
     .. hex(hash32(VERSION .. ":" .. record.sequence .. ":" .. string.format("%.17g", record.frameTime)), 8, true)
 end
 local CONTEXT = {"player", "target", "roleSlot", "roleNames", "clientVersion", "frameTime", "realTime",
-  "capabilities", "scope", "stats", "statsTruncated"}
+  "capabilities", "scope", "stats", "statsTruncated", "experience"}
 local COUNTS = {"rawEntries", "uniqueCount", "detailCount", "detailFailures", "duplicates", "ignored", "truncated", "fallbackCalls"}
 local UNIT_FIELDS = {}
 for _, key in ipairs({"id", "name", "calling", "level", "role", "health", "healthMax", "power", "powerMax", "mana", "manaMax",
   "energy", "energyMax", "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ", "race", "raceName", "zone"}) do UNIT_FIELDS[key] = true end
 local CAPABILITIES = {}
-for _, key in ipairs({"frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats"}) do CAPABILITIES[key] = true end
+for _, key in ipairs({"frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats", "experience"}) do CAPABILITIES[key] = true end
 local function scalarValue(value, maximum)
   return type(value) == "boolean" or finite(value) or (type(value) == "string" and #value <= maximum)
 end
@@ -163,7 +163,20 @@ end
 local function validateContext(record)
   scalarMap(record.player, 23, 2048, UNIT_FIELDS)
   if record.target ~= nil then scalarMap(record.target, 23, 2048, UNIT_FIELDS) end
-  scalarMap(record.capabilities, 8, 256, CAPABILITIES, true)
+  scalarMap(record.capabilities, 9, 256, CAPABILITIES, true)
+  -- The ninth capability and optional object are a v0.4.14-only contract.
+  requireValue(type(record.capabilities.experience) == "boolean", "context-shape")
+  if record.capabilities.experience then
+    requireValue(type(record.experience) == "table", "context-shape")
+    local count = 0
+    for key, value in next, record.experience do
+      count = count + 1
+      requireValue(count <= 3 and (key == "accumulated" or key == "needed" or key == "rested")
+        and finite(value), "context-shape")
+    end
+  else
+    requireValue(record.experience == nil, "context-shape")
+  end
   if record.roleNames ~= nil then scalarMap(record.roleNames, 32, 256) end
   if record.stats ~= nil then scalarMap(record.stats, 256, 256) end
   if type(record.clientVersion) == "table" then scalarMap(record.clientVersion, 32, 256)

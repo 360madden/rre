@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC625 accepted one bounded0.2.3 Lab2 liveCLI seq10/5parts54records/exit0/40.476s with independent cleanup and return22:16:50Z. SC628 collector0.4.13 accepted unchanged. SC629 Experience source-first follow-up planned; no extraAPIcall/deploy. No Ollama/FreeBuff.",
+  "status": "2026-11-07 SC625 accepted bounded0.2.3 Lab2 live CLI seq10/fiveparts54records with cleanup/control return. SC628 v0.4.13 is latest accepted live collector. SC629 v0.4.14 manual Experience implementation passed offline Lua51, Node, .NET, wire/reader and source package gates; NOT installed/loaded/live accepted. No Ollama/FreeBuff.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-629",
   "gameInputAuthorized": false,
@@ -2037,10 +2037,14 @@
       "evidence": [
         "artifacts/rre-rr2-stats-reference-20261107-1614/api-stats.json",
         "docs/agents/rre-experience-api-reference-2026-11-07.md",
-        "docs/agents/rre-experience-api-reference-2026-11-07.json"
+        "docs/agents/rre-experience-api-reference-2026-11-07.json",
+        "docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.md",
+        "docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.json",
+        "artifacts/sc629-v014-lua51-20261107-2246/receipt.json"
       ],
-      "progress": "Existing10statvalues already supplied from SC628 acceptedcapture; Experience docs research only before sequential source work.",
-      "researchGate": "Matching-build primary API/reference accepted; existing10stats reused, one missing Experience call proposed, no source/live expansion yet."
+      "progress": "SC628 ten existing stats reused. v0.4.14 source-only Experience opt-in manual Capture, strict wire/CSharp/SavedVariables version paths, focused Lua51(16+46), Node(12), .NET(79), 54-record offline wire interop and package gate passed. No Lab2 deployment, input or live Experience data; final live version-matched acceptance remains pending.",
+      "researchGate": "Matching-build primary Experience reference and reviewed offline integration accepted; numeric member types remain documented-inference, not live observations. Legacy 0.4.12/0.4.13 decoding preserved.",
+      "offlineSourceGate": {"status":"passed-source-only-live-pending","collectorVersion":"0.4.14","report":"docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.json","wireInteropReceipt":"artifacts/sc629-v014-lua51-20261107-2246/receipt.json","gameInputAuthorized":false}
     }
   ],
   "checkpointPolicy": {

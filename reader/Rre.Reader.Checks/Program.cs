@@ -3,6 +3,22 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Rre.Reader;
 
+// Independent contract-only mode: no Lab-2 helper, guest operations, or
+// deliberately spawned child-process tests. The default full suite is unchanged.
+if (args is ["--production-only"])
+{
+    try
+    {
+        var checks = Rre.Reader.Checks.ProductionChecks.Run();
+        Console.WriteLine(JsonSerializer.Serialize(new { status = "passed", count = checks.Count, checks }));
+        return 0;
+    }
+    catch (Exception error)
+    {
+        Console.Error.WriteLine(JsonSerializer.Serialize(new { status = "failed", error = error.ToString() }));
+        return 1;
+    }
+}
 var repo = Path.GetFullPath(args.Length == 1 ? args[0] : ".");
 var output = Path.Combine(repo, "artifacts", "reader-checks-" + Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(output);

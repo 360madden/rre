@@ -15,7 +15,7 @@ local function refreshUI() refreshes = refreshes + 1 end
 local savedLoaded, lastMessage = true, "ready"
 local function fixture(sequence)
   return {captureComplete=true,addonVersion=RRECollectorRuntime.VERSION,sequence=sequence,frameTime=10.5,realTime=1794078000,
-    player={id="uFIXTURE",name="Fixture",calling="rogue",level=43},roleSlot=1,capabilities={player=true},
+    player={id="uFIXTURE",name="Fixture",calling="rogue",level=43},roleSlot=1,capabilities={player=true,experience=false},
     abilityList={apiAvailable=true,batchDetailAvailable=true,enumerationComplete=true,rawEntries=1,uniqueCount=1,
       detailCount=1,detailFailures=0,duplicates=0,ignored=0,truncated=0,fallbackCalls=0},
     abilities={{lookupId="A0000000100000000",name="Fixture",passive=false,cooldown=0}}}

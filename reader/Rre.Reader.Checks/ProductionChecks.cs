@@ -51,6 +51,34 @@ public static class ProductionChecks
         Reject("production mixed supported frame versions rejected",()=>{var d=Document();d["abilities"]![0]!["description"]=new string('x',4096);var b=Frames(Bytes(d));b[1]["addonVersion"]="0.4.13";ProductionFrameCodec.Assemble(b);});
         Reject("production0413 undocumented decoration rejected",()=>{var d=Document("0.4.13");d["context"]!["player"]!["decoration"]=1704;Decode(d);});
         Accept("production0413 native carrier reports actual producer version",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.13")[0];var(r,s)=NativeChecks.Fixture(Wire(b));var c=NativeSnapshotSource.Decode(Bytes(s),Bytes(r),Session,2);if(c.Evidence["producerVersion"]!.GetValue<string>()!="0.4.13")throw new Exception("wrong version");});
+        Accept("production0414 Experience zero partial and metadata survive",()=>
+        {
+            var d=Document("0.4.14"); d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=1234};
+            d["context"]!["player"]!["zone"]="zOPAQUE";
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.14" || p.Context["experience"]!["accumulated"]!.GetValue<int>()!=0
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=1234
+                || p.Context["experience"]!.AsObject().ContainsKey("rested")
+                || p.Context["player"]!["zone"]!.GetValue<string>()!="zOPAQUE")throw new Exception("v14 data loss");
+        });
+        Accept("production0414 empty Experience object allowed",()=>{
+            var d=Document("0.4.14");d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonObject();
+            if(Decode(d).Context["experience"] is not JsonObject {Count:0})throw new Exception("empty map lost");
+        });
+        Accept("production0414 unavailable Experience explicitly false",()=>{
+            var d=Document("0.4.14");d["context"]!["capabilities"]!["experience"]=false;
+            if(Decode(d).Context.ContainsKey("experience"))throw new Exception("invented experience");
+        });
+        BadDoc("production0414 missing capability rejected",d=>d["addonVersion"]="0.4.14");
+        BadDoc("production0414 true missing map rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;});
+        BadDoc("production0414 false with map rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=false;d["context"]!["experience"]=new JsonObject();});
+        BadDoc("production0414 unknown Experience field rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonObject{["unknown"]=1};});
+        BadDoc("production0414 string Experience value rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonObject{["needed"]="5"};});
+        BadDoc("production0414 array Experience rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonArray();});
+        BadDoc("production0414 four-key Experience rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=1,["rested"]=2,["extra"]=3};});
+        BadDoc("production0413 Experience flag forbidden",d=>d["context"]!["capabilities"]!["experience"]=false);
+        BadDoc("production0413 Experience map forbidden",d=>d["context"]!["experience"]=new JsonObject{["needed"]=0});
         Accept("production native snapshot carrier preserves contract context", () =>
         {
             var body=Frames(Bytes(Document()))[0];var (request,snapshot)=NativeChecks.Fixture(Wire(body));

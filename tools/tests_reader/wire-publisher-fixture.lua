@@ -11,7 +11,7 @@ local function record(sequence)
     frameTime = 12.125, realTime = 1794078000,
     player = {id = "uFIXTURE", name = "Bolinao fixture", calling = "rogue", level = 43, combat = false, power = 0,
       race = "mathosian", raceName = "Mathosian", zone = "zFIXTURE"},
-    roleSlot = 1, capabilities = {player = true},
+    roleSlot = 1, capabilities = {player = true, experience = false},
     abilityList = {apiAvailable = true, batchDetailAvailable = true, enumerationComplete = true,
       rawEntries = 1, uniqueCount = 1, detailCount = 1, detailFailures = 0, duplicates = 0, ignored = 0, truncated = 0, fallbackCalls = 0},
     abilities = {{lookupId = "A0000000100000000", name = "\195\137clair \230\176\180 \240\159\152\128", passive = false, cooldown = 0, target = "uTARGET", description = "controls\0\1\31\n\"\\"}}}
@@ -50,6 +50,12 @@ reject(function(r) r.player.extra = false end, "context-shape")
 reject(function(r) r.roleNames = {{nested = false}} end, "context-shape")
 reject(function(r) r.statsTruncated = false end, "context-shape")
 reject(function(r) r.capabilities.stats = {} end, "context-shape")
+reject(function(r) r.capabilities.experience = nil end, "context-shape")
+reject(function(r) r.capabilities.experience = true end, "context-shape")
+reject(function(r) r.experience = {accumulated = 0} end, "context-shape")
+reject(function(r) r.capabilities.experience = true; r.experience = {unlisted = 10} end, "context-shape")
+reject(function(r) r.capabilities.experience = true; r.experience = {rested = "5"} end, "context-shape")
+reject(function(r) r.capabilities.experience = true; r.experience = {rested = math.huge} end, "context-shape")
 reject(function(r) r.clientVersion = {nested = {}} end, "context-shape")
 reject(function(r) r.scope = false end, "context-shape")
 local fallback = record(sequence); sequence = sequence + 1
@@ -59,6 +65,8 @@ local duplicates = record(sequence); sequence = sequence + 1
 duplicates.abilityList.rawEntries = 2; duplicates.abilityList.duplicates = 1
 check(wire.publish(duplicates).status == "complete", "duplicates coherent")
 local multiple = record(sequence)
+multiple.capabilities.experience = true
+multiple.experience = {accumulated = 0, needed = 5000, rested = 0}
 multiple.abilities[1].description = string.rep("\195\169", 2048)
 local result = wire.publish(multiple)
 check(result.status == "complete" and result.parts >= 2 and result.session == token, "multipart UTF8 complete")

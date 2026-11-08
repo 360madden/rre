@@ -10,7 +10,7 @@ local UNIT_FIELDS = {
   "race", "raceName", "zone"
 }
 
-local function snapshotContext()
+local function snapshotContext(includeExperience)
   local api = type(Inspect) == "table" and Inspect or {}
   local unitApi = type(api.Unit) == "table" and api.Unit or {}
   local timeApi = type(api.Time) == "table" and api.Time or {}
@@ -74,6 +74,24 @@ local function snapshotContext()
     local copied, _, truncated = mapCopy(stats, MAX_STATS)
     result.stats = copied
     result.statsTruncated = truncated
+  end
+  -- Experience is deliberately opt-in: probes/candidate reads must not even
+  -- look up Inspect.Experience. A successful table may be empty or partial.
+  if includeExperience == true then
+    result.capabilities.experience = false
+    local lookupOk, experienceFn = pcall(function() return api.Experience end)
+    if lookupOk then
+      local experienceOk, experience = call(experienceFn)
+      if experienceOk and type(experience) == "table" then
+        result.capabilities.experience = true
+        local copied = {}
+        for _, key in ipairs({"accumulated", "needed", "rested"}) do
+          local ok, value = pcall(function() return experience[key] end)
+          if ok and finite(value) then copied[key] = value end
+        end
+        result.experience = copied
+      end
+    end
   end
   return result
 end

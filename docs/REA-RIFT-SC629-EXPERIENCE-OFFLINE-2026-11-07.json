@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "taskId": "SC-629",
+  "project": "rre",
+  "sourceCommitBase": "5f284a1333c69136764e49dc09ceebc30620ed9b",
+  "dateEastern": "2026-11-07",
+  "status": "offline-source-integration-passed-live-acceptance-pending",
+  "collectorSourceVersion": "0.4.14",
+  "priorCollectorLoadedVersion": "0.4.13",
+  "experienceFields": [
+    "accumulated",
+    "needed",
+    "rested"
+  ],
+  "semantics": "manual-Capture opt-in only; one guarded Inspect.Experience call, no polling",
+  "capability": "Boolean; true requires optional finite numeric map (empty allowed); false means absent map; no missing to zero",
+  "existingStats": "Inspect.Stat remains one unchanged call per context; SC628 10 ordinary/Unbuffed values reused",
+  "readerVersionsAccepted": [
+    "0.4.12",
+    "0.4.13",
+    "0.4.14"
+  ],
+  "versionBoundaries": "v0.4.12: 20 unit fields; v0.4.13: 23 with race metadata; v0.4.14: 23 plus explicit experience flag/object",
+  "sourceDocument": "docs/agents/rre-experience-api-reference-2026-11-07.md",
+  "evidence": {
+    "lua51Context": {
+      "checks": 16,
+      "passed": true,
+      "exeSha256": "6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67",
+      "dllSha256": "9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096",
+      "job": "rre_sc629_20261107_lua_exp01"
+    },
+    "lua51Wire": {
+      "checks": 46,
+      "passed": true,
+      "job": "rre_sc629_20261107_wirelua01"
+    },
+    "nodeSavedAdapter": {
+      "tests": 12,
+      "passed": true,
+      "job": "rre_sc629_20261107_js_tests01"
+    },
+    "csharpProduction": {
+      "checks": 79,
+      "passed": true,
+      "job": "rre_sc629_20261107_cs_production_only01"
+    },
+    "offlineWireReaderInterop": {
+      "status": "passed",
+      "cases": [
+        {
+          "type": "synthetic",
+          "abilities": 1,
+          "parts": 2,
+          "payloadSha256": "2415a51a625b1f252f1800728b0b99bebffff27bb55e78e0feeeb0e3deacaf96"
+        },
+        {
+          "type": "historical-0.4.13-retagged-fixture",
+          "abilities": 54,
+          "parts": 5,
+          "payloadSha256": "28dd3c554c675025142371a721e62d25779173d418646c3305a01e33cc92a8dc"
+        }
+      ],
+      "retainedReceipt": "artifacts/sc629-v014-lua51-20261107-2246/receipt.json",
+      "retainedReceiptSha256": "29aebb683b4362ceb4083e5b48743fd8967e448791fc7a0b4c09eecb0126b6d2",
+      "job": "rre_sc629_20261107_full_interop03"
+    },
+    "packageGate": {
+      "passed": true,
+      "sourceCount": 11,
+      "installedShaMatches": null,
+      "job": "rre_sc629_20261107_pkg02"
+    },
+    "roadmap": {
+      "passed": true,
+      "tasks": 47,
+      "milestones": 11,
+      "failures": 0,
+      "job": "rre_sc629_20261107_roadmap01"
+    },
+    "fullSuite": {
+      "status": "incomplete",
+      "passedBeforeUnrelatedFailure": 152,
+      "failure": "Lab2 controlled-child did not start, lab2-capture-only; not SC629 contract test failure",
+      "job": "rre_sc629_20261107_cs_tests01"
+    }
+  },
+  "proofLimitations": [
+    "Original documented Inspect.Experience member types inferred numeric from predecessor; current member type annotations absent.",
+    "All new Experience values are synthetic offline fixture values, not observed in live RIFT.",
+    "Historical .13 SavedVariables was explicitly retagged with experience=false only in an offline compatibility fixture.",
+    "No installation, game input, UI reload, process manipulation, VM live operation or control lease has been performed.",
+    "No live v0.4.14 load, capture, SavedVariables comparison, race/zone changed-state proof, continuous reader, restart, authentication or cast result.",
+    "RC30 strict historical Pin Undo Reload same-trial proof remains pending."
+  ],
+  "nextGate": "Review source diff and release receipts; obtain fresh separately authorized Lab2 owner window and observed matching v0.4.14 install/load/manual Capture + saved-variables wire parity; no unattended run."
+}

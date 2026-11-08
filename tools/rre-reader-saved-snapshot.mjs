@@ -50,6 +50,33 @@ export function exportSavedSnapshot(bytes) {
   for (const key of ['player','target','roleSlot','roleNames','clientVersion','frameTime','realTime','capabilities','scope','stats','statsTruncated']) {
     if (Object.hasOwn(saved.latest,key)) context[key] = boundedCopy(saved.latest[key]);
   }
+  // Keep older producer contracts strict. The literal Lua parser represents {}
+  // as [], so only v0.4.14 + true capability may normalize that empty table.
+  const version = saved.latest.addonVersion;
+  const capabilities = saved.latest.capabilities;
+  const hasMap = Object.hasOwn(saved.latest,'experience');
+  const hasFlag = capabilities != null && typeof capabilities === 'object'
+    && Object.hasOwn(capabilities,'experience');
+  if (version === '0.4.14') {
+    if (!hasFlag || typeof capabilities.experience !== 'boolean') throw Error('experience-capability-unqualified');
+    if (capabilities.experience !== hasMap) throw Error('experience-capability-map-contradiction');
+    if (hasMap) {
+      const input = saved.latest.experience;
+      if (!input || typeof input !== 'object' || Array.isArray(input) && input.length !== 0)
+        throw Error('experience-map-shape');
+      const entries = Object.entries(input);
+      if (entries.length > 3) throw Error('experience-map-limit');
+      const result = Object.create(null);
+      for (const [key,value] of entries) {
+        if (!['accumulated','needed','rested'].includes(key) || typeof value !== 'number' || !Number.isFinite(value))
+          throw Error('experience-field-unqualified');
+        result[key] = value;
+      }
+      context.experience = result;
+    }
+  } else if (hasMap || hasFlag) {
+    throw Error('experience-version-unqualified');
+  }
   return {adapterContract:'rre-saved-snapshot/1', sourceSha256:sha(bytes), sourceBytes:bytes.length,
     addonVersion:saved.latest.addonVersion, savedAddonVersion:typeof saved.addonVersion === 'string' ? saved.addonVersion : null,
     sequence:saved.latest.sequence,

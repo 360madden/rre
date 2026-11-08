@@ -50,7 +50,7 @@ local function abilityIds(source)
 end
 
 local function collect()
-  local context = snapshotContext()
+  local context = snapshotContext(true)
   local api = type(Inspect) == "table" and Inspect or {}
   local abilitiesApi = type(api.Ability) == "table" and api.Ability or {}
   local newApi = type(abilitiesApi.New) == "table" and abilitiesApi.New or {}
@@ -95,6 +95,7 @@ local function collect()
     player = context.player, target = context.target,
     roleSlot = context.roleSlot, roleNames = context.roleNames,
     stats = context.stats, statsTruncated = context.statsTruncated,
+    experience = context.experience,
     capabilities = context.capabilities, abilityList = enumeration,
     abilities = records, detailErrors = failures,
     captureComplete = enumeration.apiAvailable
