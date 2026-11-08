@@ -1,4 +1,17 @@
-# RRE session handoff — November 8, 2026, 08:08 EST
+# RRE session handoff — November 8, 2026, 09:08 EST
+
+## 09:08 EST — New SC-604 exact-build receiver magic provenance
+
+- **Starting HEAD** `5abdc0344b2dd72b60817d5cc20c175df1493c6a`, branch `main`; tracked clean, the nine historical untracked entries preserved. Seven other RRE worktrees checked: six clean, pathfinding retained two untracked scripts. RR2 separate untracked research script; REA-Lab1 own dirty tracked/untracked work and 15 queued (not running) assignments. Neither repository was changed.
+- **Workbridge** AMD-DESKTOP 0.16.4-dev operational, **0** reported running command jobs and **0** registered RRE owners, 36 command slots; historical job inventory not exhaustive. Current FreeBuff/Ollama hold: **0 genuine AI/model agents**; Workbridge verification jobs do not count as agents. No duplicate manager.
+- **New SC-604 source:** matching 60,493,640-byte original host executable SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Exactly **8** literal `0xBDF20DA3` occurrences in original `.text`: **5** comparisons and **3** writes at receiver offset `+0x78`. Write RVAs: `0x12E301E`, `0x12E328F`, `0x12E832D`. The latter two have nearby `+0xAC/+0x88/+0xA4/+0x148` initialization fields. This narrows a *structure-layout provenance lead*, **not** the owner/class, casting, ability ID, live behavior or server acceptance.
+- **New report:** [receiver magic cross-references](REA-RIFT-SPELLCASTING-SC604-RECEIVER-MAGIC-XREFS-2026-11-08.md). Workbridge command IDs `rre_20261108_0910_sc604_magic_xref_bounded_01`, `rre_20261108_0914_sc604_magic_writers_decode_ro_01`, `rre_20261108_0917_sc604_magic_eight_instruction_ro_01` **all exit 0**; full-instruction decoding **8/8**, two independent literal-census methods agree, and negative controls on three writes pass. No broad import or helper recursion.
+- **Scope:** report and this handoff only; no register promotions, installed addon/VM/game/SavedVariables changes, external repository edits or game input. RC-30 strict physical acceptance, SC-103 Legendary, SC-306 other enum values, SC-629 v0.4.14 authorized Lab-2 live parity, and NAV-002 remain blocked. Existing SC-604 accepted interim status unchanged.
+- **Next:** When a *new* RR2-coordinated Lab-2 control window is available, prioritize SC-629 version-matched install/load/Capture parity; otherwise require an **independent** receiver/type identity signal before any further SC-604 provenance analysis. Do not reuse expired Lab-2 lease, force RIFT input/reload, or disturb other owners.
+
+```json
+{"localDate":"2026-11-08","timezone":"America/New_York","startHead":"5abdc0344b2dd72b60817d5cc20c175df1493c6a","task":"SC-604","evidence":"docs/REA-RIFT-SPELLCASTING-SC604-RECEIVER-MAGIC-XREFS-2026-11-08.md","sourceSha256":"1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8","newModelAgents":0,"verifiedMagicLiteralSites":8,"verifiedMagicWrites":3,"verifiedMagicComparisons":5,"requalifiedLab2Runtime":false,"milestone":"static-only; SC604 interim"}
+```
 
 ## 08:08 EST — Fresh SC-604 bounded gate/receiver finding
 
