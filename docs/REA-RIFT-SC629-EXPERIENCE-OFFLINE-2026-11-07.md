@@ -25,6 +25,18 @@ RREC2 v0.4.14 now strictly requires the ninth boolean capability with an optiona
 
 **Known limitation:** The full C# suite reached 152 checks, then an independent Lab-2 controlled-child exercise failed `lab2-capture-only`; the production-only contract suite independently passed 79/79. No claim is made that the entire C# integration suite passed. The latest matching-build `Inspect.Experience` reference names the three members without explicit member-type annotations; numerical types are a strongly supported migration inference, not observed live types.
 
+## November 8, 2026 — saved-version acceptance discriminator (offline only)
+
+A new bounded, read-only three-case test reused the existing SavedVariables adapter fixture and production `exportSavedSnapshot` code. **All 3/3 assertions passed** (Workbridge job `rre-run11-sc629-version-triage-20261108`, Node exit 0). The adapter intentionally returns **both** the root `savedAddonVersion` and the `latest` capture's `addonVersion` without imposing equality:
+
+| Synthetic source | Adapter parse | Strict v0.4.14 acceptance gate |
+| --- | --- | --- |
+| Root `0.4.14`, latest `0.4.14` with `experience=false` | Passed | **Version pair qualifies** |
+| Root `0.4.14`, stale latest `0.4.13` | Passed | **Reject as v0.4.14 Capture evidence** |
+| Root `0.4.11`, latest `0.4.14` with `experience=false` | Passed | **Reject as version-inconsistent receipt** |
+
+This is deliberate archival compatibility, **not an adapter defect**. Independently, `main.lua` sets root `RRECollectorData.addonVersion` at SavedVariables load but preserves an older complete `latest` until a successful manual Capture, so a root-only version check is insufficient. For the future authorized Lab-2 SC-629 trial, compare **both fields** to `0.4.14` and separately verify installed/loaded source hashes, current UI-bound Capture, RREC2 session/sequence and current process/build identity. Equality alone does not prove fresh capture or gameplay semantics. No game/VM/install/other-repository operation, source modification or live qualification occurred.
+
 ## Next gate
 
 Keep the release **source-only** until reviewed version-matched v0.4.14 installation/load proof and one newly authorized, peer-coordinated Lab-2 manual Capture with RREC2 and SavedVariables parity. **Do not use the returned Lab-2 lease**. RC-30's original physical v0.4.10 Pin → Undo → Reload strict same-trial gate remains historically incomplete. SC-103 Legendary/Protector's Fury identity, SC-306 remaining queue values and SC-604 extended native semantics are not resolved by this work.

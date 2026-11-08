@@ -1,4 +1,11 @@
-# RRE session handoff — November 8, 2026, 09:08 EST
+# RRE session handoff — November 8, 2026, 11:16 EST
+
+## 11:16 EST — SC-629 version-binding offline gate
+
+- **Preflight:** verified host `AMD-DESKTOP` through Workbridge 0.16.4-dev; RRE `main` HEAD `fea59c11bfdfdf95aa2152112ca9134b1d59b37e`, tracked files clean, nine historical untracked paths preserved. RRE Workbridge owners and current jobs empty; historical job catalog incomplete. RR2 `codex/modular-foundation` has two separate untracked scripts; REA-Lab1 retains dirty files and fifteen queued assignments. No other repository touched.
+- **New bounded source finding:** the existing SavedVariables adapter intentionally accepts root/capture version mismatches, to preserve older snapshots. A normal new addon load sets root version but may preserve prior complete `latest`. Synthetic Node job `rre-run11-sc629-version-triage-20261108` exited 0: **3/3** cases checked with positive and stale/mismatched controls; latest/root pair must both be `0.4.14` for future version-matched SC-629 acceptance. This condition is necessary, not enough: correlate with live UI, RREC2, hashes and session/build.
+- **Evidence:** [SC629 offline report](REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.md) with appended November 8 decision gate; existing `tools/tests_reader/test_saved_adapter.mjs`, `tools/rre-reader-saved-snapshot.mjs`, and `addons/RRECollector/main.lua`. No new model agents under FreeBuff/Ollama hold; Workbridge command jobs are not agents. SC629 remains *source-only*, RC30/SC103/SC306/SC604/NAV002 unchanged.
+- **Next:** do not use expired Lab-2 lease. In a new RR2-owner-coordinated window, collect same-trial source/installed/loaded version + RREC2 + saved receipt; otherwise avoid another static chase.
 
 ## 09:08 EST — New SC-604 exact-build receiver magic provenance
 
