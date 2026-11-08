@@ -1,6 +1,16 @@
-# RRE session handoff — November 8, 2026, 07:28 EST
+# RRE session handoff — November 8, 2026, 08:08 EST
 
-**Single manager:** RRE coordinator. **Repository:** `C:\work\rre`, `main`. **Starting HEAD for this iteration:** `7265f2198911aefa80bb35f9136723c2f3961069`. Following the scoped documentation commit, **refresh actual HEAD**; no game/process or other-project edits are part of this handoff.
+## 08:08 EST — Fresh SC-604 bounded gate/receiver finding
+
+- **Current pre-write RRE HEAD:** `ccace89d17196bb69def9d0c3d5befad6aee1d7b`, branch `main`. The original 07:28 checkpoint remains below. Tracked files were clean; preserved nine historical untracked paths. Seven other RRE worktrees were inspected: six clean, pathfinding retained its two prior untracked scripts. RR2 has its own tracked/untracked work and REA-Lab1 has tracked/untracked work and 15 queued assignments; neither repository was changed.
+- Workbridge AMD-DESKTOP 0.16.4-dev reported 0 live command jobs, 0 RRE registered owners and 36 available command slots during initial preflight; historical job catalog incomplete. Provider hold prohibits FreeBuff/Ollama and silent substitutions; **0 genuine model agents**. No competing manager launched.
+- **New exact-build observation:** static selector preflight helper `0x12EA3BC` uses receiver `+0x78` magic `0xBDF20DA3`, signed `+0x8C<0`, signed index `1..[receiver+0x62]`, table base `[receiver+0x68]` and `0x38` stride. On guarded path it invokes `0x12E38E0`, writes **word 1** at indexed entry `+0x24`, calls `0x12CCA58` and returns zero. Caller `0x12E6F1C` may then invoke `0x12E39D8` for an entry write of **word 4** after another preparation. Intervening helper/table-owner semantics and live execution remain unknown; **SC-604 interim only**.
+- **Evidence:** [SC-604 selector gate report](REA-RIFT-SPELLCASTING-SC604-SELECTOR-GATE-12EA3BC-2026-11-08.md), original host PE SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; 384-byte window SHA-256 `f61bbc48366f7e4ae265fdd363b423cbd86359b3dc484e6ea5ba0b8c15ce5cad`. Capstone decode job `rre_20261108_0805_sc604_gate12EA3BC_decode_ro_01` exit 0; independent standard-library byte verifier `rre_20261108_0806_sc604_gate12EA3BC_stdlib_ro_01` exit 0 with **31/31** checks (two negative controls); callsite/worktree job `rre_20261108_0807_wt_caller_verify_ro_01` exit 0. Register parse and worktree-list jobs also exited 0.
+- **Write scope:** this report and current dated handoff **only**, if reviewed/tested. No task promotions, code changes, installed-addon/VM/game changes or cross-repository writes. RC-30 historical strict acceptance, SC-103 Legendary ID, SC-306 other enum values, SC-629 v0.4.14 live acceptance and NAV-002 remain blocked.
+- **Next decision:** do not recurse into unclassified `0x12CCA58` or widen native scans. Seek independent receiver/table-owner provenance or authorized version-matched Lab-2 SC-629 proof; preserve the returned Lab-2 lease and quarantined desktop.
+
+
+**Single manager:** RRE coordinator. **Repository:** `C:\work\rre`, `main`. **Previous checkpoint starting HEAD:** `7265f2198911aefa80bb35f9136723c2f3961069`. Following the scoped documentation commit, **refresh actual HEAD**; no game/process or other-project edits are part of this handoff.
 
 ## Fresh coordination/preflight
 
