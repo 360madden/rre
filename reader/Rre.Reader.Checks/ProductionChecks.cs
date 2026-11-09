@@ -22,6 +22,21 @@ public static class ProductionChecks
         ProductionPublication Decode(JsonObject doc) => ProductionFrameCodec.Assemble(Frames(Bytes(doc),DataRules.Text(doc["addonVersion"],"fixture-version")).Select(b => ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2)).ToList());
         void BadDoc(string name, Action<JsonObject> mutate) { Reject(name, () => { var d = Document(); mutate(d); Decode(d); }); }
         void BadBody(string name, Action<JsonObject> mutate) { Reject(name, () => { var b = Frames(Bytes(Document()))[0]; mutate(b); ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2); }); }
+        Accept("LEGION rejects Lab2 before acquisition", () =>
+        {
+            foreach (var host in new[] { "LEGION", "legion", "Legion" })
+            {
+                try { Program.RequireSourceHost("lab2", host); }
+                catch (ReaderFailure e) when (e.Message == "legion-physical-only") { continue; }
+                throw new Exception("LEGION Lab2 source was not rejected: " + host);
+            }
+        });
+        Accept("LEGION offline sources stay available", () =>
+        {
+            foreach (var source in new[] { "saved", "memory-scan", "native-snapshot", "publication" })
+                Program.RequireSourceHost(source, "LEGION");
+        });
+        Accept("other host retains explicitly scoped Lab2 route", () => Program.RequireSourceHost("lab2", "AMD-DESKTOP"));
         Accept("production Unicode false zero and target survive", () =>
         {
             var p = Decode(Document()); var r = p.Abilities[0]!;

@@ -1,4 +1,12 @@
-# RRE session handoff — 2026-11-09, 12:21 EST
+# RRE session handoff — 2026-11-09, 12:33 EST
+
+## Current checkpoint — 12:33 EST (LEGION reader host gate tested)
+
+- **Machine/target:** LEGION host; game-facing operations may address its physical local RIFT only. No VMware inventory, connection, capture, or input. RRE main was clean and pushed at `3daacfb7eb05a699f25e015e087ba399ba3ecad8` before this next source patch; older AMD-DESKTOP untracked work was not touched.
+- **Bounded fix:** `reader/Rre.Reader/Program.cs` now rejects `--source lab2` on hostname `LEGION` (case-insensitive) before even resolving input files or beginning acquisition preflight. `doctor` reports `lab2AcquisitionAllowedThisHost`, help and `reader/README.md` flag the LEGION exception; other offline sources and other hosts retain previous behavior. Added three pure host-policy checks to `reader/Rre.Reader.Checks/ProductionChecks.cs`.
+- **Verified on LEGION:** Found existing pinned .NET SDK 10.0.403 at `C:\work\tools\dotnet\10.0.403\dotnet.exe` (not on PATH). `dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- --production-only` passed **84/84**, exit 0. Direct negative CLI `dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll capture --source lab2` exited 2 with `{"error":"legion-physical-only"}` without requiring a VM path. `git diff --check` previously passed before minor formatting; rerun at commit. No .NET installation, VM action, game input, screenshot, reload or addon deployment.
+- **Follow-up finding (not yet fixed):** Candidate query may record an all-`nil` `Inspect.Ability.New.Detail` batch as success and suppress future startup retries. Narrow code path `addons/RRECollector/candidates.lua` and `main.lua`; require positive returned evidence/listed-control health before replacing any saved candidate lookup, with an offline regression.
+- **Next:** Validate current diff and commit the reader guard + handoff, push normally. Then implement/test the separate candidate all-nil fail-closed gate. Preserve untracked work and keep RRE source separate from Workbridge/RR2.
 
 ## Current checkpoint — 12:21 EST (LEGION physical RIFT UI inventory recovered)
 

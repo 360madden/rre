@@ -11,7 +11,7 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine("RRE host reader 0.2.3 (file adapters and explicit read-only Lab2 acquisition)\n"
+                Console.WriteLine("RRE host reader 0.2.3 (offline file adapters; Lab2 acquisition blocked on LEGION)\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
@@ -36,13 +36,16 @@ public static class Program
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
                     ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
-                    ["lab2AcquisitionImplemented"] = true,["liveAcceptanceRequiresCurrentEvidence"] = true,
+                    ["lab2AcquisitionImplemented"] = true,
+                    ["lab2AcquisitionAllowedThisHost"] = !string.Equals(Environment.MachineName, "LEGION", StringComparison.OrdinalIgnoreCase),
+                    ["liveAcceptanceRequiresCurrentEvidence"] = true,
                     ["gameInputImplemented"] = false
                 };
             }
             else
             {
                 var source = Required(options, "--source");
+                RequireSourceHost(source, Environment.MachineName);
                 var input = Path.GetFullPath(Required(options, "--input"));
                 var module = options.GetValueOrDefault("--module", "all");
                 DataRules.Require(module is "all" or "abilities" or "context", "unknown-module");
@@ -115,6 +118,13 @@ public static class Program
         => options.GetValueOrDefault(name) ?? throw new ReaderFailure("missing-option:" + name);
     private static void Only(Dictionary<string, string> options, params string[] allowed)
         => DataRules.Require(options.Keys.All(allowed.Contains), "unknown-option");
+    // Host-specific guard precedes path resolution and any acquisition preflight.
+    // Offline file adapters remain usable on LEGION; the Lab2 live route does not.
+    public static void RequireSourceHost(string source, string host)
+    {
+        if (source == "lab2" && string.Equals(host, "LEGION", StringComparison.OrdinalIgnoreCase))
+            throw new ReaderFailure("legion-physical-only");
+    }
     public static void Publish(string destination, string json)
     {
         var full = Path.GetFullPath(destination);

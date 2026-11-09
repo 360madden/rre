@@ -1,5 +1,7 @@
 # RRE modular host reader
 
+**LEGION policy (November 9, 2026):** All game-facing RRE work on LEGION targets only its physical local RIFT. `capture --source lab2` is now rejected on LEGION *before* any acquisition preflight, irrespective of supplied files. Offline `saved`, `memory-scan`, `native-snapshot`, and `publication` inputs remain supported; replaying an existing artifact is not live VM access. Do not contact VMware labs from LEGION.
+
 One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.3 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
 
 ## Build and use
@@ -65,7 +67,7 @@ The package-free C# check executable covers both contracts' frame/assembly failu
 `tools/tests_reader/verify-wire-publisher.py --output NEW_DIR --saved SAVED_LUA --reader READER_DLL` additionally runs the existing SHA-pinned host Lua5.3 runtime (or `--lua-runtime lua51` for the retained Lua5.1 runtime) (no install), synthetic malformed/lifecycle cases and prior-good capture preservation, then an independently audited Python Base64/zlib roundtrip through the C# reader. The retained0.4.11 capture is safely literal-parsed, converted to byte-escaped Lua fixture data, and explicitly retagged to the current source version only offline. Empty Lua context tables are normalized to object maps for comparison; no populated values are changed. These are host interoperability checks, not RIFT runtime acceptance. Retagging is not proof of exact historical0.4.12 carrier compatibility; the separate SC628 regression replays the original SC622 snapshot/request. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.
 
 
-## Explicit Lab2 acquisition (SC625, one bounded live generation accepted)
+## Historical Lab2 acquisition (SC625; not permitted from LEGION)
 
 First coordinate a new exclusive Lab2 window with its current owner and manually Capture a fresh collector generation using the existing reviewed external mouse setup. Create exact binding/window JSON under the [contract](contract-lab2-acquisition.md); they record context, not permission. Then use the same entry point:
 
