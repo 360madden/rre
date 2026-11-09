@@ -136,7 +136,8 @@ def validate_admission(binding, window, repository, now=None):
     integer(binding['parts'], 1, 16, 'parts')
     integer(binding['payloadBytes'], 1, 65_536, 'payload-bytes')
     require(binding['parts'] == (binding['payloadBytes'] + 4095) // 4096, 'part-length-binding')
-    age = (now - utc(binding['observedAtUtc'])).total_seconds()
+    observed = utc(binding['observedAtUtc'])
+    age = (now - observed).total_seconds()
     require(0 <= age <= 900, 'binding-age')
 
     exact(window, ['schemaVersion', 'evidenceKind', 'target', 'startsAtUtc', 'endsAtUtc', 'owner'], 'window-keys')
@@ -146,6 +147,7 @@ def validate_admission(binding, window, repository, now=None):
     start, end = utc(window['startsAtUtc']), utc(window['endsAtUtc'])
     require(0 < (end - start).total_seconds() <= 900, 'window-duration')
     require(start <= now and (end - now).total_seconds() >= 60, 'window-admission')
+    require(start <= observed <= now, 'binding-window')
 
     require(type(binding['imagePath']) is str and type(binding['imageSha256']) is str
             and re.fullmatch(r'[0-9a-f]{64}', binding['imageSha256']) is not None, 'image-binding')

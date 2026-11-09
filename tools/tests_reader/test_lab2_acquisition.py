@@ -54,6 +54,15 @@ class AdmissionChecks(unittest.TestCase):
                 with self.assertRaises(m.AcquisitionFailure): self.validate()
                 self.binding = original
 
+    def test_publication_observed_before_window_is_rejected(self):
+        # A recent image is not necessarily evidence from this owner's window.
+        self.binding['observedAtUtc'] = '2026-11-07T19:57:59Z'
+        with self.assertRaisesRegex(m.AcquisitionFailure, 'binding-window'):
+            self.validate()
+        # An image observed exactly as the authorized window opens is eligible.
+        self.binding['observedAtUtc'] = '2026-11-07T19:58:00Z'
+        self.assertEqual(self.validate()['processId'], 9752)
+
     def test_control_window_not_inferred_from_record(self):
         for key, value in [('target', 'Lab1'), ('endsAtUtc', '2026-11-07T20:00:59Z'),
                            ('endsAtUtc', '2026-11-07T20:14:00Z'), ('startsAtUtc', '2026-11-07T20:01:00Z'),
