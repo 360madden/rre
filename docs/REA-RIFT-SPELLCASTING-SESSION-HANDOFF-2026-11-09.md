@@ -1,4 +1,10 @@
-# RRE session handoff — 2026-11-09, 11:14 EST
+# RRE session handoff — 2026-11-09, 12:08 EST
+
+## Current host routing — 12:08 EST (LEGION physical RIFT only)
+
+- **Explicit user instruction:** This session is on **LEGION**. Any RRE game-facing work from LEGION must target only the **physical RIFT client on LEGION**. Do **not use either VMware lab at all** while working on LEGION, including read-only VM inspection, capture, or controller checks. The old Lab-2-only policy is historical/not applicable on LEGION; no claim about another computer's current target. The manager updated the active host-specific rule in AGENTS.md.
+- **Fresh local process evidence:** Read-only LEGION Workbridge tasklist.exe checks for rift_x64.exe with /FI and /V both exited 0 at about 12:07–12:08 EST. One physical-host rift_x64.exe was running in the Console session as PID **21140**, user LEGION\mrkoo, window title RIFT. Workbridge desktop-window inventory returned INVALID_ARGUMENT; therefore no visual game-scene, active-addon-version, screenshot, playable-character or input-readiness claim was made. PID must be rechecked before future actions.
+- **Scope:** No keyboard/mouse input, reload, installation, game process manipulation, VMware use, SavedVariables write, or other-repo mutation. The operator's routing decision does not itself grant a live action. Base RRE main was 15464b1eb792a75bf6689b5e42312368b25cb45d with clean tracking before this documentation-only correction. Next: validate docs/roadmap/diff and commit this minimal policy/handoff change; retain older reports.
 
 ## New checkpoint — 11:14 EST (LEGION clone integrity and SavedVariables quoted-string fix)
 
