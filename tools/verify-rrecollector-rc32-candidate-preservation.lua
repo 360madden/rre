@@ -1,17 +1,18 @@
--- RC-32 pre-gate RED fixture. Source-extracts the real handler; no game/addon writes.
--- Run with --expect-red against frozen v0.4.10; --require-fixed after a later authorized fix.
+-- RC-32 source-extracted real-handler regression; no game/addon writes.
+-- Historical --expect-red describes frozen v0.4.10; --require-fixed checks current source.
 local f = assert(io.open("addons/RRECollector/main.lua", "rb"))
 local src = f:read("*a"); f:close()
 local section = assert(src:match("(local function runCandidateLookup%(trigger%).-)\n%-%- At most two event%-driven"),
   "candidate handler extraction failed (inspect source before updating fixture)")
--- Producer-side qualification is extracted from the frozen candidate module too:
+-- Producer-side qualification is extracted from the current candidate module:
 -- an empty Detail table is neither a Detail error nor a nil/no-detail result.
 local cf = assert(io.open("addons/RRECollector/candidates.lua", "rb"))
 local csrc = cf:read("*a"); cf:close()
 local producerQuery = assert(csrc:match("(  local function query%(item, phase%).-)\n  %-%- A known%-list control"),
   "candidate Detail query extraction failed (review source before updating fixture)")
 local producerPrefix = [==[
-local counts = {queried=0, listedControlQueried=0, unlistedQueried=0, errors=0,
+local counts = {queried=0, listedControlQueried=0, listedControlReturned=0,
+  unlistedQueried=0, errors=0,
   noDetail=0, returned=0, unlistedReturned=0, inconclusiveTables=0}
 local newApi = {Detail=function() return {} end}
 local abilityCopyDetail = function(fields) return fields end
@@ -25,7 +26,15 @@ assert(returned == false and item.status == "inconclusive-table"
   and counts.inconclusiveTables == 1 and counts.errors == 0
   and counts.noDetail == 0 and counts.returned == 0,
   "frozen source did not classify empty Detail table as inconclusive")
-print("PASS source-extracted empty Detail table classification (not a game API receipt)")
+assert(counts.listedControlReturned == 0, "inconclusive control must not count as returned")
+if not (type(arg) == "table" and arg[1] == "--expect-red") then
+  newApi.Detail = function() return {name="Positive control"} end
+  local good = {id="SOURCE-BOUND-POSITIVE-DETAIL",listed=true}
+  assert(query(good,"listed-control") == true and good.status == "returned"
+    and counts.listedControlReturned == 1 and counts.returned == 1,
+    "listed control positive response not counted")
+end
+print("PASS source-extracted positive/inconclusive Detail classification (not game API evidence)")
 ]==]
 assert((loadstring or load)(producerPrefix .. producerQuery .. producerSuffix,
   "RC32 source-extracted empty Detail table"))()
@@ -103,7 +112,8 @@ local function report(queried, errors, noDetail, inconclusive)
     unlistedLookupComplete = unlistedQueried == 57,
     counts = {
       catalog = 96, listed = 39, unlisted = 57, queried = queried,
-      listedControlQueried = 1, unlistedQueried = unlistedQueried,
+      listedControlQueried = 1, listedControlReturned = listedReturned,
+      unlistedQueried = unlistedQueried,
       errors = errors, noDetail = noDetail, returned = returned,
       unlistedReturned = returned - listedReturned,
       inconclusiveTables = inconclusive, skipped = 57 - unlistedQueried
@@ -155,6 +165,7 @@ local function priorIntact()
   return savedPriorSnapshot == nil
     or deeplyEqual(savedPriorSnapshot, RRECollectorData.candidateLookup)
 end
+local expectRed = type(arg) == "table" and arg[1] == "--expect-red"
 local old, latest, probe, toolbar = reset(true)
 nextReport = report(9, 9)
 runCandidateLookup("manual")
@@ -211,9 +222,16 @@ old, latest, probe, toolbar = reset(true)
 nextReport = report(9, 0, 9)
 local noDetail = nextReport
 runCandidateLookup("manual")
-check("error-free no-detail can replace", RRECollectorData.candidateLookup == noDetail
-  and RRECollectorData.candidateSequence == 8
-  and unchanged(latest, probe, toolbar))
+if expectRed then
+  check("error-free no-detail can replace", RRECollectorData.candidateLookup == noDetail
+    and RRECollectorData.candidateSequence == 8
+    and unchanged(latest, probe, toolbar))
+else
+  check("all-no-detail preserves useful prior", RRECollectorData.candidateLookup == old
+    and RRECollectorData.candidateSequence == 7
+    and rejected("incomplete") and priorIntact()
+    and unchanged(latest, probe, toolbar))
+end
 old, latest, probe, toolbar = reset(true)
 nextReport = report(58, 0)
 local positive = nextReport
@@ -228,7 +246,27 @@ check("deferred failure preserves prior", RRECollectorData.candidateLookup == ol
   and RRECollectorData.candidateSequence == 7
   and RRECollectorData.candidateAttempt.status == "deferred"
   and unchanged(latest, probe, toolbar))
-local expectRed = type(arg) == "table" and arg[1] == "--expect-red"
+if not expectRed then
+  old, latest, probe, toolbar = reset(false)
+  nextReport = report(9, 0, 9)
+  runCandidateLookup("manual")
+  check("all-no-detail without prior never records", rejected("incomplete")
+    and RRECollectorData.candidateLookup == nil and RRECollectorData.candidateSequence == 0
+    and unchanged(latest, probe, toolbar))
+  old, latest, probe, toolbar = reset(true)
+  nextReport = report(58, 0, 1)
+  -- One failed listed control with positive unlisted responses; counts remain coherent.
+  nextReport.entries[1].status, nextReport.entries[1].detail = "no-detail", nil
+  nextReport.entries[96].status = "returned"
+  nextReport.entries[96].detail = {name = nextReport.entries[96].name}
+  nextReport.counts.listedControlReturned = 0
+  nextReport.counts.unlistedReturned = nextReport.counts.unlistedReturned + 1
+  runCandidateLookup("manual")
+  check("failed listed control preserves prior despite unlisted positives",
+    RRECollectorData.candidateLookup == old and RRECollectorData.candidateSequence == 7
+    and rejected("incomplete") and priorIntact()
+    and unchanged(latest, probe, toolbar))
+end
 if expectRed then
   local wanted = {
     ["all-error preserves useful prior"] = true,

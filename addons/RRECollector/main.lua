@@ -126,7 +126,12 @@ local function runCandidateLookup(trigger)
   local countersValid = type(counts) == "table"
     and validCount(counts.queried) and counts.queried > 0
     and validCount(counts.errors) and validCount(counts.inconclusiveTables)
-    and counts.errors + counts.inconclusiveTables <= counts.queried
+    and validCount(counts.noDetail) and validCount(counts.returned)
+    and validCount(counts.listedControlQueried) and counts.listedControlQueried <= 1
+    and validCount(counts.listedControlReturned)
+    and counts.listedControlReturned <= counts.listedControlQueried
+    and counts.errors + counts.inconclusiveTables + counts.noDetail
+      + counts.returned == counts.queried
   local rejectedStatus, rejectedReason
   if not countersValid then
     rejectedStatus, rejectedReason = "incomplete", "detail-invalid-counts"
@@ -138,6 +143,10 @@ local function runCandidateLookup(trigger)
     end
   elseif counts.inconclusiveTables == counts.queried then
     rejectedStatus, rejectedReason = "incomplete", "detail-all-inconclusive"
+  elseif counts.returned == 0 then
+    rejectedStatus, rejectedReason = "incomplete", "detail-no-positive-result"
+  elseif counts.listedControlQueried > 0 and counts.listedControlReturned == 0 then
+    rejectedStatus, rejectedReason = "incomplete", "detail-listed-control-unverified"
   end
   if rejectedReason then
     pendingContextRetry = false
@@ -354,7 +363,14 @@ if savedEvent then
     local errors = type(priorCounts) == "table" and priorCounts.errors or nil
     local inconclusive = type(priorCounts) == "table"
       and priorCounts.inconclusiveTables or nil
-    -- Backward-compatible older cached reports may omit this newer counter.
+    local noDetail = type(priorCounts) == "table" and priorCounts.noDetail or nil
+    local returned = type(priorCounts) == "table" and priorCounts.returned or nil
+    local controlQueried = type(priorCounts) == "table"
+      and priorCounts.listedControlQueried or nil
+    local controlReturned = type(priorCounts) == "table"
+      and priorCounts.listedControlReturned or nil
+    -- Retain backward-compatible missing inconclusive count; missing positive
+    -- control evidence requires a fresh source-only probe, not a cached success.
     if inconclusive == nil then inconclusive = 0 end
     local function validSavedCount(value)
       return type(value) == "number" and value == value
@@ -366,7 +382,10 @@ if savedEvent then
       and validSavedCount(queried) and queried > 0
       and validSavedCount(errors) and errors < queried
       and validSavedCount(inconclusive) and inconclusive < queried
-      and errors + inconclusive < queried then
+      and validSavedCount(noDetail) and validSavedCount(returned) and returned > 0
+      and validSavedCount(controlQueried) and controlQueried <= 1
+      and validSavedCount(controlReturned) and controlReturned == controlQueried
+      and errors + inconclusive + noDetail + returned == queried then
       say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")
     else
       runCandidateLookup("startup")

@@ -77,6 +77,13 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
   assert.match(main, /elseif action == "candidates"/);
   assert.match(main, /runCandidateLookup\("startup"\)/);
   assert.match(main, /prior\.catalogVersion == candidateVersion/);
+  // Prevent recording a nil-only Detail batch or hiding a failed known-ability control.
+  assert.match(candidateLua, /listedControlReturned = 0/);
+  assert.match(candidateLua, /counts\.listedControlReturned = counts\.listedControlReturned \+ 1/);
+  assert.match(main, /detail-no-positive-result/);
+  assert.match(main, /detail-listed-control-unverified/);
+  assert.match(main, /counts\.errors \+ counts\.inconclusiveTables \+ counts\.noDetail/);
+  assert.match(main, /controlReturned == controlQueried/);
   assert.doesNotMatch(candidateLua, /Command\.(?:Ability|Unit|Input|System|Focus)/);
 });
 

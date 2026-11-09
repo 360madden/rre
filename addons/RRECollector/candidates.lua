@@ -68,7 +68,8 @@ local function lookup()
     apiReady = true, listRawCount = listRawCount, listUniqueCount = listUniqueCount,
     entries = {}, canaryIds = {}, counts = {
       catalog = #catalog.entries, listed = 0, unlisted = 0, queried = 0,
-      listedControlQueried = 0, unlistedQueried = 0, returned = 0,
+      listedControlQueried = 0, listedControlReturned = 0,
+      unlistedQueried = 0, returned = 0,
       unlistedReturned = 0, noDetail = 0, errors = 0,
       inconclusiveTables = 0, skipped = 0
     },
@@ -113,6 +114,7 @@ local function lookup()
       or type(fields.description) == "string" and #fields.description > 0 then
       item.status = "returned"
       counts.returned = counts.returned + 1
+      if item.listed then counts.listedControlReturned = counts.listedControlReturned + 1 end
       if not item.listed then
         counts.unlistedReturned = counts.unlistedReturned + 1
       end

@@ -1,4 +1,12 @@
-# RRE session handoff — 2026-11-09, 12:33 EST
+# RRE session handoff — 2026-11-09, 12:45 EST
+
+## Current checkpoint — 12:45 EST (candidate control fail-closed, source only)
+
+- **Confirmed scope:** RRE is one shared public repo for both hosts. Per Joey, LEGION has no VMware installation and game-facing work there must address only physical local RIFT; AMD-DESKTOP retains separately authorized VMware workflows. The host-specific rule is now prominent in `AGENTS.md` and `reader/README.md`. No VM operations or physical-game actions occurred in this checkpoint.
+- **Already pushed:** Reader guard commit `e8c9b6324a82f719683b76cb4ea115bc6d2a1c16` on public `main` after earlier `3daacfb7eb05a699f25e015e087ba399ba3ecad8`. The LEGION negative CLI exited 2 with `legion-physical-only`; .NET 10.0.403 isolated production checks passed 84/84, no install needed.
+- **New RRECollector source-only fix pending commit:** `addons/RRECollector/candidates.lua` records `listedControlReturned` only on positively identified known-ability Detail. `main.lua` requires valid query outcome accounting, a positive response, and a successful queried listed control before replacing `RRECollectorData.candidateLookup`; startup no longer skips requalification for all-nil or legacy missing-control evidence. Previous report/sequence/snapshots stay unchanged on rejection. No addon installation, UI load, game input, reload or SavedVariables write. RRECollector remains v0.4.14 source-only for LEGION; loaded version unverified.
+- **Tests and review:** `node tools/verify-rrecollector-candidates.mjs` 6/6 PASS; `node tools/verify-rrecollector-package.mjs` strict 11-source PASS; `node tools/validate-roadmap.mjs` 47 tasks/0 failures; `git diff --check` PASS. Updated source-extracted RC-32 candidate and startup Lua fixtures for all-nil, failed listed control, no prior, and cached report requalification. Independent read-only agent caught incorrect test entry 58 versus actual last queried entry 96; fixed before integration. **Lua fixtures have NOT been run on LEGION:** no Lua interpreter executable found under `C:\work`; do not call them green or infer runtime acceptance.
+- **Next:** Review scoped Git diff, commit and push source/docs/test changes with untracked items preserved; execute Lua RC-32 `--require-fixed` only when a permitted existing Lua runtime is available. Then separately authorize/qualify physical installed addon path and loaded version before considering LEGION runtime acceptance. Do not use VMware from LEGION.
 
 ## Current checkpoint — 12:33 EST (LEGION reader host gate tested)
 
