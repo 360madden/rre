@@ -22,6 +22,17 @@ behavior, routes and collision queries takes priority over writing a new pathfin
 
 The [visual-evidence contract and commands](docs/visual-evidence.md) define a reusable saved-screenshot package, recorded VM/game/action checks, bounded image diagnostics and side-by-side HTML/JSON reports. Use `tools/visual-evidence.py` with the existing Pillow runtime. Original images, metadata and source hashes are preserved. The unified research gate includes a separate image test group. A successful command is not proof of a visible game response; ambiguous images remain inconclusive. See [the integration roadmap](docs/VISUAL_EVIDENCE_ROADMAP.md). No live recorder or independent AI image reviewer is launched by this offline consumer.
 
+## Host-aware native-analysis dependency check
+
+RRE supports physical RIFT on **LEGION** and separately authorized VMware-backed RIFT on **AMD-DESKTOP**; VMware is not installed on LEGION. The lightweight toolchain doctor detects the machine's actual hostname and inventories dependencies without contacting the game or any VM:
+
+```powershell
+node tools/native-toolchain-doctor.mjs --python "C:\\Path\\To\\Python\\python.exe"
+node --test tools/test-native-toolchain-doctor.mjs
+```
+
+Optional absolute-path overrides: `--rea-home`, `--ghidra-home`, `--java-home`. With no configured Ghidra root the result is **unverified**, not globally absent. REA checks the installed `rea-agents` package metadata; Java uses a bounded `-version`; Python checks `capstone`, `pefile`, `Pillow`, and `iced-x86` package versions without importing analysis modules. This is a dependency inventory only, not proof of native-analysis capability or live RIFT acceptance. No package installation or service change occurs.
+
 ## Tracking work
 
 - Keep source code, scripts, research notes, and reproducible instructions in Git.
