@@ -33,6 +33,8 @@ node --test tools/test-native-toolchain-doctor.mjs
 
 Optional absolute-path overrides: `--rea-home`, `--ghidra-home`, `--java-home`. With no configured Ghidra root the result is **unverified**, not globally absent. REA checks the installed `rea-agents` package metadata; Java uses a bounded `-version`; Python checks `capstone`, `pefile`, `Pillow`, and `iced-x86` package versions without importing analysis modules. This is a dependency inventory only, not proof of native-analysis capability or live RIFT acceptance. No package installation or service change occurs.
 
+The verified [LEGION installation receipt](docs/LEGION-NATIVE-TOOLCHAIN-2026-11-09.md) records exact side-by-side tool paths, release checksums, and an REA Ghidra provider check. These LEGION paths do not change AMD-DESKTOP's installation choices.
+
 ## Tracking work
 
 - Keep source code, scripts, research notes, and reproducible instructions in Git.
