@@ -63,6 +63,17 @@ In both v0.4.13→v0.4.14 and v0.4.14→v0.4.14 simulated loads, the real SavedV
 
 **Proof limits:** Event delivery and the surrounding runtime were mocked; no real RIFT load, SaveVariables flush, installed-file comparison, guest process observation, active memory acquisition or UI-bound Capture occurred. The test does not prove a fresh addon load from a saved receipt, a real full publication, or the absence of stale heap copies. SC-629 remains **source-only/pending**; the accepted live version remains v0.4.13. No source or installed files changed.
 
+## November 9, 2026, 05:33 EST — v0.4.14 frame-generation alias regression (offline only)
+
+Two new focused tests exercise the actual `ProductionFrameCodec.DecodeFrame` and `Assemble` implementation with synthetic v0.4.14 RREC2 frames, not just an independent codec reimplementation:
+
+- **Positive control:** one complete two-part v0.4.14 generation with `capabilities.experience=true` and `experience.needed=0` passes after intentionally reversing the part order. The zero remains zero.
+- **Negative control:** two distinct v0.4.14 documents with the **same 32-hex session, sequence, part count and payload length** but different 4,096-character ability descriptions produce different Adler32 checksums. Taking part 1 from one generation and part 2 from the other fails specifically with `production-mixed-publication`, even though each original frame separately passes frame decoding. A fixture guard requires exactly two parts and distinct checksums, so wrong test setup cannot be mistaken for successful rejection.
+
+The real .NET 10 contract-only command `dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- --production-only` passed **81/81 checks**, exit 0 with untruncated output (Workbridge job `RRE20261109T0526_sc629_prod_checks_v1`). This extends the earlier 79 checks by two; it does not change production reader or addon code.
+
+**Proof limit:** The test proves rejection of *this* mixed generation under an unequal-checksum condition. Adler32 is not authentication, and equal-checksum collisions, stale but internally coherent publications, synthetic source claims and incomplete runtime acquisition remain possible. No live Lab-2 load, game input, SavedVariables flush, deployment, or currently running process/source identity was established. SC-629 remains **pending/source-only**, and v0.4.13 remains the latest qualified live collector.
+
 ## Next gate
 
 Keep the release **source-only** until reviewed version-matched v0.4.14 installation/load proof and one newly authorized, peer-coordinated Lab-2 manual Capture with RREC2 and SavedVariables parity. **Do not use the returned Lab-2 lease**. RC-30's original physical v0.4.10 Pin → Undo → Reload strict same-trial gate remains historically incomplete. SC-103 Legendary/Protector's Fury identity, SC-306 remaining queue values and SC-604 extended native semantics are not resolved by this work.

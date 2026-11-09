@@ -79,6 +79,37 @@ public static class ProductionChecks
         BadDoc("production0414 four-key Experience rejected",d=>{d["addonVersion"]="0.4.14";d["context"]!["capabilities"]!["experience"]=true;d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=1,["rested"]=2,["extra"]=3};});
         BadDoc("production0413 Experience flag forbidden",d=>d["context"]!["capabilities"]!["experience"]=false);
         BadDoc("production0413 Experience map forbidden",d=>d["context"]!["experience"]=new JsonObject{["needed"]=0});
+        Accept("production0414 coherent reordered two-part generation survives", () =>
+        {
+            var d=Document("0.4.14");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["needed"]=0};
+            d["abilities"]![0]!["description"]=new string('x',4096);
+            var parts=Frames(Bytes(d),"0.4.14");
+            if(parts.Count!=2)throw new Exception("expected two-part v0.4.14 control");
+            var decoded=parts.Select(p=>ProductionFrameCodec.DecodeFrame(Wire(p),Session,2)).Reverse().ToList();
+            var publication=ProductionFrameCodec.Assemble(decoded);
+            if(publication.AddonVersion!="0.4.14" || publication.Context["experience"]!["needed"]!.GetValue<int>()!=0)
+                throw new Exception("coherent v0.4.14 reordered payload rejected or changed");
+        });
+        Accept("production0414 shared-header mixed generations reject checksum mismatch", () =>
+        {
+            var d=Document("0.4.14");
+            d["context"]!["capabilities"]!["experience"]=false;
+            d["abilities"]![0]!["description"]=new string('x',4096);
+            var other=(JsonObject)d.DeepClone();
+            other["abilities"]![0]!["description"]=new string('y',4096);
+            var first=Frames(Bytes(d),"0.4.14");
+            var second=Frames(Bytes(other),"0.4.14");
+            if(first.Count!=2 || second.Count!=2 || first[0]["adler32"]!.GetValue<string>()==second[0]["adler32"]!.GetValue<string>())
+                throw new Exception("distinct equal-length two-part fixture required");
+            var mixed=new List<JsonObject>{
+                ProductionFrameCodec.DecodeFrame(Wire(first[0]),Session,2),
+                ProductionFrameCodec.DecodeFrame(Wire(second[1]),Session,2)};
+            try {ProductionFrameCodec.Assemble(mixed);}
+            catch(ReaderFailure e) when(e.Message=="production-mixed-publication") {return;}
+            throw new Exception("different publications accepted under shared session/sequence");
+        });
         Accept("production native snapshot carrier preserves contract context", () =>
         {
             var body=Frames(Bytes(Document()))[0];var (request,snapshot)=NativeChecks.Fixture(Wire(body));
