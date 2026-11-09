@@ -50,6 +50,7 @@ export function parseSavedLua(input) {
     while (i < src.length) {
       const c = src[i++];
       if (c === delim) return result;
+      if (c === "\n" || c === "\r") fail("unescaped newline in quoted string");
       if (c !== "\\") { result += c; continue; }
       if (i >= src.length) fail("unterminated escape");
       let e = src[i++];

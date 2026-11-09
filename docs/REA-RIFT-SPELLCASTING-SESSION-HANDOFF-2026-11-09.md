@@ -1,4 +1,12 @@
-# RRE session handoff — 2026-11-09, 10:48 EST
+# RRE session handoff — 2026-11-09, 11:14 EST
+
+## New checkpoint — 11:14 EST (LEGION clone integrity and SavedVariables quoted-string fix)
+
+- **Machine and publication:** Joey's interactive computer is **LEGION**, independently verified by its Workbridge hostname. A previously absent `C:\work\rre` was cloned from the new public repository `https://github.com/360madden/rre`; `main` and the AMD-DESKTOP source checkout both resolved to `5a95786c7bb360bec33635853fd4525f7f998e11` before this source change. LEGION's `git fsck --no-reflogs` passed, and the clone initially had a clean tracked worktree. All **nine historical untracked backups/probe items** remain on AMD-DESKTOP and were not included in Git. No existing LEGION checkout was overwritten; no originals were deleted.
+- **Bounded offline parser fix:** In `tools/read-rrecollector-saved.mjs`, disallow unescaped physical LF/CR inside Lua short quoted strings, while retaining escaped physical-newline support. Added LF, CRLF and CR cases to `tools/verify-rrecollector-saved.mjs`; a read-only red reproduction confirmed the old parser accepted raw LF. Edited SHA-256: parser `ca5990bf6071120aed00d9616fe76e6f8db890ad8703f9ce94314ecef95393d8`, focused test `a86c81cf2ff519adbd148fc2a4dace4786691833fa913cba12b7a976fcdf4164`.
+- **LEGION validation:** `node --test tools/verify-rrecollector-saved.mjs tools/tests_reader/test_saved_adapter.mjs` **24/24 PASS**, `node tools/verify-rrecollector-package.mjs` strict pass (v0.4.14, 11 sources), `node tools/validate-roadmap.mjs` 47 tasks/11 milestones/0 failures; all Workbridge jobs exited 0. No Lua interpreter was found on LEGION PATH or under `C:\work`, so the separately identified RC-32 addon startup-cache bug has **not** been modified or accepted.
+- **Unchanged limits:** No RIFT or VMware operation, deployment, game input, SavedVariables mutation, cross-project edit, provider substitution, full import or owner-window claim. RC-30 strict archival evidence, RC-32 live behavior, SC-103, SC-306 unknown modes, SC-629 v0.4.14 live admission and NAV-002 remain pending/blocked. AMD hourly automation may advance the shared GitHub main; recheck origin and avoid force pushes or resetting either checkout.
+- **Next:** Review changed-file diff/check, commit this LEGION-only source+test+handoff milestone, attempt a normal fast-forward push only if origin main has not advanced; otherwise preserve the local commit and reconcile Git without discarding either side.
 
 ## New checkpoint — 10:48 EST (SC-306 exact-build presentation anchor)
 

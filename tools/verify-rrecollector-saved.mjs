@@ -23,6 +23,15 @@ test("SavedVariables literal parser retains 0/false and escaped physical newline
   assert.equal(parsed.latest.captureComplete, true);
 });
 
+test("decoder rejects unescaped line breaks in Lua short strings", () => {
+  for (const raw of ["line\nbreak", "line\r\nbreak", "line\rbreak"]) {
+    assert.throws(
+      () => parseSavedLua('RRECollectorData = { description = "' + raw + '" }'),
+      /unescaped newline/
+    );
+  }
+});
+
 test("decoder refuses non-literal Lua and duplicate table keys", () => {
   assert.throws(()=>parseSavedLua('RRECollectorData = os.execute("bad")'),/only literal Lua values/);
   assert.throws(()=>parseSavedLua('RRECollectorData = { latest = {}, latest = {} }'),/duplicate Lua table key/);
