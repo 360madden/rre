@@ -24,7 +24,20 @@ local function scalar(value, stringLimit)
   if type(value) == "string" then
     local limit = stringLimit or 2048
     if #value <= limit then return value end
-    return value:sub(1, limit)
+    if limit <= 0 then return "" end
+    local endAt = limit
+    -- Keep the byte cap, but never split a valid UTF-8 character at its boundary.
+    -- Invalid source bytes remain the wire serializer's responsibility.
+    local following = value:byte(endAt + 1)
+    if following and following >= 128 and following <= 191 then
+      while endAt > 0 do
+        local byte = value:byte(endAt)
+        if byte < 128 or byte > 191 then break end
+        endAt = endAt - 1
+      end
+      endAt = endAt - 1
+    end
+    return value:sub(1, endAt)
   end
   return nil
 end

@@ -6,6 +6,18 @@ local function check(value, reason)
   assert(value, reason)
   checks = checks + 1
 end
+-- A byte cap must not leave an orphan UTF-8 lead/continuation byte.
+local scalar = RRECollectorRuntime.core.scalar
+local two = string.char(0xC3, 0xA9)
+local three = string.char(0xE2, 0x82, 0xAC)
+local four = string.char(0xF0, 0x9F, 0x98, 0x80)
+check(scalar(string.rep("a", 2047) .. two .. "Z", 2048) == string.rep("a", 2047), "two-byte boundary truncated intact")
+check(scalar(string.rep("a", 2047) .. three .. "Z", 2048) == string.rep("a", 2047), "three-byte boundary truncated intact")
+check(scalar(string.rep("a", 2046) .. four .. "Z", 2048) == string.rep("a", 2046), "four-byte boundary truncated intact")
+check(scalar(string.rep("a", 2046) .. two .. "Z", 2048) == string.rep("a", 2046) .. two, "exact UTF-8 boundary retained")
+check(scalar(string.rep("a", 2050), 2048) == string.rep("a", 2048), "ASCII cap unchanged")
+check(scalar(string.rep("b", 255) .. two .. "Z", 256) == string.rep("b", 255), "stats-map byte cap safe")
+check(scalar(string.char(0xC3), 2048) == string.char(0xC3), "malformed source not silently sanitized")
 local expHandler = function()
   experienceCalls = experienceCalls + 1
   return {accumulated = 0, needed = 1200, rested = 0}
