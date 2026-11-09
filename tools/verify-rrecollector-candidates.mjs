@@ -58,7 +58,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
     "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-    "candidate_catalog.lua", "candidates.lua", "ui.lua", "main.lua"
+    "candidate_catalog.lua", "candidates.lua", "wire.lua", "ui.lua", "main.lua"
   ]);
   for (const s of scripts) assert.ok(fs.existsSync(path.join(root,"addons/RRECollector",s)));
 });
