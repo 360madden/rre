@@ -1,4 +1,11 @@
-# RRE session handoff — 2026-11-09, 10:04 EST
+# RRE session handoff — 2026-11-09, 10:48 EST
+
+## New checkpoint — 10:48 EST (SC-306 exact-build presentation anchor)
+
+- **Preflight:** AMD-DESKTOP Workbridge v0.16.4-dev, RRE `C:\work\rre` `main` starting HEAD `ef96194080e090e2c02a96ce2722733e203c5235`; tracked files clean and nine historical untracked paths preserved. All eight RRE worktrees checked; only Pathfinding has two prior untracked scripts. RR2 and REA-Lab1 remain independently dirty; 15 REA assignments queued but none running. RRE has no registered assignments/owners; current Workbridge running-job view zero before checks, but history inventory incomplete.
+- **New static evidence:** The exact original Lab-2 PE copy (60,493,640 bytes, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`) contains UTF-16 `Ability Queue` at RVA `0x26B4178`, direct code reference at `0x66CCD4`, and a same-function `[rax+0xA4]` integer read at `0x66CCB5` with nearby `{0}` format literal `0x26A3130`; see the appended [SC-306 report](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md). A direct owner/global relationship, label-to-value enum, runtime display and cast behavior remain unproved. The only accepted UI/native pair is prior `1 → Short`; `0/2` unknown.
+- **Verification:** Four focused original-PE source jobs and two independent decoding/byte checks passed, with a corrected console-print-only failure retained. Final standard-library check: nine exact opcodes, two resolved RIP references, exact UTF-16 literals and two mutant controls; Capstone decoded the `.pdata` function. No broad import, process access, guest action or other repository write. Workbridge commands were verification jobs, **not AI reasoning agents**; FreeBuff/Ollama and provider substitution remain suspended, so zero independent model agents.
+- **Disposition:** Document this source-level presentation anchor and retain SC-306 as blocked pending genuinely new enum mapping evidence. Physical historical RC-30 A/B/C/D remains incomplete, SC-103 Legendary identity open, SC-604 interim, SC-629 v0.4.14 live admission on explicit hold, NAV-002 blocked. Only two RRE documentation files are proposed for commit after roadmap/link/diff checks; no addon, SavedVariables, runtime or installation changes. All jobs settle before exit; no live workers persist.
 
 ## New checkpoint — 10:04 EST (SC-625 window-bound observation admission)
 
