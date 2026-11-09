@@ -37,6 +37,14 @@ public static class ProductionChecks
                 Program.RequireSourceHost(source, "LEGION");
         });
         Accept("other host retains explicitly scoped Lab2 route", () => Program.RequireSourceHost("lab2", "AMD-DESKTOP"));
+        Accept("doctor tolerates absent Node executable", () =>
+        {
+            var repo = Environment.CurrentDirectory;
+            var absent = Path.Combine(repo, "rre-missing-node-" + Guid.NewGuid().ToString("N") + ".exe");
+            var probe = Program.ProbeNodeAsync(repo, absent).GetAwaiter().GetResult();
+            if (probe.Available || probe.Version is not null)
+                throw new Exception("missing Node executable reported available");
+        });
         Accept("production Unicode false zero and target survive", () =>
         {
             var p = Decode(Document()); var r = p.Abilities[0]!;

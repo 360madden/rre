@@ -28,11 +28,11 @@ public static class Program
             {
                 Only(options, "--repo");
                 var repo = Path.GetFullPath(Required(options, "--repo"));
-                var node = await OwnedProcess.RunAsync("node", ["--version"], repo, CancellationToken.None);
+                var node = await ProbeNodeAsync(repo);
                 output = new JsonObject
                 {
                     ["readerVersion"] = "0.2.3", ["dotnet"] = Environment.Version.ToString(),
-                    ["nodeAvailable"] = node.ExitCode == 0, ["nodeVersion"] = node.ExitCode == 0 ? node.Stdout.Trim() : null,
+                    ["nodeAvailable"] = node.Available, ["nodeVersion"] = node.Version,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
                     ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
@@ -103,6 +103,20 @@ public static class Program
             var code = error is ReaderFailure ? error.Message : error is OperationCanceledException ? "operation-timeout-or-cancelled" : "input-or-runtime-unavailable";
             Console.Error.WriteLine(JsonSerializer.Serialize(new { error = code }));
             return 2;
+        }
+    }
+    // Doctor reports a missing optional Node executable without treating it as a CLI failure.
+    // Real capture adapters still fail closed if their required helper cannot launch.
+    public static async Task<(bool Available, string? Version)> ProbeNodeAsync(string repo, string executable = "node")
+    {
+        try
+        {
+            var result = await OwnedProcess.RunAsync(executable, ["--version"], repo, CancellationToken.None);
+            return result.ExitCode == 0 ? (true, result.Stdout.Trim()) : (false, null);
+        }
+        catch (System.ComponentModel.Win32Exception e) when (e.NativeErrorCode == 2)
+        {
+            return (false, null);
         }
     }
     private static Dictionary<string, string> Options(string[] args)
