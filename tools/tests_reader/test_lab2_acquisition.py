@@ -42,6 +42,14 @@ class AdmissionChecks(unittest.TestCase):
         self.assertEqual(target['processStartUtcTicks'], 639294897826627677)
         self.assertEqual(target['executableSha256'], m.GAME_SHA.upper())
 
+    def test_python_helper_sha_matches_csharp_source_pin(self):
+        # Lab2Source.ReadAsync fails before acquisition on a stale helper pin.
+        source = (ROOT / 'reader/Rre.Reader/Lab2Source.cs').read_text(encoding='utf-8-sig')
+        match = re.search(r'public const string HelperSha = "([0-9A-F]{64})";', source)
+        self.assertIsNotNone(match)
+        helper = (ROOT / 'tools/rre_lab2_acquire.py').read_bytes()
+        self.assertEqual(m.sha_bytes(helper).upper(), match.group(1))
+
     def test_admission_rejects_stale_future_or_wrong_target(self):
         for key, value in [('observedAtUtc', '2026-11-07T19:44:59Z'), ('observedAtUtc', '2026-11-07T20:00:01Z'),
                            ('processStartUtcTicks', '0639294897826627677'), ('processStartUtcTicks', 639294897826627677),

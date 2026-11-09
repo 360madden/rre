@@ -12,7 +12,7 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
     public const string Bundle = "F4148B838AF694EF95FD46DE76859CE9DF55194A9FE8BE1DF74FC2F8F0BCE80F";
     public const string NativeHelperPath = @"C:\Users\mrkoo\AppData\Local\RiftReader2\codex-jobs\current-ability-records-F4148B838AF694EF\RiftReader2.Live.exe";
     public const string Build = "1935A05C9DB6D468E34E0055014A4A99C1B5AFCEB1695884E24600F5C20A4BE8";
-    public const string HelperSha = "4F3315324DF204D9C40F0477A65578B3126BA5C8DB74CFB159C9E9E739D95154";
+    public const string HelperSha = "0E7D9268840EAA10D7AC90833397632DE900A4504B10AF94E5491C26A732D5CC";
     public static readonly IReadOnlyDictionary<string,string> Dependencies = new Dictionary<string,string>(StringComparer.Ordinal)
     {
         [@"C:\work\riftreader2\scripts\vmware_guest_session.py"]="A3808F907224FEA709F2709CAB56345859474D268B910087A4236B2A0AED4048",
