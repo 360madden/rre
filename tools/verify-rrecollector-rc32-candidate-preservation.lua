@@ -266,6 +266,17 @@ if not expectRed then
     RRECollectorData.candidateLookup == old and RRECollectorData.candidateSequence == 7
     and rejected("incomplete") and priorIntact()
     and unchanged(latest, probe, toolbar))
+  old, latest, probe, toolbar = reset(true)
+  nextReport = report(58, 0)
+  -- Impossible producer counters: listed IDs exist but no listed control was
+  -- queried, while positive unlisted Detail results claim success.
+  nextReport.counts.listedControlQueried = 0
+  nextReport.counts.listedControlReturned = 0
+  runCandidateLookup("manual")
+  check("missing listed control query preserves prior despite positives",
+    RRECollectorData.candidateLookup == old and RRECollectorData.candidateSequence == 7
+    and rejected("incomplete") and priorIntact()
+    and unchanged(latest, probe, toolbar))
 end
 if expectRed then
   local wanted = {

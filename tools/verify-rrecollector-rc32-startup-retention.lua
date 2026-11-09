@@ -4,8 +4,8 @@
 -- Usage: lua tools/verify-rrecollector-rc32-startup-retention.lua --expect-red
 --        lua tools/verify-rrecollector-rc32-startup-retention.lua --require-fixed
 -- Frozen eight-case expectation: 3 RED and 5 PASS in --expect-red.
--- Fixed mode adds three targeted positive-control and partial-error cases
--- and requires all eleven cases to pass.
+-- Fixed mode adds four targeted positive-control and partial-error cases
+-- and requires all twelve cases to pass.
 --
 -- Failure is deliberately strict: changing/extracting the startup branch
 -- incompatibly requires fixture review, not an automatic green result.
@@ -249,6 +249,14 @@ if mode == "--require-fixed" then
   tests[#tests + 1] = {
     name = "partial-error prior must retry despite positive listed control",
     saved = partialError, expected = 1, frozenRed = false,
+  }
+  local noControl = report("valid")
+  -- Saved positive Detail counts must not hide a missing listed-control query.
+  noControl.counts.listedControlQueried = 0
+  noControl.counts.listedControlReturned = 0
+  tests[#tests + 1] = {
+    name = "listed positive catalog without control query must retry",
+    saved = noControl, expected = 1, frozenRed = false,
   }
   local legacyPositive = report("valid")
   legacyPositive.counts.listedControlReturned = nil

@@ -125,9 +125,11 @@ local function runCandidateLookup(trigger)
   end
   local countersValid = type(counts) == "table"
     and validCount(counts.queried) and counts.queried > 0
+    and validCount(counts.listed)
     and validCount(counts.errors) and validCount(counts.inconclusiveTables)
     and validCount(counts.noDetail) and validCount(counts.returned)
     and validCount(counts.listedControlQueried) and counts.listedControlQueried <= 1
+    and counts.listedControlQueried == (counts.listed > 0 and 1 or 0)
     and validCount(counts.listedControlReturned)
     and counts.listedControlReturned <= counts.listedControlQueried
     and counts.errors + counts.inconclusiveTables + counts.noDetail
@@ -365,6 +367,7 @@ if savedEvent then
       and priorCounts.inconclusiveTables or nil
     local noDetail = type(priorCounts) == "table" and priorCounts.noDetail or nil
     local returned = type(priorCounts) == "table" and priorCounts.returned or nil
+    local listed = type(priorCounts) == "table" and priorCounts.listed or nil
     local controlQueried = type(priorCounts) == "table"
       and priorCounts.listedControlQueried or nil
     local controlReturned = type(priorCounts) == "table"
@@ -383,7 +386,9 @@ if savedEvent then
       and validSavedCount(errors) and errors == 0
       and validSavedCount(inconclusive) and inconclusive < queried
       and validSavedCount(noDetail) and validSavedCount(returned) and returned > 0
+      and validSavedCount(listed)
       and validSavedCount(controlQueried) and controlQueried <= 1
+      and controlQueried == (listed > 0 and 1 or 0)
       and validSavedCount(controlReturned) and controlReturned == controlQueried
       and errors + inconclusive + noDetail + returned == queried then
       say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")

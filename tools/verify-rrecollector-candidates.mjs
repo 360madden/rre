@@ -85,6 +85,8 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
   assert.match(main, /counts\.errors \+ counts\.inconclusiveTables \+ counts\.noDetail/);
   assert.match(main, /controlReturned == controlQueried/);
   assert.match(main, /validSavedCount\(errors\) and errors == 0/);
+  assert.match(main, /counts\.listedControlQueried == \(counts\.listed > 0 and 1 or 0\)/);
+  assert.match(main, /controlQueried == \(listed > 0 and 1 or 0\)/);
   assert.doesNotMatch(candidateLua, /Command\.(?:Ability|Unit|Input|System|Focus)/);
 });
 
