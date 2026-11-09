@@ -1,4 +1,10 @@
-# RRE session handoff — 2026-11-09, 15:04 EST
+# RRE session handoff — 2026-11-09, 15:49 EST
+
+## New checkpoint — 15:49 EST (RC-30 newest saved-file version drift)
+
+- **Preflight:** Verified `AMD-DESKTOP` through hostname Workbridge job, runtime 0.16.4-dev; `C:\work\rre` on `main` HEAD `0fdfe73bcdf4aefea7acb1bb46186e7f30d65b6a`, two commits ahead of remote, clean tracked files with nine preserved untracked entries. All eight RRE worktrees enumerated and checked; only Pathfinding has two pre-existing untracked scripts. RR2 one untracked script, REA-Lab1 independent dirty files and 15 queued (none running) worker assignments preserved. RRE registered owners zero and no active Workbridge jobs before editing; historical job inventory incomplete.
+- **New original-file finding:** Read-only SHA-guarded receipt of previously authorized original character SavedVariables: `RRECollector.lua` SHA-256 `04aa55ec18db2dc6ff892b207d6c62cc5f04c1dd8046e4193ce7ab7f064c27b7`, 74,216 bytes, mtime `2026-11-06T15:42:30.669Z`. Strict `--require-version 0.4.10` exits 1 `SOURCE_VERSION_MISMATCH`; the same expected-hash input without version restriction exits 0 and identifies **v0.4.11**. Eight distinct populated IDs, fingerprint `b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`, Known69 and candidate96 preserved. The prior v0.4.10 November 5 receipts remain historical and separate. Current disk file cannot supply a new v0.4.10 pre/post control or the missing immediately-after-Undo screenshot C. No new live/game behavior inferred.
+- **Disposition:** RC-30 still strict PENDING. Document only this changed-source provenance in the RC-30 acceptance packet; no repeated reading of unchanged save, no operator replay, no addon/VM/game/process/input/lease operations and no cross-project writes. FreeBuff/Ollama and provider substitution remain suspended; zero model agents, Workbridge commands are not model workers. SC-103, SC-306 0/2, SC-629 admission/window and NAV-002 remain blocked; SC-604 stays interim. Validate roadmap, links and diff; commit only these two reviewed RRE documentation files if HEAD and ownership remain unchanged.
 
 ## New checkpoint — 15:04 EST (SC-306 shared numeric setter, bounded original-PE check)
 
