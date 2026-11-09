@@ -17,6 +17,14 @@ dotnet $reader capture --source saved --input C:\path\RRECollector.lua --repo C:
 
 The last command emits one compact JSON document. PowerShell can pipe it to `ConvertFrom-Json`; C# consumers can parse the same contract or reference the assembly's `IObservationSource`/`ObservationModules` APIs. Add `--module abilities` or `--module context` to select output. `validate` performs the same parsing checks and emits a compact validation receipt. `--output NEW_FILE` publishes without overwriting existing evidence; its parent must exist. There is no shell command interpolation.
 
+### LEGION physical RIFT: first supported data path
+
+1. Verify that the **physical** RIFT client actually loaded the matching RRECollector addon; an offline package check is not installed/runtime proof. Any in-game `/rre capture`, `/reloadui`, or game shutdown must be separately authorized before execution.
+2. After an authorized capture and normal SavedVariables flush, locate the *actual* per-character `RRECollector.lua` under the active RIFT documents/SavedVariables tree. Windows Documents may be redirected (including OneDrive); **do not assume an account/path or silently use a stale copy**.
+3. Read a retained copy without replacing the original: `dotnet $reader validate --source saved --input 'FULL_PATH_TO_RRECollector.lua' --repo C:\work\rre`. Use `capture` instead of `validate` for normalized JSON. A Workbridge connector limited to `C:\work` cannot access Documents directly; use an explicitly admitted root or an authorized copy inside the allowed workspace, never a path-rule bypass.
+
+This is a **file-backed physical workflow**, not continuous live memory acquisition. Its reader qualification remains offline and does not prove current game-process identity, freshness, or runtime acceptance. No VMware tools are involved on LEGION.
+
 For an explicit **SC618 fixture replay**, obtain its32hex session from the retained scan's SearchText:
 
 ```powershell
