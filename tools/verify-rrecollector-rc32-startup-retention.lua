@@ -3,8 +3,9 @@
 -- Never invokes RIFT, input, SavedVariables on disk, or addon deployment.
 -- Usage: lua tools/verify-rrecollector-rc32-startup-retention.lua --expect-red
 --        lua tools/verify-rrecollector-rc32-startup-retention.lua --require-fixed
--- Expanded eight-case frozen-source expectation: 3 RED and 5 PASS in --expect-red.
--- After an authorized source fix, --require-fixed must yield 8 PASS.
+-- Frozen eight-case expectation: 3 RED and 5 PASS in --expect-red.
+-- Fixed mode adds three targeted positive-control and partial-error cases
+-- and requires all eleven cases to pass.
 --
 -- Failure is deliberately strict: changing/extracting the startup branch
 -- incompatibly requires fixture review, not an automatic green result.
@@ -237,6 +238,17 @@ if mode == "--require-fixed" then
   tests[#tests + 1] = {
     name = "failed listed control must retry despite positive canaries",
     saved = failedControl, expected = 1, frozenRed = false,
+  }
+  local partialError = report("valid")
+  -- One failed unlisted Detail in an otherwise coherent, positive-control batch.
+  -- A prior rejected batch must not become a cached startup success.
+  partialError.entries[40].status, partialError.entries[40].detail = "lookup-error", nil
+  partialError.counts.errors = 1
+  partialError.counts.returned = partialError.counts.returned - 1
+  partialError.counts.unlistedReturned = partialError.counts.unlistedReturned - 1
+  tests[#tests + 1] = {
+    name = "partial-error prior must retry despite positive listed control",
+    saved = partialError, expected = 1, frozenRed = false,
   }
   local legacyPositive = report("valid")
   legacyPositive.counts.listedControlReturned = nil

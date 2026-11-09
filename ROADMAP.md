@@ -1,6 +1,8 @@
 # RRE navigation research roadmap
 
-**Current target override — November 7, 2026:** [RIFT-Lab-2 is the ONLY RRE live-testing target](docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md). This supersedes physical-PC target/deployment directions below; retain them as dated history. The active casting register records SC-607 for the switch. Existing NAV acceptance and live-input gates remain unchanged.
+**Current cross-host routing — November 9, 2026:** RRE is one public application supporting physical RIFT and VMware-backed RIFT on their respective authorized computers. **LEGION has no VMware installed and must use only its local physical RIFT client; never contact either VMware lab from LEGION, even read-only.** AMD-DESKTOP's VMware support remains in the project, but the active session's target/authorization rules determine which lab (if any) may be used. Independently verify the actual host before host-specific actions. This host-aware rule supersedes the November 7 Lab-2-only statement below for LEGION; retain that statement as historical evidence, not as a LEGION workflow.
+
+**Historical target override — November 7, 2026:** [RIFT-Lab-2 is the ONLY RRE live-testing target](docs/REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md). This supersedes physical-PC target/deployment directions below; retain them as dated history. The active casting register records SC-607 for the switch. Existing NAV acceptance and live-input gates remain unchanged.
 
 **REA casting active location (Oct 27 user instruction):** physical-PC RIFT installation **only**, not VMware. [Local target and SHA policy](docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md). Keep old navigation/VM roadmap as historical independent work; resume [REA casting tasks](docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json) from their current `nextTaskId` (SC-102 as of November 1), not this historical NAV board.
 

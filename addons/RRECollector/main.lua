@@ -380,7 +380,7 @@ if savedEvent then
     if type(prior) == "table" and prior.catalogVersion == candidateVersion
       and prior.apiReady == true
       and validSavedCount(queried) and queried > 0
-      and validSavedCount(errors) and errors < queried
+      and validSavedCount(errors) and errors == 0
       and validSavedCount(inconclusive) and inconclusive < queried
       and validSavedCount(noDetail) and validSavedCount(returned) and returned > 0
       and validSavedCount(controlQueried) and controlQueried <= 1
