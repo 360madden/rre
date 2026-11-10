@@ -29,7 +29,7 @@ local function candidateStatus()
     end
     return
   end
-  local c = report.counts or {}
+  local c = type(report.counts) == "table" and report.counts or {}
   say("Candidate lookup #" .. tostring(report.sequence or "?")
     .. " " .. tostring(report.catalogVersion or "?")
     .. ": " .. tostring(c.listed or "?") .. " currently listed, "
@@ -50,8 +50,8 @@ local function status()
     candidateStatus()
     return
   end
-  local list = latest.abilityList or {}
-  local p = latest.player or {}
+  local list = type(latest.abilityList) == "table" and latest.abilityList or {}
+  local p = type(latest.player) == "table" and latest.player or {}
   -- A previous capture survives addon updates; identify it by its saved version.
   local captureVersion = type(latest.addonVersion) == "string"
     and latest.addonVersion:match("^%d+%.%d+%.%d+$")
