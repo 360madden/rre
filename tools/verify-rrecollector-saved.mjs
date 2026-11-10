@@ -4,6 +4,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { parseSavedLua, buildAbilityCrosswalk, assessSnapshotForComparison } from "./read-rrecollector-saved.mjs";
+import { exportSavedSnapshot } from "./rre-reader-saved-snapshot.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const staticCatalog = JSON.parse(fs.readFileSync(
@@ -207,4 +208,14 @@ test("explicit one-based Lua ability keys pass the offline structure gate", () =
   const result = assessSnapshotForComparison(saved);
   assert.equal(result.offlineStructureQualified,true);
   assert.equal(result.eventComparisonReady,false);
+});
+
+test("saved reader rejects malformed raw ability fields before the crosswalk drops them", () => {
+  const bad = 'RRECollectorData = {addonVersion="0.4.14", sequence=7, latest={addonVersion="0.4.14", sequence=7, captureComplete=true, abilityList={apiAvailable=true, enumerationComplete=true, detailFailures=0, ignored=0, truncated=0, uniqueCount=1, detailCount=1, rawEntries=1}, player={id="uFIXTURE", name="Fixture"}, roleSlot=1, frameTime=10, realTime=20, capabilities={player=true, experience=false}, abilities={{lookupId="A0000000100000000", name="Fixture", passive={}}}}}';
+  assert.throws(() => exportSavedSnapshot(Buffer.from(bad)), /ability-field-not-scalar/);
+  const corrected = Buffer.from(bad.replace("passive={}", "passive=false, cooldown=0"));
+  const result = exportSavedSnapshot(corrected);
+  assert.equal(result.structure.offlineStructureQualified, true);
+  assert.equal(result.abilities[0].passive, false);
+  assert.equal(result.abilities[0].cooldown, 0);
 });

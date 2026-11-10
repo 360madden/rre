@@ -30,10 +30,18 @@ export function exportSavedSnapshot(bytes) {
   const saved = parseSavedLua(text);
   const structure = assessSnapshotForComparison(saved);
   if (!structure.offlineStructureQualified) throw Error('saved-structure-unqualified:' + structure.reasons.join(','));
+  // The historical crosswalk drops non-scalars; reject malformed raw fields first.
+  const rawAbilities = Object.values(saved.latest.abilities);
+  for (const row of rawAbilities) {
+    if (!row || typeof row !== 'object' || Array.isArray(row)) throw Error('ability-record-shape');
+    if (!Object.values(row).every(value => typeof value === 'string'
+        || typeof value === 'boolean' || typeof value === 'number' && Number.isFinite(value)))
+      throw Error('ability-field-not-scalar');
+  }
   const crosswalk = buildAbilityCrosswalk(saved, {records:[], catalogVersion:'no-static-catalog'}, sha(bytes));
   // The historical research crosswalk deliberately redacts target IDs. The local
   // reader data contract retains the producer's scalar target without changing it.
-  const rawById = new Map(Object.values(saved.latest.abilities).map(row=>[row.lookupId,row]));
+  const rawById = new Map(rawAbilities.map(row=>[row.lookupId,row]));
   const abilities = crosswalk.knownOutsideStatic.map(row=>{
     const detail = {...row.currentDetail};
     if (detail.lookupId.length !== 17 || !/^A[0-9A-F]{16}$/.test(detail.lookupId)) throw Error('ability-id-unqualified');
