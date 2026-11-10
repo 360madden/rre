@@ -103,6 +103,10 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     reader_sha = str(snap["source"]["implementation"]["bundleSha256"]).upper()
     check(len(reader_sha) == 64 and all(c in "0123456789ABCDEF" for c in reader_sha),
           "unqualified reader bundle SHA")
+    inspection_impl = inspection.get("implementation")
+    check(isinstance(inspection_impl, dict)
+          and str(inspection_impl.get("bundleSha256", "")).upper() == reader_sha,
+          "inspection reader bundle differs")
 
     chunks = snap["chunks"]
     check(len(chunks) == 4, "expected exactly four loaded-byte chunks")

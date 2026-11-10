@@ -34,7 +34,9 @@ class CorrelationTests(unittest.TestCase):
             "moduleSize": 63164416,
         }
         identity = {**target, "moduleBaseAddress": BASE}
-        self.save("native-inspection.json", {"target": target})
+        self.save("native-inspection.json", {
+            "target": target, "implementation": {"bundleSha256": "B" * 64},
+        })
         parts = {
             0xBD2DA7: SETTER,
             0xBD7153: bytes.fromhex("8b98a4000000"),
@@ -166,6 +168,18 @@ class CorrelationTests(unittest.TestCase):
         self.mutate("loaded-code-and-settings-root-v2.json",
                     lambda x: x.update({"completedAtUtc": "2026-11-07T15:51:49Z"}))
         with self.assertRaisesRegex(EvidenceError, "preceding loaded-byte snapshot"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_changed_inspection_bundle_rejected(self) -> None:
+        self.mutate("native-inspection.json",
+                    lambda x: x["implementation"].update({"bundleSha256": "A" * 64}))
+        with self.assertRaisesRegex(EvidenceError, "inspection reader bundle differs"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_missing_inspection_bundle_rejected(self) -> None:
+        self.mutate("native-inspection.json",
+                    lambda x: x.pop("implementation"))
+        with self.assertRaisesRegex(EvidenceError, "inspection reader bundle differs"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_changed_root_pointer_rejected(self) -> None:
