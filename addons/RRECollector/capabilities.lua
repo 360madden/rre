@@ -1,4 +1,4 @@
--- RRECollector v0.2.0: one-shot, guarded addon API capability receipt.
+-- RRECollector capability receipts: one-shot, guarded API discovery.
 -- No game actions, arbitrary API invocation, polling or full documentation export.
 local MAX_INDEX_SCAN = 2048
 local MAX_MATCHES = 96
@@ -129,4 +129,88 @@ local function collectProbe()
   return result
 end
 
-RRECollectorRuntime.capabilities = { probe = collectProbe }
+-- Profession discovery is intentionally separate from combat ability capture.
+-- API names and path types are observations, NOT a guarantee of a usable
+-- profession schema; no crafting, recipe or skill function is invoked.
+local PROFESSION_STEMS = {
+  "Craft", "Crafting", "Profession", "Tradeskill", "TradeSkill",
+  "Recipe", "Fishing", "Survival", "Skill"
+}
+local PROFESSION_TERMS = {
+  "craft", "profession", "tradeskill", "recipe", "fishing", "survival"
+}
+local function professionName(name)
+  if type(name) ~= "string" or #name == 0 or #name > MAX_NAME then return false end
+  if name:sub(1, 8) ~= "Inspect." and name:sub(1, 8) ~= "Command."
+    and name:sub(1, 6) ~= "Event." then return false end
+  local lower = name:lower()
+  for _, term in ipairs(PROFESSION_TERMS) do
+    if lower:find(term, 1, true) then return true end
+  end
+  return false
+end
+local function collectProfessions()
+  local context = RRECollectorRuntime.context.snapshot()
+  local player = type(context.player) == "table" and context.player or {}
+  local report = {
+    schemaVersion = RRECollectorRuntime.SCHEMA,
+    addonVersion = RRECollectorRuntime.VERSION,
+    source = "Inspect.Documentation and exact guarded profession namespace types",
+    scope = "profession-api-discovery-only-no-gameplay-or-ability-coverage-claim",
+    frameTime = context.frameTime, realTime = context.realTime,
+    clientVersion = context.clientVersion, roleSlot = context.roleSlot,
+    player = {id = player.id, name = player.name, calling = player.calling,
+      level = player.level, role = player.role},
+    pathTypes = {}, documents = {}, documentationStatus = "missing",
+    index = {scanned = 0, matched = 0, retained = 0, ignored = 0,
+      truncated = 0, scanLimitReached = false, names = {}}, documentErrors = 0,
+  }
+  for _, stem in ipairs(PROFESSION_STEMS) do
+    for _, suffix in ipairs({"List", "Detail"}) do
+      local path = "Inspect." .. stem .. "." .. suffix
+      report.pathTypes[path] = resolveType(path)
+    end
+  end
+  local doc = type(Inspect) == "table" and Inspect.Documentation or nil
+  if type(doc) ~= "function" then return report end
+  local ok, index = pcall(doc)
+  if not ok then report.documentationStatus = "index-error"
+  elseif type(index) ~= "table" then report.documentationStatus = "index-non-table"
+  else
+    report.documentationStatus = "index-available"
+    for name in pairs(index) do
+      if report.index.scanned >= MAX_INDEX_SCAN then
+        report.index.scanLimitReached = true; break
+      end
+      report.index.scanned = report.index.scanned + 1
+      if professionName(name) then
+        report.index.matched = report.index.matched + 1
+        if #report.index.names < MAX_MATCHES then
+          report.index.names[#report.index.names + 1] = name
+        else report.index.truncated = report.index.truncated + 1 end
+      else report.index.ignored = report.index.ignored + 1 end
+    end
+    table.sort(report.index.names)
+    report.index.retained = #report.index.names
+  end
+  -- Inspect.Documentation(name) only; never invoke the candidate API itself.
+  -- Cap single-name descriptions and document requests to 18 exact paths.
+  for _, stem in ipairs(PROFESSION_STEMS) do
+    for _, suffix in ipairs({"List", "Detail"}) do
+      local name = "Inspect." .. stem .. "." .. suffix
+      local docOk, description = pcall(doc, name)
+      if not docOk then
+        report.documents[name] = {status = "error"}
+        report.documentErrors = report.documentErrors + 1
+      elseif type(description) == "string" then
+        report.documents[name] = {status = "returned", text = description:sub(1, MAX_DOC),
+          textTruncated = #description > MAX_DOC}
+      else
+        report.documents[name] = {status = "other", returnType = type(description)}
+      end
+    end
+  end
+  return report
+end
+
+RRECollectorRuntime.capabilities = { probe = collectProbe, professions = collectProfessions }

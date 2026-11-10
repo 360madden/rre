@@ -78,9 +78,17 @@ test("SavedVariables damage and first-capture empty slots do not break browsing"
 
 test("Empty API lists, malformed saved counters and bogus prior catalogs are not complete", () => {
   assert.match(abilities, /captureComplete = enumeration.apiAvailable and #ids > 0/);
+  assert.match(abilities, /and nonempty\(context\.player\.calling, 128\)/);
+  assert.match(abilities, /and shared\.finite\(context\.player\.level\) and context\.player\.level > 0/);
+  assert.match(abilities, /if not substantive\(item\) then/);
+  assert.match(abilities, /if substantive\(item\) then/);
+  assert.match(abilities, /and shared\.finite\(context\.frameTime\) and context\.frameTime >= 0/);
+  assert.match(main, /savedSnapshotComplete\(prior\) and record\.captureComplete ~= true/);
   assert.ok(abilities.includes("priorSequence ~= math.floor(priorSequence)"));
   assert.match(abilities, /priorSequence >= 9007199254740991/);
   assert.match(main, /if count < 1 or count > 512 or list.uniqueCount ~= count/);
+  assert.match(main, /or type\(latest\.player\.id\) ~= "string" or #latest\.player\.id == 0/);
+  assert.match(main, /or not finite\(latest\.player\.level\) or latest\.player\.level <= 0/);
   assert.match(main, /list.detailCount ~= count or list.detailFailures ~= 0/);
   assert.match(main, /list.apiAvailable ~= true or list.enumerationComplete ~= true/);
   assert.match(main, /list.ignored ~= 0 or list.truncated ~= 0/);
@@ -110,6 +118,22 @@ test("bounded capability index and live wire receipt are not overstated", () => 
   assert.match(capabilities, /if result.index.scanned >= MAX_INDEX_SCAN then/);
   assert.match(main, /wire.receipt\(\) or nil/);
   assert.match(main, /saved API capture and wire publication are separate/);
+});
+
+test("Profession discovery is bounded, read-only and keeps snapshots independent", () => {
+  assert.match(capabilities, /local function collectProfessions\(\)/);
+  assert.match(capabilities, /for _, stem in ipairs\(PROFESSION_STEMS\) do/);
+  assert.match(capabilities, /if report\.index\.scanned >= MAX_INDEX_SCAN then/);
+  assert.match(capabilities, /if #report\.index\.names < MAX_MATCHES then/);
+  assert.match(capabilities, /local docOk, description = pcall\(doc, name\)/);
+  assert.doesNotMatch(capabilities, /pcall\(current\s*[,\)]/);
+  assert.match(main, /elseif action == "professions" then/);
+  assert.match(main, /RRECollectorData\.professionProbe = report/);
+  assert.match(main, /RRECollectorData\.professionProbeSequence = sequence/);
+  assert.match(main, /nextSequence\(RRECollectorData\.candidateSequence\)/);
+  assert.match(main, /nextSequence\(RRECollectorData\.probeSequence\)/);
+  assert.match(main, /nextSequence\(RRECollectorData\.professionProbeSequence\)/);
+  assert.match(ui, /if length <= 3 then return v:sub\(1, length\) end/);
 });
 
 test("One version drives toolbar title and startup chat", () => {

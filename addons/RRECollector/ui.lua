@@ -43,7 +43,10 @@ local function safe(value, fallback)
 end
 local function short(value, length)
   local v = safe(value, "?")
+  if type(length) ~= "number" or length < 1 then return "" end
+  length = math.floor(length)
   if #v <= length then return v end
+  if length <= 3 then return v:sub(1, length) end
   local n = length - 3
   while n > 1 do
     local b = string.byte(v, n + 1)

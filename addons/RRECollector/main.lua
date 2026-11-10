@@ -1,4 +1,4 @@
--- RRECollector v0.4.16: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.17: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -56,7 +56,10 @@ local function savedSnapshotComplete(latest)
     or list.detailCount ~= count or list.detailFailures ~= 0
     or list.apiAvailable ~= true or list.enumerationComplete ~= true
     or list.ignored ~= 0 or list.truncated ~= 0
-    or type(latest.player.calling) ~= "string" then return false end
+    or type(latest.player.id) ~= "string" or #latest.player.id == 0
+    or type(latest.player.name) ~= "string" or #latest.player.name == 0
+    or type(latest.player.calling) ~= "string" or #latest.player.calling == 0
+    or not finite(latest.player.level) or latest.player.level <= 0 then return false end
   local seen = {}
   for i = 1, count do
     local item = rawget(latest.abilities, i)
@@ -66,6 +69,12 @@ local function savedSnapshotComplete(latest)
     seen[id] = true
   end
   return true
+end
+
+local function nextSequence(previous)
+  if not finite(previous) or previous < 0 or previous >= 9007199254740991
+    or previous ~= math.floor(previous) then previous = 0 end
+  return previous + 1
 end
 
 local function status()
@@ -140,7 +149,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | candidates | ui | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -224,8 +233,7 @@ local function runCandidateLookup(trigger)
     return false
   end
   pendingContextRetry = false
-  local sequence = (type(RRECollectorData.candidateSequence) == "number"
-    and RRECollectorData.candidateSequence or 0) + 1
+  local sequence = nextSequence(RRECollectorData.candidateSequence)
   report.sequence = sequence
   report.trigger = trigger
   RRECollectorData.candidateLookup = report
@@ -327,8 +335,7 @@ local function onSlash(_, raw)
         say("Probe failed safely; prior ability and probe snapshots preserved.")
         return
       end
-      local nextProbe = (type(RRECollectorData.probeSequence) == "number"
-        and RRECollectorData.probeSequence or 0) + 1
+      local nextProbe = nextSequence(RRECollectorData.probeSequence)
       report.sequence = nextProbe
       RRECollectorData.probe = report
       RRECollectorData.probeSequence = nextProbe
@@ -339,6 +346,34 @@ local function onSlash(_, raw)
         .. tostring(index.retained or 0) .. ", doc errors "
         .. tostring(report.documentErrors or 0) .. ".")
       say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
+    elseif action == "professions" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local probeOk, report = pcall(RRECollectorRuntime.capabilities.professions)
+      if not probeOk or type(report) ~= "table" or type(report.index) ~= "table"
+        or type(report.pathTypes) ~= "table" then
+        lastMessage = "profession-probe-error"
+        say("Profession discovery failed safely; prior snapshots and probe preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.professionProbeSequence)
+      report.sequence = sequence
+      RRECollectorData.professionProbe = report
+      RRECollectorData.professionProbeSequence = sequence
+      lastMessage = "profession-probe-recorded"
+      local callable = 0
+      for _, value in pairs(report.pathTypes) do
+        if value == "function" then callable = callable + 1 end
+      end
+      local idx = report.index
+      say("Profession API discovery #" .. tostring(sequence) .. ": docs "
+        .. tostring(report.documentationStatus) .. ", names " .. tostring(idx.retained or 0)
+        .. ", scanned " .. tostring(idx.scanned or 0)
+        .. ", limit " .. tostring(idx.scanLimitReached == true)
+        .. ", candidate callable paths " .. tostring(callable) .. ".")
+      say("Saved separately as professionProbe after normal UI reload/logout. API names/types do not prove profession data coverage.")
     elseif action == "candidates" then
       runCandidateLookup("manual")
     elseif action == "ui" then
@@ -372,7 +407,7 @@ local function onSlash(_, raw)
         and latest.addonVersion or "unknown"
       say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
         .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
-      say("Separate research receipts: RRECollectorData.probe and .candidateLookup.")
+      say("Separate research receipts: .probe, .professionProbe and .candidateLookup.")
       say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")

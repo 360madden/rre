@@ -13,10 +13,11 @@ public static class ProductionFrameCodec
     public const string MetadataAddonVersion = "0.4.13";
     public const string ExperienceAddonVersion = "0.4.14";
     public const string PreviousAddonVersion = "0.4.15";
-    public const string LatestAddonVersion = "0.4.16";
-    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or LatestAddonVersion;
-    private static bool HasUnitMetadata(string version) => version is MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or LatestAddonVersion;
-    private static bool HasExperience(string version) => version is ExperienceAddonVersion or PreviousAddonVersion or LatestAddonVersion;
+    public const string RecentAddonVersion = "0.4.16";
+    public const string LatestAddonVersion = "0.4.17";
+    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or LatestAddonVersion;
+    private static bool HasUnitMetadata(string version) => version is MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or LatestAddonVersion;
+    private static bool HasExperience(string version) => version is ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or LatestAddonVersion;
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
     public static JsonObject DecodeFrame(ReadOnlySpan<byte> bytes, string session, long sequence, bool allowContextTail = false)
     {

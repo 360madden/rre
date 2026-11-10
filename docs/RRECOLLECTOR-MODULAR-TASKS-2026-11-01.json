@@ -1153,7 +1153,30 @@
         "No unrelated add-on changes or LEGION VMware operation"
       ],
       "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
-      "currentResult": "RC34-A/B/C/D offline complete: v0.4.16 exact guarded Pin/Check, distinct ID/caption and saved/context/wire status, capped API docs, producer/reader version alignment. Node focused 31/31 and auto suite 38/38 PASS; C# production 89/89 PASS; strict source and LEGION OneDrive installed 11/11 SHA parity after backup artifacts/RRECollector-installed-v0416-LEGION-20261110-174700-526. Lua execution and physical Rogue/Warrior/profession in-game acceptance RC34-E pending; OneDrive sync to other machines unverified."
+      "currentResult": "RC34-A/B/C/D offline complete: v0.4.16 exact guarded Pin/Check, distinct ID/caption and saved/context/wire status, capped API docs, producer/reader version alignment. Node focused 31/31 and auto suite 38/38 PASS; C# production 89/89 PASS; strict source and LEGION OneDrive installed 11/11 SHA parity after backup artifacts/RRECollector-installed-v0416-LEGION-20261110-174700-526; pushed as commit 993c234. Lua execution and physical Rogue/Warrior/profession in-game acceptance RC34-E pending; OneDrive sync to other machines unverified."
+    },
+    {
+      "id": "RC-35",
+      "phase": "M4",
+      "title": "Preserve complete ability snapshots and discover profession APIs without gameplay actions",
+      "state": "in-progress",
+      "dependsOn": ["RC-34"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": ["addons/RRECollector/abilities.lua", "addons/RRECollector/capabilities.lua", "addons/RRECollector/main.lua", "addons/RRECollector/ui.lua", "tools/verify-rrecollector-cross-calling.mjs", "docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "scope": [
+        "Reject incomplete player/role/clock context and inconclusive Detail tables before saving a complete ability capture",
+        "Bound and sanitize ability IDs and persisted probe/candidate counters",
+        "Manually collect profession API documentation/path-type receipt in professionProbe without invoking crafting APIs",
+        "Update v0.4.17 title, startup chat, TOC and RREC2 C#/Node readers; deploy exclusively to LEGION OneDrive"
+      ],
+      "acceptance": [
+        "Focused source regressions and .NET production reader pass, 11/11 source/installed parity",
+        "Existing latest/probe/candidateLookup unchanged by profession discovery",
+        "Current-game profession API schema and live Rogue/Warrior capture require separate physical runtime receipt",
+        "No LEGION VMware/game input, cross-repo writes or unverified propagation claims"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "RC35-B/C/D source and OneDrive complete v0.4.17: 33/33 focused Node, 38/38 Node auto, 91/91 C# production, strict 11/11 LEGION OneDrive parity after v0.4.16 backup. RC35-E physical client `/rre professions` and Rogue/Warrior current-client live acceptance still pending; Lua interpreter unavailable on LEGION."
     }
   ],
   "workingSource": {

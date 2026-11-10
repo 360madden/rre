@@ -4,6 +4,14 @@ local call, fieldCopy = shared.call, shared.fieldCopy
 local snapshotContext = RRECollectorRuntime.context.snapshot
 local SCHEMA, VERSION = RRECollectorRuntime.SCHEMA, RRECollectorRuntime.VERSION
 local MAX_LIST_ENTRIES, MAX_ABILITIES = 1024, 512
+local function nonempty(value, maxBytes)
+  return type(value) == "string" and #value > 0 and #value <= maxBytes
+end
+local function substantive(detail)
+  return type(detail) == "table" and (
+    nonempty(detail.name, 2048) or nonempty(detail.idNew, 2048)
+    or nonempty(detail.description, 2048))
+end
 local FIELDS = {
   "id", "idNew", "name", "description", "target", "castingTime",
   "channeled", "cooldown", "currentCooldownBegin",
@@ -31,7 +39,8 @@ local function abilityIds(source)
       elseif type(key) == "number" and type(value) == "string" then
         id = value
       end
-      if type(id) ~= "string" or #id == 0 or #id > 128 then
+      if type(id) ~= "string" or #id ~= 17
+        or not id:match("^A[0-9A-F]+$") then
         report.ignored = report.ignored + 1
       elseif seen[id] then
         report.duplicates = report.duplicates + 1
@@ -68,13 +77,16 @@ local function collect()
   local records, failures, fallback = {}, {}, 0
   for _, id in ipairs(ids) do
     local detail = enumeration.batchDetailAvailable and batch[id] or nil
-    if type(detail) ~= "table" then
+    local item = type(detail) == "table" and fieldCopy(detail, FIELDS) or nil
+    -- A blank/inconclusive Detail table is not a positive read. Try one
+    -- bounded scalar fallback even when the batch result was a table.
+    if not substantive(item) then
       fallback = fallback + 1
       local detailOk, individual = call(newApi.Detail, id)
-      if detailOk and type(individual) == "table" then detail = individual end
+      item = detailOk and type(individual) == "table"
+        and fieldCopy(individual, FIELDS) or nil
     end
-    if type(detail) == "table" then
-      local item = fieldCopy(detail, FIELDS)
+    if substantive(item) then
       item.lookupId = id
       records[#records + 1] = item
     else
@@ -108,7 +120,16 @@ local function collect()
     -- Do not treat it as a complete catalog that can overwrite a prior capture.
     captureComplete = enumeration.apiAvailable and #ids > 0
       and enumeration.enumerationComplete and #failures == 0
-      and context.capabilities.player
+      and type(context.capabilities) == "table" and context.capabilities.player == true
+      and type(context.player) == "table"
+      and nonempty(context.player.id, 128) and nonempty(context.player.name, 256)
+      and nonempty(context.player.calling, 128)
+      and shared.finite(context.player.level) and context.player.level > 0
+      and (shared.finite(context.roleSlot) or nonempty(context.roleSlot, 128))
+      and shared.finite(context.frameTime) and context.frameTime >= 0
+      and shared.finite(context.realTime) and context.realTime >= 0
+      and context.frameTime <= 9007199254740991 / 1000000
+      and context.realTime <= 9007199254740991 / 1000
   }
   return result
 end

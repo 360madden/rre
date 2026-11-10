@@ -80,6 +80,14 @@ test('v0.4.16 saved Experience supports Rogue and rejects missing capability',()
   assert.deepEqual({...output.context.experience},{rested:0});
   assert.throws(()=>read(base),/experience-capability/);
 });
+test('v0.4.17 saved Experience preserves all-callings context and schema',()=>{
+  const base=source.replace('addonVersion="0.1.0"','addonVersion="0.4.17"');
+  const input=base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={accumulated=0,needed=42},roleSlot=1,');
+  const output=read(input);
+  assert.equal(output.addonVersion,'0.4.17');
+  assert.deepEqual({...output.context.experience},{accumulated:0,needed:42});
+  assert.throws(()=>read(base),/experience-capability/);
+});
 test('earlier versions reject Experience fields while retaining original parser behavior',()=>{
   assert.throws(()=>read(source.replace('roleSlot=1,','capabilities={player=true,experience=false},roleSlot=1,')),/experience-version-unqualified/);
   assert.throws(()=>read(source.replace('roleSlot=1,','experience={rested=0},roleSlot=1,')),/experience-version-unqualified/);

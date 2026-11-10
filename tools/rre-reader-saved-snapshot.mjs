@@ -65,7 +65,7 @@ export function exportSavedSnapshot(bytes) {
   const hasMap = Object.hasOwn(saved.latest,'experience');
   const hasFlag = capabilities != null && typeof capabilities === 'object'
     && Object.hasOwn(capabilities,'experience');
-  if (version === '0.4.14' || version === '0.4.15' || version === '0.4.16') {
+  if (version === '0.4.14' || version === '0.4.15' || version === '0.4.16' || version === '0.4.17') {
     if (!hasFlag || typeof capabilities.experience !== 'boolean') throw Error('experience-capability-unqualified');
     if (capabilities.experience !== hasMap) throw Error('experience-capability-map-contradiction');
     if (hasMap) {

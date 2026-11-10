@@ -175,7 +175,7 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
             && DataRules.Integer(b["processId"],"pid") is >0 and <=int.MaxValue && Regex.IsMatch(ticks,@"\A[1-9][0-9]{0,18}\z")
             && long.TryParse(ticks,NumberStyles.None,CultureInfo.InvariantCulture,out var t) && t<=DateTime.MaxValue.Ticks
             && Same(DataRules.Text(b["executableSha256"],"build"),Build)
-            && DataRules.Text(b["addonVersion"],"version") is "0.4.12" or "0.4.13" or "0.4.14" or "0.4.15" or "0.4.16"
+            && DataRules.Text(b["addonVersion"],"version") is "0.4.12" or "0.4.13" or "0.4.14" or "0.4.15" or "0.4.16" or "0.4.17"
             && DataRules.Session.IsMatch(DataRules.Text(b["session"],"session")) && DataRules.Integer(b["sequence"],"sequence") is >0 and <=9_007_199_254_740_991
             && parts is >=1 and <=16 && length is >=1 and <=65536 && parts==(length+4095)/4096,"lab2-binding-contract");
         var image=DataRules.Text(b["imagePath"],"image-path");var imageSha=DataRules.Text(b["imageSha256"],"image-sha");
