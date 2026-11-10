@@ -401,6 +401,12 @@ local function apiCheck(id)
   if not ok or type(detail) ~= "table" then
     return {status = "DETAIL UNKNOWN", tint = color.grey}
   end
+  -- Detail may be a proxy: individually guard property reads and drop nonfinite data.
+  local copiedOk, clean = pcall(runtime.abilities.copyDetail, detail)
+  if not copiedOk or type(clean) ~= "table" then
+    return {status = "DETAIL UNKNOWN", tint = color.grey}
+  end
+  detail = clean
   if detail.passive == true then
     return {status = "PASSIVE", tint = color.grey}
   end
