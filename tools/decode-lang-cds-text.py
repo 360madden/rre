@@ -14,6 +14,7 @@ import importlib.util
 import json
 import socket
 import struct
+import zlib
 from pathlib import Path
 
 LOADER = Path(__file__).with_name("inspect-lang-cds.py")
@@ -382,7 +383,7 @@ def main():
                                args.exact, args.text_encoding)
         else:
             result = lookup_key(payload, args.key, args.text_encoding)
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, zlib.error) as exc:
         parser.error(str(exc))
     print(json.dumps({"host": socket.gethostname(),
                       "contentIdPrefix": source["contentIdPrefix"], **result}, indent=2))

@@ -333,6 +333,26 @@ class CdsTextTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "index offset"):
             MOD.lookup_key(bytes(wrong_offset), 100)
 
+    def test_corrupt_archive_zlib_failure_is_controlled_cli_error(self):
+        import contextlib
+        import io
+        import sys
+        import zlib
+        from unittest.mock import patch
+        argv = ["prog", "--archive", "unused", "--entry-index", "0",
+                "--metadata-sha256", "0" * 64, "--content-id", "0" * 16,
+                "--expected-host", "LEGION", "--key", "17"]
+        stderr = io.StringIO()
+        with (patch.object(sys, "argv", argv),
+              patch.object(MOD.socket, "gethostname", return_value="LEGION"),
+              patch.object(MOD.INSPECT, "archive_entry", side_effect=zlib.error("invalid compressed stream")),
+              contextlib.redirect_stderr(stderr)):
+            with self.assertRaises(SystemExit) as status:
+                MOD.main()
+        self.assertEqual(status.exception.code, 2)
+        self.assertIn("invalid compressed stream", stderr.getvalue())
+        self.assertNotIn("Traceback", stderr.getvalue())
+
     def test_key_and_contains_cli_are_mutually_exclusive(self):
         import contextlib
         import io

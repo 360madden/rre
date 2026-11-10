@@ -1,4 +1,4 @@
-import unittest,tempfile,pathlib,hashlib,copy,json
+import unittest,tempfile,pathlib,hashlib,copy,json,subprocess,sys
 from tools.navigation_evidence_bridge import assess,obj
 def pair(image):
  h=hashlib.sha256(image.read_bytes()).hexdigest()
@@ -41,6 +41,27 @@ class BridgeTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d:
    p=pathlib.Path(d)/"x.json";p.write_text('{"a":1,"a":2}')
    with self.assertRaises(ValueError):obj(p)
+ def test_nested_evidence_shapes_fail_closed(self):
+  for owner,key in (("capture","savedImage"),("capture","target"),("action","target"),("action","action"),("action","result")):
+   for invalid in (None,False,1,"scalar",[]):
+    with self.subTest(owner=owner,key=key,invalid=invalid):
+     def check(c,a,p):
+      (c if owner=="capture" else a)[key]=invalid
+      with self.assertRaisesRegex(ValueError,"must be an object"):assess(c,a,p)
+     self.setup(check)
+ def test_cli_returns_structured_error_without_traceback_for_bad_shape(self):
+  with tempfile.TemporaryDirectory() as d:
+   folder=pathlib.Path(d);image=folder/"image.bmp";image.write_bytes(b"synthetic-pixel-bytes")
+   capture,action=pair(image);action["result"]=[True]
+   capture_path=folder/"capture.json";action_path=folder/"action.json";output=folder/"receipt.json"
+   capture_path.write_text(json.dumps(capture));action_path.write_text(json.dumps(action))
+   script=pathlib.Path(__file__).resolve().parents[1]/"navigation_evidence_bridge.py"
+   run=subprocess.run([sys.executable,str(script),"--capture",str(capture_path),"--action",str(action_path),"--image",str(image),"--output",str(output)],capture_output=True,text=True)
+   self.assertEqual(run.returncode,2,run.stderr)
+   self.assertEqual(json.loads(run.stdout)["trialReady"],False)
+   self.assertEqual(json.loads(run.stdout)["gameInputSent"],False)
+   self.assertNotIn("Traceback",run.stderr)
+   self.assertFalse(output.exists())
  def test_historical_real_bundle(self):
   base=pathlib.Path("C:/work/riftreader2/artifacts/native-control-followup-20261020")
   if not base.exists():self.skipTest("historical optional source unavailable")
