@@ -85,7 +85,10 @@ local function showPage(page)
   if not savedLoaded or type(RRECollectorData.latest) ~= "table" then
     say("No snapshot. Use /rre capture."); return
   end
-  local records = RRECollectorData.latest.abilities or {}
+  local records = RRECollectorData.latest.abilities
+  if type(records) ~= "table" then
+    say("Saved ability list malformed; /rre capture."); return
+  end
   local totalPages = math.max(1, math.ceil(#records / 8))
   if not finite(page) or page < 1 or page > totalPages
     or page ~= math.floor(page) then
@@ -94,6 +97,9 @@ local function showPage(page)
   say("Ability page " .. tostring(page) .. "/" .. tostring(totalPages))
   for i = (page - 1) * 8 + 1, math.min(page * 8, #records) do
     local entry = records[i]
+    if type(entry) ~= "table" then
+      say("Saved ability record malformed; /rre capture."); return
+    end
     say(tostring(i) .. ". " .. tostring(entry.lookupId)
       .. " " .. tostring(entry.name or "[name unknown]"))
   end
