@@ -26,4 +26,16 @@ The earlier [RC-02 capability receipt](RRECOLLECTOR-RC02-FIRST-PROBE-2026-11-02.
 
 **New historical-selection and live-interface lead (November 3):** The original RIFT 2016 publisher announcement describes Legendary as independently selected in individual role slots at levels 66–70 with Soul-point limits. Existing current-client API index contains ability Add/Remove/Usable events, and `Inspect.Tooltip()` may expose a hovered ability identifier-like value. These do **not** establish a current variant or exact ID. See [SC-103 narrowed experiment](REA-RIFT-SPELLCASTING-SC103-LEGENDARY-SELECTION-2026-11-03.md).
 
+## November 10, 2026 — exact-build native Legendary UI-string anchors (offline)
+
+A bounded original-PE examination established **four instruction-boundary-confirmed references** to two previously identified Legendary/Soul Tree resource keys. Source: saved Lab-2 **executable copy**, 60,493,640 bytes, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8` (not a fresh Lab-2 process check).
+
+- ASCII `MaxLegendaryPointsTree` at `.rdata` RVA `0x2704C60`: original `lea` references at `0xEA32AF` (RCX) and `0xEA32CA` (RDX), in `.pdata` function `0xEA30C8–0xEA494E`.
+- ASCII `SoulTree_TotalLegendarySpent` at `.rdata` RVA `0x2704E80`: original `lea` references at `0xEA55A4` (RCX) and `0xEA55C2` (RDX), in `.pdata` function `0xEA4FE9–0xEA6CB2`.
+- Both bounded windows also contain direct calls to common RVA `0x493790` after loading the key address. Its semantics are **unqualified**. An additional bounded RIP-relative LEA/MOV scan located four references to `LegendaryPointsPlural/Singular` and six to `CannotSpendMoreLegendaryPoints` (14 candidate references across all five specific keys); this scanner is **not** an exhaustive code-xref engine.
+
+**Independent verification:** read-only Workbridge jobs `rre_nov10_sc103_legendary_xref_exactpe_ro_v1` (Python standard-library PE section mapping, exact SHA, signed rel32 arithmetic, bounded five-key search; exit 0) and `rre_nov10_sc103_legendary_anchor_capstone_ro_v1` (existing RRE venv Capstone, four instruction-boundary and target confirmations, original `.pdata` function bounds; exit 0). No RIFT/VM operations, game input, REA import, addon edits, or installed-file changes.
+
+**Inference bound:** These are **source-confirmed UI/resource-key reference sites**, *not* a Legendary-selection-state reader, ability-ID decoder, current-role proof, unlock test, or actual runtime execution. They do not tie either key to the modern Protector's Fury exact ID. Do not pursue generic localization-call graphs without a new owner/selection-state discriminator; prefer an appropriately authorized same-epoch Soul Tree/tooltip ID correlation.
+
 **Decision:** One historical static ID is proved; a distinct modern variant ID is **unsupported by current evidence and unresolved**, not disproven. No character rank threshold, eligibility or cast result was established.
