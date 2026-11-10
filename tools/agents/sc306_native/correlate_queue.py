@@ -19,6 +19,7 @@ ROOT_RVA = 0x33958C0
 FIELD_OFFSET = 0xA4
 ALLOWED_LABELS = {"Full", "Short", "None"}
 KNOWN_PAIR = (1, "Short")
+EXPECTED_CAPTURE_VMX = r"c:\rift modding\vms\rift-lab-2\rift-lab.vmx"
 
 # Exact-build source-qualified loaded windows from SC-305/SC-613.
 CHUNKS = {
@@ -185,7 +186,12 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
               f"{name}: not an input-free completed capture")
         check(result["beforeIdentity"] == result["afterIdentity"],
               f"{name}: VM identity changed during capture")
-        captures.append((manifest["imageSha256"], result["beforeIdentity"]))
+        vm_identity = result["beforeIdentity"]
+        check(isinstance(vm_identity, dict)
+              and isinstance(vm_identity.get("vmx"), str)
+              and vm_identity["vmx"].casefold() == EXPECTED_CAPTURE_VMX,
+              f"{name}: capture VMX does not match qualified Lab-2")
+        captures.append((manifest["imageSha256"], vm_identity))
     check(captures[0][1] == captures[1][1], "different VM console identities")
 
     return {
@@ -197,11 +203,13 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         "stableSettingsRoot": True,
         "loadedCodeWindowsMatched": len(CHUNKS),
         "originalImagesHashMatched": len(captures),
+        "captureVmxVerified": EXPECTED_CAPTURE_VMX,
         "uiBracketUtc": [first.isoformat(), last.isoformat()],
         "limits": [
             "Cannot read or authenticate the text displayed inside screenshots",
             "UI bracket times and label are supplied by the human reviewer",
             "Sequential reads and images are not one atomic acquisition",
+            "VMX consistency alone does not independently bind guest process to screenshot",
             "Actual cast queue behavior, GCD and server timing remain untested",
         ],
     }

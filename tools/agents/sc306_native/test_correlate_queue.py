@@ -186,6 +186,18 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "VM identity changed"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_two_matching_captures_from_wrong_vm_rejected(self) -> None:
+        # Two mutually consistent screenshots still need an exact target VM.
+        wrong_vmx = r"c:\rift modding\vms\rift-lab-1\rift-lab.vmx"
+        for name in ("queue-ui-pre-read", "queue-ui-post-read"):
+            path = f"{name}/result.json"
+            record = json.loads((self.folder / path).read_text(encoding="utf-8"))
+            record["beforeIdentity"]["vmx"] = wrong_vmx
+            record["afterIdentity"]["vmx"] = wrong_vmx
+            self.save(path, record)
+        with self.assertRaisesRegex(EvidenceError, "capture VMX"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_possible_mouse_input_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/result.json",
                     lambda x: x.update({"inputMayHaveBeenSent": True}))
