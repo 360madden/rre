@@ -84,8 +84,14 @@ local function collect()
   enumeration.detailCount = #records
   enumeration.detailFailures = #failures
   enumeration.fallbackCalls = fallback
-  local sequence = (type(RRECollectorData.sequence) == "number"
-    and RRECollectorData.sequence or 0) + 1
+  -- SavedVariables may contain a malformed or out-of-range counter.
+  local priorSequence = RRECollectorData.sequence
+  if type(priorSequence) ~= "number" or priorSequence ~= priorSequence
+    or priorSequence < 0 or priorSequence >= 9007199254740991
+    or priorSequence ~= math.floor(priorSequence) then
+    priorSequence = 0
+  end
+  local sequence = priorSequence + 1
   local result = {
     schemaVersion = SCHEMA, addonVersion = VERSION,
     source = "RIFT Inspect.Ability.New.List/Detail",
@@ -98,7 +104,9 @@ local function collect()
     experience = context.experience,
     capabilities = context.capabilities, abilityList = enumeration,
     abilities = records, detailErrors = failures,
-    captureComplete = enumeration.apiAvailable
+    -- An empty successful List may be a transient API/readiness result.
+    -- Do not treat it as a complete catalog that can overwrite a prior capture.
+    captureComplete = enumeration.apiAvailable and #ids > 0
       and enumeration.enumerationComplete and #failures == 0
       and context.capabilities.player
   }

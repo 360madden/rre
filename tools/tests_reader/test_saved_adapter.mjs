@@ -62,6 +62,16 @@ test('v0.4.14 rejects Experience binding contradictions and incorrect scalar typ
   assert.throws(()=>read(base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={1},roleSlot=1,')),/experience-map-shape/);
   assert.throws(()=>read(base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={accumulated=1,needed=2,rested=3,extra=4},roleSlot=1,')),/experience-map-limit/);
 });
+test('v0.4.15 Rogue Experience is retained with explicit capability binding',()=>{
+  const base=source.replace('addonVersion="0.1.0"', 'addonVersion="0.4.15"');
+  const complete=base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={accumulated=0,needed=42,rested=0},roleSlot=1,');
+  const received=read(complete);
+  assert.equal(received.addonVersion,'0.4.15');
+  assert.deepEqual({...received.context.experience},{accumulated:0,needed:42,rested:0});
+  assert.equal(received.context.capabilities.experience,true);
+  assert.equal(received.abilities[0].lookupId,'A0000000100000000');
+  assert.throws(()=>read(base),/experience-capability/);
+});
 test('earlier versions reject Experience fields while retaining original parser behavior',()=>{
   assert.throws(()=>read(source.replace('roleSlot=1,','capabilities={player=true,experience=false},roleSlot=1,')),/experience-version-unqualified/);
   assert.throws(()=>read(source.replace('roleSlot=1,','experience={rested=0},roleSlot=1,')),/experience-version-unqualified/);

@@ -8,7 +8,10 @@ local function check(v, why) assert(v, why); checks=checks+1 end
 local function say(v) notes[#notes+1] = v end
 local function refreshUI() refreshes=refreshes+1 end
 local savedLoaded, lastMessage = true, "ready"
-local prior={captureComplete=true, abilities={{lookupId="A1"}},magic="baseline"}
+local prior={captureComplete=true, abilities={{lookupId="A0000000100000000"}},
+  abilityList={apiAvailable=true,enumerationComplete=true,uniqueCount=1,
+    detailCount=1,detailFailures=0,ignored=0,truncated=0},
+  player={calling="warrior"},magic="baseline"}
 local RRECollectorData={latest=prior,sequence=4}
 local record
 local collect=function() return record end

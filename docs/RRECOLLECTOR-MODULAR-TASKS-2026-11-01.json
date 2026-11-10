@@ -1091,6 +1091,37 @@
         ]
       },
       "latestProgress20261105": "11:29 EST: v0.4.11 repo source-only RC-32 fixed and reviewed; candidate 9/9, startup 8/8, batch 7/7 (24/24), seven older green suites 143/143 (including repaired RC-30 interleaved 36/36), all ten Lua suites 167/167 and eight Lua syntax checks pass, strict source package 10 files + six candidate Node checks pass. Physical RIFT remains installed v0.4.10; no game actions or SavedVariables modification. RC-30 strict archival and RC-32 deployment/runtime are pending."
+    },
+    {
+      "id": "RC-33",
+      "phase": "M4",
+      "title": "Support all callings in RRECollector and qualify versioned release",
+      "state": "in-progress",
+      "dependsOn": ["RC-32"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/candidates.lua",
+        "addons/RRECollector/abilities.lua",
+        "tools/verify-rrecollector-cross-calling.mjs",
+        "docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"
+      ],
+      "scope": [
+        "Rogue, Warrior, Mage, Cleric and Primalist current API-known abilities and role/build changes",
+        "Isolate Warrior-only 96-ID research and avoid misleading non-Warrior deferrals",
+        "Harden malformed SavedVariables and empty-first-capture toolbar behavior",
+        "Keep RREC2 host reader and SavedVariables adapter version-admission synchronized",
+        "Do not misrepresent profession APIs or OneDrive propagation as verified"
+      ],
+      "acceptance": [
+        "Focused original Rogue 54/54 and synthetic cross-calling regressions pass",
+        "Lua parse, package gate and C# reader compatibility regressions pass",
+        "Full source/OneDrive install hash parity for a new version, and separate live acceptance receipt",
+        "No cross-repo writes, VMware operations on LEGION, or unapproved game input"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "v0.4.15 source and 11/11 LEGION OneDrive install parity verified after v0.4.14 backup; focused Node 27/27, C# production 87/87 PASS. Lua runtime unavailable and physical UI/Rogue acceptance pending; other unresolved BH items remain registered."
     }
   ],
   "workingSource": {

@@ -40,9 +40,11 @@ local function lookup()
   end
   local context = contextSnapshot()
   local player = context.player or {}
-  if type(player.calling) ~= "string"
-    or not player.calling:lower():find("warrior", 1, true) then
+  if type(player.calling) ~= "string" then
     return nil, "warrior-player-context-not-ready"
+  end
+  if not player.calling:lower():find("warrior", 1, true) then
+    return nil, "warrior-catalog-not-applicable"
   end
   local api = type(Inspect) == "table" and Inspect or {}
   local ability = type(api.Ability) == "table" and api.Ability or {}

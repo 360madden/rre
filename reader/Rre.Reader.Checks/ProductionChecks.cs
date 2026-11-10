@@ -74,6 +74,21 @@ public static class ProductionChecks
         Reject("production mixed supported frame versions rejected",()=>{var d=Document();d["abilities"]![0]!["description"]=new string('x',4096);var b=Frames(Bytes(d));b[1]["addonVersion"]="0.4.13";ProductionFrameCodec.Assemble(b);});
         Reject("production0413 undocumented decoration rejected",()=>{var d=Document("0.4.13");d["context"]!["player"]!["decoration"]=1704;Decode(d);});
         Accept("production0413 native carrier reports actual producer version",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.13")[0];var(r,s)=NativeChecks.Fixture(Wire(b));var c=NativeSnapshotSource.Decode(Bytes(s),Bytes(r),Session,2);if(c.Evidence["producerVersion"]!.GetValue<string>()!="0.4.13")throw new Exception("wrong version");});
+        Accept("production0415 Rogue calling and Experience contract preserved", () =>
+        {
+            var d=Document("0.4.15");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["needed"]=0};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var frames=Frames(Bytes(d),"0.4.15");
+            var publication=ProductionFrameCodec.Assemble(frames.Select(p=>ProductionFrameCodec.DecodeFrame(Wire(p),Session,2)).ToList());
+            if(publication.AddonVersion!="0.4.15" || publication.Abilities.Count!=1
+                || publication.Context["player"]!["calling"]!.GetValue<string>()!="rogue"
+                || publication.Context["player"]!["zone"]!.GetValue<string>()!="zROGUE"
+                || publication.Context["experience"]!["needed"]!.GetValue<int>()!=0)
+                throw new Exception("v15 calling/Experience regression");
+        });
+        BadDoc("production0415 missing Experience capability rejected",d=>d["addonVersion"]="0.4.15");
         Accept("production0414 Experience zero partial and metadata survive",()=>
         {
             var d=Document("0.4.14"); d["context"]!["capabilities"]!["experience"]=true;

@@ -59,13 +59,13 @@ export function exportSavedSnapshot(bytes) {
     if (Object.hasOwn(saved.latest,key)) context[key] = boundedCopy(saved.latest[key]);
   }
   // Keep older producer contracts strict. The literal Lua parser represents {}
-  // as [], so only v0.4.14 + true capability may normalize that empty table.
+  // as []; Experience-capable v0.4.14+ may normalize that empty table only.
   const version = saved.latest.addonVersion;
   const capabilities = saved.latest.capabilities;
   const hasMap = Object.hasOwn(saved.latest,'experience');
   const hasFlag = capabilities != null && typeof capabilities === 'object'
     && Object.hasOwn(capabilities,'experience');
-  if (version === '0.4.14') {
+  if (version === '0.4.14' || version === '0.4.15') {
     if (!hasFlag || typeof capabilities.experience !== 'boolean') throw Error('experience-capability-unqualified');
     if (capabilities.experience !== hasMap) throw Error('experience-capability-map-contradiction');
     if (hasMap) {

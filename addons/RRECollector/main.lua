@@ -1,4 +1,4 @@
--- RRECollector v0.4.14: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.15: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -19,6 +19,13 @@ local function refreshUI(clearChecks)
 end
 
 local function candidateStatus()
+  local latest = RRECollectorData.latest
+  local player = type(latest) == "table" and latest.player or nil
+  local calling = type(player) == "table" and player.calling or nil
+  if type(calling) == "string" and not calling:lower():find("warrior", 1, true) then
+    say("Static candidate research is Warrior-only; not applicable to " .. calling .. ".")
+    return
+  end
   local report = RRECollectorData.candidateLookup
   if type(report) ~= "table" then
     say("Static Warrior candidate lookup not yet recorded; /rre candidates.")
@@ -40,10 +47,25 @@ local function candidateStatus()
 end
 
 local function savedSnapshotComplete(latest)
-  return type(latest) == "table" and latest.captureComplete == true
-    and type(latest.abilityList) == "table"
-    and type(latest.player) == "table"
-    and type(latest.abilities) == "table"
+  if type(latest) ~= "table" or latest.captureComplete ~= true
+    or type(latest.abilityList) ~= "table"
+    or type(latest.player) ~= "table"
+    or type(latest.abilities) ~= "table" then return false end
+  local list, count = latest.abilityList, #latest.abilities
+  if count < 1 or count > 512 or list.uniqueCount ~= count
+    or list.detailCount ~= count or list.detailFailures ~= 0
+    or list.apiAvailable ~= true or list.enumerationComplete ~= true
+    or list.ignored ~= 0 or list.truncated ~= 0
+    or type(latest.player.calling) ~= "string" then return false end
+  local seen = {}
+  for i = 1, count do
+    local item = rawget(latest.abilities, i)
+    local id = type(item) == "table" and item.lookupId or nil
+    if type(id) ~= "string" or #id ~= 17
+      or not id:match("^A[0-9A-F]+$") or seen[id] then return false end
+    seen[id] = true
+  end
+  return true
 end
 
 local function status()
@@ -119,7 +141,9 @@ local function runCandidateLookup(trigger)
   if not ok or type(report) ~= "table" or report.apiReady ~= true then
     local code = not ok and "lua-exception" or
       (type(reason) == "string" and #reason <= 80 and reason or "api-report-unavailable")
-    lastMessage = "candidate-lookup-deferred"
+    local notApplicable = code == "warrior-catalog-not-applicable"
+    lastMessage = notApplicable and "candidate-lookup-not-applicable"
+      or "candidate-lookup-deferred"
     if trigger == "startup" then
       pendingContextRetry = code == "warrior-player-context-not-ready"
     elseif trigger == "manual" then
@@ -127,11 +151,15 @@ local function runCandidateLookup(trigger)
     end
     RRECollectorData.candidateAttempt = {
       schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
-      status = "deferred", reason = code,
+      status = notApplicable and "not-applicable" or "deferred", reason = code,
       automaticRetries = automaticCandidateRetries
     }
-    say("Candidate lookup " .. tostring(trigger) .. " deferred: "
-      .. code .. "; previous records preserved.")
+    if notApplicable then
+      say("Warrior-only candidate catalog not applicable to this calling; /rre capture works across callings.")
+    else
+      say("Candidate lookup " .. tostring(trigger) .. " deferred: "
+        .. code .. "; previous records preserved.")
+    end
     refreshUI(false)
     return false
   end
