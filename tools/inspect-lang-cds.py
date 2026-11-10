@@ -111,7 +111,8 @@ def inventory_cds(data: bytes) -> dict:
     }
 
 
-def archive_entry(archive: Path, entry_index: int, metadata_sha256: str, content_id: str) -> dict:
+def archive_entry(archive: Path, entry_index: int, metadata_sha256: str, content_id: str,
+                  include_payload: bool = False) -> dict | tuple[dict, bytes]:
     if not HEX_SHA256.fullmatch(metadata_sha256) or not HEX_ID.fullmatch(content_id):
         raise ValueError("expected metadata SHA256 or 8-byte content ID malformed")
     if archive.is_symlink() or not archive.is_file():
@@ -199,7 +200,7 @@ def archive_entry(archive: Path, entry_index: int, metadata_sha256: str, content
         "filesWritten": False,
         "proofCeiling": "Validated one linked TWAD payload and all CDS key/frame boundaries. No Huffman/DAT text or Ability Queue value mapping proven.",
     })
-    return summary
+    return (summary, plain_data) if include_payload else summary
 
 
 def main() -> int:
