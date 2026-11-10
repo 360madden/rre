@@ -31,6 +31,16 @@ class DirectCallTests(unittest.TestCase):
         b = bytes((0xE8,)) + struct.pack("<i", target - (base + 10))
         self.assertEqual(module.rel32_calls(a + b, base, target), [base, base + 5])
 
+    def test_method_table_slot_reads_expected_pointer(self):
+        table = bytes(0x60) + struct.pack("<Q", 0x140EAB4D0)
+        self.assertEqual(module.method_pointer_at(table, 0x60), 0x140EAB4D0)
+
+    def test_method_table_truncated_or_misaligned_fails_closed(self):
+        table = bytes(0x60) + struct.pack("<Q", 0x140EAB4D0)
+        for invalid_slot in (-8, 1, 0x68):
+            with self.assertRaisesRegex(ValueError, "invalid or truncated"):
+                module.method_pointer_at(table, invalid_slot)
+
     def test_pdata_sole_owner(self):
         pdata = struct.pack("<III", 0x1000, 0x1100, 0) + struct.pack("<III", 0x1100, 0x1200, 0)
         self.assertEqual(module.owner_range(pdata, 0x1100), (0x1100, 0x1200))

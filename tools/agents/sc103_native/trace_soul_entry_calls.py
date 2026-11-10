@@ -1,8 +1,8 @@
 """Source-pinned direct caller qualification for the SC-103 Soul Tree entry.
 
-Offline only: reads a saved RIFT PE, never a live game process. The one
-observed direct rel32 caller is structurally checked against instruction
-boundaries and its guard; it is not a class or Legendary-ID identification.
+Offline only: reads a saved RIFT PE, never a live game process. Qualifies one
+direct rel32 caller and two method-table installation sites against decoded
+instruction boundaries, not class identity or a modern Legendary ability ID.
 """
 from __future__ import annotations
 
@@ -20,6 +20,9 @@ SOURCE_SIZE = 60_493_640
 SOUL_ENTRY_RVA = 0xEA2ED0
 EXPECTED_CALL_RVA = 0xEAB54E
 EXPECTED_OWNER = (0xEAB4D0, 0xEAB5DB)
+EXPECTED_TABLE_RVA = 0x2704798
+EXPECTED_METHOD_SLOT_BYTES = 0x60  # table index 12
+EXPECTED_INSTALL_RVAS = (0xE8A9A3, 0xE8B6AA)
 
 # RVAs and exact instruction representations are pinned to SOURCE_SHA256.
 EXPECTED_INSTRUCTIONS = {
@@ -34,6 +37,10 @@ EXPECTED_INSTRUCTIONS = {
     0xEAB54E: ("call", "0xea2ed0"),
     0xEAB553: ("mov", "byte ptr [rdi + 0x255], sil"),
     0xEAB55A: ("mov", "byte ptr [rdi + 0x2f2], sil"),
+    0xE8A9A3: ("lea", "rax, [rip + 0x1879dee]"),
+    0xE8A9AA: ("mov", "qword ptr [rdi], rax"),
+    0xE8B6AA: ("lea", "rax, [rip + 0x18790e7]"),
+    0xE8B6B3: ("mov", "qword ptr [rcx], rax"),
 }
 
 
@@ -48,6 +55,13 @@ def rel32_calls(section: bytes, section_rva: int, target_rva: int) -> list[int]:
                 matches.append(section_rva + i)
         i = section.find(bytes((0xE8,)), i + 1)
     return matches
+
+
+def method_pointer_at(table: bytes, slot_bytes: int) -> int:
+    """Read an aligned x64 pointer from a bounded method table."""
+    if slot_bytes < 0 or slot_bytes % 8 or slot_bytes + 8 > len(table):
+        raise ValueError("invalid or truncated x64 method-table slot")
+    return struct.unpack_from("<Q", table, slot_bytes)[0]
 
 
 def owner_range(pdata: bytes, rva: int) -> tuple[int, int]:
@@ -98,12 +112,31 @@ def analyze(path: Path) -> dict:
     owner = owner_range(pdata_bytes, EXPECTED_CALL_RVA)
     if owner != EXPECTED_OWNER:
         raise ValueError(f"unexpected direct caller owner {owner!r}")
+    # The direct caller is slot 12 in an exact-build method-pointer table.
+    # Two independent code sites install the table pointer into an object.
+    slot_pointer = method_pointer_at(
+        pe.get_data(EXPECTED_TABLE_RVA, EXPECTED_METHOD_SLOT_BYTES + 8),
+        EXPECTED_METHOD_SLOT_BYTES,
+    )
+    expected_pointer = pe.OPTIONAL_HEADER.ImageBase + EXPECTED_OWNER[0]
+    if slot_pointer != expected_pointer:
+        raise ValueError(
+            f"method-pointer slot mismatch: 0x{slot_pointer:X}, expected 0x{expected_pointer:X}"
+        )
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_64)
-    owner_code = pe.get_data(owner[0], owner[1] - owner[0])
-    instructions = list(md.disasm(owner_code, owner[0]))
-    if not instructions or instructions[-1].address + instructions[-1].size != owner[1]:
-        raise ValueError("owner not fully decoded; no instruction-boundary conclusion")
-    actual = {ins.address: (ins.mnemonic, ins.op_str) for ins in instructions}
+    sites = (EXPECTED_CALL_RVA, *EXPECTED_INSTALL_RVAS)
+    actual = {}
+    owner_instructions = {}
+    owners = {}
+    for site in sites:
+        bounds = owner_range(pdata_bytes, site)
+        code = pe.get_data(bounds[0], bounds[1] - bounds[0])
+        instructions = list(md.disasm(code, bounds[0]))
+        if not instructions or instructions[-1].address + instructions[-1].size != bounds[1]:
+            raise ValueError(f"owner of RVA 0x{site:X} not fully decoded")
+        actual.update({ins.address: (ins.mnemonic, ins.op_str) for ins in instructions})
+        owner_instructions[f"0x{site:X}"] = len(instructions)
+        owners[f"0x{site:X}"] = [f"0x{rva:X}" for rva in bounds]
     mismatches = {
         f"0x{rva:X}": {"expected": expected, "actual": actual.get(rva)}
         for rva, expected in EXPECTED_INSTRUCTIONS.items()
@@ -119,12 +152,18 @@ def analyze(path: Path) -> dict:
         "direct_call_rvas": [f"0x{rva:X}" for rva in candidates],
         "caller_pdata_range": [f"0x{rva:X}" for rva in owner],
         "asserted_instruction_count": len(EXPECTED_INSTRUCTIONS),
-        "decoded_owner_instructions": len(instructions),
+        "decoded_site_owner_instructions": owner_instructions,
+        "site_pdata_ranges": owners,
+        "method_table_rva": f"0x{EXPECTED_TABLE_RVA:X}",
+        "method_table_slot": EXPECTED_METHOD_SLOT_BYTES // 8,
+        "method_table_slot_rva": f"0x{EXPECTED_TABLE_RVA + EXPECTED_METHOD_SLOT_BYTES:X}",
+        "method_pointer_rva": f"0x{slot_pointer - pe.OPTIONAL_HEADER.ImageBase:X}",
+        "method_table_install_lea_rvas": [f"0x{rva:X}" for rva in EXPECTED_INSTALL_RVAS],
         "observed_entry_argument": "caller RDI, copied from caller entry RCX",
         "observed_guard": "nonzero byte at caller RDI+0x255 selects 0xEAB54E call path",
         "observed_after_call": "clear caller RDI+0x255 and RDI+0x2F2 to zero",
         "unproved": [
-            "caller object class or vtable identity",
+            "formal class name, RTTI or actual UI object type for the method-pointer table",
             "Legendary counter or selection meaning of Soul Tree fields",
             "modern Protector's Fury variant ID",
             "execution of this path in a current game session",
