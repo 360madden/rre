@@ -302,9 +302,26 @@ local function onSlash(_, raw)
     elseif action == "page" then
       showPage(tonumber(argument))
     elseif action == "export" then
-      say("Full snapshot stored in character SavedVariables: RRECollectorData.latest.")
+      if not savedLoaded then
+        say("SavedVariables not ready; no capture available to export.")
+        return
+      end
+      local latest = RRECollectorData.latest
+      if type(latest) ~= "table" then
+        say("No snapshot to export. Use /rre capture first.")
+        return
+      end
+      if latest.captureComplete ~= true then
+        say("Snapshot incomplete; use /rre capture to collect a complete one.")
+        return
+      end
+      local captureVersion = type(latest.addonVersion) == "string"
+        and latest.addonVersion:match("^%d+%.%d+%.%d+$")
+        and latest.addonVersion or "unknown"
+      say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
+        .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
       say("Separate research receipts: RRECollectorData.probe and .candidateLookup.")
-      say("Use a normal /reloadui or logout to flush; /rre page N previews 8 names.")
+      say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")
     end
