@@ -132,6 +132,34 @@ class CdsTextTests(unittest.TestCase):
         self.assertEqual(result["nonAsciiTextRecords"], 1)
         self.assertFalse(result["absenceQualified"])
 
+    def test_observed_key_zero_no_text_shape_is_separately_qualified(self):
+        record = MOD.KEY_ZERO_NO_TEXT_DAT
+        self.assertEqual(record.hex(), "9b3ca701bb05029d3c0707")
+        packed = encode_huffman(record, self.codes)
+        frame = uleb(len(packed)) + uleb(len(record)) + packed
+        asset = (struct.pack("<i", 1) + struct.pack("<256I", *self.frequency)
+                 + struct.pack("<i", 0) + b"\x00" + frame)
+        self.assertEqual(MOD.INSPECT.inventory_cds(asset)["entryCount"], 1)
+        result = MOD.find_text(asset, ["Ability Queue:"], 1, 3, True)
+        self.assertEqual(result["qualifiedDatNoTextRecords"], 1)
+        self.assertEqual(result["qualifiedDatTextRecords"], 0)
+        self.assertEqual(result["unqualifiedDatShapes"], 0)
+        self.assertEqual(result["matchCount"], 0)
+        self.assertTrue(result["absenceQualified"])
+        with self.assertRaises(ValueError):
+            MOD.dat_text(record)  # no generic empty-string admission
+
+    def test_nonzero_key_never_admits_the_observed_no_text_sentinel(self):
+        record = MOD.KEY_ZERO_NO_TEXT_DAT
+        packed = encode_huffman(record, self.codes)
+        frame = uleb(len(packed)) + uleb(len(record)) + packed
+        asset = (struct.pack("<i", 1) + struct.pack("<256I", *self.frequency)
+                 + struct.pack("<i", 17) + b"\x00" + frame)
+        result = MOD.find_text(asset, ["Ability Queue:"], 1, 3, True)
+        self.assertEqual(result["qualifiedDatNoTextRecords"], 0)
+        self.assertEqual(result["unqualifiedDatShapes"], 1)
+        self.assertFalse(result["absenceQualified"])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

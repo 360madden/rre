@@ -19,6 +19,9 @@ SPEC.loader.exec_module(INSPECT)
 SYMBOLS = 256
 MAX_TREE_DEPTH = 31
 MAX_TEXT_RECORD = 16384
+# Exact no-string DAT shape observed at English CDS key 0 on pinned LEGION asset.
+# Keep this narrow: it is a valid framed object, NOT an inferred empty label.
+KEY_ZERO_NO_TEXT_DAT = bytes.fromhex("9b3ca701bb05029d3c0707")
 
 
 def split_code(token: int) -> tuple[int, int]:
@@ -201,6 +204,7 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
     matched = 0
     hits = []
     dat_rejections = 0
+    no_text_records = 0
     non_ascii_strings = 0
     rejected_samples = []
     checked = min(max_records, entry_count)
@@ -211,6 +215,9 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
         packed = data[pos:pos + packed_size]
         pos += packed_size
         decoded = decode_huffman(packed, unpacked_size, tree)
+        if keys[index] == 0 and decoded == KEY_ZERO_NO_TEXT_DAT:
+            no_text_records += 1
+            continue
         try:
             text_bytes = dat_text(decoded)
         except ValueError as exc:
@@ -228,7 +235,8 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
     return {
         "recordsChecked": checked,
         "recordsTotal": entry_count,
-        "qualifiedDatTextRecords": checked - dat_rejections,
+        "qualifiedDatTextRecords": checked - dat_rejections - no_text_records,
+        "qualifiedDatNoTextRecords": no_text_records,
         "unqualifiedDatShapes": dat_rejections,
         "nonAsciiTextRecords": non_ascii_strings,
         "unqualifiedExamples": rejected_samples,
