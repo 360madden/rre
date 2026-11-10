@@ -141,6 +141,14 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "identity mismatch"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_malformed_process_identity_rejected(self) -> None:
+        # A corrupt reader record must be rejected as evidence, not crash parsing.
+        self.mutate("queue-field-a-v2.json",
+                    lambda x: x["resolution"]["observedIdentity"].update(
+                        {"processId": "not-a-number"}))
+        with self.assertRaisesRegex(EvidenceError, "process identity mismatch"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_changed_sample_rejected(self) -> None:
         self.mutate("queue-field-b-v2.json",
                     lambda x: x["resolution"]["terminalRead"].update(

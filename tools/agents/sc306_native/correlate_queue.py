@@ -70,8 +70,11 @@ def read_json(path: Path) -> dict:
 def same_identity(a: dict, b: dict) -> bool:
     numbers = ("processId", "processStartUtcTicks", "moduleBaseAddress", "moduleSize")
     strings = ("executablePath", "executableSha256")
-    return (all(int(str(a[k]), 0) == int(str(b[k]), 0) for k in numbers)
-            and all(str(a[k]).casefold() == str(b[k]).casefold() for k in strings))
+    try:
+        return (all(int(str(a[k]), 0) == int(str(b[k]), 0) for k in numbers)
+                and all(str(a[k]).casefold() == str(b[k]).casefold() for k in strings))
+    except (KeyError, TypeError, ValueError):
+        return False
 
 
 def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
