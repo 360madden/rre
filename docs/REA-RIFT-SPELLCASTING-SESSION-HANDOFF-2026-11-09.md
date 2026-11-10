@@ -1,4 +1,10 @@
-# RRE session handoff — 2026-11-09, 22:21 EST
+# RRE session handoff — 2026-11-09, 22:39 EST
+
+## Current checkpoint — 22:39 EST (LEGION source-backed TWAM filename lookup)
+
+- **New bounded tool:** `tools/lookup-twam-name.py` takes an exact caller-selected manifest SHA, optional `--expected-host LEGION`, and a source-backed ASCII filename. Metadata-only TWAM v3 FNV-1 + length lookup, safe virtual PAK name resolution, JSON output; exit 0 for a single **candidate**, 3 for absent/ambiguous, 2 for rejected SHA/host. It explicitly warns that a unique hash+length is not proof of plaintext filename identity. `tools/test-twam-name-lookup.py` passed nine synthetic regressions including duplicate-collision and non-ASCII negatives.
+- **Real proof:** Documented `world_map.cdr` yields hash `0x98AEBEEF`, Table1 index 241405, content prefix `7e1a8b5b695906bc`, PAK 616 `assets/map/map_core_0.pak` in exact physical manifest SHA `6e3c79b453ce5a4caa2eb5eeddb0240c7dcad9d5d54f6ce2a0f3d532b468715c`. Real positive, absent, wrong-SHA and wrong-host CLI controls exercised; independent reviewer confirms. No archive payload read or game/VM interaction.
+- **Negative avenues:** physical debug/dev manifests carry 23,464 extra universal and zero extra English records. Existing public RiftAssetDumper has filename-hash/match facilities but no qualified Ability Queue filename; no extraction executed. **SC-306 mode values 0/2 remain unproven**. Full evidence/commands: `docs/REA-RIFT-SPELLCASTING-SC306-LOCALIZATION-MANIFEST-2026-11-09.md`. Next: qualify a source-grounded *single* relevant filename, then use this metadata-only lookup, or seek authorized same-epoch physical live comparison; do not infer a choice mapping from the world-map test case.
 
 ## Current checkpoint — 22:21 EST (LEGION localization index and SC-306 negatives)
 
