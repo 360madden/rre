@@ -192,6 +192,80 @@ def decode_huffman(packed: bytes, expected_size: int, tree: list[list[int]]) -> 
     raise ValueError("Huffman input ended before advertised decoded size")
 
 
+
+def lookup_key(data: bytes, key: int, text_encoding: str = "reference-ascii") -> dict:
+    """Lookup one signed CDS key without Huffman-decoding unrelated records."""
+    if type(key) is not int or not -(1 << 31) <= key < (1 << 31):
+        raise ValueError("CDS key outside signed 32-bit range")
+    if text_encoding not in ("reference-ascii", "utf8-strict"):
+        raise ValueError("unsupported DAT string decoding mode")
+
+    # The same complete key/frame integrity gate used by archive_entry. It
+    # proves a missing key is absent; it does not decode every record's DAT.
+    inventory = INSPECT.inventory_cds(data)
+    count = inventory["entryCount"]
+    position = 1028
+    selected = None
+    for index in range(count):
+        (observed_key,) = struct.unpack_from("<i", data, position)
+        position += 4
+        offset, position = INSPECT.read_uleb32(data, position)
+        if observed_key == key:
+            selected = (index, offset)
+    result = {
+        "lookupMode": "signed-cds-key",
+        "key": key,
+        "keyFound": selected is not None,
+        "keyAbsenceQualified": selected is None,
+        "recordsIndexed": count,
+        "huffmanRecordsDecoded": 0 if selected is None else 1,
+        "recordIndex": selected[0] if selected else None,
+        "recordStatus": "key-absent",
+        "recordQualified": False,
+        "textDecodeMode": text_encoding,
+        "text": None,
+        "textByteLength": None,
+        "nonAsciiSource": None,
+        "lossyAscii": False,
+        "proofCeiling": ("Key presence/absence applies only to this validated CDS index. "
+                         "Text requires the selected Huffman/DAT record; a missing or "
+                         "unqualified record is not an empty label. No RIFT Ability "
+                         "Queue numeric enum mapping is established."),
+    }
+    if selected is None:
+        return result
+
+    index, offset = selected
+    position += offset  # CDS offsets are relative to the end of the key index.
+    packed_size, position = INSPECT.read_uleb32(data, position)
+    unpacked_size, position = INSPECT.read_uleb32(data, position)
+    packed = data[position:position + packed_size]
+    frequencies = struct.unpack_from("<256I", data, 4)
+    decoded = decode_huffman(packed, unpacked_size, huffman_code_tree(frequencies))
+    if key == 0 and decoded == KEY_ZERO_NO_TEXT_DAT:
+        result.update(recordStatus="qualified-no-text", recordQualified=True)
+        return result
+
+    try:
+        raw = dat_text(decoded)
+    except ValueError as exc:
+        result.update(recordStatus="unqualified-dat-shape", reason=str(exc))
+        return result
+    non_ascii = any(b > 127 for b in raw)
+    result["nonAsciiSource"] = non_ascii
+    result["textByteLength"] = len(raw)
+    if text_encoding == "utf8-strict":
+        try:
+            text = raw.decode("utf-8", errors="strict")
+        except UnicodeDecodeError:
+            result["recordStatus"] = "unqualified-invalid-utf8"
+            return result
+    else:
+        text = raw.decode("ascii", errors="replace")
+        result["lossyAscii"] = non_ascii
+    result.update(recordStatus="qualified-text", recordQualified=True, text=text)
+    return result
+
 def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
               exact: bool = False, text_encoding: str = "reference-ascii") -> dict:
     # The caller must first use INSPECT.archive_entry(... include_payload=True).
@@ -282,7 +356,9 @@ def main():
     parser.add_argument("--metadata-sha256", required=True)
     parser.add_argument("--content-id", required=True)
     parser.add_argument("--expected-host", required=True)
-    parser.add_argument("--contains", action="append", required=True)
+    target = parser.add_mutually_exclusive_group(required=True)
+    target.add_argument("--contains", action="append", help="Search text labels")
+    target.add_argument("--key", type=int, help="Look up one signed 32-bit CDS key (decimal)")
     parser.add_argument("--max-records", type=int, default=3)
     parser.add_argument("--max-hits", type=int, default=20)
     parser.add_argument("--exact", action="store_true", help="Case-insensitive whole-label match")
@@ -292,14 +368,20 @@ def main():
     try:
         if socket.gethostname().upper() != args.expected_host.upper():
             raise ValueError("host does not match --expected-host")
-        if not 0 < args.max_records <= 200000 or not 0 < args.max_hits <= 50:
-            raise ValueError("record/hit count outside cap")
-        if any(not term or len(term) > 120 for term in args.contains):
-            raise ValueError("empty or oversized search term")
+        if args.key is None:
+            if not 0 < args.max_records <= 200000 or not 0 < args.max_hits <= 50:
+                raise ValueError("record/hit count outside cap")
+            if any(not term or len(term) > 120 for term in args.contains):
+                raise ValueError("empty or oversized search term")
+        elif args.exact or args.max_records != 3 or args.max_hits != 20:
+            raise ValueError("--exact/--max-records/--max-hits apply only to --contains")
         source, payload = INSPECT.archive_entry(
             args.archive, args.entry_index, args.metadata_sha256, args.content_id, True)
-        result = find_text(payload, args.contains, args.max_records, args.max_hits,
-                           args.exact, args.text_encoding)
+        if args.key is None:
+            result = find_text(payload, args.contains, args.max_records, args.max_hits,
+                               args.exact, args.text_encoding)
+        else:
+            result = lookup_key(payload, args.key, args.text_encoding)
     except (OSError, ValueError) as exc:
         parser.error(str(exc))
     print(json.dumps({"host": socket.gethostname(),

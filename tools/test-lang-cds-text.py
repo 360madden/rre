@@ -45,6 +45,24 @@ def encode_huffman(value, codes):
     return bytes(int(bits[i:i + 8], 2) for i in range(0, len(bits), 8))
 
 
+
+def indexed_asset(records, frequencies, codes):
+    """CDS payload from (signed key, DAT bytes, optional advertised size)."""
+    frames = []
+    offsets = []
+    size = 0
+    for _key, record, advertised in records:
+        packed = encode_huffman(record, codes)
+        frame = uleb(len(packed)) + uleb(len(record) if advertised is None else advertised) + packed
+        offsets.append(size)
+        frames.append(frame)
+        size += len(frame)
+    index = b"".join(struct.pack("<i", key) + uleb(offset)
+                     for (key, _record, _advertised), offset in zip(records, offsets))
+    return (struct.pack("<i", len(records)) + struct.pack("<256I", *frequencies)
+            + index + b"".join(frames))
+
+
 class CdsTextTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -210,6 +228,126 @@ class CdsTextTests(unittest.TestCase):
     def test_unknown_text_decode_mode_rejected_before_input_parse(self):
         with self.assertRaisesRegex(ValueError, "unsupported DAT string decoding mode"):
             MOD.find_text(b"", ["needle"], 1, 1, False, "unknown")
+
+
+
+    def test_direct_key_last_record_skips_irrelevant_huffman(self):
+        from unittest.mock import patch
+        records = [
+            (-5, b"not a qualified DAT string", None),
+            (0, MOD.KEY_ZERO_NO_TEXT_DAT, None),
+            (2147483647, dat_string(b"Target"), None),
+        ]
+        asset = indexed_asset(records, self.frequency, self.codes)
+        self.assertEqual(MOD.INSPECT.inventory_cds(asset)["entryCount"], 3)
+        with patch.object(MOD, "decode_huffman", wraps=MOD.decode_huffman) as decode:
+            result = MOD.lookup_key(asset, 2147483647)
+        self.assertEqual(decode.call_count, 1)
+        self.assertEqual(result["recordIndex"], 2)
+        self.assertEqual(result["text"], "Target")
+        self.assertTrue(result["recordQualified"])
+        self.assertFalse(result["keyAbsenceQualified"])
+        self.assertEqual(result["huffmanRecordsDecoded"], 1)
+
+    def test_direct_absent_key_qualifies_index_only_without_huffman(self):
+        from unittest.mock import patch
+        asset = indexed_asset([(0, MOD.KEY_ZERO_NO_TEXT_DAT, None),
+                               (17, dat_string(b"Existing"), None)],
+                              self.frequency, self.codes)
+        with patch.object(MOD, "decode_huffman", side_effect=AssertionError("must not decode")):
+            with patch.object(MOD, "huffman_code_tree",
+                              side_effect=AssertionError("must not build tree")):
+                result = MOD.lookup_key(asset, -1)
+        self.assertFalse(result["keyFound"])
+        self.assertTrue(result["keyAbsenceQualified"])
+        self.assertIsNone(result["text"])
+        self.assertEqual(result["huffmanRecordsDecoded"], 0)
+        self.assertEqual(result["recordStatus"], "key-absent")
+
+    def test_direct_signed_minimum_and_zero_no_text(self):
+        asset = indexed_asset([(-(1 << 31), dat_string(b"Minimum"), None),
+                               (0, MOD.KEY_ZERO_NO_TEXT_DAT, None)],
+                              self.frequency, self.codes)
+        self.assertEqual(MOD.lookup_key(asset, -(1 << 31))["text"], "Minimum")
+        zero = MOD.lookup_key(asset, 0)
+        self.assertTrue(zero["keyFound"])
+        self.assertFalse(zero["keyAbsenceQualified"])
+        self.assertTrue(zero["recordQualified"])
+        self.assertEqual(zero["recordStatus"], "qualified-no-text")
+        self.assertIsNone(zero["text"])
+        self.assertIsNone(zero["textByteLength"])
+
+    def test_nonzero_key_no_text_sentinel_not_empty_label(self):
+        asset = indexed_asset([(17, MOD.KEY_ZERO_NO_TEXT_DAT, None)],
+                              self.frequency, self.codes)
+        result = MOD.lookup_key(asset, 17)
+        self.assertTrue(result["keyFound"])
+        self.assertEqual(result["recordStatus"], "unqualified-dat-shape")
+        self.assertFalse(result["recordQualified"])
+        self.assertIsNone(result["text"])
+
+    def test_direct_utf8_strict_and_lossy_reference_ascii(self):
+        asset = indexed_asset([(17, dat_string("Café".encode("utf-8")), None)],
+                              self.frequency, self.codes)
+        strict = MOD.lookup_key(asset, 17, "utf8-strict")
+        self.assertEqual(strict["text"], "Café")
+        self.assertFalse(strict["lossyAscii"])
+        reference = MOD.lookup_key(asset, 17)
+        self.assertEqual(reference["text"], "Caf��")
+        self.assertTrue(reference["lossyAscii"])
+        self.assertTrue(reference["recordQualified"])
+
+    def test_direct_invalid_utf8_never_reports_empty_text(self):
+        asset = indexed_asset([(17, dat_string(b"Caf\xff"), None)],
+                              self.frequency, self.codes)
+        result = MOD.lookup_key(asset, 17, "utf8-strict")
+        self.assertEqual(result["recordStatus"], "unqualified-invalid-utf8")
+        self.assertFalse(result["recordQualified"])
+        self.assertIsNone(result["text"])
+        self.assertFalse(result["keyAbsenceQualified"])
+
+    def test_direct_target_huffman_truncation_is_error(self):
+        asset = indexed_asset([(17, dat_string(b"Hi"), 100)],
+                              self.frequency, self.codes)
+        self.assertEqual(MOD.INSPECT.inventory_cds(asset)["entryCount"], 1)
+        with self.assertRaisesRegex(ValueError, "ended"):
+            MOD.lookup_key(asset, 17)
+
+    def test_direct_key_range_and_encoding_checked(self):
+        for bad_key in (-(1 << 31) - 1, 1 << 31, 1.5, True):
+            with self.assertRaisesRegex(ValueError, "signed 32-bit"):
+                MOD.lookup_key(b"", bad_key)
+        with self.assertRaisesRegex(ValueError, "unsupported DAT"):
+            MOD.lookup_key(b"", 17, "utf16")
+
+    def test_direct_duplicate_keys_and_bad_offsets_cannot_prove_absence(self):
+        asset = indexed_asset([(5, dat_string(b"A"), None),
+                               (9, dat_string(b"B"), None)],
+                              self.frequency, self.codes)
+        duplicate = bytearray(asset)
+        struct.pack_into("<i", duplicate, 1033, 5)
+        with self.assertRaisesRegex(ValueError, "duplicate CDS key"):
+            MOD.lookup_key(bytes(duplicate), 100)
+        wrong_offset = bytearray(asset)
+        wrong_offset[1037] = 0
+        with self.assertRaisesRegex(ValueError, "index offset"):
+            MOD.lookup_key(bytes(wrong_offset), 100)
+
+    def test_key_and_contains_cli_are_mutually_exclusive(self):
+        import contextlib
+        import io
+        import sys
+        from unittest.mock import patch
+        argv = ["prog", "--archive", "a", "--entry-index", "0",
+                "--metadata-sha256", "0" * 64, "--content-id", "0" * 16,
+                "--expected-host", "LEGION", "--key", "17",
+                "--contains", "needle"]
+        error = io.StringIO()
+        with patch.object(sys, "argv", argv), contextlib.redirect_stderr(error):
+            with self.assertRaises(SystemExit) as exit_status:
+                MOD.main()
+        self.assertEqual(exit_status.exception.code, 2)
+        self.assertIn("not allowed with argument", error.getvalue())
 
 
 if __name__ == "__main__":
