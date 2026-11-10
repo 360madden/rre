@@ -170,6 +170,10 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     check((value == KNOWN_PAIR[0]) == (label == KNOWN_PAIR[1]),
           "conflicts with independently observed 1 ↔ Short")
 
+    # Only 1 ↔ Short was independently observed on this exact build.
+    # Do not promote a future 0/2 screenshot label to a proven enum mapping.
+    label_mapping_qualified = (value, label) == KNOWN_PAIR
+
     captures = []
     for name in ("queue-ui-pre-read", "queue-ui-post-read"):
         ui_dir = folder / name
@@ -195,7 +199,9 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     check(captures[0][1] == captures[1][1], "different VM console identities")
 
     return {
-        "status": "native_consistency_pass_visual_label_operator_supplied",
+        "status": ("native_consistency_pass_visual_label_operator_supplied"
+                   if label_mapping_qualified else "native_value_consistent_mapping_unverified"),
+        "labelMappingQualified": label_mapping_qualified,
         "executableSha256": KNOWN_BUILD_SHA,
         "nativeValue": value,
         "operatorReviewedUiLabel": label,
@@ -208,6 +214,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         "limits": [
             "Cannot read or authenticate the text displayed inside screenshots",
             "UI bracket times and label are supplied by the human reviewer",
+            "Values 0 and 2 have no source-qualified Full/None mapping",
             "Sequential reads and images are not one atomic acquisition",
             "VMX consistency alone does not independently bind guest process to screenshot",
             "Actual cast queue behavior, GCD and server timing remain untested",

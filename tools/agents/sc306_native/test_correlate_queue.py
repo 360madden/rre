@@ -104,6 +104,7 @@ class CorrelationTests(unittest.TestCase):
     def test_clean_native_correlator(self) -> None:
         answer = audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
         self.assertEqual(answer["nativeValue"], 1)
+        self.assertTrue(answer["labelMappingQualified"])
         self.assertEqual(answer["loadedCodeWindowsMatched"], 3)
         self.assertEqual(answer["originalImagesHashMatched"], 2)
         self.assertTrue(answer["status"].startswith("native_consistency_pass"))
@@ -117,14 +118,22 @@ class CorrelationTests(unittest.TestCase):
             self.mutate(f"queue-field-{suffix}-v2.json",
                         lambda x: x["resolution"]["terminalRead"].update(
                             {"bytes": b64((0).to_bytes(4, "little"))}))
-        self.assertEqual(audit(self.folder, "Full", UI_BEFORE, UI_AFTER)["nativeValue"], 0)
+        for label in ("Full", "None"):
+            answer = audit(self.folder, label, UI_BEFORE, UI_AFTER)
+            self.assertEqual(answer["nativeValue"], 0)
+            self.assertFalse(answer["labelMappingQualified"])
+            self.assertEqual(answer["status"], "native_value_consistent_mapping_unverified")
 
     def test_future_two_none_candidate(self) -> None:
         for suffix in ("a", "b"):
             self.mutate(f"queue-field-{suffix}-v2.json",
                         lambda x: x["resolution"]["terminalRead"].update(
                             {"bytes": b64((2).to_bytes(4, "little"))}))
-        self.assertEqual(audit(self.folder, "None", UI_BEFORE, UI_AFTER)["nativeValue"], 2)
+        for label in ("None", "Full"):
+            answer = audit(self.folder, label, UI_BEFORE, UI_AFTER)
+            self.assertEqual(answer["nativeValue"], 2)
+            self.assertFalse(answer["labelMappingQualified"])
+            self.assertEqual(answer["status"], "native_value_consistent_mapping_unverified")
 
     def test_changed_process_rejected(self) -> None:
         self.mutate("queue-field-b-v2.json",
