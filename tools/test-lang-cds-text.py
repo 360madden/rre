@@ -160,6 +160,57 @@ class CdsTextTests(unittest.TestCase):
         self.assertEqual(result["unqualifiedDatShapes"], 1)
         self.assertFalse(result["absenceQualified"])
 
+    def test_opt_in_utf8_exact_unicode_search_and_absence(self):
+        text = "Café".encode("utf-8")
+        record = dat_string(text)
+        packed = encode_huffman(record, self.codes)
+        frame = uleb(len(packed)) + uleb(len(record)) + packed
+        asset = (struct.pack("<i", 1) + struct.pack("<256I", *self.frequency)
+                 + struct.pack("<i", 17) + b"\x00" + frame)
+        result = MOD.find_text(asset, ["CAFÉ"], 1, 3, True, "utf8-strict")
+        self.assertEqual(result["matchCount"], 1)
+        self.assertEqual(result["boundedHits"][0]["textPreview"], "Café")
+        self.assertEqual(result["nonAsciiTextRecords"], 1)
+        self.assertEqual(result["invalidUtf8TextRecords"], 0)
+        self.assertEqual(result["textDecodeMode"], "utf8-strict")
+        self.assertTrue(result["absenceQualified"])
+        missing = MOD.find_text(asset, ["No such text"], 1, 3, True, "utf8-strict")
+        self.assertEqual(missing["matchCount"], 0)
+        self.assertTrue(missing["absenceQualified"])
+        reference = MOD.find_text(asset, ["CAFÉ"], 1, 3, True)
+        self.assertEqual(reference["textDecodeMode"], "reference-ascii")
+        self.assertEqual(reference["matchCount"], 0)
+        self.assertFalse(reference["absenceQualified"])
+
+    def test_invalid_utf8_is_reported_and_cannot_qualify_absence(self):
+        record = dat_string(b"Caf\xff")
+        packed = encode_huffman(record, self.codes)
+        frame = uleb(len(packed)) + uleb(len(record)) + packed
+        asset = (struct.pack("<i", 1) + struct.pack("<256I", *self.frequency)
+                 + struct.pack("<i", 17) + b"\x00" + frame)
+        result = MOD.find_text(asset, ["CAF"], 1, 3, False, "utf8-strict")
+        self.assertEqual(result["matchCount"], 0)
+        self.assertEqual(result["invalidUtf8TextRecords"], 1)
+        self.assertEqual(result["qualifiedDatTextRecords"], 0)
+        self.assertEqual(result["invalidUtf8Examples"], [{"index": 0, "key": 17}])
+        self.assertFalse(result["absenceQualified"])
+
+    def test_utf8_partial_scan_cannot_qualify_absence(self):
+        record = dat_string("Café".encode("utf-8"))
+        packed = encode_huffman(record, self.codes)
+        frame = uleb(len(packed)) + uleb(len(record)) + packed
+        asset = (struct.pack("<i", 2) + struct.pack("<256I", *self.frequency)
+                 + struct.pack("<i", 17) + b"\x00"
+                 + struct.pack("<i", 18) + uleb(len(frame)) + frame + frame)
+        self.assertEqual(MOD.INSPECT.inventory_cds(asset)["entryCount"], 2)
+        result = MOD.find_text(asset, ["Not present"], 1, 3, True, "utf8-strict")
+        self.assertEqual(result["recordsChecked"], 1)
+        self.assertFalse(result["absenceQualified"])
+
+    def test_unknown_text_decode_mode_rejected_before_input_parse(self):
+        with self.assertRaisesRegex(ValueError, "unsupported DAT string decoding mode"):
+            MOD.find_text(b"", ["needle"], 1, 1, False, "unknown")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

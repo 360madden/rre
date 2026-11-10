@@ -1,5 +1,9 @@
 """Source-faithful RIFT CDS Huffman decode plus narrowly admitted DAT string lookup.
 
+String conversion defaults to the original C# reference's lossy ASCII mode;
+explicit strict UTF-8 is a physical-asset-qualified improvement, not a claim
+that the historical CStringConvertor.cs used UTF-8.
+
 Requires inspect-lang-cds.py integrity checks on exactly one selected archive
 entry before decoding. DAT parser accepts only the documented, observed
 root/object shape, and reports other shapes as unqualified (never empty text).
@@ -189,8 +193,10 @@ def decode_huffman(packed: bytes, expected_size: int, tree: list[list[int]]) -> 
 
 
 def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
-              exact: bool = False) -> dict:
+              exact: bool = False, text_encoding: str = "reference-ascii") -> dict:
     # The caller must first use INSPECT.archive_entry(... include_payload=True).
+    if text_encoding not in ("reference-ascii", "utf8-strict"):
+        raise ValueError("unsupported DAT string decoding mode")
     (entry_count,) = struct.unpack_from("<i", data)
     frequencies = struct.unpack_from("<256I", data, 4)
     tree = huffman_code_tree(frequencies)
@@ -206,6 +212,8 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
     dat_rejections = 0
     no_text_records = 0
     non_ascii_strings = 0
+    invalid_utf8_strings = 0
+    invalid_utf8_examples = []
     rejected_samples = []
     checked = min(max_records, entry_count)
     terms = [term.lower() for term in needles]
@@ -227,7 +235,16 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
             continue
         if any(b > 127 for b in text_bytes):
             non_ascii_strings += 1
-        txt = text_bytes.decode("ascii", errors="replace")
+        if text_encoding == "utf8-strict":
+            try:
+                txt = text_bytes.decode("utf-8", errors="strict")
+            except UnicodeDecodeError:
+                invalid_utf8_strings += 1
+                if len(invalid_utf8_examples) < 5:
+                    invalid_utf8_examples.append({"index": index, "key": keys[index]})
+                continue
+        else:
+            txt = text_bytes.decode("ascii", errors="replace")
         if any((txt.lower() == term if exact else term in txt.lower()) for term in terms):
             matched += 1
             if len(hits) < max_hits:
@@ -235,18 +252,26 @@ def find_text(data: bytes, needles: list[str], max_records: int, max_hits: int,
     return {
         "recordsChecked": checked,
         "recordsTotal": entry_count,
-        "qualifiedDatTextRecords": checked - dat_rejections - no_text_records,
+        "qualifiedDatTextRecords": checked - dat_rejections - no_text_records - invalid_utf8_strings,
         "qualifiedDatNoTextRecords": no_text_records,
         "unqualifiedDatShapes": dat_rejections,
         "nonAsciiTextRecords": non_ascii_strings,
+        "invalidUtf8TextRecords": invalid_utf8_strings,
+        "invalidUtf8Examples": invalid_utf8_examples,
+        "textDecodeMode": text_encoding,
         "unqualifiedExamples": rejected_samples,
         "queryTerms": needles,
         "matchMode": "exact" if exact else "contains",
         "matchCount": matched,
         "boundedHits": hits,
         "truncatedHits": matched > len(hits),
-        "absenceQualified": checked == entry_count and dat_rejections == 0 and non_ascii_strings == 0,
-        "proofCeiling": "Text matches from source-equivalent Huffman and a narrow observed DAT map shape; no RIFT UI enum relation established.",
+        "absenceQualified": (checked == entry_count and dat_rejections == 0
+                             and (non_ascii_strings == 0 if text_encoding == "reference-ascii"
+                                  else invalid_utf8_strings == 0)),
+        "proofCeiling": ("Search scope is this one SHA-verified CDS asset and admitted DAT shapes only. "
+                         "Reference C# converts strings using ASCII replacement; utf8-strict is "
+                         "independently validated against this physical English asset, not C# parity. "
+                         "No RIFT UI numeric enum relation is established."),
     }
 
 
@@ -261,6 +286,8 @@ def main():
     parser.add_argument("--max-records", type=int, default=3)
     parser.add_argument("--max-hits", type=int, default=20)
     parser.add_argument("--exact", action="store_true", help="Case-insensitive whole-label match")
+    parser.add_argument("--text-encoding", choices=("reference-ascii", "utf8-strict"),
+                        default="reference-ascii", help="Reference C# ASCII or opt-in strict UTF-8")
     args = parser.parse_args()
     try:
         if socket.gethostname().upper() != args.expected_host.upper():
@@ -271,7 +298,8 @@ def main():
             raise ValueError("empty or oversized search term")
         source, payload = INSPECT.archive_entry(
             args.archive, args.entry_index, args.metadata_sha256, args.content_id, True)
-        result = find_text(payload, args.contains, args.max_records, args.max_hits, args.exact)
+        result = find_text(payload, args.contains, args.max_records, args.max_hits,
+                           args.exact, args.text_encoding)
     except (OSError, ValueError) as exc:
         parser.error(str(exc))
     print(json.dumps({"host": socket.gethostname(),
