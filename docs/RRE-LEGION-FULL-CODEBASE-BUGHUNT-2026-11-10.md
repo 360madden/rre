@@ -1,6 +1,6 @@
 # RRE whole-codebase bug hunt — LEGION — 2026-11-10
 
-Status: review complete, **fixes not yet implemented**. Manager report, 16:31 EST (America/New_York).
+Status: initial review complete; **fixes were not yet implemented at 16:31**. See the dated remediation checkpoint below. Manager report, 16:31 EST (America/New_York).
 Host independently verified by hostname.exe: **LEGION**. Workbridge — LEGION 0.16.4-dev, root C:\work\rre.
 Branch main, pre-report HEAD 58d0e526292bf3a02c74873a8dc21dca5e85c3bc; clean before report, ahead 29 at that checkpoint.
 
@@ -49,3 +49,19 @@ Unverified lead, **not a confirmed defect**: candidates.lua:110-125 marks a Deta
 3. **Edge-case validation (BH-07–BH-11, BH-14).** Use strict UTF8 and nested shape/contract checks; fix CLI error behavior; improve negative fixtures. Keep fail-closed semantics.
 
 Do not push or modify other repositories as part of a handoff. Confirm host, git status/HEAD, latest handoff, current owner/agent jobs and approvals before further edits; no VMware on LEGION. The next manager should distinguish reviewed defects from implemented fixes and separate source/installed parity from live load verification.
+
+## 16:55 EST November 10 — implemented remediation checkpoint (LEGION)
+
+The 16:31 report above is a preserved pre-fix snapshot. The following changes were independently verified on LEGION and committed locally, without touching RIFT, VMware or the OneDrive addon:
+
+| Bug IDs | Status | Commit | Verified practical result |
+| --- | --- | --- | --- |
+| BH-01 | Fixed | `f94e216` | Instruction rows must continuously cover the claimed native code window; 18/18 Python checks pass. |
+| BH-07, BH-14 | Fixed | `b677378` | SavedVariables CLI readers reject malformed UTF-8; stale error assertion corrected; 13/13 Node reader tests pass. |
+| BH-02 | Scoped repair, broader checkout audit pending | `5d5bb75` | Six-source SC604 check 11/11 tests, source integrity 6/6, historical spellcasting replay 5/5. LF canonicalization is limited to Git repository text; generic supplied evidence and installed addon remain byte-exact. SC306's changed digest was explicitly requalified with Nov9 provenance, not silently repinned. |
+| BH-08, BH-11 | Fixed | `1e32cf1` | Malformed navigation receipt gets structured exit2 (11 tests, 1 optional historical skip); corrupt zlib CDS gets controlled CLI exit2 (30 decoder + 17 inspector tests pass). |
+| BH-09 | Fixed | `8b01051` | Missing/malformed terminal states, vocabulary, SHA, policy and fixture-set identity fail closed before replay; 38 audit + 15 integration tests pass. |
+
+Node's auto-discovered suite is additionally **38/38 PASS**. The **RRECollector v0.4.14 OneDrive installation retained exact 11/11 raw source-to-install SHA matches** (read-only verifier exit0); `runtimeUiVerified=false` is still true. The wider 112-assertion historical JS selection and the Python 500-test gate were **not rerun after these fixes**, so do not claim they are globally green.
+
+**Outstanding priority:** BH-03 stale/off-page Pin/Check remains the top collector UI defect, and BH-04/05/06/10/12/13 remain open. Any future addon change should increment the single shared VERSION, update window title and startup chat automatically, and use a coordinated OneDrive-only source/install parity check before a live acceptance claim. LEGION Git `core.autocrlf=true` remains an environmental portability hazard beyond the narrowly repaired evidence tools; do not rewrite installed Lua or the repository working tree indiscriminately. Current physical RIFT PE SHA remains `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, distinct from historical native hash. No push performed.
