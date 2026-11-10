@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { EXPECTED_FILES, verifyDeltaMarkdown, verifyDeltaOnDisk } from "./verify-sc604-evidence-delta.mjs";
+import { canonicalRepositoryTextBytes } from "./repository-text-eol.mjs";
 
 const bytes = name => Buffer.from("SC604 synthetic evidence for " + name, "utf8");
 const sha = name => createHash("sha256").update(bytes(name)).digest("hex");
@@ -14,6 +15,17 @@ const makeDoc = (names = EXPECTED_FILES) =>
   "\n\n## Remaining decision gates — keep independent\n";
 const verify = (doc, read = bytes) => verifyDeltaMarkdown(doc, read);
 
+test("canonical Git text retains raw bytes except CRLF checkout pairs", () => {
+  const checkout = Buffer.from([0xef,0xbb,0xbf,0x61,13,10,0x62,13,0x63,0xff]);
+  assert.deepEqual(canonicalRepositoryTextBytes(checkout),Buffer.from([0xef,0xbb,0xbf,0x61,10,0x62,13,0x63,0xff]));
+  assert.deepEqual(canonicalRepositoryTextBytes(Buffer.from("already-LF\n")),Buffer.from("already-LF\n"));
+  assert.throws(()=>canonicalRepositoryTextBytes("not bytes"),/must be bytes/);
+});
+test("injected source bytes remain strict even when checkout line endings differ", () => {
+  const name=EXPECTED_FILES[0];
+  const withCRLF=n=>n===name?Buffer.concat([bytes(n),Buffer.from("\r\n")]):bytes(n);
+  assert.throws(()=>verify(makeDoc(),withCRLF),/source hash mismatch/);
+});
 test("current SC604 supplement verifies exactly six saved source bytes", () => {
   const result = verifyDeltaOnDisk();
   assert.equal(result.ok, true);
