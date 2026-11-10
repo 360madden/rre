@@ -15,7 +15,7 @@ E=module('evidence_summary',ROOT/'tools/evidence-summary.py')
 I=module('literal_index',ROOT/'tools/agents/collision/wa_backlink_literal_index.py')
 
 def evidence():
-    a={'schemaVersion':1,'sha256':'a'*64,'queueRemaining':0,'functions':[{'beginRva':'0x1000','endRvaExclusive':'0x1010','decodedThroughRvaExclusive':'0x1010','windowTruncated':False,'instructionDecodingCoversWindow':True,'instructions':[{}]}],
+    a={'schemaVersion':1,'sha256':'a'*64,'queueRemaining':0,'functions':[{'beginRva':'0x1000','endRvaExclusive':'0x1010','decodedThroughRvaExclusive':'0x1010','windowTruncated':False,'instructionDecodingCoversWindow':True,'instructions':[{'rva':hex(0x1000+i),'bytes':'90','instruction':'nop'} for i in range(16)]}],
        'unresolvedAnchors':[{'rva':'0x2000','reason':'No unwind entry'}]}
     raw=json.dumps(a).encode()
     m={'schemaVersion':2,'source':{'sha256':'a'*64,'unchangedDuringRun':True},'artifact':{'sha256':hashlib.sha256(raw).hexdigest()},'status':'completed','invocation':{'exitCode':0},'queries':{'kind':'static','rvas':['0x1000','0x2000']},'coverage':{'boundedCaptureComplete':True}}
@@ -26,6 +26,33 @@ class EvidenceTests(unittest.TestCase):
         r=E.summarize(*evidence());self.assertTrue(r['recordingCompleted']);self.assertFalse(r['allRequestedAnchorsDecoded']);self.assertEqual(len(r['unresolvedRequestedAnchors']),1)
     def test_fully_decoded_requested_anchor(self):
         a,m,raw=evidence();m['queries']['rvas']=['0x1000'];r=E.summarize(a,m,raw);self.assertTrue(r['allRequestedAnchorsDecoded']);self.assertFalse(r['semanticOwnershipQualified'])
+    def test_empty_instructions_cannot_prove_full_decode(self):
+        a,m,_=evidence();m['queries']['rvas']=['0x1000']
+        a['functions'][0]['instructions']=[]
+        raw=json.dumps(a).encode();m['artifact']['sha256']=hashlib.sha256(raw).hexdigest()
+        r=E.summarize(a,m,raw)
+        self.assertFalse(r['recordingCompleted'])
+        self.assertFalse(r['allRequestedAnchorsDecoded'])
+        self.assertEqual(r['retainedInstructionRows'],0)
+        self.assertEqual(len(r['partialRegions']),1)
+
+    def test_invalid_instruction_coverage_stays_partial(self):
+        for scenario in ('gap','overlap','bad-hex','odd-hex','missing-rva','short','out-of-order'):
+            with self.subTest(scenario=scenario):
+                a,m,_=evidence();m['queries']['rvas']=['0x1000']
+                rows=a['functions'][0]['instructions']
+                if scenario=='gap':rows[8]['rva']='0x1009'
+                elif scenario=='overlap':rows[8]['rva']='0x1007'
+                elif scenario=='bad-hex':rows[8]['bytes']='zz'
+                elif scenario=='odd-hex':rows[8]['bytes']='9'
+                elif scenario=='missing-rva':rows[8].pop('rva')
+                elif scenario=='short':rows.pop()
+                elif scenario=='out-of-order':rows[0],rows[1]=rows[1],rows[0]
+                raw=json.dumps(a).encode();m['artifact']['sha256']=hashlib.sha256(raw).hexdigest()
+                r=E.summarize(a,m,raw)
+                self.assertFalse(r['allRequestedAnchorsDecoded'])
+                self.assertEqual(len(r['partialRegions']),1)
+
     def test_hash_corruption_rejected(self):
         a,m,raw=evidence()
         with self.assertRaisesRegex(ValueError,'SHA'):E.summarize(a,m,raw+b' ')

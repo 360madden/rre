@@ -31,6 +31,25 @@ def load(path):
     return obj,raw
 
 
+def rows_cover_window(rows, first, last):
+    """Check that retained instruction byte spans exactly cover the claimed window."""
+    if not rows: return False
+    cursor=first
+    for row in rows:
+        if not isinstance(row,dict): return False
+        rva,encoded=row.get('rva'),row.get('bytes')
+        if not isinstance(rva,str) or not isinstance(encoded,str) or not encoded or len(encoded)%2:
+            return False
+        if not all(char in '0123456789abcdefABCDEF' for char in encoded): return False
+        try:
+            if int(rva,0)!=cursor: return False
+        except ValueError:
+            return False
+        cursor+=len(encoded)//2
+        if cursor>last: return False
+    return cursor==last
+
+
 def summarize(artifact, manifest, artifact_bytes):
     require(type(artifact.get('schemaVersion')) is int and artifact['schemaVersion']==1 and
             type(manifest.get('schemaVersion')) is int and manifest['schemaVersion']==2,'Unsupported V7 schemas')
@@ -50,10 +69,11 @@ def summarize(artifact, manifest, artifact_bytes):
     for region in functions:
         first=int(region['beginRva'],0);last=int(region['endRvaExclusive'],0)
         require(first<last,'Invalid region bounds')
-        complete=(region.get('windowTruncated') is False and region.get('instructionDecodingCoversWindow') is True
-                  and int(region.get('decodedThroughRvaExclusive','0'),0)==last)
         rows=region.get('instructions',[])
         require(isinstance(rows,list),'Invalid instruction collection')
+        complete=(region.get('windowTruncated') is False and region.get('instructionDecodingCoversWindow') is True
+                  and int(region.get('decodedThroughRvaExclusive','0'),0)==last
+                  and rows_cover_window(rows,first,last))
         total+=len(rows)
         ranges.append((first,last,complete))
         (decoded if complete else partial).append({'beginRva':hex(first),'endRvaExclusive':hex(last),'retainedInstructionRows':len(rows)})
