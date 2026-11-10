@@ -19,6 +19,18 @@ export function routeForHost(host) {
   return "unknown-host-no-live-target-inferred";
 }
 
+// Known, host-local installations only; AMD-DESKTOP remains independently configurable.
+// These defaults probe existing paths and never install software or infer a game target.
+export function defaultPathsForHost(host, root = workRoot, repo = repository, platform = process.platform) {
+  if (String(host).toUpperCase() !== "LEGION" || platform !== "win32") return {};
+  return {
+    python: path.join(repo, ".venv", "Scripts", "python.exe"),
+    reaHome: path.join(root, "tools", "rea"),
+    ghidraHome: path.join(root, "tools", "ghidra_12.1.4_PUBLIC"),
+    javaHome: path.join(root, "tools", "jdk-21.0.13+9"),
+  };
+}
+
 export function parseArguments(argv) {
   if (argv.length % 2) throw new Error("expected --option VALUE pairs");
   const result = {};
@@ -91,10 +103,11 @@ function probeJava(home) {
 export function run(argv = process.argv.slice(2)) {
   const flags = parseArguments(argv);
   const host = os.hostname();
-  const reaHome = flags["rea-home"] || process.env.REA_HOME || path.join(workRoot, "tools", "rea");
-  const ghidraHome = flags["ghidra-home"] || process.env.GHIDRA_INSTALL_DIR || null;
-  const javaHome = flags["java-home"] || process.env.JAVA_HOME || null;
-  const python = flags.python || process.env.RRE_PYTHON || null;
+  const defaults = defaultPathsForHost(host);
+  const reaHome = flags["rea-home"] || process.env.REA_HOME || defaults.reaHome || path.join(workRoot, "tools", "rea");
+  const ghidraHome = flags["ghidra-home"] || process.env.GHIDRA_INSTALL_DIR || defaults.ghidraHome || null;
+  const javaHome = flags["java-home"] || process.env.JAVA_HOME || defaults.javaHome || null;
+  const python = flags.python || process.env.RRE_PYTHON || defaults.python || null;
   return {
     schemaVersion: 1, hostname: host, hostRoute: routeForHost(host),
     observedAtUtc: new Date().toISOString(), repository,

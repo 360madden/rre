@@ -25,10 +25,10 @@ Official sources: [REA prerequisites](https://rea.tools/get-started/), [Node 24.
 
 ## Re-run checks on LEGION
 
-From PowerShell in C:\work\rre. Environment assignments are scoped to the current terminal only.
+From PowerShell in C:\work\rre. **Preferred on LEGION:** the doctor now selects the verified host-local Python, REA, Ghidra and Java paths automatically; all command-line flags remain available to override a particular tool without changing AMD-DESKTOP's independent configuration. Environment assignments below are scoped to the current terminal only.
 
 ~~~powershell
-& 'C:\work\tools\node-v24.22.2-win-x64\node.exe' tools\native-toolchain-doctor.mjs --python 'C:\work\rre\.venv\Scripts\python.exe' --rea-home 'C:\work\tools\rea' --ghidra-home 'C:\work\tools\ghidra_12.1.4_PUBLIC' --java-home 'C:\work\tools\jdk-21.0.13+9'
+& 'C:\work\tools\node-v24.22.2-win-x64\node.exe' tools\native-toolchain-doctor.mjs
 & 'C:\work\tools\node-v24.22.2-win-x64\node.exe' --test tools\test-native-toolchain-doctor.mjs
 
 $env:GHIDRA_INSTALL_DIR = 'C:\work\tools\ghidra_12.1.4_PUBLIC'
@@ -37,6 +37,6 @@ $env:REA_ANALYSIS_PROVIDER = 'ghidra'
 & 'C:\work\tools\node-v24.22.2-win-x64\node.exe' 'C:\work\tools\rea\node_modules\rea-agents\scripts\rea.mjs' doctor --provider ghidra --json
 ~~~
 
-**Recorded results:** Toolchain doctor detected all components; tests **5/5** passed; REA Ghidra provider doctor exited **0**, reported healthy=true, and verified native x64 decompiler, headless launcher, JDK21, and Windows native controls. Its environment_healthy=false refers to unconfigured *optional other providers and agent-client registrations*.
+**Recorded results:** Toolchain doctor detected all components; zero-argument LEGION smoke and tests **6/6** passed; REA Ghidra provider doctor exited **0**, reported healthy=true, and verified native x64 decompiler, headless launcher, JDK21, and Windows native controls. Its environment_healthy=false refers to unconfigured *optional other providers and agent-client registrations*.
 
 **Updated LEGION source gate (21:31 EST):** The physical on-disk `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe` **has now been verified** as 60,493,640 bytes with SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; see the [SC-306 bounded source addendum](REA-RIFT-SPELLCASTING-SC306-QUEUE-ENUM-GAP-2026-10-27.md). Existing `docs/rea-session-options.json` still references **historical** REA 6.5.0, Ghidra 12.1.2, and Java paths; **do not run it unchanged on LEGION**. A future whole-PE REA session requires a separately reviewed, LEGION-specific options file and startup/import cost gate. For the current task, targeted Capstone/pefile decoding and independent standard-library PE verification succeeded without starting Ghidra analysis. No native RIFT import, client registration, PATH change, OS/game restart, reload, game input, or VMware operation. REA npm skipped an optional Frida install script, unnecessary for the verified Ghidra provider.
