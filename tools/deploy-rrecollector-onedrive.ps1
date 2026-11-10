@@ -31,7 +31,7 @@ if ($sourceToc -notmatch 'Version\s*=\s*"([0-9]+\.[0-9]+\.[0-9]+)"') { throw "IN
 $newVersion = $Matches[1]
 Write-Output "Machine=LEGION; target=$target; installed=$oldVersion; source=$newVersion; files=$($names.Count)"
 if (-not $Deploy) { Write-Output "PREFLIGHT_OK_NO_FILES_CHANGED"; exit 0 }
-if ($newVersion -ne "0.4.15") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
+if ($newVersion -ne "0.4.16") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
 $backup = Join-Path $repo ("artifacts\RRECollector-installed-v" + ($oldVersion -replace '\.', '') +
     "-LEGION-" + (Get-Date -Format "yyyyMMdd-HHmmss-fff"))
 [void](New-Item -ItemType Directory -Path $backup -ErrorAction Stop)

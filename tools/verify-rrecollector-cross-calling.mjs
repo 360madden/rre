@@ -12,6 +12,7 @@ const main = read("addons/RRECollector/main.lua");
 const candidates = read("addons/RRECollector/candidates.lua");
 const abilities = read("addons/RRECollector/abilities.lua");
 const context = read("addons/RRECollector/context.lua");
+const capabilities = read("addons/RRECollector/capabilities.lua");
 const source = JSON.parse(read("docs/REA-RIFT-LAB2-CATALOG-2026-11-07.json"));
 const realRogue = source.catalog;
 
@@ -40,7 +41,8 @@ test("Known mode never restricts API abilities using Warrior historical IDs", ()
   assert.match(records, /if filter == "All" or src\.soul == filter/);
   assert.match(ui, /soulButton\.setEnabled\(mode == "static"\)/);
   assert.match(ui, /mode, soul, page, selectedId = "known", "All", 1, nil/);
-  assert.match(ui, /"Saved " \.\. short\(savedCalling, 13\)/);
+  assert.match(ui, /"Saved " \.\. short\(savedName, 10\)/);
+  assert.match(ui, /short\(savedCalling, 10\).*" r"/s);
   assert.match(ui, /" API #" \.\. tostring\(savedSeq or "\?"\)/);
 });
 
@@ -83,6 +85,31 @@ test("Empty API lists, malformed saved counters and bogus prior catalogs are not
   assert.match(main, /list.apiAvailable ~= true or list.enumerationComplete ~= true/);
   assert.match(main, /list.ignored ~= 0 or list.truncated ~= 0/);
   assert.match(main, /not id:match\("\^A\[0-9A-F\]\+\$"\) or seen\[id\]/);
+});
+
+test("visible-row action guards block hidden Pin/Check and reset navigation selection", () => {
+  assert.match(ui, /local function visibleKnownSelection\(\)/);
+  assert.match(ui, /if mode ~= "known" or selectedKind ~= "known"/);
+  assert.match(ui, /for i = first, math.min\(first \+ MAX_ROWS - 1, #items\)/);
+  assert.match(ui, /if not visibleKnownSelection\(\) or not knownMap\(\)\[selectedId\]/);
+  assert.match(ui, /pinControls.pin.setEnabled\(visibleKnownSelection\(\) ~= nil\)/);
+  assert.match(ui, /pinControls.check.setEnabled\(visibleKnownSelection\(\) ~= nil\)/);
+  assert.match(ui, /pinControls.check = button\("RRECheckSelected"/);
+  assert.match(ui, /if visibleKnownSelection\(\) then\s+checked\[selectedId\] = apiCheck\(selectedId\)/);
+  assert.match(ui, /selectedId, selectedKind = nil, nil/);
+});
+
+test("same-name row IDs and toolbar labels distinguish abilities", () => {
+  assert.match(ui, /row.label:SetText\(tag \.\. item.id \.\. "  "/);
+  assert.match(ui, /short\(safe\(item.name, item.id\), 30\)/);
+  assert.match(ui, /local function fitTileTail\(frame, value\)/);
+  assert.match(ui, /second:SetText\(remaining ~= "" and fitTileTail\(second, remaining\) or ""\)/);
+});
+
+test("bounded capability index and live wire receipt are not overstated", () => {
+  assert.match(capabilities, /if result.index.scanned >= MAX_INDEX_SCAN then/);
+  assert.match(main, /wire.receipt\(\) or nil/);
+  assert.match(main, /saved API capture and wire publication are separate/);
 });
 
 test("One version drives toolbar title and startup chat", () => {

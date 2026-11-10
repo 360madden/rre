@@ -15,8 +15,9 @@ end
 local selectedText = fragment("local function selectedText(items)", "-- RC24-TOOLTIP-BEGIN")
 local renderSource = fragment(
   "  for i = 1, MAX_ROWS do\n    local item = list[(page - 1) * MAX_ROWS + i]",
-  "  detailLabel:SetText(selectedText(list))")
+  '  if mode == "static" and snapshotCalling() ~= nil')
 local selectSource = fragment("local function selectAt(index)", "-- RC27-PIN-BEGIN")
+local selector = fragment("local function visibleKnownSelection()", "local function loadSlots()")
 local pinSource = fragment("local function pinSelected()", "-- RC27-PIN-END")
 
 local prelude = [==[
@@ -79,7 +80,7 @@ return {duplicate=duplicate, identityPass=identityPass, baselineLabel=baselineLa
 local program = table.concat({
   prelude, selectedText,
   "local function renderRows()\n  local list=records()\n" .. renderSource .. "\nend\n",
-  selectSource, pinSource, tail}, "\n")
+  selector, selectSource, pinSource, tail}, "\n")
 local build, err = (loadstring or load)(program, "RC31 source-extracted duplicate-ID paths")
 assert(build, "unable to parse source fragments: " .. tostring(err))
 local result = build()

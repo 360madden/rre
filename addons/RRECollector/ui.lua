@@ -1,4 +1,4 @@
--- RRECollector v0.4.15: calling-neutral known browser, guarded pins, measured captions.
+-- RRECollector v0.4.16: calling-neutral known browser, guarded pins, measured captions.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -384,6 +384,20 @@ local function records()
   end)
   return result
 end
+-- Actions require an API-known row visible on the current page, not merely
+-- an ID that survives in an earlier snapshot or an off-page selection.
+local function visibleKnownSelection()
+  if mode ~= "known" or selectedKind ~= "known" or type(selectedId) ~= "string" then
+    return nil
+  end
+  local items = records()
+  local first = (page - 1) * MAX_ROWS + 1
+  for i = first, math.min(first + MAX_ROWS - 1, #items) do
+    local item = items[i]
+    if item and item.kind == "known" and item.id == selectedId then return item end
+  end
+  return nil
+end
 local function loadSlots()
   local previous, available = saved().toolbarSlots, known()
   if type(previous) == "table" then
@@ -537,6 +551,28 @@ local function fitTileLine(frame, value)
   frame:SetText("...")
   return "..."
 end
+local function withoutFirstGlyph(value)
+  if #value <= 1 then return "" end
+  local first = 2
+  while first <= #value do
+    local byte = value:byte(first)
+    if byte < 128 or byte >= 192 then break end
+    first = first + 1
+  end
+  return value:sub(first)
+end
+local function fitTileTail(frame, value)
+  if tileLineFits(frame, value) then return value end
+  local suffix = value
+  for _ = 1, 160 do
+    suffix = withoutFirstGlyph(suffix)
+    local candidate = "..." .. suffix
+    if tileLineFits(frame, candidate) then return candidate end
+    if #suffix == 0 then break end
+  end
+  frame:SetText("...")
+  return "..."
+end
 local function layoutTileCaption(first, second, value)
   local words = {}
   for word in safe(value, "Empty"):gmatch("%S+") do words[#words + 1] = word end
@@ -552,7 +588,7 @@ local function layoutTileCaption(first, second, value)
   end
   first:SetText(top)
   local remaining = table.concat(words, " ", consumed + 1)
-  second:SetText(remaining ~= "" and fitTileLine(second, remaining) or "")
+  second:SetText(remaining ~= "" and fitTileTail(second, remaining) or "")
 end
 -- RC25-CAPTIONS-END
 local function draw()
@@ -615,6 +651,9 @@ local function draw()
   local currentCapture = saved().latest
   local savedSeq = type(currentCapture) == "table" and currentCapture.sequence or nil
   local savedCalling = snapshotCalling() or "unknown"
+  local savedPlayer = type(currentCapture) == "table" and currentCapture.player or nil
+  local savedName = type(savedPlayer) == "table" and safe(savedPlayer.name, "unknown") or "unknown"
+  local savedRole = type(currentCapture) == "table" and currentCapture.roleSlot or nil
   local total = math.max(1, math.ceil(#list / MAX_ROWS))
   if page > total then page = total end
   if page < 1 then page = 1 end
@@ -627,9 +666,14 @@ local function draw()
   soulButton.setEnabled(mode == "static")
   pageButtons.prev.setEnabled(page > 1)
   pageButtons.next.setEnabled(page < total)
-  if pinControls.pin then pinControls.pin.setText("Pin to #" .. tostring(pinSlot)) end
+  if pinControls.pin then
+    pinControls.pin.setText("Pin to #" .. tostring(pinSlot))
+    pinControls.pin.setEnabled(visibleKnownSelection() ~= nil)
+  end
+  if pinControls.check then pinControls.check.setEnabled(visibleKnownSelection() ~= nil) end
   if pinControls.undo then pinControls.undo.setEnabled(pinBaseline ~= nil) end
-  pageLabel:SetText((mode == "known" and ("Saved " .. short(savedCalling, 13)
+  pageLabel:SetText((mode == "known" and ("Saved " .. short(savedName, 10)
+      .. " " .. short(savedCalling, 10) .. " r" .. short(tostring(savedRole or "?"), 2)
       .. " API #" .. tostring(savedSeq or "?")) or "Warrior-only static candidates")
     .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
@@ -641,8 +685,9 @@ local function draw()
       local tag = item.kind == "known" and "[API] " or "[STATIC] "
       local source = item.source and item.source.soul
         or (item.kind == "known" and (snapshotCalling() or "Soul unknown") or "Warrior")
-      row.label:SetText(tag .. short(safe(item.name, item.id), 43)
-        .. "   [" .. source .. "]")
+      row.label:SetText(tag .. item.id .. "  "
+        .. short(safe(item.name, item.id), 30)
+        .. "   [" .. short(source, 18) .. "]")
     end
   end
   if mode == "static" and snapshotCalling() ~= nil
@@ -668,8 +713,8 @@ end
 -- A session baseline permits one Undo to restore ALL pins changed since the
 -- first click. It preserves the original SavedVariables table (or nil) exactly.
 local function pinSelected()
-  if selectedKind ~= "known" or not knownMap()[selectedId] then
-    say("Select an API-known ability before pinning; static candidates are not verified.")
+  if not visibleKnownSelection() or not knownMap()[selectedId] then
+    say("Select a visible API-known row before pinning; off-page and static IDs are not eligible.")
     return
   end
   if type(RRECollectorData) ~= "table" then
@@ -893,10 +938,13 @@ local function createUI()
     page, selectedId = 1, nil; draw()
   end)
   pageButtons.prev = button("RREPrev", browser, 358, 8, 67, 30, "< Prev", function()
-    page = math.max(1, page - 1); draw()
+    if page > 1 then page = page - 1; selectedId, selectedKind = nil, nil end
+    draw()
   end)
   pageButtons.next = button("RRENext", browser, 431, 8, 67, 30, "Next >", function()
-    page = page + 1; draw()
+    local totalPages = math.max(1, math.ceil(#records() / MAX_ROWS))
+    if page < totalPages then page = page + 1; selectedId, selectedKind = nil, nil end
+    draw()
   end)
   button("RRECloseBrowser", browser, 504, 8, 122, 30, "Close", function()
     browserVisible = false; browser:SetVisible(false)
@@ -911,11 +959,11 @@ local function createUI()
     12, "", color.text, true)
   pinControls.pin = button("RREPin", browser, 12, 416, 125, 28,
     "Pin to #1", pinSelected)
-  button("RRECheckSelected", browser, 143, 416, 172, 28,
+  pinControls.check = button("RRECheckSelected", browser, 143, 416, 172, 28,
     "Check selected", function()
-      if selectedKind == "known" and selectedId then
+      if visibleKnownSelection() then
         checked[selectedId] = apiCheck(selectedId)
-      else say("Only API-known abilities support a manual Detail check.") end
+      else say("Select a visible API-known row before checking Detail.") end
       draw()
     end)
   pinControls.undo = button("RREUndoPins", browser, 321, 416, 106, 28,
@@ -1002,6 +1050,7 @@ runtime.ui = {
   refresh = function(clearChecks)
     if clearChecks then
       checked = {}
+      selectedId, selectedKind = nil, nil
       -- A newly captured character may have started with no saved snapshot.
       -- Populate only untouched empty slots; never replace existing pins.
       if ready and type(slots) == "table" and next(slots) == nil

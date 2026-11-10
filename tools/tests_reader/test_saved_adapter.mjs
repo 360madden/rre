@@ -72,6 +72,14 @@ test('v0.4.15 Rogue Experience is retained with explicit capability binding',()=
   assert.equal(received.abilities[0].lookupId,'A0000000100000000');
   assert.throws(()=>read(base),/experience-capability/);
 });
+test('v0.4.16 saved Experience supports Rogue and rejects missing capability',()=>{
+  const base=source.replace('addonVersion="0.1.0"','addonVersion="0.4.16"');
+  const input=base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={rested=0},roleSlot=1,');
+  const output=read(input);
+  assert.equal(output.addonVersion,'0.4.16');
+  assert.deepEqual({...output.context.experience},{rested:0});
+  assert.throws(()=>read(base),/experience-capability/);
+});
 test('earlier versions reject Experience fields while retaining original parser behavior',()=>{
   assert.throws(()=>read(source.replace('roleSlot=1,','capabilities={player=true,experience=false},roleSlot=1,')),/experience-version-unqualified/);
   assert.throws(()=>read(source.replace('roleSlot=1,','experience={rested=0},roleSlot=1,')),/experience-version-unqualified/);

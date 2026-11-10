@@ -1,4 +1,4 @@
--- RRECollector v0.4.15: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.16: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -100,6 +100,18 @@ local function status()
   say("Role slot " .. tostring(latest.roleSlot or "?")
     .. " | combat role " .. tostring(p.role or "?")
     .. " | saved on next normal UI reload/logout.")
+  -- A retained SavedVariables publication receipt can outlive the Lua frames.
+  -- Report ONLY the transient current-load receipt as live publication status.
+  local publication = type(wire) == "table" and type(wire.receipt) == "function"
+    and wire.receipt() or nil
+  if type(publication) == "table" and publication.status == "complete" then
+    say("Current-load RREC2 published: seq=" .. tostring(publication.sequence)
+      .. " parts=" .. tostring(publication.parts) .. ".")
+  else
+    say("Current-load RREC2 not published: " .. tostring(type(publication) == "table"
+      and publication.reason or "no capture this UI load")
+      .. "; saved API capture and wire publication are separate.")
+  end
   candidateStatus()
 end
 

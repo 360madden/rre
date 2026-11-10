@@ -91,11 +91,11 @@ local function collectProbe()
   else
     result.documentationStatus = "index-available"
     for name in pairs(index) do
-      result.index.scanned = result.index.scanned + 1
-      if result.index.scanned > MAX_INDEX_SCAN then
+      if result.index.scanned >= MAX_INDEX_SCAN then
         result.index.scanLimitReached = true
         break
       end
+      result.index.scanned = result.index.scanned + 1
       if interestingName(name) then
         result.index.matched = result.index.matched + 1
         if #result.index.names < MAX_MATCHES then

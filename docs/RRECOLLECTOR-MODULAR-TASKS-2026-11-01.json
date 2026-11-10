@@ -1121,7 +1121,39 @@
         "No cross-repo writes, VMware operations on LEGION, or unapproved game input"
       ],
       "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
-      "currentResult": "v0.4.15 source and 11/11 LEGION OneDrive install parity verified after v0.4.14 backup; focused Node 27/27, C# production 87/87 PASS. Lua runtime unavailable and physical UI/Rogue acceptance pending; other unresolved BH items remain registered."
+      "currentResult": "v0.4.15 source and 11/11 LEGION OneDrive install parity verified after v0.4.14 backup; focused Node 27/27, C# production 87/87 PASS; commit a948270 pushed to origin/main. Lua runtime and physical UI/Rogue acceptance pending."
+    },
+    {
+      "id": "RC-34",
+      "phase": "M4",
+      "title": "Harden RRECollector Pin/Check state, labels, API probe and wire receipts",
+      "state": "in-progress",
+      "dependsOn": ["RC-33"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/capabilities.lua",
+        "tools/verify-rrecollector-cross-calling.mjs",
+        "tools/verify-rrecollector-rc31-selection-state.lua",
+        "tools/verify-rrecollector-rc31-hidden-clicks.lua",
+        "tools/verify-rrecollector-rc31-browser-duplicate-identity.lua"
+      ],
+      "scope": [
+        "BH-03 ensure only current-page valid API rows may Pin/Check and navigation clears selection",
+        "BH-13 make same-name browser records distinguishable by exact ID and preserve tile caption suffixes",
+        "BH-12 bound scanned API documentation index counter",
+        "BH-06 distinguish retained saved Capture from current-load wire publication without erasing useful complete data",
+        "Version all v0.4.16 producer/reader/contract surfaces and deploy only to LEGION OneDrive with backup"
+      ],
+      "acceptance": [
+        "Focused cross-calling and source UI regression gates PASS; independent Lua test harness updated",
+        "RREC2 C# reader and SavedVariables adapter accept v0.4.16 preserving older versions",
+        "Verified v0.4.16 OneDrive 11/11 parity, separate live in-game versioned acceptance pending",
+        "No unrelated add-on changes or LEGION VMware operation"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "RC34-A/B/C/D offline complete: v0.4.16 exact guarded Pin/Check, distinct ID/caption and saved/context/wire status, capped API docs, producer/reader version alignment. Node focused 31/31 and auto suite 38/38 PASS; C# production 89/89 PASS; strict source and LEGION OneDrive installed 11/11 SHA parity after backup artifacts/RRECollector-installed-v0416-LEGION-20261110-174700-526. Lua execution and physical Rogue/Warrior/profession in-game acceptance RC34-E pending; OneDrive sync to other machines unverified."
     }
   ],
   "workingSource": {
