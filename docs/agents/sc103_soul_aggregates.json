@@ -101,6 +101,68 @@
     ],
     "discarded": "probe2 decode at 0xEA2F80 begins mid-instruction"
   },
+  "followup": {
+    "timeLocal": "2026-11-10 11:31 EST",
+    "probes": [
+      {
+        "id": "rre-sc103-legion-list-identity-probe1-20261110-01",
+        "exitCode": 0,
+        "windowStartRva": "0xEA300A",
+        "windowEndExclusiveRva": "0xEA32CA"
+      },
+      {
+        "id": "rre-sc103-legion-list-identity-probe2-20261110-01",
+        "exitCode": 0,
+        "windows": [
+          [
+            "0x7993D0",
+            "0x799550"
+          ],
+          [
+            "0xE93570",
+            "0xE936B0"
+          ]
+        ]
+      }
+    ],
+    "source": {
+      "guard": "size-only-no-rehash",
+      "sizeBytes": 60493640
+    },
+    "nodeRecordKey": {
+      "nodeOffset": "0x20",
+      "readRva": "0xEA30F0",
+      "consumerCallRva": "0xEA318B",
+      "consumerTargetRva": "0x7993D0",
+      "invalidSentinel": -1,
+      "lookupTargetRva": "0x13808E0",
+      "lookupSelector": "0x26C",
+      "resolvedValueOffset": "0x118",
+      "derivedForwardTargetRva": "0x798CE0",
+      "classification": "indirect lookup key, exact Soul/ability ID unverified"
+    },
+    "uiDiscriminator": {
+      "nodeOffset": "0x94",
+      "readRva": "0xEA30F8",
+      "validObservedBranchValues": [
+        0,
+        1,
+        2
+      ],
+      "consumerRva": "0xE93570",
+      "objectComparedOffset": "0x2D8",
+      "objectComparisonGateOffset": "0x253",
+      "displayConstantsCount": 3,
+      "classification": "three-way UI value/label selection, not proof of Soul identity/callback"
+    },
+    "unresolved": [
+      "record key domain",
+      "exact Soul identity per entry",
+      "selection callback",
+      "Legendary variant exact ID"
+    ],
+    "limit": 2
+  },
   "scope": {
     "liveGame": false,
     "vmware": false,
