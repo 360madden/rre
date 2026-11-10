@@ -74,3 +74,29 @@ The keys are `soulTree.HandleCloseClicked`, `soulTree.HandleAlphaClicked`, `soul
 **Independent checks:** (1) Existing local Capstone + pefile decoded both complete installer owner ranges, the strings and original instruction boundaries; Workbridge job `rre_20261110_0559_sc103_ctor_strings_ro_v1`, exit 0. (2) Python 3.14 **standard-library-only** PE mapping and signed RIP-relative decoding matched 11/11 symbol names and 22/22 cross-region string pointers, with an in-memory displacement mutation rejected; `rre_20261110_0601_sc103_soultree_key_stdlib_ro_v1`, exit 0. (3) A separate standard-library call-decoding check verified 11/11 immediate direct calls to `0xFB1B40`; `rre_20261110_0603_sc103_callback_calls_stdlib_ro_v1`, exit 0. An additional narrow rel32 caller search for the two installer entrypoints found zero **direct** calls; this neither proves they are unused nor excludes indirect dispatch.
 
 **Limits/next:** Original saved bytes only; no qualified live execution, callback invocation, class identity, selection-state value, selected/learned Legendary ability or Protector's Fury modern ID. Do not turn a GUI binding name into an ability-ID claim. Future SC-103 research must find a verified callback consumer/state field or receive a fresh owner-authorized same-epoch UI/native receipt. No additional generic localization/RTTI probe is justified.
+
+## November 10, 2026, 06:57 EST — source-qualified click-card callback-to-state path (offline)
+
+**New discriminator:** In the **same saved exact Lab-2 PE** (60,493,640 bytes, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`), the first SoulTree initialization region (`0xE8A89C–0xE8AE38`) does **more than register eleven names**. For each named `soulTree.*` key it constructs a small candidate callback object (requests `0x18` bytes; stores a RIP-relative code pointer at the allocated object's `+0x10` and its UI context at `+0x8`), then calls `0xFAE720` with the named key and candidate wrapper. A second related initialization region (`0xE8B6A0–0xE8B817`) passes the same eleven keys via explicit `RDX` and a value loaded from `[RBX+0x48]` via `RCX` to `0xFB1B40`. The precise helper contracts and runtime invocation remain unproved.
+
+The eleven **source-verified key → callback-code RVAs** in the first region are:
+
+| `soulTree.` key suffix | Callback wrapper RVA |
+| --- | ---: |
+| `HandleCloseClicked` | `0xE947C0` |
+| `HandleAlphaClicked` | `0xE939D0` |
+| `SpecNameChanged` | `0xEAAD80` |
+| `HandleOkPressed` | `0xE94830` |
+| `HandleBuildSoulCard` | `0xE93A00` |
+| `HideSelector` | `0xE9BAA0` |
+| **`HandleClickSoulCard`** | **`0xE946E0`** |
+| `SoulTreeHelp` | `0xEAAC90` |
+| `HandleRolesButtonClicked` | `0xE94CC0` |
+| `HandleClickRole` | `0xE94390` |
+| `HideRoleSelector` | `0xE9B950` |
+
+**Concrete state-consumer connection:** The `HandleClickSoulCard`-associated wrapper at `0xE946E0–0xE947BD` tests `R9D == 1` and `byte [RCX+0x256] == 0`, converts the double at `[R8+0x10]` to an integer, then directly calls **`0xE94530`** at `0xE94718`. The callee (`.pdata` owner `0xE94530–0xE946D9`) receives that integer in `EDX` and the UI-context pointer in `RCX`. Its verified instructions compare `[RDI+0x260]` against `[RDI+0x26C]` at `0xE945EC–0xE945F8`, and `[RDI+0x2F4]` against `[RDI+0x300]` at `0xE945FE–0xE9460A`. These are the **same source-relative object offsets** used in the earlier adjacent arithmetic finding. Later branches inspect `[RDI+0x270]` against a list node `+0x94`; one branch writes `0x0101` to `[RDI+0x253]`, saves `EAX` to `[RDI+0x2D8]`, and saves the converted integer (`ESI`) to `[RDI+0x2DC]` (`0xE9466A–0xE9467F`). Another branch also writes that integer at `0xE946B8`. The function uses list-head-related offsets `+0x278`/`+0x288`.
+
+**Independent verification:** Capstone/pefile fully decoded both initialization regions and each `.pdata`-bounded click handler, and matched all eleven key/code-pointer associations (jobs `rre_20261110_0707_sc103_handlers_exact_map_corrected_v3`, `rre_20261110_0709_sc103_clicksoulcard_handler_disasm_v1`, `rre_20261110_0711_sc103_click_callee_v1`, all exit 0). Independent Python standard-library PE mapping verified **11/11** exact RIP-relative callback targets, keys, and registration-call targets, with one in-memory displacement mutation rejected (`rre_20261110_0711_sc103_callback_byte_guard_fixed_v2`, exit 0). A second byte-only verifier independently confirmed **18/18** pinned instructions on the click-wrapper/callee path, the rel32 call into `0xE94530`, and a rejected in-memory mutation (`rre_20261110_0715_sc103_click_state_bytes_independent_v1`, exit 0). Initial exploratory verifier failures reflected overstrict/test-harness assumptions; the corrected tests passed. No source, process, game, VM, addon installation or SavedVariables was altered.
+
+**Proof boundary:** This is source-qualified native **UI callback → conditional state-reader/writer** evidence, not observed execution, a formal C++ type/ABI, proven UI index meaning, a Legendary selection flag, a known/usable ability ID, or a modern Protector's Fury variant identity. The integer from `[R8+0x10]` is a candidate UI-supplied value; **do not identify it as an ability ID or card index without a discriminator**. SC-103 remains blocked. The next focused lead is the exact-output/consumer relationship of the bounded `0xE94530` branches (`0xE935E0`, `0xE91320`, `0xE8C0A0`) if novel evidence supports it, or a newly authorized same-epoch UI/native cross-check; do not resume generic strings, RTTI or broad imports.
