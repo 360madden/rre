@@ -219,3 +219,22 @@ test("saved reader rejects malformed raw ability fields before the crosswalk dro
   assert.equal(result.abilities[0].passive, false);
   assert.equal(result.abilities[0].cooldown, 0);
 });
+
+const decodeDecimal = body => parseSavedLua('RRECollectorData={name="' + body + '"}').name;
+test("Lua decimal escapes reconstruct UTF-8 bytes without mojibake", () => {
+  assert.equal(decodeDecimal(String.raw`Caf\195\169`), "Café");
+  assert.equal(decodeDecimal(String.raw`São \240\159\152\128`), "São 😀");
+  assert.equal(decodeDecimal(String.raw`one\n\t\r\\\"`), "one\n\t\r\\\"");
+});
+test("invalid decimal-escaped UTF-8 rejects instead of inventing characters", () => {
+  assert.throws(() => decodeDecimal(String.raw`bad\256`), /decimal escape out of range/);
+  assert.throws(() => decodeDecimal(String.raw`bad\195`), /invalid UTF-8 in quoted string/);
+});
+test("SavedSource export preserves escaped UTF-8 names plus false and zero", () => {
+  const capture = Buffer.from(String.raw`RRECollectorData = {addonVersion="0.4.14", sequence=7, latest={addonVersion="0.4.14", sequence=7, captureComplete=true, abilityList={apiAvailable=true, enumerationComplete=true, detailFailures=0, ignored=0, truncated=0, uniqueCount=1, detailCount=1, rawEntries=1}, player={id="uFIXTURE", name="Caf\195\169"}, roleSlot=1, frameTime=10, realTime=20, capabilities={player=true, experience=false}, abilities={{lookupId="A0000000100000000", name="São \240\159\152\128", passive=false, cooldown=0}}}}`);
+  const snapshot = exportSavedSnapshot(capture);
+  assert.equal(snapshot.context.player.name, "Café");
+  assert.equal(snapshot.abilities[0].name, "São 😀");
+  assert.equal(snapshot.abilities[0].passive, false);
+  assert.equal(snapshot.abilities[0].cooldown, 0);
+});

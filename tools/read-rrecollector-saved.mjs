@@ -45,25 +45,37 @@ export function parseSavedLua(input) {
   }
   function quoted() {
     const delim = src[i++];
-    let result = "";
-    const special = {n:"\n",r:"\r",t:"\t",a:"\x07",b:"\b",f:"\f",v:"\v"};
+    const bytes = [];
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder("utf-8", {fatal:true});
+    let rawStart = i;
+    function appendRaw(end) {
+      for (const byte of encoder.encode(src.slice(rawStart, end))) bytes.push(byte);
+    }
+    const special = {n:10,r:13,t:9,a:7,b:8,f:12,v:11};
     while (i < src.length) {
       const c = src[i++];
-      if (c === delim) return result;
+      if (c === delim) {
+        appendRaw(i - 1);
+        try { return decoder.decode(Uint8Array.from(bytes)); }
+        catch { fail("invalid UTF-8 in quoted string"); }
+      }
       if (c === "\n" || c === "\r") fail("unescaped newline in quoted string");
-      if (c !== "\\") { result += c; continue; }
+      if (c !== "\\") continue;
+      appendRaw(i - 1);
       if (i >= src.length) fail("unterminated escape");
       let e = src[i++];
       if (/[0-9]/.test(e)) {
         while (i < src.length && e.length < 3 && /[0-9]/.test(src[i])) e += src[i++];
         const n = Number(e);
         if (n > 255) fail("decimal escape out of range");
-        result += String.fromCharCode(n);
-      } else if (e === delim || e === "\\") result += e;
-      else if (e === "\n") result += "\n";
-      else if (e === "\r") { if (src[i] === "\n") i++; result += "\n"; }
-      else if (Object.hasOwn(special, e)) result += special[e];
+        bytes.push(n);
+      } else if (e === delim || e === "\\") bytes.push(e.charCodeAt(0));
+      else if (e === "\n") bytes.push(10);
+      else if (e === "\r") { if (src[i] === "\n") i++; bytes.push(10); }
+      else if (Object.hasOwn(special, e)) bytes.push(special[e]);
       else fail("unsupported escape");
+      rawStart = i;
     }
     fail("unterminated quoted string");
   }
