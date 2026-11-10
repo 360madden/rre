@@ -8,6 +8,12 @@ TERMINAL_STATES = frozenset({"arrived", "cancelled", "target-unavailable", "targ
 ALLOWED_STATUSES = TERMINAL_STATES | {"approach-intent"}
 
 
+def _exact_codes(value: Any, expected: Set[str]) -> bool:
+    return (isinstance(value, list) and len(value) == len(expected)
+            and all(isinstance(code, str) for code in value)
+            and set(value) == expected)
+
+
 def validate_suite(contract: Dict[str, Any], corpus: Dict[str, Any]) -> Dict[str, Any]:
     errors: List[str] = []
     intentional_invalid_cases: List[str] = []
@@ -106,6 +112,9 @@ def validate_suite(contract: Dict[str, Any], corpus: Dict[str, Any]) -> Dict[str
 
 
 def _validate_contract(contract: Dict[str, Any], errors: List[str]) -> bool:
+    if not isinstance(contract, dict):
+        errors.append("contract must be an object")
+        return False
     ok = True
     if contract.get("schemaVersion") != 1:
         errors.append("contract schemaVersion must be 1")
@@ -118,15 +127,28 @@ def _validate_contract(contract: Dict[str, Any], errors: List[str]) -> bool:
         ok = False
     declared_states = contract.get("stateVocabulary")
     declared_terminal = contract.get("terminalStates")
-    if declared_states is not None and (not isinstance(declared_states, list) or
-                                        set(declared_states) != ALLOWED_STATUSES):
+    if not _exact_codes(declared_states, ALLOWED_STATUSES):
         errors.append("contract stateVocabulary differs from the locked M4A status contract")
         ok = False
-    if declared_terminal is not None and (not isinstance(declared_terminal, list) or
-                                          set(declared_terminal) != TERMINAL_STATES):
+    if not _exact_codes(declared_terminal, TERMINAL_STATES):
         errors.append("contract terminalStates differs from the locked M4A terminal codes")
         ok = False
-    source = contract.get("source", {})
+    build = contract.get("exactBuildSha256")
+    if not isinstance(build, str) or len(build) != 64 or any(c not in "0123456789abcdefABCDEF" for c in build):
+        errors.append("contract exactBuildSha256 must be a 64-digit hex digest")
+        ok = False
+    policy = contract.get("policy")
+    thresholds = ("arrivalRadiusM", "maximumVerticalDifferenceM", "staleAfterGapMs",
+                  "progressWindowMs", "minimumProgressM", "movingAwayToleranceM", "numericTolerance")
+    if (not isinstance(policy, dict) or any(
+        not isinstance(policy.get(key), (int, float)) or isinstance(policy.get(key), bool)
+        or not math.isfinite(policy[key]) or policy[key] < 0 for key in thresholds)):
+        errors.append("contract policy must provide finite nonnegative numeric thresholds")
+        ok = False
+    source = contract.get("source")
+    if not isinstance(source, dict):
+        errors.append("contract source must be an object")
+        return False
     if source.get("kind") != "synthetic-fixture":
         errors.append("contract source.kind must be synthetic-fixture")
         ok = False
@@ -137,14 +159,23 @@ def _validate_contract(contract: Dict[str, Any], errors: List[str]) -> bool:
 
 
 def _validate_corpus_base(corpus: Dict[str, Any], errors: List[str]) -> bool:
+    if not isinstance(corpus, dict):
+        errors.append("corpus must be an object")
+        return False
     ok = True
+    if not isinstance(corpus.get("fixtureSetId"), str) or not corpus["fixtureSetId"].strip():
+        errors.append("corpus fixtureSetId must be a nonempty string")
+        ok = False
     if corpus.get("schemaVersion") != 1:
         errors.append("corpus schemaVersion must be 1")
         ok = False
     if corpus.get("taskId") != "M4A-001":
         errors.append("corpus taskId must be M4A-001")
         ok = False
-    source = corpus.get("source", {})
+    source = corpus.get("source")
+    if not isinstance(source, dict):
+        errors.append("corpus source must be an object")
+        return False
     if source.get("kind") != "synthetic-fixture":
         errors.append("corpus source.kind must be synthetic-fixture")
         ok = False
