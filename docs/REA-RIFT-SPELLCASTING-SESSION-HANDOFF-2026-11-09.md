@@ -1,4 +1,10 @@
-# RRE session handoff — 2026-11-09, 22:39 EST
+# RRE session handoff — 2026-11-09, 22:51 EST
+
+## Current checkpoint — 22:51 EST (LEGION language asset linked to physical archive)
+
+- **Source-backed localization lead:** Ghar Station names `lang_english.cds`; `telarafly/EnglishLang.cs` independently loads that filename and documents compressed key/text records. Exact LEGION physical manifest SHA `6e3c79b453ce5a4caa2eb5eeddb0240c7dcad9d5d54f6ce2a0f3d532b468715c` yields one hash+length candidate, FNV-1 `0x70BAA82E`, Table1 #178030, language 1, ID prefix `bbeea48a7564ed10`, virtual `assets/localization/english/english_core_0.pak`. **This does not prove the Ability Queue labels live in that file.**
+- **Physical archive proof:** Fresh LEGION host confirmed. Exactly 239 `Live\\Assets\\assets.NNN` segments (zero `assets64.NNN`) scanned using **header/entry metadata only**; across 355,871 records the ID prefix occurs once: `assets.002` record #1211, payload offset 79474811, stored size 4794377, compression1, entry SHA field `99c6c384b281d28c2f94351c04b163f71db869b6`, metadata SHA `6817892160d3b884819ac9fe914628bc0b6d11ad7c1cbe1b0107e546f5f96f22`. No payload bytes or archive extraction/decompression. This is one matching **table slot**, not proof of active linked-list membership; recorded SHA field and header+table digest do not verify payload bytes.
+- **New reusable tooling:** `tools/lookup-twad-id.py`, eleven synthetic checks in `tools/test-twad-id-lookup.py`, physical exit0 and wrong-host exit2. Source restricts reads to bounded 20B TWAD headers and 44B tables, with strict count/file bounds and duplicate detection. Existing public RiftAssetDumper indexer is unsafe for metadata-only because it uses whole-file `f.read()`; not invoked. Report: `docs/REA-RIFT-SPELLCASTING-SC306-LOCALIZATION-MANIFEST-2026-11-09.md`. SC-306 values 0/2 still unknown; no game, VMware, Ghidra import, file extraction or cross-repository work. Next: review/tests/commit this milestone, then scope a **single** verified asset decoder as a separate task; no unsupported enum promotion.
 
 ## Current checkpoint — 22:39 EST (LEGION source-backed TWAM filename lookup)
 
