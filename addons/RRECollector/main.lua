@@ -39,6 +39,13 @@ local function candidateStatus()
     .. tostring(report.policy or "?") .. "; not a lock/learnability conclusion.")
 end
 
+local function savedSnapshotComplete(latest)
+  return type(latest) == "table" and latest.captureComplete == true
+    and type(latest.abilityList) == "table"
+    and type(latest.player) == "table"
+    and type(latest.abilities) == "table"
+end
+
 local function status()
   if not savedLoaded then
     say("v" .. VERSION .. " saved data not loaded; capture unavailable.")
@@ -67,7 +74,7 @@ local function status()
     .. " | failed " .. tostring(list.detailFailures or 0)
     .. " | ignored " .. tostring(list.ignored or 0)
     .. " | truncated " .. tostring(list.truncated or 0)
-    .. " | complete " .. tostring(latest.captureComplete == true))
+    .. " | complete " .. tostring(savedSnapshotComplete(latest)))
   say("Role slot " .. tostring(latest.roleSlot or "?")
     .. " | combat role " .. tostring(p.role or "?")
     .. " | saved on next normal UI reload/logout.")
@@ -228,8 +235,7 @@ local function recordCapture()
     return
   end
   local prior = RRECollectorData.latest
-  if type(prior) == "table" and prior.captureComplete == true
-    and record.captureComplete ~= true then
+  if savedSnapshotComplete(prior) and record.captureComplete ~= true then
     lastMessage = "capture-incomplete-preserved"
     if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("capture-incomplete") end
     say("Capture incomplete; previous complete ability snapshot preserved.")
@@ -311,7 +317,7 @@ local function onSlash(_, raw)
         say("No snapshot to export. Use /rre capture first.")
         return
       end
-      if latest.captureComplete ~= true then
+      if not savedSnapshotComplete(latest) then
         say("Snapshot incomplete; use /rre capture to collect a complete one.")
         return
       end
