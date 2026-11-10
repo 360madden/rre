@@ -19,3 +19,10 @@
 ```json
 {"project":"RRE","host":"LEGION","task":"SC-306","mode":"utf8-strict-opt-in","decodedText":165479,"nonText":1,"nonAsciiUtf8":366,"invalidUtf8":0,"abilityQueueLabelKey":2137386253,"enumValues":{"0":null,"1":"Short (historical Lab-2)","2":null},"tests":{"text":19,"inspector":17},"publishAuthorized":false}
 ```
+
+## 04:22 EST — offline Collector reliability milestone
+
+- **Host / HEAD:** LEGION independently verified; C:\work\rre main at e348370 (8 local commits ahead of this clone's older origin/main). RIFT unavailable; no game/VM operation or deployment.
+- **Functional fix:** addons/RRECollector/ui.lua guards per-field Detail proxy reads using runtime.abilities.copyDetail, filters nonfinite cooldown, and requires explicit passive=false before a cyan API NO BLOCK verdict. Local commits b8fe76f, 0f1865c, e348370; regression tools/agents/collector_offline/verify_readiness_proxy.lua.
+- **Verified:** Exact patched source exercised in memory with AMD-DESKTOP pinned Lua 5.1.4: 19/19 PASS (rre-col-amd-lua51-patched19-inline-20261110-c); older source negative control failed as expected. LEGION Node package 11-source PASS, candidates 6/6, SavedVariables 12/12, git diff --check exit 0. No live runtime proof; v0.4.14 remains source-only.
+- **Next:** Live Collector validation only after RIFT returns and an authorized load; LEGION .NET10 SDK missing (C# tests run on AMD 81/81). AMD and LEGION clones have divergent unpushed histories; preserve both, no push/force sync. RC-30 historical receipt, SC-103 variant, SC-306 0/2 and SC-629 live gate remain open.
