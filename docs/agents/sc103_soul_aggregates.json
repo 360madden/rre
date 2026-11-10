@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "task": "SC-103",
+  "host": "LEGION",
+  "timeLocal": "2026-11-10 11:22 EST",
+  "mode": "offline-static-exact-pe",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8"
+  },
+  "probes": [
+    {
+      "id": "rre-sc103-legion-soul-probe1-20261110-01",
+      "exitCode": 0
+    },
+    {
+      "id": "rre-sc103-legion-soul-probe2-20261110-01",
+      "exitCode": 0
+    }
+  ],
+  "native": {
+    "vtable": {
+      "rva": "0x2704798",
+      "slot": 12,
+      "slotEntryRva": "0x27047F8",
+      "slotTargetRva": "0xEAB4D0",
+      "installRvas": [
+        "0xE8A9A3",
+        "0xE8B6AA"
+      ]
+    },
+    "virtualMethod": {
+      "rva": "0xEAB4D0",
+      "unwindStart": "0xEAB4D0",
+      "unwindEndExclusive": "0xEAB5DB",
+      "priorVirtualOffsets": [
+        "0xB8",
+        "0xC0"
+      ],
+      "conditionalDirtyOffset": "0x255",
+      "preRebuildCallRva": "0xEAB543",
+      "preRebuildTargetRva": "0xEAB7D0",
+      "rebuildCallRva": "0xEAB54E",
+      "rebuildTargetRva": "0xEA2ED0",
+      "clearedByteOffsets": [
+        "0x255",
+        "0x2F2"
+      ]
+    },
+    "aggregateHelper": {
+      "rva": "0xEAB7D0",
+      "unwindStart": "0xEAB7D0",
+      "unwindEndExclusive": "0xEAB860",
+      "sentinelObjectOffset": "0x278",
+      "initialCursorObjectOffset": "0x288",
+      "nodeSumFields": [
+        {
+          "nodeOffset": "0xE8",
+          "objectSumOffset": "0x26C"
+        },
+        {
+          "nodeOffset": "0xF4",
+          "objectSumOffset": "0x300"
+        }
+      ],
+      "cursorAdvanceCallRva": "0x1294774",
+      "residuals": [
+        {
+          "destinationObjectOffset": "0x268",
+          "addObjectOffsets": [
+            "0x264",
+            "0x260"
+          ],
+          "subtractObjectOffset": "0x26C"
+        },
+        {
+          "destinationObjectOffset": "0x2FC",
+          "addObjectOffsets": [
+            "0x2F8",
+            "0x2F4"
+          ],
+          "subtractObjectOffset": "0x300"
+        }
+      ]
+    }
+  },
+  "classification": {
+    "confirmed": [
+      "virtual method table installation",
+      "dirty-state-gated UI rebuild calls",
+      "two list-node aggregate and residual computations"
+    ],
+    "inferred": [
+      "likely UI refresh/update semantics"
+    ],
+    "unresolved": [
+      "Soul entry identity",
+      "selected Legendary variant exact ID",
+      "selection callback with identity argument"
+    ],
+    "discarded": "probe2 decode at 0xEA2F80 begins mid-instruction"
+  },
+  "scope": {
+    "liveGame": false,
+    "vmware": false,
+    "reaGhidraImport": false,
+    "installedFilesModified": false,
+    "probeLimit": 2
+  }
+}
