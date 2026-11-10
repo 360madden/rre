@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { parseSavedLua, buildAbilityCrosswalk } from "./read-rrecollector-saved.mjs";
+import { parseSavedLuaBytes, buildAbilityCrosswalk } from "./read-rrecollector-saved.mjs";
 
 function assertRecords(value, label) {
   if (!value || !Array.isArray(value.records)) throw new Error(label + " records required");
@@ -144,7 +144,7 @@ if (invoked) {
     }));
     const savedBytes = fs.readFileSync(savedFile);
     const atlas = buildLiveAtlas({
-      saved:parseSavedLua(savedBytes.toString("utf8")),savedSha256:sha(savedBytes),
+      saved:parseSavedLuaBytes(savedBytes),savedSha256:sha(savedBytes),
       originalThree:inputs.originalThree.value,allWarrior:inputs.allWarrior.value,
       priorAtlas:inputs.priorAtlas.value,
       sourceIndex:{...Object.fromEntries(Object.entries(inputs).map(([key,v])=>[key,{path:v.path,sha256:v.sha256}])),

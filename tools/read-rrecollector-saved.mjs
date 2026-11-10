@@ -18,6 +18,11 @@ const DETAILS = [
   "gainCharge", "racial", "icon", "focusMin", "focusMax"
 ];
 
+export function parseSavedLuaBytes(bytes) {
+  if (!(bytes instanceof Uint8Array)) throw new Error("SavedVariables input must be bytes");
+  return parseSavedLua(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+}
+
 export function parseSavedLua(input) {
   if (typeof input !== "string" || input.length > MAX_CHARS) {
     throw new Error("SavedVariables input missing or too large");
@@ -299,7 +304,7 @@ if (invoked) {
     process.exitCode = 2;
   } else {
     const bytes = fs.readFileSync(savedFile);
-    const saved = parseSavedLua(bytes.toString("utf8"));
+    const saved = parseSavedLuaBytes(bytes);
     const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
     const digest = crypto.createHash("sha256").update(bytes).digest("hex");
     process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
