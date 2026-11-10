@@ -425,7 +425,8 @@ local function apiCheck(id)
       tint = color.amber}
   end
   -- Missing flags are unknown, not false. Independent GCD/LOS are unverified.
-  if detail.unusable == false and detail.outOfRange == false and left == 0 then
+  if detail.passive == false and detail.unusable == false
+    and detail.outOfRange == false and left == 0 then
     return {status = "API NO BLOCK*", tint = color.cyan}
   end
   return {status = "READINESS UNKNOWN", tint = color.grey}

@@ -48,7 +48,9 @@ verify({unusable = false, outOfRange = false, currentCooldownRemaining = math.hu
 verify(setmetatable({unusable = false, outOfRange = false, currentCooldownRemaining = 0},
   {__index = function(_, key)
     if key == "passive" then error("blocked passive getter") end
-  end}), "API NO BLOCK*", "throwing passive getter")
+  end}), "READINESS UNKNOWN", "throwing passive getter")
+verify({unusable = false, outOfRange = false, currentCooldownRemaining = 0},
+  "READINESS UNKNOWN", "missing passive remains unknown")
 verify(setmetatable({outOfRange = false, currentCooldownRemaining = 0},
   {__index = function(_, key)
     if key == "unusable" then error("blocked unusable getter") end
