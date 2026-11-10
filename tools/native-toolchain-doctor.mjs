@@ -6,6 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { probeDotnetSdk } from "./agents/reader_dotnet_readiness/probe-dotnet.mjs";
 
 const script = fileURLToPath(import.meta.url);
 const repository = path.resolve(path.dirname(script), "..");
@@ -112,6 +113,7 @@ export function run(argv = process.argv.slice(2)) {
     schemaVersion: 1, hostname: host, hostRoute: routeForHost(host),
     observedAtUtc: new Date().toISOString(), repository,
     node: { status: "present", version: process.version },
+    dotnet: probeDotnetSdk(),
     python: probePython(python), rea: probeRea(reaHome),
     ghidra: probeGhidra(ghidraHome), java: probeJava(javaHome),
     qualification: "dependency-inventory-only-not-native-or-live-game-acceptance",
