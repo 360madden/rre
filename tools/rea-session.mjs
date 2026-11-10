@@ -4,31 +4,89 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import os from 'node:os';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 
 const optionsPath = process.argv[2];
-if (!optionsPath || process.argv.length !== 3) {
-  console.error('Usage: node tools/rea-session.mjs <absolute-session-options.json>');
+const preflightOnly = process.argv.length === 4 && process.argv[3] === '--preflight';
+if (!optionsPath || (process.argv.length !== 3 && !preflightOnly)) {
+  console.error('Usage: node tools/rea-session.mjs <absolute-session-options.json> [--preflight]');
   process.exit(2);
 }
 const cfg = JSON.parse(fs.readFileSync(optionsPath, 'utf8'));
+const host = os.hostname();
+if (cfg.expectedHost && host.toUpperCase() !== String(cfg.expectedHost).toUpperCase()) {
+  throw new Error('Session host mismatch: expected ' + cfg.expectedHost + ', observed ' + host);
+}
+const sourceFormat = cfg.format ?? 'pe';
+// REA open_binary may auto-import an entire PE before any focused query executes.
+// Only an explicit, config-owned opt-in can allow that expensive operation.
+if (!preflightOnly && sourceFormat === 'pe' && cfg.allowFullPeImport !== true) {
+  throw new Error('Full PE import blocked; allowFullPeImport must be explicitly true.');
+}
+const expected = String(cfg.expectedSha256 || '').toLowerCase();
+if (!/^[0-9a-f]{64}$/.test(expected)) throw new Error('Expected SHA-256 must be a 64-digit hex digest.');
 const out = path.resolve(cfg.outputDirectory);
-const queue = path.join(out, 'requests');
-const replies = path.join(out, 'responses');
-if (fs.existsSync(out)) {
-  // The caller may prepopulate requests, but previous immutable evidence must
-  // never be overwritten merely because a status file is absent.
-  const unexpected = fs.readdirSync(out).filter(name =>
+function ensureOutputAdmissible(directory) {
+  if (!fs.existsSync(directory)) return;
+  // Requests may be pre-staged; any prior response or receipt makes the session immutable.
+  const unexpected = fs.readdirSync(directory).filter(name =>
     name !== 'requests' && name !== 'responses');
+  const repliesDir = path.join(directory, 'responses');
   if (unexpected.length ||
-      (fs.existsSync(replies) && fs.readdirSync(replies).length)) {
+      (fs.existsSync(repliesDir) && fs.readdirSync(repliesDir).length)) {
     throw new Error('Session output contains prior evidence; choose a new outputDirectory.');
   }
 }
+function inspectSourceFormat(bytes, format, options) {
+  if (format === 'pe') {
+    if (bytes.length < 128) throw new Error('PE file too small.');
+    const pe = bytes.readUInt32LE(0x3c);
+    if (pe + 56 > bytes.length ||
+        bytes.toString('ascii',0,2) !== 'MZ' ||
+        bytes.readUInt32LE(pe) !== 0x4550 ||
+        bytes.readUInt16LE(pe+4) !== 0x8664) throw new Error('Expected x64 PE.');
+    return bytes.readBigUInt64LE(pe+24+24);
+  }
+  if (format === 'raw-binary') {
+    if (options.architecture !== 'x86_64' ||
+        typeof options.entryPoint !== 'string' ||
+        !/^0x[0-9a-fA-F]{1,16}$/.test(options.entryPoint) ||
+        bytes.length < 1 || bytes.length > 65536) {
+      throw new Error('Raw probe requires x86_64, valid entryPoint and 1..65536 bytes.');
+    }
+    const base = BigInt(options.entryPoint);
+    if (base + BigInt(bytes.length) > (1n << 64n)) {
+      throw new Error('Raw probe address range exceeds 64-bit space.');
+    }
+    return base;
+  }
+  throw new Error('Unsupported analysis input format.');
+}
+if (preflightOnly) {
+  const source = fs.readFileSync(cfg.binary);
+  const actual = crypto.createHash('sha256').update(source).digest('hex');
+  if (actual !== expected) throw new Error('Preflight target SHA-256 mismatch.');
+  const imageBase = inspectSourceFormat(source, sourceFormat, cfg);
+  ensureOutputAdmissible(out);
+  const reaMetadata = JSON.parse(fs.readFileSync(path.join(cfg.reaHome, 'node_modules', 'rea-agents', 'package.json'), 'utf8'));
+  if (reaMetadata.version !== cfg.expectedReaVersion) throw new Error('Preflight REA version mismatch.');
+  const headless = path.join(cfg.ghidraHome, 'support', process.platform === 'win32' ? 'analyzeHeadless.bat' : 'analyzeHeadless');
+  const java = path.join(cfg.javaHome, 'bin', process.platform === 'win32' ? 'java.exe' : 'java');
+  if (!fs.existsSync(headless) || !fs.existsSync(java)) throw new Error('Preflight Ghidra or Java executable missing.');
+  console.log(JSON.stringify({mode:'preflight', host, source:cfg.binary,
+    size:source.length, sha256:actual, format:sourceFormat,
+    imageBase:'0x'+imageBase.toString(16), reaVersion:reaMetadata.version,
+    ghidraHeadless:headless, java, fullPeImportAllowed:cfg.allowFullPeImport === true,
+    analysisStarted:false, sessionFilesCreated:false}));
+  process.exit(0);
+}
+const queue = path.join(out, 'requests');
+const replies = path.join(out, 'responses');
+ensureOutputAdmissible(out);
 const started = Date.now();
 const deadline = started + Math.min(550, cfg.durationSeconds ?? 550) * 1000;
-const expected = cfg.expectedSha256.toLowerCase();
 const allowed = new Set([
   'binary_session', 'binary_overview', 'list_segments',
   'search_strings', 'search_procedures', 'xrefs',
@@ -68,30 +126,8 @@ try {
   const originalBytes = fs.readFileSync(cfg.binary);
   const digest = crypto.createHash('sha256').update(originalBytes).digest('hex');
   if (digest !== expected) throw new Error('Target SHA256 does not match qualified build.');
-  const loadFormat = cfg.format ?? 'pe';
-  let imageBase;
-  if (loadFormat === 'pe') {
-    if (originalBytes.length < 128) throw new Error('PE file too small.');
-    const pe = originalBytes.readUInt32LE(0x3c);
-    if (pe + 56 > originalBytes.length ||
-        originalBytes.toString('ascii',0,2) !== 'MZ' ||
-        originalBytes.readUInt32LE(pe) !== 0x4550 ||
-        originalBytes.readUInt16LE(pe+4) !== 0x8664) throw new Error('Expected x64 PE.');
-    imageBase = originalBytes.readBigUInt64LE(pe+24+24);
-  } else if (loadFormat === 'raw-binary') {
-    if (cfg.architecture !== 'x86_64' ||
-        typeof cfg.entryPoint !== 'string' ||
-        !/^0x[0-9a-fA-F]{1,16}$/.test(cfg.entryPoint) ||
-        originalBytes.length < 1 || originalBytes.length > 65536) {
-      throw new Error('Raw probe requires x86_64, valid entryPoint and 1..65536 bytes.');
-    }
-    imageBase = BigInt(cfg.entryPoint);
-    if (imageBase + BigInt(originalBytes.length) > (1n << 64n)) {
-      throw new Error('Raw probe address range exceeds 64-bit space.');
-    }
-  } else {
-    throw new Error('Unsupported analysis input format.');
-  }
+  const loadFormat = sourceFormat;
+  const imageBase = inspectSourceFormat(originalBytes, loadFormat, cfg);
   status.identity = {sha256:digest, size:originalBytes.length,
     format:loadFormat, imageBase:'0x'+imageBase.toString(16), sourcePath:cfg.binary};
   save('identity.json', status.identity);

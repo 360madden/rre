@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import socket
 import struct
 import sys
 import subprocess
@@ -82,6 +83,7 @@ class DriverChecks(unittest.TestCase):
             "javaHome": str(self.folder / "absent-java"),
             "outputDirectory": str(self.out), "durationSeconds": 60,
             "fakeCalls": str(self.folder / "calls.txt"), "syntheticScenario": "normal",
+            "expectedHost": socket.gethostname(), "allowFullPeImport": True,
         }
 
     def run_driver(self, finish=True):
@@ -94,6 +96,96 @@ class DriverChecks(unittest.TestCase):
         status = json.loads((self.out / "status.json").read_text())
         calls = Path(self.cfg["fakeCalls"]).read_text().splitlines()
         return result, status, calls
+
+    def test_wrong_host_rejected_before_any_session_files_or_mcp(self):
+        self.cfg["expectedHost"] = "THIS-HOST-SHOULD-NOT-EXIST"
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"), str(config)],
+                             capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("host mismatch", run.stderr.lower())
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
+
+    def test_full_pe_import_requires_explicit_opt_in(self):
+        self.cfg["allowFullPeImport"] = False
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"), str(config)],
+                             capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("Full PE import blocked", run.stderr)
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
+
+    def test_preflight_hash_version_paths_without_session_or_mcp(self):
+        self.cfg["allowFullPeImport"] = False
+        ghidra = self.folder / "synthetic-ghidra" / "support"
+        ghidra.mkdir(parents=True)
+        (ghidra / ("analyzeHeadless.bat" if sys.platform == "win32" else "analyzeHeadless")).write_text("")
+        java = self.folder / "synthetic-java" / "bin"
+        java.mkdir(parents=True)
+        (java / ("java.exe" if sys.platform == "win32" else "java")).write_text("")
+        self.cfg["ghidraHome"] = str(ghidra.parent)
+        self.cfg["javaHome"] = str(java.parent)
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"),
+                              str(config), "--preflight"], capture_output=True, text=True, timeout=10)
+        self.assertEqual(run.returncode, 0, run.stderr)
+        result = json.loads(run.stdout)
+        self.assertEqual(result["mode"], "preflight")
+        self.assertFalse(result["fullPeImportAllowed"])
+        self.assertEqual(result["sha256"], self.cfg["expectedSha256"])
+        self.assertFalse(result["sessionFilesCreated"])
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
+
+    def test_preflight_rejects_wrong_pe_architecture_without_session_or_mcp(self):
+        wrong = bytearray(Path(self.cfg["binary"]).read_bytes())
+        struct.pack_into("<H", wrong, 0x84, 0x14c)  # x86 instead of x64
+        source = self.folder / "wrong-architecture.exe"
+        source.write_bytes(wrong)
+        self.cfg["binary"] = str(source)
+        self.cfg["expectedSha256"] = hashlib.sha256(wrong).hexdigest()
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"),
+                              str(config), "--preflight"], capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("Expected x64 PE", run.stderr)
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
+
+    def test_preflight_rejects_oversize_raw_probe_without_session_or_mcp(self):
+        source = self.folder / "oversize-raw.bin"
+        source.write_bytes(b"\x90" * 65537)
+        self.cfg.update({"binary": str(source), "format": "raw-binary",
+                         "architecture": "x86_64", "entryPoint": "0x140000000",
+                         "expectedSha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                         "allowFullPeImport": False})
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"),
+                              str(config), "--preflight"], capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("1..65536 bytes", run.stderr)
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
+
+    def test_preflight_rejects_existing_evidence_without_mutation(self):
+        identity = self.out / "identity.json"
+        identity.write_text('{"sentinel":"prior-evidence"}')
+        config = self.folder / "options.json"
+        config.write_text(json.dumps(self.cfg))
+        run = subprocess.run([shutil.which("node"), str(ROOT / "tools/rea-session.mjs"),
+                              str(config), "--preflight"], capture_output=True, text=True, timeout=10)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertIn("prior evidence", run.stderr)
+        self.assertEqual(json.loads(identity.read_text()), {"sentinel": "prior-evidence"})
+        self.assertFalse((self.out / "status.json").exists())
+        self.assertFalse(Path(self.cfg["fakeCalls"]).exists())
 
     def test_clean_finish_exports_and_closes_without_real_transport(self):
         run, status, calls = self.run_driver()
