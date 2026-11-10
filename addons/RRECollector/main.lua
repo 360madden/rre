@@ -52,9 +52,16 @@ local function status()
   end
   local list = latest.abilityList or {}
   local p = latest.player or {}
-  say("v" .. VERSION .. " capture #" .. tostring(latest.sequence)
+  -- A previous capture survives addon updates; identify it by its saved version.
+  local captureVersion = type(latest.addonVersion) == "string"
+    and latest.addonVersion:match("^%d+%.%d+%.%d+$")
+    and latest.addonVersion or "unknown"
+  local versionNote = captureVersion ~= VERSION
+    and (" | loaded v" .. VERSION) or ""
+  say("v" .. captureVersion .. " capture #" .. tostring(latest.sequence)
     .. " " .. tostring(p.name or "[name unknown]") .. " lvl "
-    .. tostring(p.level or "?") .. " " .. tostring(p.calling or "?"))
+    .. tostring(p.level or "?") .. " " .. tostring(p.calling or "?")
+    .. versionNote)
   say("Known API IDs " .. tostring(list.uniqueCount or 0)
     .. " | details " .. tostring(list.detailCount or 0)
     .. " | failed " .. tostring(list.detailFailures or 0)
