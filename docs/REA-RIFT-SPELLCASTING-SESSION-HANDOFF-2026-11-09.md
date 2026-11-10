@@ -1,10 +1,12 @@
-# RRE session handoff — 2026-11-09, 22:07 EST
+# RRE session handoff — 2026-11-09, 22:12 EST
 
-## Current checkpoint — 22:07 EST (LEGION SC-306 provider limit and offline fallback)
+## Current checkpoint — 22:12 EST (LEGION SC-306 provider limit, offline fallback, fail-fast)
 
 - **Bounded provider result:** Exact physical LEGION PE and 452-byte SC-306 routine were SHA-qualified; unique raw session preflight passed. ONE real REA 6.8 Windows Ghidra P0 `open_binary` attempt exited 1 after **27.05 seconds**, with non-retryable `capability_unavailable / target_format_unsupported`: that adapter accepts native PE or raw 6502, **not raw x86-64**. No second import attempted, no procedure query ran, no game/process/VM operation, and a read-only process check found no lingering Ghidra Java child. Saved failure receipt at ignored `artifacts/sc306-legion-rea-raw-20261109-01/session/`.
 - **Implemented reliable replacement:** `tools/prepare-sc306-legion-raw.py` now exclusively SHA-gates the physical source, extracts RVA `0x129CAC4` / 452 bytes and disassembles through installed iced-x86. Dry-run and creation passed, producing **125 instructions** and exact binary/listing/manifest hashes in fresh ignored `artifacts/sc306-legion-offline-20261109-01/`. It no longer produces an REA session that the provider cannot open; never runs the game, Ghidra, or VMware. Listing SHA `d85308f10e28604864a64649f0721b6381f77e061be5283e282cbffd9c1ba2b2`.
 - **Decision:** Full-PE import remains disabled, and SC-306 choice labels 0/2 remain unknown; no guessed enum mapping. Detailed reproduction, error classification, and limits: `docs/REA-RIFT-SPELLCASTING-SC306-ICED-RAW-PROBE-2026-11-09.md`. Next seek independent choice table/localization proof or separately authorized physical live contrast. Preserve prior REA failure and offline hashes without committing ignored artifacts.
+
+- **Follow-up reliability fix, 22:11 EST:** `tools/rea-session.mjs` now blocks the proven unsupported REA 6.8.0/Windows/raw-x64 combination before target IO or MCP startup. Negative preflight failed as intended in ~0.31 sec, while native-PE read-only preflight remained green and did **not** permit full import; Node syntax passed. See added tests/receipts in the SC-306 raw-probe report. Scoped second commit pending at this checkpoint.
 
 ## Previous checkpoint — 21:52 EST (LEGION guarded REA preflight and SC-306 control)
 

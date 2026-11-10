@@ -50,3 +50,11 @@ These commands operate on the disk image and repository artifact folder, never t
 In the isolated instruction stream, the bounded routine contains direct calls near `0x14003C310`, `0x14129D004`, `0x14129CFC0`, and `0x14003C320`, plus indirect calls and conditional branches. That is consistent with the earlier generic UTF-16/hash-cache function finding; it does **not** establish a numeric queue-choice table, the ABI, a reachable call path in current gameplay, or the labels for values `0` or `2`.
 
 **SC-306 remains blocked.** The only historical observed pair is `1 → Short`; do not promote it to fresh physical live acceptance. Pursue independent UI-choice-table/localization evidence or a separately approved same-epoch physical UI/native contrast. Full-PE REA/Ghidra opening is still **not authorized** by this successful offline fallback.
+
+## November 9, ~22:11 EST — fail-fast provider admission fixed
+
+`tools/rea-session.mjs` now rejects this exact known unsupported combination — **Windows / REA 6.8.0 / raw-binary / x86_64** — before target IO, repository artifact writes, MCP connection or Ghidra startup. The exception is intentionally version- and platform-specific; provider support on another version/OS is **unknown**, not globally prohibited. This applies to both normal and `--preflight` runs, so preflight no longer misleadingly accepts this target.
+
+- Negative: `rre-legion-rea68-failfast-raw-negative-20261109-01`, exit 1 **expected**, ~0.31 seconds, exact unsupported-target message; existing immutable failed-session receipts were not rewritten.
+- Positive: `rre-legion-rea68-failfast-pe-positive-20261109-01`, exit 0, original 60,493,640-byte PE and SHA matched, `analysisStarted:false`, `sessionFilesCreated:false`, `fullPeImportAllowed:false`.
+- Node syntax: `rre-legion-rea68-failfast-syntax-20261109-01`, exit 0. This is a targeted admission regression, **not** an authorization to execute a full-PE Ghidra import.

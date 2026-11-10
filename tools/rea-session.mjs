@@ -20,6 +20,13 @@ if (cfg.expectedHost && host.toUpperCase() !== String(cfg.expectedHost).toUpperC
   throw new Error('Session host mismatch: expected ' + cfg.expectedHost + ', observed ' + host);
 }
 const sourceFormat = cfg.format ?? 'pe';
+// Qualified provider admission: REA 6.8.0 Windows Ghidra P0 rejects raw x86-64.
+// Stop before source IO, artifact writes, MCP startup or a non-retryable open_binary.
+// Do not widen this gate to a new REA version without fresh provider evidence.
+if (process.platform === 'win32' && cfg.expectedReaVersion === '6.8.0' &&
+    sourceFormat === 'raw-binary' && cfg.architecture === 'x86_64') {
+  throw new Error('REA 6.8.0 Windows Ghidra P0 does not support raw x86_64; use the hash-gated offline iced-x86 extractor.');
+}
 // REA open_binary may auto-import an entire PE before any focused query executes.
 // Only an explicit, config-owned opt-in can allow that expensive operation.
 if (!preflightOnly && sourceFormat === 'pe' && cfg.allowFullPeImport !== true) {
