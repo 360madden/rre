@@ -11,6 +11,9 @@ const STEMS = ["Craft","Crafting","Profession","Tradeskill","TradeSkill","Recipe
 const PATHS = STEMS.flatMap(stem => [`Inspect.${stem}.List`, `Inspect.${stem}.Detail`]);
 const TYPES = new Set(["nil","error","function","table","number","string","boolean","thread","userdata"]);
 const STATUSES = new Set(["missing","index-error","index-non-table","index-available"]);
+const PROFESSION_TERMS = ["craft","profession","tradeskill","recipe","fishing","survival"];
+const PROFESSION_PREFIXES = ["Inspect.","Command.","Event."];
+const UTF8_LENGTH = value => Buffer.byteLength(value, "utf8");
 const SHA = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
 const validVersion = v => typeof v === "string" && /^0\.[0-9]{1,3}\.[0-9]{1,3}$/.test(v);
 const integer = (n, max) => Number.isSafeInteger(n) && n >= 0 && n <= max;
@@ -43,6 +46,7 @@ export function summarizeProfessionReceipt(saved, source = {}) {
   check(object(probe) && object(probe.index) && object(probe.pathTypes)
     && (object(probe.documents) || Array.isArray(probe.documents)
       && probe.documents.length === 0), "PROFESSION_PROBE_MALFORMED");
+  check(probe.schemaVersion === 1, "PROFESSION_SCHEMA_MALFORMED");
   check(validVersion(probe.addonVersion), "PROFESSION_VERSION_MALFORMED");
   check(STATUSES.has(probe.documentationStatus), "DOCUMENTATION_STATUS_MALFORMED");
   check(integer(probe.sequence, Number.MAX_SAFE_INTEGER) && probe.sequence > 0,
@@ -53,11 +57,20 @@ export function summarizeProfessionReceipt(saved, source = {}) {
     check(integer(idx[key], maximum), "INDEX_COUNTER_MALFORMED");
   check(typeof idx.scanLimitReached === "boolean" && idx.matched + idx.ignored === idx.scanned
     && idx.retained + idx.truncated === idx.matched
+    && (idx.truncated === 0 || idx.retained === 96)
     && (!idx.scanLimitReached || idx.scanned === 2048), "INDEX_COUNTER_CONTRADICTION");
   const names = luaArray(idx.names);
   check(names.length === idx.retained
-    && names.every(name => typeof name === "string" && name.length > 0 && name.length <= 160),
+    && names.every(name => typeof name === "string" && UTF8_LENGTH(name) > 0
+      && UTF8_LENGTH(name) <= 160 && PROFESSION_PREFIXES.some(prefix => name.startsWith(prefix))
+      && PROFESSION_TERMS.some(term => name.toLowerCase().includes(term)))
+    && names.every((name, i) => i === 0
+      || Buffer.compare(Buffer.from(names[i - 1], "utf8"), Buffer.from(name, "utf8")) < 0),
     "INDEX_NAMES_MALFORMED");
+  if (probe.documentationStatus !== "index-available")
+    check(idx.scanned === 0 && idx.matched === 0 && idx.retained === 0
+      && idx.ignored === 0 && idx.truncated === 0 && !idx.scanLimitReached,
+      "INDEX_UNAVAILABLE_CONTRADICTION");
   check(Object.keys(probe.pathTypes).length === PATHS.length, "PATH_TYPES_COUNT_MISMATCH");
   const callablePaths = [], candidatePathTypes = {}, pathTypeCounts = {function: 0, nil: 0, other: 0};
   for (const key of PATHS) {
@@ -69,7 +82,8 @@ export function summarizeProfessionReceipt(saved, source = {}) {
     else pathTypeCounts.other++;
   }
   const docKeys = Object.keys(probe.documents);
-  check(docKeys.length <= PATHS.length && docKeys.every(key => PATHS.includes(key)),
+  const expectedDocuments = probe.documentationStatus === "missing" ? 0 : PATHS.length;
+  check(docKeys.length === expectedDocuments && docKeys.every(key => PATHS.includes(key)),
     "DOCUMENTS_MALFORMED");
   let errors = 0, returned = 0;
   const documentedPaths = [];
@@ -78,7 +92,14 @@ export function summarizeProfessionReceipt(saved, source = {}) {
     check(object(item) && ["error","other","returned"].includes(item.status),
       "DOCUMENT_ENTRY_MALFORMED");
     if (item.status === "error") errors++;
-    if (item.status === "returned") { returned++; documentedPaths.push(key); }
+    if (item.status === "other")
+      check(TYPES.has(item.returnType) && item.returnType !== "error",
+        "DOCUMENT_ENTRY_MALFORMED");
+    if (item.status === "returned") {
+      check(typeof item.text === "string" && UTF8_LENGTH(item.text) <= 512
+        && typeof item.textTruncated === "boolean", "DOCUMENT_ENTRY_MALFORMED");
+      returned++; documentedPaths.push(key);
+    }
   }
   check(integer(probe.documentErrors, PATHS.length) && probe.documentErrors === errors,
     "DOCUMENT_ERRORS_CONTRADICTION");
