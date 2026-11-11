@@ -1,3 +1,17 @@
+# RRE RC-68 — source-proven input owner alias and receiver callbacks (LEGION, 2026-11-11 ~11:50 EST)
+
+> **Accepted native-source breakthrough:** Global input root+0x350 is now proven to contain the same owner pointer held at an outer+0x1B8, and owner+0 contains the allocated native input receiver. After the 256B Win32-state write into receiver+0xA41, optional listener callback dispatch can invoke vtable+0x08 with the incoming record. No active-player/movement-stop listener or physical input result is proved.
+
+## Fresh RC-68 checkpoint
+
+- Independent LEGION host proof; original physical PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Starting clean main HEAD `1bb89e3dc70018672bd25dec21c23037eeaebe9d` (23 ahead); no game, process, UI, VM/AMD, installer or push.
+- Exact owner caller `[0x772DC0,0x772E27)` 103B/24 SHA `4dfcc44cebb1e12c7dd6a878e15599366d6ba456d270b0164ecec9db28c0988d`, and setter `[0x77E410,0x77E418)` 8B/2 SHA `85307e7dc88d2f6e162ce491e825ad427671ea63a6d1013ce53dd83e1ebd1bc8`. Caller gets root via `0x49A020`, stores `[outer+0x1B8]` at root+0x350 through setter, then passes same owner to receiver construction at `0x79A590`. Manager confirmed original bytes/Capstone: `rre-rc68-manager-independent-callback-owner-20261111-01` exit0.
+- Receiver writer conditionally traverses subscriber-like lists when receiver+0x10 != NULL; optional vtable+0x10 filtering, vtable+0x08 callback with original record in RDX. Four fully decoded receiver callback fragments and exact SHA in `docs/RRE-C2M-RECEIVER-OWNER-CALLBACKS-LEGION-2026-11-11.md` and matching `.json`.
+- Source-only RRECollector v0.4.19 audit: manual `/rre capture` can include player/target coordX/Y/Z and frame/real times; no input-key event logging/continuous movement sampling, no passive causal correlation. C# reader accepts 0.4.19 in offline checks; updated reader README and RREC2 contract version lists. Current physical load remains unverified.
+- Two bounded negative probes parked: three `0x7C3C90` predicate callsites are only evaluator contexts; zero direct E8-rel32 calls to three `.pdata` producer fragment starts cannot prove reachability. No false movement/stop claim.
+- Ranked follow-ups: (1) narrow listener registration/vtable owner trace to identify movement receiver; (2) separately approved physical v0.4.19 load + two timestamped coordinate snapshots with independent real input trace; (3) run narrow production reader checks and preserve source hashes. Do not touch VMware/AMD, game input, or outside-scope repos.
+
+## Preserved RC-67 checkpoint
 # RRE RC-67 — three native Win32 keyboard record types 5/6/7 (LEGION, 2026-11-11 ~11:38 EST)
 
 > **Accepted original-PE extension:** Two more source-qualified GetKeyboardState producers prove numeric typed records 5, 6 and 7 each carry 256B keyboard snapshot and call the same `0x7C1AC0` receiver writer already closed in RC-66. Types5/7 also map Win32 virtual-key to character through `MapVirtualKeyW(...,2)` in selected branches; type6 does not in selected branches. Numeric meanings, physical key actions and movement/stop still unproven.
