@@ -604,6 +604,10 @@ local function layoutTileCaption(first, second, value)
   end
   first:SetText(top)
   local remaining = table.concat(words, " ", consumed + 1)
+  -- One overwide word has no remaining token; show its identifying suffix too.
+  if #words == 1 and remaining == "" and top ~= words[1] then
+    remaining = words[1]
+  end
   second:SetText(remaining ~= "" and fitTileTail(second, remaining) or "")
 end
 -- RC25-CAPTIONS-END
