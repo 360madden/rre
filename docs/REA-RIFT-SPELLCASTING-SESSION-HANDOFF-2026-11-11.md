@@ -1,3 +1,22 @@
+# RRE RC-71 — native receiver registration and listener count proven (LEGION, 2026-11-11 ~12:20 EST)
+
+> **Accepted static breakthrough:** Receiver+0x10 is definitively the primary list COUNT (increment/decrement writers), with sentinel pointer at +0x08. Two original native list-update methods 0x7C1E20 / 0x7C1F30 have direct callers passing the `0x49A020` root -> `0x54F7C0` receiver and separate listener object. Filter flag distinguishes wrapper `R8B=1` from drained/direct `R8D=0`. No concrete player-movement listener or live movement/stop proved.
+
+## Fresh RC-71 checkpoint
+
+- **Host/scope:** LEGION original physical RIFT PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; started clean main RC-70 `2c9bd8575ba37ddbb9ff4417150ea1377032c838` (26 ahead). Source-only; no game input/process attachment, AMD/VM, installs, other repo writes or remote push.
+- **Layout:** `[receiver+0x08]` primary sentinel, `[receiver+0x10]` primary 64-bit count with `inc` 0x7C1FB5 / `dec` 0x7C2043; secondary sentinel +0x18, count +0x20; 0x18-byte nodes hold listener object at node+0x10. Source windows `[0x7C1E20,0x7C1F24)` 260B/69 SHA `e7e612ae943c3e7c50075d85e3adc0a21bf1e2d0ce0c3f120f53d8f966bcffba` and `[0x7C1F30,0x7C205E)` 302B/81 SHA `0f6c2731e8c237a67cc1a6bdb193e3c4276d4901d88a200038e3180c219a4e3f`.
+- **Registered listener proof:** Five full-function branches in `[0x6F2D40,0x6F3FC9)` 4745B/1148 SHA `39087e0d86061741a5e2d95718b759aa31c8ebc283c304155723b09feae089be` pass `[eventHandler+0x170]` as RDX to `0x7C1E20` after root getter `0x49A020` and receiver getter `0x54F7C0`. Same function also calls reorder `0x7C1F30`; independent caller `[0x936950,0x937966)` 4118B/974 SHA `313d90e9458f9d789e04fd85f5e064ec9abfbdbda330ae9f183161c8b48d7aea` registers another object. Additional exact receiver-getter to reorder at `0x6A3933`; `0x4FB038` uses `0x7A3500` accessor.
+- **Flag semantics:** Keyboard record producers call wrapper 0x7C1AC0 with R8B=1, virtual predicate +0x10 may gate callback +0x08; drain 0x7C1D40 passes R8D=0 so predicate skipped. This is an internal callback rule only.
+- **Evidence/handoff:** `docs/RRE-C2M-LISTENER-REGISTRATION-DISPATCH-LEGION-2026-11-11.md` and `.json` have all window hashes, source-job receipts and explicit unproven boundaries. Three independent read-only source agents verified list fields, register caller argument flow, and lifetime; manager performed `.text` direct-callsite scan and filter disassembly.
+
+## Next practical priorities
+
+1. Trace creation/assignment of `[eventHandler+0x170]`, then listener vtable+0x08/0x10 in bounded original source; seek a real movement-specific callback before labeling one.
+2. Connect qualified listener callback to typed 5/6/7 records and actual native dataflow; keep numeric code semantics unassigned.
+3. Only with separate live authorization, confirm physical RRECollector version and timestamped XYZ snapshots around controlled *manual* key changes; do not infer gameplay effect from static code.
+
+## Preserved RC-70 checkpoint
 # RRE RC-70 — native queue-drain owner linked; receiver destruction and list correction (LEGION, 2026-11-11 ~12:09 EST)
 
 > **Accepted original-PE extension:** A unique direct E8 callsite `0xFCA473` invokes the two-queue drain after same-routine global root getter `0x49A020` and tiny receiver accessor `0x54F7C0` (`root+0x350 -> owner+0`). Full receiver destructor `0x7C0340` cleans queue buffers and list sentinels before owner+0 and root+0x350 clear. **Correction:** receiver+0x08 is actual list sentinel pointer; +0x10 is adjacent zero-initialized, likely count/size, NOT a callback-root pointer. Physical movement/stop and listener class remain unproven.
