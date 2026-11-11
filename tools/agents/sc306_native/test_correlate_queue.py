@@ -254,6 +254,34 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "capture not completed"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_contradictory_failed_read_rejected(self) -> None:
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x["resolution"].update({
+                        "failedRead": {"status": "failed", "reason": "access denied"}}))
+        with self.assertRaisesRegex(EvidenceError, "conflicting failure metadata"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_contradictory_failed_address_rejected(self) -> None:
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x["resolution"].update({
+                        "failedReadAddress": PTR + 164}))
+        with self.assertRaisesRegex(EvidenceError, "conflicting failure metadata"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_terminal_win32_error_rejected(self) -> None:
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x["resolution"]["terminalRead"].update({
+                        "win32ErrorCode": 5}))
+        with self.assertRaisesRegex(EvidenceError, "terminal read reports error"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_terminal_failure_reason_rejected(self) -> None:
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x["resolution"]["terminalRead"].update({
+                        "reason": "invalid read"}))
+        with self.assertRaisesRegex(EvidenceError, "terminal read reports error"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_unqualified_value_rejected(self) -> None:
         for suffix in ("a", "b"):
             self.mutate(f"queue-field-{suffix}-v2.json",

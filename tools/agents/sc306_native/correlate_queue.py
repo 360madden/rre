@@ -144,6 +144,9 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
               f"{filename}: reader bundle differs")
         chain, resolution = report["chain"], report["resolution"]
         check(resolution.get("status") == "complete", f"{filename}: chain incomplete")
+        check(resolution.get("failedRead") is None
+              and resolution.get("failedReadAddress") is None,
+              f"{filename}: conflicting failure metadata")
         check(same_identity(identity, resolution["expectedIdentity"])
               and same_identity(identity, resolution["observedIdentity"]),
               f"{filename}: process identity mismatch")
@@ -163,6 +166,9 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
               f"{filename}: inconsistent address arithmetic")
         terminal = resolution["terminalRead"]
         check(terminal.get("status") == "success", f"{filename}: terminal read failed")
+        check(terminal.get("win32ErrorCode") is None
+              and terminal.get("reason") is None,
+              f"{filename}: terminal read reports error")
         value_bytes = decode64(terminal["bytes"], f"{filename} value")
         check(len(value_bytes) == 4, f"{filename}: expected four terminal bytes")
         timestamp = utc_time(report["completedAtUtc"])
