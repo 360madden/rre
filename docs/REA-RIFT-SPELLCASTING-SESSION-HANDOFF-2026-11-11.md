@@ -1,3 +1,17 @@
+# RRE RC-64 — two native status-record queues (LEGION, 2026-11-11 ~11:09 EST)
+
+> **Accepted static breakthrough:** Dispatcher 0x7C0480 routes numeric records: 8..16 immediate, 5..7 queue stride 0x130 at receiver+0x560/0x568, other types queue stride 0x140 at +0x40/+0x48. Queue drains call status handler 0x7C1AD0 on five original sites; primary drain is gated on byte+0xA40==0 and a second function drains without that own gate. Root constructor initializes +0x350 pointer NULL. Physical input/player/live stop still unproven.
+
+## Fresh RC-64 checkpoint
+
+- Host LEGION verified via `rre-rc64-identity-legion-20261111-01` exit0; starting clean RRE main HEAD `5c29aadc1654414fc256dfe1050847f3e2b2549e` (19 ahead). Original physical RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; RVAs relative base 0x140000000. No VM/AMD, runtime game action, process attach, installer, Ghidra import, provider calls or push.
+- Five direct calls: 0x7C0590 / 0x7C05DD / 0x7C0630 / 0x7C1D90 / 0x7C1DE0. Dispatcher [0x7C0480,0x7C0673) 499B/126 SHA `0aaaad0bc6f186ab172dee5c4bfa77647d9f406288b257266422a82140c1fa97`; drainer [0x7C1D40,0x7C1E1D) 221B/54 SHA `acd9156d25be9ac21cd0bd2ef188f02b2777ed09a6c8355f69bf2ac5b0eaabef`.
+- Getter remainder [0x49A034,0x49A108) 212B/50 SHA `bbb77cac52655ff813082bd0f0cbeaa915dc561ed5f9ffe27b4bd8f7e838f269`. Allocates 0xF40 bytes and calls constructor [0x53DC70,0x53E773) 2819B/516 SHA `ad5de6f4c667efdb89b2b9d3d0445ae55e45fb7b9dc024f688e3e77b26ce8e75`: xor r13d at 0x53DCCB then stores r13 at root+0x350 in 0x53DDEA. Later setter/class unresolved.
+- Type5 conditional incoming+8==0xE5 uses filtered candidate: if validator AL==0, updates incoming+8 and incoming+0x124; never copies +0x124 to receiver+0x38 (types1/2/3 only). Wrapper [0xFAFC70,0xFAFC90) 32B/7 SHA `3422104dd2064935f40d0d408fa8a96e66f296a823a839593ba67e24c16bf088`; filter [0xFB0460,0xFB04C4) 100B/35 SHA `3e730de156d9c9246c709b784a17fe84545a0a6f3f6a157ba0d04ff18326325b`.
+- Three independent read-only agents; manager independently rehashed PE, six windows / 788 complete instructions, direct callers, queue branch and NULL write. Manager jobs `rre-rc64-manager-4window-original-independent-20261111-01`, `rre-rc64-manager-constructor-type5-independent-20261111-01`, `rre-rc64-manager-two-queue-detailed-20261111-01`, `rre-rc64-manager-type5-handler-independent-20261111-01` exit0. No code/addon changes.
+- Deliverables `docs/RRE-C2M-RECORD-QUEUES-LEGION-2026-11-11.md` + `.json` and this handoff. Next: one bounded incoming caller of 0x7C0480, one later root+0x350 writer, then separately authorized physical v0.4.19 SavedVariables + actual movement/stop. Verify integrity, roadmap validator, Git after integration.
+
+## Preserved RC-63 checkpoint
 # RRE RC-63 — confirmed 256-byte status producer (LEGION, 2026-11-11 ~10:58 EST)
 
 > **Accepted static breakthrough:** Handler 0x7C1AD0 imports VCRUNTIME140.dll!memcpy to write 256 bytes from incomingRecord+0x19 to receiver+0xA41. For incoming types 1/2/3 it copies incomingRecord+0x124 to receiver+0x38. Both primitive RC62 fields now share one source handler. Upstream getter 0x49A020 reads another lazy global slot RVA 0x33623E0. Actual physical input and player/stop remain unproven.
