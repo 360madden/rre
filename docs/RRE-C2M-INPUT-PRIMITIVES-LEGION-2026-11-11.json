@@ -1,0 +1,161 @@
+{
+  "milestone": "RC-62",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "proof": "original_pe_static_only",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "bytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "preferred_image_base": "0x140000000"
+  },
+  "windows": [
+    {
+      "name": "special_mask_leaf",
+      "rva_range": [
+        "0x7C19D0",
+        "0x7C19D7"
+      ],
+      "bytes": 7,
+      "instructions": 3,
+      "sha256": "2ae2064520604b6cb477c16276b9ceaf8e9555e8d53a10a9edd32ad9fb60689d",
+      "pdata_entry": false
+    },
+    {
+      "name": "general_indexed_byte_leaf",
+      "rva_range": [
+        "0x7C1A00",
+        "0x7C1A0F"
+      ],
+      "bytes": 15,
+      "instructions": 4,
+      "sha256": "d8fd27add70c646095b670a6b3af33adc5c101827a9a2b73dd0a53c89837ef51",
+      "pdata_entry": false
+    },
+    {
+      "name": "upstream_status_object_accessor",
+      "rva_range": [
+        "0x7A3500",
+        "0x7A3515"
+      ],
+      "bytes": 21,
+      "instructions": 5,
+      "sha256": "0378fdba4c8a06aac40d9c2c896ad095c2885e8e1421ab1402d17f9c270b322e"
+    },
+    {
+      "name": "condition_owner_constructor",
+      "rva_range": [
+        "0x7C3920",
+        "0x7C39D1"
+      ],
+      "bytes": 177,
+      "instructions": 43,
+      "sha256": "f0829d2d8dfab7a96feabc2d1c005ba7d229a172255f4c8148d4b1e99e4a2ae0"
+    }
+  ],
+  "reused_evaluator": {
+    "rva_range": [
+      "0x7C98D0",
+      "0x7C9BD6"
+    ],
+    "bytes": 774,
+    "instructions": 207,
+    "sha256": "6b7058cff85b3acb859e04139739c7f9a4191e63cc55e8652ff2f3fb9b8a6988"
+  },
+  "primitive_checks": {
+    "special_mask": {
+      "rva": "0x7C19D0",
+      "receiver_field": "+0x38",
+      "rule": "([rcx+0x38] & edx)!=0",
+      "mappings": [
+        {
+          "tuple_first": 4,
+          "mask": "0x04"
+        },
+        {
+          "tuple_first": 5,
+          "mask": "0x08"
+        },
+        {
+          "tuple_first": 6,
+          "mask": "0x10"
+        }
+      ]
+    },
+    "indexed_byte": {
+      "rva": "0x7C1A00",
+      "receiver_base": "+0xA41",
+      "index": "edx & 0xFF",
+      "result": "(byte >> 7) & 1",
+      "upstream_accessor": "0x7A3500",
+      "upstream_call": "0x49A020",
+      "upstream_field": "+0x350"
+    }
+  },
+  "constructor": {
+    "rva": "0x7C3920",
+    "subobject_alloc_bytes": 112,
+    "store_field": "owner+0x58",
+    "initialize": [
+      {
+        "field": "owner+0x38",
+        "float": 0.75
+      },
+      {
+        "field": "subobject+0x40",
+        "float": 0.75
+      },
+      {
+        "field": "subobject+0x68",
+        "float": 1
+      }
+    ]
+  },
+  "smoothing": {
+    "subobject_field": "+0x68",
+    "decay": "new=old*0.99f",
+    "accumulate": "new=old*0.99f+0.01f",
+    "decay_rvas": [
+      "0x7C9984",
+      "0x7C9989",
+      "0x7C9991"
+    ],
+    "accumulate_rvas": [
+      "0x7C99DC",
+      "0x7C99E1",
+      "0x7C99E9",
+      "0x7C99F1"
+    ],
+    "literals": [
+      {
+        "rva": "0x26A4488",
+        "raw_hex": "a4707d3f",
+        "float": 0.9900000095367432
+      },
+      {
+        "rva": "0x26A33CC",
+        "raw_hex": "0ad7233c",
+        "float": 0.009999999776482582
+      }
+    ]
+  },
+  "jobs": {
+    "host": "rre-rc62-verify-legion-20261111-01",
+    "special": "rre-rc62-lanea-specialflag-leaf-20261111-01",
+    "general": "rre-rc62-general-leaf-discriminator-20261111-01",
+    "accessor": "rre-rc62-general-object-accessor-20261111-01",
+    "constructor": "rre-rc62-constructor-pdata-full-20261111-01",
+    "float_slices": "rre-rc62-constructor-evaluator-float-slices-20261111-01",
+    "float_literals": "rre-rc62-constructor-float-literals-20261111-01",
+    "manager_new_windows_A": "rre-rc62-manager-bitfield-ctor-verify-20261111-01",
+    "manager_new_windows_B": "rre-rc62-manager-tableaccessor-independent-20261111-01",
+    "manager_float": "rre-rc62-manager-verify-smoothing-constants-20261111-01"
+  },
+  "limits": [
+    "Physical keyboard/mouse mapping unverified",
+    "Ownership and aliasing between +0x38 receivers unverified",
+    "Update cadence and physical meaning of smoother unverified",
+    "No real in-game movement or stop observed",
+    "No process memory read or write"
+  ]
+}

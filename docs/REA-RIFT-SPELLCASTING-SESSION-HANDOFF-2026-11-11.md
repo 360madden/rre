@@ -1,3 +1,19 @@
+# RRE RC-62 — indexed flag primitives and constructed accumulator (LEGION, 2026-11-11 ~10:52 EST)
+
+> **Accepted static breakthrough:** The RC-61 condition tuple primitive helpers are now exact-byte decoded: mask test `0x7C19D0` reads receiver `+0x38` with masks `4/8/16`; general checker `0x7C1A00` reads high bit of `receiver+0xA41+index8`. A separate constructor `0x7C3920` initializes `owner+0x58` subobject `+0x68=1.0f` which evaluator updates via verified `0.99*x` or `0.99*x+0.01`. No physical key/owner/live cancellation proof.
+
+## Fresh RC-62 checkpoint
+
+- **Host/source:** Actual `LEGION` verified by `hostname.exe` job `rre-rc62-verify-legion-20261111-01` exit0; `C:\work\rre` branch main starting clean HEAD `f25ae24cdfa8e8122ddf1f7c33e6bfe6e4c2537f` (17 ahead). Physical original `rift_x64.exe` SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`.
+- **Primitive 1:** Leaf `[0x7C19D0,0x7C19D7)` 7B/3 instructions SHA `2ae2064520604b6cb477c16276b9ceaf8e9555e8d53a10a9edd32ad9fb60689d`: `test [rcx+0x38],edx; setne al; ret`, indices 4/5/6 in RC61 map to masks 4/8/16.
+- **Primitive 2:** Leaf `[0x7C1A00,0x7C1A0F)` 15B/4 instructions SHA `d8fd27add70c646095b670a6b3af33adc5c101827a9a2b73dd0a53c89837ef51`: return high bit of `[rcx+0xA41+(edx&0xff)]`. Accessor `[0x7A3500,0x7A3515)` 21B/5 ins SHA `0378fdba4c8a06aac40d9c2c896ad095c2885e8e1421ab1402d17f9c270b322e` calls `0x49A020`, gets pointer `+0x350`; original owner identity unknown.
+- **Constructed subobject:** `[0x7C3920,0x7C39D1)` 177B/43 ins SHA `f0829d2d8dfab7a96feabc2d1c005ba7d229a172255f4c8148d4b1e99e4a2ae0`: 0x70B allocation, owner `+0x58` stores subobject, sets `+0x68=1.0f` and `+0x40=0.75f`. Reused evaluator 0x7C98D0 applies `0.99*x` or `0.99*x+0.01`; constants RVA `0x26A4488`/`0x26A33CC` original bytes independently verified. Do not conflate unrelated `+0x38` owners.
+- **Verification:** 3 separate read-only worker lanes; manager independently checked 4 new function windows **55/55 decoded instructions** and 2 float literal paths, jobs `rre-rc62-manager-bitfield-ctor-verify-20261111-01`, `rre-rc62-manager-tableaccessor-independent-20261111-01`, `rre-rc62-manager-verify-smoothing-constants-20261111-01` exit0. Agent job receipts in new docs/JSON; no game/process input, cross-host, installers, reload or network push.
+- **Deliverables:** `docs/RRE-C2M-INPUT-PRIMITIVES-LEGION-2026-11-11.md`, paired `.json`, this handoff. Sole manager repo writer. Preserve RC61 and earlier source-hashed findings. No addon source changes or live validation.
+- **Next ranked:** (1) bounded producer of general flag table `receiver+0xA41`; (2) one receiver owner `0x49A020` or registry record construction `0x7C3920`; (3) separately authorized physical RRECollector v0.4.19 actual receipt + movement/stop test. Static source does not prove input actuation.
+
+## Preserved RC-61 checkpoint
+
 # RRE RC-61 — lazy condition source and composite stateful records (LEGION, 2026-11-11 ~10:46 EST)
 
 > **New accepted static result:** The RC-60 indexed-state getter `0x6A9C10` lazily instantiates a global source pointer at RVA `0x336F8B8`; condition records encode up to three predicate fields and can be evaluated by a **state-mutating** helper. Key identities, callback ownership and live cancellation are **not proved**.
