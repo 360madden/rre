@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-77",
+  "dateUtc": "2026-11-11",
+  "host": "LEGION",
+  "mode": "source-only-original-PE-read-only",
+  "source": {
+    "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "preferredImageBase": "0x140000000",
+    "addressConvention": "RVA"
+  },
+  "sourceWindows": [
+    {
+      "id": "callback-gated-tail",
+      "start": "0x6A5E10",
+      "end": "0x6A6120",
+      "sha256": "6360733a8312cfff749eddd8937bea31ac98ba81d1185d4bfb09728fa23ee3ed"
+    },
+    {
+      "id": "callback-owner-to-input-attach",
+      "start": "0x6A3912",
+      "end": "0x6A3948",
+      "sha256": "ac541f75182cc7934443efe78be8e36f9535b6eae9f83726cf8a9f61d6182615"
+    },
+    {
+      "id": "constructor-and-callback-context",
+      "start": "0x53DC70",
+      "end": "0x53E773",
+      "sha256": "ad5de6f4c667efdb89b2b9d3d0445ae55e45fb7b9dc024f688e3e77b26ce8e75"
+    },
+    {
+      "id": "setting-accessor",
+      "start": "0x798B80",
+      "end": "0x798C3E",
+      "sha256": "c13497f9c27c4f130d4dd77aea378a76d176bf808c1a38e50cfacdb589d954ad"
+    },
+    {
+      "id": "setting-fallback-getter",
+      "start": "0xE76790",
+      "end": "0xE767B2",
+      "sha256": "ab4a3bfc1e32c01c9ffeee9c10e4d079dc5bef724d1e9f3ae51c9efbc6898b91"
+    },
+    {
+      "id": "setting-global-slot-access",
+      "start": "0xBCF470",
+      "end": "0xBCF4A5",
+      "sha256": "e663d80bc504b200ac1314b0832a94131c27bf3191fcd74e26c3525d6010b1bf"
+    },
+    {
+      "id": "setting-handle-copy",
+      "start": "0x1C62670",
+      "end": "0x1C626C9",
+      "sha256": "b717a59f23d7018fe35eb46e4922c16a84c9ef8cc9d2ab6a6a177743f778e2a4"
+    },
+    {
+      "id": "consumer-active-and-threshold",
+      "start": "0x5885D4",
+      "end": "0x588809",
+      "sha256": "fa9b16fb3647bf203e3e0ff5ad28db95fbff3ed9a4dffa2ba3357838d9b9db30"
+    },
+    {
+      "id": "consumer-horizontal-distance",
+      "start": "0x588819",
+      "end": "0x5889C8",
+      "sha256": "639f064bb66bfefb7c83b96fc1f4a3bcd38daa0201f468e5b52cf8a71391d3c7"
+    },
+    {
+      "id": "consumer-clear",
+      "start": "0x5889C8",
+      "end": "0x588A51",
+      "sha256": "ec9c755ad12b9a99f9e0188a0217143373a59bf12b1b0da39a8790a4b95bd770"
+    },
+    {
+      "id": "consumer-transform-calls",
+      "start": "0x588809",
+      "end": "0x5889C8",
+      "sha256": "35eb7a10708c540739f9dbc35551931c1b939020b170cc1e23abad8dfa66d09f"
+    },
+    {
+      "id": "transform-construction-one",
+      "start": "0x698C90",
+      "end": "0x698D41",
+      "sha256": "7ff73862b6f265e930347dc66067a4458065647bcb42090d30dd0fe16a8f04c6"
+    },
+    {
+      "id": "transform-construction-two",
+      "start": "0x698DB0",
+      "end": "0x698EB3",
+      "sha256": "995d43198fc82bc8d24dd1ef718afea5062edf351cb74dce62aeb57a6e7308af"
+    },
+    {
+      "id": "native-transform-writer",
+      "start": "0x698EC0",
+      "end": "0x698F84",
+      "sha256": "bf7f3998502dfba477a365cfebcf0863d5b5afaf195dbeced01998d715c120b6"
+    },
+    {
+      "id": "outer-vtable",
+      "start": "0x26A79B8",
+      "end": "0x26A79D0",
+      "sha256": "ff18b009b1d6824f82cb61389c0285c33fba3259fa2b791bfc252f4ddc47d09e"
+    },
+    {
+      "id": "inner-vtable",
+      "start": "0x26A3300",
+      "end": "0x26A3318",
+      "sha256": "79af5e9a4bcd084ec34b466d4d2ef6c530f825c6e5b74f443161f3b1348d9a8d"
+    },
+    {
+      "id": "inner-guard",
+      "start": "0x497090",
+      "end": "0x4970A4",
+      "sha256": "72139e9caba53fadada204bc19b46d0cb4da8ff2ebdfc3a88b7cb7b4bcdcbcc8"
+    },
+    {
+      "id": "inner-thunk",
+      "start": "0x494AE0",
+      "end": "0x494AEB",
+      "sha256": "5a917f02f2532cc34d87ce23934f7d9300f77107e2032a05b5cc1ddfe8921f5d"
+    },
+    {
+      "id": "dispatch-wrapper",
+      "start": "0x4E3210",
+      "end": "0x4E3246",
+      "sha256": "c71d6afccaa44cd8dbc4c9e3a329e61d1e28bff37b5037a1b406bb52b9df1577"
+    },
+    {
+      "id": "receiver-list-routine",
+      "start": "0x7C1F30",
+      "end": "0x7C205E",
+      "sha256": "0f6c2731e8c237a67cc1a6bdb193e3c4276d4901d88a200038e3180c219a4e3f"
+    }
+  ],
+  "findings": [
+    {
+      "id": "callback-object-construction",
+      "confidence": "source-proven",
+      "rvas": {
+        "callbackAddressLoaded": "0x53E58B",
+        "outerVtableInstalled": "0x53E5A8",
+        "outerVtable": "0x26A79B8",
+        "ownerFieldInstall": "0x53E5BC",
+        "ownerFieldOffset": "0x3F0",
+        "callbackFunction": "0x6A5E10",
+        "callbackContextSlotOffset": "0x10",
+        "contextGlobalSlot": "0x337FD20"
+      },
+      "caveat": "Owner, callback context and active player identity are not proven equivalent."
+    },
+    {
+      "id": "registration-related-call",
+      "confidence": "source-proven-static-call",
+      "rvas": {
+        "callbackFieldRead": "0x6A391E",
+        "receiverLookupCall": "0x6A3925",
+        "callee": "0x7C1F30",
+        "callSite": "0x6A3933",
+        "callbackArgumentRegister": "R8"
+      },
+      "caveat": "Receiver linked-list mutation is visible, but enrollment into the listener array traversed by 0x7C1AD0 has not been demonstrated."
+    },
+    {
+      "id": "native-vtable-dispatch",
+      "confidence": "source-proven-static-reachability",
+      "rvas": {
+        "dispatcherCall": "0x7C1CC9",
+        "outerVtable": "0x26A79B8",
+        "outerVirtualMethodSlotOffset": "+0x8",
+        "outerVirtualMethod": "0x4E3210",
+        "innerVtable": "0x26A3300",
+        "innerGuardMethod": "0x497090",
+        "innerCallbackMethod": "0x494AE0",
+        "innerFunctionFieldOffset": "+0x10 (relative to inner object)",
+        "innerContextFieldOffset": "+0x8 (relative to inner object)",
+        "loadedCallback": "0x6A5E10"
+      },
+      "caveat": "Actual runtime delivery of a mouse record to this particular constructed callback remains unproved."
+    },
+    {
+      "id": "callback-gated-tail-jump",
+      "confidence": "source-proven-conditional",
+      "rvas": {
+        "callbackEntry": "0x6A5E10",
+        "preconditionPredicateCall": "0x6A5FAD",
+        "predicateTarget": "0x6A6620",
+        "predicateTest": "0x6A5FB2",
+        "nonzeroSkipsC2m": "0x6A5FB4",
+        "zeroPathJump": "0x6A5FCF",
+        "handler": "0x6A6120",
+        "settingGate": "0x6A6242",
+        "destinationSetterCall": "0x6A650D",
+        "setter": "0x5749C0"
+      },
+      "eventType": 2,
+      "eventSubcode": 1,
+      "caveat": "Callback entry and handler are separate .pdata functions linked by a conditional tail jump; record's Win32-origin message and game invocation remain unverified."
+    },
+    {
+      "id": "setting-fallback-resolution",
+      "confidence": "source-proven-fallback-only",
+      "rvas": {
+        "settingLiteral": "0x26EC228",
+        "accessor": "0x798B80",
+        "fallbackCall": "0x798C1B",
+        "fallbackTarget": "0xE76790",
+        "globalSlotAddressHelper": "0xBCF470",
+        "globalPointerSlot": "0x33958C0",
+        "handleCopyHelper": "0x1C62670",
+        "enableByteOffset": "+0x146"
+      },
+      "caveat": "Accessor attempts a component-specific lookup first; global pointer identity and enabled value in live runtime are not established."
+    },
+    {
+      "id": "arrival-horizontal-radius",
+      "confidence": "source-proven-native-branch",
+      "rvas": {
+        "consumer": "0x588730",
+        "thresholdLoad": "0x588747",
+        "thresholdFloatRva": "0x26AE4D8",
+        "verticalDeltaZero": "0x58889F",
+        "distanceComparison": "0x588A16",
+        "conditionalJumpIfNotNear": "0x588A1A",
+        "clearCall": "0x588A1F",
+        "clearTarget": "0x546830"
+      },
+      "squaredHorizontalThreshold": 0.0625,
+      "horizontalRadiusNativeUnits": 0.25,
+      "comparator": "deltaX^2+deltaZ^2 < 0.0625",
+      "caveat": "Native units are not automatically meters; distance threshold is not a measured stop in gameplay. Distinct branch may call 0x5460A0."
+    },
+    {
+      "id": "conditional-orientation-transform-writes",
+      "confidence": "source-proven-object-mutation",
+      "rvas": {
+        "consumerCallA": "0x588925",
+        "transformBuilderA": "0x698C90",
+        "consumerCallB": "0x5889A2",
+        "transformBuilderB": "0x698DB0",
+        "sharedWriter": "0x698EC0",
+        "first16Bytes": "0x698EED",
+        "second16Bytes": "0x698EF5",
+        "last4Bytes": "0x698EFC",
+        "optionalAngle": "0x698F65",
+        "dirtyFlag": "0x698F6D"
+      },
+      "offsets": {
+        "transformStart": "+0x60",
+        "transformEndInclusive": "+0x83",
+        "optionalAngle": "+0xF0",
+        "dirtyFlag": "+0xF4"
+      },
+      "caveat": "Target object identity and relationship to authoritative player yaw, position, velocity or locomotion are unproved."
+    }
+  ],
+  "gates": {
+    "proven": [
+      "callback object installed at owner+0x3F0",
+      "registration-like receiver routine receives callback object in R8",
+      "outer and inner vtable dispatch mechanics reach callback 0x6A5E10",
+      "callback can tail-jump into C2M handler 0x6A6120",
+      "setting accessor fallback reaches same global slot as native setting",
+      "0.25-unit horizontal arrival radius in active C2M branch",
+      "36-byte orientation transform writes and optional angle/dirty-flag update"
+    ],
+    "unproven": [
+      "specific callback's membership in collection iterated by 0x7C1AD0",
+      "record type2/subcode1 Win32 WM_LBUTTONUP identity",
+      "actual runtime callback delivery or user mouse click",
+      "active-player/owner/context/consumer object identity",
+      "live Misc_EnableClickToMove enable value",
+      "physical player displacement and observed stop",
+      "authoritative movement or velocity actuation"
+    ]
+  },
+  "validation": {
+    "independentManagerOriginalWindowsPassed": 20,
+    "managerJobsPassed": [
+      "rre-20261111-rc77-manager-input-callback-object-registration-independent-qa-001",
+      "rre-20261111-rc77-manager-transform-writer-independent-qa-001",
+      "rre-20261111-rc77-manager-all-source-windows-validation-001",
+      "rre-20261111-rc77-manager-vtable-callback-dispatch-independent-qa-001",
+      "rre-20261111-rc77-manager-constructor-to-queue-source-independence-qa-001",
+      "rre-20261111-rc77-manager-callback-vtable-six-window-validation-001",
+      "rre-20261111-rc77-manager-callback-gated-tail-join-qa-002"
+    ],
+    "correctedVerifierAssertion": {
+      "failedJob": "rre-20261111-rc77-manager-callback-gated-tail-join-qa-001",
+      "cause": "Incorrect expectation that 0x6A5FA7 was call; actual call at 0x6A5FAD.",
+      "correctedJob": "rre-20261111-rc77-manager-callback-gated-tail-join-qa-002",
+      "correctedPassed": true
+    },
+    "noGameplayInput": true,
+    "noGameProcessAttachment": true,
+    "noInstallOrReload": true,
+    "noOtherHostOrVmAccess": true,
+    "noExternalPush": true
+  },
+  "nextPriorities": [
+    {
+      "rank": 1,
+      "goal": "Prove callback enrollment in dispatcher collection and Win32 record provenance with bounded source analysis."
+    },
+    {
+      "rank": 2,
+      "goal": "Resolve both callback context global writer and consumer/transform object identity before equating orientation with player yaw."
+    },
+    {
+      "rank": 3,
+      "goal": "Only by separately coordinated physical LEGION live trial, verify setting, destination delivery, timestamped player XYZ, arrival and stop under NAV gates."
+    }
+  ]
+}
