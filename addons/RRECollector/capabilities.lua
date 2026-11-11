@@ -119,7 +119,7 @@ local function collectProbe()
     elseif type(description) == "string" then
       local clipped = #description > MAX_DOC
       result.documents[name] = {
-        status = "returned", text = description:sub(1, MAX_DOC),
+        status = "returned", text = RRECollectorRuntime.core.scalar(description, MAX_DOC),
         textTruncated = clipped,
       }
     else
@@ -203,7 +203,7 @@ local function collectProfessions()
         report.documents[name] = {status = "error"}
         report.documentErrors = report.documentErrors + 1
       elseif type(description) == "string" then
-        report.documents[name] = {status = "returned", text = description:sub(1, MAX_DOC),
+        report.documents[name] = {status = "returned", text = RRECollectorRuntime.core.scalar(description, MAX_DOC),
           textTruncated = #description > MAX_DOC}
       else
         report.documents[name] = {status = "other", returnType = type(description)}

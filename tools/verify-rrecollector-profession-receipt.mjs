@@ -1,5 +1,5 @@
 // Read-only, bounded RRECollector profession API discovery receipt.
-// Usage: node tools/verify-rrecollector-profession-receipt.mjs <RRECollector.lua> [--require-version 0.4.17]
+// Usage: node tools/verify-rrecollector-profession-receipt.mjs <RRECollector.lua> [--require-version 0.4.18]
 // Parsed data never executes as Lua. A receipt does not establish live freshness or usable crafting APIs.
 import fs from "node:fs";
 import path from "node:path";

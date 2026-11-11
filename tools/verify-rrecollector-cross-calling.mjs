@@ -8,6 +8,7 @@ import {fileURLToPath} from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8").replace(/\r\n/g, "\n");
 const ui = read("addons/RRECollector/ui.lua");
+const core = read("addons/RRECollector/core.lua");
 const main = read("addons/RRECollector/main.lua");
 const candidates = read("addons/RRECollector/candidates.lua");
 const abilities = read("addons/RRECollector/abilities.lua");
@@ -41,9 +42,9 @@ test("Known mode never restricts API abilities using Warrior historical IDs", ()
   assert.match(records, /if filter == "All" or src\.soul == filter/);
   assert.match(ui, /soulButton\.setEnabled\(mode == "static"\)/);
   assert.match(ui, /mode, soul, page, selectedId = "known", "All", 1, nil/);
-  assert.match(ui, /"Saved " \.\. short\(savedName, 10\)/);
-  assert.match(ui, /short\(savedCalling, 10\).*" r"/s);
-  assert.match(ui, /" API #" \.\. tostring\(savedSeq or "\?"\)/);
+  assert.match(ui, /"Saved " \.\. short\(savedName, 9\)/);
+  assert.match(ui, /short\(savedCalling, 9\).*short\(savedCaptureLabel\(\), 27\)/s);
+  assert.match(ui, /" #" \.\. tostring\(savedSeq or "\?"\)/);
 });
 
 test("Mage, Cleric, Primalist, Rogue and unknown callings use the same API list", () => {
@@ -61,7 +62,7 @@ test("Warrior static research is isolated and non-Warrior status is not a retry 
   assert.match(main, /notApplicable = code == "warrior-catalog-not-applicable"/);
   assert.match(main, /status = notApplicable and "not-applicable" or "deferred"/);
   assert.match(main, /Static candidate research is Warrior-only/);
-  assert.match(ui, /"Warrior-only static candidates"/);
+  assert.match(ui, /"Warrior-only static candidates \| " \.+ soul/);
   assert.match(ui, /"Warrior IDs"/);
   assert.match(ui, /elseif snapshotCalling\(\) == nil or snapshotCalling\(\):lower\(\):find\("warrior"/);
   assert.match(ui, /Warrior-only historical candidates do not apply to saved/);
@@ -134,6 +135,24 @@ test("Profession discovery is bounded, read-only and keeps snapshots independent
   assert.match(main, /nextSequence\(RRECollectorData\.probeSequence\)/);
   assert.match(main, /nextSequence\(RRECollectorData\.professionProbeSequence\)/);
   assert.match(ui, /if length <= 3 then return v:sub\(1, length\) end/);
+});
+
+test("saved Rogue browser and toolbar reveal old or incomplete capture provenance", () => {
+  assert.match(ui, /local function savedCaptureLabel\(compact\)/);
+  assert.match(ui, /version == "\?" and "UNKNOWN "/);
+  assert.match(ui, /version ~= runtime\.VERSION and "OLD " or ""/);
+  assert.match(ui, /latest\.captureComplete == true\s+and \(compact and "flag:full" or "marked complete"\) or "INCOMPLETE"/);
+  assert.match(ui, /short\(savedCaptureLabel\(true\), 22\)/);
+  assert.match(ui, /short\(savedCaptureLabel\(true\), 24\)/);
+  assert.match(ui, /short\(savedCaptureLabel\(\), 27\)/);
+  assert.doesNotMatch(ui, /\| " \.\. soul \.\. " \| " \.\. #list/);
+});
+
+test("both bounded documentation receipts preserve UTF-8 character boundaries", () => {
+  assert.equal((capabilities.match(/RRECollectorRuntime\.core\.scalar\(description, MAX_DOC\)/g) || []).length, 2);
+  assert.doesNotMatch(capabilities, /description:sub\(1, MAX_DOC\)/);
+  assert.match(core, /local following = value:byte\(endAt \+ 1\)/);
+  assert.match(core, /return value:sub\(1, endAt\)/);
 });
 
 test("One version drives toolbar title and startup chat", () => {

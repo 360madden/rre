@@ -1,4 +1,4 @@
--- RRECollector v0.4.16: calling-neutral known browser, guarded pins, measured captions.
+-- RRECollector v0.4.18: calling-neutral browser, saved-capture provenance, guarded pins.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -468,12 +468,25 @@ local function checkPinned()
     if slots[i] then checked[slots[i]] = apiCheck(slots[i]) end
   end
 end
+-- This is a persisted capture flag, not proof of a fresh or complete live scan.
+local function savedCaptureLabel(compact)
+  local latest = saved().latest
+  if type(latest) ~= "table" then return "no capture" end
+  local version = latest.addonVersion
+  if type(version) ~= "string" or #version > 12
+    or not version:match("^%d+%.%d+%.%d+$") then version = "?" end
+  local age = version == "?" and "UNKNOWN "
+    or version ~= runtime.VERSION and "OLD " or ""
+  local flag = latest.captureComplete == true
+    and (compact and "flag:full" or "marked complete") or "INCOMPLETE"
+  return "v" .. version .. " " .. age .. flag
+end
 local function summaryText()
   local report, attempt = saved().candidateLookup, saved().candidateAttempt
   local calling = snapshotCalling()
   if type(calling) == "string" and not calling:lower():find("warrior", 1, true) then
     return "Known: " .. tostring(#known())
-      .. "\n" .. short(calling, 15) .. " abilities"
+      .. "\n" .. short(calling, 10) .. " " .. short(savedCaptureLabel(true), 22)
       .. "\nWarrior IDs: N/A"
       .. "\nManual checks only"
   end
@@ -486,9 +499,9 @@ local function summaryText()
     or "attempt not recorded"
   return "Known: " .. tostring(#known()) .. "   Static: "
     .. tostring(#(runtime.candidateCatalog.entries or {}))
-    .. "\nCandidate: " .. short(status, 25)
-    .. "\n" .. short(reason, 31)
-    .. "\nManual checks are not live tracking"
+    .. "\nSaved " .. short(savedCaptureLabel(true), 24)
+    .. "\n" .. short("Candidate " .. status .. " " .. reason, 31)
+    .. "\nManual checks only"
 end
 local function selectedText(items)
   if not selectedId then return "Select a row, or click an icon. API readiness, GCD and LOS are unverified." end
@@ -675,10 +688,12 @@ local function draw()
   end
   if pinControls.check then pinControls.check.setEnabled(visibleKnownSelection() ~= nil) end
   if pinControls.undo then pinControls.undo.setEnabled(pinBaseline ~= nil) end
-  pageLabel:SetText((mode == "known" and ("Saved " .. short(savedName, 10)
-      .. " " .. short(savedCalling, 10) .. " r" .. short(tostring(savedRole or "?"), 2)
-      .. " API #" .. tostring(savedSeq or "?")) or "Warrior-only static candidates")
-    .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
+  local heading = mode == "known" and ("Saved " .. short(savedName, 9)
+      .. " " .. short(savedCalling, 9) .. " " .. short(savedCaptureLabel(), 27)
+      .. " r" .. short(tostring(savedRole or "?"), 2)
+      .. " #" .. tostring(savedSeq or "?"))
+    or ("Warrior-only static candidates | " .. soul)
+  pageLabel:SetText(heading .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
     local item = list[(page - 1) * MAX_ROWS + i]
     local row = rowButtons[i]
