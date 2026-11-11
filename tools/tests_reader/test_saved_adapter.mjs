@@ -8,6 +8,7 @@ import {spawnSync} from 'node:child_process';
 import {exportSavedSnapshot,summarizeSavedPins,readBoundedSaved,savedCliErrorReason,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
 import {parseSavedLua,parseSavedLuaBytes} from '../read-rrecollector-saved.mjs';
 import {readStableOriginalWithMetadata} from '../read-stable-original.mjs';
+import {buildLiveAtlas} from '../build-rift-ability-atlas-live.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
 const read=s=>exportSavedSnapshot(Buffer.from(s));
@@ -101,6 +102,41 @@ test('shared original reader returns stable bytes and timestamp and rejects race
     fs.writeFileSync(file,Buffer.alloc(MAX_BYTES+1));
     assert.throws(()=>readStableOriginalWithMetadata(file),/saved-byte-limit/);
   } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+});
+test('shared original reader detects same-size mutation while reading',()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc50-same-size-'));
+  const file=path.join(dir,'RRECollector.lua');
+  const originalRead=fs.readSync;
+  let changed=false;
+  try {
+    fs.writeFileSync(file,source);
+    fs.readSync=function(...args) {
+      const count=originalRead.apply(this,args);
+      if (!changed) {
+        changed=true;
+        fs.writeFileSync(file,Buffer.alloc(Buffer.byteLength(source),0x58));
+        const future=new Date(Date.now()+60_000);
+        fs.utimesSync(file,future,future);
+      }
+      return count;
+    };
+    assert.throws(()=>readStableOriginalWithMetadata(file),/saved-source-changed-during-read/);
+    assert.equal(changed,true);
+  } finally {
+    fs.readSync=originalRead;
+    fs.rmSync(dir,{recursive:true,force:true});
+  }
+});
+test('live atlas refuses lowercase and case-colliding exact ability IDs',()=>{
+  const saved=parseSavedLuaBytes(Buffer.from(source));
+  const base={saved,savedSha256:crypto.createHash('sha256').update(source).digest('hex'),
+    originalThree:{catalogVersion:'fixture',records:[]},allWarrior:{records:[]}};
+  const record=id=>({id,name:'Case fixture',priorKnownApiList:'listed-in-preserved-69'});
+  const upper='A0123456789ABCDEF', lower='a0123456789abcdef';
+  assert.throws(()=>buildLiveAtlas({...base,priorAtlas:{records:[record(lower)]}}),
+    /prior atlas has invalid\/duplicate exact ID/);
+  assert.throws(()=>buildLiveAtlas({...base,priorAtlas:{records:[record(upper),record(lower)]}}),
+    /prior atlas has invalid\/duplicate exact ID/);
 });
 test('atlas CLI rejects private paths and preserves exclusive successful output',()=>{
   const script=path.resolve('tools/build-rift-ability-atlas-live.mjs');

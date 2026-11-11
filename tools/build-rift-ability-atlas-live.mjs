@@ -13,7 +13,7 @@ function assertRecords(value, label) {
 function byExactId(records, label) {
   const result = new Map();
   for (const r of records) {
-    if (typeof r?.id !== "string" || !/^A[0-9A-F]{16}$/i.test(r.id) || result.has(r.id)) {
+    if (typeof r?.id !== "string" || !/^A[0-9A-F]{16}$/.test(r.id) || result.has(r.id)) {
       throw new Error(label + " has invalid/duplicate exact ID");
     }
     result.set(r.id, r);
