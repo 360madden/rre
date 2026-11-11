@@ -1,4 +1,4 @@
--- RRECollector v0.4.18: calling-neutral browser, saved-capture provenance, guarded pins.
+-- RRECollector v0.4.19: calling-neutral browser, saved-capture provenance, guarded pins.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say

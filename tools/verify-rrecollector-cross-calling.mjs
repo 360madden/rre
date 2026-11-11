@@ -148,8 +148,27 @@ test("saved Rogue browser and toolbar reveal old or incomplete capture provenanc
   assert.doesNotMatch(ui, /\| " \.\. soul \.\. " \| " \.\. #list/);
 });
 
-test("both bounded documentation receipts preserve UTF-8 character boundaries", () => {
-  assert.equal((capabilities.match(/RRECollectorRuntime\.core\.scalar\(description, MAX_DOC\)/g) || []).length, 2);
+test("Navigation discovery ranks sampled names before clipping and keeps receipts isolated", () => {
+  assert.match(capabilities, /local function collectNavigation\(\)/);
+  assert.match(capabilities, /if report\.index\.scanned >= MAX_INDEX_SCAN then/);
+  assert.match(capabilities, /table\.sort\(matched, function\(a, b\)/);
+  assert.match(capabilities, /report\.index\.retained = math\.min\(#matched, MAX_MATCHES\)/);
+  assert.match(capabilities, /for i = 1, math\.min\(report\.index\.retained, MAX_NAVIGATION_DOCS\) do/);
+  assert.match(capabilities, /local docOk, description = pcall\(doc, name\)/);
+  assert.match(capabilities, /navigation = collectNavigation/);
+  assert.match(main, /elseif action == "navigation" then/);
+  assert.match(main, /RRECollectorData\.navigationProbe = report/);
+  assert.match(main, /RRECollectorData\.navigationProbeSequence = sequence/);
+  assert.match(main, /nextSequence\(RRECollectorData\.navigationProbeSequence\)/);
+  const nav = capabilities.split("local function collectNavigation()")[1]?.split("\nRRECollectorRuntime.capabilities =")[0];
+  assert.ok(nav, "navigation-specific source body");
+  assert.ok(nav.indexOf("table.sort(matched,") < nav.indexOf("report.index.retained ="));
+  assert.doesNotMatch(nav, /Command\.[A-Za-z]+\s*\(/);
+  assert.doesNotMatch(nav, /Inspect\.Unit\.[A-Za-z]+\s*\(/);
+});
+
+test("all bounded documentation receipts preserve UTF-8 character boundaries", () => {
+  assert.equal((capabilities.match(/RRECollectorRuntime\.core\.scalar\(description, MAX_DOC\)/g) || []).length, 3);
   assert.doesNotMatch(capabilities, /description:sub\(1, MAX_DOC\)/);
   assert.match(core, /local following = value:byte\(endAt \+ 1\)/);
   assert.match(core, /return value:sub\(1, endAt\)/);

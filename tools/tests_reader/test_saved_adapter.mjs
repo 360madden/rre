@@ -319,6 +319,14 @@ test('v0.4.18 saved Experience preserves Rogue context and rejects absent capabi
   assert.equal(output.context.capabilities.experience,true);
   assert.throws(()=>read(base),/experience-capability/);
 });
+test('v0.4.19 saved Experience preserves existing contract and rejects missing capability',()=>{
+  const base=source.replace('addonVersion="0.1.0"','addonVersion="0.4.19"');
+  const input=base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={accumulated=0,needed=78},roleSlot=1,');
+  const output=read(input);
+  assert.equal(output.addonVersion,'0.4.19');
+  assert.deepEqual({...output.context.experience},{accumulated:0,needed:78});
+  assert.throws(()=>read(base),/experience-capability/);
+});
 test('earlier versions reject Experience fields while retaining original parser behavior',()=>{
   assert.throws(()=>read(source.replace('roleSlot=1,','capabilities={player=true,experience=false},roleSlot=1,')),/experience-version-unqualified/);
   assert.throws(()=>read(source.replace('roleSlot=1,','experience={rested=0},roleSlot=1,')),/experience-version-unqualified/);

@@ -1,4 +1,4 @@
--- RRECollector v0.4.18: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.19: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -149,7 +149,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | candidates | ui | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | navigation | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -374,6 +374,29 @@ local function onSlash(_, raw)
         .. ", limit " .. tostring(idx.scanLimitReached == true)
         .. ", candidate callable paths " .. tostring(callable) .. ".")
       say("Saved separately as professionProbe after normal UI reload/logout. API names/types do not prove profession data coverage.")
+    elseif action == "navigation" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local probeOk, report = pcall(RRECollectorRuntime.capabilities.navigation)
+      if not probeOk or type(report) ~= "table" or type(report.index) ~= "table"
+        or type(report.index.names) ~= "table" or type(report.pathTypes) ~= "table" then
+        lastMessage = "navigation-probe-error"
+        say("Navigation API discovery failed safely; prior snapshots preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.navigationProbeSequence)
+      report.sequence = sequence
+      RRECollectorData.navigationProbe = report
+      RRECollectorData.navigationProbeSequence = sequence
+      lastMessage = "navigation-probe-recorded"
+      local idx = report.index
+      say("Navigation API discovery #" .. tostring(sequence) .. ": docs "
+        .. tostring(report.documentationStatus) .. ", names " .. tostring(idx.retained or 0)
+        .. " / " .. tostring(idx.matched or 0) .. ", scanned " .. tostring(idx.scanned or 0)
+        .. ", limit " .. tostring(idx.scanLimitReached == true) .. ".")
+      say("Research leads saved separately as navigationProbe after normal UI reload/logout; no movement or targeting commands executed.")
     elseif action == "candidates" then
       runCandidateLookup("manual")
     elseif action == "ui" then
@@ -407,7 +430,7 @@ local function onSlash(_, raw)
         and latest.addonVersion or "unknown"
       say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
         .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
-      say("Separate research receipts: .probe, .professionProbe and .candidateLookup.")
+      say("Separate research receipts: .probe, .professionProbe, .navigationProbe and .candidateLookup.")
       say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")
