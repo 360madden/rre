@@ -1,0 +1,96 @@
+{
+  "milestone": "RC-63",
+  "host": "LEGION",
+  "date": "2026-11-11",
+  "proof": "static_original_PE_only",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "bytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "preferred_base": "0x140000000"
+  },
+  "native_windows": [
+    {
+      "name": "status_table_writer",
+      "range": [
+        "0x7C1AD0",
+        "0x7C1B7F"
+      ],
+      "bytes": 175,
+      "instructions": 44,
+      "sha256": "967e6ae9c1220e9c8c5a3d72b9360710ac37d25a8d126f9eb00ba91caa0ef0a5"
+    },
+    {
+      "name": "global_getter_first",
+      "range": [
+        "0x49A020",
+        "0x49A034"
+      ],
+      "bytes": 20,
+      "instructions": 4,
+      "sha256": "ad5a1d91bef924f80931fed89ad975f01d2ec53b911e21ef37ed4fdc2ce4e7a1"
+    },
+    {
+      "name": "global_getter_remainder",
+      "range": [
+        "0x49A034",
+        "0x49A063"
+      ],
+      "bytes": 47,
+      "instructions": 10,
+      "sha256": "202bc12dafdf3393c15aefecae65da10bcabc717899b5cc40893d8978255c015"
+    }
+  ],
+  "writer": {
+    "entry": "0x7C1AD0",
+    "incoming": "+0x19",
+    "receiver": "+0xA41",
+    "size_bytes": 256,
+    "memcpy_callsite": "0x7C1B52",
+    "memcpy_thunk": "0x25047A9",
+    "memcpy_thunk_bytes": "ff2549b60e00",
+    "iat_rva": "0x25EFDF8",
+    "import_dll": "VCRUNTIME140.dll",
+    "import_name": "memcpy",
+    "flag_copy_types": [
+      1,
+      2,
+      3
+    ],
+    "flag_source": "incoming+0x124",
+    "flag_destination": "receiver+0x38",
+    "type5_special_unqualified": true
+  },
+  "receiver_source": {
+    "getter": "0x49A020",
+    "slot_rva": "0x33623E0",
+    "section": ".data",
+    "zero_filled": true,
+    "secondary_accessor": "0x7A3500",
+    "field": "+0x350",
+    "other_slot_rva": "0x336F8B8"
+  },
+  "bounded_search": {
+    "needle": "410a0000",
+    "text_sha": "76e504d8f26ba7b01cb97bb9741efb158b15f4324d8db5ea094866d9a4884d7c",
+    "raw_hits": 14
+  },
+  "jobs": {
+    "scan": "rre-rc63-writer-text-exact-displacement-20261111-01",
+    "pdata": "rre-rc63-writer-candidates-pdata-20261111-01",
+    "writer": "rre-rc63-writer-selected-copy-function-20261111-01",
+    "owner_host": "rre-rc63-owner-verify-legion-20261111-01",
+    "owner_first": "rre-rc63-owner-root-49a020-pdata-20261111-01",
+    "owner_rest": "rre-rc63-owner-root-49a020-remainder-20261111-01",
+    "owner_section": "rre-rc63-owner-global-slot-metadata-20261111-01",
+    "manager_verify": "rre-rc63-manager-producer-globals-independent-20261111-01",
+    "manager_thunk": "rre-rc63-manager-copy-callee-first-bounded-20261111-01",
+    "manager_import": "rre-rc63-manager-copy-import-identity-20261111-01"
+  },
+  "unverified": [
+    "Incoming record producer and physical meaning",
+    "Numeric record type mapping to keys/mouse",
+    "Current player receiver ownership",
+    "Runtime event-7 arrival and actual movement/stop"
+  ]
+}

@@ -1,6 +1,21 @@
+# RRE RC-63 — confirmed 256-byte status producer (LEGION, 2026-11-11 ~10:58 EST)
+
+> **Accepted static breakthrough:** Handler 0x7C1AD0 imports VCRUNTIME140.dll!memcpy to write 256 bytes from incomingRecord+0x19 to receiver+0xA41. For incoming types 1/2/3 it copies incomingRecord+0x124 to receiver+0x38. Both primitive RC62 fields now share one source handler. Upstream getter 0x49A020 reads another lazy global slot RVA 0x33623E0. Actual physical input and player/stop remain unproven.
+
+## Fresh RC-63 checkpoint
+
+- Host LEGION independently verified; repository C:\work\rre, starting clean HEAD 5dff76e6af91f96045ce113ce23bdff9332fd213, 18 ahead. Original physical RIFT SHA 1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8; static RVAs based 0x140000000.
+- Producer exact original .pdata [0x7C1AD0,0x7C1B7F) 175B/44 instructions SHA 967e6ae9c1220e9c8c5a3d72b9360710ac37d25a8d126f9eb00ba91caa0ef0a5. Callsite 0x7C1B52 -> thunk 0x25047A9 -> IAT 0x25EFDF8, PE metadata VCRUNTIME140.dll!memcpy. Source +0x19, destination +0xA41, 256B. Incoming numeric type1/2/3 updates receiver+0x38 from record+0x124. Type5 special helper unknown.
+- Second global getter first [0x49A020,0x49A034) 20B/4 SHA ad5a1d91bef924f80931fed89ad975f01d2ec53b911e21ef37ed4fdc2ce4e7a1; remainder [0x49A034,0x49A063) 47B/10 SHA 202bc12dafdf3393c15aefecae65da10bcabc717899b5cc40893d8978255c015. Global RVA 0x33623E0 .data zero-fill, distinct from RC61 registry slot 0x336F8B8. Object identity not yet known.
+- Two read-only agents, one bounded .text displacement search + one function decode. Manager independently checked 58/58 instructions/3 windows, plus PE import thunk and named DLL export via rre-rc63-manager-producer-globals-independent-20261111-01, rre-rc63-manager-copy-callee-first-bounded-20261111-01, rre-rc63-manager-copy-import-identity-20261111-01, all exit0. No process attach, input, reload, VM, AMD, install or push.
+- Deliverables docs/RRE-C2M-STATE-PRODUCER-LEGION-2026-11-11.md and .json, and this handoff; sole manager writes.
+- Next: (1) one bounded producer/caller for 0x7C1AD0, (2) object/class identity of getter 0x49A020, (3) separately authorized physical RRECollector v0.4.19 and movement/stop observation.
+
+## Preserved RC-62 checkpoint
+
 # RRE RC-62 — indexed flag primitives and constructed accumulator (LEGION, 2026-11-11 ~10:52 EST)
 
-> **Accepted static breakthrough:** The RC-61 condition tuple primitive helpers are now exact-byte decoded: mask test `0x7C19D0` reads receiver `+0x38` with masks `4/8/16`; general checker `0x7C1A00` reads high bit of `receiver+0xA41+index8`. A separate constructor `0x7C3920` initializes `owner+0x58` subobject `+0x68=1.0f` which evaluator updates via verified `0.99*x` or `0.99*x+0.01`. No physical key/owner/live cancellation proof.
+> **Accepted static breakthrough:** The RC-61 condition tuple primitive helpers are now exact-byte decoded: mask test 0x7C19D0 reads receiver +0x38 with masks 4/8/16; general checker 0x7C1A00 reads high bit of receiver+0xA41+index8. A separate constructor 0x7C3920 initializes owner+0x58 subobject +0x68=1.0f which evaluator updates via verified 0.99*x or 0.99*x+0.01. No physical key/owner/live cancellation proof.
 
 ## Fresh RC-62 checkpoint
 
