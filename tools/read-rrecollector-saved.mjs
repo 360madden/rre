@@ -1,5 +1,5 @@
 // Read-only RRECollector SavedVariables decoder. Lua values are parsed, never executed.
-import fs from "node:fs";
+import {readStableOriginal} from "./read-stable-original.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -304,9 +304,9 @@ if (invoked) {
     process.exitCode = 2;
   } else {
     try {
-      const bytes = fs.readFileSync(savedFile);
+      const bytes = readStableOriginal(savedFile);
       const saved = parseSavedLuaBytes(bytes);
-      const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
+      const staticCatalog = JSON.parse(readStableOriginal(staticFile).toString("utf8"));
       const digest = crypto.createHash("sha256").update(bytes).digest("hex");
       process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
     } catch (error) {

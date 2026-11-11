@@ -1,11 +1,11 @@
 // Data-only adapter: reuse the existing literal Lua parser and Detail projection.
-import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {parseSavedLua, assessSnapshotForComparison, buildAbilityCrosswalk} from './read-rrecollector-saved.mjs';
+import {readStableOriginal, MAX_ORIGINAL_BYTES} from './read-stable-original.mjs';
 
-export const MAX_BYTES = 2_000_000;
+export const MAX_BYTES = MAX_ORIGINAL_BYTES;
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 function boundedCopy(value, depth = 0) {
   if (value == null || typeof value === 'boolean') return value;
@@ -134,29 +134,8 @@ export function summarizeSavedPins(bytes) {
     invalidCount:count('invalid'), slotStates:states
   };
 }
-export function readBoundedSaved(file) {
-  const pathBefore = fs.lstatSync(file);
-  if (!pathBefore.isFile() || pathBefore.isSymbolicLink()) throw Error('saved-source-not-plain-file');
-  const fd = fs.openSync(file,'r');
-  try {
-    const before = fs.fstatSync(fd);
-    const same = stat => stat.dev === before.dev && stat.ino === before.ino
-      && stat.size === before.size && stat.mtimeMs === before.mtimeMs
-      && stat.ctimeMs === before.ctimeMs;
-    if (!same(pathBefore)) throw Error('saved-source-changed-before-read');
-    if (before.size > MAX_BYTES) throw Error('saved-byte-limit');
-    const buffer = Buffer.alloc(MAX_BYTES + 1);
-    let length = 0, n;
-    do { n = fs.readSync(fd,buffer,length,buffer.length-length,null); length += n; }
-    while (n && length < buffer.length);
-    const pathAfter = fs.lstatSync(file);
-    if (length > MAX_BYTES) throw Error('saved-byte-limit');
-    if (length !== before.size || !same(fs.fstatSync(fd))
-      || !pathAfter.isFile() || pathAfter.isSymbolicLink() || !same(pathAfter))
-      throw Error('saved-source-changed-during-read');
-    return buffer.subarray(0,length);
-  } finally { fs.closeSync(fd); }
-}
+// Preserve the existing exported reader contract while sharing one guarded implementation.
+export const readBoundedSaved = readStableOriginal;
 // CLI diagnostics must not expose user account paths or untrusted Lua source.
 const CLI_USAGE = 'usage: node tools/rre-reader-saved-snapshot.mjs FILE [--pins]';
 const SAFE_REASONS = new Set([

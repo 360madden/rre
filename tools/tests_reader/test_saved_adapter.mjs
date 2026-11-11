@@ -7,6 +7,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {exportSavedSnapshot,summarizeSavedPins,readBoundedSaved,savedCliErrorReason,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
 import {parseSavedLua,parseSavedLuaBytes} from '../read-rrecollector-saved.mjs';
+import {readStableOriginalWithMetadata} from '../read-stable-original.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
 const read=s=>exportSavedSnapshot(Buffer.from(s));
@@ -73,6 +74,64 @@ test('legacy saved crosswalk CLI redacts path and parser failures',()=>{
     assert.equal(parsed.savedSha256,crypto.createHash('sha256').update(source).digest('hex'));
     assert.equal(parsed.counts.knownApi,1);
     assert.equal(parsed.counts.staticCandidates,0);
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+});
+test('shared original reader returns stable bytes and timestamp and rejects races/oversize',()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc49-stable-'));
+  const file=path.join(dir,'RRECollector.lua');
+  try {
+    fs.writeFileSync(file,source);
+    const stable=readStableOriginalWithMetadata(file);
+    assert.deepEqual(stable.bytes,Buffer.from(source));
+    assert.equal(stable.modifiedAtUtc,fs.statSync(file).mtime.toISOString());
+    const originalRead=fs.readSync;
+    let changed=false;
+    try {
+      fs.readSync=function(...args) {
+        const count=originalRead.apply(this,args);
+        if (!changed) {
+          changed=true;
+          fs.appendFileSync(file,'-- concurrent modification');
+        }
+        return count;
+      };
+      assert.throws(()=>readStableOriginalWithMetadata(file),/saved-source-changed-during-read/);
+    } finally { fs.readSync=originalRead; }
+    assert.equal(changed,true);
+    fs.writeFileSync(file,Buffer.alloc(MAX_BYTES+1));
+    assert.throws(()=>readStableOriginalWithMetadata(file),/saved-byte-limit/);
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+});
+test('atlas CLI rejects private paths and preserves exclusive successful output',()=>{
+  const script=path.resolve('tools/build-rift-ability-atlas-live.mjs');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc49-atlas-'));
+  const output=path.join(dir,'atlas.json');
+  const marker='private@example.invalid';
+  const missing=path.join(dir,marker,'RRECollector.lua');
+  const run=file=>spawnSync(process.execPath,[script,file,output],{encoding:'utf8'});
+  try {
+    const absent=run(missing);
+    assert.equal(absent.error,undefined);
+    assert.equal(absent.status,2);
+    assert.equal(absent.stdout,'');
+    assert.deepEqual(JSON.parse(absent.stderr),{error:'saved-file-not-found'});
+    assert.equal(absent.stderr.includes(marker),false);
+    assert.equal(fs.existsSync(output),false);
+    const file=path.join(dir,'RRECollector.lua');
+    fs.writeFileSync(file,source);
+    const valid=run(file);
+    assert.equal(valid.status,0);
+    assert.equal(valid.stderr,'');
+    const receipt=JSON.parse(valid.stdout), atlas=JSON.parse(fs.readFileSync(output,'utf8'));
+    assert.equal(receipt.savedSha256,crypto.createHash('sha256').update(source).digest('hex'));
+    assert.equal(atlas.schemaVersion,1);
+    assert.equal(atlas.savedFileModifiedUtc,fs.statSync(file).mtime.toISOString());
+    assert.equal(receipt.counts.exactIds,atlas.counts.exactIds);
+    const previouslyWritten=fs.readFileSync(output);
+    const duplicate=run(file);
+    assert.equal(duplicate.status,2);
+    assert.deepEqual(JSON.parse(duplicate.stderr),{error:'saved-input-invalid'});
+    assert.deepEqual(fs.readFileSync(output),previouslyWritten);
   } finally { fs.rmSync(dir,{recursive:true,force:true}); }
 });
 test('pin audit treats absent slots as auto-defaults without changing the C# snapshot schema',()=>{
