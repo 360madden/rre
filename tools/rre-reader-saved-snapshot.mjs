@@ -157,15 +157,34 @@ export function readBoundedSaved(file) {
     return buffer.subarray(0,length);
   } finally { fs.closeSync(fd); }
 }
+// CLI diagnostics must not expose user account paths or untrusted Lua source.
+const CLI_USAGE = 'usage: node tools/rre-reader-saved-snapshot.mjs FILE [--pins]';
+const SAFE_REASONS = new Set([
+  'saved-byte-limit', 'saved-source-not-plain-file',
+  'saved-source-changed-before-read', 'saved-source-changed-during-read',
+  'ability-record-shape', 'ability-field-not-scalar', 'ability-id-unqualified',
+  'ability-target-not-scalar', 'context-string-limit', 'context-value-limit',
+  'context-entry-limit', 'context-key-limit', 'experience-capability-unqualified',
+  'experience-capability-map-contradiction', 'experience-map-shape',
+  'experience-map-limit', 'experience-field-unqualified', 'experience-version-unqualified'
+]);
+export function savedCliErrorReason(error) {
+  if (error?.code === 'ENOENT') return 'saved-file-not-found';
+  if (error?.code === 'EPERM' || error?.code === 'EACCES') return 'saved-file-unreadable';
+  const message = String(error?.message || '');
+  if (message === CLI_USAGE || SAFE_REASONS.has(message)) return message;
+  if (message.startsWith('saved-structure-unqualified:')) return 'saved-structure-unqualified';
+  return 'saved-input-invalid';
+}
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     if (process.argv.length !== 3 && (process.argv.length !== 4 || process.argv[3] !== '--pins'))
-      throw Error('usage: node tools/rre-reader-saved-snapshot.mjs FILE [--pins]');
+      throw Error(CLI_USAGE);
     const bytes = readBoundedSaved(process.argv[2]);
     const result = process.argv.length === 4 ? summarizeSavedPins(bytes) : exportSavedSnapshot(bytes);
     process.stdout.write(JSON.stringify(result) + '\n');
   } catch (error) {
-    process.stderr.write(JSON.stringify({error:String(error.message)}) + '\n');
+    process.stderr.write(JSON.stringify({error:savedCliErrorReason(error)}) + '\n');
     process.exitCode = 2;
   }
 }

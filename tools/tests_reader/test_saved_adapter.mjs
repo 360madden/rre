@@ -4,13 +4,44 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {exportSavedSnapshot,summarizeSavedPins,readBoundedSaved,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
+import {spawnSync} from 'node:child_process';
+import {exportSavedSnapshot,summarizeSavedPins,readBoundedSaved,savedCliErrorReason,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
 import {parseSavedLua,parseSavedLuaBytes} from '../read-rrecollector-saved.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
 const read=s=>exportSavedSnapshot(Buffer.from(s));
 const withPins = value=>source.replace('sequence=1,latest=', 'sequence=1,toolbarSlots='+value+',latest=');
 const pinAudit = s=>summarizeSavedPins(Buffer.from(s));
+test('saved-file CLI hides path details on errors and preserves --pins success',()=>{
+  const script=path.resolve('tools/rre-reader-saved-snapshot.mjs');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc46-cli-'));
+  const marker='private@example.invalid';
+  const missing=path.join(dir,marker,'RRECollector.lua');
+  const run=file=>spawnSync(process.execPath,[script,file,'--pins'],{encoding:'utf8'});
+  try {
+    const absent=run(missing);
+    assert.equal(absent.error,undefined);
+    assert.equal(absent.status,2);
+    assert.equal(absent.stdout,'');
+    assert.deepEqual(JSON.parse(absent.stderr),{error:'saved-file-not-found'});
+    assert.equal(absent.stderr.includes(marker),false);
+    assert.equal(absent.stderr.includes(missing),false);
+    const file=path.join(dir,'RRECollector.lua');
+    fs.writeFileSync(file,'RRECollectorData = { private = "'+marker+'", -- invalid Lua source\n');
+    const malformed=run(file);
+    assert.equal(malformed.status,2);
+    assert.equal(malformed.stdout,'');
+    assert.equal(JSON.parse(malformed.stderr).error,'saved-input-invalid');
+    assert.equal(malformed.stderr.includes(marker),false);
+    fs.writeFileSync(file,source);
+    const valid=run(file);
+    assert.equal(valid.status,0);
+    assert.equal(valid.stderr,'');
+    assert.deepEqual(JSON.parse(valid.stdout),pinAudit(source));
+    assert.equal(savedCliErrorReason(new Error('saved-source-changed-during-read')),'saved-source-changed-during-read');
+    assert.equal(savedCliErrorReason(new Error('sensitive: '+missing)),'saved-input-invalid');
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+});
 test('pin audit treats absent slots as auto-defaults without changing the C# snapshot schema',()=>{
   const p=pinAudit(source), original=read(source);
   assert.equal(p.adapterContract,'rre-saved-pins/1');
