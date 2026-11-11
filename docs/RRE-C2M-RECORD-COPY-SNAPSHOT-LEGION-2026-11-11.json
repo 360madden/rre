@@ -1,0 +1,183 @@
+{
+  "milestone": "RC-65",
+  "host": "LEGION",
+  "date": "2026-11-11",
+  "proof": "static_original_PE_only",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "bytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "preferred_base": "0x140000000"
+  },
+  "windows": [
+    {
+      "name": "special_record_copy",
+      "range": [
+        "0x7C0170",
+        "0x7C0200"
+      ],
+      "bytes": 144,
+      "instructions": 34,
+      "sha256": "433e49ea215ef4da8a77483ba5833bd2fc9963f5439854bb539f51a55d41c034"
+    },
+    {
+      "name": "general_record_copy",
+      "range": [
+        "0x7C0290",
+        "0x7C0336"
+      ],
+      "bytes": 166,
+      "instructions": 38,
+      "sha256": "80f0a2150de236b90c4fc443041e8832ff3358902c21b5bae0246c478067c189"
+    },
+    {
+      "name": "type3_state_snapshot",
+      "range": [
+        "0x7C0780",
+        "0x7C0909"
+      ],
+      "bytes": 393,
+      "instructions": 106,
+      "sha256": "a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de"
+    },
+    {
+      "name": "type2_reset_fragment",
+      "range": [
+        "0x7C0A40",
+        "0x7C0BAA"
+      ],
+      "bytes": 362,
+      "instructions": 82,
+      "sha256": "d10dd985a73f7e52f18352ad9362d397b65753f93fe69511b81be0fd512e41ee"
+    },
+    {
+      "name": "false_positive_r14",
+      "range": [
+        "0x4E0920",
+        "0x4E17A9"
+      ],
+      "bytes": 3721,
+      "instructions": 871,
+      "sha256": "3944be714c1d4db2311f2da359a69938b522f955dd6d46b2faa659d4a5a3db18"
+    },
+    {
+      "name": "false_positive_r15",
+      "range": [
+        "0xD64827",
+        "0xD64A7E"
+      ],
+      "bytes": 599,
+      "instructions": 149,
+      "sha256": "22aae287174f249637c4a0c4a59d661fdebe05cf54581f8073e25456ed5a3b89"
+    }
+  ],
+  "record_copy": {
+    "shared_header_offsets": [
+      "0x0",
+      "0x4",
+      "0x8",
+      "0x10",
+      "0x18"
+    ],
+    "body_offset": "0x19",
+    "body_length": 256,
+    "tail_offsets_shared": [
+      "0x120",
+      "0x124",
+      "0x128"
+    ],
+    "special_tail": [
+      "0x12C.byte",
+      "0x12D.byte"
+    ],
+    "special_min_bytes": 302,
+    "general_tail": [
+      "0x12C.dword",
+      "0x130.dword",
+      "0x134.dword",
+      "0x138.dword"
+    ],
+    "general_min_bytes": 316,
+    "memcpy_iat": "0x25EFDF8"
+  },
+  "caller_scan": {
+    "target": "0x7C0480",
+    "exact_e8_matches": 11,
+    "pdata_regions": 5,
+    "selected_regions": 2
+  },
+  "type3_snapshot": {
+    "region": "0x7C0780",
+    "type_value": 3,
+    "copy_source": "receiver+0xA41",
+    "copy_target": "stack_record+0x19",
+    "copy_bytes": 256,
+    "record_mask_mappings": [
+      {
+        "byte_index": 16,
+        "high_bit_mask": 2
+      },
+      {
+        "byte_index": 18,
+        "high_bit_mask": 1
+      },
+      {
+        "byte_index": 17,
+        "high_bit_mask": 4
+      }
+    ],
+    "dispatch_call": "0x7C08E3"
+  },
+  "type2_reset": {
+    "region": "0x7C0A40",
+    "region_is_unwind_fragment": true,
+    "type_value": 2,
+    "dispatch_calls": [
+      "0x7C0A9E",
+      "0x7C0B07",
+      "0x7C0B70"
+    ],
+    "memset_call": "0x7C0B84",
+    "memset_import": "VCRUNTIME140.dll!memset",
+    "memset_iat": "0x25EFE40",
+    "memset_target": "receiver+0xA41",
+    "memset_length": 256,
+    "post_write": "receiver+0x38=r15d",
+    "r15_source_unresolved": true
+  },
+  "root_writer_probe": {
+    "getter": "0x49A020",
+    "direct_getter_hits": 3845,
+    "nearby_350_hits": 107,
+    "destination_write_candidates": [
+      {
+        "at": "0x4E09A7",
+        "kind": "separate_r14_object"
+      },
+      {
+        "at": "0x928E7E",
+        "kind": "stack_local"
+      },
+      {
+        "at": "0xD64A11",
+        "kind": "unqualified_r15_object"
+      }
+    ],
+    "root_writer_proven": false,
+    "indirect_alias_writers_excluded": false
+  },
+  "manager_jobs": [
+    "rre-rc65-manager-copy-helpers-independent-20261111-01",
+    "rre-rc65-manager-mask-records-independent-20261111-01",
+    "rre-rc65-manager-mask-fields-focused-20261111-01",
+    "rre-rc65-manager-owner-false-positives-independent-20261111-01"
+  ],
+  "unverified": [
+    "physical key/device meaning",
+    "upstream real source and event trigger",
+    "globalRoot+0x350 writer",
+    "current player receiver",
+    "actual gameplay movement and stop",
+    "indirect dispatch callers"
+  ]
+}

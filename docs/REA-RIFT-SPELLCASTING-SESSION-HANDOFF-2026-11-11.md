@@ -1,3 +1,17 @@
+# RRE RC-65 — native record-copy, type-3 snapshot, type-2 clear (LEGION, 2026-11-11 ~11:18 EST)
+
+> **Accepted original-PE breakthrough:** Queue helpers 0x7C0170 and 0x7C0290 are exact record-copy routines with 256B body at +0x19; tails yield minimum 0x12E and 0x13C footprints. Type3 producer 0x7C0780 snapshots receiver+0xA41 and derives 3 mask bits from indices 0x10/0x12/0x11. A separate type2 fragment dispatches then uses confirmed VCRUNTIME140!memset to zero 256B receiver+0xA41. Root+0x350 later writer remains unqualified after excluding three nearby false positives. No physical input/actual game movement proof.
+
+## Fresh RC-65 checkpoint
+
+- LEGION only; original installed physical RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; RRE main starting clean HEAD `6f39217d8b420708f20125770c46ee285dbed817` (20 ahead). No game inputs, process attachment, AMD/VM, install, model provider, Ghidra import, remote push.
+- Helper [0x7C0170,0x7C0200) 144B/34 SHA `433e49ea215ef4da8a77483ba5833bd2fc9963f5439854bb539f51a55d41c034`; helper [0x7C0290,0x7C0336) 166B/38 SHA `80f0a2150de236b90c4fc443041e8832ff3358902c21b5bae0246c478067c189`. Neither manages queue pointer; prior RC64 dispatcher proves stride.
+- Type3 [0x7C0780,0x7C0909) 393B/106 SHA `a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de`; type2 fragment [0x7C0A40,0x7C0BAA) 362B/82 SHA `d10dd985a73f7e52f18352ad9362d397b65753f93fe69511b81be0fd512e41ee`. 11 exact direct calls to dispatcher 0x7C0480 in five .pdata regions, selected two original windows. memcpy IAT0x25EFDF8 and memset IAT0x25EFE40 exact imported VCRUNTIME140 semantics checked.
+- Focused getter+0x350 proximity scan found syntactic candidates only: [0x4E0920,0x4E17A9) 3721B/871 SHA `3944be714c1d4db2311f2da359a69938b522f955dd6d46b2faa659d4a5a3db18` has unrelated r14 owner; [0xD64827,0xD64A7E) 599B/149 SHA `22aae287174f249637c4a0c4a59d661fdebe05cf54581f8073e25456ed5a3b89` unqualified r15; one other rsp+0x350 stack local. Not proof no setter exists.
+- Three independent read-only agents, manager separately verified six original windows / 1,280 instructions and both imports; jobs `rre-rc65-manager-copy-helpers-independent-20261111-01`, `rre-rc65-manager-mask-records-independent-20261111-01`, `rre-rc65-manager-mask-fields-focused-20261111-01`, `rre-rc65-manager-owner-false-positives-independent-20261111-01` exit0.
+- Deliverables `docs/RRE-C2M-RECORD-COPY-SNAPSHOT-LEGION-2026-11-11.md` + `.json`, and this handoff. Future: (1) one bounded direct source above 0x7C0780 if discriminating, (2) park globalRoot+0x350 alias search absent new lead, (3) separately authorized current physical RRECollector SavedVariables and actual player movement/stop proof. Validate docs and commit.
+
+## Preserved RC-64 checkpoint
 # RRE RC-64 — two native status-record queues (LEGION, 2026-11-11 ~11:09 EST)
 
 > **Accepted static breakthrough:** Dispatcher 0x7C0480 routes numeric records: 8..16 immediate, 5..7 queue stride 0x130 at receiver+0x560/0x568, other types queue stride 0x140 at +0x40/+0x48. Queue drains call status handler 0x7C1AD0 on five original sites; primary drain is gated on byte+0xA40==0 and a second function drains without that own gate. Root constructor initializes +0x350 pointer NULL. Physical input/player/live stop still unproven.
