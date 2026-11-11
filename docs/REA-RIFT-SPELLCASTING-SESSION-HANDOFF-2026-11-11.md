@@ -1,14 +1,28 @@
+# RRE RC-70 — native queue-drain owner linked; receiver destruction and list correction (LEGION, 2026-11-11 ~12:09 EST)
+
+> **Accepted original-PE extension:** A unique direct E8 callsite `0xFCA473` invokes the two-queue drain after same-routine global root getter `0x49A020` and tiny receiver accessor `0x54F7C0` (`root+0x350 -> owner+0`). Full receiver destructor `0x7C0340` cleans queue buffers and list sentinels before owner+0 and root+0x350 clear. **Correction:** receiver+0x08 is actual list sentinel pointer; +0x10 is adjacent zero-initialized, likely count/size, NOT a callback-root pointer. Physical movement/stop and listener class remain unproven.
+
+## Fresh RC-70 checkpoint
+
+- Physical LEGION independently confirmed via `rre-rc70-host-legion-20261111-01` exit0. Started clean main HEAD `670c121951572ca06e8e673a228254363593c9f5` (25 ahead); original RIFT PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. No game/process/UI, VM/AMD, installers, providers, remote push.
+- Verified unique drain call `0xFCA473` inside complete `[0xFCA0D0,0xFCAE98)` 3528B/865 SHA `35e7e89ce4795d13eec2de00b64d2b7ce9e23f772bbf5582e60a83e2d3d72cd6`; leaf receiver getter `[0x54F7C0,0x54F7D1)` 17B/6 SHA `66a56a6b070f8087cdd68637f4dab49dbd8fbdd6b6107b0599340b36f2d93d64`.
+- Verified owner cleanup `[0x7933C0,0x793751)` 913B/218 SHA `0c58476387a692b289ecc057fe8ee894c234fe6613b10f10c0758e7321d145fe`; receiver destructor `[0x7C0340,0x7C047D)` 317B/79 SHA `b0b48f625094ce1d69595973c827797942df8ba6293b3af523dae33dc876bd7e`; constructor `[0x7C00A0,0x7C016A)` 202B/48 SHA `91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a`.
+- Manager independently verified all 1216 original instructions in five windows, job `rre-rc70-manager-independent-five-window-qa-20261111-01` exit0. Three genuine read-only source agents identified receiver destructor, list sentinel/count correction, and parked unsupported listener-registration guesses. Reports `docs/RRE-C2M-RECEIVER-DRAIN-LIFECYCLE-LEGION-2026-11-11.md` and `.json`.
+- Corrected prior RC-69 report/JSON and RC-68 report: +0x10 is a zero-tested adjacent field, not pointer. Historical handoff text now explicitly marks the revision. No source/listener movement proof; next: (1) list insertion and adjacent count writer, (2) anchored movement listener, (3) separately approved physical position/input trace.
+
+## Preserved RC-69 checkpoint
+
 # RRE RC-69 — native input owner teardown and listener layout (LEGION, 2026-11-11 ~11:58 EST)
 
-> **Source-level lifecycle breakthrough:** global input root+0x350 receives owner pointer during setup (RC-68) and is explicitly cleared to NULL in a separate full original-PE teardown function (`0x779365 -> 0x77E410`, EDX=0). Receiver ctor creates 0xB48 object at owner+0 and initializes receiver+0x10 callback-root pointer NULL. Native vtable+0x08 callbacks belong to actual listener objects, not owner; specific player movement listener remains unidentified.
+> **Source-level lifecycle breakthrough:** global input root+0x350 receives owner pointer during setup (RC-68) and is explicitly cleared to NULL in a separate full original-PE teardown function (`0x779365 -> 0x77E410`, EDX=0). Receiver ctor creates 0xB48 object at owner+0 and initializes receiver+0x08 list sentinel and adjacent +0x10 zeroed field (probable list size, NOT pointer; RC-70 correction). Native vtable+0x08 callbacks belong to actual listener objects, not owner; specific player movement listener remains unidentified.
 
 ## Fresh RC-69 checkpoint
 
 - LEGION only, original RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, starting clean main HEAD `c8870ae61101e904df1fcf3c16e2e1a92ec2bbea` (24 ahead). No RIFT input/process/UI, AMD/VM, installs, providers, other repo changes or push.
 - Teardown `[0x779140,0x779607)` 1223B/248 SHA `05c8651136160cb12f5a5ed17af6d98b961b14b6167fb425fddf2475282431b9`; owner ctor `[0x79A590,0x79A9D3)` 1091B/237 SHA `3c8cfd1121328b2fc65160f976991f908cc98817b3f2e3eae62690c81faa018f`; receiver init `[0x7C00A0,0x7C016A)` 202B/48 SHA `91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a`.
 - Full callback fanout `[0x7C1B7F,0x7C1D32)` 435B/119 SHA `b0a6e17f33aacc531541bcb07611bed13d22bf4a54d250e7ce5396f81da93ee5`; two-queue drainer `[0x7C1D40,0x7C1E1D)` 221B/54 SHA `acd9156d25be9ac21cd0bd2ef188f02b2777ed09a6c8355f69bf2ac5b0eaabef`. Manager independently source-verified all 706 instructions (job `rre-rc69-manager-owner-lifecycle-independent-five-windows-20261111-01` exit0).
-- Report and machine-readable record `docs/RRE-C2M-RECEIVER-LIFECYCLE-LISTENERS-LEGION-2026-11-11.md` + `.json`. Generic accessor 0x7A3500 E8 search 3276 raw hits, parked. No callback+0x10 later registration or active player movement/stop proof.
-- Next: (1) one grounded callback-root+0x10 registration trace, (2) vtable identity anchored to registration, (3) separately authorized physical timestamped RRECollector position snapshots paired with independent input trace.
+- Report and machine-readable record `docs/RRE-C2M-RECEIVER-LIFECYCLE-LISTENERS-LEGION-2026-11-11.md` + `.json`. Generic accessor 0x7A3500 E8 search 3276 raw hits, parked. No exact listener insertion or adjacent size writer or active player movement/stop proof.
+- Next: (1) one grounded sentinel-list insertion and adjacent count update trace, (2) vtable identity anchored to registration, (3) separately authorized physical timestamped RRECollector position snapshots paired with independent input trace.
 
 ## Preserved RC-68 checkpoint
 
@@ -20,7 +34,7 @@
 
 - Independent LEGION host proof; original physical PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Starting clean main HEAD `1bb89e3dc70018672bd25dec21c23037eeaebe9d` (23 ahead); no game, process, UI, VM/AMD, installer or push.
 - Exact owner caller `[0x772DC0,0x772E27)` 103B/24 SHA `4dfcc44cebb1e12c7dd6a878e15599366d6ba456d270b0164ecec9db28c0988d`, and setter `[0x77E410,0x77E418)` 8B/2 SHA `85307e7dc88d2f6e162ce491e825ad427671ea63a6d1013ce53dd83e1ebd1bc8`. Caller gets root via `0x49A020`, stores `[outer+0x1B8]` at root+0x350 through setter, then passes same owner to receiver construction at `0x79A590`. Manager confirmed original bytes/Capstone: `rre-rc68-manager-independent-callback-owner-20261111-01` exit0.
-- Receiver writer conditionally traverses subscriber-like lists when receiver+0x10 != NULL; optional vtable+0x10 filtering, vtable+0x08 callback with original record in RDX. Four fully decoded receiver callback fragments and exact SHA in `docs/RRE-C2M-RECEIVER-OWNER-CALLBACKS-LEGION-2026-11-11.md` and matching `.json`.
+- Receiver writer conditionally traverses subscriber-like lists when receiver+0x10 != 0 (count-like guard; sentinel at +0x08); optional vtable+0x10 filtering, vtable+0x08 callback with original record in RDX. Four fully decoded receiver callback fragments and exact SHA in `docs/RRE-C2M-RECEIVER-OWNER-CALLBACKS-LEGION-2026-11-11.md` and matching `.json`.
 - Source-only RRECollector v0.4.19 audit: manual `/rre capture` can include player/target coordX/Y/Z and frame/real times; no input-key event logging/continuous movement sampling, no passive causal correlation. C# reader accepts 0.4.19 in offline checks; updated reader README and RREC2 contract version lists. Current physical load remains unverified.
 - Two bounded negative probes parked: three `0x7C3C90` predicate callsites are only evaluator contexts; zero direct E8-rel32 calls to three `.pdata` producer fragment starts cannot prove reachability. No false movement/stop claim.
 - Ranked follow-ups: (1) narrow listener registration/vtable owner trace to identify movement receiver; (2) separately approved physical v0.4.19 load + two timestamped coordinate snapshots with independent real input trace; (3) run narrow production reader checks and preserve source hashes. Do not touch VMware/AMD, game input, or outside-scope repos.

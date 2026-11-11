@@ -37,9 +37,13 @@
       "status": "source-proven",
       "receiverSizeBytes": 2888,
       "ownerFieldOffset": "0x00",
-      "callbackRootInitialValue": "NULL",
-      "callbackRootOffset": "0x10",
-      "laterRegistrationKnown": false
+      "listenerHeadSentinelPointerOffset": "0x08",
+      "secondListSentinelPointerOffset": "0x18",
+      "adjacentZeroValueFieldOffsets": ["0x10", "0x20"],
+      "adjacentFieldLikelySemantics": "list size/count (unconfirmed)",
+      "callbackRootPointerAt0x10": false,
+      "listInsertionSiteKnown": false,
+      "correctionSourceMilestone": "RC-70"
     },
     {
       "id": "listener-layout",
@@ -70,7 +74,8 @@
       ],
       "sinkRva": "0x7C1AD0",
       "sinkR8": 0,
-      "drainCallerKnown": false
+      "drainCallerKnownAtRC69": false,
+      "resolvedBy": "RC-70"
     }
   ],
   "sourceWindows": [
@@ -138,7 +143,7 @@
     "accepted input events"
   ],
   "next": [
-    "anchored receiver+0x10 registration",
+    "anchored listener-list insertion and +0x10 size/count update",
     "listener vtable identity anchored to registration",
     "separately approved physical position and independent input timeline"
   ],
