@@ -1,0 +1,122 @@
+{
+  "milestone": "RC-61",
+  "host": "LEGION",
+  "date": "2026-11-11",
+  "proof_kind": "original_pe_static_only",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "size": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "image_base": "0x140000000"
+  },
+  "windows": [
+    {
+      "name": "lazy_getter_first_unwind",
+      "rva_range": [
+        "0x6A9C10",
+        "0x6A9C24"
+      ],
+      "bytes": 20,
+      "instructions": 4,
+      "sha256": "675e02151333724dcee64887c3c5a129dc9c73c27a46497677a19618376f73f9"
+    },
+    {
+      "name": "lazy_getter_remainder",
+      "rva_range": [
+        "0x6A9C24",
+        "0x6A9CF8"
+      ],
+      "bytes": 212,
+      "instructions": 50,
+      "sha256": "0ca1c71725d60beffc3a92b1537b0694823e8bb2f77a07b9b1134930f2196a0f"
+    },
+    {
+      "name": "three_field_predicate",
+      "rva_range": [
+        "0x7C3C90",
+        "0x7C3D37"
+      ],
+      "bytes": 167,
+      "instructions": 52,
+      "sha256": "327d8e2ade259baece6b5ebb441c723ce00fa29930f922503a2d46defe4bc699"
+    },
+    {
+      "name": "stateful_record_evaluator",
+      "rva_range": [
+        "0x7C98D0",
+        "0x7C9BD6"
+      ],
+      "bytes": 774,
+      "instructions": 207,
+      "sha256": "6b7058cff85b3acb859e04139739c7f9a4191e63cc55e8652ff2f3fb9b8a6988"
+    }
+  ],
+  "lazy_registry": {
+    "getter_rva": "0x6A9C10",
+    "global_pointer_slot_rva": "0x336F8B8",
+    "section": ".data",
+    "section_rva": "0x2F56000",
+    "section_virtual_bytes": 6903392,
+    "section_raw_bytes": 4242432,
+    "slot_file_backed": false,
+    "constructor_candidate_rva": "0x7C3920",
+    "allocator_rva": "0x78E110"
+  },
+  "predicate": {
+    "rva": "0x7C3C90",
+    "tuple_fields": 3,
+    "first_minus_one": "false",
+    "optional_second_third_minus_one": "skip",
+    "special_first_mappings": [
+      {
+        "first": 4,
+        "arg": 4,
+        "callee": "0x7C19D0"
+      },
+      {
+        "first": 5,
+        "arg": 8,
+        "callee": "0x7C19D0"
+      },
+      {
+        "first": 6,
+        "arg": 16,
+        "callee": "0x7C19D0"
+      }
+    ],
+    "general_callee": "0x7C1A00",
+    "physical_key_semantics": "unverified"
+  },
+  "evaluator": {
+    "rva": "0x7C98D0",
+    "record_bytes": 12,
+    "record_predicate": "0x7C3C90",
+    "state_object_offset": "0x58",
+    "float_write_offset": "0x68",
+    "float_write_rvas": [
+      "0x7C9991",
+      "0x7C99F1"
+    ],
+    "tuple_loop_start": "0x7C9B40",
+    "tuple_predicate_call": "0x7C9B4D",
+    "any_match_return": "0x7C9BA5",
+    "float_semantics": "unverified"
+  },
+  "jobs": {
+    "source_first": "rre-rc61-condition-source-pdata-20261111-01",
+    "source_remainder": "rre-rc61-condition-source-remainder-20261111-01",
+    "section": "rre-rc61-condition-global-section-metadata-20261111-01",
+    "predicate": "rre-rc61-evaluator-7c3c90-native-20261111-01",
+    "stateful": "rre-rc61-evaluator-7c98d0-native-20261111-01",
+    "stateful_tail": "rre-rc61-evaluator-timing-tail-confirm-20261111-01",
+    "manager_four": "rre-rc61-manager-registry-predicate-independent-20261111-01",
+    "manager_loop": "rre-rc61-manager-global-metadata-tuple-loop-20261111-01"
+  },
+  "limits": [
+    "No direct physical control/key identity",
+    "No current player ownership or runtime object inspection",
+    "No live input, movement or cancellation verification",
+    "First getter and remainder are separate original unwind regions",
+    "No overall game API exposed by these static RVAs"
+  ]
+}

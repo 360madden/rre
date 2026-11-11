@@ -1,3 +1,19 @@
+# RRE RC-61 — lazy condition source and composite stateful records (LEGION, 2026-11-11 ~10:46 EST)
+
+> **New accepted static result:** The RC-60 indexed-state getter `0x6A9C10` lazily instantiates a global source pointer at RVA `0x336F8B8`; condition records encode up to three predicate fields and can be evaluated by a **state-mutating** helper. Key identities, callback ownership and live cancellation are **not proved**.
+
+## Fresh RC-61 checkpoint
+
+- **Host/source:** Independently verified LEGION, original installed physical `rift_x64.exe` SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, RRE `C:\work\rre`; clean starting HEAD `c9d47962ab4cdae51f6cc81532817ac06a2fd95e` (16 ahead). All RVAs relative preferred base `0x140000000`.
+- **Registry:** Getter `[0x6A9C10,0x6A9C24)` 20B/4 ins SHA `675e02151333724dcee64887c3c5a129dc9c73c27a46497677a19618376f73f9`; remainder `[0x6A9C24,0x6A9CF8)` 212B/50 ins SHA `0ca1c71725d60beffc3a92b1537b0694823e8bb2f77a07b9b1134930f2196a0f`. Globals slot `0x336F8B8` is `.data` virtual zero-fill; allocation/constructor candidate `0x7C3920`; runtime contents unknown.
+- **Predicate:** `[0x7C3C90,0x7C3D37)` 167B/52 ins SHA `327d8e2ade259baece6b5ebb441c723ce00fa29930f922503a2d46defe4bc699`, up to three tuple condition checks; first -1 false, later -1 skip, 4/5/6 special-mapped to arguments 4/8/16. Primitive callee identities unknown.
+- **Stateful evaluator:** `[0x7C98D0,0x7C9BD6)` 774B/207 ins SHA `6b7058cff85b3acb859e04139739c7f9a4191e63cc55e8652ff2f3fb9b8a6988`, iterates 12B tuples, conditionally returns true, writes its own float `+0x68` through object `+0x58`. Do **not** call it pure read, input key, time interval, or movement implementation.
+- **Verification:** Two independent read-only lanes and manager independently verified all 4 regions, 313 original instructions, `rre-rc61-manager-registry-predicate-independent-20261111-01` exit0; PE-section and tuple-loop manager job `rre-rc61-manager-global-metadata-tuple-loop-20261111-01` exit0. Full job receipts are in RC61 MD+JSON. No game process access, UI/input, restart, cross-host, installer, or network push.
+- **Deliverables:** `docs/RRE-C2M-CONDITION-REGISTRY-LEGION-2026-11-11.md` and `.json` plus handoff. Sole manager writer; preserve all RC-60 and earlier checkpoints.
+- **Next ranked:** (1) one bounded primitive flag checker `0x7C19D0`/`0x7C1A00`; (2) one registry constructor `0x7C3920` or record writer; (3) separately authorized genuine v0.4.19 navigation SavedVariables and observed physical movement/stop.
+
+## Preserved RC-60 checkpoint
+
 # RRE RC-60 — input/state transition gate qualified (LEGION, 2026-11-11 ~10:40 EST)
 
 > **Accepted static result:** Event-7's same-receiver follow/destination clear is conditional on `0x6A98C0`, which samples numeric indexed conditions and detects cached-bit transitions or special side effects. It is **not** proven to be a physical input key, player-owned callback, or real stop.
