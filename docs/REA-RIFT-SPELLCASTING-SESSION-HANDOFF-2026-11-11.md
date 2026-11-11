@@ -1,3 +1,22 @@
+# RRE RC-74 — original Windows mouse event and five named buttons (LEGION, 2026-11-11 ~12:58 EST)
+
+> **Two proven native-source breakthroughs:** a real Win32 `WM_MOUSEMOVE` (`0x200`) case in `0x7C0BB0` passes packed coordinates to `0x7C0680`, which writes receiver+0x30/+0x34 and type-3 record fields; a separate native `results@mouse` builder `0x9AC1D0` exposes x/y plus five named button flags (Left, Right, Middle, Mouse4, Mouse5) from owner+0x1C0..1C4. RC-73 downstream `Event Mouse_Move` is now source-linked to a concrete Windows message case. **Still not** camera turning, player locomotion or current LEGION Lua runtime proof.
+
+## Fresh RC-74 checkpoint
+
+- Independent `hostname` = **LEGION** (job `rre-20261111-rc74-identity-001`, exit0). Original installed PE 60,493,640 bytes, SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, image base `0x140000000`. Started main clean HEAD `143388b067ad1bd4ccfa183ecbc4c4ffaa8f6b15`, 29 commits ahead of origin; never pushed or touched AMD/VM, game UI/process, other repos or providers.
+- Window/function anchors: `0x7C0BE6` compares `EDX=0x200`, equality branch `0x7C0BF2→0x7C0E72`; `0x7C0ED8→0x7C0680`; writes receiver+0x30 at `0x7C06BA`, +0x34 at `0x7C06C4`; conditional dispatcher `0x7C0F37→0x7C0480`; RC-72 callback and RC-73 named event preserved. `0x7C16A6` ScreenToClient belongs to a **different branch**.
+- Native named field proof: `[0x9AC1D0,0x9AC832)` builds `results@mouse`, `x`,`y`, `Left`, `Right`, `Middle`, `Mouse4`, `Mouse5`; `0x93B4B0` indexed owner flag getter (0..4 = +0x1C0..1C4), x/y getters `0x93B4C0`/`0x93B500`. **New exact metadata**: `.data` RVA `0x2F63F48` holds `Inspect.Mouse` RVA `0x26D7D98` and `results@mouse` RVA `0x26D7DB8` pointers; indirect registration/call edge still unproven. Current RRECollector `ui.lua` already uses `Inspect.Mouse` and `Event.Mouse.Move`; historical RC-25 drag evidence does not qualify current LEGION runtime.
+- New scoped research report `docs/RRE-C2M-WM-MOUSEMOVE-AND-MOUSE-STATE-LEGION-2026-11-11.md` plus machine-readable `.json`. Manager independently checked 4 original code-window SHA values, 8 decisive instructions, 7 field/getter callsites and 8 literal names (exit0 jobs in report). Three real independent read-only agents; no source/addon changes.
+
+## Next practical priorities
+
+1. Trace indirect registration/call edge from source-proven `Inspect.Mouse` / `results@mouse` native descriptor to builder `0x9AC1D0`.
+2. Switch the locomotion research to separate actor/camera/key handlers; mouse-state events cannot establish turns or XYZ movement.
+3. When separately coordinated, verify physical LEGION addon load and timestamped passive mouse/XYZ snapshots against a real operator gesture; do not infer runtime from these static findings.
+
+## Preserved RC-73 checkpoint
+
 # RRE RC-73 — `Event Mouse_Move` named and type-2 reset mapped (LEGION, 2026-11-11 ~12:45 EST)
 
 > **Source-backed breakthrough:** The concrete type-3 listener's two scaled floats enter `0x4BD9A0`, whose original native continuation explicitly references `Rift` and **`Event Mouse_Move`** static strings (0x4BDA07 / 0x4BDA00), then converts both floats to doubles for event args. This is mouse-event handling; actor/camera/character movement is NOT proven. Type-2 reset records with subcodes1/2/4 are emitted from receiver+0x38 mask bits and match the already proven listener flag clears. Type-3 receiver+0x30/+0x34 stores are normalization of preexisting values, NOT upstream OS provenance.
