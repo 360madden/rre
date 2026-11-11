@@ -1,3 +1,23 @@
+# RRE RC-72 — concrete listener callback and typed state proven (LEGION, 2026-11-11 ~12:35 EST)
+
+> **Accepted original-PE breakthrough:** 0x936CB0 builds a 0x30-byte listener, registers it to the known root/receiver with 0x7C1E20, and installs nested callback adapter to precise handler 0x93B710. That callback handles numeric record types1/2 as five owner flag byte set/clear updates and type3 as two saved 32-bit fields + scaled floats forwarded to 0x4BD9A0. Type3 producer 0x7C0780 writes exactly the consumed +0x128/+0x12C record fields. Still no physical movement/stop or key identities.
+
+## Fresh RC-72 checkpoint
+
+- LEGION only; original RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Started clean main RC71 `70e2fb9f20bea9622827c10dcde5117efc00b775` (27 ahead). Source-only; no game input/process attach, VM/AMD, installers, other repos or remote push.
+- Registration/concrete listener: `0x936CB0` alloc-like 0x30 bytes, outer vft RVA `0x26A79B8` with callback `0x4E3210`, outer flag predicate `0x4E2BE0`; inner adapter vft RVA **`0x26A3300`**, inner predicate `0x497090`, handler `0x494AE0` tail-jumps saved fn `0x93B710` with **RCX=R15 owning object**, RDX original record. Listener saved owner+0x1B0 and registered at 0x936D1D through proven receiver getter.
+- Numeric type1/type2: `record+0x120` values1/2/4/8/16 set/clear owner bytes +0x1C0..+0x1C4; unknown subcodes default +0x1C0. Type3: record+0x128/+0x12C compares/stores owner+0x1B8/+0x1BC; changed path does two float divisions and calls 0x4BD9A0 (effect unqualified). Callback branch fragments `[0x93B710,0x93B755)` SHA `cc90debb4fd97122c9a16643272eddc42150e2a92e476b60765c3f7c974d5c06`, `[0x93B755,0x93B7BA)` SHA `826d832566908760f22ae15991e1678a133f87476fea617e34837447a6ef62ca`, `[0x93B7BA,0x93B8A3)` SHA `fca35ef7ad9ec79d61382490c59cd24d5e0430b877b554da5a7bfb2f63eefebe`.
+- Exact type3 producer `[0x7C0780,0x7C0909)` 393B/106 SHA `a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de`: source receiver+0x30/+0x34 -> signed16 record+0x128/+0x12C via RBP=RSP+0x100 frame alias; type3 emission 0x7C07F7, dispatch 0x7C08E3; callback reads identical offsets.
+- **Bad RVA caught before integration:** inner vft 0x26A9300 was wrong (UTF16 text); correct 0x26A3300 computed from x936CC2 RIP+0x1D6C637 and manager/agents verified. Owner callback state +0x1B8/+0x1BC and +0x1C0..1C4 is on **R15 owner**, NOT 0x30-byte listener.
+- Full source evidence, hashes and original job receipts in `docs/RRE-C2M-CONCRETE-LISTENER-INPUT-STATE-LEGION-2026-11-11.md` and matching `.json`. Manager source validated 13 named code/table windows; 3 read-only agent lanes cross-checked. No key/mouse movement meaning inferred.
+
+## Next practical priorities
+
+1. Trace an actual upstream writer for `receiver+0x30/+0x34` to identify OS/native event origin.
+2. Trace downstream `0x4BD9A0` of type3 scaled values; establish what subsystem changes rather than assigning mouse/camera movement by guess.
+3. Use separately approved physical timestamped RRECollector XYZ + independent manual input timeline to demonstrate actual movement when environment is ready.
+
+## Preserved RC-71 checkpoint
 # RRE RC-71 — native receiver registration and listener count proven (LEGION, 2026-11-11 ~12:20 EST)
 
 > **Accepted static breakthrough:** Receiver+0x10 is definitively the primary list COUNT (increment/decrement writers), with sentinel pointer at +0x08. Two original native list-update methods 0x7C1E20 / 0x7C1F30 have direct callers passing the `0x49A020` root -> `0x54F7C0` receiver and separate listener object. Filter flag distinguishes wrapper `R8B=1` from drained/direct `R8D=0`. No concrete player-movement listener or live movement/stop proved.

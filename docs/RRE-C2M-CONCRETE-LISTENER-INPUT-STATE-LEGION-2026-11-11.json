@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "milestone": "RC-72",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "mode": "original-pe-static-read-only",
+  "originalPe": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "registeredListener": {
+    "allocationLikeCallSite": "0x936CB5",
+    "allocatedBytes": 48,
+    "constructorProof": [
+      "0x936CB0",
+      "0x936CEF",
+      "0x936CF2",
+      "0x936CFA",
+      "0x936D03",
+      "0x936D1D"
+    ],
+    "storedAtOwnerOffset": "0x1B0",
+    "receiverGetter": "0x54F7C0",
+    "registrationFunction": "0x7C1E20",
+    "outerVtableRva": "0x26A79B8",
+    "outerVtableSlots": [
+      "0x4E2B70",
+      "0x4E3210",
+      "0x4E2BE0"
+    ],
+    "outerPredicateFlagOffset": "0x28",
+    "innerAdapterOffset": "0x08",
+    "innerVtableRva": "0x26A3300",
+    "innerVtableSlots": [
+      "0x4951C0",
+      "0x497090",
+      "0x494AE0"
+    ],
+    "innerOwnerPointerAtListenerOffset": "0x10",
+    "callbackPointerAtListenerOffset": "0x18",
+    "callbackFunction": "0x93B710",
+    "zeroAtListenerOffset": "0x20",
+    "wrongVtableRvaRejected": "0x26A9300"
+  },
+  "callbackChain": {
+    "outer": "0x4E3210",
+    "innerPredicate": "0x497090",
+    "innerHandler": "0x494AE0",
+    "indirectTarget": "0x93B710",
+    "handlerPassesOriginalRecordInRDX": true,
+    "handlerContext": "R15 owner pointer (loaded from listener+0x10)",
+    "predicateChecksNonzeroOwnerAndCallbackPointers": true
+  },
+  "recordState": {
+    "ownerOffsets": {
+      "pair": [
+        "0x1B8",
+        "0x1BC"
+      ],
+      "flags": [
+        "0x1C0",
+        "0x1C1",
+        "0x1C2",
+        "0x1C3",
+        "0x1C4"
+      ]
+    },
+    "types": [
+      {
+        "type": 1,
+        "field": "0x120",
+        "subcodes": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "action": "sets selected owner flag to 1",
+        "unknownSubcodeDefaultOwnerOffset": "0x1C0"
+      },
+      {
+        "type": 2,
+        "field": "0x120",
+        "subcodes": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "action": "clears selected owner flag to 0",
+        "unknownSubcodeDefaultOwnerOffset": "0x1C0"
+      },
+      {
+        "type": 3,
+        "fields": [
+          "0x128",
+          "0x12C"
+        ],
+        "sourceReceiverOffsets": [
+          "0x30",
+          "0x34"
+        ],
+        "ownerSavedOffsets": [
+          "0x1B8",
+          "0x1BC"
+        ],
+        "onChanged": "saves fields, converts/scales two float values, tail-jumps 0x4BD9A0"
+      }
+    ],
+    "numericMeaningProven": false,
+    "physicalMovementProven": false
+  },
+  "type3Producer": {
+    "functionRva": "0x7C0780",
+    "recordBase": "RSP+0x20",
+    "frameAlias": "RBP=RSP+0x100",
+    "recordTypeWriteSite": "0x7C07F7",
+    "record128Write": "0x7C085D",
+    "record12CWrite": "0x7C084F",
+    "dispatchCallSite": "0x7C08E3",
+    "consumer128Read": "0x93B724",
+    "consumer12CRead": "0x93B72B",
+    "upstreamOSMeaningProven": false
+  },
+  "sourceWindows": [
+    {
+      "start": "0x936950",
+      "endExclusive": "0x937966",
+      "bytes": 4118,
+      "instructions": 974,
+      "sha256": "313d90e9458f9d789e04fd85f5e064ec9abfbdbda330ae9f183161c8b48d7aea",
+      "kind": "code"
+    },
+    {
+      "start": "0x936CB0",
+      "endExclusive": "0x936D22",
+      "bytes": 114,
+      "instructions": 27,
+      "sha256": "6d2f7638326789c1755e7415f4805759c01eb4d1a367d477679085101764d87a",
+      "kind": "code"
+    },
+    {
+      "start": "0x26A79B8",
+      "endExclusive": "0x26A79D0",
+      "bytes": 24,
+      "instructions": null,
+      "sha256": "ff18b009b1d6824f82cb61389c0285c33fba3259fa2b791bfc252f4ddc47d09e",
+      "kind": "data"
+    },
+    {
+      "start": "0x26A3300",
+      "endExclusive": "0x26A3328",
+      "bytes": 40,
+      "instructions": null,
+      "sha256": "dea69830d02e25e66535ec1fd8814dd0bd127291a677c90e6d06afbb8a10d518",
+      "kind": "data"
+    },
+    {
+      "start": "0x4E3210",
+      "endExclusive": "0x4E3246",
+      "bytes": 54,
+      "instructions": 18,
+      "sha256": "c71d6afccaa44cd8dbc4c9e3a329e61d1e28bff37b5037a1b406bb52b9df1577",
+      "kind": "code"
+    },
+    {
+      "start": "0x4E2BE0",
+      "endExclusive": "0x4E2BE5",
+      "bytes": 5,
+      "instructions": 2,
+      "sha256": "bb387a300471d399f6b29027841df3c4a1f506542e32eac98101e1bb537b2486",
+      "kind": "code"
+    },
+    {
+      "start": "0x497090",
+      "endExclusive": "0x4970A4",
+      "bytes": 20,
+      "instructions": 8,
+      "sha256": "72139e9caba53fadada204bc19b46d0cb4da8ff2ebdfc3a88b7cb7b4bcdcbcc8",
+      "kind": "code"
+    },
+    {
+      "start": "0x494AE0",
+      "endExclusive": "0x494AEB",
+      "bytes": 11,
+      "instructions": 3,
+      "sha256": "5a917f02f2532cc34d87ce23934f7d9300f77107e2032a05b5cc1ddfe8921f5d",
+      "kind": "code"
+    },
+    {
+      "start": "0x93B710",
+      "endExclusive": "0x93B755",
+      "bytes": 69,
+      "instructions": 17,
+      "sha256": "cc90debb4fd97122c9a16643272eddc42150e2a92e476b60765c3f7c974d5c06",
+      "kind": "code"
+    },
+    {
+      "start": "0x93B755",
+      "endExclusive": "0x93B7BA",
+      "bytes": 101,
+      "instructions": 23,
+      "sha256": "826d832566908760f22ae15991e1678a133f87476fea617e34837447a6ef62ca",
+      "kind": "code"
+    },
+    {
+      "start": "0x93B7BA",
+      "endExclusive": "0x93B8A3",
+      "bytes": 233,
+      "instructions": 78,
+      "sha256": "fca35ef7ad9ec79d61382490c59cd24d5e0430b877b554da5a7bfb2f63eefebe",
+      "kind": "code"
+    },
+    {
+      "start": "0x7C0780",
+      "endExclusive": "0x7C0909",
+      "bytes": 393,
+      "instructions": 106,
+      "sha256": "a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de",
+      "kind": "code"
+    },
+    {
+      "start": "0x4BD9A0",
+      "endExclusive": "0x4BD9D0",
+      "bytes": 48,
+      "instructions": 11,
+      "sha256": "8f7dad264f178a720f37adb26cbbf759d77d05e727cc66d33403b56d73ac5f54",
+      "kind": "code"
+    }
+  ],
+  "verification": {
+    "managerJobs": [
+      "rre-rc72-manager-concrete-listener-ctor-wrapper-inner-vft-20261111-01",
+      "rre-rc72-manager-correct-inner-vtable-26a3300-20261111-01",
+      "rre-rc72-manager-inner-callback-leaf-bounded-20261111-01",
+      "rre-rc72-manager-inner-leaf-and-flag-origin-20261111-01",
+      "rre-rc72-manager-concrete-callback-93b710-source-20261111-01",
+      "rre-rc72-manager-type123-listener-state-windows-20261111-01",
+      "rre-rc72-manager-final-windows-source-validation-20261111-01"
+    ],
+    "independentAgentJobs": [
+      "rre-rc72-lane-a-listener-936c-vtable-qacheck-20261111-01",
+      "rre-rc72-b-wrapper-leaf-minimal-sha-20261111-01",
+      "rre-rc72-lane-c-correct-inner-vtable-handler-20261111-01",
+      "rre-rc72-lane-a-callback-next-fragment-93b755-20261111-01",
+      "rre-rc72-b-type3-fallthrough-93b7ba-original-20261111-01",
+      "rre-rc72-lane-c-type3-producer-handler-reconcile-20261111-01"
+    ]
+  },
+  "unproven": [
+    "upstream Win32 meaning of receiver+0x30/+0x34",
+    "semantic meaning of numeric event types1/2/3 or subcodes1/2/4/8/16",
+    "movement, turning or stop controlled by this callback",
+    "downstream purpose of 0x4BD9A0",
+    "runtime active local-player ownership and physical game effect"
+  ],
+  "next": [
+    "bound native writer of receiver+0x30/+0x34",
+    "identify target function 0x4BD9A0 effect",
+    "separately approved physical RRECollector/input correlation"
+  ],
+  "scope": {
+    "otherHostAccess": false,
+    "vmAccess": false,
+    "gameInput": false,
+    "processAttach": false,
+    "remotePush": false
+  }
+}
