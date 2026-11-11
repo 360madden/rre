@@ -1,11 +1,47 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
-import {exportSavedSnapshot,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
+import {exportSavedSnapshot,summarizeSavedPins,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
 import {parseSavedLua,parseSavedLuaBytes} from '../read-rrecollector-saved.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
 const read=s=>exportSavedSnapshot(Buffer.from(s));
+const withPins = value=>source.replace('sequence=1,latest=', 'sequence=1,toolbarSlots='+value+',latest=');
+const pinAudit = s=>summarizeSavedPins(Buffer.from(s));
+test('pin audit treats absent slots as auto-defaults without changing the C# snapshot schema',()=>{
+  const p=pinAudit(source), original=read(source);
+  assert.equal(p.adapterContract,'rre-saved-pins/1');
+  assert.equal(p.mode,'auto-defaults');assert.equal(p.savedField,'absent');
+  assert.equal(p.pinCount,1);assert.equal(p.matchedCount,1);assert.equal(p.missingCount,0);
+  assert.deepEqual(p.slotStates,['matched','empty','empty','empty','empty','empty','empty','empty']);
+  assert.equal(p.captureVersion,'0.1.0');
+  assert.equal(p.sourceSha256,original.sourceSha256);
+  assert.equal(Object.hasOwn(original,'pinCount'),false);
+  assert.equal(Object.hasOwn(original,'slotStates'),false);
+});
+test('explicit empty saved toolbar table does not activate default pins',()=>{
+  const p=pinAudit(withPins('{}'));
+  assert.equal(p.mode,'persisted');assert.equal(p.savedField,'table');
+  assert.equal(p.pinCount,0);assert.equal(p.invalidCount,0);
+  assert.deepEqual(p.slotStates,Array(8).fill('empty'));
+});
+test('sparse and dense toolbar slots distinguish matching and stale saved IDs',()=>{
+  const good='A0000000100000000', stale='AFFFFFFFFFFFFFFFF';
+  const sparse=pinAudit(withPins('{[1]="'+good+'",[3]="'+stale+'"}'));
+  assert.equal(sparse.mode,'persisted');assert.equal(sparse.matchedCount,1);
+  assert.equal(sparse.missingCount,1);assert.equal(sparse.invalidCount,0);
+  assert.deepEqual(sparse.slotStates.slice(0,4),['matched','empty','missing','empty']);
+  const dense=pinAudit(withPins('{"'+good+'","'+stale+'"}'));
+  assert.deepEqual(dense.slotStates.slice(0,3),['matched','missing','empty']);
+});
+test('invalid persisted pin values are reported without discarding a qualified snapshot',()=>{
+  const value=pinAudit(withPins('{[1]=false,[2]="'+('x'.repeat(129))+'",[3]="AFFFFFFFFFFFFFFFF"}'));
+  assert.equal(value.invalidCount,2);assert.equal(value.missingCount,1);
+  assert.deepEqual(value.slotStates.slice(0,4),['invalid','invalid','missing','empty']);
+  const badRoot=pinAudit(withPins('"invalid"'));
+  assert.equal(badRoot.mode,'auto-defaults');assert.equal(badRoot.savedField,'non-table');
+  assert.equal(badRoot.matchedCount,1);
+});
 test('preserves separate saved-root and capture versions',()=>{
   const x=read(source);assert.equal(x.addonVersion,'0.1.0');assert.equal(x.savedAddonVersion,'0.4.11');
 });

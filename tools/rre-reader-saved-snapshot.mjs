@@ -91,6 +91,49 @@ export function exportSavedSnapshot(bytes) {
     abilities, context,
     counts:boundedCopy(saved.latest.abilityList), structure};
 }
+// Opt-in UI pin audit. Preserve rre-saved-snapshot/1's exact schema for C# consumers.
+// Mirrors ui.lua loadSlots: a saved table (even empty) suppresses defaults.
+export function summarizeSavedPins(bytes) {
+  const snapshot = exportSavedSnapshot(bytes);
+  const saved = parseSavedLua(new TextDecoder('utf-8', {fatal:true}).decode(bytes));
+  const present = Object.hasOwn(saved,'toolbarSlots');
+  const previous = saved.toolbarSlots;
+  const persisted = previous !== null && typeof previous === 'object';
+  const knownIds = new Set(snapshot.abilities.map(row=>row.lookupId));
+  const states = Array(8).fill('empty');
+  function labelSlot(slot, id) {
+    if (typeof id !== 'string' || Buffer.byteLength(id,'utf8') > 128) {
+      states[slot] = 'invalid';
+    } else {
+      states[slot] = knownIds.has(id) ? 'matched' : 'missing';
+    }
+  }
+  if (persisted) {
+    for (let slot=0;slot<8;slot++) {
+      const value = Array.isArray(previous) ? previous[slot] : previous[String(slot+1)];
+      if (value !== undefined) labelSlot(slot,value);
+    }
+  } else {
+    let slot=0;
+    for (const row of Object.values(saved.latest.abilities)) {
+      if (slot === 8) break;
+      if (row && typeof row.lookupId === 'string' && row.passive !== true) {
+        labelSlot(slot,row.lookupId);
+        slot++;
+      }
+    }
+  }
+  const count = status=>states.filter(value=>value === status).length;
+  return {
+    adapterContract:'rre-saved-pins/1', sourceSha256:snapshot.sourceSha256,
+    captureVersion:snapshot.addonVersion, sequence:snapshot.sequence,
+    mode:persisted ? 'persisted' : 'auto-defaults',
+    savedField:!present ? 'absent' : persisted ? 'table' : 'non-table',
+    pinCount:count('matched')+count('missing'),
+    matchedCount:count('matched'), missingCount:count('missing'),
+    invalidCount:count('invalid'), slotStates:states
+  };
+}
 export function readBoundedSaved(file) {
   const fd = fs.openSync(file,'r');
   try {
@@ -104,8 +147,11 @@ export function readBoundedSaved(file) {
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    if (process.argv.length !== 3) throw Error('usage: node tools/rre-reader-saved-snapshot.mjs FILE');
-    process.stdout.write(JSON.stringify(exportSavedSnapshot(readBoundedSaved(process.argv[2]))) + '\n');
+    if (process.argv.length !== 3 && (process.argv.length !== 4 || process.argv[3] !== '--pins'))
+      throw Error('usage: node tools/rre-reader-saved-snapshot.mjs FILE [--pins]');
+    const bytes = readBoundedSaved(process.argv[2]);
+    const result = process.argv.length === 4 ? summarizeSavedPins(bytes) : exportSavedSnapshot(bytes);
+    process.stdout.write(JSON.stringify(result) + '\n');
   } catch (error) {
     process.stderr.write(JSON.stringify({error:String(error.message)}) + '\n');
     process.exitCode = 2;
