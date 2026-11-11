@@ -1,3 +1,17 @@
+# RRE RC-66 — Win32 keyboard-state provenance verified (LEGION, 2026-11-11 ~11:31 EST)
+
+> **Accepted original-PE breakthrough:** `USER32!GetKeyboardState` at 0xFB6C95 writes 256-byte stack state; 0x7C0200 constructs type-6 record; 0x7C21F0 copies OS state to record+0x19 and maps high bits of VK_SHIFT/CONTROL/MENU; 0x7C1AC0 tail-jumps to 0x7C1AD0, which copies the 256B payload to receiver+0xA41. Separately 0x7C09E4 calls USER32!MapVirtualKeyW(index,2) while making type-7 reset records. Static OS-to-native dataflow proven; **actual gameplay input, movement/stop and active-player ownership unverified**.
+
+## Fresh RC-66 checkpoint
+
+- Host LEGION by `rre-rc66-host-verification-20261111-01` exit0; `C:\work\rre` clean main starting HEAD `04ecf656d50ebbaf43192180d258879eaeb7f726` (21 ahead). Original PE 60,493,640B SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, base `0x140000000`.
+- Complete proven static chain: GetKeyboardState IAT RVA 0x25EFD68 -> stack buffer -> type6 initializer 0x7C0200 -> 256B copy/mask helper 0x7C21F0 -> accessor 0x7A3500 -> leaf 0x7C1AC0 -> writer 0x7C1AD0 -> receiver+0xA41. Windows VK indices 0x10/0x11/0x12 = Shift/Ctrl/Alt; Game `MapVirtualKeyW(index,2)` IAT RVA 0x25EFC68 in type7 reset path. No live movement or physical effect demonstrated.
+- Receiver constructor 0x7C00A0 zeroes +0xA40 gate/+0xA41 256B table/+0x38 mask; owner caller 0x79A63C allocates 0xB48 and stores result at owner+0. Nonzero gate skips queued drains, not immediate 8..16. DL==0 reset loop emits type7 indexed records; type2 mask subcodes 1/2/4; r15d zero proven.
+- Park type3 fragment 0x7C0780 direct-call origin: exact E8 scan and .rdata/.data literal pointer probe both negative; no claim unused. Later nonzero +0xA40 setter and active player object identity unresolved.
+- Three independent read-only source agents plus manager SHA-verified original windows, named IAT slots and Win32 docs; all listed jobs exit0. Deliverables `docs/RRE-C2M-WIN32-KEYBOARD-STATE-PROVENANCE-LEGION-2026-11-11.md` and paired `.json`, this handoff. No game input, process attach, AMD/VM, install, provider, Ghidra import, or push.
+- Ranked next: (1) separately authorized passive physical-game current RRECollector/SavedVariables correlation to a real key event; (2) discriminate actual movement/stop predicate and active receiver owner; (3) park unresolved broad/global scans absent new alias data. Full evidence/job receipts in RC-66 report.
+
+## Preserved RC-65 checkpoint
 # RRE RC-65 — native record-copy, type-3 snapshot, type-2 clear (LEGION, 2026-11-11 ~11:18 EST)
 
 > **Accepted original-PE breakthrough:** Queue helpers 0x7C0170 and 0x7C0290 are exact record-copy routines with 256B body at +0x19; tails yield minimum 0x12E and 0x13C footprints. Type3 producer 0x7C0780 snapshots receiver+0xA41 and derives 3 mask bits from indices 0x10/0x12/0x11. A separate type2 fragment dispatches then uses confirmed VCRUNTIME140!memset to zero 256B receiver+0xA41. Root+0x350 later writer remains unqualified after excluding three nearby false positives. No physical input/actual game movement proof.
