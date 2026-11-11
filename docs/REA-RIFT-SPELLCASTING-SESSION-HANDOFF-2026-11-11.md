@@ -1,4 +1,21 @@
-# RRE RC-55 — new-build NAV dispatch evidence and v0.4.19 readiness (LEGION, 2026-11-11 ~07:16 EST)
+# RRE RC-56 — current-build C2M setter/consumer requalification (LEGION, 2026-11-11 ~07:23 EST)
+
+> **Second verified native milestone:** Two bounded original-byte probes located the current executable's click-to-move destination **setter** and **consumer entry**; manager independently requalified their complete `.pdata` windows. Still static-only, not active gameplay movement or a qualified player-owned pointer chain.
+
+## Fresh RC-56 checkpoint
+
+- Host: **LEGION**, physical RIFT executable only; original SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. No VM, AMD-DESKTOP, game input/reload, process attach, game-file or memory write, deployment, network push or new dependency.
+- Previous accepted local RC-55 commit: `b4ac7ed2ada41e38329bfebe95c81d266b5da80b` on `main` (11 ahead of origin, clean immediately after RC-55).
+- **Static C2M setter:** old `0x562BC0` -> current `0x5749C0`; unique **20-byte** source signature; full unwind `[0x5749C0,0x574A18)`, 88 bytes, 21 instructions, SHA `e6427f87b5f3f2a407bd742142181cffe82125a2b9943b80a690b8aa374d6075`. Setter clears old state, writes supplied 12-byte destination to receiver `+0xB90` component `+0x60/+0x68`, sets `+0x1A8` bit0.
+- **Static consumer entry:** old `0x5765D0` -> current `0x588420`; unique **14-byte** signature; unwind `[0x588420,0x5884A7)`, 135 bytes, 32 instructions, SHA `2b57dcbdb4c7a84f243a5ba8ad35f5b1988f4135c1401158a8e9b7cee8e3ec26`. It reads the same component and tests the activation bit. Further consumer branches uninspected.
+- Current new direct clear call targets `0x5460A0` and `0x546830`. This confirms selected cross-build static state relationship, **not** current player ownership, event delivery, actual movement, cancellation, route planning or collision.
+- Evidence saved: `docs/RRE-C2M-NEW-BUILD-LEGION-2026-11-11.md` and `.json`. Native jobs `rre-rc56-native-c2m-samebytes-20261111` and `rre-rc56-native-c2m-setter-consumer-20261111` exit0, two-probe stop. Independent manager `rre-rc56-native-independent-window-verify-20261111` exit0, exact full-window SHA and all **53 decoded instructions**.
+- One read-only agent investigated and stopped; manager alone wrote documentation and commits. Starting worktree for RC-56 was clean; selected RC-56 changed files are the two reports plus this handoff.
+- **Next:** (1) one bounded current-build event callback direct-caller and owner trace for new setter `0x5749C0`; (2) small consumer continuation for near-stop state; (3) separately authorized manual runtime player XYZ + click/stop proof only after current client version, exact session and input ownership. Do not repeat broad type-7 scans.
+- Offline RC-55 Node tests remain **53/53**, package preflight v0.4.19 exit0; **no new addon source changes or live tests in RC-56**. RC-56 JSON/provenance and Git diff checks are its relevant acceptance; no full .NET test rerun warranted.
+
+## Prior RC-55 checkpoint (preserved)
+
 
 > **New accepted offline result:** The current LEGION physical RIFT executable's type-7 `TtPathfinding` label and type-indexed dispatch pattern were requalified on SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. This is **static code behavior only**; navigation handler registration and live movement are still unverified. The current SHA was already documented October 27; new in RC-55 is the selected navigation requalification.
 

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-56",
+  "host": "LEGION",
+  "capturedLocal": "2026-11-11T07:22:00-05:00",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "oldNavSourceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "imageBase": "0x140000000"
+  },
+  "method": "two exact old-byte-signature probes against SHA-verified new original PE, bounded .pdata window and Capstone; manager independent full-window SHA+boundary recheck",
+  "signatureMatches": [
+    {
+      "purpose": "destination setter",
+      "oldRva": "0x562bc0",
+      "newFunctionStartRva": "0x5749c0",
+      "newSignatureRva": "0x5749dd",
+      "signatureHex": "f20f10034c8b87900b0000f2410f1140608b4308",
+      "signatureBytes": 20,
+      "matches": 1
+    },
+    {
+      "purpose": "consumer entry",
+      "oldRva": "0x5765d0",
+      "newFunctionStartRva": "0x588420",
+      "newSignatureRva": "0x588454",
+      "signatureHex": "488b81900b0000f680a801000001",
+      "signatureBytes": 14,
+      "matches": 1
+    }
+  ],
+  "verifiedRegions": [
+    {
+      "purpose": "setter",
+      "beginRva": "0x5749c0",
+      "endRvaExclusive": "0x574a18",
+      "byteCount": 88,
+      "windowSha256": "e6427f87b5f3f2a407bd742142181cffe82125a2b9943b80a690b8aa374d6075",
+      "decodedInstructions": 21
+    },
+    {
+      "purpose": "consumer entry",
+      "beginRva": "0x588420",
+      "endRvaExclusive": "0x5884a7",
+      "byteCount": 135,
+      "windowSha256": "2b57dcbdb4c7a84f243a5ba8ad35f5b1988f4135c1401158a8e9b7cee8e3ec26",
+      "decodedInstructions": 32
+    }
+  ],
+  "observedInstructions": [
+    {
+      "rva": "0x5749d0",
+      "bytes": "e8cb16fdff",
+      "meaning": "direct call to follow-clear 0x5460a0"
+    },
+    {
+      "rva": "0x5749d8",
+      "bytes": "e8531efdff",
+      "meaning": "direct call to state-clear 0x546830"
+    },
+    {
+      "rva": "0x5749e1",
+      "bytes": "4c8b87900b0000",
+      "meaning": "read receiver component +0xb90"
+    },
+    {
+      "rva": "0x5749e8",
+      "bytes": "f2410f114060",
+      "meaning": "write destination XY at component +0x60"
+    },
+    {
+      "rva": "0x5749f6",
+      "bytes": "41894068",
+      "meaning": "write third destination coordinate at component +0x68"
+    },
+    {
+      "rva": "0x574a01",
+      "bytes": "0fb681a8010000",
+      "meaning": "read component activation byte +0x1a8"
+    },
+    {
+      "rva": "0x574a08",
+      "bytes": "0fbae800",
+      "meaning": "set bit0"
+    },
+    {
+      "rva": "0x574a0c",
+      "bytes": "8881a8010000",
+      "meaning": "write activation byte"
+    },
+    {
+      "rva": "0x588447",
+      "meaning": "consumer checks component/receiver +0xb60"
+    },
+    {
+      "rva": "0x588454",
+      "meaning": "load component +0xb90"
+    },
+    {
+      "rva": "0x58845b",
+      "meaning": "consumer tests component +0x1a8 bit0"
+    }
+  ],
+  "claim": "new-build static destination setter and consumer activation-bit relationship matches historical native C2M candidate; actual event-to-setter, player ownership, runtime destination and movement remain unqualified",
+  "evidenceJobs": [
+    "rre-rc56-native-c2m-samebytes-20261111",
+    "rre-rc56-native-c2m-setter-consumer-20261111",
+    "rre-rc56-native-independent-window-verify-20261111"
+  ],
+  "limits": {
+    "probes": 2,
+    "readOnly": true,
+    "gameInput": false,
+    "processAttached": false,
+    "memoryWrites": false,
+    "vmAccess": false,
+    "fullGhidraImport": false,
+    "runtimeMovementProven": false,
+    "c2mEventCallbackCurrentBuildVerified": false,
+    "consumerFullBehaviorVerified": false
+  }
+}
