@@ -1,4 +1,6 @@
-﻿# Click-to-move lane - 2026-10-18
+﻿> **NOVEMBER 11, 2026 — BUILD COMPATIBILITY WARNING:** This is an **October 18–19 historical exact-build report** for RIFT PE SHA `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd` (59,963,840 bytes). It must **not** be used as a current LEGION RVA map. On LEGION's currently installed PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, the actual independently verified **setter `0x5749C0`**, conditional event call `0x6A650D`, consumer `0x588730`, and clear `0x546830` differ. Full current-build evidence: [RC-76 report](../RRE-RC76-CURRENT-BUILD-C2M-CHAIN-AND-MOUSE-PUMP-LEGION-2026-11-11.md). Historical results below are preserved; current physical gameplay remains untested.
+
+# Click-to-move lane - 2026-10-18
 
 **Result:** exact-build native code links a C2M-like event branch to segment querying, a destination setter, and a destination consumer. This exceeds UI-only evidence, but is not a qualified callable interface or recorded navigation success.
 

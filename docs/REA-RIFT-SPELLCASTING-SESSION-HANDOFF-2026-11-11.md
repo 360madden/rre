@@ -1,3 +1,24 @@
+# RRE RC-76 — current-build C2M setter, caller, consumer, clear and mouse pump (LEGION, 2026-11-11)
+
+> **Major source breakthrough:** On the actual installed LEGION RIFT executable, the event callback conditionally calls the new C2M setter `0x5749C0` at `0x6A650D`, which writes destination state `[receiver+0xB90]+0x60/+0x68` and sets `state+0x1A8 bit0`. The new consumer at `0x588730` reads these same fields, calculates relative distance and conditionally clears via `0x588A1F→0x546830`. The `Misc_EnableClickToMove` native setting string/reader/writer is source-located, with callback gate `0x6A6242`. Mouse record pump has an actual deferred flush caller. **Physical player movement and stop are NOT proven.**
+
+## RC-76 evidence and scope
+
+- **LEGION verified**; physical installed `rift_x64.exe` 60,493,640B SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; addresses RVA. Started clean `main` RC75 `4e72f29ad2276c65c315cb7c3793678846c44a70` (ahead31), no VM/AMD, UI, live memory/inputs, addon change, installations, other repo or push.
+- **Current setting:** ASCII `Misc_EnableClickToMove` at `0x26EC228`; xrefs `0xBD10FE/0xBD1126/0xBD74E8`; module slot `0x33958C0`; setting object byte+0x146 updated `0xBD114A`, read `0xBD74FD`. Callback uses accessor-returned `+0x146`, not proven same object or live enabled value.
+- **Current C2M source:** type2/subcode1 at `0x6A6201`; setting gate `0x6A6242`; coordinates from record+0x128/+0x12C; projection `0x6A639E`, hit query `0x6A64EC`, setter `0x6A650D→0x5749C0`; consumed flag `0x6A6512`. Setter 88B/21 aligned instructions, original SHA `e6427f87b5f3f2a407bd742142181cffe82125a2b9943b80a690b8aa374d6075`.
+- **Consumer:** `0x588730/0x588737/0x588754/0x588759` reads same state/flag/vector; relative distance `0x588889..0x5888C6`; near-distance clear `0x588A1F→0x546830`; actual world movement, thresholds, active-player link and pathfind unqualified. Callback pointer `0x6A5E10` inserted in object owner+0x3F0 at `0x53E58B..0x53E5BC`; exact record delivery remains unknown.
+- **Native pump:** `0x7C0480` buffers types1/2, `0x7C1AD0` dispatches registered vtable callback, `0x7C1D40` drains deferred 0x140/0x130-byte queues, concrete caller `0xFCA473`. Proven `0x93B710` listener changes five button-state flags for types1/2; only type3 emits `Event Mouse_Move`. No source proof for named Lua click event.
+- **Reproduction:** `docs/RRE-RC76-CURRENT-BUILD-C2M-CHAIN-AND-MOUSE-PUMP-LEGION-2026-11-11.md` + machine-readable `.json` contain 15+ original source-window SHA values and six independent manager passes; three read-only specialists independently source-tested setter, consumer and pump. Historical old SHA `7c356...` (59,963,840B) is **not current**; its RVAs must never be used against LEGION current build.
+
+## Next actionable priorities
+
+1. Resolve native callback object at owner+0x3F0 to Win32 type2/subcode1 input and *active player* without guessing object identity; document observable state path.
+2. Pin geometry/return codes, cancellation and arrival thresholds with bounded source and passive evidence.
+3. Only when separately coordinated, verify a single physical LEGION click + current setting + timestamped destination/XYZ + actual stop; preannounce addon reload or restart.
+
+## Preserved RC-75 checkpoint
+
 # RRE RC-75 — native Inspect_Mouse registration + button-message source; reject stale C2M offsets (LEGION, 2026-11-11 ~13:16 EST)
 
 > **Two source-proven advances:** original compiled native code at `0x9B34C3` passes exact `0x9AC1D0` mouse builder as the function pointer while `0x9B34D1` registers an `Inspect_Mouse` name; a native Win32 jump table maps `WM_*BUTTONDOWN/UP` to record types 1/2 and subcodes 1/2/4/8/16. A third precise correction: `0x7C1642` is `WM_MOUSEWHEEL`, and historical C2M setter/callback RVAs belong to a different executable. **No current-build actor/camera turning, game movement or live Lua execution is established.**

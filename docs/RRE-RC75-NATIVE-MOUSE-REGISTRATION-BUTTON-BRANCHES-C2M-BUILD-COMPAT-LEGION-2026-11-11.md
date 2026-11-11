@@ -1,3 +1,5 @@
+> **RC-76 supersession (2026-11-11):** This report correctly rejected the old C2M RVAs and only offered `0x546830` as a candidate clear routine. Subsequent independent original-binary analysis now **source-proves** it is called by current setter **`0x5749C0`** and destination consumer **`0x588A1F`**. Type2/subcode1 event gate `0x6A6201` and exact setter call `0x6A650D` are also source-qualified. The full new chain, original hashes and remaining active-player/runtime gaps are in `RRE-RC76-CURRENT-BUILD-C2M-CHAIN-AND-MOUSE-PUMP-LEGION-2026-11-11.md`; earlier candidate language remains a historical RC-75 state.
+
 # RRE RC-75 — native `Inspect_Mouse` registration, mouse-button message source, and current-build C2M compatibility (LEGION)
 
 **Date:** 2026-11-11 · **Host:** independently verified **LEGION** · **Mode:** original installed PE, static/read-only, no running process or gameplay · **Verdict:** two newly closed source edges; historical C2M RVAs rejected for this executable. Camera/actor turn and live Lua invocation **not** proved.

@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-76",
+  "dateUtc": "2026-11-11",
+  "host": "LEGION",
+  "source": {
+    "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "base": "0x140000000",
+    "addressConvention": "RVA"
+  },
+  "mode": "static-original-PE-read-only",
+  "findings": [
+    {
+      "id": "current-c2m-setting",
+      "confidence": "source-proven",
+      "string": "Misc_EnableClickToMove",
+      "stringRva": "0x26EC228",
+      "xrefs": [
+        "0xBD10FE",
+        "0xBD1126",
+        "0xBD74E8"
+      ],
+      "globalPointerSlotRva": "0x33958C0",
+      "writeRva": "0xBD114A",
+      "readRva": "0xBD74FD",
+      "offset": "0x146",
+      "globalObjectEqualsComponentHandleProven": false,
+      "windows": [
+        {
+          "start": "0xBD106E",
+          "end": "0xBD11BE",
+          "sha256": "239064228779b4a973acb78df4a787853a17dfbc3926ca857254a8782238b730"
+        },
+        {
+          "start": "0xBD7458",
+          "end": "0xBD75A8",
+          "sha256": "2da948f37e48b88c238c7b9495cad851fdbfa9be7d317495a53e9a6a0d336384"
+        }
+      ]
+    },
+    {
+      "id": "event-to-setter",
+      "confidence": "source-proven-conditional",
+      "eventType": 2,
+      "subcode": 1,
+      "settingGateRva": "0x6A6242",
+      "eventCoordRvas": [
+        "0x6A6284",
+        "0x6A628A"
+      ],
+      "candidateProjectionCallRva": "0x6A639E",
+      "queryCallRva": "0x6A64EC",
+      "queryTargetRva": "0xF7CD20",
+      "directSetterCallRva": "0x6A650D",
+      "setterTargetRva": "0x5749C0",
+      "consumedFlagRva": "0x6A6512",
+      "callbackOwnerProven": false,
+      "windows": [
+        {
+          "start": "0x6A6120",
+          "end": "0x6A617C",
+          "sha256": "3e19e7aca762b0f67e6faa6e4921584ba46cf213ebc86687ec49201aefd74eef"
+        },
+        {
+          "start": "0x6A6195",
+          "end": "0x6A62B1",
+          "sha256": "51b4bf0cda4354f0684026a1d2c679647b57e10a3b3154e31f7c2d5cfee3d50a"
+        },
+        {
+          "start": "0x6A62B1",
+          "end": "0x6A652E",
+          "sha256": "e820bb56a8d8b4ed6f21d61314d40ce003e01ec4a17e3c5d795da0f2a1e1fa09"
+        }
+      ]
+    },
+    {
+      "id": "setter-reader-clear",
+      "confidence": "source-proven",
+      "setterRva": "0x5749C0",
+      "statePointerOffset": "0xB90",
+      "destinationOffsets": [
+        "0x60",
+        "0x68"
+      ],
+      "activeBitOffset": "0x1A8",
+      "activeBitIndex": 0,
+      "clearRva": "0x546830",
+      "consumerReadRvas": [
+        "0x588730",
+        "0x588737",
+        "0x588754",
+        "0x588759"
+      ],
+      "distanceRvaRange": [
+        "0x588889",
+        "0x5888C6"
+      ],
+      "conditionalClearCallRva": "0x588A1F",
+      "windows": [
+        {
+          "start": "0x5749C0",
+          "end": "0x574A18",
+          "sha256": "e6427f87b5f3f2a407bd742142181cffe82125a2b9943b80a690b8aa374d6075"
+        },
+        {
+          "start": "0x5885D4",
+          "end": "0x588809",
+          "sha256": "fa9b16fb3647bf203e3e0ff5ad28db95fbff3ed9a4dffa2ba3357838d9b9db30"
+        },
+        {
+          "start": "0x588809",
+          "end": "0x5889C8",
+          "sha256": "35eb7a10708c540739f9dbc35551931c1b939020b170cc1e23abad8dfa66d09f"
+        },
+        {
+          "start": "0x5889C8",
+          "end": "0x588A51",
+          "sha256": "ec9c755ad12b9a99f9e0188a0217143373a59bf12b1b0da39a8790a4b95bd770"
+        }
+      ],
+      "actualPlayerProven": false,
+      "motionObserved": false
+    },
+    {
+      "id": "callback-object",
+      "confidence": "source-proven-pointer-install-only",
+      "callbackRva": "0x6A5E10",
+      "callbackLeaRva": "0x53E58B",
+      "ownerInstallRva": "0x53E5BC",
+      "objectOwnerOffset": "0x3F0",
+      "eventStreamAttachmentProven": false,
+      "windows": [
+        {
+          "start": "0x53DC70",
+          "end": "0x53E773",
+          "sha256": "ad5de6f4c667efdb89b2b9d3d0445ae55e45fb7b9dc024f688e3e77b26ce8e75"
+        }
+      ]
+    },
+    {
+      "id": "mouse-buffering",
+      "confidence": "source-proven",
+      "recordSizes": [
+        320,
+        304
+      ],
+      "recordQueueRva": "0x7C0480",
+      "listenerDispatchRva": "0x7C1AD0",
+      "vtableCallRva": "0x7C1CC9",
+      "deferredFlushRva": "0x7C1D40",
+      "flushCallerRva": "0xFCA473",
+      "mouseMoveOnlyNamedEvent": true,
+      "buttonNamedLuaEventsProven": false,
+      "windows": [
+        {
+          "start": "0x7C0480",
+          "end": "0x7C0670",
+          "sha256": "dd34f629e839fa3297c0bd985bebcb1633591b7a47618efcd30bb84915a93669"
+        },
+        {
+          "start": "0x7C1AD0",
+          "end": "0x7C1E60",
+          "sha256": "d75676445a4c77bbb69c1e55c14d1b3784ce9e22fc8632ade54f9d8e5d69f23d"
+        },
+        {
+          "start": "0x7C1D40",
+          "end": "0x7C1E1D",
+          "sha256": "acd9156d25be9ac21cd0bd2ef188f02b2777ed09a6c8355f69bf2ac5b0eaabef"
+        },
+        {
+          "start": "0xFCA430",
+          "end": "0xFCA4B0",
+          "sha256": "b96fd43836c809d79b2e02f9792117aa6618ff40af45276ee02f26d72b70c931"
+        }
+      ]
+    }
+  ],
+  "originalHistoricalPe": {
+    "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "bytes": 59963840,
+    "staleRvas": [
+      "0x562BC0",
+      "0x6942A0",
+      "0x5765D0"
+    ]
+  },
+  "verification": {
+    "managerJobs": [
+      "rre-20261111-rc76-mgr-current-c2m-setting-root-independent-qa-001",
+      "rre-20261111-rc76-mgr-current-build-c2m-setter-independent-qa-001",
+      "rre-20261111-rc76-mgr-current-c2m-event-setter-join-independent-qa-001",
+      "rre-20261111-rc76-mgr-current-c2m-consumer-independent-qa-001",
+      "rre-20261111-rc76-mgr-c2m-native-callback-registration-independent-qa-001",
+      "rre-20261111-rc76-mgr-mouse-record-flush-independent-qa-001"
+    ],
+    "readOnlyAgents": 3,
+    "allPassed": true
+  },
+  "runtimeTestsPerformed": false,
+  "gameInputPerformed": false,
+  "remotePushed": false,
+  "priorities": [
+    "callback attachment/active-player ownership",
+    "bounded query/arrival/cancel qualification",
+    "coordinated physical LEGION movement-and-stop test"
+  ]
+}
