@@ -49,6 +49,16 @@ The candidate lookup runs after character-scoped SavedVariables load when a Warr
 
 RIFT writes character-scoped SavedVariables on a normal UI reload or logout; console “recorded” means in-memory only until then. The prior 69-ID capture and 1910-name probe must remain preserved. The current frame clock is **not UTC**.
 
+### Navigation API Markdown export (v0.4.19 source-only)
+
+After a **genuine** `/rre navigation` run and normal SavedVariables persistence, the offline exporter validates the original `RRECollector.lua` file before generating a research reference. From a Windows terminal in `C:\\work\\rre`:
+
+```powershell
+node.exe tools/export-rrecollector-navigation-api.mjs "C:\\verified\\path\\RRECollector.lua" --require-version 0.4.19 --output "C:\\work\\rre\\artifacts\\navigation-api.md"
+```
+
+Replace the sample input with the **actual** character-scoped original and verify its access is authorized. The tool binds the report to source SHA-256, producer version and probe sequence; verifies the 2,048-name scan limit, 96-name retention, 18-document cap and exact eight path types; labels incomplete scans; escapes Markdown/HTML-sensitive text; and refuses to overwrite an existing output. No Markdown library with claimed current-client facts exists until a genuine receipt is available. Node fixtures demonstrate parser/renderer behavior, **not** actual Lua or in-game API responses.
+
 ## On-screen research toolbar (v0.4.10 onward)
 
 - Eight icon slots display selected **API-known** abilities from the preserved catalog, with fallback names. Square icons have full borders, two independently measured caption lines and full-name/ID/status hover cards; pressing visibly offsets the icon; clicking selects and performs one guarded, read-only current `Inspect.Ability.New.Detail` check. Icons **never cast** spells.
