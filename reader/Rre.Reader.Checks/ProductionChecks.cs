@@ -226,6 +226,24 @@ public static class ProductionChecks
         BadDoc("production client version nested rejected", d=>d["context"]!["clientVersion"]=new JsonObject{["nested"]=new JsonObject()});
         BadDoc("production scalar map string byte limit rejected", d=>d["context"]!["stats"]=new JsonObject{["fixture"]=new string('é',129)});
         BadDoc("production string UTF8 byte limit rejected", d=>d["abilities"]![0]!["description"]=new string('é',2049));
+        Accept("saved ability UTF8 byte boundary accepted", () =>
+        {
+            var abilities = new JsonArray(new JsonObject
+            {
+                ["lookupId"] = "A0000000100000000",
+                ["description"] = new string('é',2048)
+            });
+            DataRules.Abilities(abilities);
+        });
+        Reject("saved ability UTF8 byte limit rejected across adapters", () =>
+        {
+            var abilities = new JsonArray(new JsonObject
+            {
+                ["lookupId"] = "A0000000100000000",
+                ["description"] = new string('é',2049)
+            });
+            DataRules.Abilities(abilities);
+        });
         BadDoc("production nested scalar rejected", d=>d["abilities"]![0]!["name"]=new JsonObject());
         BadDoc("production duplicate ID rejected", d=>d["abilities"]!.AsArray().Add(d["abilities"]![0]!.DeepClone()));
         BadBody("production unknown frame field rejected", b=>b["command"]="never");

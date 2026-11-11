@@ -303,10 +303,19 @@ if (invoked) {
     process.stderr.write("Usage: node tools/read-rrecollector-saved.mjs <RRECollector.lua> [static catalog JSON]\n");
     process.exitCode = 2;
   } else {
-    const bytes = fs.readFileSync(savedFile);
-    const saved = parseSavedLuaBytes(bytes);
-    const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
-    const digest = crypto.createHash("sha256").update(bytes).digest("hex");
-    process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
+    try {
+      const bytes = fs.readFileSync(savedFile);
+      const saved = parseSavedLuaBytes(bytes);
+      const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
+      const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+      process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
+    } catch (error) {
+      // Raw Node errors and parser diagnostics can reveal account paths or source text.
+      const reason = error?.code === "ENOENT" ? "saved-file-not-found"
+        : error?.code === "EACCES" || error?.code === "EPERM"
+          ? "saved-file-unreadable" : "saved-input-invalid";
+      process.stderr.write(JSON.stringify({error: reason}) + "\n");
+      process.exitCode = 2;
+    }
   }
 }

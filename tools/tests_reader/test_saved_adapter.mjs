@@ -42,6 +42,39 @@ test('saved-file CLI hides path details on errors and preserves --pins success',
     assert.equal(savedCliErrorReason(new Error('sensitive: '+missing)),'saved-input-invalid');
   } finally { fs.rmSync(dir,{recursive:true,force:true}); }
 });
+test('legacy saved crosswalk CLI redacts path and parser failures',()=>{
+  const script=path.resolve('tools/read-rrecollector-saved.mjs');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc48-cli-'));
+  const marker='private@example.invalid';
+  const missing=path.join(dir,marker,'RRECollector.lua');
+  const staticFile=path.join(dir,'static.json');
+  const run=file=>spawnSync(process.execPath,[script,file,staticFile],{encoding:'utf8'});
+  try {
+    fs.writeFileSync(staticFile,JSON.stringify({catalogVersion:'test-only',records:[]}));
+    const absent=run(missing);
+    assert.equal(absent.error,undefined);
+    assert.equal(absent.status,2);
+    assert.equal(absent.stdout,'');
+    assert.deepEqual(JSON.parse(absent.stderr),{error:'saved-file-not-found'});
+    assert.equal(absent.stderr.includes(marker),false);
+    assert.equal(absent.stderr.includes(missing),false);
+    const file=path.join(dir,'RRECollector.lua');
+    fs.writeFileSync(file,'RRECollectorData = { leaked = "'+marker+'", -- invalid Lua source\n');
+    const invalid=run(file);
+    assert.equal(invalid.status,2);
+    assert.equal(invalid.stdout,'');
+    assert.deepEqual(JSON.parse(invalid.stderr),{error:'saved-input-invalid'});
+    assert.equal(invalid.stderr.includes(marker),false);
+    fs.writeFileSync(file,source);
+    const valid=run(file);
+    assert.equal(valid.status,0);
+    assert.equal(valid.stderr,'');
+    const parsed=JSON.parse(valid.stdout);
+    assert.equal(parsed.savedSha256,crypto.createHash('sha256').update(source).digest('hex'));
+    assert.equal(parsed.counts.knownApi,1);
+    assert.equal(parsed.counts.staticCandidates,0);
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+});
 test('pin audit treats absent slots as auto-defaults without changing the C# snapshot schema',()=>{
   const p=pinAudit(source), original=read(source);
   assert.equal(p.adapterContract,'rre-saved-pins/1');

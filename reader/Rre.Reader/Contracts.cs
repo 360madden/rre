@@ -84,7 +84,7 @@ public static class DataRules
                 Require(value is JsonValue, "ability-field-not-scalar");
                 var scalar = (JsonValue)value!;
                 if (scalar.GetValueKind() == JsonValueKind.String)
-                    Require(Text(scalar, "ability-field-string").Length <= 4096, "ability-string-limit");
+                    Require(Encoding.UTF8.GetByteCount(Text(scalar, "ability-field-string")) <= 4096, "ability-string-limit");
                 else if (scalar.GetValueKind() == JsonValueKind.Number)
                     Require(scalar.TryGetValue<double>(out var number) && double.IsFinite(number), "ability-field-number");
                 else Require(scalar.GetValueKind() is JsonValueKind.True or JsonValueKind.False, "ability-field-not-scalar");
