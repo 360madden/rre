@@ -189,6 +189,9 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         image_bytes = (ui_dir / "before.png").read_bytes()
         check(sha256(image_bytes) == str(manifest["imageSha256"]).upper(),
               f"{name}: original image SHA mismatch")
+        check(result.get("status") == "completed-awaiting-visual-review"
+              and result.get("connectionClosed") is True,
+              f"{name}: capture not completed or connection still open")
         check(manifest.get("action") == "capture"
               and result.get("action") == "capture"
               and result.get("hostOnly") is True

@@ -85,6 +85,7 @@ class CorrelationTests(unittest.TestCase):
                       {"action": "capture", "imageSha256": sha256(contents)})
             self.save(f"{name}/result.json", {
                 "action": "capture", "hostOnly": True, "inputMayHaveBeenSent": False,
+                "status": "completed-awaiting-visual-review", "connectionClosed": True,
                 "consoleMutexReleased": True, "beforeIdentity": vm, "afterIdentity": vm,
             })
 
@@ -233,6 +234,24 @@ class CorrelationTests(unittest.TestCase):
         self.mutate("queue-ui-pre-read/result.json",
                     lambda x: x.update({"inputMayHaveBeenSent": True}))
         with self.assertRaisesRegex(EvidenceError, "not an input-free"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_failed_capture_status_rejected(self) -> None:
+        self.mutate("queue-ui-post-read/result.json",
+                    lambda x: x.update({"status": "failed"}))
+        with self.assertRaisesRegex(EvidenceError, "capture not completed"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_missing_capture_status_rejected(self) -> None:
+        self.mutate("queue-ui-pre-read/result.json",
+                    lambda x: x.pop("status"))
+        with self.assertRaisesRegex(EvidenceError, "capture not completed"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_unclosed_capture_connection_rejected(self) -> None:
+        self.mutate("queue-ui-post-read/result.json",
+                    lambda x: x.update({"connectionClosed": False}))
+        with self.assertRaisesRegex(EvidenceError, "capture not completed"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_unqualified_value_rejected(self) -> None:
