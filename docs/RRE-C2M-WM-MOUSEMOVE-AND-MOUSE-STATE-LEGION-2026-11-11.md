@@ -1,3 +1,5 @@
+> **RC-75 supersession (2026-11-11):** `0x7C1642` is now source-verified as the Win32 `WM_MOUSEWHEEL` (`0x20A`) branch, and compiled native code `0x9B34C3→0x9AC1D0` plus `0x9B34D1→0xA0CD80` proves the static `Inspect_Mouse` name/function registration. The earlier unresolved-selector and unproven-registration caveats below are historical at RC-74; **runtime Lua behavior and actor/camera movement remain untested**. See `RRE-RC75-NATIVE-MOUSE-REGISTRATION-BUTTON-BRANCHES-C2M-BUILD-COMPAT-LEGION-2026-11-11.md`.
+
 # RRE RC-74 — Windows `WM_MOUSEMOVE` to native mouse-state result (LEGION)
 
 **Date:** 2026-11-11 ~12:58 EST · **Mode:** offline, read-only PE inspection · **Outcome:** proved a Windows mouse-message coordinate writer and a five-button named-result reader. **Not proven:** player turning, camera yaw, physical mouse behavior on this LEGION session, exact Lua function registration or in-game movement/stop.

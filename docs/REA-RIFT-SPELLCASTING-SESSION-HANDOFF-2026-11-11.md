@@ -1,3 +1,23 @@
+# RRE RC-75 — native Inspect_Mouse registration + button-message source; reject stale C2M offsets (LEGION, 2026-11-11 ~13:16 EST)
+
+> **Two source-proven advances:** original compiled native code at `0x9B34C3` passes exact `0x9AC1D0` mouse builder as the function pointer while `0x9B34D1` registers an `Inspect_Mouse` name; a native Win32 jump table maps `WM_*BUTTONDOWN/UP` to record types 1/2 and subcodes 1/2/4/8/16. A third precise correction: `0x7C1642` is `WM_MOUSEWHEEL`, and historical C2M setter/callback RVAs belong to a different executable. **No current-build actor/camera turning, game movement or live Lua execution is established.**
+
+## Fresh RC-75 checkpoint
+
+- Verified **LEGION** only via `rre-20261111-rc74-identity-001`; original installed 60,493,640-byte PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, all addresses RVA. RC-74 HEAD `bb8cb27134a8c7e87e1ba05de206f78aaee55ea7`; no VM, AMD, live game, provider, network push or other project edits.
+- Native registration: full `[0x9B18F7,0x9B34D6)` exact-source decode (7,135 bytes, 1,703 instructions) and decisive `[0x9B3495,0x9B34D6)`; `0x9B34BE` name construction, `0x9B34C3` LEA **`0x9AC1D0`**, `0x9B34D1` registration wrapper `0xA0CD80`. Exact literals `Inspect_Mouse`, `Inspect.Mouse`, `results@mouse`. This closes RC-74’s *static registration* uncertainty but not runtime invocation.
+- Native Win32 entry `0x7C0F4D`, branch tables `0x7C1928`/`0x7C18FC`, 8 button up/down branches → type1/2 records with flags 1/2/4/8|16; `0x20A` is `WM_MOUSEWHEEL` at `0x7C1642` with separate `ScreenToClient`. Earlier `WM_MOUSEMOVE=0x200` branch remains distinct. Manager passed independent disassembly/hash QA for registration, message table, all eight bodies and C2M mismatch; three bounded read-only agents.
+- **Old RVA incompatibility**: prior PE SHA `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`, length 59,963,840; old destination setter `0x562BC0` and callback `0x6942A0` are unrelated code in current SHA. Current `0x546830` clears flag bit0 in state+0x1A8 but is only an **unproven C2M candidate**.
+- Full evidence and exact source-window hashes: `docs/RRE-RC75-NATIVE-MOUSE-REGISTRATION-BUTTON-BRANCHES-C2M-BUILD-COMPAT-LEGION-2026-11-11.md` and paired `.json`. Do not use old C2M RVAs at runtime without rediscovery; no game input/process memory test.
+
+## Next practical priorities
+
+1. Find this build’s actual C2M destination setter and native caller; require field provenance and hash-gated addresses, not RVA copying.
+2. Complete the button native-record to Lua subscriber route with conditional dispatch boundaries preserved.
+3. Later, coordinate a bounded physical LEGION snapshot/gesture/XYZ test, notifying before addon reload/restart and verifying actual movement.
+
+## Preserved RC-74 checkpoint
+
 # RRE RC-74 — original Windows mouse event and five named buttons (LEGION, 2026-11-11 ~12:58 EST)
 
 > **Two proven native-source breakthroughs:** a real Win32 `WM_MOUSEMOVE` (`0x200`) case in `0x7C0BB0` passes packed coordinates to `0x7C0680`, which writes receiver+0x30/+0x34 and type-3 record fields; a separate native `results@mouse` builder `0x9AC1D0` exposes x/y plus five named button flags (Left, Right, Middle, Mouse4, Mouse5) from owner+0x1C0..1C4. RC-73 downstream `Event Mouse_Move` is now source-linked to a concrete Windows message case. **Still not** camera turning, player locomotion or current LEGION Lua runtime proof.

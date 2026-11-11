@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-75",
+  "dateUtc": "2026-11-11",
+  "host": "LEGION",
+  "mode": "static-read-only",
+  "source": {
+    "file": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "imageBase": "0x140000000",
+    "addressConvention": "RVA"
+  },
+  "findings": [
+    {
+      "id": "rc75.inspect-mouse-registration",
+      "claim": "native binding name Inspect_Mouse associates exact builder 0x9AC1D0 via 0x9B34D1 call 0xA0CD80",
+      "confidence": "verified-static",
+      "registrationRva": "0x9B34D1",
+      "functionPointerLoadRva": "0x9B34C3",
+      "builderRva": "0x9AC1D0",
+      "literalRva": "0x26D6070",
+      "metadata": [
+        {
+          "pointerRva": "0x2F63F48",
+          "name": "Inspect.Mouse",
+          "stringRva": "0x26D7D98"
+        },
+        {
+          "pointerRva": "0x2F63F50",
+          "name": "results@mouse",
+          "stringRva": "0x26D7DB8"
+        }
+      ],
+      "sourceWindows": [
+        {
+          "start": "0x9B18F7",
+          "end": "0x9B34D6",
+          "sha256": "4814af543e10c690ab937bf61a1e067021f2d7df3c29c08b1620664269e7ed3b"
+        },
+        {
+          "start": "0x9B3495",
+          "end": "0x9B34D6",
+          "sha256": "fce330f92e99f994154afdfe9dd338aa664d05fe69ddd3021940cfca58ce7691"
+        },
+        {
+          "start": "0xA0CD80",
+          "end": "0xA0CE64",
+          "sha256": "aa3e77220ff560d8b4b69a908e9294a6ad793be29db1467ac5adea2bf48dbcde"
+        }
+      ],
+      "runtimeInvoked": false
+    },
+    {
+      "id": "rc75.win32-buttons",
+      "claim": "Win32 dispatch table maps left/right/middle/X buttons down/up to type1/type2 with masks 1/2/4/8|16",
+      "confidence": "verified-static",
+      "jumpTables": [
+        {
+          "start": "0x7C1928",
+          "end": "0x7C19AA",
+          "sha256": "770367361163fd8f09255565dd28c6e7589c47eccc52e55c371759c29bab376f"
+        },
+        {
+          "start": "0x7C18FC",
+          "end": "0x7C1928",
+          "sha256": "755b1181d47e5ac7ae9cdd78ff447238f5fb65bcdaf5e74e481bed5107bf74a7"
+        }
+      ],
+      "windowsMessages": [
+        {
+          "message": "WM_LBUTTONDOWN",
+          "id": "0x201",
+          "targetRva": "0x7C0F84",
+          "nativeRecordType": 1,
+          "buttonSubcode": 1,
+          "branchWindow": {
+            "start": "0x7C0F84",
+            "end": "0x7C105B",
+            "sha256": "83098a33e2a981ec3f06822b1bb40c7b3974a8590733c6956b4377f538df45bd"
+          }
+        },
+        {
+          "message": "WM_LBUTTONUP",
+          "id": "0x202",
+          "targetRva": "0x7C105B",
+          "nativeRecordType": 2,
+          "buttonSubcode": 1,
+          "branchWindow": {
+            "start": "0x7C105B",
+            "end": "0x7C113A",
+            "sha256": "38f0efc1a0fcfc5199af15fa5068603ae1c86790c2c61a1d818f3ca177151027"
+          }
+        },
+        {
+          "message": "WM_RBUTTONDOWN",
+          "id": "0x204",
+          "targetRva": "0x7C113A",
+          "nativeRecordType": 1,
+          "buttonSubcode": 2,
+          "branchWindow": {
+            "start": "0x7C113A",
+            "end": "0x7C1215",
+            "sha256": "cad5df846a847de2e84b207cd7c2c75a72f64baa8f7c747befac4a6fc8e72b87"
+          }
+        },
+        {
+          "message": "WM_RBUTTONUP",
+          "id": "0x205",
+          "targetRva": "0x7C1215",
+          "nativeRecordType": 2,
+          "buttonSubcode": 2,
+          "branchWindow": {
+            "start": "0x7C1215",
+            "end": "0x7C12BD",
+            "sha256": "9dfa7853ecad46ebad7cce24c534f65473a66b5e4f7469c1f915a3d2376bc2b0"
+          }
+        },
+        {
+          "message": "WM_MBUTTONDOWN",
+          "id": "0x207",
+          "targetRva": "0x7C12BD",
+          "nativeRecordType": 1,
+          "buttonSubcode": 4,
+          "branchWindow": {
+            "start": "0x7C12BD",
+            "end": "0x7C1398",
+            "sha256": "a9f6b8afb26309f8165952fb3bb7ddda2b6523e1ee925a37aa2475853c4d9713"
+          }
+        },
+        {
+          "message": "WM_MBUTTONUP",
+          "id": "0x208",
+          "targetRva": "0x7C1398",
+          "nativeRecordType": 2,
+          "buttonSubcode": 4,
+          "branchWindow": {
+            "start": "0x7C1398",
+            "end": "0x7C147B",
+            "sha256": "b2e5abe6a5f46460b5b713a22912b2b42305588f0398ab8a4748475a5e7bee05"
+          }
+        },
+        {
+          "message": "WM_XBUTTONDOWN",
+          "id": "0x20B",
+          "targetRva": "0x7C147B",
+          "nativeRecordType": 1,
+          "buttonSubcode": "8|16",
+          "branchWindow": {
+            "start": "0x7C147B",
+            "end": "0x7C1592",
+            "sha256": "1795da87fadacfbce737d4e836d791ad08608706905991274315b3e0472fca4d"
+          }
+        },
+        {
+          "message": "WM_XBUTTONUP",
+          "id": "0x20C",
+          "targetRva": "0x7C1592",
+          "nativeRecordType": 2,
+          "buttonSubcode": "8|16",
+          "branchWindow": {
+            "start": "0x7C1592",
+            "end": "0x7C1642",
+            "sha256": "95a85bf30fde312545e3dcfbfef3c5316e8893a4621e999e8de5a6968ee04b40"
+          }
+        },
+        {
+          "message": "WM_MOUSEWHEEL",
+          "id": "0x20A",
+          "targetRva": "0x7C1642",
+          "nativeRecordType": null,
+          "buttonSubcode": null,
+          "branchWindow": null
+        }
+      ],
+      "sharedDispatchCallRva": "0x7C17F2",
+      "recordDispatchTargetRva": "0x7C0480",
+      "screenToClientSelectorProven": "WM_MOUSEWHEEL 0x20A"
+    },
+    {
+      "id": "rc75.click-to-move-drift",
+      "claim": "old C2M addresses are invalid on installed LEGION executable",
+      "confidence": "verified-static-mismatch",
+      "historicalPe": {
+        "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+        "bytes": 59963840
+      },
+      "invalidOldRvas": [
+        {
+          "rva": "0x562BC0",
+          "currentWindowSha256": "5ba3cb6367634f38fa000d889a4748872887d62f69ed91cce432d6cbfd68a059"
+        },
+        {
+          "rva": "0x6942A0",
+          "currentWindowSha256": "4ec2fa53ae5b1b9e902fa7615ac1d6f46521db62ca8815af194b889d0b116d4c"
+        }
+      ],
+      "candidateOnly": {
+        "rva": "0x546830",
+        "flagRva": "0x5468CD",
+        "context": "reads state from this+0xB90, clears bit0 at state+0x1A8",
+        "sourceWindowSha256": "7eeedd77f0d97421aa48eae8a522d37d6b63adddb416dd1d24aed4e60f02826f",
+        "functionSha256": "9e2ef685c88e4543ac7bb5d2a7f39029df0007bd5dcc3d40f6c9c33a8c8d4f66",
+        "identityAsSetterProven": false
+      }
+    }
+  ],
+  "managerVerificationJobs": [
+    "rre-rc75-mgr-inspect-mouse-registration-independent-qa-20261111-01",
+    "rre-rc75-mgr-native-mouse-builder-metadata-precision-20261111-01",
+    "rre-rc75-mgr-mouse-buttons-jumptable-independent-qa-20261111-01",
+    "rre-rc75-mgr-button-record-types-source-qa-20261111-01",
+    "rre-rc75-mgr-old-c2m-offsets-independent-qa-20261111-01"
+  ],
+  "runtimeTestsPerformed": false,
+  "changedRuntimeOrAddon": false,
+  "pushed": false,
+  "priorities": [
+    "current-build C2M setter/caller source proof",
+    "exact native-to-Lua event wiring",
+    "controlled physical LEGION trace only after coordination"
+  ]
+}
