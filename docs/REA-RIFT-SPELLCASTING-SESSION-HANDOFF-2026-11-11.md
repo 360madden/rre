@@ -1,3 +1,18 @@
+# RRE RC-60 — input/state transition gate qualified (LEGION, 2026-11-11 ~10:40 EST)
+
+> **Accepted static result:** Event-7's same-receiver follow/destination clear is conditional on `0x6A98C0`, which samples numeric indexed conditions and detects cached-bit transitions or special side effects. It is **not** proven to be a physical input key, player-owned callback, or real stop.
+
+## Fresh RC-60 checkpoint
+
+- **Host/source:** LEGION physically verified; current `rift_x64.exe` SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; local RRE main starting clean HEAD `1b37379ad4652267606e08b2b51e99e69c33ab25` (15 ahead). Recheck actual Git HEAD/status after this milestone.
+- **Gate:** Event7 caller `0x6A8899` invokes `0x6A98C0` with EDx=0, saves returned AL in BL, then `0x6A88AB` tests it before the clear calls. Gate unwind `[0x6A98C0,0x6A9B0E)`, 590B/186 instructions, SHA `3f10a058b42ec0145fbf7de76fd8d42d3d367af1110be071bf9b13db711ffb32`. It compares indices 2,3,6,7,4,5 to bit cache `this+0x0C` and tests 8/16 with special `this+0x0D` flags. A cached change or special helper branch returns AL=1.
+- **Index helper:** `[0x7C97E0,0x7C98CD)`, 237B/74 instructions, SHA `0b2676dcc89d521b6795a826c851d6756c1e8157779acccd8ab314354ae94250`: ordered tree lookup by index and condition evaluation, **not physical-key identity proof**. Companion `0x6A8FC0` first unwind only 102B/30 instructions, SHA `b14f1dfc92c259413990403af5df8c23b101b045b055bafc6fd0bb3b1f673441`, accesses the same `this+0x10` receiver and state.
+- **Verification:** read-only agent jobs `rre-rc60-gate-pdata-20261111-01` and `rre-rc60-gate-index-helper-20261111-01` exit0; manager independent 3/3 source-hash and complete 290-instruction recheck `rre-rc60-manager-two-helper-independent-20261111-01` exit0; focused gate and map jobs exit0. No game input, reload, process attach, PC/VM crossing, install, network push.
+- **Deliverables:** `docs/RRE-C2M-TRANSITION-GATE-LEGION-2026-11-11.md`, same-basename `.json`, this handoff. Sole manager owns repository writes. Prior RC-59, RC-58 source receipts preserved.
+- **Next ranked:** (1) indexed-condition owner/source `0x6A9C10` with bounded branch; (2) callback/receiver `this+0x10` identity; (3) separately authorized physical-client v0.4.19 navigation receipt and actual movement/stop correlation. No Ghidra bulk import or speculative key labels.
+
+## Preserved RC-59 checkpoint
+
 # RRE RC-59 — event-7 same-receiver state clear and native 2D-to-3D projection (LEGION, 2026-11-11 ~10:35 EST)
 
 > **New accepted static breakthrough:** The same `this+0x10` receiver used by the RC-58 event-type-2 destination setter reaches **follow-clear `0x5460A0` and destination-clear `0x546830`** on a separately guarded event-type-7 path. A two-dimensional bounded coordinate projector `0x1154840` and wrapper `0xF903D0` are now original-byte qualified. Still no actual runtime cancellation/player ownership.
