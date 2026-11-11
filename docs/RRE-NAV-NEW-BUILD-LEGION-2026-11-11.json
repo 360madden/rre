@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-55",
+  "capturedLocal": "2026-11-11T07:15:00-05:00",
+  "host": "LEGION",
+  "scope": "physical-RIFT-current-installed-PE-static-requalification",
+  "method": "read-only exact-source SHA256, pefile .pdata bounds, Capstone disassembly and RIP-relative xref validation; no Ghidra import",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "historicalNavigationBuildSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+    "runningProcessPathMatched": true,
+    "observedPid": 22648,
+    "loadedImageByteIdentityVerified": false
+  },
+  "anchors": [
+    {
+      "name": "TtPathfinding",
+      "stringRva": "0x2dccf38",
+      "oldStringRva": "0x2d51598",
+      "oldLabelReferenceRva": "0xf4089",
+      "leaRvas": [
+        "0x102719"
+      ],
+      "role": "type-7 label; not a handler"
+    },
+    {
+      "name": "TtRayCast Query",
+      "stringRva": "0x2dccf00",
+      "oldStringRva": "0x2d51560",
+      "oldLabelReferenceRva": "0xf4123",
+      "leaRvas": [
+        "0x1027b3"
+      ],
+      "role": "type-3 label; not a handler"
+    },
+    {
+      "name": "Misc_EnableClickToMove",
+      "stringRva": "0x26ec228",
+      "oldStringRva": "0x26851f8",
+      "leaRvas": [
+        "0xbd10fe",
+        "0xbd1126",
+        "0xbd74e8"
+      ],
+      "role": "setting literal; no game-input trace"
+    }
+  ],
+  "dispatch": {
+    "unwindRange": [
+      "0x102634",
+      "0x10288f"
+    ],
+    "type7LabelBranchRva": "0x1026fc",
+    "type7LeaRva": "0x102719",
+    "type3LabelBranchRva": "0x10279a",
+    "type3LeaRva": "0x1027b3",
+    "typeReadRva": "0x102814",
+    "subtypeReadRva": "0x102819",
+    "typeReadInstructionBytes": "0fb64c2421",
+    "subtypeReadInstructionBytes": "440fb6442420",
+    "shiftRva": "0x102824",
+    "shiftInstructionBytes": "48c1e105",
+    "shift": "jobType*0x20",
+    "tableLoad": {
+      "rva": "0x102828",
+      "bytes": "488b843930010000",
+      "instruction": "mov rax, qword ptr [rcx+rdi+0x130]"
+    },
+    "indirectCall": {
+      "rva": "0x102833",
+      "bytes": "42ff14c0",
+      "instruction": "call qword ptr [rax+r8*8]"
+    },
+    "type7TableOffset": "0x210",
+    "type3TableOffset": "0x190",
+    "claim": "static type-select and per-type table-indexed indirect dispatch; handler implementation/registration unresolved"
+  },
+  "clickToMoveSetting": {
+    "sourceLiteralRva": "0x26ec228",
+    "settingRootRva": "0x33958c0",
+    "rootReadRva": "0xbd1136",
+    "flagCompareRva": "0xbd113d",
+    "flagWriteRva": "0xbd114a",
+    "flagByteOffset": "0x146",
+    "dirtyFlagBit": 3,
+    "dirtySetRva": "0xbd1155",
+    "adjacentSettingByteOffset": "0x147",
+    "claim": "static setting flag dataflow only, current value and movement effect unverified"
+  },
+  "evidenceJobs": [
+    "rre-rc55-native-current-exe-sha-20261111",
+    "rre-rc55-native-running-rift-process-20261111",
+    "rre-rc55-native-newbuild-nav-literals-20261111",
+    "rre-rc55-native-newbuild-nav-lea-xrefs-20261111",
+    "rre-rc55-native-newbuild-nav-call-context-20261111",
+    "rre-rc55-native-newbuild-dispatch-settings-slice-20261111",
+    "rre-rc55-native-newbuild-dispatch-tail-20261111"
+  ],
+  "negativeClaims": {
+    "gameInputSent": false,
+    "debuggerOrProcessAttachment": false,
+    "memoryWritten": false,
+    "fullGhidraImport": false,
+    "vmAccess": false,
+    "runtimePathfindingProven": false,
+    "c2mPlayerUseProven": false,
+    "staticPointerChainRequalified": false
+  },
+  "limitations": [
+    "Original new-build PE was read in place, not copied to repository",
+    "PE unwind bounds and linear disassembly do not prove runtime branch reachability",
+    "Current RIFT process path matches install but in-memory image bytes and in-world readiness not checked",
+    "Old queue type-7 label/table-index logic is independently requalified on new hash, not handler registration, route semantics or player control"
+  ]
+}

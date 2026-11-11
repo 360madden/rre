@@ -1,4 +1,4 @@
-# RC-33: bounded RRECollector-only deployment to LEGION's verified OneDrive AddOns root.
+# RC-55: bounded RRECollector v0.4.19-only deployment to LEGION's verified OneDrive AddOns root.
 # Preflight by default. Use -Deploy after strict source package validation.
 param([switch]$Deploy)
 $ErrorActionPreference = "Stop"
@@ -30,8 +30,13 @@ $oldVersion = $Matches[1]
 if ($sourceToc -notmatch 'Version\s*=\s*"([0-9]+\.[0-9]+\.[0-9]+)"') { throw "INVALID_SOURCE_VERSION" }
 $newVersion = $Matches[1]
 Write-Output "Machine=LEGION; target=$target; installed=$oldVersion; source=$newVersion; files=$($names.Count)"
+if ($newVersion -ne "0.4.19") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
+# Enforce the strict manifest, source-version, module-order and package checks
+# in both preflight and deploy modes; a successful copy alone is not a load proof.
+$gateOutput = & node.exe (Join-Path $repo "tools\verify-rrecollector-package.mjs") 2>&1
+if ($LASTEXITCODE -ne 0) { throw "SOURCE_PACKAGE_GATE_FAILED: $gateOutput" }
+Write-Output "SOURCE_PACKAGE_VERIFIED=$newVersion"
 if (-not $Deploy) { Write-Output "PREFLIGHT_OK_NO_FILES_CHANGED"; exit 0 }
-if ($newVersion -ne "0.4.18") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
 $backup = Join-Path $repo ("artifacts\RRECollector-installed-v" + ($oldVersion -replace '\.', '') +
     "-LEGION-" + (Get-Date -Format "yyyyMMdd-HHmmss-fff"))
 [void](New-Item -ItemType Directory -Path $backup -ErrorAction Stop)

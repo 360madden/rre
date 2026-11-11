@@ -1,4 +1,28 @@
-# RRE RC-54 — Navigation API Markdown exporter handoff (LEGION, 2026-11-11 00:04 EST)
+# RRE RC-55 — new-build NAV dispatch evidence and v0.4.19 readiness (LEGION, 2026-11-11 ~07:16 EST)
+
+> **New accepted offline result:** The current LEGION physical RIFT executable's type-7 `TtPathfinding` label and type-indexed dispatch pattern were requalified on SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. This is **static code behavior only**; navigation handler registration and live movement are still unverified. The current SHA was already documented October 27; new in RC-55 is the selected navigation requalification.
+
+## Fresh RC-55 evidence and changes
+
+- Independently verified machine via LEGION Workbridge `hostname.exe`. Only LEGION connector/physical RIFT path; no AMD-DESKTOP, VM lab, game input, UI reload, debugger, native memory write, live deployment, dependency installation or Git push.
+- Physical `rift_x64.exe` PID 22648 path matches the current installed executable, 60,493,640 bytes. In-memory binary identity, current playable scene and addon load remain **unverified**.
+- **Native breakthrough:** original-PE pathfinding/raycast strings at `0x2DCCF38`/`0x2DCCF00`; corresponding instruction-aligned RIP references at `0x102719`/`0x1027B3`. Exact build dispatch type7 uses `dispatcher+0x130+7*0x20 = +0x210` then indirect subtype handler call at `0x102833`. Click-to-move setting literal `0x26EC228`, root-pointer RVA `0x33958C0`, setting byte `+0x146` compared/written at `0xBD113D/0xBD114A`. Old-build source RVAs and static pointers are not portable. Full source-bound evidence: `docs/RRE-NAV-NEW-BUILD-LEGION-2026-11-11.md` and `.json`, job IDs included there.
+- Independent manager original-PE byte check `rre-rc55-native-byte-independent-confirm-20261111` **exit0**, hash rechecked, **7/7 exact opcode bytes decoded correctly** in Capstone. No generic/native import attempted.
+- **RC-55 release preflight:** `tools/deploy-rrecollector-onedrive.ps1` now gates solely v0.4.19 and calls strict source package validator before both preflight/deploy. Read-only `pwsh.exe` preflight `rre-rc55-v0419-deploy-preflight-readonly-20261111` **exit0**: installed v0.4.18 / source v0.4.19 / 11 expected files / strict source passed / `PREFLIGHT_OK_NO_FILES_CHANGED`. Direct package validator `rre-rc55-v0419-strict-package-20261111` exit0 with 11 sources. **No deployment took place.**
+- **RC-55 exporter fix:** `tools/export-rrecollector-navigation-api.mjs` now renders producer-permitted backticks as Markdown-escaped text rather than malformed code spans. Independent bug reproduction `rc55-agent-backtick-repro-11`; added regression in `tools/test-export-rrecollector-navigation-api.mjs`.
+- Tests: focused RC-55 exporter **11/11** (`rre-rc55-export-backtick-tests-20261111`); combined four relevant Node suites **53/53** (`rre-rc55-node-four-suites-20261111`); `git diff --check` exit0 with Git's nonfatal LF/CRLF warnings. Existing .NET production 97/97 pass is a *prior RC-53 record*, not retested for RC-55.
+- Read-only reviewers: native original-byte investigation (7 primary job receipts); independent collector/exporter source review; live-receipt availability audit. Sole manager made all repository writes.
+- Starting HEAD `2f68afa82e52f5ba8b79823e1d9e4d3df486462b` on `main` (previous RC-54), originally clean and 10 ahead of origin. RC-55 changed files: `tools/deploy-rrecollector-onedrive.ps1`, `tools/export-rrecollector-navigation-api.mjs`, `tools/test-export-rrecollector-navigation-api.mjs`, `docs/RRE-NAV-NEW-BUILD-LEGION-2026-11-11.md`, `docs/RRE-NAV-NEW-BUILD-LEGION-2026-11-11.json`, this handoff. Inspect current Git HEAD/status after local RC-55 commit; no remote publication.
+- Live API capture still blocked: last documented installed v0.4.18 has no v0.4.19 `navigationProbe`; Workbridge roots list only `C:\work`, so original Documents\RIFT SavedVariables cannot be read through root-scoped APIs. Do not invent API observations or circumvent root policy.
+
+## Three prioritized next decisions
+
+1. **P1 — Real API:** With separately confirmed release authority, use v0.4.19 scripted backup+hash deployment, **operator** /rre navigation and normal game save, then authorized original SavedVariables acquisition and strict Markdown export. Preflight success is not install/load proof.
+2. **P2 — Native discovery:** From the newly requalified `+0x210` dispatch and `+0x146` C2M setting anchors, select the *smallest* handler registration/producer or current-build destination setter probe. Do not resume broad type-7 scans or full Ghidra import.
+3. **P3 — Coverage quality:** Once an authentic navigation index exists, decide whether the 18-document ordering oversamples generic spatial APIs and starves NPC/other-target details; do not expand a synthetic-only atlas spec prematurely.
+
+## Prior RC-54 exporter checkpoint (preserved)
+
 
 > Source-only/offline milestone. The physical RIFT client has **not** produced a v0.4.19 navigation receipt. The exporter is implemented and tested with **synthetic fixtures only**; it does not assert current API facts.
 

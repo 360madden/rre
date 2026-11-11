@@ -163,7 +163,9 @@ export function renderNavigationMarkdown(receipt) {
       summary=cell(d.text)+(d.textTruncated?" … [truncated]":"");
     else if(d?.status==="error") summary="Documentation query errored";
     else if(d?.status==="other") summary="Documentation returned "+cell(d.returnType);
-    lines.push("| "+(i+1)+" | `"+cell(name)+"` | "+summary+" |");
+    // Producer-permitted backticks must stay in escaped Markdown text, not
+    // an inline-code span (backslash escapes are inert inside code spans).
+    lines.push("| "+(i+1)+" | "+cell(name)+" | "+summary+" |");
   });
   if(receipt.names.length===0)
     lines.push("| — | No retained names | Documentation index unavailable or no matching names |");

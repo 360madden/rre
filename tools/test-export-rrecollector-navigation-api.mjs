@@ -79,6 +79,15 @@ test("producer-permitted non-ASCII and punctuation names are not falsely rejecte
   assert.deepEqual(result.names,names);
   assert.match(renderNavigationMarkdown(result),/Position-É/);
 });
+test("producer-permitted backticks in API names cannot break Markdown table cells",()=>{
+  const name="Inspect.Unit.Name`Odd";
+  const md=renderNavigationMarkdown(summarize({names:["Inspect.Unit.Detail",name],
+    scanned:3,matched:2,ignored:1}));
+  const row=md.split("\n").find(line=>line.startsWith("| 2 | "));
+  assert.ok(row);
+  assert.equal(row.split(" | ")[1],"Inspect.Unit.Name\\`Odd");
+  assert.doesNotMatch(row,/\| 2 \| `/);
+});
 test("96-name retention and 2048-name scan flags are qualified partial",()=>{
   const names=Array.from({length:96},(_,i)=>`Inspect.Map.Item${String(i).padStart(3,"0")}`);
   const result=summarize({names,scanned:97,matched:97,ignored:0,truncated:1});
