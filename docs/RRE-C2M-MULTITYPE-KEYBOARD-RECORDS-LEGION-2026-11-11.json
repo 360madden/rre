@@ -1,0 +1,109 @@
+{
+  "milestone": "RC-67",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "bytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "repository": {
+    "path": "C:\\work\\rre",
+    "branch": "main",
+    "startingHead": "d866db5b7306a6441a220fceaf9a9e52d5862f30"
+  },
+  "windows": [
+    {
+      "name": "type5_and_type7_producer",
+      "start": "0xFB6D6D",
+      "end": "0xFB6E9C",
+      "bytes": 303,
+      "instructions": 56,
+      "sha256": "91a114412e6a22966ae438c906274d7fe0f2a6a680ac0d4946349f5f47751da2"
+    },
+    {
+      "name": "type5_type6_type7_producer",
+      "start": "0xFB51BF",
+      "end": "0xFB5309",
+      "bytes": 330,
+      "instructions": 69,
+      "sha256": "6a252cb8f8999db41ea32ff484a75b1d5ce2f0331175a8ba8138aa165f34f39d"
+    }
+  ],
+  "recordTypes": [
+    {
+      "type": 5,
+      "producerRVAs": [
+        "0xFB6D9B",
+        "0xFB51E2"
+      ],
+      "keyboardState": true,
+      "memcpy256": true,
+      "mode2Translation": true,
+      "wrapper": "0x7C1AC0"
+    },
+    {
+      "type": 6,
+      "producerRVAs": [
+        "0xFB5255",
+        "0xFB6CA6"
+      ],
+      "keyboardState": true,
+      "memcpy256": true,
+      "mode2TranslationObserved": false,
+      "wrapper": "0x7C1AC0"
+    },
+    {
+      "type": 7,
+      "producerRVAs": [
+        "0xFB6E2B",
+        "0xFB52B1"
+      ],
+      "keyboardState": true,
+      "memcpy256": true,
+      "mode2Translation": true,
+      "wrapper": "0x7C1AC0"
+    }
+  ],
+  "commonProvenChain": {
+    "api": "USER32.dll!GetKeyboardState",
+    "iatRva": "0x25EFD68",
+    "recordBuilder": "0x7C0200",
+    "recordCopy": "0x7C21F0",
+    "payloadOffset": "0x19",
+    "bytes": 256,
+    "receiverAccessor": "0x7A3500",
+    "handlerWrapper": "0x7C1AC0",
+    "writer": "0x7C1AD0",
+    "receiverTableOffset": "0xA41"
+  },
+  "mode2": {
+    "api": "USER32.dll!MapVirtualKeyW",
+    "iatRva": "0x25EFC68",
+    "mode": 2,
+    "modeName": "MAPVK_VK_TO_CHAR",
+    "recordCharOffsetVerifiedInSourceA": "0x120"
+  },
+  "confidence": "static_original_PE_dataflow_proven_no_live_semantics",
+  "limitations": [
+    "Record 5/6/7 meanings such as down/up/repeat unproved",
+    "Key 8 in record field is not a proven physical key",
+    "No movement/stop input accepted or active player owner proven"
+  ],
+  "jobs": {
+    "source": [
+      "rre-rc67-osvk-second-caller-selected-pdata-20261111-01",
+      "rre-rc67-b-keyboardstates-three-calls-20261111-01"
+    ],
+    "manager": [
+      "rre-rc67-manager-two-producers-independent-20261111-01",
+      "rre-rc67-manager-record-code-mask-precision-20261111-01"
+    ],
+    "qa": [
+      "rre-rc67-qa-all-original-windows-20261111-01",
+      "rre-rc67-qa-original-win32-imports-20261111-01"
+    ]
+  }
+}
+

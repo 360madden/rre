@@ -1,3 +1,15 @@
+# RRE RC-67 — three native Win32 keyboard record types 5/6/7 (LEGION, 2026-11-11 ~11:38 EST)
+
+> **Accepted original-PE extension:** Two more source-qualified GetKeyboardState producers prove numeric typed records 5, 6 and 7 each carry 256B keyboard snapshot and call the same `0x7C1AC0` receiver writer already closed in RC-66. Types5/7 also map Win32 virtual-key to character through `MapVirtualKeyW(...,2)` in selected branches; type6 does not in selected branches. Numeric meanings, physical key actions and movement/stop still unproven.
+
+## Fresh RC-67 checkpoint
+
+- Host LEGION only, same original physical RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; starting clean RRE main HEAD `d866db5b7306a6441a220fceaf9a9e52d5862f30` (22 ahead). No game input/process/UI, AMD/VM, installers, provider calls, other repo writes or remote push.
+- Two complete original producer windows: `[0xFB6D6D,0xFB6E9C)` 303B/56 SHA `91a114412e6a22966ae438c906274d7fe0f2a6a680ac0d4946349f5f47751da2`; `[0xFB51BF,0xFB5309)` 330B/69 SHA `6a252cb8f8999db41ea32ff484a75b1d5ce2f0331175a8ba8138aa165f34f39d`. Native receiver dataflow and mode2 characters independently checked.
+- Three read-only agents; manager independent hashes/callcodes/OS IAT, jobs `rre-rc67-manager-two-producers-independent-20261111-01` and `rre-rc67-manager-record-code-mask-precision-20261111-01` exit0. RC-66 independent audit rechecked all 10 old source windows (683 original instructions), imports and semantics, no material defect; report `docs/RRE-C2M-MULTITYPE-KEYBOARD-RECORDS-LEGION-2026-11-11.md` + `.json`.
+- Ranked next: (1) separately authorized passive physical RRECollector keyboard snapshot versus current SavedVariables; (2) one discriminating active receiver/player movement predicate; (3) do not widen broad setter scans until a new alias is established. Static proof does not prove live key acceptance.
+
+## Preserved RC-66 checkpoint
 # RRE RC-66 — Win32 keyboard-state provenance verified (LEGION, 2026-11-11 ~11:31 EST)
 
 > **Accepted original-PE breakthrough:** `USER32!GetKeyboardState` at 0xFB6C95 writes 256-byte stack state; 0x7C0200 constructs type-6 record; 0x7C21F0 copies OS state to record+0x19 and maps high bits of VK_SHIFT/CONTROL/MENU; 0x7C1AC0 tail-jumps to 0x7C1AD0, which copies the 256B payload to receiver+0xA41. Separately 0x7C09E4 calls USER32!MapVirtualKeyW(index,2) while making type-7 reset records. Static OS-to-native dataflow proven; **actual gameplay input, movement/stop and active-player ownership unverified**.
