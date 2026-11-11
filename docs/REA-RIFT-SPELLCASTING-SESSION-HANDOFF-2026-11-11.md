@@ -1,4 +1,21 @@
-# RRE RC-58 — current-build event identity, native spatial query and distance clear (LEGION, 2026-11-11 ~10:26 EST)
+# RRE RC-59 — event-7 same-receiver state clear and native 2D-to-3D projection (LEGION, 2026-11-11 ~10:35 EST)
+
+> **New accepted static breakthrough:** The same `this+0x10` receiver used by the RC-58 event-type-2 destination setter reaches **follow-clear `0x5460A0` and destination-clear `0x546830`** on a separately guarded event-type-7 path. A two-dimensional bounded coordinate projector `0x1154840` and wrapper `0xF903D0` are now original-byte qualified. Still no actual runtime cancellation/player ownership.
+
+## Fresh RC-59 checkpoint
+
+- Host **LEGION** independently verified `rre-rc59-verify-legion-20261111-01` exit 0; RRE repo `C:\work\rre` main, starting clean HEAD **`607540e8ca532257b0878a38920e2298bf25a2d5`** (14 ahead of origin). Recheck Git HEAD/clean status after RC-59 commit.
+- Current original physical RIFT executable SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, 60,493,640 bytes; RVAs relative preferred base `0x140000000`. Never substitute another host/build.
+- Event-7 function `[0x6A8870,0x6A8FB2)`, 1,858B SHA `92213304d979200d6b95f7fff890070d337e629c7220d601a667610060e4c491`, original-byte complete 453 instructions. Event7 sets consumed `+0x18` only after a nonzero predicate and calls both clear helpers on the receiver at `this+0x10`. Type7 **event discriminator is unrelated to type7 pathfinding dispatch**; do not label it physical stop.
+- Projection `[0xF903D0,0xF9044F)`, 127B/31 instructions SHA `7906a185a07ea33b722b9c843dccce8a5523db47f4e2e9b54e2b4e49d0624300`; helper `[0x1154840,0x1154A87)`, 583B/112 instructions SHA `ffe16977f0c9ef1b07371fbd0d7fbf7b8b54a6f16e3df02bec81402aa840b162`. It checks 2D bounds and generates three-component transformed values, but no runtime coordinate calibration.
+- Manager independently rehashed original PE + **3/3 full windows / 596 decoded instructions**, job `rre-rc59-manager-three-window-independent-20261111-01` exit0. Three independent read-only agent lanes: event7 same-owner route, exact pointer table probe, RC58 quality audit. Quality 28 opcode spot-checks passed; no material previous report error.
+- Exact callback pointer `0x1406A6120` absent as literal 8 bytes from current PE `.rdata` (9,855,488B) and `.data` (4,242,432B), job `rre-rc59-vtable-directptr-data-20261111-01` exit 0. Not a vtable/registration disproof.
+- New deliverables `docs/RRE-C2M-CLEAR-PROJECTION-LEGION-2026-11-11.md` + `.json` and this handoff. Sole manager writes. No source code, RRECollector, Windows settings, game, VM, AMD-DESKTOP, process memory or remote edits; no install, restart, input or push.
+- Ranked follow-ups: **1.** one bounded `0x6A98C0` prerequisite decode; **2.** constructor/receiver owner `this+0x10` candidate; **3.** separately authorized genuine RRECollector0.4.19 navigation receipt and later physical movement/stop validation. Keep the static/live gate distinction and old RC-58 original evidence.
+
+## Preserved RC-58 and earlier checkpoints
+
+### RRE RC-58 — current-build event identity, native spatial query and distance clear (LEGION, 2026-11-11 ~10:26 EST)
 
 > **Fresh accepted static finding:** The same LEGION RIFT build now has an original-byte-qualified callback root (type **2**, event subcondition **1**, setting `+0x146` gate), query wrapper with optional 3D outputs, and consumer squared-distance state clearing. Nine windows / 671 instructions independently checked. **No live movement or local-player ownership is proven.**
 

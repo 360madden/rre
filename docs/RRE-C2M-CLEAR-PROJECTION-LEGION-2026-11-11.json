@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-59",
+  "host": "LEGION",
+  "capturedLocal": "2026-11-11T10:34:00-05:00",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "sizeBytes": 60493640,
+    "preferredImageBase": "0x140000000"
+  },
+  "windows": [
+    {
+      "role": "event-type7-same-receiver-clear",
+      "beginRva": "0x6a8870",
+      "endRvaExclusive": "0x6a8fb2",
+      "bytes": 1858,
+      "instructions": 453,
+      "sha256": "92213304d979200d6b95f7fff890070d337e629c7220d601a667610060e4c491"
+    },
+    {
+      "role": "coordinate-projector-wrapper",
+      "beginRva": "0xf903d0",
+      "endRvaExclusive": "0xf9044f",
+      "bytes": 127,
+      "instructions": 31,
+      "sha256": "7906a185a07ea33b722b9c843dccce8a5523db47f4e2e9b54e2b4e49d0624300"
+    },
+    {
+      "role": "2d-to-3d-projector",
+      "beginRva": "0x1154840",
+      "endRvaExclusive": "0x1154a87",
+      "bytes": 583,
+      "instructions": 112,
+      "sha256": "ffe16977f0c9ef1b07371fbd0d7fbf7b8b54a6f16e3df02bec81402aa840b162"
+    }
+  ],
+  "sameReceiver": {
+    "event2CallbackRootRva": "0x6a6120",
+    "event2TypeBranchRva": "0x6a615c",
+    "event2SetterReceiverField": "this+0x10",
+    "event2SetterRva": "0x5749c0",
+    "event7BranchRva": "0x6a616f",
+    "event7HandlerRva": "0x6a8870",
+    "event7ThisArgAliasRva": "0x6a8894",
+    "event7EventArgAliasRva": "0x6a8891",
+    "event7ConditionalGateRva": "0x6a88ad",
+    "event7ReceiverLoadRva": "0x6a88af",
+    "event7ReceiverField": "this+0x10",
+    "event7FollowClearCallRva": "0x6a88b6",
+    "event7FollowClearTargetRva": "0x5460a0",
+    "event7DestinationClearCallRva": "0x6a88be",
+    "event7DestinationClearTargetRva": "0x546830",
+    "event7ConsumedFlagRva": "0x6a88c3",
+    "event7ConsumedFlagOffset": "0x18",
+    "event7PhysicalMeaningVerified": false,
+    "liveStoppingVerified": false
+  },
+  "projection": {
+    "outerRva": "0xf903d0",
+    "transformRva": "0x1154840",
+    "outerFloatToIntRvas": [
+      "0xf903e6",
+      "0xf903f9"
+    ],
+    "projectorBoundOffsets": [
+      "0x19c",
+      "0x1a0",
+      "0x1a8",
+      "0x1a4"
+    ],
+    "coefficientsOffsetsRange": [
+      "0xd4",
+      "0x100"
+    ],
+    "outputComponents": 3,
+    "worldCoordinateSystemVerified": false
+  },
+  "vtableProbe": {
+    "needleVa": "0x1406a6120",
+    "needleLittleEndianHex": "20616a4001000000",
+    "sections": [
+      {
+        "name": ".rdata",
+        "rva": "0x25ef000",
+        "bytes": 9855488,
+        "matches": 0
+      },
+      {
+        "name": ".data",
+        "rva": "0x2f56000",
+        "bytes": 4242432,
+        "matches": 0
+      }
+    ],
+    "notExhaustiveOfRegistration": true
+  },
+  "managerVerification": {
+    "job": "rre-rc59-manager-three-window-independent-20261111-01",
+    "exitCode": 0,
+    "windows": 3,
+    "totalInstructions": 596
+  },
+  "independentJobs": [
+    "rre-rc59-vtable-directptr-data-20261111-01",
+    "rre-rc59-owner-type7-sibling-complete-20261111-01",
+    "rre-rc59-quality-branch-byte-audit-20261111-01"
+  ],
+  "managerJobs": [
+    "rre-rc59-verify-legion-20261111-01",
+    "rre-rc59-projection-current-pdata-20261111-01",
+    "rre-rc59-projection-helper-bounded-20261111-01",
+    "rre-rc59-event7-prologue-alias-20261111-01",
+    "rre-rc59-manager-three-window-independent-20261111-01"
+  ],
+  "limits": {
+    "sourceOnly": true,
+    "gameInput": false,
+    "vmAccess": false,
+    "processAttachment": false,
+    "memoryWrite": false,
+    "installation": false,
+    "remotePush": false
+  }
+}
