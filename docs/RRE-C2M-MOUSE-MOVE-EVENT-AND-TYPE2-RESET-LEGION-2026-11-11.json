@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "milestone": "RC-73",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "mode": "original-pe-static-read-only",
+  "originalPe": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "findings": [
+    {
+      "id": "mouse-move-named-native-event",
+      "status": "source-proven-static",
+      "callbackSource": "0x93B710",
+      "scaledFloatTarget": "0x4BD9A0",
+      "eventName": "Event Mouse_Move",
+      "eventNameRva": "0x26A63C8",
+      "eventNameLeaSite": "0x4BDA00",
+      "namespace": "Rift",
+      "namespaceRva": "0x26A58F0",
+      "namespaceLeaSite": "0x4BDA07",
+      "floatToDoubleSites": [
+        "0x4BDA44",
+        "0x4BDA5D"
+      ],
+      "argumentCallSites": [
+        "0x4BDA52",
+        "0x4BDA61"
+      ],
+      "actualAddonSubscriberInvocationProven": false,
+      "actorCameraWorldMovementProven": false
+    },
+    {
+      "id": "receiver-pair-is-normalized-existing-state",
+      "status": "source-proven",
+      "receiverOffsets": [
+        "0x30",
+        "0x34"
+      ],
+      "readSites": [
+        "0x7C07DD",
+        "0x7C07D6"
+      ],
+      "writebackSites": [
+        "0x7C0863",
+        "0x7C0852"
+      ],
+      "transformation": "low16 extraction and signed16 to signed32",
+      "originalOsSourceProven": false,
+      "recordFields": [
+        "0x128",
+        "0x12C"
+      ]
+    },
+    {
+      "id": "type2-mask-reset-emits-listener-clear-events",
+      "status": "source-proven",
+      "receiverMaskOffset": "0x38",
+      "type": 2,
+      "maskBits": [
+        1,
+        2,
+        4
+      ],
+      "recordSubcodeOffset": "0x120",
+      "recordSubcodes": [
+        1,
+        2,
+        4
+      ],
+      "typeWriteSites": [
+        "0x7C0A84",
+        "0x7C0AED",
+        "0x7C0B56"
+      ],
+      "subcodeWriteSites": [
+        "0x7C0A96",
+        "0x7C0AFF",
+        "0x7C0B68"
+      ],
+      "dispatchSites": [
+        "0x7C0A9E",
+        "0x7C0B07",
+        "0x7C0B70"
+      ],
+      "ownerClearOffsets": [
+        "0x1C0",
+        "0x1C1",
+        "0x1C2"
+      ],
+      "physicalInputMeaningProven": false
+    },
+    {
+      "id": "neighbor-type7-win32-map",
+      "status": "source-proven-previously-and-reconfirmed",
+      "type": 7,
+      "keyboardStateReceiverOffset": "0xA41",
+      "windowsImport": "USER32.dll!MapVirtualKeyW",
+      "iatRva": "0x25EFC68",
+      "importCallSite": "0x7C09E4",
+      "dispatchCallSite": "0x7C0A0C",
+      "notEvidenceForType1Or2": true
+    }
+  ],
+  "sourceWindows": [
+    {
+      "start": "0x4BD9A0",
+      "endExclusive": "0x4BD9D0",
+      "bytes": 48,
+      "instructions": 11,
+      "sha256": "8f7dad264f178a720f37adb26cbbf759d77d05e727cc66d33403b56d73ac5f54",
+      "kind": "code"
+    },
+    {
+      "start": "0x4BD9D0",
+      "endExclusive": "0x4BDAC3",
+      "bytes": 243,
+      "instructions": 53,
+      "sha256": "57ac23f3a6b19a9f6787285295f91a5f8a8f2c42ef92067e024934f5d5cb5bbe",
+      "kind": "code"
+    },
+    {
+      "start": "0x26A63C8",
+      "endExclusive": "0x26A6428",
+      "bytes": 96,
+      "instructions": null,
+      "sha256": "3756c3c8789071c5a515fc68534bd20d6791160c07d3f0451e1a4e8d082b9247",
+      "kind": "data"
+    },
+    {
+      "start": "0x26A58F0",
+      "endExclusive": "0x26A5950",
+      "bytes": 96,
+      "instructions": null,
+      "sha256": "e445771d9a2daed1ed120885e6fae7acbaa787fbe3bfb29c0de2b6a47b7a2749",
+      "kind": "data"
+    },
+    {
+      "start": "0x7C0780",
+      "endExclusive": "0x7C0909",
+      "bytes": 393,
+      "instructions": 106,
+      "sha256": "a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de",
+      "kind": "code"
+    },
+    {
+      "start": "0x7C0940",
+      "endExclusive": "0x7C0A40",
+      "bytes": 256,
+      "instructions": 57,
+      "sha256": "3dff7574010a45e934bc05814988f235f2d57c3ddb7cba8b74aa25c2c62f9f7f",
+      "kind": "code"
+    },
+    {
+      "start": "0x7C0A40",
+      "endExclusive": "0x7C0BAA",
+      "bytes": 362,
+      "instructions": 82,
+      "sha256": "d10dd985a73f7e52f18352ad9362d397b65753f93fe69511b81be0fd512e41ee",
+      "kind": "code"
+    },
+    {
+      "start": "0x93B710",
+      "endExclusive": "0x93B755",
+      "bytes": 69,
+      "instructions": 17,
+      "sha256": "cc90debb4fd97122c9a16643272eddc42150e2a92e476b60765c3f7c974d5c06",
+      "kind": "code"
+    },
+    {
+      "start": "0x93B7BA",
+      "endExclusive": "0x93B8A3",
+      "bytes": 233,
+      "instructions": 78,
+      "sha256": "fca35ef7ad9ec79d61382490c59cd24d5e0430b877b554da5a7bfb2f63eefebe",
+      "kind": "code"
+    }
+  ],
+  "verification": {
+    "managerJobs": [
+      "rre-rc73-manager-mousemove-original-call-and-literal-20261111-01",
+      "rre-rc73-manager-type2-type7-producer-independent-20261111-01"
+    ],
+    "agentJobs": [
+      "rre-rc73-b-downstream-contiguous-dynamic-dispatch-20261111-01",
+      "rre-rc73-b-downstream-anchored-ascii-correction-20261111-01",
+      "rre-rc73-lane-a-type3-status-writes-detailed-20261111-01",
+      "rre-rc73-lane-c-type2-reset-entire-selected-original-20261111-01",
+      "rre-rc73-lane-c-type2-upstream-adjacent-funclets-20261111-01"
+    ]
+  },
+  "unproven": [
+    "original OS message writer to receiver+0x30/+0x34",
+    "type1 event production, physical button/key semantics of subcodes",
+    "Lua addon subscriber execution from Mouse_Move native event",
+    "actor/camera/world movement or stopping",
+    "actual live input outcome"
+  ],
+  "next": [
+    "anchored original writer of receiver+0x30/+0x34",
+    "exact named event-to-Lua dispatch route",
+    "separate locomotion proof with actor-state or controlled physical capture"
+  ],
+  "scope": {
+    "otherHostAccess": false,
+    "vmAccess": false,
+    "gameInput": false,
+    "processAttach": false,
+    "remotePush": false
+  }
+}

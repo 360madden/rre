@@ -1,3 +1,22 @@
+# RRE RC-73 — `Event Mouse_Move` named and type-2 reset mapped (LEGION, 2026-11-11 ~12:45 EST)
+
+> **Source-backed breakthrough:** The concrete type-3 listener's two scaled floats enter `0x4BD9A0`, whose original native continuation explicitly references `Rift` and **`Event Mouse_Move`** static strings (0x4BDA07 / 0x4BDA00), then converts both floats to doubles for event args. This is mouse-event handling; actor/camera/character movement is NOT proven. Type-2 reset records with subcodes1/2/4 are emitted from receiver+0x38 mask bits and match the already proven listener flag clears. Type-3 receiver+0x30/+0x34 stores are normalization of preexisting values, NOT upstream OS provenance.
+
+## Fresh RC-73 checkpoint
+
+- LEGION only, pinned original PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, clean starting main RC72 `67347b59a0912ce73f5836262c93b93fb741656c` (28 ahead). No game input/process, VM/AMD, installers, other repo edit or remote push.
+- Named event: `[0x4BD9A0,0x4BD9D0)` 48B/11 SHA `8f7dad264f178a720f37adb26cbbf759d77d05e727cc66d33403b56d73ac5f54`; `[0x4BD9D0,0x4BDAC3)` 243B/53 SHA `57ac23f3a6b19a9f6787285295f91a5f8a8f2c42ef92067e024934f5d5cb5bbe`. Static `.rdata` at 0x26A63C8 = `Event Mouse_Move` (96B SHA `3756c3c8789071c5a515fc68534bd20d6791160c07d3f0451e1a4e8d082b9247`), 0x26A58F0=`Rift` (96B SHA `e445771d9a2daed1ed120885e6fae7acbaa787fbe3bfb29c0de2b6a47b7a2749`). Original caller converts 2 floats to double and passes via 0x16893D0.
+- Type-3 producer `[0x7C0780,0x7C0909)` 393B/106 SHA `a6fb7de6365dd92fd4f474fb7345391221f0a00881cea0d1f3d9986c873a60de` reads then writes receiver+0x30/+0x34 as signed16-canonicalized dwords, then sends record+0x128/+0x12C. OS input field source still unknown.
+- Type-2/7 adjacent native source: `[0x7C0940,0x7C0A40)` 256B/57 SHA `3dff7574010a45e934bc05814988f235f2d57c3ddb7cba8b74aa25c2c62f9f7f`; `[0x7C0A40,0x7C0BAA)` 362B/82 SHA `d10dd985a73f7e52f18352ad9362d397b65753f93fe69511b81be0fd512e41ee`. Mask bits1/2/4 at receiver+0x38 emit type2 subcodes1/2/4 at record+0x120, matching owner flag clears+0x1C0/1C1/1C2. Separate type7 path invokes `USER32!MapVirtualKeyW` via IAT RVA0x25EFC68; DO NOT confuse with source of type1/type2.
+- Report and machine-readable record: `docs/RRE-C2M-MOUSE-MOVE-EVENT-AND-TYPE2-RESET-LEGION-2026-11-11.md` plus `.json`, source windows/receipts in each. Three read-only agents plus independent manager source/literal validation, source-only scope.
+
+## Next practical priorities
+
+1. Find the *original* OS/native writer for receiver+0x30/+0x34, beyond the proven sign-extension normalization.
+2. Trace named `Event Mouse_Move` downstream to exact RIFT Lua addon subscriber infrastructure, without assuming gameplay movement.
+3. Pursue actor/camera/world movement in an independent source-qualified track, then physical timestamped XYZ/input testing only under a controlled authorized plan.
+
+## Preserved RC-72 checkpoint
 # RRE RC-72 — concrete listener callback and typed state proven (LEGION, 2026-11-11 ~12:35 EST)
 
 > **Accepted original-PE breakthrough:** 0x936CB0 builds a 0x30-byte listener, registers it to the known root/receiver with 0x7C1E20, and installs nested callback adapter to precise handler 0x93B710. That callback handles numeric record types1/2 as five owner flag byte set/clear updates and type3 as two saved 32-bit fields + scaled floats forwarded to 0x4BD9A0. Type3 producer 0x7C0780 writes exactly the consumed +0x128/+0x12C record fields. Still no physical movement/stop or key identities.
