@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "milestone": "RC-69",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "mode": "static-original-pe-only",
+  "originalPe": {
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "findings": [
+    {
+      "id": "owner-root-lifecycle",
+      "status": "source-proven",
+      "initialAssignment": {
+        "site": "0x772DDD",
+        "setter": "0x77E410",
+        "source": "outer+0x1B8",
+        "target": "globalRoot+0x350"
+      },
+      "cleanup": {
+        "getterCall": "0x77935B",
+        "zeroRdx": "0x779360",
+        "setterCall": "0x779365",
+        "target": "globalRoot+0x350",
+        "value": "NULL"
+      },
+      "setterRawDirectE8Sites": [
+        "0x772DDD",
+        "0x779365"
+      ],
+      "indirectCallsExcluded": false
+    },
+    {
+      "id": "receiver-ctor",
+      "status": "source-proven",
+      "receiverSizeBytes": 2888,
+      "ownerFieldOffset": "0x00",
+      "callbackRootInitialValue": "NULL",
+      "callbackRootOffset": "0x10",
+      "laterRegistrationKnown": false
+    },
+    {
+      "id": "listener-layout",
+      "status": "source-proven",
+      "receiverSentinelOffset": "0x08",
+      "listenerNodeObjectOffset": "0x10",
+      "exclusionListOffset": "0x18",
+      "specialListenerOffset": "0x28",
+      "listenerFilterVtableOffset": "0x10",
+      "listenerRecordCallbackVtableOffset": "0x08",
+      "callbackArgument": "RDX=incoming record",
+      "movementListenerProven": false
+    },
+    {
+      "id": "record-drain",
+      "status": "source-proven",
+      "buffers": [
+        {
+          "start": "0x40",
+          "end": "0x48",
+          "strideBytes": 320
+        },
+        {
+          "start": "0x560",
+          "end": "0x568",
+          "strideBytes": 304
+        }
+      ],
+      "sinkRva": "0x7C1AD0",
+      "sinkR8": 0,
+      "drainCallerKnown": false
+    }
+  ],
+  "sourceWindows": [
+    {
+      "startRva": "0x779140",
+      "endExclusiveRva": "0x779607",
+      "bytes": 1223,
+      "instructions": 248,
+      "sha256": "05c8651136160cb12f5a5ed17af6d98b961b14b6167fb425fddf2475282431b9"
+    },
+    {
+      "startRva": "0x79A590",
+      "endExclusiveRva": "0x79A9D3",
+      "bytes": 1091,
+      "instructions": 237,
+      "sha256": "3c8cfd1121328b2fc65160f976991f908cc98817b3f2e3eae62690c81faa018f"
+    },
+    {
+      "startRva": "0x7C00A0",
+      "endExclusiveRva": "0x7C016A",
+      "bytes": 202,
+      "instructions": 48,
+      "sha256": "91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a"
+    },
+    {
+      "startRva": "0x7C1B7F",
+      "endExclusiveRva": "0x7C1D32",
+      "bytes": 435,
+      "instructions": 119,
+      "sha256": "b0a6e17f33aacc531541bcb07611bed13d22bf4a54d250e7ce5396f81da93ee5"
+    },
+    {
+      "startRva": "0x7C1D40",
+      "endExclusiveRva": "0x7C1E1D",
+      "bytes": 221,
+      "instructions": 54,
+      "sha256": "acd9156d25be9ac21cd0bd2ef188f02b2777ed09a6c8355f69bf2ac5b0eaabef"
+    }
+  ],
+  "receipts": [
+    "rre-rc69-manager-owner-lifecycle-independent-five-windows-20261111-01",
+    "rre-rc69-manager-owner-setter-exact-caller-count-20261111-01",
+    "rre-rc69-cbowner-79a590-bounded-complete-filtered-20261111-01",
+    "rre-rc69-cbowner-7c00a0-init-pdata-20261111-01",
+    "rre-rc69-cbowner-second-rootsetter-caller-full-filtered-20261111-01",
+    "rre-rc69-a-callback-fanout-complete-20261111-01",
+    "rre-rc69-a-first-adjacent-registration-candidate-20261111-01"
+  ],
+  "parked": [
+    {
+      "target": "0x7A3500",
+      "rawE8DirectMatches": 3276,
+      "reason": "generic accessor not discriminating"
+    },
+    {
+      "target": "0x7C1D40",
+      "reason": "queue drainer, not registration"
+    }
+  ],
+  "unproven": [
+    "live active player owner",
+    "callback list registration",
+    "listener movement/stop identity",
+    "physical game movement result",
+    "accepted input events"
+  ],
+  "next": [
+    "anchored receiver+0x10 registration",
+    "listener vtable identity anchored to registration",
+    "separately approved physical position and independent input timeline"
+  ],
+  "noGameOrOtherHostActions": true
+}

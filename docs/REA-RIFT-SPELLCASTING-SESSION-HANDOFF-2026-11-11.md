@@ -1,3 +1,17 @@
+# RRE RC-69 — native input owner teardown and listener layout (LEGION, 2026-11-11 ~11:58 EST)
+
+> **Source-level lifecycle breakthrough:** global input root+0x350 receives owner pointer during setup (RC-68) and is explicitly cleared to NULL in a separate full original-PE teardown function (`0x779365 -> 0x77E410`, EDX=0). Receiver ctor creates 0xB48 object at owner+0 and initializes receiver+0x10 callback-root pointer NULL. Native vtable+0x08 callbacks belong to actual listener objects, not owner; specific player movement listener remains unidentified.
+
+## Fresh RC-69 checkpoint
+
+- LEGION only, original RIFT SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, starting clean main HEAD `c8870ae61101e904df1fcf3c16e2e1a92ec2bbea` (24 ahead). No RIFT input/process/UI, AMD/VM, installs, providers, other repo changes or push.
+- Teardown `[0x779140,0x779607)` 1223B/248 SHA `05c8651136160cb12f5a5ed17af6d98b961b14b6167fb425fddf2475282431b9`; owner ctor `[0x79A590,0x79A9D3)` 1091B/237 SHA `3c8cfd1121328b2fc65160f976991f908cc98817b3f2e3eae62690c81faa018f`; receiver init `[0x7C00A0,0x7C016A)` 202B/48 SHA `91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a`.
+- Full callback fanout `[0x7C1B7F,0x7C1D32)` 435B/119 SHA `b0a6e17f33aacc531541bcb07611bed13d22bf4a54d250e7ce5396f81da93ee5`; two-queue drainer `[0x7C1D40,0x7C1E1D)` 221B/54 SHA `acd9156d25be9ac21cd0bd2ef188f02b2777ed09a6c8355f69bf2ac5b0eaabef`. Manager independently source-verified all 706 instructions (job `rre-rc69-manager-owner-lifecycle-independent-five-windows-20261111-01` exit0).
+- Report and machine-readable record `docs/RRE-C2M-RECEIVER-LIFECYCLE-LISTENERS-LEGION-2026-11-11.md` + `.json`. Generic accessor 0x7A3500 E8 search 3276 raw hits, parked. No callback+0x10 later registration or active player movement/stop proof.
+- Next: (1) one grounded callback-root+0x10 registration trace, (2) vtable identity anchored to registration, (3) separately authorized physical timestamped RRECollector position snapshots paired with independent input trace.
+
+## Preserved RC-68 checkpoint
+
 # RRE RC-68 — source-proven input owner alias and receiver callbacks (LEGION, 2026-11-11 ~11:50 EST)
 
 > **Accepted native-source breakthrough:** Global input root+0x350 is now proven to contain the same owner pointer held at an outer+0x1B8, and owner+0 contains the allocated native input receiver. After the 256B Win32-state write into receiver+0xA41, optional listener callback dispatch can invoke vtable+0x08 with the incoming record. No active-player/movement-stop listener or physical input result is proved.
