@@ -1,4 +1,19 @@
-# RRE RC-56 — current-build C2M setter/consumer requalification (LEGION, 2026-11-11 ~07:23 EST)
+# RRE RC-57 — current-build native event/query to C2M setter (LEGION, 2026-11-11 ~07:28 EST)
+
+> **Third original-byte milestone:** A focused, bounded direct-caller check on the current LEGION RIFT PE connects query success at `0x6A64EC` to the RC-56 destination setter at `0x5749C0` via one verified `call` at `0x6A650D`. This is still a static code chain, **not** live movement or player input acceptance.
+
+## Fresh RC-57 checkpoint
+
+- Source: LEGION physical `rift_x64.exe` SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8` (same verified current build as RC-55/56); no VMware, AMD-DESKTOP, game input, process attachment, game-file or memory changes, UI reload, addon deployment, new package, or remote push.
+- One E8 direct-call candidate and one PE boundary-qualified caller in `[0x6A62B1,0x6A652E)`. Query `call 0xF7CD20` at `0x6A64EC`, `test al,al` at `0x6A64F1`, `je 0x6A6516` at `0x6A64F3`; receiver from `[r14+0x10]` at `0x6A6501`, setter `call 0x5749C0` at `0x6A650D`, event consumed flag `[rsi+0x18]=1` at `0x6A6512`.
+- Independent manager `rre-rc57-manager-original-byte-confirm-20261111` exit0: original PE source hash matches, 637-byte code-window SHA `e820bb56a8d8b4ed6f21d61314d40ce003e01ec4a17e3c5d795da0f2a1e1fa09`, **142/142 instructions** decoded within region, exact call targets verified. Independent agent discovery job `rre-rc57-native-newbuild-c2m-direct-call-20261111` exit0.
+- New files: `docs/RRE-C2M-EVENT-NEW-BUILD-LEGION-2026-11-11.md`, `docs/RRE-C2M-EVENT-NEW-BUILD-LEGION-2026-11-11.json`, plus this checkpoint. Sole main-branch writer: manager; one read-only agent, stopped on useful one-probe finding.
+- Last accepted commit before RC-57: `a7342735715b2151804c121f6878cbb3f78a5fc4` (RC-56). Recheck Git HEAD, status, SHA-qualified docs after integration. No RC-57 addon changes; prior RC-55 v0.4.19 preflight and 53/53 relevant Node checks still stand.
+- Remaining gates: specific input-event type/button, callback registration and local-player receiver identity, real game-world destination/motion, stop/cancel, and type-7 route linkage **unqualified**. Do not promote static code to a callable automation contract.
+- Next tasks (ranked): **1.** read-only callback ownership/registration with one bounded discriminator; **2.** event type/button meaning from the already selected range; **3.** separately authorized operator-owned physical RIFT movement/stop observation. No broad type-7 scans or Ghidra PE imports.
+
+## Prior RC-56 checkpoint (preserved)
+
 
 > **Second verified native milestone:** Two bounded original-byte probes located the current executable's click-to-move destination **setter** and **consumer entry**; manager independently requalified their complete `.pdata` windows. Still static-only, not active gameplay movement or a qualified player-owned pointer chain.
 
