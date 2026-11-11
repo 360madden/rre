@@ -1,4 +1,21 @@
-# RRE RC-57 — current-build native event/query to C2M setter (LEGION, 2026-11-11 ~07:28 EST)
+# RRE RC-58 — current-build event identity, native spatial query and distance clear (LEGION, 2026-11-11 ~10:26 EST)
+
+> **Fresh accepted static finding:** The same LEGION RIFT build now has an original-byte-qualified callback root (type **2**, event subcondition **1**, setting `+0x146` gate), query wrapper with optional 3D outputs, and consumer squared-distance state clearing. Nine windows / 671 instructions independently checked. **No live movement or local-player ownership is proven.**
+
+## Fresh RC-58 checkpoint
+
+- Host verified **LEGION** using job `rre-rc58-host-legion-20261111-01` exit 0. RRE repository `C:\work\rre`, `main`, starting HEAD `ffb3ff39e1c63bf60f12000fb7d4bda59738e824`, starting tree clean (13 local commits ahead); inspect new HEAD after RC-58 commit.
+- Original installed executable SHA **`1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`**; all addresses are static RVAs relative to PE base `0x140000000`.
+- **Callback boundary corrected:** root `0x6A6120`, `this` first argument `rcx→r14`, event second argument `rdx→rsi`. Numeric event2 dispatch `0x6A615C→0x6A6201`; `[event+0x120]==1` and `[settingsHandle+0x146]!=0` gate before coordinate query `0xF7CD20` and setter `0x5749C0`. **Owner/physical button meaning unknown**.
+- **Query** original-byte window `[0xF7CD20,0xF7CF47)` 551 bytes/144 instructions; optional 3D output and result record check, but no ground-hit identity.
+- **Consumer:** squared delta `xmm7` compared to `xmm8/xmm9`; default static squared literals **9.0**, **20.25**, optional **0.0625**, dynamically overwritten in branches. Conditional state-clear `call 0x546830` at `0x588A1F`. No measured arrival or physical stop.
+- **Verified:** manager independent `rre-rc58-manager-nine-window-crosscheck-20261111-01` **exit 0**, 9/9 original-window SHA and 671/671 instruction decoding; three read-only agent lanes: callback owner, event fields, query wrapper, with 6 successful original-byte jobs. Manager additionally ran four focused consumer/constant jobs (exit 0).
+- **New docs:** `docs/RRE-C2M-EVENT-QUERY-STOP-LEGION-2026-11-11.md`, companion `.json`, plus this handoff. Only manager owns writes; report references all hashes and jobs. Tests: source-bound independent byte verification (not a live test); run scoped JSON parser and Git diff validation before integration. No code/addon changes, VM, AMD-DESKTOP, input, memory access, UI reload, install or push.
+- **Next ranked:** (1) native callback registration / `this+0x10` owner with one bounded discriminator; (2) genuine separately authorized v0.4.19 navigation API SavedVariables receipt; (3) separately approved physical client gesture + movement/stop proof to distinguish computed clears from actual movement. Keep existing RRECollector source v0.4.19 / installed last documented v0.4.18; root `C:\work` scope unchanged.
+
+## Preserved RC-57 and earlier checkpoints
+
+### RRE RC-57 — current-build native event/query to C2M setter (LEGION, 2026-11-11 ~07:28 EST)
 
 > **Third original-byte milestone:** A focused, bounded direct-caller check on the current LEGION RIFT PE connects query success at `0x6A64EC` to the RC-56 destination setter at `0x5749C0` via one verified `call` at `0x6A650D`. This is still a static code chain, **not** live movement or player input acceptance.
 

@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-58",
+  "host": "LEGION",
+  "capturedLocal": "2026-11-11T10:25:00-05:00",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "imageBase": "0x140000000"
+  },
+  "windows": [
+    {
+      "role": "callback-root",
+      "beginRva": "0x6a6120",
+      "endRvaExclusive": "0x6a6195",
+      "decodedInstructions": 33,
+      "sha256": "fa13477ee8c8c9967efc334fe04cc29dadf3f2c1e38b633bc00569664790346f"
+    },
+    {
+      "role": "event-settings",
+      "beginRva": "0x6a6195",
+      "endRvaExclusive": "0x6a62b1",
+      "decodedInstructions": 65,
+      "sha256": "51b4bf0cda4354f0684026a1d2c679647b57e10a3b3154e31f7c2d5cfee3d50a"
+    },
+    {
+      "role": "event-query-setter",
+      "beginRva": "0x6a62b1",
+      "endRvaExclusive": "0x6a652e",
+      "decodedInstructions": 142,
+      "sha256": "e820bb56a8d8b4ed6f21d61314d40ce003e01ec4a17e3c5d795da0f2a1e1fa09"
+    },
+    {
+      "role": "query-wrapper",
+      "beginRva": "0xf7cd20",
+      "endRvaExclusive": "0xf7cf47",
+      "decodedInstructions": 144,
+      "sha256": "ae78a6ae1c6bed37d01a2173c43a265a91c0d8c3c0bc28fd6f585e65c8d33564"
+    },
+    {
+      "role": "query-helper",
+      "beginRva": "0x13e9fe0",
+      "endRvaExclusive": "0x13ea007",
+      "decodedInstructions": 11,
+      "sha256": "03d9b554e958d1e590ec3e9ecc4f87df18d60ed3dd009a8b42e584197901ab12"
+    },
+    {
+      "role": "consumer-entry",
+      "beginRva": "0x588420",
+      "endRvaExclusive": "0x5884a7",
+      "decodedInstructions": 32,
+      "sha256": "2b57dcbdb4c7a84f243a5ba8ad35f5b1988f4135c1401158a8e9b7cee8e3ec26"
+    },
+    {
+      "role": "consumer-config",
+      "beginRva": "0x5885d4",
+      "endRvaExclusive": "0x588809",
+      "decodedInstructions": 121,
+      "sha256": "fa9b16fb3647bf203e3e0ff5ad28db95fbff3ed9a4dffa2ba3357838d9b9db30"
+    },
+    {
+      "role": "consumer-distance",
+      "beginRva": "0x588819",
+      "endRvaExclusive": "0x5889c8",
+      "decodedInstructions": 89,
+      "sha256": "639f064bb66bfefb7c83b96fc1f4a3bcd38daa0201f468e5b52cf8a71391d3c7"
+    },
+    {
+      "role": "consumer-near-clear",
+      "beginRva": "0x5889c8",
+      "endRvaExclusive": "0x588a51",
+      "decodedInstructions": 34,
+      "sha256": "ec9c755ad12b9a99f9e0188a0217143373a59bf12b1b0da39a8790a4b95bd770"
+    }
+  ],
+  "managerIndependentCheck": {
+    "jobId": "rre-rc58-manager-nine-window-crosscheck-20261111-01",
+    "exitCode": 0,
+    "windows": 9,
+    "totalInstructions": 671
+  },
+  "callback": {
+    "entryRva": "0x6a6120",
+    "thisArgCopiedAt": "0x6a6140",
+    "eventArgCopiedAt": "0x6a6143",
+    "eventType2BranchRva": "0x6a615c",
+    "eventSubconditionOffset": "0x120",
+    "eventSubconditionEquals": 1,
+    "settingsHandleCallRva": "0x6a6238",
+    "settingsByteOffset": "0x146",
+    "settingsZeroSkips": true,
+    "coordinatesOffsets": [
+      "0x128",
+      "0x12c"
+    ],
+    "queryCallRva": "0x6a64ec",
+    "queryTargetRva": "0xf7cd20",
+    "setterCallRva": "0x6a650d",
+    "setterTargetRva": "0x5749c0",
+    "setterReceiverFromThisOffset": "0x10",
+    "consumedFlagEventOffset": "0x18",
+    "inputButtonMeaningVerified": false,
+    "playerOwnerVerified": false,
+    "callbackRegistrationVerified": false
+  },
+  "query": {
+    "regionRva": "0xf7cd20",
+    "helperRva": "0x13e9fe0",
+    "resultRecordOffset": "0x60",
+    "threeComponentOutputs": true,
+    "groundHitVerified": false
+  },
+  "consumer": {
+    "entryRva": "0x588420",
+    "activeFlagByteOffset": "0x1a8",
+    "distanceValueRegister": "xmm7",
+    "comparisonRegisters": [
+      "xmm8",
+      "xmm9"
+    ],
+    "defaultSquaredLiterals": [
+      {
+        "rva": "0x26ae500",
+        "hex": "00001041",
+        "value": 9
+      },
+      {
+        "rva": "0x26ae50c",
+        "hex": "0000a241",
+        "value": 20.25
+      },
+      {
+        "rva": "0x26ae4d8",
+        "hex": "0000803d",
+        "value": 0.0625
+      }
+    ],
+    "dynamicRadiusFieldOffsets": [
+      "0x18",
+      "0x1c"
+    ],
+    "dynamicValuesAreSquared": true,
+    "nearBranchRva": "0x588a16",
+    "nearClearCallRva": "0x588a1f",
+    "clearTargetRva": "0x546830",
+    "runtimeMovementVerified": false
+  },
+  "jobIds": [
+    "rre-rc58-host-legion-20261111-01",
+    "rre-rc58-owner-unwind-r14-ancestry-20261111",
+    "rre-rc58-owner-chain-root-continuation-20261111",
+    "rre-rc58-event-venv-142insn-20261111",
+    "rre-rc58-event-preceding-unwind-20261111",
+    "rre-rc58-query-original-pdata-20261111-c",
+    "rre-rc58-query-helper-pdata-20261111-a",
+    "rre-rc58-consumer-continuation-bounded-20261111-01",
+    "rre-rc58-consumer-near-clear-window-20261111-01",
+    "rre-rc58-consumer-threshold-origins-20261111-01",
+    "rre-rc58-consumer-literal-thresholds-20261111-01",
+    "rre-rc58-manager-nine-window-crosscheck-20261111-01"
+  ],
+  "limits": {
+    "readOnly": true,
+    "vmAccess": false,
+    "gameInput": false,
+    "processAttached": false,
+    "memoryWritten": false,
+    "addonDeployed": false,
+    "gitPushed": false,
+    "staticOnly": true
+  }
+}
