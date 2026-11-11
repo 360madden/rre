@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
-import {exportSavedSnapshot,summarizeSavedPins,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {exportSavedSnapshot,summarizeSavedPins,readBoundedSaved,MAX_BYTES} from '../rre-reader-saved-snapshot.mjs';
 import {parseSavedLua,parseSavedLuaBytes} from '../read-rrecollector-saved.mjs';
 
 const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addonVersion="0.1.0",sequence=1,captureComplete=true,abilityList={apiAvailable=true,enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},player={id="uFIXTURE",name="Fixture",combat=false,power=0},roleSlot=1,roleNames={"One","Two"},frameTime=10,realTime=20,abilities={{lookupId="A0000000100000000",name="Fixture",target="uTARGET",passive=false,cooldown=0}}}}';
@@ -41,6 +44,30 @@ test('invalid persisted pin values are reported without discarding a qualified s
   const badRoot=pinAudit(withPins('"invalid"'));
   assert.equal(badRoot.mode,'auto-defaults');assert.equal(badRoot.savedField,'non-table');
   assert.equal(badRoot.matchedCount,1);
+});
+test('original saved-file read detects a concurrent change and bounds the input',()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc44-saved-'));
+  const file=path.join(dir,'RRECollector.lua');
+  try {
+    fs.writeFileSync(file,source);
+    assert.deepEqual(readBoundedSaved(file),Buffer.from(source));
+    const originalRead=fs.readSync;
+    let changed=false;
+    try {
+      fs.readSync=function(...args) {
+        const length=originalRead.apply(this,args);
+        if (!changed) {
+          changed=true;
+          fs.appendFileSync(file,'-- changed during read');
+        }
+        return length;
+      };
+      assert.throws(()=>readBoundedSaved(file),/saved-source-changed-during-read/);
+    } finally { fs.readSync=originalRead; }
+    assert.equal(changed,true);
+    fs.writeFileSync(file,Buffer.alloc(MAX_BYTES+1));
+    assert.throws(()=>readBoundedSaved(file),/saved-byte-limit/);
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
 });
 test('preserves separate saved-root and capture versions',()=>{
   const x=read(source);assert.equal(x.addonVersion,'0.1.0');assert.equal(x.savedAddonVersion,'0.4.11');

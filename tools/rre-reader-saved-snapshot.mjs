@@ -135,13 +135,25 @@ export function summarizeSavedPins(bytes) {
   };
 }
 export function readBoundedSaved(file) {
+  const pathBefore = fs.lstatSync(file);
+  if (!pathBefore.isFile() || pathBefore.isSymbolicLink()) throw Error('saved-source-not-plain-file');
   const fd = fs.openSync(file,'r');
   try {
+    const before = fs.fstatSync(fd);
+    const same = stat => stat.dev === before.dev && stat.ino === before.ino
+      && stat.size === before.size && stat.mtimeMs === before.mtimeMs
+      && stat.ctimeMs === before.ctimeMs;
+    if (!same(pathBefore)) throw Error('saved-source-changed-before-read');
+    if (before.size > MAX_BYTES) throw Error('saved-byte-limit');
     const buffer = Buffer.alloc(MAX_BYTES + 1);
     let length = 0, n;
     do { n = fs.readSync(fd,buffer,length,buffer.length-length,null); length += n; }
     while (n && length < buffer.length);
+    const pathAfter = fs.lstatSync(file);
     if (length > MAX_BYTES) throw Error('saved-byte-limit');
+    if (length !== before.size || !same(fs.fstatSync(fd))
+      || !pathAfter.isFile() || pathAfter.isSymbolicLink() || !same(pathAfter))
+      throw Error('saved-source-changed-during-read');
     return buffer.subarray(0,length);
   } finally { fs.closeSync(fd); }
 }
