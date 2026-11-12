@@ -1,3 +1,10 @@
+# RC-80 — native input semantics, 2026-11-11 21:37 EST
+
+- **Published:** RC-78 `fb75547` and quest feature RC-79 `a2d9660` committed/pushed normally; main was clean and synchronized after each. RRECollector source .20 is not installed or client-validated. Focused185 checks passed; full historical gate failed as recorded below. No Workbridge or game inputs.
+- **New native findings:** original WM_LBUTTONUP produces type2/subcode1, including both modifier paths, then submits to existing buffer/dispatcher. The exact callback predicate on that combination returns false without helper/state changes; this gate does not skip C2M. Reset also emits the same combination, so a raw record is not unique physical-release proof. [RC-80 report](RRE-RC80-LEFT-RELEASE-C2M-GATE-LEGION-2026-11-11.md), [ten-window source hashes](RRE-RC80-LEFT-RELEASE-C2M-GATE-LEGION-2026-11-11.json). Independent agent + manager10/10 rehash/full-fragment alignment and decisive assertions PASS.
+- **Still pending:** async user decision for RRECollector-only backup/deploy, UI reload, `/rre quests` + `/rre capture`, and persistence reload. No answer at this checkpoint; no dependent action. Local Lua regression remains unexecuted. Native remaining gates: earlier eligibility0x54ECA0/context+0x358, consumed-record state, setting and query gates, global0x337FD20/actor identity and actual movement/stop.
+- **Next:** validate/diff/commit/push this source finding; continue practical offline work or authorized physical validation. Keep seven-hour goal active. Initial goal started about21:14EST; neither a source commit nor a pending approval meets its automation outcome.
+
 # RC-79 — quest automation input, 2026-11-11 21:34 EST
 
 - **Current integration:** RRECollector v0.4.20 adds manual `/rre quests`; `tools/export-rrecollector-quests.mjs` produces source-hashed remaining-objective JSON. Capture module is appended in capabilities.lua, keeping11packagefiles. Quest data remains separate from RREC2 abilities/context. [Report and exact limits](RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md). Manager owns main; independent source/test reviews applied. No Workbridge.
