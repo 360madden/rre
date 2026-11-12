@@ -76,6 +76,7 @@ class CorrelationTests(unittest.TestCase):
                     "terminalRead": {"status": "success", "bytes": b64((1).to_bytes(4, "little"))},
                 },
             })
+        self.refresh_execution_receipts()
         vm = {"vmx": r"c:\rift modding\vms\rift-lab-2\rift-lab.vmx", "pid": 10}
         for name in ("queue-ui-pre-read", "queue-ui-post-read"):
             contents = f"synthetic pixel fixture: {name}".encode()
@@ -92,6 +93,21 @@ class CorrelationTests(unittest.TestCase):
     def save(self, path: str, value: dict) -> None:
         (self.folder / path).write_text(json.dumps(value), encoding="utf-8")
 
+    def refresh_execution_receipts(self) -> None:
+        names = (
+            ("native-inspection", "native-inspection.json", "inspect-native"),
+            ("loaded-code-and-settings-root-v2",
+             "loaded-code-and-settings-root-v2.json", "snapshot-native"),
+            ("queue-field-a-v2", "queue-field-a-v2.json", "follow-pointer"),
+            ("queue-field-b-v2", "queue-field-b-v2.json", "follow-pointer"),
+        )
+        self.save("execution-receipts.json", {"steps": [
+            {"name": name, "command": command, "exitCode": 0,
+             "ownedRequestAndOutputCleaned": True,
+             "outputSha256": sha256((self.folder / filename).read_bytes())}
+            for name, filename, command in names
+        ]})
+
     def mutate(self, path: str, fn) -> None:
         file = self.folder / path
         value = json.loads(file.read_text(encoding="utf-8"))
@@ -107,10 +123,34 @@ class CorrelationTests(unittest.TestCase):
     def test_clean_native_correlator(self) -> None:
         answer = audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
         self.assertEqual(answer["nativeValue"], 1)
+        self.assertEqual(answer["nativeExecutionReceiptFilesMatched"], 4)
         self.assertTrue(answer["labelMappingQualified"])
         self.assertEqual(answer["loadedCodeWindowsMatched"], 3)
         self.assertEqual(answer["originalImagesHashMatched"], 2)
         self.assertTrue(answer["status"].startswith("native_consistency_pass"))
+
+    def test_changed_inspection_bytes_with_stale_receipt_rejected(self) -> None:
+        self.mutate("native-inspection.json",
+                    lambda x: x.update({"unboundProvenanceMarker": "different bytes"}))
+        with self.assertRaisesRegex(EvidenceError, "receipt SHA mismatch"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_missing_native_receipt_rejected(self) -> None:
+        (self.folder / "execution-receipts.json").unlink()
+        with self.assertRaisesRegex(EvidenceError, "execution-receipts"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_missing_one_receipt_step_rejected(self) -> None:
+        self.mutate("execution-receipts.json",
+                    lambda x: x["steps"].pop())
+        with self.assertRaisesRegex(EvidenceError, "execution receipt steps"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_failed_receipt_step_rejected(self) -> None:
+        self.mutate("execution-receipts.json",
+                    lambda x: x["steps"][0].update({"exitCode": 1}))
+        with self.assertRaisesRegex(EvidenceError, "execution receipt step incomplete"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_wrong_label_rejected(self) -> None:
         with self.assertRaisesRegex(EvidenceError, "conflicts"):
@@ -121,6 +161,7 @@ class CorrelationTests(unittest.TestCase):
             self.mutate(f"queue-field-{suffix}-v2.json",
                         lambda x: x["resolution"]["terminalRead"].update(
                             {"bytes": b64((0).to_bytes(4, "little"))}))
+        self.refresh_execution_receipts()
         for label in ("Full", "None"):
             answer = audit(self.folder, label, UI_BEFORE, UI_AFTER)
             self.assertEqual(answer["nativeValue"], 0)
@@ -132,6 +173,7 @@ class CorrelationTests(unittest.TestCase):
             self.mutate(f"queue-field-{suffix}-v2.json",
                         lambda x: x["resolution"]["terminalRead"].update(
                             {"bytes": b64((2).to_bytes(4, "little"))}))
+        self.refresh_execution_receipts()
         for label in ("None", "Full"):
             answer = audit(self.folder, label, UI_BEFORE, UI_AFTER)
             self.assertEqual(answer["nativeValue"], 2)

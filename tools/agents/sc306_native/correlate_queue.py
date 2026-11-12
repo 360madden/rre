@@ -214,6 +214,33 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         captures.append((manifest["imageSha256"], vm_identity))
     check(captures[0][1] == captures[1][1], "different VM console identities")
 
+    # Bind each parsed native report to the original successful command receipt.
+    # The receipt is self-reported provenance, not independent authentication.
+    receipt = read_record(folder / "execution-receipts.json")
+    required_steps = (
+        ("native-inspection", "native-inspection.json", "inspect-native"),
+        ("loaded-code-and-settings-root-v2",
+         "loaded-code-and-settings-root-v2.json", "snapshot-native"),
+        ("queue-field-a-v2", "queue-field-a-v2.json", "follow-pointer"),
+        ("queue-field-b-v2", "queue-field-b-v2.json", "follow-pointer"),
+    )
+    steps = receipt.get("steps")
+    check(isinstance(steps, list) and len(steps) == len(required_steps)
+          and all(isinstance(step, dict) and isinstance(step.get("name"), str)
+                  for step in steps)
+          and {step["name"] for step in steps} == {row[0] for row in required_steps},
+          "execution receipt steps incomplete or duplicated")
+    step_by_name = {step["name"]: step for step in steps}
+    for name, filename, command in required_steps:
+        step = step_by_name[name]
+        check(step.get("command") == command
+              and type(step.get("exitCode")) is int and step["exitCode"] == 0
+              and step.get("ownedRequestAndOutputCleaned") is True,
+              f"{name}: execution receipt step incomplete")
+        check(str(step.get("outputSha256", "")).upper()
+              == sha256((folder / filename).read_bytes()),
+              f"{name}: execution receipt SHA mismatch")
+
     return {
         "status": ("native_consistency_pass_visual_label_operator_supplied"
                    if label_mapping_qualified else "native_value_consistent_mapping_unverified"),
@@ -225,6 +252,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         "stableSettingsRoot": True,
         "loadedCodeWindowsMatched": len(CHUNKS),
         "originalImagesHashMatched": len(captures),
+        "nativeExecutionReceiptFilesMatched": len(required_steps),
         "captureVmxVerified": EXPECTED_CAPTURE_VMX,
         "uiBracketUtc": [first.isoformat(), last.isoformat()],
         "limits": [
@@ -232,6 +260,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
             "UI bracket times and label are supplied by the human reviewer",
             "Values 0 and 2 have no source-qualified Full/None mapping",
             "Sequential reads and images are not one atomic acquisition",
+            "Native execution receipt hashes check consistency, not independent authenticity",
             "VMX consistency alone does not independently bind guest process to screenshot",
             "Actual cast queue behavior, GCD and server timing remain untested",
         ],
