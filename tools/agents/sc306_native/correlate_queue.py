@@ -152,6 +152,17 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
 
     inspection = read_record(folder / "native-inspection.json")
     snap = read_record(folder / "loaded-code-and-settings-root-v2.json")
+    check(type(inspection.get("schemaVersion")) is int
+          and inspection["schemaVersion"] == 1
+          and inspection.get("contractVersion") == "native-target-inspection/1",
+          "native inspection schema/contract differs from acquisition")
+    check(type(snap.get("schemaVersion")) is int
+          and snap["schemaVersion"] == 1
+          and snap.get("evidenceKind") == "native-memory-snapshot/1"
+          and isinstance(snap.get("source"), dict)
+          and snap["source"].get("requestEvidenceKind")
+          == "native-memory-snapshot-request/1",
+          "snapshot schema/evidence kind differs from acquisition")
     target = inspection["target"]
     identity = snap["identity"]
     check(snap.get("status") == "complete", "loaded-byte snapshot incomplete")
@@ -228,6 +239,10 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     samples = []
     for filename in ("queue-field-a-v2.json", "queue-field-b-v2.json"):
         report = read_record(folder / filename)
+        check(type(report.get("schemaVersion")) is int
+              and report["schemaVersion"] == 1
+              and report.get("evidenceKind") == "native-pointer-follow/1",
+              f"{filename}: pointer report schema/evidence kind differs")
         follow_request = check_issued_request(
             folder, filename.removesuffix(".json"), report.get("requestSha256"),
             "native-pointer-follow-request/1")

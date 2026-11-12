@@ -35,6 +35,7 @@ class CorrelationTests(unittest.TestCase):
         }
         identity = {**target, "moduleBaseAddress": BASE}
         self.save("native-inspection.json", {
+            "schemaVersion": 1, "contractVersion": "native-target-inspection/1",
             "target": target, "implementation": {"bundleSha256": "B" * 64},
         })
         parts = {
@@ -61,8 +62,10 @@ class CorrelationTests(unittest.TestCase):
         snapshot_sha = self.save_request("loaded-code-and-settings-root-v2",
                                          snapshot_request)
         self.save("loaded-code-and-settings-root-v2.json", {
+            "schemaVersion": 1, "evidenceKind": "native-memory-snapshot/1",
             "identity": identity,
-            "source": {"implementation": {"bundleSha256": "B" * 64},
+            "source": {"requestEvidenceKind": "native-memory-snapshot-request/1",
+                       "implementation": {"bundleSha256": "B" * 64},
                        "requestSha256": snapshot_sha,
                        "requestSha256Verification": "producer-declared"},
             "startedAtUtc": "2026-11-07T15:51:27.6632392Z",
@@ -83,6 +86,7 @@ class CorrelationTests(unittest.TestCase):
             }
             follow_sha = self.save_request(name, follow_request)
             self.save(f"{name}.json", {
+                "schemaVersion": 1, "evidenceKind": "native-pointer-follow/1",
                 "requestSha256": follow_sha,
                 "implementation": {"bundleSha256": "B" * 64},
                 "completedAtUtc": timestamp,
@@ -236,6 +240,34 @@ class CorrelationTests(unittest.TestCase):
         self.mutate_request_and_receipts(
             "queue-field-a-v2", lambda r: r.update({"terminalByteLength": 8}))
         with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_native_inspection_contract_rejected(self) -> None:
+        self.mutate("native-inspection.json",
+                    lambda x: x.update({"contractVersion": "unrelated-contract/99"}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "inspection schema/contract"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_snapshot_evidence_kind_rejected(self) -> None:
+        self.mutate("loaded-code-and-settings-root-v2.json",
+                    lambda x: x.update({"evidenceKind": "unrelated-snapshot/99"}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "snapshot schema/evidence kind"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_snapshot_request_kind_rejected(self) -> None:
+        self.mutate("loaded-code-and-settings-root-v2.json",
+                    lambda x: x["source"].update({"requestEvidenceKind": "wrong/99"}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "snapshot schema/evidence kind"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_follow_report_kind_rejected(self) -> None:
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x.update({"evidenceKind": "unrelated-follow/99"}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "pointer report schema/evidence kind"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_duplicate_native_status_with_matched_receipts_rejected(self) -> None:
