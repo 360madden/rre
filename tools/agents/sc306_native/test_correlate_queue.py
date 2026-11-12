@@ -139,6 +139,24 @@ class CorrelationTests(unittest.TestCase):
             for name, filename, command in names
         ]})
 
+    def mutate_request_and_receipts(self, stem: str, change) -> None:
+        """Simulate mutually updated producer SHA and native command receipts."""
+        path = self.folder / f"{stem}.request.json"
+        original = path.read_bytes()
+        self.assertTrue(original.endswith(b"\r\n"))
+        request = json.loads(original[:-2])
+        change(request)
+        guest = json.dumps(request, separators=(",", ":")).encode("utf-8")
+        path.write_bytes(guest + b"\r\n")
+        report_name = f"{stem}.json"
+        if stem == "loaded-code-and-settings-root-v2":
+            self.mutate(report_name,
+                        lambda r: r["source"].update({"requestSha256": sha256(guest)}))
+        else:
+            self.mutate(report_name,
+                        lambda r: r.update({"requestSha256": sha256(guest)}))
+        self.refresh_execution_receipts()
+
     def mutate(self, path: str, fn) -> None:
         file = self.folder / path
         value = json.loads(file.read_text(encoding="utf-8"))
@@ -186,6 +204,38 @@ class CorrelationTests(unittest.TestCase):
         path.write_bytes(contents.replace(b'"terminalByteLength":4',
                                           b'"terminalByteLength":8'))
         with self.assertRaisesRegex(EvidenceError, "request SHA mismatch"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_pointer_request_root_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "queue-field-b-v2", lambda r: r.update({"rootRva": "0x1234"}))
+        with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_pointer_request_process_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "queue-field-b-v2", lambda r: r["target"].update({"processId": 9999}))
+        with self.assertRaisesRegex(EvidenceError, "follow request target differs"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_snapshot_range_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "loaded-code-and-settings-root-v2",
+            lambda r: r["ranges"][0].update({"byteLength": 38}))
+        with self.assertRaisesRegex(EvidenceError, "snapshot request does not specify"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_snapshot_target_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "loaded-code-and-settings-root-v2",
+            lambda r: r["target"].update({"processStartUtcTicks": 1}))
+        with self.assertRaisesRegex(EvidenceError, "snapshot request target differs"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_wrong_terminal_request_length_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "queue-field-a-v2", lambda r: r.update({"terminalByteLength": 8}))
+        with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_duplicate_native_status_with_matched_receipts_rejected(self) -> None:

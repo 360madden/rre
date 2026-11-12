@@ -81,7 +81,7 @@ def read_json(path: Path) -> dict:
 
 
 def check_issued_request(folder: Path, stem: str, declared_sha: str,
-                         expected_kind: str) -> None:
+                         expected_kind: str) -> dict:
     """Bind producer-declared hashes to exact guest-request bytes, not Git EOL."""
     raw = (folder / f"{stem}.request.json").read_bytes()
     # The original acquisition saved one terminal LF. A Windows Git checkout
@@ -106,6 +106,29 @@ def check_issued_request(folder: Path, stem: str, declared_sha: str,
           f"{stem}: unexpected saved request kind")
     check(sha256(guest_bytes) == str(declared_sha).upper(),
           f"{stem}: request SHA mismatch")
+    return request
+
+
+def request_target_matches(request: dict, identity: dict) -> bool:
+    """Tie requested process/epoch/build to the inspected native target."""
+    target = request.get("target")
+    if not isinstance(target, dict):
+        return False
+    try:
+        return (int(str(target["processId"]), 0) == int(str(identity["processId"]), 0)
+                and int(str(target["processStartUtcTicks"]), 0)
+                == int(str(identity["processStartUtcTicks"]), 0)
+                and str(target["executableSha256"]).upper()
+                == str(identity["executableSha256"]).upper())
+    except (KeyError, ValueError, TypeError):
+        return False
+
+
+def parse_request_address(value: object) -> int:
+    try:
+        return int(str(value), 0)
+    except (ValueError, TypeError) as exc:
+        raise EvidenceError("invalid native request RVA/offset") from exc
 
 
 def same_identity(a: dict, b: dict) -> bool:
@@ -144,9 +167,27 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     source = snap["source"]
     check(source.get("requestSha256Verification") == "producer-declared",
           "snapshot request provenance unqualified")
-    check_issued_request(folder, "loaded-code-and-settings-root-v2",
-                         source.get("requestSha256"),
-                         "native-memory-snapshot-request/1")
+    snapshot_request = check_issued_request(
+        folder, "loaded-code-and-settings-root-v2", source.get("requestSha256"),
+        "native-memory-snapshot-request/1")
+    check(request_target_matches(snapshot_request, identity),
+          "snapshot request target differs from native inspection")
+    check(snapshot_request.get("schemaVersion") == 1
+          and snapshot_request.get("maxDurationMilliseconds") == 5000,
+          "snapshot request schema/duration differs from acquisition")
+    ranges = snapshot_request.get("ranges")
+    expected_ranges = {**{rva: length for rva, (length, _) in CHUNKS.items()},
+                       ROOT_RVA: 8}
+    check(isinstance(ranges, list) and len(ranges) == len(expected_ranges)
+          and all(isinstance(item, dict)
+                  and item.get("addressKind") == "module-relative-rva"
+                  for item in ranges), "snapshot request range structure changed")
+    requested_ranges = [(parse_request_address(item.get("address")),
+                         item.get("byteLength")) for item in ranges]
+    check(len({rva for rva, _ in requested_ranges}) == len(expected_ranges)
+          and all(type(length) is int and expected_ranges.get(rva) == length
+                  for rva, length in requested_ranges),
+          "snapshot request does not specify verified code/root ranges")
     reader_sha = str(source["implementation"]["bundleSha256"]).upper()
     check(len(reader_sha) == 64 and all(c in "0123456789ABCDEF" for c in reader_sha),
           "unqualified reader bundle SHA")
@@ -187,9 +228,20 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     samples = []
     for filename in ("queue-field-a-v2.json", "queue-field-b-v2.json"):
         report = read_record(folder / filename)
-        check_issued_request(folder, filename.removesuffix(".json"),
-                             report.get("requestSha256"),
-                             "native-pointer-follow-request/1")
+        follow_request = check_issued_request(
+            folder, filename.removesuffix(".json"), report.get("requestSha256"),
+            "native-pointer-follow-request/1")
+        check(request_target_matches(follow_request, identity),
+              f"{filename}: follow request target differs from inspection")
+        check(follow_request.get("schemaVersion") == 1
+              and follow_request.get("maxDurationMilliseconds") == 5000
+              and parse_request_address(follow_request.get("rootRva")) == ROOT_RVA
+              and isinstance(follow_request.get("offsets"), list)
+              and len(follow_request["offsets"]) == 1
+              and parse_request_address(follow_request["offsets"][0]) == FIELD_OFFSET
+              and type(follow_request.get("terminalByteLength")) is int
+              and follow_request["terminalByteLength"] == 4,
+              f"{filename}: follow request pointer/field contract changed")
         check(str(report["implementation"]["bundleSha256"]).upper() == reader_sha,
               f"{filename}: reader bundle differs")
         chain, resolution = report["chain"], report["resolution"]
