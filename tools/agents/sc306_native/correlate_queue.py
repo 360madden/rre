@@ -58,9 +58,22 @@ def utc_time(text: str) -> datetime:
     return value.astimezone(timezone.utc)
 
 
+def reject_duplicate_fields(pairs: list[tuple[str, object]]) -> dict:
+    """Reject ambiguous producer JSON instead of silently keeping the last key."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise EvidenceError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
 def read_json(path: Path) -> dict:
     try:
-        value = json.loads(path.read_text(encoding="utf-8-sig"))
+        value = json.loads(path.read_text(encoding="utf-8-sig"),
+                           object_pairs_hook=reject_duplicate_fields)
+    except EvidenceError:
+        raise
     except (ValueError, OSError) as exc:
         raise EvidenceError(f"{path}: unreadable JSON") from exc
     check(isinstance(value, dict), f"{path}: expected JSON object")
@@ -82,7 +95,10 @@ def check_issued_request(folder: Path, stem: str, declared_sha: str,
     check(b"\n" not in guest_bytes and b"\r" not in guest_bytes,
           f"{stem}: saved request is not single-line compact JSON")
     try:
-        request = json.loads(guest_bytes.decode("utf-8"))
+        request = json.loads(guest_bytes.decode("utf-8"),
+                             object_pairs_hook=reject_duplicate_fields)
+    except EvidenceError:
+        raise
     except (UnicodeError, ValueError) as exc:
         raise EvidenceError(f"{stem}: malformed saved request") from exc
     check(isinstance(request, dict)

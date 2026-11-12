@@ -188,6 +188,33 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "request SHA mismatch"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_duplicate_native_status_with_matched_receipts_rejected(self) -> None:
+        # Python's default JSON decoder silently keeps the last duplicate key.
+        path = self.folder / "queue-field-b-v2.json"
+        original = path.read_text(encoding="utf-8")
+        self.assertIn('"status": "complete"', original)
+        path.write_text(original.replace('"status": "complete"',
+                                         '"status": "failed", "status": "complete"', 1),
+                        encoding="utf-8")
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "duplicate JSON key: status"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_duplicate_saved_request_key_with_updated_hash_rejected(self) -> None:
+        path = self.folder / "queue-field-b-v2.request.json"
+        original = path.read_bytes()
+        old_key = b'"evidenceKind":"native-pointer-follow-request/1"'
+        self.assertIn(old_key, original)
+        modified = original.replace(
+            old_key, b'"evidenceKind":"wrong","evidenceKind":"native-pointer-follow-request/1"', 1)
+        self.assertTrue(modified.endswith(b"\r\n"))
+        path.write_bytes(modified)
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x.update({"requestSha256": sha256(modified[:-2])}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "duplicate JSON key: evidenceKind"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_changed_inspection_bytes_with_stale_receipt_rejected(self) -> None:
         self.mutate("native-inspection.json",
                     lambda x: x.update({"unboundProvenanceMarker": "different bytes"}))
