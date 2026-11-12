@@ -12,6 +12,7 @@ Event = {Addon = {SavedVariables = {Load = {End = savedEvent}}}}
 local reads = {list = 0, detail = 0, map = 0}
 local unavailable, listError = false, false
 local frameTime, realTime, countDone = 100, 1000, 1
+local diagnostic = false
 Inspect = {
   Time = {Frame = function() return frameTime end, Real = function() return realTime end},
   System = {Version = function() return "synthetic-build" end},
@@ -29,7 +30,8 @@ Inspect = {
       reads.detail = reads.detail + 1
       return {id = id, name = "Gather supplies", track = true, complete = false, failed = false,
         objective = {{description = "Collect supplies", count = 3, countDone = countDone, complete = false,
-          indicator = {mSYNTHETIC = true}}}}
+          indicator = {mSYNTHETIC = diagnostic and {binary = string.char(0, 255), zero = 0,
+            flag = false, nested = {ignored = true}} or true}}}}
     end},
   Map = {Detail = function(id)
     reads.map = reads.map + 1
@@ -95,5 +97,16 @@ if arg and (arg[1] == "--emit-saved" or arg[1] == "--emit-pair") then
       "second capture does not mutate first retained snapshot")
     print("RRE_QUEST_LATER RRECollectorData=" .. literal(RRECollectorData))
     print("QUEST_PROGRESS_PASS 3")
+    diagnostic, frameTime, realTime = true, 102, 1002
+    hooks["RRECollector.Slash"]({}, "quests")
+    local shape = RRECollectorData.questSnapshot.indicatorShapes
+    check(RRECollectorData.questSnapshotSequence == 3 and RRECollectorData.questSnapshot.status == "partial",
+      "unsupported shape stays partial with advancing snapshot")
+    check(shape.counts.sampled == 1 and shape.counts.mapReads == 1, "actual diagnostic sample and read recorded")
+    check(RRECollectorData.questSnapshot.counts.mapReads == 0
+      and RRECollectorData.questSnapshot.counts.indicatorsRetained == 0, "candidate lookup stays outside canonical locations")
+    check(actions == 0, "diagnostics do not invoke gameplay commands")
+    print("RRE_QUEST_DIAGNOSTIC RRECollectorData=" .. literal(RRECollectorData))
+    print("QUEST_DIAGNOSTIC_PASS 4")
   end
 end

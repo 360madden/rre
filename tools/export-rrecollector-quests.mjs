@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {parseSavedLuaBytes} from './read-rrecollector-saved.mjs';
 import {readStableOriginalWithMetadata} from './read-stable-original.mjs';
 
-const VERSION = '0.4.20';
+const VERSIONS = new Set(['0.4.20', '0.4.21']);
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const integer = x => Number.isSafeInteger(x) && x >= 0;
 const id = x => typeof x === 'string'
@@ -38,10 +38,114 @@ function dense(value, max) {
   return Array.isArray(value) ? value : keys.map(key => value[key]);
 }
 
+function indicatorDiagnostics(snapshot, journal) {
+  if (snapshot.addonVersion !== '0.4.21') return null;
+  const raw = snapshot.indicatorShapes;
+  requireValue(object(raw) && raw.schemaVersion === 1
+    && raw.scope === 'unsupported-indicator-diagnostics' && raw.coverage === 'bounded-sample', 'QUEST_SHAPE_CONTRACT');
+  const maxima = {seen: 16384, sampled: 8, dropped: 16384, fieldsScanned: 128,
+    stringsTruncated: 512, encodedBytesRetained: 8192, fieldReadErrors: 128, mapReads: 16};
+  requireValue(object(raw.counts) && Object.keys(raw.counts).length === Object.keys(maxima).length
+    && Object.entries(maxima).every(([key, max]) => integer(raw.counts[key]) && raw.counts[key] <= max), 'QUEST_SHAPE_COUNTS');
+  const types = new Set(['nil', 'boolean', 'number', 'string', 'table', 'function', 'userdata', 'thread']);
+  let encoded = 0, truncated = 0, fieldsScanned = 0, mapReads = 0;
+  function scalarShape(value) {
+    requireValue(object(value) && types.has(value.type), 'QUEST_SHAPE_SCALAR');
+    const result = {type: value.type};
+    if (value.type === 'boolean') {
+      requireValue(typeof value.value === 'boolean', 'QUEST_SHAPE_BOOLEAN'); result.value = value.value;
+    } else if (value.type === 'number') {
+      requireValue(typeof value.finite === 'boolean'
+        && (!value.finite || Number.isFinite(value.value)), 'QUEST_SHAPE_NUMBER');
+      result.finite = value.finite; result.value = value.finite ? value.value : null;
+    } else if (value.type === 'string') {
+      requireValue(integer(value.sourceBytes) && integer(value.retainedBytes)
+        && value.retainedBytes <= 256 && value.retainedBytes <= value.sourceBytes
+        && typeof value.truncated === 'boolean' && value.truncated === (value.retainedBytes < value.sourceBytes)
+        && typeof value.preview === 'string', 'QUEST_SHAPE_PREVIEW');
+      requireValue(value.encoding === 'ascii'
+        ? /^[\x20-\x7e]*$/.test(value.preview) && value.preview.length === value.retainedBytes
+        : value.encoding === 'hex-bytes' && /^[0-9A-F]*$/.test(value.preview)
+          && value.preview.length === value.retainedBytes * 2, 'QUEST_SHAPE_ENCODING');
+      encoded += value.preview.length; truncated += Number(value.truncated);
+      requireValue(encoded <= 8192, 'QUEST_SHAPE_PREVIEW_BUDGET');
+      Object.assign(result, {encoding: value.encoding, preview: value.preview, sourceBytes: value.sourceBytes,
+        retainedBytes: value.retainedBytes, truncated: value.truncated});
+    }
+    return result;
+  }
+  const exactBytes = value => value?.type === 'string' && !value.truncated
+    ? Buffer.from(value.preview, value.encoding === 'hex-bytes' ? 'hex' : 'ascii') : null;
+  const candidates = new Set(['missing-api', 'limit', 'error', 'no-detail', 'invalid-detail',
+    'missing-identity', 'id-mismatch', 'returned', 'position-unavailable']);
+  const samples = dense(raw.samples, 8).map(sample => {
+    requireValue(object(sample) && ['entry', 'container'].includes(sample.entryKind)
+      && sample.status === 'unsupported-shape', 'QUEST_SHAPE_SAMPLE');
+    const quest = journal.find(row => row.id === sample.questId);
+    requireValue(quest && quest.objectives.some(row => row.key === sample.objectiveKey), 'QUEST_SHAPE_SOURCE_UNBOUND');
+    const key = scalarShape(sample.key), value = scalarShape(sample.value);
+    if (value.type === 'table') {
+      requireValue(typeof sample.value.fieldsTruncated === 'boolean'
+        && (sample.value.fieldReadError === undefined || sample.value.fieldReadError === true), 'QUEST_SHAPE_FIELDS');
+      value.fields = dense(sample.value.fields, 16).map(entry => {
+        requireValue(object(entry), 'QUEST_SHAPE_FIELD'); fieldsScanned++;
+        return {key: scalarShape(entry.key), value: scalarShape(entry.value)};
+      });
+      value.fieldsTruncated = sample.value.fieldsTruncated;
+      value.fieldReadError = sample.value.fieldReadError === true;
+    }
+    const seenSources = new Set();
+    const candidateLookups = dense(sample.candidateLookups, 2).map(lookup => {
+      requireValue(object(lookup) && ['key', 'value'].includes(lookup.candidateSource)
+        && !seenSources.has(lookup.candidateSource) && candidates.has(lookup.status)
+        && typeof lookup.cached === 'boolean' && typeof lookup.identityMatches === 'boolean'
+        && lookup.identityMatches === ['returned', 'position-unavailable'].includes(lookup.status)
+        && lookup.questAssociationVerified === false && lookup.coordinateFrameVerified === false, 'QUEST_SHAPE_LOOKUP');
+      seenSources.add(lookup.candidateSource);
+      if (!lookup.cached && !['missing-api', 'limit'].includes(lookup.status)) mapReads++;
+      const identifier = scalarShape(lookup.identifier);
+      const returnedId = lookup.returnedId === undefined ? null : scalarShape(lookup.returnedId);
+      const sourceBytes = exactBytes(lookup.candidateSource === 'key' ? key : value);
+      const candidateBytes = exactBytes(identifier), returnedBytes = exactBytes(returnedId);
+      const bound = lookup.identityMatches && sourceBytes !== null && candidateBytes !== null
+        && returnedBytes !== null && candidateBytes.length > 0 && candidateBytes.length <= 256
+        && !candidateBytes.some(byte => byte < 32 || byte === 127)
+        && candidateBytes.equals(sourceBytes) && candidateBytes.equals(returnedBytes);
+      const coordinates = {};
+      for (const coordinate of ['coordX', 'coordY', 'coordZ']) {
+        requireValue(lookup[coordinate] === undefined || Number.isFinite(lookup[coordinate]), 'QUEST_SHAPE_COORDINATE');
+        coordinates[coordinate] = bound ? lookup[coordinate] ?? null : null;
+      }
+      return {candidateSource: lookup.candidateSource, status: lookup.status, cached: lookup.cached,
+        identifier, returnedId, reportedIdentityMatches: lookup.identityMatches, sourceBindingsVerified: bound,
+        ...coordinates, questAssociationVerified: false, coordinateFrameVerified: false};
+    });
+    return {questId: sample.questId, objectiveKey: sample.objectiveKey, entryKind: sample.entryKind,
+      status: 'unsupported-shape', questIdentityQualified: quest.identityQualified, key, value, candidateLookups};
+  });
+  requireValue(raw.counts.sampled === samples.length && raw.counts.seen === raw.counts.sampled + raw.counts.dropped
+    && raw.counts.seen === snapshot.counts.malformedIndicators && raw.counts.fieldsScanned === fieldsScanned
+    && raw.counts.encodedBytesRetained === encoded && raw.counts.stringsTruncated === truncated
+    && raw.counts.mapReads === mapReads, 'QUEST_SHAPE_COUNT_MISMATCH');
+  requireValue(object(raw.histogram) || Array.isArray(raw.histogram) && raw.histogram.length === 0, 'QUEST_SHAPE_HISTOGRAM');
+  const histogram = {};
+  let total = 0;
+  for (const [signature, count] of Object.entries(raw.histogram)) {
+    const parts = signature.split('/');
+    requireValue(parts.length === 2 && parts.every(part => types.has(part))
+      && integer(count) && count > 0 && count <= 16384, 'QUEST_SHAPE_HISTOGRAM');
+    histogram[signature] = count; total += count;
+  }
+  requireValue(total === raw.counts.seen, 'QUEST_SHAPE_HISTOGRAM_COUNT');
+  return {schemaVersion: 1, scope: raw.scope, coverage: raw.coverage,
+    limits: {samples: 8, fieldsPerSample: 16, rawBytesPerPreview: 256, encodedPreviewBytes: 8192, additionalMapReads: 16},
+    counts: {...raw.counts}, histogram, samples};
+}
+
 export function summarizeQuestReceipt(saved, source = {}) {
   const snap = saved?.questSnapshot;
   requireValue(object(saved) && object(snap), 'QUEST_NOT_CAPTURED');
-  requireValue(saved.addonVersion === VERSION && snap.addonVersion === VERSION,
+  requireValue(VERSIONS.has(saved.addonVersion) && VERSIONS.has(snap.addonVersion),
     'QUEST_VERSION_MISMATCH');
   requireValue(snap.schemaVersion === 1 && snap.scope === 'quest-journal-snapshot',
     'QUEST_SCHEMA_SCOPE');
@@ -142,10 +246,10 @@ export function summarizeQuestReceipt(saved, source = {}) {
     || token(a.questId).localeCompare(token(b.questId), 'en')
     || token(a.key).localeCompare(token(b.key), 'en'));
   const attempt = saved.questAttempt;
-  const lastRecordedAttempt = object(attempt) && attempt.addonVersion === VERSION
+  const lastRecordedAttempt = object(attempt) && VERSIONS.has(attempt.addonVersion)
     && ['recorded', 'partial', 'empty', 'unavailable', 'error'].includes(attempt.status)
     ? {producerVersion: attempt.addonVersion, status: attempt.status} : null;
-  return {schemaVersion: 1, producerVersion: snap.addonVersion, sequence: snap.sequence,
+  return {schemaVersion: 1, producerVersion: snap.addonVersion, savedAddonVersion: saved.addonVersion, sequence: snap.sequence,
     sourceSha256: source.sha256 ?? null, sourceBytes: source.bytes ?? null,
     sourceModifiedAtUtc: source.modifiedAtUtc ?? null,
     status: snap.status, statusScope: 'retained-snapshot', coverageComplete: snap.complete,
@@ -159,7 +263,7 @@ export function summarizeQuestReceipt(saved, source = {}) {
         ? snap.context.realTime : null,
       playerId: id(snap.context?.player?.id) ? snap.context.player.id : null,
       zone: scalar(snap.context?.player?.zone)},
-    counts: {...snap.counts}, journal, nextObjectives};
+    counts: {...snap.counts}, journal, nextObjectives, indicatorDiagnostics: indicatorDiagnostics(snap, journal)};
 }
 
 // Differences between validated retained records; never action/session proof.

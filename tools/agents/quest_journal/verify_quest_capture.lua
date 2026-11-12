@@ -51,7 +51,9 @@ check(objective.complete == false and objective.countDone == 0, "false and zero 
 check(objective.indicators[1].id == "a" and objective.indicators[2].id == "b", "set and array indicators sorted")
 check(objective.indicators[1].location.coordX == 0, "zero coordinate preserved")
 check(objective.indicators[1].id == "a" and objective.indicators[1].location.sourceId == "a", "location ID provenance")
-check(reads == 3 and result.counts.mapReads == 3, "unique map calls reused across quests")
+check(result.counts.mapReads == 3 and reads == 3 + result.indicatorShapes.counts.mapReads,
+  "canonical and diagnostic map call accounting stays separate")
+check(result.indicatorShapes.counts.mapReads == 2, "diagnostic identifiers cached separately across quests")
 check(result.quests[1].objectives[2].indicators[1].id == 123, "numeric location ID preserved")
 check(result.status == "partial" and not result.complete, "malformed receipt is partial")
 check(result.context.player.id == "player-one", "context copied")
@@ -173,5 +175,64 @@ result = capture({Quest = {List = function() return {q1 = true, q2 = true} end, 
   return {id = id, objective = objectives}
 end}, Map = {Detail = function(id) return {id = id, coordX = 1, coordY = 2, coordZ = 3} end}})
 check(result.counts.indicatorsRetained == 512 and result.counts.indicatorBudgetExceeded == 512, "global references refuse second quest expansion")
+local diagnosticCalls, unsafeCalls = {}, 0
+local descriptor = {id = "mNested", zero = 0, flag = false, binary = string.char(0, 255),
+  fn = function() unsafeCalls = unsafeCalls + 1 end}
+descriptor.self = descriptor
+setmetatable(descriptor, {__tostring = function() error("do not stringify") end,
+  __index = function() error("do not invoke index") end, __pairs = function() error("do not invoke pairs") end})
+result = capture(oneQuest({objective = {{description = "Diagnostic", count = 3, countDone = 0,
+  indicator = {mOne = descriptor, mTwo = "mDirect", mNil = 1, mPartial = 0,
+    mMissing = false, mType = false, [1] = {}, [2] = false}}}}, {Detail = function(id)
+  diagnosticCalls[id] = (diagnosticCalls[id] or 0) + 1
+  if id == "mOne" then return {id = id, coordX = 0, coordY = 1, coordZ = 2} end
+  if id == "mTwo" then return {id = "other", coordX = 9, coordY = 9, coordZ = 9} end
+  if id == "mDirect" then error("private diagnostic error") end
+  if id == "mPartial" then return {id = id, coordX = 0, coordY = 1} end
+  if id == "mMissing" then return {coordX = 9, coordY = 9, coordZ = 9} end
+  if id == "mType" then return "invalid" end
+  return nil
+end}))
+local diagnostics = result.indicatorShapes
+check(diagnostics.counts.seen == 8 and #diagnostics.samples == 8, "unsupported sample bound and count")
+check(result.status == "partial" and result.counts.mapReads == 0 and result.counts.indicatorsRetained == 0,
+  "diagnostic success never repairs canonical completeness or creates indicators")
+check(diagnosticCalls.mNested == nil and unsafeCalls == 0, "no descriptor field guesses or function calls")
+local lookups, binary, zero, flag = {}, nil, nil, nil
+for _, sample in ipairs(diagnostics.samples) do
+  for _, lookup in ipairs(sample.candidateLookups) do lookups[lookup.identifier.preview] = lookup end
+  for _, entry in ipairs(sample.value.fields or {}) do
+    if entry.key.preview == "binary" then binary = entry.value end
+    if entry.key.preview == "zero" then zero = entry.value.value end
+    if entry.key.preview == "flag" then flag = entry.value.value end
+  end
+end
+check(binary.encoding == "hex-bytes" and binary.preview == "00FF" and not binary.truncated,
+  "binary previews are exact hex rather than invalid UTF8")
+check(zero == 0 and flag == false, "diagnostic scalar false and zero preserved")
+check(lookups.mOne.status == "returned" and lookups.mOne.identityMatches and lookups.mOne.coordX == 0,
+  "candidate lookup retains exact returned identity and finite zero coordinate")
+check(not lookups.mOne.questAssociationVerified and not lookups.mOne.coordinateFrameVerified,
+  "candidate lookup grants no quest or coordinate-frame qualification")
+check(lookups.mTwo.status == "id-mismatch" and lookups.mTwo.coordX == nil,
+  "wrong returned identity suppresses diagnostic coordinates")
+check(lookups.mDirect.status == "error" and lookups.mNil.status == "no-detail",
+  "throwing and missing candidate responses remain distinct")
+check(lookups.mPartial.status == "position-unavailable" and lookups.mMissing.status == "missing-identity"
+  and lookups.mType.status == "invalid-detail", "partial identity and detail shapes remain distinct")
+check(diagnostics.counts.mapReads == 7 and diagnostics.counts.mapReads <= 16,
+  "candidate reads are bounded and separately counted")
+local wide, entries = {}, {}
+for i = 1, 32 do wide["field" .. i] = string.rep(string.char(255), 256) end
+for i = 1, 100 do entries[i] = wide end
+result = capture(oneQuest({objective = {{indicator = entries}}}))
+diagnostics = result.indicatorShapes
+check(#diagnostics.samples == 8 and diagnostics.counts.seen == 32 and diagnostics.counts.dropped == 24,
+  "global shape sample cap applies before projection")
+check(diagnostics.counts.fieldsScanned == 128 and diagnostics.samples[1].value.fieldsTruncated,
+  "one-level fields scan at most16 per sample")
+check(diagnostics.counts.encodedBytesRetained <= 8192 and diagnostics.counts.stringsTruncated > 0,
+  "hex expansion charged to global encoded preview budget")
+check(diagnostics.counts.mapReads == 0, "nested field strings never become candidate identifiers")
 check(actions == 0, "no gameplay command lookup or invocation")
 print("quest capture: " .. passed .. "/" .. passed .. " assertions passed")

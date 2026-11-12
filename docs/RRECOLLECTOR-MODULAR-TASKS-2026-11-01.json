@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-11 RC86/87 reader0.2.6 verified; bounded physical .20load/capture/persistence accepted:53completeRogueabilities and27partialquests/43objectives/15remaininggoals. Indicator shape/map/travel remain open. LEGIONphysical/Codexonly/noWorkbridge; prior scopes remain historical.",
+  "status": "Stopped by user 2026-11-11T23:48:58-05:00. No activegoal. RC88source0.4.21/reader0.2.7 reviewed/offline-tested, notdeployed; installed0.4.20 boundedactualreceipt remains. Resume onlyonnewuserrequest; noWorkbridge/LEGIONVM.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-79",
+  "nextTaskId": "RC-88",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; RC08 explicit-ID candidate API response accepted (50 returned/7 no-detail); SC103 eligibility remains open",
@@ -1345,6 +1345,44 @@
           "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.json"
         ],
         "currentResult": "Approved input sequence complete; .20load/install11parity,53completeRogueabilities,27quests43objectives15remaininggoals persisted/read.40unsupportedindicators0mapreads; no movement/combat. Shared-table format safely parsed; private originals/screenshots stay local."
+      },
+      {
+        "id": "RC-88",
+        "title": "Bound unsupported quest indicator shape and candidate map-lookup diagnostics",
+        "parentTask": "RC-87",
+        "owner": "RRE manager; read-only Codex contract/source review",
+        "status": "source-ready-reviewed-user-stopped-before-deployment-request",
+        "ownedPaths": [
+          "addons/RRECollector/capabilities.lua",
+          "addons/RRECollector/core.lua",
+          "addons/RRECollector/RiftAddon.toc",
+          "addons/RRECollector/README.md",
+          "tools/agents/quest_journal",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/deploy-rrecollector-onedrive.ps1",
+          "tools/rre-reader-saved-snapshot.mjs",
+          "tools/export-rrecollector-navigation-api.mjs",
+          "reader/Rre.Reader",
+          "reader/Rre.Reader.Checks",
+          "reader/README.md"
+        ],
+        "scope": [
+          "v.21 additive bounded diagnostics for unsupported indicators seen during manual quests; no polling or new game-action path",
+          "Raw key/value types and binary-safe previews, one-level fields only; sample/text/read budgets",
+          "Separately labelled bounded diagnostic Map.Detail candidate lookups for direct identifier-like strings only, exact returned identity; never canonical destinations",
+          "Retain .20 compatibility and source provenance; prepare offline and review before separate concrete deployment request"
+        ],
+        "acceptance": [
+          "Executable Lua shape/budget/hostile-value checks and actual-package fixture pass",
+          "Node/.NET readers preserve diagnostics and qualifiers while accepting retained .20 data",
+          "Strict source package, focused regressions and one historical gate recorded honestly",
+          "Concrete new approval required before deploying .21 or issuing any new game commands"
+        ],
+        "evidence": [
+          "docs/HANDOFF-2026-11-11-2348-EST.md"
+        ],
+        "currentResult": "Source0.4.21/reader0.2.7 offline ready:145Node,101production,13quest,8combat;72questLua,23packageLua,25UI; strictmanifest/build/preflight pass. Full507gate failed existingerrors/skips. Installed0.4.20 unchanged; no newapproval requested/granted. User stopped and clearedgoal."
       }
     ],
   "workingSource": {

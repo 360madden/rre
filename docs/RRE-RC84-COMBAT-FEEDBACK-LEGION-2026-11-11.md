@@ -28,7 +28,7 @@ This contract is separate from the ability `SourceCapture` contract. It invents 
 
 Installed observer source was read-only audited at v0.4.0: model SHA256 `dbd689b9f47140e95153a583e47a445ae3ac35794d293cf58c5d58e1143ce2bc`, main `7e24d78eeaf589bf76a7e4d59b4f6be5242d8c8d4947448995c33a60da945213`, TOC `f957e327c793073293ffbfc29d98411d9cf1ded9cea5738a0cc42cfbd087d6b0`. These source versions do not prove the currently loaded game addon version.
 
-- **90/90 Node tests:**24 combat regressions plus existing saved/quest/navigation/profession checks. Cases include identity mismatch, modern precedence, capped lists, zero/absorbed damage, overheal, malformed clocks/flags, Lua nil, readout failures, old archives, exclusive output and path-free errors.
+- **90/90 Node tests:**24 combat regressions plus existing saved/quest/navigation checks. Cases include identity mismatch, modern precedence, capped lists, zero/absorbed damage, overheal, malformed clocks/flags, Lua nil, readout failures, old archives, exclusive output and path-free errors.
 - **99/99 C# production contracts** passed; build passed with warnings treated as errors.
 - **8/8 actual Node/.NET adapter checks** passed, including CLI output, modern-ID rejection, original byte hash, executable-Lua rejection, unavailable input and unchanged collector SavedSource behavior. Synthetic artifacts: `artifacts/combat-checks-bdc34d165cdc4964b71d5082b6c2b11d`.
 - A16-trial/630-sample-per-trial regression exceeds the old input limit and passes. Independent in-memory capacity review also parsed25,021,049 bytes including the serialized latest-trial alias, producing33,658 bytes of summary. These are synthetic capacity checks, not combat observations.
@@ -37,3 +37,5 @@ Installed observer source was read-only audited at v0.4.0: model SHA256 `dbd689b
 The bounded fresh original-save read failed with Node `UNKNOWN(-4094)`; current genuine trial counts remain **unverified**. The earlier empty-trial observation is historical, not refreshed here. No cloud hydration/retry or copying of private original content occurred.
 
 RRECollector source remains frozen at v0.4.20/a2d9660. The pending request for RRECollector-only deployment, UI reload and read-only quest/ability capture remains unanswered. This reader increment performs none of those actions. The seven-hour practical RRE/REA goal remains active.
+
+Coverage clarification, November11: a later command audit found a profession-suite filename omission. Profession coverage should use the explicit12-check RC88 receipt (`artifacts/rc87-profession-correction.log`) and final correct suite inventory, rather than this earlier aggregate coverage description. Historical counts and hashes are unchanged.

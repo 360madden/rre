@@ -8,7 +8,7 @@ import {parseSavedLuaBytes} from "./read-rrecollector-saved.mjs";
 import {readStableOriginalWithMetadata} from "./read-stable-original.mjs";
 
 const VERSION = "0.4.19";
-const VERSIONS = new Set([VERSION, "0.4.20"]);
+const VERSIONS = new Set([VERSION, "0.4.20", "0.4.21"]);
 const MAX_DOCS = 18, MAX_NAMES = 96;
 const PREFIXES = ["Inspect.Unit.","Inspect.Map.","Inspect.Target.","Inspect.Player.",
   "Inspect.Location.","Inspect.World.","Inspect.Waypoint.","Inspect.Path.",

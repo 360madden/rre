@@ -349,7 +349,9 @@ local runtime = RRECollectorRuntime
 local core = runtime.core or {}
 local LIMITS = {questScan = 256, quests = 128, objectiveScan = 64, objectives = 32,
   indicatorScan = 32, indicators = 16, mapReads = 128, textBytes = 2048,
-  totalObjectives = 512, totalIndicators = 512, textBudgetBytes = 131072}
+  totalObjectives = 512, totalIndicators = 512, textBudgetBytes = 131072,
+  shapeSamples = 8, shapeFields = 16, shapeStringBytes = 256,
+  shapeEncodedBytes = 8192, shapeMapReads = 16}
 local function finite(value)
   return type(value) == "number" and value == value
     and value ~= math.huge and value ~= -math.huge
@@ -392,6 +394,12 @@ local function capture()
       mapReads = 0, mapLimitReached = 0, detailFailures = 0, mapFailures = 0,
       fieldErrors = 0, malformedFields = 0, truncatedFields = 0, contextErrors = 0}}
   local partial = false
+  local shapes = {schemaVersion = 1, scope = "unsupported-indicator-diagnostics",
+    coverage = "bounded-sample", samples = {}, histogram = {},
+    counts = {seen = 0, sampled = 0, dropped = 0, fieldsScanned = 0,
+      stringsTruncated = 0, encodedBytesRetained = 0, fieldReadErrors = 0, mapReads = 0}}
+  report.indicatorShapes = shapes
+  local diagnosticMapFn, diagnosticMapCache = nil, {}
   local function issue(name)
     report.counts[name] = report.counts[name] + 1; partial = true
   end
@@ -434,6 +442,106 @@ local function capture()
     if identifier(value) then destination.sourceId = value
     elseif value ~= nil then issue("malformedFields") end
   end
+  local function shapeScalar(value)
+    local kind = type(value)
+    local result = {type = kind}
+    if kind == "boolean" then result.value = value
+    elseif kind == "number" then
+      result.finite = finite(value); if result.finite then result.value = value end
+    elseif kind == "string" then
+      local remaining = LIMITS.shapeEncodedBytes - shapes.counts.encodedBytesRetained
+      local preview = value:sub(1, math.min(LIMITS.shapeStringBytes, remaining))
+      local binary = preview:find("[^\32-\126]") ~= nil
+      if binary then
+        preview = preview:sub(1, math.floor(remaining / 2))
+        result.encoding = "hex-bytes"
+        result.preview = (preview:gsub(".", function(byte) return string.format("%02X", byte:byte()) end))
+      else result.encoding, result.preview = "ascii", preview end
+      result.sourceBytes, result.retainedBytes = #value, #preview
+      result.truncated = #preview < #value
+      if result.truncated then shapes.counts.stringsTruncated = shapes.counts.stringsTruncated + 1 end
+      shapes.counts.encodedBytesRetained = shapes.counts.encodedBytesRetained + #result.preview
+    end
+    return result
+  end
+  local function diagnosticLookup(candidate)
+    local cached = diagnosticMapCache[candidate]
+    local reused = cached ~= nil
+    if not cached then
+      cached = {status = "missing-api", identityMatches = false}
+      diagnosticMapCache[candidate] = cached
+      if type(diagnosticMapFn) == "function" then
+        if shapes.counts.mapReads >= LIMITS.shapeMapReads then cached.status = "limit"
+        else
+          shapes.counts.mapReads = shapes.counts.mapReads + 1
+          local ok, detail = pcall(diagnosticMapFn, candidate)
+          if not ok then cached.status = "error"
+          elseif detail == nil then cached.status = "no-detail"
+          elseif type(detail) ~= "table" then cached.status = "invalid-detail"
+          else
+            local returned, readOk = field(detail, "id")
+            if not readOk then shapes.counts.fieldReadErrors = shapes.counts.fieldReadErrors + 1 end
+            if identifier(returned) then cached.returnedId = returned end
+            if not readOk or not identifier(returned) then cached.status = "missing-identity"
+            elseif returned ~= candidate then cached.status = "id-mismatch"
+            else
+              cached.identityMatches, cached.status = true, "returned"
+              for _, key in ipairs({"coordX", "coordY", "coordZ"}) do
+                local coordinate, coordinateOk = field(detail, key)
+                if coordinateOk and finite(coordinate) then cached[key] = coordinate end
+                if not coordinateOk then shapes.counts.fieldReadErrors = shapes.counts.fieldReadErrors + 1 end
+              end
+              if cached.coordX == nil or cached.coordY == nil or cached.coordZ == nil then
+                cached.status = "position-unavailable"
+              end
+            end
+          end
+        end
+      end
+    end
+    local result = {status = cached.status, cached = reused, identityMatches = cached.identityMatches,
+      coordinateFrameVerified = false, questAssociationVerified = false,
+      identifier = shapeScalar(candidate)}
+    if cached.returnedId ~= nil then result.returnedId = shapeScalar(cached.returnedId) end
+    for _, key in ipairs({"coordX", "coordY", "coordZ"}) do result[key] = cached[key] end
+    return result
+  end
+  local function unsupportedIndicator(item, quest, objective, entryKind)
+    shapes.counts.seen = shapes.counts.seen + 1
+    local signature = type(item.key) .. "/" .. type(item.value)
+    shapes.histogram[signature] = (shapes.histogram[signature] or 0) + 1
+    if #shapes.samples >= LIMITS.shapeSamples then
+      shapes.counts.dropped = shapes.counts.dropped + 1; return
+    end
+    local sample = {questId = quest.id, objectiveKey = objective.key, entryKind = entryKind,
+      status = "unsupported-shape", key = shapeScalar(item.key), value = shapeScalar(item.value),
+      candidateLookups = {}}
+    if type(item.value) == "table" then
+      local key, count = nil, 0
+      sample.value.fields, sample.value.fieldsTruncated = {}, false
+      while count < LIMITS.shapeFields do
+        local ok, nextKey, value = pcall(next, item.value, key)
+        if not ok then
+          shapes.counts.fieldReadErrors = shapes.counts.fieldReadErrors + 1
+          sample.value.fieldReadError = true; break
+        end
+        if nextKey == nil then break end
+        key, count = nextKey, count + 1
+        shapes.counts.fieldsScanned = shapes.counts.fieldsScanned + 1
+        sample.value.fields[#sample.value.fields + 1] = {key = shapeScalar(nextKey), value = shapeScalar(value)}
+        if count == LIMITS.shapeFields then sample.value.fieldsTruncated = true end
+      end
+    end
+    for _, source in ipairs({"key", "value"}) do
+      local candidate = item[source]
+      if type(candidate) == "string" and identifier(candidate) then
+        local lookup = diagnosticLookup(candidate); lookup.candidateSource = source
+        sample.candidateLookups[#sample.candidateLookups + 1] = lookup
+      end
+    end
+    shapes.samples[#shapes.samples + 1] = sample
+    shapes.counts.sampled = shapes.counts.sampled + 1
+  end
   local function entries(source, maximum, scanCounter, truncatedCounter)
     local result, key, count = {}, nil, 0
     while true do
@@ -447,7 +555,7 @@ local function capture()
     end
     return result
   end
-  local function listIds(source, maximumScan, maximumRetained, counters)
+  local function listIds(source, maximumScan, maximumRetained, counters, onUnsupported)
     local values, seen = {}, {}
     for _, item in ipairs(entries(source, maximumScan, counters.scan, counters.truncated)) do
       local id
@@ -458,7 +566,10 @@ local function capture()
         local token = idKey(id)
         if seen[token] then issue(counters.duplicates)
         else seen[token] = true; values[#values + 1] = id end
-      else issue(counters.malformed) end
+      else
+        issue(counters.malformed)
+        if onUnsupported then onUnsupported(item) end
+      end
     end
     table.sort(values, idLess)
     if #values > maximumRetained then
@@ -471,6 +582,7 @@ local function capture()
   local inspect = type(Inspect) == "table" and Inspect or {}
   local questApi, mapApi = read(inspect, "Quest"), read(inspect, "Map")
   local listFn, detailFn, mapFn = read(questApi, "List"), read(questApi, "Detail"), read(mapApi, "Detail")
+  diagnosticMapFn = mapFn
   report.api.questList, report.api.questDetail, report.api.mapDetail = type(listFn), type(detailFn), type(mapFn)
   local contextApi = runtime.context
   if type(contextApi) == "table" and type(contextApi.snapshot) == "function" then
@@ -560,12 +672,15 @@ local function capture()
       copyFields(item.value, objective, {"description"}, {"count", "countDone"}, {"complete"})
       local indicators = read(item.value, "indicator")
       if indicators == nil then objective.indicatorStatus = "missing"
-      elseif type(indicators) ~= "table" then objective.indicatorStatus = "invalid"; issue("malformedIndicators")
+      elseif type(indicators) ~= "table" then
+        objective.indicatorStatus = "invalid"; issue("malformedIndicators")
+        unsupportedIndicator({value = indicators}, quest, objective, "container")
       else
         objective.indicatorStatus = "returned"
         local ids = listIds(indicators, LIMITS.indicatorScan, LIMITS.indicators,
           {scan = "indicatorEntriesScanned", truncated = "indicatorScanTruncated", duplicates = "duplicateIndicators",
-            malformed = "malformedIndicators", dropped = "droppedIndicators"})
+            malformed = "malformedIndicators", dropped = "droppedIndicators"},
+          function(entry) unsupportedIndicator(entry, quest, objective, "entry") end)
         local retain = math.min(#ids, LIMITS.totalIndicators - report.counts.indicatorsRetained)
         if retain < #ids then
           report.counts.indicatorBudgetExceeded = report.counts.indicatorBudgetExceeded + #ids - retain

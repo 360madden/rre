@@ -20,10 +20,12 @@ Quest output also enforces2048-byte text fields,131072-byte projected content an
 
 ## Verification
 
-- **124 Node checks passed:**31 quest cases, nine new reference grammar/expansion cases, two new shared-table consumer cases and the existing saved/navigation/profession/combat regressions. Receipt: `artifacts/rc86-87-focused-node.log`.
+- **124 Node checks passed:**31 quest cases, nine new reference grammar/expansion cases, two new shared-table consumer cases and the existing saved/navigation/combat regressions. Receipt: `artifacts/rc86-87-focused-node.log`.
 - **99 C# production, eight combat and eleven quest adapter checks passed.** The actual nine-module Lua command fixture emits two captures and passes19 assertions; the reader checks both original hashes and a recorded count delta of1. Build passed with zero warnings/errors under warnings-as-errors.
 - Both actual RRECollector originals and the existing casting observer file passed the real C#/Node CLI adapters. The actual journal is partial and is not promoted into a qualified progress comparison.
 - The historical full gate ran once after final source changes: **507 tests, FAILED**, unchanged source inventory, with the same historical helper/source/old-build errors and two skips. Receipt: `artifacts/rc86-87-research-gate-20261111/validation.json`. No source pins were rebaselined and no full-suite pass is claimed.
 - Independent read-only Codex reviews accepted comparison semantics, output transport limits and the reference parser. No worker wrote main or operated the game.
 
 [Source hashes and validation](RRE-RC86-QUEST-COMPARISON-LEGION-2026-11-11.json). Addon source is unchanged at v0.4.20/a2d9660. The goal remains active; actual travel, objective completion and combat remain open.
+
+Coverage correction, November11 at23:34EST: the recorded124-check command omitted the profession suite because its filename was wrong. The12 profession checks subsequently passed separately in `artifacts/rc87-profession-correction.log`; the RC88 final145-check command includes the correct `tools/test-rrecollector-profession-receipt.mjs`. The original124 count and receipt are unchanged.

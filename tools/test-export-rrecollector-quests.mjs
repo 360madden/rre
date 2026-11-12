@@ -42,6 +42,90 @@ function pair() {
   };
   return {before, after, compare: () => compareQuestReceipts(receipt(before), receipt(after))};
 }
+const preview = text => ({type: 'string', encoding: 'ascii', preview: text,
+  sourceBytes: text.length, retainedBytes: text.length, truncated: false});
+function diagnosticFixture() {
+  const x = fixture(); x.addonVersion = x.questSnapshot.addonVersion = '0.4.21';
+  x.questSnapshot.status = 'partial'; x.questSnapshot.complete = false;
+  objective(x).indicators = [];
+  Object.assign(x.questSnapshot.counts, {indicatorsRetained: 0, malformedIndicators: 1});
+  x.questSnapshot.indicatorShapes = {schemaVersion: 1, scope: 'unsupported-indicator-diagnostics',
+    coverage: 'bounded-sample', counts: {seen: 1, sampled: 1, dropped: 0, fieldsScanned: 2,
+      stringsTruncated: 0, encodedBytesRetained: 23, fieldReadErrors: 0, mapReads: 1},
+    histogram: {'string/table': 1}, samples: [{questId: 'qTEST', objectiveKey: 1,
+      entryKind: 'entry', status: 'unsupported-shape', key: preview('mTEST'),
+      value: {type: 'table', fieldsTruncated: false, fields: [
+        {key: preview('zero'), value: {type: 'number', finite: true, value: 0}},
+        {key: preview('flag'), value: {type: 'boolean', value: false}}]},
+      candidateLookups: [{candidateSource: 'key', status: 'returned', cached: false,
+        identityMatches: true, coordinateFrameVerified: false, questAssociationVerified: false,
+        identifier: preview('mTEST'), returnedId: preview('mTEST'), coordX: 0, coordY: 2, coordZ: -3}]}]};
+  return x;
+}
+test('v21 retains v20 journals with separate root/capture/attempt versions', () => {
+  const x = fixture(); x.addonVersion = '0.4.21';
+  x.questAttempt = {addonVersion: '0.4.21', status: 'error'};
+  const result = summarizeQuestReceipt(x);
+  assert.equal(result.savedAddonVersion, '0.4.21'); assert.equal(result.producerVersion, '0.4.20');
+  assert.equal(result.indicatorDiagnostics, null); assert.equal(result.journalRetainedAfterFailure, true);
+});
+test('v21 source-bound candidate diagnostics preserve zero/false without producing destinations', () => {
+  const result = summarizeQuestReceipt(diagnosticFixture());
+  const sample = result.indicatorDiagnostics.samples[0], candidate = sample.candidateLookups[0];
+  assert.equal(candidate.sourceBindingsVerified, true); assert.equal(candidate.coordX, 0);
+  assert.equal(candidate.coordinateFrameVerified, false); assert.equal(candidate.questAssociationVerified, false);
+  assert.equal(sample.value.fields[0].value.value, 0); assert.equal(sample.value.fields[1].value.value, false);
+  assert.equal(result.status, 'partial'); assert.deepEqual(result.nextObjectives[0].locations, []);
+});
+test('diagnostic binary bytes remain exact hex and do not need UTF-8 decoding', () => {
+  const x = diagnosticFixture(), d = x.questSnapshot.indicatorShapes;
+  d.samples[0].value.fields.push({key: preview('bin'), value: {type: 'string', encoding: 'hex-bytes',
+    preview: '00FF', sourceBytes: 2, retainedBytes: 2, truncated: false}});
+  d.counts.fieldsScanned++; d.counts.encodedBytesRetained += 7;
+  const result = summarizeQuestReceipt(x).indicatorDiagnostics.samples[0].value.fields[2].value;
+  assert.equal(result.preview, '00FF'); assert.equal(result.encoding, 'hex-bytes');
+});
+test('clipped or different source/candidate/returned previews cannot bind an identifier', () => {
+  for (const target of ['source', 'identifier', 'returnedId']) {
+    const x = diagnosticFixture(), d = x.questSnapshot.indicatorShapes, sample = d.samples[0];
+    const p = target === 'source' ? sample.key : sample.candidateLookups[0][target];
+    p.preview = 'm'; p.retainedBytes = 1; p.truncated = true;
+    d.counts.encodedBytesRetained -= 4; d.counts.stringsTruncated++;
+    const result = summarizeQuestReceipt(x).indicatorDiagnostics.samples[0].candidateLookups[0];
+    assert.equal(result.sourceBindingsVerified, false); assert.equal(result.coordX, null);
+  }
+  const x = diagnosticFixture(); x.questSnapshot.indicatorShapes.samples[0].key.preview = 'mFAKE';
+  assert.equal(summarizeQuestReceipt(x).indicatorDiagnostics.samples[0].candidateLookups[0].sourceBindingsVerified, false);
+});
+test('wrong returned identity never exposes diagnostic coordinates', () => {
+  const x = diagnosticFixture(), candidate = x.questSnapshot.indicatorShapes.samples[0].candidateLookups[0];
+  candidate.status = 'id-mismatch'; candidate.identityMatches = false; candidate.returnedId.preview = 'mNOPE';
+  const result = summarizeQuestReceipt(x).indicatorDiagnostics.samples[0].candidateLookups[0];
+  assert.equal(result.sourceBindingsVerified, false); assert.equal(result.coordZ, null);
+});
+test('diagnostic schema, provenance, counters and qualifications fail closed', () => {
+  for (const mutate of [x => delete x.questSnapshot.indicatorShapes,
+    x => x.questSnapshot.indicatorShapes.samples[0].questId = 'qOTHER',
+    x => x.questSnapshot.indicatorShapes.counts.mapReads = 2,
+    x => x.questSnapshot.indicatorShapes.counts.encodedBytesRetained++,
+    x => x.questSnapshot.indicatorShapes.histogram['string/table'] = 2,
+    x => x.questSnapshot.indicatorShapes.samples[0].candidateLookups[0].questAssociationVerified = true,
+    x => x.questSnapshot.indicatorShapes.samples[0].candidateLookups[0].coordX = '0',
+    x => x.questSnapshot.indicatorShapes.samples[0].key.encoding = 'unknown']) {
+    const x = diagnosticFixture(); mutate(x);
+    assert.throws(() => summarizeQuestReceipt(x), /QUEST_SHAPE/);
+  }
+});
+test('diagnostic sample, field, byte and lookup bounds cannot be widened by source metadata', () => {
+  for (const mutate of [x => x.questSnapshot.indicatorShapes.counts.mapReads = 17,
+    x => x.questSnapshot.indicatorShapes.counts.encodedBytesRetained = 8193,
+    x => x.questSnapshot.indicatorShapes.samples = Array(9).fill(x.questSnapshot.indicatorShapes.samples[0]),
+    x => x.questSnapshot.indicatorShapes.samples[0].value.fields = Array(17).fill({key: preview('x'), value: {type: 'nil'}}),
+    x => x.questSnapshot.indicatorShapes.samples[0].candidateLookups.push(x.questSnapshot.indicatorShapes.samples[0].candidateLookups[0])]) {
+    const x = diagnosticFixture(); mutate(x);
+    assert.throws(() => summarizeQuestReceipt(x), /QUEST_SHAPE|QUEST_ARRAY_SHAPE/);
+  }
+});
 
 test('two advancing complete retained captures report exact recorded count differences', () => {
   const p = pair(), result = p.compare();

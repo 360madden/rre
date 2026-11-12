@@ -97,6 +97,24 @@ public static class QuestChecks
             "--output", invalidOutput)).Exit == 2 && !File.Exists(invalidOutput),
             "invalid previous input published evidence");
         passed.Add("invalid previous source is rejected before output publication");
+        Require(lua.Stdout.Contains("QUEST_DIAGNOSTIC_PASS 4", StringComparison.Ordinal), "actual diagnostic fixture failed");
+        var diagnosticLine = lua.Stdout.Split('\n').Single(line => line.StartsWith("RRE_QUEST_DIAGNOSTIC ", StringComparison.Ordinal));
+        var diagnosticDir = Path.Combine(artifacts, "diagnostic"); Directory.CreateDirectory(diagnosticDir);
+        var diagnosticInput = Path.Combine(diagnosticDir, "RRECollector.lua");
+        await File.WriteAllTextAsync(diagnosticInput, diagnosticLine[21..].Trim() + "\n", new UTF8Encoding(false));
+        var diagnosticResult = await QuestJournalSource.ReadAsync(diagnosticInput, repo);
+        var candidate = diagnosticResult["indicatorDiagnostics"]!["samples"]![0]!["candidateLookups"]![0]!;
+        Require(candidate["sourceBindingsVerified"]!.GetValue<bool>() && candidate["coordZ"]!.GetValue<int>() == 30,
+            "actual diagnostic candidate identity or zero-coordinate projection lost");
+        Require(diagnosticResult["producerVersion"]!.GetValue<string>() == "0.4.21"
+            && diagnosticResult["indicatorDiagnostics"]!["counts"]!["encodedBytesRetained"]!.GetValue<int>() > 0,
+            "diagnostic provenance missing");
+        passed.Add("actual Lua unsupported-shape capture preserves candidate identity and encoded diagnostics through C#");
+        Require(diagnosticResult["status"]!.GetValue<string>() == "partial"
+            && diagnosticResult["nextObjectives"]![0]!["locations"]!.AsArray().Count == 0
+            && !candidate["coordinateFrameVerified"]!.GetValue<bool>()
+            && !candidate["questAssociationVerified"]!.GetValue<bool>(), "diagnostics manufactured canonical destinations");
+        passed.Add("diagnostic coordinates stay outside canonical goals and do not repair partial coverage");
         return passed;
     }
 }

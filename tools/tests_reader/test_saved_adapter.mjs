@@ -347,6 +347,16 @@ test('v0.4.20 saved Experience retains prior contracts and rejects missing capab
   assert.deepEqual({...output.context.experience},{accumulated:0,needed:78});
   assert.throws(()=>read(base),/experience-capability/);
 });
+test('v0.4.21 diagnostics release preserves Experience and retained producer provenance',()=>{
+  const base=source.replace('addonVersion="0.4.11"','addonVersion="0.4.21"')
+    .replace('addonVersion="0.1.0"','addonVersion="0.4.21"');
+  const input=base.replace('roleSlot=1,','capabilities={player=true,experience=true},experience={accumulated=0,needed=78},roleSlot=1,');
+  assert.equal(read(input).addonVersion,'0.4.21');
+  assert.deepEqual({...read(input).context.experience},{accumulated:0,needed:78});
+  const retained=read(input.replace('latest={addonVersion="0.4.21"','latest={addonVersion="0.4.20"'));
+  assert.equal(retained.savedAddonVersion,'0.4.21'); assert.equal(retained.addonVersion,'0.4.20');
+  assert.throws(()=>read(base),/experience-capability/);
+});
 
 test('earlier versions reject Experience fields while retaining original parser behavior',()=>{
   assert.throws(()=>read(source.replace('roleSlot=1,','capabilities={player=true,experience=false},roleSlot=1,')),/experience-version-unqualified/);

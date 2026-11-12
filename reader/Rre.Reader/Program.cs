@@ -5,7 +5,7 @@ namespace Rre.Reader;
 
 public static class Program
 {
-    public const string ReaderVersion = "0.2.6";
+    public const string ReaderVersion = "0.2.7";
     public static async Task<int> Main(string[] args)
     {
         try

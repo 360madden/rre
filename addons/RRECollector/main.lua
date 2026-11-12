@@ -376,6 +376,11 @@ local function onSlash(_, raw)
         .. ": " .. tostring(report.counts.questsRetained) .. " quests, "
         .. tostring(report.counts.objectivesRetained) .. " objectives, "
         .. tostring(report.counts.mapReads) .. " map reads.")
+      if type(report.indicatorShapes) == "table" then
+        local counts = report.indicatorShapes.counts
+        say("Indicator diagnostics: " .. tostring(counts.sampled) .. " samples, "
+          .. tostring(counts.mapReads) .. " candidate map reads; not verified destinations.")
+      end
       say("In memory until normal UI reload/logout; no quest, movement or combat action sent.")
     elseif action == "professions" then
       if not savedLoaded then

@@ -39,6 +39,10 @@ test("v0.4.20 navigation retains version identity and rejects older retained pro
   assert.equal(summarize({rootVersion:"0.4.20",probeVersion:"0.4.20"}).probeVersion,"0.4.20");
   assert.throws(()=>summarize({rootVersion:"0.4.20"}),/NAV_VERSION_MISMATCH/);
 });
+test("v0.4.21 navigation retains its producer version and rejects older retained probes",()=>{
+  assert.equal(summarize({rootVersion:"0.4.21",probeVersion:"0.4.21"}).probeVersion,"0.4.21");
+  assert.throws(()=>summarize({rootVersion:"0.4.21"}),/NAV_VERSION_MISMATCH/);
+});
 
 test("genuine nav probe required: prior v0.4.18 saved data never invents names",()=>{
   assert.throws(()=>summarizeNavigationReceipt(parseSavedLua(
