@@ -3,7 +3,7 @@
 - User requested stop, handoff, commit and push. Goal was paused then cleared; no active goal. No automatic continuation and no former deadline authority. Current handoff: [HANDOFF-2026-11-11-2348-EST.md](HANDOFF-2026-11-11-2348-EST.md).
 - SourceRRECollector0.4.21/reader0.2.7 is reviewed and offline-tested; installed/lastobserved0.4.20. NEW0.4.21 deployment/input authority was not requested or granted. Do not deploy or send game input. Prior0.4.20 bounded window is complete.
 - Final145Node,101production,13quest,8combat; Lua72quest/23actualpackage/25UI PASS; build/strictmanifest/preflight PASS. Historical507gate FAILED unchangedsourceinventory/old errors+skips. All workers/commands terminal. See handoff for private actual-data evidence, exact source paths and resumption gates.
-- This stop checkpoint accompanies the requested scoped commit/push. Resolve finalcommit/sync via Git. No further research is authorized by this handoff.
+- Source checkpoint ec28ca7 committed; this stop closeout accompanies the requested normal push. Resolve finalcommit/sync via Git. No further research is authorized by this handoff.
 
 # RC-86/87 - real data and release checkpoint, 2026-11-11T23:29:34-05:00
 
