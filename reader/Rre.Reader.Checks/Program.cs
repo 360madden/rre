@@ -3,6 +3,21 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Rre.Reader;
 
+if (args is ["--combat-only", var castingRepo])
+{
+    try
+    {
+        var checks = await Rre.Reader.Checks.CombatChecks.RunAsync(castingRepo);
+        Console.WriteLine(JsonSerializer.Serialize(new { status = "passed", count = checks.Count, checks }));
+        return 0;
+    }
+    catch (Exception error)
+    {
+        Console.Error.WriteLine(JsonSerializer.Serialize(new { status = "failed", error = error.ToString() }));
+        return 1;
+    }
+}
+
 // Independent contract-only mode: no Lab-2 helper, guest operations, or
 // deliberately spawned child-process tests. The default full suite is unchanged.
 if (args is ["--production-only"])

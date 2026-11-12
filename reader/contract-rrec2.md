@@ -18,7 +18,7 @@ Body has exactly these keys:
 | --- | --- |
 | schemaVersion | integer2 |
 | producer | `RRECollector` |
-| addonVersion | exactly `0.4.12`, `0.4.13`, `0.4.14`, `0.4.15`, `0.4.16`, `0.4.17`, `0.4.18`, or `0.4.19`; all parts and the decoded document must agree |
+| addonVersion | exactly `0.4.12`, `0.4.13`, `0.4.14`, `0.4.15`, `0.4.16`, `0.4.17`, `0.4.18`, `0.4.19`, or `0.4.20`; all parts and the decoded document must agree |
 | session | same32lowerhex as header |
 | sequence | same safe positive integer as header |
 | part / parts | integers1..parts /1..16 |

@@ -1,5 +1,15 @@
 # RRE modular host reader
 
+**Reader0.2.4: combat feedback from the existing casting observer.** After a genuine recording and normal SavedVariables persistence, run:
+
+```powershell
+dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll combat --input 'FULL_PATH_TO_RiftReader2Casting.lua' --repo C:\work\rre
+```
+
+This source-hashed report distinguishes exact-target damage/heal, overheal-only, matched failures and inconclusive observations. It preserves an earlier observed result separately from an aborted/incomplete trial, honors modern ability-ID precedence, and handles capped event lists plus retained last-hit evidence. Archived trials retain unknown producer-version provenance. The `rre-casting-evidence/1` contract is separate from ability `SourceCapture`; it invents no inventory or sequence. It grants no live freshness or action authority. `--output NEW_FILE` uses exclusive publication. The casting consumer has a practical32MB/4M-literal-value ceiling; ordinary RRECollector inputs retain their2MB/100k-value limits. Unknown/unreadable files are not empty trials.
+
+Focused adapter checks: `dotnet run --project reader/Rre.Reader.Checks -- --combat-only C:\work\rre`. Existing production-only and historical full checks remain separate.
+
 RRECollector v0.4.20 retains the existing ability/context/Experience wire contract and v0.4.19 compatibility. Its separate quest journal stays outside RREC2; use `tools/export-rrecollector-quests.mjs` for source-hashed offline quest goals. Package/reader checks do not establish current client load or gameplay results.
 
 **Host routing (November 9, 2026):** RRE is one cross-computer application: **LEGION → its physical local RIFT**, **AMD-DESKTOP → its authorized VMware RIFT labs**. Joey reports VMware is not installed on LEGION. All game-facing RRE work on LEGION targets only its physical local RIFT. `capture --source lab2` is now rejected on LEGION *before* any acquisition preflight, irrespective of supplied files. Offline `saved`, `memory-scan`, `native-snapshot`, and `publication` inputs remain supported; replaying an existing artifact is not live VM access. Do not contact VMware labs from LEGION.

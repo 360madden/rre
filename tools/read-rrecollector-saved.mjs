@@ -18,13 +18,19 @@ const DETAILS = [
   "gainCharge", "racial", "icon", "focusMin", "focusMax"
 ];
 
-export function parseSavedLuaBytes(bytes) {
+export function parseSavedLuaBytes(bytes, expectedAssignment = "RRECollectorData") {
   if (!(bytes instanceof Uint8Array)) throw new Error("SavedVariables input must be bytes");
-  return parseSavedLua(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  return parseSavedLua(new TextDecoder("utf-8", { fatal: true }).decode(bytes), expectedAssignment);
 }
 
-export function parseSavedLua(input) {
-  if (typeof input !== "string" || input.length > MAX_CHARS) {
+export function parseSavedLua(input, expectedAssignment = "RRECollectorData") {
+  if (!["RRECollectorData", "RiftReader2CastingEvidence"].includes(expectedAssignment)) {
+    throw new Error("Unsupported SavedVariables assignment contract");
+  }
+  const casting = expectedAssignment === "RiftReader2CastingEvidence";
+  const maxChars = casting ? 32_000_000 : MAX_CHARS;
+  const maxValues = casting ? 4_000_000 : MAX_VALUES;
+  if (typeof input !== "string" || input.length > maxChars) {
     throw new Error("SavedVariables input missing or too large");
   }
   const src = input.charCodeAt(0) === 0xfeff ? input.slice(1) : input;
@@ -94,7 +100,7 @@ export function parseSavedLua(input) {
   }
   function value() {
     skip();
-    if (++values > MAX_VALUES) fail("value limit exceeded");
+    if (++values > maxValues) fail("value limit exceeded");
     if (src[i] === "{") return table();
     if (src[i] === '"' || src[i] === "'") return quoted();
     if (/[0-9+.\-]/.test(src[i] || "")) return number();
@@ -148,7 +154,7 @@ export function parseSavedLua(input) {
     return keyed;
   }
   skip();
-  if (identifier() !== "RRECollectorData") fail("unexpected SavedVariables assignment");
+  if (identifier() !== expectedAssignment) fail("unexpected SavedVariables assignment");
   expect("=");
   const data = value();
   skip();

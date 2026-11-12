@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-84",
+  "parentResearchTask": "SC-502",
+  "host": "LEGION",
+  "readerVersion": "0.2.4",
+  "feature": "offline casting feedback from existing observer",
+  "sourceHashes": {
+    "tools/rre-casting-observation.mjs": "919925a5a242e568ad2cd08b84683606ebf40072222a101ea533befce7594675",
+    "tools/read-rrecollector-saved.mjs": "6e0bac418f3d8ec1dc8ea8ec14b847aa7ff30363d2e5a1e3bedabe0837f4e5cc",
+    "tools/read-stable-original.mjs": "1507d346c4385d1f18a42b49926adc44d0645893ee66ea4fd6ca7bf40e61fb4a",
+    "tools/tests_reader/test_casting_observation.mjs": "631659c9882683d754db838eae43d958a9cc6f0f571ce2d0b8942bd42fe9a352",
+    "reader/Rre.Reader/CastingEvidenceSource.cs": "fbf259e7044f03f6b2f7d22812b089164461db517a940d5732f1cec52cec7583",
+    "reader/Rre.Reader/Program.cs": "9b99cf2a0c457aff1f31ed1eeda3561334a56ca363bf5b708009542218440d95",
+    "reader/Rre.Reader/Contracts.cs": "eaa997df73d744ac38c23f001352fc2dcb9290f0a180bdb0e777c5f61a335d31",
+    "reader/Rre.Reader/Rre.Reader.csproj": "2fabe98babdf6fbcbd5acbc7e0278c3830b9eb2dd4f97e2b8b9101d179b6e7ac",
+    "reader/Rre.Reader.Checks/CombatChecks.cs": "f7ffa5817d044a0541673fc7803ebd0c40b9ba9312b34fe64bff22153ea1e5d6",
+    "reader/Rre.Reader.Checks/Program.cs": "2a74639bd1abfb95db663cf380f249afccd31e504ec69947759f7376060aec27"
+  },
+  "validation": {
+    "node": {
+      "passed": 90,
+      "failed": 0,
+      "combatRegressions": 24
+    },
+    "productionContracts": {
+      "passed": 99,
+      "failed": 0
+    },
+    "nodeDotnetAdapter": {
+      "passed": 8,
+      "failed": 0
+    },
+    "fullHistoricalGate": {
+      "status": "failed",
+      "tests": 507,
+      "receipt": "artifacts/rc84-research-gate-20261111-2218/validation.json",
+      "sourcesUnchangedDuringGate": true,
+      "scopeNote": "Final Lua-nil edge fix followed gate; focused final checks cover it."
+    },
+    "genuineCurrentOriginalReadable": false,
+    "freshLiveCombatObserved": false
+  },
+  "qualification": {
+    "live": false,
+    "currentActionAuthorized": false,
+    "castDeliveryVerified": false
+  },
+  "constraints": {
+    "workbridgeUsed": false,
+    "gameInputs": false,
+    "addonChanged": false,
+    "reaImportStarted": false
+  },
+  "capacity": {
+    "castingBytes": 32000000,
+    "castingLiteralValues": 4000000,
+    "collectorBytesUnchanged": 2000000,
+    "collectorValuesUnchanged": 100000
+  }
+}

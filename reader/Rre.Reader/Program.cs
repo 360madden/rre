@@ -11,7 +11,8 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine("RRE host reader 0.2.3 (offline file adapters; Lab2 acquisition blocked on LEGION)\n"
+                Console.WriteLine("RRE host reader 0.2.4 (offline file adapters; Lab2 acquisition blocked on LEGION)\n"
+                    + "combat --input RiftReader2Casting.lua --repo RRE_ROOT [--output NEW_FILE]\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
@@ -21,21 +22,27 @@ public static class Program
                 return 0;
             }
             var command = args[0];
-            DataRules.Require(command is "capture" or "validate" or "doctor", "unknown-command");
+            DataRules.Require(command is "capture" or "validate" or "doctor" or "combat", "unknown-command");
             var options = Options(args[1..]);
             JsonObject output;
-            if (command == "doctor")
+            if (command == "combat")
+            {
+                Only(options, "--input", "--repo", "--output");
+                output = await CastingEvidenceSource.ReadAsync(Path.GetFullPath(Required(options, "--input")),
+                    Path.GetFullPath(Required(options, "--repo")));
+            }
+            else if (command == "doctor")
             {
                 Only(options, "--repo");
                 var repo = Path.GetFullPath(Required(options, "--repo"));
                 var node = await ProbeNodeAsync(repo);
                 output = new JsonObject
                 {
-                    ["readerVersion"] = "0.2.3", ["dotnet"] = Environment.Version.ToString(),
+                    ["readerVersion"] = "0.2.4", ["dotnet"] = Environment.Version.ToString(),
                     ["nodeAvailable"] = node.Available, ["nodeVersion"] = node.Version,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
-                    ["adapters"] = new JsonArray("saved", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
+                    ["adapters"] = new JsonArray("saved", "casting-evidence-offline", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
                     ["lab2AcquisitionImplemented"] = true,
                     ["lab2AcquisitionAllowedThisHost"] = !string.Equals(Environment.MachineName, "LEGION", StringComparison.OrdinalIgnoreCase),
                     ["liveAcceptanceRequiresCurrentEvidence"] = true,

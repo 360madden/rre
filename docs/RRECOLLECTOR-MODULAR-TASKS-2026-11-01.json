@@ -1205,6 +1205,42 @@
           "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md"
         ],
         "currentResult": "185 focused Node/C# checks passed; source package/preflight pass; full historical research gate failed on missing/old-source evidence and2skips; Lua/client pending"
+      },
+      {
+        "id": "RC-84",
+        "title": "Read existing casting evidence as practical combat feedback",
+        "parentResearchTask": "SC-502",
+        "owner": "RRE manager; independent read-only Codex protocol review",
+        "status": "implemented-offline-reader-and-focused-checks-passed",
+        "ownedPaths": [
+          "tools/rre-casting-observation.mjs",
+          "tools/read-rrecollector-saved.mjs",
+          "tools/read-stable-original.mjs",
+          "tools/tests_reader/test_casting_observation.mjs",
+          "reader/Rre.Reader/CastingEvidenceSource.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Contracts.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/CombatChecks.cs",
+          "reader/Rre.Reader.Checks/Program.cs",
+          "reader/README.md",
+          "reader/contract-rrec2.md"
+        ],
+        "scope": [
+          "Exact identity/time/positive-event feedback through RRE.Reader combat command",
+          "Preserve modern-ID precedence and capped last-hit records",
+          "Keep collector parser/default limits and SourceCapture contract unchanged",
+          "No observer edits or gameplay inputs"
+        ],
+        "acceptance": [
+          "90 Node,99 C#production,8 actual adapter checks passed",
+          "Source-hashed original; false live/freshness/delivery/authority qualifications",
+          "Genuine current original read unavailable; no cast success claim"
+        ],
+        "evidence": [
+          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.md",
+          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.json"
+        ]
       }
     ],
   "workingSource": {
