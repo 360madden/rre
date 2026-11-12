@@ -1,4 +1,4 @@
--- RRECollector v0.4.19: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.20: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -149,7 +149,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | navigation | candidates | ui | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | navigation | quests | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -346,6 +346,37 @@ local function onSlash(_, raw)
         .. tostring(index.retained or 0) .. ", doc errors "
         .. tostring(report.documentErrors or 0) .. ".")
       say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
+    elseif action == "quests" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local questApi = RRECollectorRuntime.quests
+      local ok, report = pcall(function() return questApi.capture() end)
+      if not ok or type(report) ~= "table" or type(report.counts) ~= "table"
+        or type(report.quests) ~= "table" then
+        lastMessage = "quest-capture-error"
+        say("Quest capture failed safely; prior journal preserved.")
+        return
+      end
+      RRECollectorData.questAttempt = {status = report.status, counts = report.counts,
+        addonVersion = VERSION}
+      if report.status == "unavailable" or report.status == "error" then
+        lastMessage = "quest-capture-" .. report.status
+        say("Quest API " .. tostring(report.questListStatus or report.status)
+          .. "; prior journal preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.questSnapshotSequence)
+      report.sequence = sequence
+      RRECollectorData.questSnapshot = report
+      RRECollectorData.questSnapshotSequence = sequence
+      lastMessage = "quest-capture-recorded"
+      say("Quest journal #" .. tostring(sequence) .. " " .. tostring(report.status)
+        .. ": " .. tostring(report.counts.questsRetained) .. " quests, "
+        .. tostring(report.counts.objectivesRetained) .. " objectives, "
+        .. tostring(report.counts.mapReads) .. " map reads.")
+      say("In memory until normal UI reload/logout; no quest, movement or combat action sent.")
     elseif action == "professions" then
       if not savedLoaded then
         say("SavedVariables not ready; retry after initialization.")
@@ -430,7 +461,7 @@ local function onSlash(_, raw)
         and latest.addonVersion or "unknown"
       say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
         .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
-      say("Separate research receipts: .probe, .professionProbe, .navigationProbe and .candidateLookup.")
+      say("Separate research receipts: .probe, .professionProbe, .navigationProbe, .questSnapshot and .candidateLookup.")
       say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")

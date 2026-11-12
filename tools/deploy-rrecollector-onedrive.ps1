@@ -1,4 +1,4 @@
-# RC-55: bounded RRECollector v0.4.19-only deployment to LEGION's verified OneDrive AddOns root.
+# RC-55: bounded RRECollector v0.4.20-only deployment to LEGION's verified OneDrive AddOns root.
 # Preflight by default. Use -Deploy after strict source package validation.
 param([switch]$Deploy)
 $ErrorActionPreference = "Stop"
@@ -30,7 +30,7 @@ $oldVersion = $Matches[1]
 if ($sourceToc -notmatch 'Version\s*=\s*"([0-9]+\.[0-9]+\.[0-9]+)"') { throw "INVALID_SOURCE_VERSION" }
 $newVersion = $Matches[1]
 Write-Output "Machine=LEGION; target=$target; installed=$oldVersion; source=$newVersion; files=$($names.Count)"
-if ($newVersion -ne "0.4.19") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
+if ($newVersion -ne "0.4.20") { throw "UNEXPECTED_RELEASE_VERSION: $newVersion" }
 # Enforce the strict manifest, source-version, module-order and package checks
 # in both preflight and deploy modes; a successful copy alone is not a load proof.
 $gateOutput = & node.exe (Join-Path $repo "tools\verify-rrecollector-package.mjs") 2>&1

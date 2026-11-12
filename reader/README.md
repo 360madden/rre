@@ -1,5 +1,7 @@
 # RRE modular host reader
 
+RRECollector v0.4.20 retains the existing ability/context/Experience wire contract and v0.4.19 compatibility. Its separate quest journal stays outside RREC2; use `tools/export-rrecollector-quests.mjs` for source-hashed offline quest goals. Package/reader checks do not establish current client load or gameplay results.
+
 **Host routing (November 9, 2026):** RRE is one cross-computer application: **LEGION → its physical local RIFT**, **AMD-DESKTOP → its authorized VMware RIFT labs**. Joey reports VMware is not installed on LEGION. All game-facing RRE work on LEGION targets only its physical local RIFT. `capture --source lab2` is now rejected on LEGION *before* any acquisition preflight, irrespective of supplied files. Offline `saved`, `memory-scan`, `native-snapshot`, and `publication` inputs remain supported; replaying an existing artifact is not live VM access. Do not contact VMware labs from LEGION.
 
 One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.3 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.

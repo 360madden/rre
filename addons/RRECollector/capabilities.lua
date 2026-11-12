@@ -338,3 +338,273 @@ end
 RRECollectorRuntime.capabilities = {
   probe = collectProbe, professions = collectProfessions, navigation = collectNavigation,
 }
+
+
+-- RC-79: bounded manual quest journal, separate from capability probes.
+do
+-- RC-79 candidate: one manual, read-only quest-journal snapshot. Lua 5.1 compatible.
+-- List/Detail documentation is a lead; this module does not establish live acceptance.
+RRECollectorRuntime = RRECollectorRuntime or {}
+local runtime = RRECollectorRuntime
+local core = runtime.core or {}
+local LIMITS = {questScan = 256, quests = 128, objectiveScan = 64, objectives = 32,
+  indicatorScan = 32, indicators = 16, mapReads = 128, textBytes = 2048,
+  totalObjectives = 512, totalIndicators = 512, textBudgetBytes = 131072}
+local function finite(value)
+  return type(value) == "number" and value == value
+    and value ~= math.huge and value ~= -math.huge
+end
+local function field(value, key)
+  if type(value) ~= "table" then return nil, false end
+  local ok, result = pcall(function() return value[key] end)
+  return result, ok
+end
+local function identifier(value)
+  if type(value) == "string" then
+    return #value > 0 and #value <= 256 and not value:find("[%z\1-\31\127]")
+  end
+  return finite(value) and value >= 0 and value <= 9007199254740991
+    and value == math.floor(value)
+end
+local function idLess(a, b)
+  if type(a) == type(b) then return a < b end
+  return type(a) == "number"
+end
+local function idKey(id)
+  return type(id) .. ":" .. (type(id) == "number" and string.format("%.0f", id) or id)
+end
+local function copyLimits()
+  local result = {}; for key, value in pairs(LIMITS) do result[key] = value end
+  return result
+end
+local function capture()
+  local report = {schemaVersion = 1, addonVersion = runtime.VERSION,
+    scope = "quest-journal-snapshot", status = "unavailable", complete = false,
+    context = {}, api = {}, limits = copyLimits(), quests = {},
+    counts = {questEntriesScanned = 0, questsRetained = 0, duplicateQuestIds = 0,
+      malformedQuestEntries = 0, droppedQuests = 0, questScanTruncated = 0,
+      objectiveEntriesScanned = 0, objectivesRetained = 0, malformedObjectives = 0,
+      droppedObjectives = 0, objectiveScanTruncated = 0, objectiveBudgetExceeded = 0,
+      missingObjectiveTables = 0,
+      indicatorEntriesScanned = 0, indicatorsRetained = 0, duplicateIndicators = 0,
+      malformedIndicators = 0, droppedIndicators = 0, indicatorScanTruncated = 0,
+      indicatorBudgetExceeded = 0, textBytesRetained = 0, textBudgetExceeded = 0,
+      mapReads = 0, mapLimitReached = 0, detailFailures = 0, mapFailures = 0,
+      fieldErrors = 0, malformedFields = 0, truncatedFields = 0, contextErrors = 0}}
+  local partial = false
+  local function issue(name)
+    report.counts[name] = report.counts[name] + 1; partial = true
+  end
+  local function read(source, name)
+    local value, ok = field(source, name)
+    if not ok and type(source) == "table" then issue("fieldErrors") end
+    return value
+  end
+  local function copyFields(source, destination, strings, numbers, booleans, chargeText)
+    if chargeText == nil then chargeText = true end
+    for _, name in ipairs(strings or {}) do
+      local value = read(source, name)
+      if type(value) == "string" then
+        if #value > LIMITS.textBytes then issue("truncatedFields") end
+        local cap = LIMITS.textBytes
+        if chargeText then
+          cap = math.min(cap, LIMITS.textBudgetBytes - report.counts.textBytesRetained)
+          if cap < math.min(#value, LIMITS.textBytes) then issue("textBudgetExceeded") end
+        end
+        local copied = type(core.scalar) == "function" and core.scalar(value, cap) or value:sub(1, cap)
+        destination[name] = copied
+        if chargeText then report.counts.textBytesRetained = report.counts.textBytesRetained + #copied end
+      elseif value ~= nil then issue("malformedFields") end
+    end
+    for _, name in ipairs(numbers or {}) do
+      local value = read(source, name)
+      local quantity = name == "count" or name == "countDone"
+      if finite(value) and (not quantity or (value >= 0 and value <= 9007199254740991 and value == math.floor(value))) then
+        destination[name] = value
+      elseif value ~= nil then issue("malformedFields") end
+    end
+    for _, name in ipairs(booleans or {}) do
+      local value = read(source, name)
+      if type(value) == "boolean" then destination[name] = value
+      elseif value ~= nil then issue("malformedFields") end
+    end
+  end
+  local function sourceId(source, destination)
+    local value = read(source, "id")
+    if identifier(value) then destination.sourceId = value
+    elseif value ~= nil then issue("malformedFields") end
+  end
+  local function entries(source, maximum, scanCounter, truncatedCounter)
+    local result, key, count = {}, nil, 0
+    while true do
+      local nextKey, value = next(source, key)
+      if nextKey == nil then break end
+      count = count + 1; report.counts[scanCounter] = report.counts[scanCounter] + 1
+      result[#result + 1] = {key = nextKey, value = value}
+      key = nextKey
+      -- At the exact bound conservatively mark coverage partial without probing further.
+      if count >= maximum then issue(truncatedCounter); break end
+    end
+    return result
+  end
+  local function listIds(source, maximumScan, maximumRetained, counters)
+    local values, seen = {}, {}
+    for _, item in ipairs(entries(source, maximumScan, counters.scan, counters.truncated)) do
+      local id
+      -- Accept sets only when the value is true. Arbitrary string keys are not IDs.
+      if type(item.key) == "string" and item.value == true then id = item.key
+      elseif finite(item.key) and item.key >= 1 and item.key == math.floor(item.key) then id = item.value end
+      if identifier(id) then
+        local token = idKey(id)
+        if seen[token] then issue(counters.duplicates)
+        else seen[token] = true; values[#values + 1] = id end
+      else issue(counters.malformed) end
+    end
+    table.sort(values, idLess)
+    if #values > maximumRetained then
+      report.counts[counters.dropped] = report.counts[counters.dropped] + #values - maximumRetained
+      partial = true
+      for i = #values, maximumRetained + 1, -1 do values[i] = nil end
+    end
+    return values
+  end
+  local inspect = type(Inspect) == "table" and Inspect or {}
+  local questApi, mapApi = read(inspect, "Quest"), read(inspect, "Map")
+  local listFn, detailFn, mapFn = read(questApi, "List"), read(questApi, "Detail"), read(mapApi, "Detail")
+  report.api.questList, report.api.questDetail, report.api.mapDetail = type(listFn), type(detailFn), type(mapFn)
+  local contextApi = runtime.context
+  if type(contextApi) == "table" and type(contextApi.snapshot) == "function" then
+    local ok, value = pcall(contextApi.snapshot)
+    if ok and type(value) == "table" then report.context = value else issue("contextErrors") end
+  else issue("contextErrors") end
+  local context = report.context
+  local player = type(context.player) == "table" and context.player or {}
+  local capabilities = type(context.capabilities) == "table" and context.capabilities or {}
+  if capabilities.player ~= true or not identifier(player.id)
+    or not finite(context.frameTime) or context.frameTime < 0
+    or not finite(context.realTime) or context.realTime < 0 then
+    if report.counts.contextErrors == 0 then issue("contextErrors") end
+    report.questListStatus = "context-unavailable"
+    return report
+  end
+  if type(listFn) ~= "function" then report.questListStatus = "missing-api"; return report end
+  local listOk, questList = pcall(listFn)
+  if not listOk then report.questListStatus = "error"; report.status = "error"; return report end
+  if type(questList) ~= "table" then
+    report.questListStatus = "invalid-result"; report.status = "error"; return report
+  end
+  report.questListStatus = "returned"
+  local questIds = listIds(questList, LIMITS.questScan, LIMITS.quests,
+    {scan = "questEntriesScanned", truncated = "questScanTruncated", duplicates = "duplicateQuestIds",
+      malformed = "malformedQuestEntries", dropped = "droppedQuests"})
+  local mapCache = {}
+  local function cachedLocation(id)
+    local token = idKey(id)
+    if mapCache[token] then return mapCache[token] end
+    local result = {id = id, status = "missing-api"}
+    mapCache[token] = result
+    if type(mapFn) ~= "function" then issue("mapFailures"); return result end
+    if report.counts.mapReads >= LIMITS.mapReads then
+      result.status = "limit"; issue("mapLimitReached"); return result
+    end
+    report.counts.mapReads = report.counts.mapReads + 1
+    local ok, value = pcall(mapFn, id)
+    if not ok then result.status = "error"; issue("mapFailures")
+    elseif value == nil then result.status = "no-detail"; issue("mapFailures")
+    elseif type(value) ~= "table" then result.status = "invalid-detail"; issue("mapFailures")
+    else
+      result.status, result.location = "returned", {}
+      sourceId(value, result.location)
+      if result.location.sourceId == nil then result.status = "missing-identity"; issue("mapFailures")
+      elseif result.location.sourceId ~= id then result.status = "id-mismatch"; issue("mapFailures") end
+      copyFields(value, result.location, {"title", "description"},
+        result.status == "returned" and {"coordX", "coordY", "coordZ"} or {}, nil, false)
+      if result.status == "returned" and (result.location.coordX == nil or result.location.coordY == nil
+        or result.location.coordZ == nil) then result.status = "position-unavailable"; issue("mapFailures") end
+    end
+    return result
+  end
+  local function location(id, quest)
+    if quest.status ~= "returned" then return {id = id, status = "quest-identity-unqualified"} end
+    local cached = cachedLocation(id)
+    -- SavedVariables repeats shared tables. Charge text for EVERY emitted placement.
+    local result = {id = cached.id, status = cached.status}
+    if cached.location then
+      result.location = {sourceId = cached.location.sourceId}
+      copyFields(cached.location, result.location, {"title", "description"}, {"coordX", "coordY", "coordZ"})
+    end
+    return result
+  end
+  local function objectives(source, quest)
+    quest.objectives = {}
+    local values = read(source, "objective")
+    if values == nil then quest.objectiveStatus = "missing"; issue("missingObjectiveTables"); return end
+    if type(values) ~= "table" then quest.objectiveStatus = "invalid"; issue("malformedObjectives"); return end
+    quest.objectiveStatus = "returned"
+    local items = {}
+    for _, item in ipairs(entries(values, LIMITS.objectiveScan, "objectiveEntriesScanned", "objectiveScanTruncated")) do
+      if identifier(item.key) and type(item.value) == "table" then items[#items + 1] = item
+      else issue("malformedObjectives") end
+    end
+    table.sort(items, function(a, b) return idLess(a.key, b.key) end)
+    local allowed = math.min(#items, LIMITS.objectives, LIMITS.totalObjectives - report.counts.objectivesRetained)
+    local budgetDropped = math.min(#items, LIMITS.objectives) - allowed
+    if budgetDropped > 0 then report.counts.objectiveBudgetExceeded = report.counts.objectiveBudgetExceeded + budgetDropped end
+    if #items > allowed then
+      report.counts.droppedObjectives = report.counts.droppedObjectives + #items - allowed
+      partial = true
+    end
+    for i = 1, allowed do
+      local item = items[i]
+      local objective = {key = item.key, indicators = {}}
+      copyFields(item.value, objective, {"description"}, {"count", "countDone"}, {"complete"})
+      local indicators = read(item.value, "indicator")
+      if indicators == nil then objective.indicatorStatus = "missing"
+      elseif type(indicators) ~= "table" then objective.indicatorStatus = "invalid"; issue("malformedIndicators")
+      else
+        objective.indicatorStatus = "returned"
+        local ids = listIds(indicators, LIMITS.indicatorScan, LIMITS.indicators,
+          {scan = "indicatorEntriesScanned", truncated = "indicatorScanTruncated", duplicates = "duplicateIndicators",
+            malformed = "malformedIndicators", dropped = "droppedIndicators"})
+        local retain = math.min(#ids, LIMITS.totalIndicators - report.counts.indicatorsRetained)
+        if retain < #ids then
+          report.counts.indicatorBudgetExceeded = report.counts.indicatorBudgetExceeded + #ids - retain
+          report.counts.droppedIndicators = report.counts.droppedIndicators + #ids - retain
+          partial = true
+        end
+        for j = 1, retain do
+          objective.indicators[#objective.indicators + 1] = location(ids[j], quest)
+          report.counts.indicatorsRetained = report.counts.indicatorsRetained + 1
+        end
+      end
+      quest.objectives[#quest.objectives + 1] = objective
+      report.counts.objectivesRetained = report.counts.objectivesRetained + 1
+    end
+  end
+  for _, id in ipairs(questIds) do
+    local quest = {id = id, status = "missing-api", objectives = {}}
+    if type(detailFn) ~= "function" then issue("detailFailures")
+    else
+      local ok, detail = pcall(detailFn, id)
+      if not ok then quest.status = "error"; issue("detailFailures")
+      elseif detail == nil then quest.status = "no-detail"; issue("detailFailures")
+      elseif type(detail) ~= "table" then quest.status = "invalid-detail"; issue("detailFailures")
+      else
+        quest.status = "returned"; sourceId(detail, quest)
+        if quest.sourceId == nil then quest.status = "missing-identity"; issue("detailFailures")
+        elseif quest.sourceId ~= id then quest.status = "id-mismatch"; issue("detailFailures") end
+        copyFields(detail, quest, {"name", "summary", "description", "domain", "mode", "categoryName", "tag", "tagName"},
+          nil, {"complete", "failed", "track", "watch"})
+        objectives(detail, quest)
+      end
+    end
+    report.quests[#report.quests + 1] = quest
+  end
+  report.counts.questsRetained = #report.quests
+  report.complete = not partial
+  report.status = partial and "partial" or (#questIds == 0 and "empty" or "recorded")
+  return report
+end
+runtime.quests = {capture = capture}
+
+end

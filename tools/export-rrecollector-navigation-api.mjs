@@ -8,6 +8,7 @@ import {parseSavedLuaBytes} from "./read-rrecollector-saved.mjs";
 import {readStableOriginalWithMetadata} from "./read-stable-original.mjs";
 
 const VERSION = "0.4.19";
+const VERSIONS = new Set([VERSION, "0.4.20"]);
 const MAX_DOCS = 18, MAX_NAMES = 96;
 const PREFIXES = ["Inspect.Unit.","Inspect.Map.","Inspect.Target.","Inspect.Player.",
   "Inspect.Location.","Inspect.World.","Inspect.Waypoint.","Inspect.Path.",
@@ -64,7 +65,7 @@ export function summarizeNavigationReceipt(saved, source={}) {
   const probe=saved.navigationProbe;
   requireValue(object(probe) && object(probe.index) && object(probe.pathTypes),
     "NAV_NOT_CAPTURED_OR_MALFORMED");
-  requireValue(saved.addonVersion===VERSION && probe.addonVersion===VERSION,
+  requireValue(VERSIONS.has(saved.addonVersion) && probe.addonVersion===saved.addonVersion,
     "NAV_VERSION_MISMATCH");
   requireValue(probe.schemaVersion===1 && probe.scope===
     "navigation-api-name-discovery-only-no-gameplay-or-api-execution",
@@ -119,7 +120,7 @@ export function summarizeNavigationReceipt(saved, source={}) {
   requireValue(count(probe.documentErrors,MAX_DOCS)
     && probe.documentErrors===errors,"NAV_DOC_ERRORS");
   const partial=idx.truncated>0||idx.scanLimitReached;
-  return {schemaVersion:1,probeVersion:VERSION,sequence:probe.sequence,
+  return {schemaVersion:1,probeVersion:probe.addonVersion,sequence:probe.sequence,
     sourceSha256:source.sha256??null,sourceBytes:source.bytes??null,
     sourceModifiedAtUtc:source.modifiedAtUtc??null,
     dataClaim:"Names and documentation reported by an offline SavedVariables file; no verified current load, live freshness, physical movement or actionable API.",
@@ -179,9 +180,10 @@ export function renderNavigationMarkdown(receipt) {
 
 export function readNavigationReceipt(file,requiredVersion=VERSION) {
   requireValue(path.basename(file)==="RRECollector.lua","ONLY_RRECOLLECTOR_SAVED_FILE");
-  requireValue(requiredVersion===VERSION,"NAV_REQUIRED_VERSION");
+  requireValue(VERSIONS.has(requiredVersion),"NAV_REQUIRED_VERSION");
   const original=readStableOriginalWithMetadata(file);
   const saved=parseSavedLuaBytes(original.bytes);
+  requireValue(saved.addonVersion===requiredVersion,"NAV_VERSION_MISMATCH");
   return summarizeNavigationReceipt(saved,{sha256:sha(original.bytes),bytes:original.bytes.length,
     modifiedAtUtc:original.modifiedAtUtc});
 }

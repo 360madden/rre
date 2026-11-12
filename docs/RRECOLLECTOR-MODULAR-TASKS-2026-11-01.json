@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-07 SC-610: Lab-2 sole live target; Bolinao L43 Rogue role1 current-known capture/save qualified on loaded/saved RRECollector v0.4.11, 54/54 and 10/10 installed source hashes. Existing action-bar reloadui worked; old-v0.4.10 toolbar Reload success unverified. Warrior candidate attempt deferred/context-inapplicable. RC-26/30/31/32 remain pending and SC-103/306 blocked; physical runtime records historical.",
+  "status": "2026-11-11 RC-79 v0.4.20 quest-journal source and focused checks complete; actual Lua/client validation pending. LEGION physical local target; Codex only, no Workbridge. Historical runtime records below retain their original scopes.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-26",
+  "nextTaskId": "RC-79",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; RC08 explicit-ID candidate API response accepted (50 returned/7 no-detail); SC103 eligibility remains open",
@@ -1177,8 +1177,36 @@
       ],
       "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
       "currentResult": "RC35-B/C/D source and OneDrive complete v0.4.17: 33/33 focused Node, 38/38 Node auto, 91/91 C# production, strict 11/11 LEGION OneDrive parity after v0.4.16 backup. RC35-E physical client `/rre professions` and Rogue/Warrior current-client live acceptance still pending; Lua interpreter unavailable on LEGION."
-    }
-  ],
+    },
+      {
+        "id": "RC-79",
+        "title": "Bounded quest journal and objective map-location capture",
+        "owner": "RRE manager; read-only Codex reviewers; isolated quest candidate lane",
+        "status": "source-implemented-focused-checks-passed-live-pending",
+        "ownedPaths": [
+          "addons/RRECollector/capabilities.lua",
+          "addons/RRECollector/main.lua",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/agents/quest_journal/verify_quest_capture.lua"
+        ],
+        "scope": [
+          "Manual read-only quest and referenced map capture; preserve prior journal when player/API unavailable",
+          "Bound global objective, indicator and repeated content-text retention",
+          "Offline original-byte-hashed remaining-objective JSON export; no gameplay actions",
+          "Retain v0.4.19/v0.4.20 ability/context reader compatibility"
+        ],
+        "acceptance": [
+          "Focused Node/C# checks and strict11file source package pass",
+          "Actual Lua source regression execution pending interpreter or client",
+          "Version-matched physical LEGION capture and persistence pending bounded operator authorization"
+        ],
+        "evidence": [
+          "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md"
+        ],
+        "currentResult": "185 focused Node/C# checks passed; source package/preflight pass; full historical research gate failed on missing/old-source evidence and2skips; Lua/client pending"
+      }
+    ],
   "workingSource": {
     "version": "0.4.10",
     "supersededRuntimeUnverifiedVersion": "0.4.9",
