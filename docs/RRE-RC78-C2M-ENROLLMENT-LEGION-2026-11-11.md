@@ -28,4 +28,4 @@ One independent Codex agent discovered and source-checked the route. The manager
 
 Registration/dispatch remain conditional on the initialized receiver, secondary-list exclusions, special-listener handling and callback predicates. The initializer's zero-owner path passes null receiver rather than returning early; this trace does not prove its runtime precondition. A registered callback does not prove receipt of a particular real mouse message.
 
-Next bounded questions: identify `0x6A6620`'s callback gate and exact type2/subcode1 Win32 provenance; separately identify global `0x337FD20` and transform-object ownership. Actual movement/arrival/stop still requires current physical LEGION evidence. The new seven-hour objective prioritizes practical combat/quest work alongside these specific native gaps.
+Next bounded questions: identify `0x6A6620`'s callback gate and exact type2/subcode1 Win32 provenance; separately identify global `0x336FD20` and transform-object ownership. Actual movement/arrival/stop still requires current physical LEGION evidence. The new seven-hour objective prioritizes practical combat/quest work alongside these specific native gaps.

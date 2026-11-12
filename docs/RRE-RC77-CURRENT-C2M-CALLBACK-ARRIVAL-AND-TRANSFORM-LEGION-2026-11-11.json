@@ -145,7 +145,7 @@
         "ownerFieldOffset": "0x3F0",
         "callbackFunction": "0x6A5E10",
         "callbackContextSlotOffset": "0x10",
-        "contextGlobalSlot": "0x337FD20"
+        "contextGlobalSlot": "0x336FD20"
       },
       "caveat": "Owner, callback context and active player identity are not proven equivalent."
     },

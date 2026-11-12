@@ -1,3 +1,5 @@
+> **RC-81 address correction:** the earlier 0x337FD20 was a RIP-relative arithmetic error. The correct slot is 0x336FD20, holding a 0x20-byte callback-state object whose +0x10 points to the root. Original source hashes are unchanged; see RRE-RC81-CALLBACK-STATE-AND-ELIGIBILITY-LEGION-2026-11-11.md.
+
 # RRE RC-77 — current RIFT C2M callback dispatch, native arrival and transform (LEGION, 2026-11-11)
 
 > **Source breakthrough, not live movement acceptance.** The current LEGION binary now has a bounded native route from a constructed callback object, through an input-dispatch vtable wrapper, to callback `0x6A5E10`, which conditionally tail-jumps to the current click-to-move handler `0x6A6120`. The native arrival-radius comparison and a downstream orientation-component writer are also recovered. Whether a real mouse click delivers to this specific object and whether the component is the active player are still unknown.
@@ -52,7 +54,7 @@ The consumer calls `0x588925→0x698C90` and conditionally `0x5889A2→0x698DB0`
 
 `0x798B80` (called at C2M handler `0x6A6238`) attempts a component-specific handle first. Its **fallback** calls `0xE76790→0xBCF470`, which addresses the same global pointer slot `0x33958C0` as the native `Misc_EnableClickToMove` writer/reader. The handle-copy helper `0x1C62670` returns the pointer used for the handler's `+0x146` gate. No proof that **every** call uses fallback or that the setting is currently enabled.
 
-The constructor's own `owner+0x10` self pointer is **not** the callback object's `+0x10` context. The callback context resolves via `0x6A9B10→0x6A3EE0→0x58B20` to **global qword slot `0x337FD20`**. Its writer and object type are still unknown; do not call it the active player without proof.
+The constructor's own `owner+0x10` self pointer is **not** the callback object's `+0x10` context. The callback context resolves via `0x6A9B10→0x6A3EE0→0x58B20` to **global qword slot `0x336FD20`**. Its writer and object type are still unknown; do not call it the active player without proof.
 
 ## Verification and what this does *not* prove
 
@@ -64,5 +66,5 @@ The constructor's own `owner+0x10` self pointer is **not** the callback object's
 ## Ranked next practical advances
 
 1. **🥇 Resolve registration-to-dispatch enrollment:** trace `0x7C1F30`'s receiver lists into the exact dispatcher array, and separately source-qualify the record type/subcode Win32 provenance. Use only bounded hash-pinned PE windows.
-2. **🥈 Prove actor/object identity:** find who writes global `0x337FD20`, qualify consumer `rdi`/transform `r14` identity and trace consumers of dirty flag `+0xF4`. Stop short of asserting player yaw/velocity until owner identity is source-proven.
+2. **🥈 Prove actor/object identity:** find who writes global `0x336FD20`, qualify consumer `rdi`/transform `r14` identity and trace consumers of dirty flag `+0xF4`. Stop short of asserting player yaw/velocity until owner identity is source-proven.
 3. **🥉 Obtain real NAV-B01–B04 evidence only in a separately coordinated physical LEGION trial:** confirm settings and gesture, record actual delivery and timestamped player XYZ/arrival, and observe stop. Preannounce any addon reload or RIFT restart and obtain the applicable task-specific approval. No such test was conducted at RC-77.
