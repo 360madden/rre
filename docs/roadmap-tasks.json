@@ -2456,6 +2456,7 @@
       ],
       "plan": "docs/NAVIGATION-PIVOT-2026-10-21.md",
       "draftCommit": "6c8a566f2be6b95830e86e334c0162ab576ac0b2",
+      "latestNativeSourceCheckpoint": {"id":"RC-78","date":"2026-11-11","report":"docs/RRE-RC78-C2M-ENROLLMENT-LEGION-2026-11-11.md","evidence":"docs/RRE-RC78-C2M-ENROLLMENT-LEGION-2026-11-11.json","staticC2mEnrollment":true,"liveAcceptance":false},
       "evidence": [
         "docs/navigation-first-behavior-test.md",
         "docs/navigation-first-behavior-test.json",

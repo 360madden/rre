@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-78",
+  "parentTask": "NAV-002",
+  "asOfLocal": "2026-11-11T21:19:00-05:00",
+  "host": "LEGION",
+  "execution": "Codex-local; independent read-only agent plus manager source QA; no Workbridge",
+  "source": {
+    "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "preferredImageBase": "0x140000000",
+    "addressConvention": "RVA"
+  },
+  "sourceWindows": [
+    {"id":"root-initializer","start":"0x5725F0","end":"0x572816","sha256":"c2d2b8bd8fc810eaccc692c90eef75defe0b6d9ab22d3ea34c9313389fba522b"},
+    {"id":"root-caller","start":"0xFDC7F9","end":"0xFDCC80","sha256":"8d50e90ec6b48214012808a524c6beea80de7192a9ef4d879597d55943ba9f6c"},
+    {"id":"same-root-publication","start":"0xFDCA0D","end":"0xFDCA49","sha256":"6c699a355f99fc6de9e3db320329f50e3fb2b56051a32665435271d29379f3ec"},
+    {"id":"actual-c2m-enrollment","start":"0x572680","end":"0x5726A0","sha256":"379e83641008357736551a9fa58f084c2ca134110a76a88aa7f332811febbff7"},
+    {"id":"primary-list-insert","start":"0x7C1E20","end":"0x7C1F24","sha256":"e7e612ae943c3e7c50075d85e3adc0a21bf1e2d0ce0c3f120f53d8f966bcffba"},
+    {"id":"primary-list-dispatch","start":"0x7C1B7F","end":"0x7C1D32","sha256":"b0a6e17f33aacc531541bcb07611bed13d22bf4a54d250e7ce5396f81da93ee5"},
+    {"id":"separate-listener-anchor-insert","start":"0x7C1F30","end":"0x7C205E","sha256":"0f6c2731e8c237a67cc1a6bdb193e3c4276d4901d88a200038e3180c219a4e3f"}
+  ],
+  "accepted": {
+    "staticC2mEnrollment": true,
+    "samePrimaryListDispatch": true,
+    "priorAnchorCallAloneProvesEnrollment": false,
+    "liveDelivery": false,
+    "activePlayerIdentity": false,
+    "movementAndStop": false
+  },
+  "verification": {
+    "independentAgent": "/root/rea_context_audit",
+    "managerSourceWindowsRehashed": 7,
+    "managerSourceWindowMismatches": 0,
+    "managerAlignedInstructionQa": "pass",
+    "workbridgeUsed": false,
+    "analysisImportStarted": false
+  },
+  "next": ["Qualify 0x6A6620 callback predicate and exact type2/subcode1 provenance", "Identify global 0x337FD20 and transform object", "Prioritize concrete combat/quest data and current physical observations"]
+}
