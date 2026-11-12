@@ -179,7 +179,8 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         chain, resolution = report["chain"], report["resolution"]
         check(resolution.get("status") == "complete", f"{filename}: chain incomplete")
         check(resolution.get("failedRead") is None
-              and resolution.get("failedReadAddress") is None,
+              and resolution.get("failedReadAddress") is None
+              and resolution.get("reason") is None,
               f"{filename}: conflicting failure metadata")
         check(same_identity(identity, resolution["expectedIdentity"])
               and same_identity(identity, resolution["observedIdentity"]),

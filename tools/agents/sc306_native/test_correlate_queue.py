@@ -369,6 +369,14 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "conflicting failure metadata"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_contradictory_resolution_reason_rejected_with_matched_receipts(self) -> None:
+        # A completed native read cannot simultaneously report a failure reason.
+        self.mutate("queue-field-b-v2.json",
+                    lambda x: x["resolution"].update({"reason": "access denied"}))
+        self.refresh_execution_receipts()
+        with self.assertRaisesRegex(EvidenceError, "conflicting failure metadata"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_terminal_win32_error_rejected(self) -> None:
         self.mutate("queue-field-b-v2.json",
                     lambda x: x["resolution"]["terminalRead"].update({
