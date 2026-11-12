@@ -5,7 +5,7 @@ namespace Rre.Reader;
 
 public static class Program
 {
-    public const string ReaderVersion = "0.2.5";
+    public const string ReaderVersion = "0.2.6";
     public static async Task<int> Main(string[] args)
     {
         try
@@ -14,7 +14,7 @@ public static class Program
             {
                 Console.WriteLine($"RRE host reader {ReaderVersion} (offline file adapters; Lab2 acquisition blocked on LEGION)\n"
                     + "combat --input RiftReader2Casting.lua --repo RRE_ROOT [--output NEW_FILE]\n"
-                    + "quests --input RRECollector.lua --repo RRE_ROOT [--output NEW_FILE]\n"
+                    + "quests --input RRECollector.lua --repo RRE_ROOT [--previous RRECollector.lua] [--output NEW_FILE]\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
@@ -29,11 +29,13 @@ public static class Program
             JsonObject output;
             if (command is "combat" or "quests")
             {
-                Only(options, "--input", "--repo", "--output");
+                if (command == "quests") Only(options, "--input", "--repo", "--output", "--previous");
+                else Only(options, "--input", "--repo", "--output");
                 var file = Path.GetFullPath(Required(options, "--input"));
                 var repo = Path.GetFullPath(Required(options, "--repo"));
                 output = command == "combat" ? await CastingEvidenceSource.ReadAsync(file, repo)
-                    : await QuestJournalSource.ReadAsync(file, repo);
+                    : await QuestJournalSource.ReadAsync(file, repo, previous:
+                        options.TryGetValue("--previous", out var previous) ? Path.GetFullPath(previous) : null);
             }
             else if (command == "doctor")
             {

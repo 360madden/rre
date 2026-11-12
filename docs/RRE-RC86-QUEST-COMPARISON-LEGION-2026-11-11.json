@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "checkpoints": [
+    "RC-86",
+    "RC-87"
+  ],
+  "observedAtLocal": "2026-11-11T23:27:41-05:00",
+  "host": "LEGION",
+  "baseCommit": "6b3bf68",
+  "readerVersion": "0.2.6",
+  "sourceHashes": {
+    "tools/read-rrecollector-saved.mjs": "64241186543cf0e0648d80e223d7c12922c6d4aa6a121a40061651f4e5a84a59",
+    "tools/verify-rrecollector-saved.mjs": "2f916861d7ebaea9f35b408f3582729c98ca60372e4f0acd93399a2694120bc2",
+    "tools/tests_reader/test_saved_adapter.mjs": "f7bd35ad62de2791c533c11190310247ae08c42f9470b785c34da3bcfd86018f",
+    "tools/tests_reader/test_casting_observation.mjs": "b9bf8442742fad3b09c46b8b601c859d4bd844ecdf8872bb133571555f127652",
+    "tools/export-rrecollector-quests.mjs": "fe3da53d5d614a313f82f93ff4e6c89d247844d777b329354b3d4b306e30be3c",
+    "tools/test-export-rrecollector-quests.mjs": "cd40a4c59b15ba9f7febd30a7a16a675773a8f19ffae211111a680f0d37a170d",
+    "tools/agents/quest_journal/verify_quest_command.lua": "b80cc60fb625f98251d6757764793fef237a1711d1d1732caec1db5957bbd4d1",
+    "reader/Rre.Reader/QuestJournalSource.cs": "7b278d569a9b851fd58d2d9af31eb690f187e2c74303ecb232780eaff6c1ba18",
+    "reader/Rre.Reader/Program.cs": "37d781697439abf66da0966477c49779b9e76b8e386a1959df0dfe08b972a2bb",
+    "reader/Rre.Reader/Rre.Reader.csproj": "dba76ffa628b62deda302ca096c2ff5740865c0a1ebfc8ea59cd2249899a66a9",
+    "reader/Rre.Reader.Checks/QuestChecks.cs": "454947cd7468b4446a3d8f9e1e30c50c8862d68bdfa60a1c4f355687d1fba888"
+  },
+  "validation": {
+    "node": {
+      "passed": 124,
+      "failed": 0,
+      "questRegressions": 31,
+      "newReferenceGrammarCases": 9,
+      "newSharedConsumerCases": 2,
+      "receipt": "artifacts/rc86-87-focused-node.log"
+    },
+    "csharp": {
+      "productionContracts": 99,
+      "combatAdapter": 8,
+      "questAdapter": 11,
+      "failed": 0
+    },
+    "luaActualPackagePairAssertions": 19,
+    "build": {
+      "warnings": 0,
+      "errors": 0,
+      "warningsAsErrors": true
+    },
+    "fullHistoricalGate": {
+      "status": "failed",
+      "tests": 507,
+      "sourcesUnchanged": true,
+      "receipt": "artifacts/rc86-87-research-gate-20261111/validation.json",
+      "groups": [
+        {
+          "group": "validation",
+          "exitCode": 1,
+          "testCount": 164
+        },
+        {
+          "group": "c2m",
+          "exitCode": 0,
+          "testCount": 30
+        },
+        {
+          "group": "follow",
+          "exitCode": 0,
+          "testCount": 73
+        },
+        {
+          "group": "collision",
+          "exitCode": 1,
+          "testCount": 32
+        },
+        {
+          "group": "pathfinding",
+          "exitCode": 1,
+          "testCount": 36
+        },
+        {
+          "group": "navigation-evidence",
+          "exitCode": 1,
+          "testCount": 97
+        },
+        {
+          "group": "visual-evidence",
+          "exitCode": 0,
+          "testCount": 58
+        },
+        {
+          "group": "review-adapter",
+          "exitCode": 0,
+          "testCount": 17
+        },
+        {
+          "group": "roadmap",
+          "exitCode": 0,
+          "testCount": 0
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "scope": "retained records, not actual action progress",
+    "requires": [
+      "both complete",
+      "same typed player",
+      "advancing sequence",
+      "each clock advancing within its own timespace",
+      "quest source identity",
+      "same typed objective key",
+      "unique nonempty exact description",
+      "same known required quantity",
+      "known done quantities"
+    ],
+    "missingQuestMeansCompletion": false,
+    "comparisonCanAuthorizeActions": false,
+    "serializedQuestOutputBytes": 4000000
+  },
+  "dataParser": {
+    "luaExecuted": false,
+    "recognizedReferenceDeclaration": "local ref = {}; for k=1,N do ref[k] = {} end",
+    "referenceSlotsMax": 16384,
+    "depthMax": 48,
+    "expandedValuesMax": {
+      "collector": 100000,
+      "casting": 4000000
+    },
+    "expandedStringAndKeyUtf8BytesMax": {
+      "collector": 2000000,
+      "casting": 32000000
+    },
+    "rejects": [
+      "cycles including unused refs",
+      "duplicate fields",
+      "undefined/out-of-range/fractional refs",
+      "modified loop body",
+      "arbitrary calls/expressions",
+      "trailing statements",
+      "expanded graph/text budget overflow"
+    ]
+  },
+  "constraints": {
+    "workbridgeUsed": false,
+    "vmAccess": false,
+    "reaImport": false,
+    "dependenciesInstalled": false,
+    "addonSourceChanged": false,
+    "addonSourceUnchangedSince": "a2d9660"
+  }
+}

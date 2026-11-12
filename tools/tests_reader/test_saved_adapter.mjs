@@ -14,6 +14,18 @@ const source='RRECollectorData = {addonVersion="0.4.11",sequence=1,latest={addon
 const read=s=>exportSavedSnapshot(Buffer.from(s));
 const withPins = value=>source.replace('sequence=1,latest=', 'sequence=1,toolbarSlots='+value+',latest=');
 const pinAudit = s=>summarizeSavedPins(Buffer.from(s));
+
+test('SavedSource accepts RIFT shared player tables while preserving raw SHA and false/zero', () => {
+  const header = 'local ref = {}\nfor k=1,1 do ref[k] = {} end\n'
+    + 'ref[1].id="uFIXTURE"\nref[1].name="Fixture"\nref[1].combat=false\nref[1].power=0\n';
+  const shared = header + source.replace('RRECollectorData = {', 'RRECollectorData = {alias=ref[1],')
+    .replace('player={id="uFIXTURE",name="Fixture",combat=false,power=0}', 'player=ref[1]');
+  const result = read(shared);
+  assert.equal(result.sourceSha256, crypto.createHash('sha256').update(Buffer.from(shared)).digest('hex'));
+  assert.equal(result.context.player.combat, false); assert.equal(result.context.player.power, 0);
+  assert.equal(result.abilities[0].target, 'uTARGET');
+  assert.equal(result.structure.offlineStructureQualified, true);
+});
 test('saved-file CLI hides path details on errors and preserves --pins success',()=>{
   const script=path.resolve('tools/rre-reader-saved-snapshot.mjs');
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-rc46-cli-'));

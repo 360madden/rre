@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-11 RC-85 reader0.2.5 quest command and actual-package mocked Lua path verified; current-client validation remains pending. LEGION physical local target; Codex only, no Workbridge. Historical runtime records below retain their original scopes.",
+  "status": "2026-11-11 RC86/87 reader0.2.6 verified; bounded physical .20load/capture/persistence accepted:53completeRogueabilities and27partialquests/43objectives/15remaininggoals. Indicator shape/map/travel remain open. LEGIONphysical/Codexonly/noWorkbridge; prior scopes remain historical.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -1182,7 +1182,7 @@
         "id": "RC-79",
         "title": "Bounded quest journal and objective map-location capture",
         "owner": "RRE manager; read-only Codex reviewers; isolated quest candidate lane",
-        "status": "source-implemented-focused-checks-passed-live-pending",
+        "status": "live-quantity-journal-accepted-indicator-capture-open",
         "ownedPaths": [
           "addons/RRECollector/capabilities.lua",
           "addons/RRECollector/main.lua",
@@ -1199,12 +1199,13 @@
         "acceptance": [
           "Focused Node/C# checks and strict11file source package pass",
           "Actual Lua source regression passed56 assertions under existing Fengari0.1.5/Lua5.3.4; RIFT Lua5.1 remains unverified",
-          "Version-matched physical LEGION capture and persistence pending bounded operator authorization"
+          "RC87 observed version-matched physical load/capture/persistence; complete indicator/location coverage remains unverified"
         ],
         "evidence": [
-          "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md"
+          "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
         ],
-        "currentResult": "185 original focused Node/C# checks passed; RC85 adds actual quest Lua56 plus full-package command16 and7C#integration checks; strict package passes; full historical gate remains failed; current-client validation pending"
+        "currentResult": "RC87 bounded physical .20capture+persist succeeded:27quests43objectives15remaininggoals, partial40unsupportedindicatorentries0mapreads. Lua source checks and actualRIFTload verified; indicator shape/location/travel remain open."
       },
       {
         "id": "RC-84",
@@ -1235,11 +1236,12 @@
         "acceptance": [
           "90 Node,99 C#production,8 actual adapter checks passed",
           "Source-hashed original; false live/freshness/delivery/authority qualifications",
-          "Genuine current original read unavailable; no cast success claim"
+          "RC87 fresh persisted .4.0 observer file read successfully, zero trials; no cast-success claim"
         ],
         "evidence": [
           "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.md",
-          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.json"
+          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.json",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
         ]
       },
       {
@@ -1247,7 +1249,7 @@
         "title": "Execute existing Lua fixtures and expose quest goals through RRE.Reader",
         "parentTask": "RC-79",
         "owner": "RRE manager; two independent read-only Codex reviews",
-        "status": "implemented-offline-end-to-end-checks-passed-client-pending",
+        "status": "offline-accepted-extended-by-RC87-physical-receipt",
         "ownedPaths": [
           "tools/run-collector-lua.mjs",
           "tools/agents/quest_journal/verify_quest_command.lua",
@@ -1272,12 +1274,77 @@
           "261 distinct Lua assertions passed;11 historical fixtures fail with harness drift, no full-Lua-pass claim",
           "98 distinct Node checks (95 plus3 review regressions),99 C# production,8 combat and7 quest adapter checks passed; warnings-as-errors build passed",
           "Full historical507-test gate failed on existing errors/skips; sources unchanged during run",
-          "RIFT Lua5.1, actual client load, persisted current quest evidence and gameplay results remain unverified"
+          "RC87 observed bounded .20physical Rogue load/capture/persistence; full Lua5.1 regression coverage, continuity and gameplay results remain unverified"
         ],
         "evidence": [
           "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.md",
-          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.json"
+          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.json",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
         ]
+      },
+      {
+        "id": "RC-86",
+        "title": "Compare retained quest captures for recorded objective changes",
+        "parentTask": "RC-85",
+        "owner": "RRE manager; independent read-only Codex contract review",
+        "status": "implemented-offline-comparison-verified",
+        "ownedPaths": [
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/agents/quest_journal/verify_quest_command.lua",
+          "reader/Rre.Reader/QuestJournalSource.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/QuestChecks.cs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "Optional --previous on existing quests command only; source-hash both retained original files",
+          "Compare same typed player/quest/objective identity and advancing clocks/sequence; both captures complete",
+          "Require unique nonempty exact objective description and same required count; ambiguous/reset/disappeared rows remain diagnostic",
+          "Report explicit completion/failure separately; no live/game/action/causation authority or addon changes"
+        ],
+        "acceptance": [
+          "124Node,99production,8combat,11quest adapter checks passed; actual Lua pair19assertions",
+          "Both original SHA/lengths pinned; partial/ambiguous/stale sources cannot qualify progress",
+          "Full historical507gate failed on existing errors/skips; source inventory unchanged",
+          "Independent read-only review accepted; no addon source changes"
+        ],
+        "evidence": [
+          "docs/RRE-RC86-QUEST-COMPARISON-LEGION-2026-11-11.md",
+          "docs/RRE-RC86-QUEST-COMPARISON-LEGION-2026-11-11.json"
+        ]
+      },
+      {
+        "id": "RC-87",
+        "title": "Accept actual physical quest/ability capture and RIFT shared-table SavedVariables encoding",
+        "parentTask": "RC-79",
+        "owner": "RRE manager; independent read-only parser review",
+        "status": "bounded-live-data-and-reference-reader-accepted-indicator-shape-open",
+        "ownedPaths": [
+          "tools/read-rrecollector-saved.mjs",
+          "tools/verify-rrecollector-saved.mjs",
+          "tools/tests_reader/test_saved_adapter.mjs",
+          "tools/tests_reader/test_casting_observation.mjs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "User-approved .20-only backup/deploy, two reloads, one quests and one capture command; no movement/combat",
+          "Exact physical LEGION client version/load/hash and source/install11file parity",
+          "Preserve original50,639B SHA159f37a3551735814e92a69b53e64538c27cbeecfada947da08f5ea493ae973e and private screenshots locally",
+          "Parse exact RIFT shared-table prologue as bounded data syntax without executing originalLua; reject cycles and expansion attacks"
+        ],
+        "acceptance": [
+          "Real original read by quest and ability reader with matching hashes/counts and explicit partial flags",
+          "Literal-only fixtures remain supported; no arbitrary Lua expressions/loops/calls admitted",
+          "Bound raw and expanded reference nodes/depth/string-key bytes; independent finalreview",
+          "No further game inputs after approved sequence; no private original/screenshots committed"
+        ],
+        "evidence": [
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.json"
+        ],
+        "currentResult": "Approved input sequence complete; .20load/install11parity,53completeRogueabilities,27quests43objectives15remaininggoals persisted/read.40unsupportedindicators0mapreads; no movement/combat. Shared-table format safely parsed; private originals/screenshots stay local."
       }
     ],
   "workingSource": {

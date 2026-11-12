@@ -7,11 +7,17 @@ namespace Rre.Reader;
 public static class QuestJournalSource
 {
     public static async Task<JsonObject> ReadAsync(string input, string repositoryRoot,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default, string? previous = null)
     {
         DataRules.Require(Path.GetFileName(input) == "RRECollector.lua", "quest-filename");
         var bytes = await DataRules.ReadFileAsync(input, 2_000_000, cancellationToken);
         var sourceSha = DataRules.Sha(bytes);
+        byte[]? previousBytes = null;
+        if (previous is not null)
+        {
+            DataRules.Require(Path.GetFileName(previous) == "RRECollector.lua", "quest-previous-filename");
+            previousBytes = await DataRules.ReadFileAsync(previous, 2_000_000, cancellationToken);
+        }
         var helper = Path.Combine(repositoryRoot, "tools", "export-rrecollector-quests.mjs");
         var dependencies = new[] { helper,
             Path.Combine(repositoryRoot, "tools", "read-rrecollector-saved.mjs"),
@@ -19,8 +25,11 @@ public static class QuestJournalSource
         var hashes = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (var file in dependencies)
             hashes.Add(file, DataRules.Sha(await DataRules.ReadFileAsync(file, 1_000_000, cancellationToken)));
-        var result = await OwnedProcess.RunAsync("node", [helper, Path.GetFullPath(input)], repositoryRoot, cancellationToken);
-        DataRules.Require(result.ExitCode == 0, "quest-parser-rejected");
+        var arguments = new List<string> { helper, Path.GetFullPath(input) };
+        if (previous is not null) arguments.AddRange(["--previous", Path.GetFullPath(previous)]);
+        var result = await OwnedProcess.RunAsync("node", arguments.ToArray(), repositoryRoot, cancellationToken);
+        DataRules.Require(result.ExitCode == 0,
+            result.Stderr.Trim() == "QUEST_OUTPUT_LIMIT" ? "quest-output-limit" : "quest-parser-rejected");
         foreach (var file in dependencies)
             DataRules.Require(hashes[file] == DataRules.Sha(await DataRules.ReadFileAsync(file, 1_000_000, cancellationToken)),
                 "quest-helper-source-changed");
@@ -38,6 +47,25 @@ public static class QuestJournalSource
                 "quest-unexpected-live-qualification");
         DataRules.Require(root["journal"] is JsonArray journal && journal.Count <= 128
             && root["nextObjectives"] is JsonArray goals && goals.Count <= 512, "quest-count-limit");
+        if (previousBytes is not null)
+        {
+            var comparison = DataRules.Object(root["comparison"], "quest-comparison");
+            var prior = DataRules.Object(comparison["previous"], "quest-comparison-previous");
+            var current = DataRules.Object(comparison["current"], "quest-comparison-current");
+            DataRules.Require(DataRules.Text(prior["sourceSha256"], "quest-previous-sha") == DataRules.Sha(previousBytes)
+                && DataRules.Integer(prior["sourceBytes"], "quest-previous-bytes") == previousBytes.Length,
+                "quest-previous-input-changed");
+            DataRules.Require(DataRules.Text(current["sourceSha256"], "quest-current-sha") == sourceSha
+                && DataRules.Integer(current["sourceBytes"], "quest-current-bytes") == bytes.Length,
+                "quest-comparison-current-unbound");
+            DataRules.Require(DataRules.Text(comparison["status"], "quest-comparison-status") is "comparable" or "incomparable"
+                && comparison["quests"] is JsonArray changes && changes.Count <= 256, "quest-comparison-contract");
+            var comparisonQualification = DataRules.Object(comparison["qualification"], "quest-comparison-qualification");
+            foreach (var key in new[] { "live", "sourceAuthenticityVerified", "processEpochVerified",
+                "questInstanceContinuityVerified", "objectiveIdentityVerified", "actionExecutionVerified", "causedByActionVerified" })
+                DataRules.Require(!DataRules.Boolean(comparisonQualification[key], "quest-comparison-qualification-field"),
+                    "quest-comparison-unexpected-live-qualification");
+        }
         root["adapterContract"] = "rre-quest-journal/1";
         root["reader"] = "Rre.Reader";
         root["readerVersion"] = Program.ReaderVersion;

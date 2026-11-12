@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-87",
+  "observedAtLocal": "2026-11-11T23:27:41-05:00",
+  "authority": "Explicit user reply: Allow this bounded validation",
+  "target": {
+    "machine": "LEGION",
+    "kind": "physical local RIFT",
+    "pid": 22648,
+    "windowId": 328486,
+    "exeSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8"
+  },
+  "deployment": {
+    "previousInstalled": "0.4.18",
+    "previousObservedUi": "0.4.14",
+    "newInstalledAndObservedUi": "0.4.20",
+    "files": 11,
+    "installedParity": true,
+    "sourceUnchangedSince": "a2d9660",
+    "sourceHashes": {
+      "ui.lua": "0281816a0dd475c9cfcf9b2a83f8b804a06a3fd3e42b1c99c84bb8bc8ee2511b",
+      "context.lua": "e00a98330dcaf78410d54f72a034a18a859eca461520056b5b22074e1a135ba9",
+      "main.lua": "a0e85296b84d7e8ff839d5c85ad7bf895b7693b245a63a188f798bc678a0e364",
+      "wire.lua": "8eb9719dfbb8f46db2f736d652c8278e60d91b6cbc1b5948eacfc00f2554f37f",
+      "RiftAddon.toc": "0721255c6967c6f94a2e0e0a9f6da29e10aa7156ee2610aea9f4e6a624e0fba0",
+      "candidate_catalog.lua": "021cd4a92cdd6d06b2de7688f497c71235e4c8be4db07e90cd510ac9c4c3eb5f",
+      "core.lua": "082ef164b3d5151937ae2e9ec8147ceac36dcc6f7a6a36e02fe1275aab627dd8",
+      "README.md": "53a1196ff127d76d870af111c768ed4c704ee14ade9ac4b98dd66bafd7de9ae6",
+      "capabilities.lua": "c72032e4028d5eeec0a9ca96be8d89e8d940e46dc2bde8c3f01455e6fdd36aaf",
+      "candidates.lua": "a1893905201fecb9281a8f6d4713f687cc108f21ac22496c1a2335d13030858f",
+      "abilities.lua": "53ce2cbec81f160009470bfa24b00de23685e56dd02df400ff763c6bae8dd4ef"
+    },
+    "backup": "artifacts/RRECollector-installed-v0418-LEGION-20261111-231229-495"
+  },
+  "approvedActionsCompleted": [
+    "backup/deploy onlyRRECollector",
+    "initial UI reload",
+    "/rre quests once",
+    "/rre capture once",
+    "one persistence UI reload"
+  ],
+  "movementOrCombatInputs": false,
+  "furtherGameInputAuthorized": false,
+  "original": {
+    "file": "RRECollector.lua",
+    "sourceSha256": "159f37a3551735814e92a69b53e64538c27cbeecfada947da08f5ea493ae973e",
+    "sourceBytes": 50639,
+    "modifiedAtUtc": "2026-11-12T04:14:59.006Z",
+    "privateArtifact": "artifacts/rc87-legion-live-20261111-2313/RRECollector.lua",
+    "originalPublished": false
+  },
+  "abilities": {
+    "calling": "rogue",
+    "level": 42,
+    "sequence": 1,
+    "records": 53,
+    "apiListComplete": true,
+    "detailFailures": 0,
+    "sameCountObservedAfterReload": true,
+    "consumerQualification": {
+      "offlineStructureVerified": true,
+      "complete": true,
+      "live": false,
+      "fixture": false,
+      "freshnessVerified": false,
+      "processBuildVerified": false,
+      "fixtureMeaning": "Uses a feasibility-only contract. False does not prove a non-fixture origin or game execution.",
+      "runtimeProducerVerified": false,
+      "sourceAuthenticityVerified": false,
+      "atomicSnapshotVerified": false,
+      "restartQualified": false,
+      "limit": "Persisted, replayed or actively acquired retained-memory data. Host observation time alone does not establish API freshness, authorship, atomicity or restart qualification."
+    }
+  },
+  "quests": {
+    "sequence": 1,
+    "status": "partial",
+    "quests": 27,
+    "objectives": 43,
+    "remainingGoals": 15,
+    "unsupportedIndicatorEntries": 40,
+    "indicatorEntriesScanned": 40,
+    "locations": 0,
+    "mapReads": 0,
+    "mapFailures": 0,
+    "consumerQualification": {
+      "live": false,
+      "freshnessVerified": false,
+      "coordinateFrameVerified": false,
+      "travelFeasibilityVerified": false,
+      "completionActionsVerified": false
+    },
+    "limit": "Actual indicator element shape not documented/captured. Unsupported by projection does not establish malformed game data."
+  },
+  "combatFile": {
+    "status": "no-trials",
+    "sourceSha256": "57a42c68a8c3e3a9b479f7a88381c07a63d99ee192093a943aaa27b68f9f8d3a",
+    "sourceBytes": 38745,
+    "trialRecords": 0,
+    "noFreshCastClaim": true
+  },
+  "privateEvidence": {
+    "ability-command-result.png": {
+      "sha256": "04bdbfb67866846637f8c9f9ba57e8faf2ced97c2190e957e157b03d6e08697e",
+      "bytes": 306431
+    },
+    "loaded-v0420.png": {
+      "sha256": "44720550890fe1f19796b45700b71bf5c2dacda82909257fccfda99605f40043",
+      "bytes": 297660
+    },
+    "quest-command-result.png": {
+      "sha256": "69b37b4804a207b1ebf54669cdb68c9239c02abe33b548404dc0b5d2a640e036",
+      "bytes": 301966
+    },
+    "retained-after-reload.png": {
+      "sha256": "9129c9e32c6487f55aee51b268acc6a35af0ae24a660c70fbfad4557a4000138",
+      "bytes": 300510
+    }
+  },
+  "scope": "One bounded actual version-matched load/capture/persistence/read receipt; no continuous freshness, maps, travel, quest completion, combat delivery or source authenticity claim",
+  "inputSequenceComplete": true,
+  "nextDiscriminator": "Bounded unsupported-indicator shape probe; prepare and review concrete code before requesting a separate deployment/capture window"
+}

@@ -7,7 +7,7 @@ import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {parseSavedLua} from './read-rrecollector-saved.mjs';
-import {summarizeQuestReceipt, readQuestReceipt} from './export-rrecollector-quests.mjs';
+import {summarizeQuestReceipt, readQuestReceipt, compareQuestReceipts, serializeQuestReceipt} from './export-rrecollector-quests.mjs';
 
 function fixture() {
   return {addonVersion: '0.4.20', questSnapshotSequence: 3, questSnapshot: {
@@ -31,6 +31,188 @@ function lua(x) {
   return JSON.stringify(x);
 }
 const saved = x => 'RRECollectorData=' + lua(x);
+function pair() {
+  const before = fixture(), after = fixture();
+  after.questSnapshotSequence = after.questSnapshot.sequence = 4;
+  after.questSnapshot.context.frameTime = 10; after.questSnapshot.context.realTime = 13;
+  objective(after).countDone = 1;
+  const receipt = x => {
+    const bytes = Buffer.from(saved(x));
+    return summarizeQuestReceipt(x, {sha256: crypto.createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length});
+  };
+  return {before, after, compare: () => compareQuestReceipts(receipt(before), receipt(after))};
+}
+
+test('two advancing complete retained captures report exact recorded count differences', () => {
+  const p = pair(), result = p.compare();
+  assert.equal(result.status, 'comparable');
+  assert.equal(result.summary.countAdvanced, 1);
+  assert.equal(result.quests[0].objectives[0].countDoneDelta, 1);
+  assert.equal(result.quests[0].objectives[0].before.countDone, 0);
+  assert.equal(result.quests[0].objectives[0].after.countDone, 1);
+  for (const value of Object.values(result.qualification)) assert.equal(value, false);
+  assert.notEqual(result.previous.sourceSha256, result.current.sourceSha256);
+});
+test('quest comparison rejects identical bytes, stale sequence and each nonadvancing clock', () => {
+  const p = pair(); Object.assign(p.after, structuredClone(p.before));
+  assert.ok(p.compare().reasons.includes('same-source-bytes'));
+  for (const mutate of [p => p.after.questSnapshotSequence = p.after.questSnapshot.sequence = 3,
+    p => p.after.questSnapshot.context.frameTime = 9,
+    p => p.after.questSnapshot.context.realTime = 12,
+    p => p.after.questSnapshot.context.frameTime = 8]) {
+    const p = pair(); mutate(p);
+    assert.equal(p.compare().status, 'incomparable');
+    assert.equal(p.compare().quests.length, 0);
+  }
+});
+test('comparison player IDs are typed and do not match by display name', () => {
+  const p = pair(); p.before.questSnapshot.context.player.id = 123;
+  p.after.questSnapshot.context.player.id = '123';
+  assert.ok(p.compare().reasons.includes('player-mismatch-or-unbound'));
+  p.after.questSnapshot.context.player.id = 'uOTHER';
+  assert.equal(p.compare().summary.countAdvanced, 0);
+});
+test('partial retained journals cannot qualify objective matching', () => {
+  const p = pair(); p.before.questSnapshot.complete = false; p.before.questSnapshot.status = 'partial';
+  assert.ok(p.compare().reasons.includes('incomplete-coverage'));
+  assert.equal(p.compare().summary.countAdvanced, 0);
+});
+test('quest source identity is retained and required for count deltas', () => {
+  const p = pair(); quest(p.before).sourceId = 'qMISMATCH';
+  assert.equal(summarizeQuestReceipt(p.before).journal[0].identityQualified, false);
+  assert.equal(p.compare().quests[0].objectives[0].classification, 'quest-identity-unqualified');
+  assert.equal(p.compare().summary.countAdvanced, 0);
+});
+test('changed descriptions and required quantities remain diagnostic', () => {
+  for (const mutate of [x => objective(x).description = 'Different step',
+    x => objective(x).description = '', x => objective(x).count = 4,
+    x => delete objective(x).count, x => delete objective(x).countDone]) {
+    const p = pair(); mutate(p.after);
+    assert.equal(p.compare().quests[0].objectives[0].countDoneDelta, null);
+    assert.equal(p.compare().summary.countAdvanced, 0);
+  }
+});
+test('duplicate descriptions and reordered objective keys cannot manufacture progress', () => {
+  const p = pair();
+  for (const x of [p.before, p.after]) {
+    quest(x).objectives.push({...structuredClone(objective(x)), key: 2});
+    x.questSnapshot.counts.objectivesRetained = x.questSnapshot.counts.indicatorsRetained = 2;
+  }
+  assert.equal(p.compare().summary.objectivesUnqualified, 2);
+  assert.ok(p.compare().quests[0].objectives.every(x => x.classification === 'description-ambiguous'));
+  quest(p.before).objectives[1].description = 'Second step';
+  quest(p.after).objectives[0].description = 'Second step';
+  assert.equal(p.compare().summary.countAdvanced, 0);
+});
+test('typed objective keys are not silently equated', () => {
+  const p = pair(); objective(p.after).key = '1';
+  assert.equal(p.compare().summary.objectivesUnqualified, 2);
+  assert.equal(p.compare().summary.countAdvanced, 0);
+});
+test('decreased counters describe a reset without inventing quest failure', () => {
+  const p = pair(); objective(p.before).countDone = 2;
+  const result = p.compare();
+  assert.equal(result.summary.countRegressed, 1);
+  assert.equal(result.quests[0].objectives[0].countDoneDelta, -1);
+  assert.equal(result.quests[0].reportedFailedAfter, false);
+});
+test('counts at the required total do not manufacture explicit completion', () => {
+  const p = pair(); objective(p.after).countDone = 3;
+  assert.equal(p.compare().quests[0].objectives[0].after.reportedComplete, false);
+  assert.equal(p.compare().quests[0].reportedCompleteAfter, false);
+  objective(p.after).complete = true; quest(p.after).complete = true; quest(p.after).failed = true;
+  assert.equal(p.compare().quests[0].objectives[0].after.reportedComplete, true);
+  assert.equal(p.compare().quests[0].reportedFailedAfter, true);
+});
+test('quest disappearance and newly observed quests never imply completion', () => {
+  const p = pair(); p.after.questSnapshot.quests = []; p.after.questSnapshot.status = 'empty';
+  p.after.questSnapshot.counts = {questsRetained: 0, objectivesRetained: 0, indicatorsRetained: 0};
+  const result = p.compare();
+  assert.equal(result.summary.questsAbsent, 1);
+  assert.equal(result.quests[0].reportedCompleteAfter, null);
+  assert.equal(result.summary.countAdvanced, 0);
+  quest(p.before).id = quest(p.before).sourceId = 'qDIFFERENT';
+  p.after.questSnapshot.quests = fixture().questSnapshot.quests;
+  p.after.questSnapshot.status = 'recorded'; p.after.questSnapshot.counts = fixture().questSnapshot.counts;
+  assert.equal(p.compare().summary.questsAdded, 1);
+  assert.equal(p.compare().summary.questsAbsent, 1);
+});
+test('unrecognized counter names cannot echo arbitrary large metadata', () => {
+  const x = fixture(); x.questSnapshot.counts['x'.repeat(200_000)] = 0;
+  assert.throws(() => summarizeQuestReceipt(x), /QUEST_COUNTER_FIELD/);
+});
+test('comparison CLI validates both originals and rejects duplicate options before output', t => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rre-quest-compare-'));
+  assert.equal(path.dirname(path.resolve(dir)), path.resolve(os.tmpdir()));
+  assert.ok(path.basename(dir).startsWith('rre-quest-compare-'));
+  t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
+  fs.mkdirSync(path.join(dir, 'previous'));
+  const input = path.join(dir, 'RRECollector.lua');
+  const previous = path.join(dir, 'previous', 'RRECollector.lua');
+  const output = path.join(dir, 'comparison.json'), p = pair();
+  fs.writeFileSync(input, saved(p.after)); fs.writeFileSync(previous, saved(p.before));
+  const cli = fileURLToPath(new URL('./export-rrecollector-quests.mjs', import.meta.url));
+  const args = [cli, input, '--previous', previous, '--output', output];
+  assert.equal(spawnSync(process.execPath, args).status, 0);
+  const report = JSON.parse(fs.readFileSync(output, 'utf8'));
+  assert.equal(report.comparison.summary.countAdvanced, 1);
+  assert.equal(report.comparison.previous.sourceSha256,
+    crypto.createHash('sha256').update(fs.readFileSync(previous)).digest('hex'));
+  const invalidOutput = path.join(dir, 'invalid.json');
+  assert.equal(spawnSync(process.execPath, [cli, input, '--previous', previous,
+    '--previous', previous]).status, 2);
+  fs.writeFileSync(previous, 'RRECollectorData=run_game()');
+  assert.equal(spawnSync(process.execPath, [cli, input, '--output', invalidOutput,
+    '--previous', previous]).status, 2);
+  assert.equal(fs.existsSync(invalidOutput), false);
+  const retained = fs.readFileSync(output);
+  assert.equal(spawnSync(process.execPath, args).status, 2);
+  assert.deepEqual(fs.readFileSync(output), retained);
+});
+test('bounded512-objective comparison fits the existing helper output limit', () => {
+  const p = pair();
+  for (const [savedRoot, done] of [[p.before, 0], [p.after, 1]]) {
+    savedRoot.questSnapshot.quests = Array.from({length: 16}, (_, q) => {
+      const id = ('q' + q).padEnd(256, 'q');
+      return {id, sourceId: id, status: 'returned', name: 'n'.repeat(2048),
+        complete: false, failed: false,
+        objectives: Array.from({length: 32}, (_, o) => {
+          const mapId = ('m' + ((q * 32 + o) % 128)).padEnd(256, 'm');
+          return {key: ('o' + o).padEnd(256, 'o'), description: ('step' + o).padEnd(128, 'd'),
+            count: 3, countDone: done, complete: false,
+            indicators: [{id: mapId, status: 'returned', location: {sourceId: mapId,
+              coordX: 0, coordY: 1, coordZ: 2, title: 't'.repeat(64)}}]};
+        })};
+    });
+    savedRoot.questSnapshot.counts = {questsRetained: 16, objectivesRetained: 512,
+      indicatorsRetained: 512, mapReads: 128, textBytesRetained: 131072};
+    assert.ok(Buffer.byteLength(saved(savedRoot)) < 2_000_000);
+  }
+  const report = summarizeQuestReceipt(p.after); report.comparison = p.compare();
+  assert.equal(report.comparison.summary.countAdvanced, 512);
+  assert.ok(Buffer.byteLength(JSON.stringify(report, null, 2)) < 4_000_000);
+});
+test('escape-heavy text reports a transport limit before stdout or output publication', t => {
+  const x = fixture();
+  x.questSnapshot.quests = Array.from({length: 16}, (_, q) => ({
+    id: 'q' + q, sourceId: 'q' + q, status: 'returned', name: '\u0001'.repeat(2048),
+    objectives: Array.from({length: 32}, (_, k) => ({key: k + 1,
+      description: 'step' + k, count: 3, countDone: 0, indicators: []}))}));
+  x.questSnapshot.counts = {questsRetained: 16, objectivesRetained: 512, indicatorsRetained: 0};
+  assert.throws(() => serializeQuestReceipt(summarizeQuestReceipt(x)), /QUEST_OUTPUT_LIMIT/);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rre-quest-limit-'));
+  assert.equal(path.dirname(path.resolve(dir)), path.resolve(os.tmpdir()));
+  assert.ok(path.basename(dir).startsWith('rre-quest-limit-'));
+  t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
+  const input = path.join(dir, 'RRECollector.lua'), output = path.join(dir, 'goals.json');
+  const bytes = Buffer.from(saved(x).replaceAll('\\u0001', '\\001'));
+  assert.ok(bytes.length < 2_000_000); fs.writeFileSync(input, bytes);
+  assert.equal(readQuestReceipt(input).nextObjectives.length, 512);
+  const cli = fileURLToPath(new URL('./export-rrecollector-quests.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [cli, input, '--output', output], {encoding: 'utf8'});
+  assert.equal(result.status, 2); assert.equal(result.stderr.trim(), 'QUEST_OUTPUT_LIMIT');
+  assert.equal(result.stdout, ''); assert.equal(fs.existsSync(output), false);
+});
 
 test('literal producer-shaped quest receipt keeps zero, false and opaque coordinates', () => {
   const result = summarizeQuestReceipt(parseSavedLua(saved(fixture())));

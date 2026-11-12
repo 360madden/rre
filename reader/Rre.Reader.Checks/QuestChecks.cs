@@ -14,7 +14,7 @@ public static class QuestChecks
         var passed = new List<string>();
         void Require(bool value, string reason) { if (!value) throw new Exception(reason); }
         var lua = await OwnedProcess.RunAsync("node", [Path.Combine(repo, "tools", "run-collector-lua.mjs"),
-            Path.GetFullPath(fengari), "tools/agents/quest_journal/verify_quest_command.lua", "--emit-saved"], repo, CancellationToken.None);
+            Path.GetFullPath(fengari), "tools/agents/quest_journal/verify_quest_command.lua", "--emit-pair"], repo, CancellationToken.None);
         Require(lua.ExitCode == 0 && lua.Stdout.Contains("QUEST_COMMAND_PASS 16", StringComparison.Ordinal), "actual Lua command fixture failed");
         var resultLine = lua.Stdout.Split('\n').Single(line => line.StartsWith("RRE_LUA_RESULT ", StringComparison.Ordinal));
         var runtime = DataRules.Object(DataRules.Parse(Encoding.UTF8.GetBytes(resultLine[15..].Trim())), "lua-runtime-result");
@@ -66,6 +66,37 @@ public static class QuestChecks
         var unsupported = await Cli("quests", "--input", input, "--repo", repo, "--source", "lab2");
         Require(unsupported.Exit == 2 && unsupported.Error.Contains("unknown-option", StringComparison.Ordinal), "quest CLI admitted acquisition options");
         passed.Add("quest file command rejects game-acquisition parameters");
+        Require(lua.Stdout.Contains("QUEST_PROGRESS_PASS 3", StringComparison.Ordinal), "second actual capture failed");
+        var laterLine = lua.Stdout.Split('\n').Single(line => line.StartsWith("RRE_QUEST_LATER ", StringComparison.Ordinal));
+        var laterDir = Path.Combine(artifacts, "later"); Directory.CreateDirectory(laterDir);
+        var later = Path.Combine(laterDir, "RRECollector.lua");
+        await File.WriteAllTextAsync(later, laterLine[16..].Trim() + "\n", new UTF8Encoding(false));
+        var compared = await QuestJournalSource.ReadAsync(later, repo, previous: input);
+        Require(compared["comparison"]!["status"]!.GetValue<string>() == "comparable"
+            && compared["comparison"]!["quests"]![0]!["objectives"]![0]!["countDoneDelta"]!.GetValue<int>() == 1,
+            "actual pair did not compare recorded count advance");
+        Require(compared["comparison"]!["previous"]!["sourceSha256"]!.GetValue<string>()
+            == DataRules.Sha(await File.ReadAllBytesAsync(input)), "previous original hash unbound");
+        passed.Add("two actual Lua captures compare exact recorded count advance with both original hashes");
+        foreach (var field in compared["comparison"]!["qualification"]!.AsObject())
+            Require(!field.Value!.GetValue<bool>(), "comparison promoted action or session proof");
+        var same = await QuestJournalSource.ReadAsync(later, repo, previous: later);
+        Require(same["comparison"]!["status"]!.GetValue<string>() == "incomparable"
+            && same["comparison"]!["quests"]!.AsArray().Count == 0, "same file manufactured progress");
+        passed.Add("identical pair is incomparable and all action/session qualifications stay false");
+        var compareOutput = Path.Combine(artifacts, "comparison.json");
+        Require((await Cli("quests", "--input", later, "--previous", input, "--repo", repo,
+            "--output", compareOutput)).Exit == 0, "comparison CLI failed");
+        var rejectedCombat = await Cli("combat", "--input", later, "--previous", input, "--repo", repo);
+        Require(rejectedCombat.Exit == 2 && rejectedCombat.Error.Contains("unknown-option", StringComparison.Ordinal),
+            "combat accepted ignored previous input");
+        passed.Add("quest CLI compares retained pair while combat rejects the quest-only previous option");
+        await File.WriteAllTextAsync(noJournal, "RRECollectorData=run_game()", new UTF8Encoding(false));
+        var invalidOutput = Path.Combine(artifacts, "invalid-comparison.json");
+        Require((await Cli("quests", "--input", later, "--previous", noJournal, "--repo", repo,
+            "--output", invalidOutput)).Exit == 2 && !File.Exists(invalidOutput),
+            "invalid previous input published evidence");
+        passed.Add("invalid previous source is rejected before output publication");
         return passed;
     }
 }

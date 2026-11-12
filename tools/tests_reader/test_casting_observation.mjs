@@ -52,6 +52,18 @@ function temporary(t) {
   return dir;
 }
 
+test('RIFT shared trial encoding preserves exact evidence without counting the alias twice', () => {
+  const original = trial();
+  const fields = Object.entries(original).map(([key, value]) => 'ref[1][' + lua(key) + ']=' + lua(value)).join('\n');
+  const bytes = 'local ref = {}\nfor k=1,1 do ref[k] = {} end\n' + fields
+    + '\nRiftReader2CastingEvidence={schemaVersion=1,addonVersion="0.4.0",source="RIFT Lua API",'
+    + 'trials={ref[1]},trial=ref[1],previousTrials={},last=' + lua(sample()) + '}';
+  const result = summarizeCastingEvidence(parseSavedLua(bytes, 'RiftReader2CastingEvidence'));
+  assert.equal(result.trials.length, 1);
+  assert.equal(result.trials[0].outcome, 'exact-target-damage');
+  assert.equal(result.qualification.castDeliveryVerified, false);
+});
+
 test('exact caster/ability/target damage is distinguished from execution authority', () => {
   const result = summarizeCastingEvidence(root());
   assert.equal(result.trials[0].outcome, 'exact-target-damage');

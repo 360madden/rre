@@ -11,8 +11,9 @@ Command = setmetatable({
 Event = {Addon = {SavedVariables = {Load = {End = savedEvent}}}}
 local reads = {list = 0, detail = 0, map = 0}
 local unavailable, listError = false, false
+local frameTime, realTime, countDone = 100, 1000, 1
 Inspect = {
-  Time = {Frame = function() return 100 end, Real = function() return 1000 end},
+  Time = {Frame = function() return frameTime end, Real = function() return realTime end},
   System = {Version = function() return "synthetic-build" end},
   Unit = {Lookup = function(specifier) if specifier == "player" then return "uSYNTHETIC" end end,
     Detail = function() if not unavailable then return {id = "uSYNTHETIC", name = "Fixture",
@@ -27,7 +28,7 @@ Inspect = {
     Detail = function(id)
       reads.detail = reads.detail + 1
       return {id = id, name = "Gather supplies", track = true, complete = false, failed = false,
-        objective = {{description = "Collect supplies", count = 3, countDone = 1, complete = false,
+        objective = {{description = "Collect supplies", count = 3, countDone = countDone, complete = false,
           indicator = {mSYNTHETIC = true}}}}
     end},
   Map = {Detail = function(id)
@@ -71,7 +72,7 @@ check(reads.list == priorReads and RRECollectorData.questSnapshot == snapshot,
 check(RRECollectorData.questAttempt.status == "unavailable", "unbound player diagnostic saved")
 check(actions == 0, "no gameplay command looked up or invoked")
 print("QUEST_COMMAND_PASS " .. passed)
-if arg and arg[1] == "--emit-saved" then
+if arg and (arg[1] == "--emit-saved" or arg[1] == "--emit-pair") then
   local function literal(value)
     local kind = type(value)
     if kind == "string" then return string.format("%q", value) end
@@ -84,4 +85,15 @@ if arg and arg[1] == "--emit-saved" then
     return "{" .. table.concat(parts, ",") .. "}"
   end
   print("RRE_QUEST_SAVED RRECollectorData=" .. literal(RRECollectorData))
+  if arg[1] == "--emit-pair" then
+    unavailable, frameTime, realTime, countDone = false, 101, 1001, 2
+    hooks["RRECollector.Slash"]({}, "quests")
+    check(RRECollectorData.questSnapshotSequence == 2, "second actual capture advances sequence")
+    check(RRECollectorData.questSnapshot.quests[1].objectives[1].countDone == 2,
+      "second actual API count retained")
+    check(RRECollectorData.questSnapshot ~= snapshot and snapshot.quests[1].objectives[1].countDone == 1,
+      "second capture does not mutate first retained snapshot")
+    print("RRE_QUEST_LATER RRECollectorData=" .. literal(RRECollectorData))
+    print("QUEST_PROGRESS_PASS 3")
+  end
 end
