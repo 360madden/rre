@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-85",
+  "host": "LEGION",
+  "observedAtLocal": "2026-11-11T22:59:00-05:00",
+  "baseCommit": "9b8885f60e78ff07cd170db9ca64f9184bbc99bc",
+  "readerVersion": "0.2.5",
+  "feature": "offline quest journal reader and actual-package mocked Lua execution",
+  "sourceHashes": {
+    "tools/run-collector-lua.mjs": "83928a6615a2edf7d22a5bf5563dceb63be4c293c98726078ad650d30335504f",
+    "tools/agents/quest_journal/verify_quest_command.lua": "a23bb6683e4e48dbc7650795370f21aa5714680a5dada5a73faefc7137682f34",
+    "tools/agents/quest_journal/verify_quest_capture.lua": "77b3cef2c392e61126fd74ee6f9a9fec54710825c10ead092f84dd1049634730",
+    "tools/export-rrecollector-quests.mjs": "199c4231767c5068ddaea650ad59fc13cf97a53e6a42d6a8487a17a32ce15bf3",
+    "tools/test-export-rrecollector-quests.mjs": "34f99ced9effbf2cd9a2118903e4ab6b38600f6d4b060834971554947deedd91",
+    "reader/Rre.Reader/QuestJournalSource.cs": "fbc8ff696a809ffe2d546d634801c21abadfee100eb6747d90ca30a14456b40e",
+    "reader/Rre.Reader/Program.cs": "2bd6290407c14f64e5f1bcf3e3bc1892c3d784f9de39eb90c3d1f039a34ffcf3",
+    "reader/Rre.Reader/Contracts.cs": "ff294339c1a5f27d8a89bf4b05412ec3771cafe71e01cb00195fad98bb728189",
+    "reader/Rre.Reader/CastingEvidenceSource.cs": "f9d12fc0d82e74cd9e3a8b7508c52cddeddc64064da7dc76c3306b14695aeb65",
+    "reader/Rre.Reader/Rre.Reader.csproj": "ca386c98b05b4febc7c45171ac6214f4eef55f3f080e58bdeafdc5a304a2c5c4",
+    "reader/Rre.Reader.Checks/Program.cs": "5d325bfe9a8b430642e1b4981e1f73488a3a41dfa59a236d1a339e576ef7ce1a",
+    "reader/Rre.Reader.Checks/QuestChecks.cs": "21f7cdc9e45e920f7ddc6986fde6c5b7a84f5374138a90d657b832d030cafc9f"
+  },
+  "addonSources": {
+    "addons/RRECollector/abilities.lua": "53ce2cbec81f160009470bfa24b00de23685e56dd02df400ff763c6bae8dd4ef",
+    "addons/RRECollector/candidate_catalog.lua": "021cd4a92cdd6d06b2de7688f497c71235e4c8be4db07e90cd510ac9c4c3eb5f",
+    "addons/RRECollector/candidates.lua": "a1893905201fecb9281a8f6d4713f687cc108f21ac22496c1a2335d13030858f",
+    "addons/RRECollector/capabilities.lua": "c72032e4028d5eeec0a9ca96be8d89e8d940e46dc2bde8c3f01455e6fdd36aaf",
+    "addons/RRECollector/context.lua": "e00a98330dcaf78410d54f72a034a18a859eca461520056b5b22074e1a135ba9",
+    "addons/RRECollector/core.lua": "082ef164b3d5151937ae2e9ec8147ceac36dcc6f7a6a36e02fe1275aab627dd8",
+    "addons/RRECollector/main.lua": "a0e85296b84d7e8ff839d5c85ad7bf895b7693b245a63a188f798bc678a0e364",
+    "addons/RRECollector/README.md": "53a1196ff127d76d870af111c768ed4c704ee14ade9ac4b98dd66bafd7de9ae6",
+    "addons/RRECollector/RiftAddon.toc": "0721255c6967c6f94a2e0e0a9f6da29e10aa7156ee2610aea9f4e6a624e0fba0",
+    "addons/RRECollector/ui.lua": "0281816a0dd475c9cfcf9b2a83f8b804a06a3fd3e42b1c99c84bb8bc8ee2511b",
+    "addons/RRECollector/wire.lua": "8eb9719dfbb8f46db2f736d652c8278e60d91b6cbc1b5948eacfc00f2554f37f"
+  },
+  "addonSourceUnchangedSince": "a2d9660",
+  "runtime": {
+    "package": "Fengari",
+    "version": "0.1.5",
+    "luaSemantics": "5.3.4; 32-bit integer/double implementation, not RIFT Lua5.1",
+    "existingDependency": "C:/work/LuaPadModern/node_modules/fengari",
+    "entrySha256": "1c3c2fc82fdb843dfb085b28811a3818de63cb616b649f296ab72edb3097b568",
+    "installedCliVersion": "0.1.0",
+    "installedCliSha256": "dd3642afeffa41e547bb4ea970feacff98e53ef4a81f8c7659eeaa6f1579e972",
+    "installedCliIssue": "Lua exceptions return native exit0; direct API runner uses lua_pcall result",
+    "dependencyInstalledOrChanged": false
+  },
+  "validation": {
+    "node": {
+      "passed": 98,
+      "failed": 0,
+      "receipt": "artifacts/rc85-focused-node.log",
+      "questRegressions": 16
+    },
+    "productionContracts": {
+      "passed": 99,
+      "failed": 0
+    },
+    "combatAdapter": {
+      "passed": 8,
+      "failed": 0
+    },
+    "questAdapter": {
+      "passed": 7,
+      "failed": 0,
+      "scope": "synthetic actual Lua addon -> literal SavedVariables -> Node -> C# -> CLI exclusive output"
+    },
+    "lua": {
+      "passedAssertions": 261,
+      "passedFixtureFiles": 14,
+      "legacyFailedFixtureFiles": 11,
+      "breakdown": {
+        "questCapture": 56,
+        "uiControls": 25,
+        "contextMetadata": 11,
+        "contextExperience": 23,
+        "nineAdditionalFixtures": 130,
+        "actualPackageQuestCommand": 16
+      },
+      "allSnapshotsUnchanged": true,
+      "fullLuaSuitePassed": false
+    },
+    "build": {
+      "warnings": 0,
+      "errors": 0,
+      "warningsAsErrors": true
+    },
+    "fullHistoricalGate": {
+      "status": "failed",
+      "tests": 507,
+      "sourcesUnchanged": true,
+      "receipt": "artifacts/rc85-research-gate-20261111-2300/validation.json",
+      "errors": {
+        "validation": 10,
+        "collision": 2,
+        "pathfinding": 9
+      },
+      "failures": {
+        "pathfinding": 1
+      },
+      "skips": {
+        "navigation": 2
+      },
+      "scopeNote": "Final narrow text/metadata projection fix followed gate and passed final98 Node and7 quest adapter checks."
+    }
+  },
+  "qualification": {
+    "live": false,
+    "freshnessVerified": false,
+    "coordinateFrameVerified": false,
+    "travelFeasibilityVerified": false,
+    "completionActionsVerified": false,
+    "riftLua51Verified": false,
+    "currentPersistenceVerified": false
+  },
+  "constraints": {
+    "workbridgeUsed": false,
+    "gameInputSent": false,
+    "installedAddonChanged": false,
+    "sourceAddonChanged": false,
+    "reaImportStarted": false,
+    "vmAccess": false
+  },
+  "independentReviews": [
+    "/root/collector_lua_execution: runner and actual-package fixture accepted; no edits",
+    "/root/combat_evidence_contract: text amplification and unexpected metadata fixed, final accepted; no edits"
+  ]
+}

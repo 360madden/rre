@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-11 RC-79 v0.4.20 quest-journal source and focused checks complete; actual Lua/client validation pending. LEGION physical local target; Codex only, no Workbridge. Historical runtime records below retain their original scopes.",
+  "status": "2026-11-11 RC-85 reader0.2.5 quest command and actual-package mocked Lua path verified; current-client validation remains pending. LEGION physical local target; Codex only, no Workbridge. Historical runtime records below retain their original scopes.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -1198,13 +1198,13 @@
         ],
         "acceptance": [
           "Focused Node/C# checks and strict11file source package pass",
-          "Actual Lua source regression execution pending interpreter or client",
+          "Actual Lua source regression passed56 assertions under existing Fengari0.1.5/Lua5.3.4; RIFT Lua5.1 remains unverified",
           "Version-matched physical LEGION capture and persistence pending bounded operator authorization"
         ],
         "evidence": [
           "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md"
         ],
-        "currentResult": "185 focused Node/C# checks passed; source package/preflight pass; full historical research gate failed on missing/old-source evidence and2skips; Lua/client pending"
+        "currentResult": "185 original focused Node/C# checks passed; RC85 adds actual quest Lua56 plus full-package command16 and7C#integration checks; strict package passes; full historical gate remains failed; current-client validation pending"
       },
       {
         "id": "RC-84",
@@ -1240,6 +1240,43 @@
         "evidence": [
           "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.md",
           "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.json"
+        ]
+      },
+      {
+        "id": "RC-85",
+        "title": "Execute existing Lua fixtures and expose quest goals through RRE.Reader",
+        "parentTask": "RC-79",
+        "owner": "RRE manager; two independent read-only Codex reviews",
+        "status": "implemented-offline-end-to-end-checks-passed-client-pending",
+        "ownedPaths": [
+          "tools/run-collector-lua.mjs",
+          "tools/agents/quest_journal/verify_quest_command.lua",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "reader/Rre.Reader/QuestJournalSource.cs",
+          "reader/Rre.Reader.Checks/QuestChecks.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Contracts.cs",
+          "reader/Rre.Reader/CastingEvidenceSource.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/Program.cs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "Reuse pre-existing Fengari dependency read-only; no installation or external source changes",
+          "Actual addon startup and saved/slash handler through literal SavedVariables parser, Node exporter and C# command",
+          "Report retained journal separately from later recorded failure; preserve false runtime qualifications",
+          "Keep RRECollector source unchanged at a2d9660"
+        ],
+        "acceptance": [
+          "261 distinct Lua assertions passed;11 historical fixtures fail with harness drift, no full-Lua-pass claim",
+          "98 distinct Node checks (95 plus3 review regressions),99 C# production,8 combat and7 quest adapter checks passed; warnings-as-errors build passed",
+          "Full historical507-test gate failed on existing errors/skips; sources unchanged during run",
+          "RIFT Lua5.1, actual client load, persisted current quest evidence and gameplay results remain unverified"
+        ],
+        "evidence": [
+          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.md",
+          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.json"
         ]
       }
     ],

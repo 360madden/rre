@@ -1,5 +1,22 @@
 # RRE modular host reader
 
+**Reader0.2.5: quest goals from the existing collector journal.** After an authorized `/rre quests` capture and normal SavedVariables persistence, run:
+
+```powershell
+dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll quests --input 'FULL_PATH_TO_RRECollector.lua' --repo C:\work\rre --output 'NEW_quests.json'
+```
+
+Omit `--output` to print JSON. The `rre-quest-journal/1` report includes source SHA/length, retained journal status, the last recorded attempt status, remaining quantities and exact-ID map locations. A later failed capture preserves the journal and is reported separately; it does not establish present freshness. Quest goals remain separate from ability `SourceCapture` and RREC2. Live freshness, coordinate frame, travel feasibility and completion actions remain unverified. This command reads files and issues no game input.
+
+The actual nine-module addon startup and manual quest handler can be checked offline with the existing Fengari0.1.5 dependency, without installing packages:
+
+```powershell
+dotnet run --project reader/Rre.Reader.Checks -- --quest-only C:\work\rre C:\work\LuaPadModern\node_modules\fengari
+node tools/run-collector-lua.mjs C:\work\LuaPadModern\node_modules\fengari tools/agents/quest_journal/verify_quest_capture.lua
+```
+
+Fengari implements Lua5.3.4; these mocked logic checks are not RIFT's Lua5.1 or current-client acceptance. The runner propagates Lua errors as failure exits and limits fixture file reads to an in-memory addon snapshot. It is intended for trusted repository fixtures, not as a sandbox for untrusted code.
+
 **Reader0.2.4: combat feedback from the existing casting observer.** After a genuine recording and normal SavedVariables persistence, run:
 
 ```powershell

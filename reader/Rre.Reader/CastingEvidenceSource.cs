@@ -43,7 +43,7 @@ public static class CastingEvidenceSource
         DataRules.Require(DataRules.Text(root["status"], "casting-status") is "no-trials" or "observations-available",
             "casting-status");
         root["reader"] = "Rre.Reader";
-        root["readerVersion"] = "0.2.4";
+        root["readerVersion"] = Program.ReaderVersion;
         return root;
     }
 }

@@ -3,6 +3,21 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Rre.Reader;
 
+if (args is ["--quest-only", var questRepo, var fengari])
+{
+    try
+    {
+        var checks = await Rre.Reader.Checks.QuestChecks.RunAsync(questRepo, fengari);
+        Console.WriteLine(JsonSerializer.Serialize(new { status = "passed", count = checks.Count, checks }));
+        return 0;
+    }
+    catch (Exception error)
+    {
+        Console.Error.WriteLine(JsonSerializer.Serialize(new { status = "failed", error = error.ToString() }));
+        return 1;
+    }
+}
+
 if (args is ["--combat-only", var castingRepo])
 {
     try

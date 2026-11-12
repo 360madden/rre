@@ -14,7 +14,13 @@ const id = x => typeof x === 'string'
   : integer(x);
 const requireValue = (okay, code) => { if (!okay) throw Error(code); };
 const token = x => typeof x + ':' + x;
-const optionalText = x => typeof x === 'string' ? x : null;
+const optionalText = x => {
+  if (typeof x !== 'string') return null;
+  requireValue(Buffer.byteLength(x) <= 2048, 'QUEST_TEXT_LIMIT');
+  return x;
+};
+const scalar = x => typeof x === 'string' ? optionalText(x)
+  : typeof x === 'boolean' || Number.isFinite(x) ? x : null;
 function dense(value, max) {
   requireValue(value !== null && typeof value === 'object', 'QUEST_ARRAY_SHAPE');
   const keys = Object.keys(value);
@@ -56,14 +62,22 @@ export function summarizeQuestReceipt(saved, source = {}) {
     observationalCounters.has(key) || value === 0), 'QUEST_COMPLETENESS_CONTRADICTION');
   requireValue(snap.counts.questsRetained === quests.length, 'QUEST_COUNT_MISMATCH');
   const seen = new Set(), journal = [], nextObjectives = [];
-  let objectiveCount = 0, indicatorCount = 0;
+  let objectiveCount = 0, indicatorCount = 0, textBytes = 0;
+  const text = value => {
+    const result = optionalText(value);
+    textBytes += result === null ? 0 : Buffer.byteLength(result);
+    requireValue(textBytes <= 131072, 'QUEST_TEXT_BUDGET');
+    return result;
+  };
   for (const quest of quests) {
     requireValue(object(quest) && id(quest.id) && !seen.has(token(quest.id)), 'QUEST_ID_SHAPE');
     seen.add(token(quest.id));
     const objectives = dense(quest.objectives, 32);
     objectiveCount += objectives.length;
     const identityMatches = quest.status === 'returned' && quest.sourceId === quest.id;
-    const row = {id: quest.id, name: optionalText(quest.name), status: quest.status,
+    const row = {id: quest.id, name: text(quest.name),
+      status: ['returned', 'missing-api', 'error', 'no-detail', 'invalid-detail',
+        'missing-identity', 'id-mismatch'].includes(quest.status) ? quest.status : null,
       complete: typeof quest.complete === 'boolean' ? quest.complete : null,
       failed: typeof quest.failed === 'boolean' ? quest.failed : null,
       tracked: quest.track === true, watched: quest.watch === true,
@@ -83,7 +97,7 @@ export function summarizeQuestReceipt(saved, source = {}) {
       const state = objective.complete === true ? 'complete'
         : objective.complete === false || countsKnown && remaining > 0 ? 'incomplete'
         : 'completion-unknown';
-      const entry = {key: objective.key, description: optionalText(objective.description),
+      const entry = {key: objective.key, description: text(objective.description),
         count: objective.count ?? null, countDone: objective.countDone ?? null,
         remaining, state, locations: []};
       const indicators = dense(objective.indicators, 16);
@@ -99,7 +113,7 @@ export function summarizeQuestReceipt(saved, source = {}) {
           && ['coordX', 'coordY', 'coordZ'].every(k => Number.isFinite(location[k]))) {
           entry.locations.push({id: indicator.id, coordX: location.coordX,
             coordY: location.coordY, coordZ: location.coordZ,
-            title: optionalText(location.title), description: optionalText(location.description)});
+            title: text(location.title), description: text(location.description)});
         }
       }
       row.objectives.push(entry);
@@ -117,14 +131,24 @@ export function summarizeQuestReceipt(saved, source = {}) {
     || Number(b.watched) - Number(a.watched)
     || token(a.questId).localeCompare(token(b.questId), 'en')
     || token(a.key).localeCompare(token(b.key), 'en'));
+  const attempt = saved.questAttempt;
+  const lastRecordedAttempt = object(attempt) && attempt.addonVersion === VERSION
+    && ['recorded', 'partial', 'empty', 'unavailable', 'error'].includes(attempt.status)
+    ? {producerVersion: attempt.addonVersion, status: attempt.status} : null;
   return {schemaVersion: 1, producerVersion: snap.addonVersion, sequence: snap.sequence,
     sourceSha256: source.sha256 ?? null, sourceBytes: source.bytes ?? null,
     sourceModifiedAtUtc: source.modifiedAtUtc ?? null,
-    status: snap.status, coverageComplete: snap.complete,
+    status: snap.status, statusScope: 'retained-snapshot', coverageComplete: snap.complete,
+    lastRecordedAttempt, journalRetainedAfterFailure: lastRecordedAttempt
+      ? ['unavailable', 'error'].includes(lastRecordedAttempt.status) : null,
     qualification: {live: false, freshnessVerified: false, coordinateFrameVerified: false,
       travelFeasibilityVerified: false, completionActionsVerified: false},
-    context: {frameTime: snap.context?.frameTime ?? null, realTime: snap.context?.realTime ?? null,
-      playerId: snap.context?.player?.id ?? null, zone: snap.context?.player?.zone ?? null},
+    context: {frameTime: Number.isFinite(snap.context?.frameTime) && snap.context.frameTime >= 0
+      ? snap.context.frameTime : null,
+      realTime: Number.isFinite(snap.context?.realTime) && snap.context.realTime >= 0
+        ? snap.context.realTime : null,
+      playerId: id(snap.context?.player?.id) ? snap.context.player.id : null,
+      zone: scalar(snap.context?.player?.zone)},
     counts: {...snap.counts}, journal, nextObjectives};
 }
 

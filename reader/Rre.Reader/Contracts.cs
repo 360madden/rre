@@ -128,7 +128,7 @@ public static class ObservationModules
         };
         return new JsonObject
         {
-            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = "0.2.4",
+            ["schemaVersion"] = 1, ["reader"] = "Rre.Reader", ["readerVersion"] = Program.ReaderVersion,
             ["observedAtUtc"] = DateTimeOffset.UtcNow.ToString("O"), ["sequence"] = capture.Sequence,
             ["source"] = capture.Evidence.DeepClone(), ["modules"] = modules,
             ["qualification"] = new JsonObject

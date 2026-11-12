@@ -62,6 +62,51 @@ test('completed or failed quests and completed objectives never become next goal
     assert.equal(summarizeQuestReceipt(x).nextObjectives.length, 0);
   }
 });
+test('a preserved journal exposes the last recorded API failure without claiming freshness', () => {
+  const x = fixture(); x.questAttempt = {addonVersion: '0.4.20', status: 'unavailable'};
+  const result = summarizeQuestReceipt(x);
+  assert.equal(result.status, 'recorded');
+  assert.equal(result.statusScope, 'retained-snapshot');
+  assert.equal(result.lastRecordedAttempt.status, 'unavailable');
+  assert.equal(result.journalRetainedAfterFailure, true);
+  assert.equal(result.qualification.freshnessVerified, false);
+  x.questAttempt.addonVersion = 'old';
+  assert.equal(summarizeQuestReceipt(x).lastRecordedAttempt, null);
+});
+test('producer text byte bounds prevent goal-name amplification and keep UTF-8 boundaries', () => {
+  const x = fixture(); quest(x).name = '🌼'.repeat(512);
+  assert.equal(summarizeQuestReceipt(x).nextObjectives[0].questName, quest(x).name);
+  quest(x).name += 'a';
+  assert.throws(() => summarizeQuestReceipt(x), /QUEST_TEXT_LIMIT/);
+  quest(x).name = 'x'.repeat(150_000);
+  assert.throws(() => summarizeQuestReceipt(x), /QUEST_TEXT_LIMIT/);
+  const y = fixture(); objective(y).description = 'x'.repeat(2049);
+  assert.throws(() => summarizeQuestReceipt(y), /QUEST_TEXT_LIMIT/);
+  const z = fixture(); objective(z).indicators[0].location.title = 'x'.repeat(2049);
+  assert.throws(() => summarizeQuestReceipt(z), /QUEST_TEXT_LIMIT/);
+});
+test('projected content text respects the producer global budget before duplicate goals', () => {
+  const x = fixture(); const base = quest(x); delete base.name;
+  base.objectives = Array.from({length: 32}, (_, i) => ({key: i + 1,
+    description: 'x'.repeat(2048), count: 1, countDone: 0, indicators: []}));
+  x.questSnapshot.quests.push({...structuredClone(base), id: 'qOTHER', sourceId: 'qOTHER'});
+  Object.assign(x.questSnapshot.counts, {questsRetained: 2, objectivesRetained: 64, indicatorsRetained: 0});
+  assert.equal(summarizeQuestReceipt(x).nextObjectives.length, 64);
+  base.name = 'x';
+  assert.throws(() => summarizeQuestReceipt(x), /QUEST_TEXT_BUDGET/);
+});
+test('unexpected status and context objects are not echoed as quest metadata', () => {
+  const x = fixture(); quest(x).status = {private: 'unexpected'};
+  x.questSnapshot.context.player.zone = {private: 'unexpected'};
+  const result = summarizeQuestReceipt(x);
+  assert.equal(result.journal[0].status, null);
+  assert.equal(result.context.zone, null);
+  assert.equal(result.nextObjectives.length, 0);
+  x.questSnapshot.context.player.zone = false;
+  assert.equal(summarizeQuestReceipt(x).context.zone, false);
+  x.questSnapshot.context.player.zone = 0;
+  assert.equal(summarizeQuestReceipt(x).context.zone, 0);
+});
 test('unavailable rows, incomplete context and nonzero error counters cannot become goals', () => {
   const x = fixture(); x.questSnapshot.counts.detailFailures = 1;
   assert.throws(() => summarizeQuestReceipt(x), /QUEST_COMPLETENESS_CONTRADICTION/);
