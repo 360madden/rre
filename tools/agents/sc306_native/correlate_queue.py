@@ -67,6 +67,31 @@ def read_json(path: Path) -> dict:
     return value
 
 
+def check_issued_request(folder: Path, stem: str, declared_sha: str,
+                         expected_kind: str) -> None:
+    """Bind producer-declared hashes to exact guest-request bytes, not Git EOL."""
+    raw = (folder / f"{stem}.request.json").read_bytes()
+    # The original acquisition saved one terminal LF. A Windows Git checkout
+    # may convert that single final LF to CRLF; the guest received neither.
+    if raw.endswith(b"\r\n"):
+        guest_bytes = raw[:-2]
+    elif raw.endswith(b"\n"):
+        guest_bytes = raw[:-1]
+    else:
+        raise EvidenceError(f"{stem}: saved request lacks one terminal newline")
+    check(b"\n" not in guest_bytes and b"\r" not in guest_bytes,
+          f"{stem}: saved request is not single-line compact JSON")
+    try:
+        request = json.loads(guest_bytes.decode("utf-8"))
+    except (UnicodeError, ValueError) as exc:
+        raise EvidenceError(f"{stem}: malformed saved request") from exc
+    check(isinstance(request, dict)
+          and request.get("evidenceKind") == expected_kind,
+          f"{stem}: unexpected saved request kind")
+    check(sha256(guest_bytes) == str(declared_sha).upper(),
+          f"{stem}: request SHA mismatch")
+
+
 def same_identity(a: dict, b: dict) -> bool:
     numbers = ("processId", "processStartUtcTicks", "moduleBaseAddress", "moduleSize")
     strings = ("executablePath", "executableSha256")
@@ -100,7 +125,13 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     snap_completed = utc_time(snap["completedAtUtc"])
     check(first <= snap_started <= snap_completed <= last,
           "loaded-byte snapshot outside UI bracket")
-    reader_sha = str(snap["source"]["implementation"]["bundleSha256"]).upper()
+    source = snap["source"]
+    check(source.get("requestSha256Verification") == "producer-declared",
+          "snapshot request provenance unqualified")
+    check_issued_request(folder, "loaded-code-and-settings-root-v2",
+                         source.get("requestSha256"),
+                         "native-memory-snapshot-request/1")
+    reader_sha = str(source["implementation"]["bundleSha256"]).upper()
     check(len(reader_sha) == 64 and all(c in "0123456789ABCDEF" for c in reader_sha),
           "unqualified reader bundle SHA")
     inspection_impl = inspection.get("implementation")
@@ -140,6 +171,9 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
     samples = []
     for filename in ("queue-field-a-v2.json", "queue-field-b-v2.json"):
         report = read_record(folder / filename)
+        check_issued_request(folder, filename.removesuffix(".json"),
+                             report.get("requestSha256"),
+                             "native-pointer-follow-request/1")
         check(str(report["implementation"]["bundleSha256"]).upper() == reader_sha,
               f"{filename}: reader bundle differs")
         chain, resolution = report["chain"], report["resolution"]
@@ -253,6 +287,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         "loadedCodeWindowsMatched": len(CHUNKS),
         "originalImagesHashMatched": len(captures),
         "nativeExecutionReceiptFilesMatched": len(required_steps),
+        "nativeRequestHashesMatched": 3,
         "captureVmxVerified": EXPECTED_CAPTURE_VMX,
         "uiBracketUtc": [first.isoformat(), last.isoformat()],
         "limits": [

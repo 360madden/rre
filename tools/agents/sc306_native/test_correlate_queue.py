@@ -49,8 +49,22 @@ class CorrelationTests(unittest.TestCase):
              "bytesBase64": b64(data), "bytesSha256": sha256(data)}
             for rva, data in parts.items()
         ]
+        snapshot_request = {
+            "schemaVersion": 1, "evidenceKind": "native-memory-snapshot-request/1",
+            "target": {key: target[key] for key in (
+                "processId", "processStartUtcTicks", "executableSha256")},
+            "maxDurationMilliseconds": 5000,
+            "ranges": [{"addressKind": "module-relative-rva",
+                        "address": hex(rva), "byteLength": len(data)}
+                       for rva, data in parts.items()],
+        }
+        snapshot_sha = self.save_request("loaded-code-and-settings-root-v2",
+                                         snapshot_request)
         self.save("loaded-code-and-settings-root-v2.json", {
-            "identity": identity, "source": {"implementation": {"bundleSha256": "B" * 64}},
+            "identity": identity,
+            "source": {"implementation": {"bundleSha256": "B" * 64},
+                       "requestSha256": snapshot_sha,
+                       "requestSha256Verification": "producer-declared"},
             "startedAtUtc": "2026-11-07T15:51:27.6632392Z",
             "completedAtUtc": "2026-11-07T15:51:27.7469719Z",
             "status": "complete", "chunks": chunks,
@@ -59,7 +73,17 @@ class CorrelationTests(unittest.TestCase):
             ("a", "2026-11-07T15:51:38.9134000Z"),
             ("b", "2026-11-07T15:51:47.4376733Z"),
         ):
-            self.save(f"queue-field-{suffix}-v2.json", {
+            name = f"queue-field-{suffix}-v2"
+            follow_request = {
+                "schemaVersion": 1, "evidenceKind": "native-pointer-follow-request/1",
+                "target": {key: target[key] for key in (
+                    "processId", "processStartUtcTicks", "executableSha256")},
+                "rootRva": hex(ROOT_RVA), "offsets": [hex(164)],
+                "terminalByteLength": 4, "maxDurationMilliseconds": 5000,
+            }
+            follow_sha = self.save_request(name, follow_request)
+            self.save(f"{name}.json", {
+                "requestSha256": follow_sha,
                 "implementation": {"bundleSha256": "B" * 64},
                 "completedAtUtc": timestamp,
                 "chain": {"rootRva": ROOT_RVA, "offsets": [164]},
@@ -93,6 +117,13 @@ class CorrelationTests(unittest.TestCase):
     def save(self, path: str, value: dict) -> None:
         (self.folder / path).write_text(json.dumps(value), encoding="utf-8")
 
+    def save_request(self, stem: str, value: dict) -> str:
+        # Guest receives compact JSON with no newline; retained host file has
+        # one trailing newline (CRLF in the Windows working checkout).
+        guest_bytes = json.dumps(value, separators=(",", ":")).encode("utf-8")
+        (self.folder / f"{stem}.request.json").write_bytes(guest_bytes + b"\r\n")
+        return sha256(guest_bytes)
+
     def refresh_execution_receipts(self) -> None:
         names = (
             ("native-inspection", "native-inspection.json", "inspect-native"),
@@ -124,10 +155,38 @@ class CorrelationTests(unittest.TestCase):
         answer = audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
         self.assertEqual(answer["nativeValue"], 1)
         self.assertEqual(answer["nativeExecutionReceiptFilesMatched"], 4)
+        self.assertEqual(answer["nativeRequestHashesMatched"], 3)
         self.assertTrue(answer["labelMappingQualified"])
         self.assertEqual(answer["loadedCodeWindowsMatched"], 3)
         self.assertEqual(answer["originalImagesHashMatched"], 2)
         self.assertTrue(answer["status"].startswith("native_consistency_pass"))
+
+    def test_git_lf_checkout_of_saved_requests_also_passes(self) -> None:
+        for stem in ("loaded-code-and-settings-root-v2",
+                     "queue-field-a-v2", "queue-field-b-v2"):
+            path = self.folder / f"{stem}.request.json"
+            self.assertTrue(path.read_bytes().endswith(b"\r\n"))
+            path.write_bytes(path.read_bytes()[:-2] + b"\n")
+        self.assertEqual(audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+                         ["nativeRequestHashesMatched"], 3)
+
+    def test_changed_snapshot_request_with_stale_producer_hash_rejected(self) -> None:
+        path = self.folder / "loaded-code-and-settings-root-v2.request.json"
+        contents = path.read_bytes()
+        self.assertIn(b'"maxDurationMilliseconds":5000', contents)
+        path.write_bytes(contents.replace(b'"maxDurationMilliseconds":5000',
+                                          b'"maxDurationMilliseconds":5001'))
+        with self.assertRaisesRegex(EvidenceError, "request SHA mismatch"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_changed_pointer_request_with_stale_producer_hash_rejected(self) -> None:
+        path = self.folder / "queue-field-b-v2.request.json"
+        contents = path.read_bytes()
+        self.assertIn(b'"terminalByteLength":4', contents)
+        path.write_bytes(contents.replace(b'"terminalByteLength":4',
+                                          b'"terminalByteLength":8'))
+        with self.assertRaisesRegex(EvidenceError, "request SHA mismatch"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_changed_inspection_bytes_with_stale_receipt_rejected(self) -> None:
         self.mutate("native-inspection.json",
