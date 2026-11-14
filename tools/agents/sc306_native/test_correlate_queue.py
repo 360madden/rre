@@ -242,6 +242,25 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_matching_hash_boolean_snapshot_request_schema_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "loaded-code-and-settings-root-v2",
+            lambda r: r.update({"schemaVersion": True}))
+        with self.assertRaisesRegex(EvidenceError, "snapshot request schema/duration"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_boolean_first_follow_request_schema_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "queue-field-a-v2", lambda r: r.update({"schemaVersion": True}))
+        with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_matching_hash_boolean_second_follow_request_schema_rejected(self) -> None:
+        self.mutate_request_and_receipts(
+            "queue-field-b-v2", lambda r: r.update({"schemaVersion": True}))
+        with self.assertRaisesRegex(EvidenceError, "follow request pointer/field"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_matching_hash_wrong_native_inspection_contract_rejected(self) -> None:
         self.mutate("native-inspection.json",
                     lambda x: x.update({"contractVersion": "unrelated-contract/99"}))

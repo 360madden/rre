@@ -183,7 +183,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         "native-memory-snapshot-request/1")
     check(request_target_matches(snapshot_request, identity),
           "snapshot request target differs from native inspection")
-    check(snapshot_request.get("schemaVersion") == 1
+    check(type(snapshot_request.get("schemaVersion")) is int and snapshot_request["schemaVersion"] == 1
           and snapshot_request.get("maxDurationMilliseconds") == 5000,
           "snapshot request schema/duration differs from acquisition")
     ranges = snapshot_request.get("ranges")
@@ -248,7 +248,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
             "native-pointer-follow-request/1")
         check(request_target_matches(follow_request, identity),
               f"{filename}: follow request target differs from inspection")
-        check(follow_request.get("schemaVersion") == 1
+        check(type(follow_request.get("schemaVersion")) is int and follow_request["schemaVersion"] == 1
               and follow_request.get("maxDurationMilliseconds") == 5000
               and parse_request_address(follow_request.get("rootRva")) == ROOT_RVA
               and isinstance(follow_request.get("offsets"), list)
