@@ -1,4 +1,12 @@
-# RRE session handoff — November 14, 2026 (00:12 EST)
+# RRE session handoff — November 14, 2026 (updated 01:21 EST)
+
+## 01:21 EST — current physical SavedVariables exact-byte reappearance (RC-30 evidence only)
+
+- Read-only `file_info(hash=true)` on the original Atank `SavedVariables/RRECollector.lua` returned **72,353 bytes**, filesystem mtime **2026-11-14T05:20:37.039Z** (00:20:37 EST), and SHA-256 **`ded509fafaf7f0bf1918063f3fafdc61b0184db54d1c35c385db3aab013e9bfd`**. Two reads, including the SHA-bound receipt, agreed. Job `rre_20261114_0122_rc30_reversion_check` exited **0** at **06:20:55Z**; `--expected-sha` and `--require-version 0.4.20` passed. No SavedVariables file was written.
+- The **identical** digest was independently recorded on November 12 (see that day's handoff), but the November 14 00:12 handoff had observed the same pathname with **`54ea0b7840d53e8617f2ce63f724e4ebc868cd4894ffbdff4d40c4278d410426`** at mtime **2026-11-13T18:48:43.529Z**. Therefore, the current pathname's bytes match a previously seen older file state rather than the latest previously observed bytes. Neither filesystem mtime nor the digest establishes *why* it changed: game flush, cloud synchronization, restoration, and writer/process identity are **unproven**. Do not describe this as an observed gameplay Undo or current capture.
+- Fresh sanitized receipt: saved root `0.4.20`, retained `latest` **`0.1.0`**, `latestVersionMatchesSavedRoot=false`, `latestCaptureComplete=true`, **69** Known, **96** candidates (51/38/7), **8/8 distinct valid** pins, unchanged slot fingerprint **`b592926bdeaf9af039393efe956f32ee69cbdf9e7f13b9b0892d9c5333d9c160`**. Structural-only readiness is not freshness; all process/build, source-writer and Pin/Undo evidence flags remain false.
+- **Validation / manager close:** `rre_20261114_0124_rc30_tests` exited 0 (**16/16**), `rre_20261114_0124_roadmap` exited 0 (**47 tasks / 11 milestones / 0 failures**), `rre_20261114_0124_diffcheck` exited 0. Workbridge reports no running jobs but historical job inventory is incomplete; FreeBuff/Ollama remain on user hold, so no model agent was launched. The 12 RRE worktrees and separate RR2/REA-Lab1 dirty states were reconciled before writing; no ownership overlap. This checkpoint is the only RRE tracked-file edit this iteration.
+- **No gate promotion:** RC-30 still lacks fresh same-trial pre-Pin/Undo/Reload evidence and a version-matched retained ability capture. SC-103, SC-306, SC-604, ROOT-001 and ORIENT-001 remain unresolved at their earlier proof limits. Installed addon and other repositories untouched; this is a read-only local-source provenance observation, not live qualification or RR2 feed material.
 
 ## RC-30 — root/latest capture version boundary established
 
