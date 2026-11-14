@@ -89,6 +89,13 @@ export function buildReceipt(saved, source) {
   // Never hash the redacted type placeholder as if it identified original bytes.
   const slotFingerprintComplete = saved.toolbarSlots != null &&
     !slotStates.includes("invalid-stored-value");
+  // Nested reports can persist across addon upgrades independently of the saved root.
+  const publicVersion = value => typeof value === "string" && OUTPUT_VERSION.test(value)
+    ? value : null;
+  const rootVersion = publicVersion(saved.addonVersion);
+  const latestVersion = publicVersion(saved.latest?.addonVersion);
+  const lookupVersion = publicVersion(saved.candidateLookup?.addonVersion);
+  const attemptVersion = publicVersion(saved.candidateAttempt?.addonVersion);
   return {
     schemaVersion: 1,
     sourceKind: "single stable read of original RRECollector SavedVariables; G1 saved data only",
@@ -97,13 +104,13 @@ export function buildReceipt(saved, source) {
     modifiedAtUtc: source.modifiedAtUtc,
     sourceSha256: source.sha256,
     sourceBytes: source.bytes,
-    addonVersion: typeof saved.addonVersion === "string" && OUTPUT_VERSION.test(saved.addonVersion)
-      ? saved.addonVersion : null,
-    latestAddonVersion: typeof saved.latest?.addonVersion === "string" && OUTPUT_VERSION.test(saved.latest.addonVersion)
-      ? saved.latest.addonVersion : null,
-    latestVersionMatchesSavedRoot: typeof saved.addonVersion === "string" && OUTPUT_VERSION.test(saved.addonVersion)
-      && typeof saved.latest?.addonVersion === "string" && OUTPUT_VERSION.test(saved.latest.addonVersion)
-      && saved.addonVersion === saved.latest.addonVersion,
+    addonVersion: rootVersion,
+    latestAddonVersion: latestVersion,
+    latestVersionMatchesSavedRoot: rootVersion !== null && latestVersion === rootVersion,
+    candidateLookupAddonVersion: lookupVersion,
+    candidateLookupVersionMatchesSavedRoot: rootVersion !== null && lookupVersion === rootVersion,
+    candidateAttemptAddonVersion: attemptVersion,
+    candidateAttemptVersionMatchesSavedRoot: rootVersion !== null && attemptVersion === rootVersion,
     latestKnownCount: knownRows.length,
     latestCaptureComplete: saved.latest?.captureComplete === true,
     knownSnapshotReadiness: assessSnapshotForComparison(saved),

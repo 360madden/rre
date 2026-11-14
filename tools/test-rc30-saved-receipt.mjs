@@ -80,6 +80,50 @@ test("persisted root version cannot disguise an older latest capture",()=>{
   assert.equal(JSON.stringify(invalid).includes(secret),false);
 });
 
+test("candidate report provenance cannot inherit the root version",()=>{
+  const stale=buildReceipt({...saved,addonVersion:"0.4.20",
+    candidateLookup:{...saved.candidateLookup,addonVersion:"0.4.14"},
+    candidateAttempt:{addonVersion:"0.4.14"}},meta);
+  assert.equal(stale.candidateLookupAddonVersion,"0.4.14");
+  assert.equal(stale.candidateLookupVersionMatchesSavedRoot,false);
+  assert.equal(stale.candidateAttemptAddonVersion,"0.4.14");
+  assert.equal(stale.candidateAttemptVersionMatchesSavedRoot,false);
+  assert.equal(stale.candidateSequence,5);
+  assert.equal(stale.candidateCount,3);
+  const matching=buildReceipt({...saved,
+    candidateLookup:{...saved.candidateLookup,addonVersion:"0.4.10"},
+    candidateAttempt:{addonVersion:"0.4.10"}},meta);
+  assert.equal(matching.candidateLookupVersionMatchesSavedRoot,true);
+  assert.equal(matching.candidateAttemptVersionMatchesSavedRoot,true);
+  assert.equal(matching.candidateLookupAddonVersion,"0.4.10");
+  assert.equal(matching.candidateAttemptAddonVersion,"0.4.10");
+  const absent=buildReceipt(saved,meta);
+  assert.equal(absent.candidateLookupAddonVersion,null);
+  assert.equal(absent.candidateLookupVersionMatchesSavedRoot,false);
+  assert.equal(absent.candidateAttemptAddonVersion,null);
+  assert.equal(absent.candidateAttemptVersionMatchesSavedRoot,false);
+});
+
+test("invalid and private candidate versions remain redacted and unmatched",()=>{
+  const secret="PRIVATE_PLAYER_NAME_DO_NOT_ECHO";
+  for(const bad of [secret,"0.123456789012345678901234567890.0",42]){
+    const r=buildReceipt({...saved,candidateLookup:{...saved.candidateLookup,addonVersion:bad},
+      candidateAttempt:{addonVersion:bad}},meta);
+    assert.equal(r.candidateLookupAddonVersion,null);
+    assert.equal(r.candidateLookupVersionMatchesSavedRoot,false);
+    assert.equal(r.candidateAttemptAddonVersion,null);
+    assert.equal(r.candidateAttemptVersionMatchesSavedRoot,false);
+    assert.equal(JSON.stringify(r).includes(secret),false);
+  }
+  const invalidRoot=buildReceipt({...saved,addonVersion:secret,
+    candidateLookup:{...saved.candidateLookup,addonVersion:"0.4.10"},
+    candidateAttempt:{addonVersion:"0.4.10"}},meta);
+  assert.equal(invalidRoot.addonVersion,null);
+  assert.equal(invalidRoot.candidateLookupVersionMatchesSavedRoot,false);
+  assert.equal(invalidRoot.candidateAttemptVersionMatchesSavedRoot,false);
+  assert.equal(JSON.stringify(invalidRoot).includes(secret),false);
+});
+
 test("RC30 receipt embeds strict snapshot diagnostics without changing slots or live-proof flags",()=>{
   const prior=buildReceipt(saved,meta);
   assert.equal(prior.latestCaptureComplete,true);
