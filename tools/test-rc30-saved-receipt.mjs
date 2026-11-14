@@ -57,6 +57,29 @@ test("arbitrary saved addonVersion cannot escape redacted receipt",()=>{
   assert.equal(buildReceipt(saved,meta).addonVersion,"0.4.10");
 });
 
+test("persisted root version cannot disguise an older latest capture",()=>{
+  const stale=buildReceipt({...saved,addonVersion:"0.4.20",latest:{
+    ...saved.latest,addonVersion:"0.1.0"
+  }},meta);
+  assert.equal(stale.addonVersion,"0.4.20");
+  assert.equal(stale.latestAddonVersion,"0.1.0");
+  assert.equal(stale.latestVersionMatchesSavedRoot,false);
+  assert.equal(stale.latestCaptureComplete,true);
+  const matched=buildReceipt({...saved,latest:{
+    ...saved.latest,addonVersion:"0.4.10"
+  }},meta);
+  assert.equal(matched.latestAddonVersion,"0.4.10");
+  assert.equal(matched.latestVersionMatchesSavedRoot,true);
+  const missing=buildReceipt(saved,meta);
+  assert.equal(missing.latestAddonVersion,null);
+  assert.equal(missing.latestVersionMatchesSavedRoot,false);
+  const secret="PRIVATE_NAME_NOT_A_VERSION";
+  const invalid=buildReceipt({...saved,latest:{...saved.latest,addonVersion:secret}},meta);
+  assert.equal(invalid.latestAddonVersion,null);
+  assert.equal(invalid.latestVersionMatchesSavedRoot,false);
+  assert.equal(JSON.stringify(invalid).includes(secret),false);
+});
+
 test("RC30 receipt embeds strict snapshot diagnostics without changing slots or live-proof flags",()=>{
   const prior=buildReceipt(saved,meta);
   assert.equal(prior.latestCaptureComplete,true);

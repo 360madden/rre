@@ -99,6 +99,11 @@ export function buildReceipt(saved, source) {
     sourceBytes: source.bytes,
     addonVersion: typeof saved.addonVersion === "string" && OUTPUT_VERSION.test(saved.addonVersion)
       ? saved.addonVersion : null,
+    latestAddonVersion: typeof saved.latest?.addonVersion === "string" && OUTPUT_VERSION.test(saved.latest.addonVersion)
+      ? saved.latest.addonVersion : null,
+    latestVersionMatchesSavedRoot: typeof saved.addonVersion === "string" && OUTPUT_VERSION.test(saved.addonVersion)
+      && typeof saved.latest?.addonVersion === "string" && OUTPUT_VERSION.test(saved.latest.addonVersion)
+      && saved.addonVersion === saved.latest.addonVersion,
     latestKnownCount: knownRows.length,
     latestCaptureComplete: saved.latest?.captureComplete === true,
     knownSnapshotReadiness: assessSnapshotForComparison(saved),
