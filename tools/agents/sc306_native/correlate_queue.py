@@ -44,18 +44,27 @@ def sha256(data: bytes) -> str:
 
 
 def check_png_structure(data: bytes, label: str) -> None:
-    """Check PNG chunk framing and CRCs; not pixel decoding or visual content."""
+    """Verify bounded PNG framing, compressed scanlines and filters, not visual content."""
     check(len(data) >= 33 and data[:8] == b"\x89PNG\r\n\x1a\n"
           and data[8:12] == b"\x00\x00\x00\r" and data[12:16] == b"IHDR",
           f"{label}: PNG signature/IHDR missing")
     width = int.from_bytes(data[16:20], "big")
     height = int.from_bytes(data[20:24], "big")
-    check(width > 0 and height > 0, f"{label}: PNG dimensions invalid")
+    check(0 < width <= 8192 and 0 < height <= 8192
+          and width * height <= 16_000_000, f"{label}: PNG dimensions invalid")
+    depth, color, compression, filtering, interlace = data[24:29]
+    channels = {0: 1, 2: 3, 3: 1, 4: 2, 6: 4}
+    allowed_depths = {0: (1, 2, 4, 8, 16), 2: (8, 16),
+                      3: (1, 2, 4, 8), 4: (8, 16), 6: (8, 16)}
+    check(color in channels and depth in allowed_depths.get(color, ())
+          and compression == 0 and filtering == 0 and interlace in (0, 1),
+          f"{label}: PNG IHDR format invalid")
     crc = int.from_bytes(data[29:33], "big")
     check(zlib.crc32(data[12:29]) == crc, f"{label}: PNG IHDR CRC mismatch")
 
     position = 33  # Immediately after the mandatory first IHDR chunk.
-    found_image_data = False
+    idat_parts = []
+    image_data_finished = False
     while position < len(data):
         check(len(data) - position >= 12, f"{label}: PNG chunk truncated")
         size = int.from_bytes(data[position:position + 4], "big")
@@ -70,13 +79,44 @@ def check_png_structure(data: bytes, label: str) -> None:
         check(zlib.crc32(data[position + 4:end - 4]) == expected_crc,
               f"{label}: PNG chunk CRC mismatch")
         if kind == b"IDAT":
-            found_image_data = True
+            check(not image_data_finished, f"{label}: PNG IDAT not consecutive")
+            idat_parts.append(data[position + 8:end - 4])
+        elif idat_parts:
+            image_data_finished = True
         if kind == b"IEND":
-            check(size == 0 and found_image_data and end == len(data),
+            check(size == 0 and idat_parts and end == len(data),
                   f"{label}: PNG IEND/image-data/trailing-bytes invalid")
-            return
+            break
         position = end
-    raise EvidenceError(f"{label}: PNG missing image data/IEND")
+    else:
+        raise EvidenceError(f"{label}: PNG missing image data/IEND")
+
+    # Adam7 pass geometry. Check scanline size and filter tag, but do not
+    # reconstruct pixels or interpret an on-screen UI label.
+    passes = ((0, 0, 1, 1),) if interlace == 0 else (
+        (0, 0, 8, 8), (4, 0, 8, 8), (0, 4, 4, 8), (2, 0, 4, 4),
+        (0, 2, 2, 4), (1, 0, 2, 2), (0, 1, 1, 2))
+    rows = []
+    for x, y, dx, dy in passes:
+        columns = max(0, (width - x + dx - 1) // dx)
+        count = max(0, (height - y + dy - 1) // dy)
+        if columns and count:
+            rows.append((count, (columns * channels[color] * depth + 7) // 8))
+    expected = sum(count * (stride + 1) for count, stride in rows)
+    check(0 < expected <= 64 * 1024 * 1024, f"{label}: PNG IDAT size limit")
+    try:
+        decoder = zlib.decompressobj()
+        scanlines = decoder.decompress(b"".join(idat_parts), expected + 1)
+        scanlines += decoder.flush(max(1, expected + 1 - len(scanlines)))
+    except zlib.error as exc:
+        raise EvidenceError(f"{label}: PNG IDAT decompression invalid") from exc
+    check(decoder.eof and not decoder.unused_data and not decoder.unconsumed_tail
+          and len(scanlines) == expected, f"{label}: PNG IDAT scanline size invalid")
+    position = 0
+    for count, stride in rows:
+        for _ in range(count):
+            check(scanlines[position] <= 4, f"{label}: PNG IDAT scanline filter invalid")
+            position += stride + 1
 
 
 def decode64(encoded: str, label: str) -> bytes:

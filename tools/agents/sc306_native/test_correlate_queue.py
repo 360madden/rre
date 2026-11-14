@@ -502,6 +502,31 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "PNG"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_png_invalid_zlib_with_correct_chunk_crc_and_manifest_rejected(self) -> None:
+        # All PNG chunk checksums and the manifest agree, but IDAT is not zlib.
+        name = "queue-ui-pre-read"
+        payload = (synthetic_png(name)[:33]
+                   + png_chunk(b"IDAT", b"not a zlib stream")
+                   + png_chunk(b"IEND", b""))
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG IDAT"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_png_missing_zlib_end_with_correct_crc_and_manifest_rejected(self) -> None:
+        name = "queue-ui-post-read"
+        original = synthetic_png(name)
+        idat_length = int.from_bytes(original[33:37], "big")
+        compressed = original[41:41 + idat_length]
+        payload = (original[:33] + png_chunk(b"IDAT", compressed[:-2])
+                   + png_chunk(b"IEND", b""))
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG IDAT"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_image_manifest_mismatch_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/capture.json",
                     lambda x: x.update({"imageSha256": "0" * 64}))
