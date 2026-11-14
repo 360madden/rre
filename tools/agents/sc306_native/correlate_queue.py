@@ -11,6 +11,7 @@ import base64
 import hashlib
 import json
 import sys
+import zlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -40,6 +41,18 @@ def check(condition: bool, reason: str) -> None:
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest().upper()
+
+
+def check_png_header(data: bytes, label: str) -> None:
+    """Check PNG signature, first IHDR dimensions and CRC; not visual content."""
+    check(len(data) >= 33 and data[:8] == b"\x89PNG\r\n\x1a\n"
+          and data[8:12] == b"\x00\x00\x00\r" and data[12:16] == b"IHDR",
+          f"{label}: PNG signature/IHDR missing")
+    width = int.from_bytes(data[16:20], "big")
+    height = int.from_bytes(data[20:24], "big")
+    check(width > 0 and height > 0, f"{label}: PNG dimensions invalid")
+    crc = int.from_bytes(data[29:33], "big")
+    check(zlib.crc32(data[12:29]) == crc, f"{label}: PNG IHDR CRC mismatch")
 
 
 def decode64(encoded: str, label: str) -> bytes:
@@ -311,6 +324,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         manifest = read_record(ui_dir / "capture.json")
         result = read_record(ui_dir / "result.json")
         image_bytes = (ui_dir / "before.png").read_bytes()
+        check_png_header(image_bytes, name)
         check(sha256(image_bytes) == str(manifest["imageSha256"]).upper(),
               f"{name}: original image SHA mismatch")
         check(result.get("status") == "completed-awaiting-visual-review"

@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import base64
 import json
+import struct
 import tempfile
+import zlib
 import unittest
 from pathlib import Path
 
@@ -20,6 +22,20 @@ SETTER = base64.b64decode("SIsNEit8AjuZpAAAAA+ELAMAAImZpAAAAA+2QRkPuugHiEEZ6RYD"
 
 def b64(data: bytes) -> str:
     return base64.b64encode(data).decode("ascii")
+
+
+def png_chunk(kind: bytes, payload: bytes) -> bytes:
+    return (len(payload).to_bytes(4, "big") + kind + payload
+            + zlib.crc32(kind + payload).to_bytes(4, "big"))
+
+
+def synthetic_png(seed: str) -> bytes:
+    """Small valid 1x1 RGB PNG with deterministic synthetic pixel data."""
+    pixel = bytes((len(seed) % 256, 90, 180))
+    return (b"\x89PNG\r\n\x1a\n"
+            + png_chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0))
+            + png_chunk(b"IDAT", zlib.compress(b"\x00" + pixel))
+            + png_chunk(b"IEND", b""))
 
 
 class CorrelationTests(unittest.TestCase):
@@ -107,7 +123,7 @@ class CorrelationTests(unittest.TestCase):
         self.refresh_execution_receipts()
         vm = {"vmx": r"c:\rift modding\vms\rift-lab-2\rift-lab.vmx", "pid": 10}
         for name in ("queue-ui-pre-read", "queue-ui-post-read"):
-            contents = f"synthetic pixel fixture: {name}".encode()
+            contents = synthetic_png(name)
             (self.folder / name).mkdir()
             (self.folder / name / "before.png").write_bytes(contents)
             self.save(f"{name}/capture.json",
@@ -434,6 +450,26 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "outside UI bracket"):
             audit(self.folder, "Short", "2026-11-07T15:51:21Z",
                   "2026-11-07T15:51:40Z")
+
+    def test_non_png_with_matching_image_sha_rejected(self) -> None:
+        name = "queue-ui-pre-read"
+        payload = b"not actually a PNG despite matching manifest"
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_invalid_ihdr_crc_with_matching_image_sha_rejected(self) -> None:
+        name = "queue-ui-post-read"
+        path = self.folder / name / "before.png"
+        payload = bytearray(path.read_bytes())
+        payload[29] ^= 1  # Corrupt IHDR CRC without changing its dimensions.
+        path.write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG IHDR CRC"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
     def test_image_manifest_mismatch_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/capture.json",
