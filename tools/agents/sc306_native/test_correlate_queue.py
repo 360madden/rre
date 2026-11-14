@@ -471,6 +471,37 @@ class CorrelationTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "PNG IHDR CRC"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
 
+    def test_png_header_only_with_matching_sha_rejected(self) -> None:
+        # A CRC-correct IHDR alone is not a complete PNG image.
+        name = "queue-ui-pre-read"
+        payload = synthetic_png(name)[:33]
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_png_missing_iend_with_matching_sha_rejected(self) -> None:
+        name = "queue-ui-pre-read"
+        payload = synthetic_png(name)[:-12]
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_png_corrupt_idat_crc_with_matching_sha_rejected(self) -> None:
+        name = "queue-ui-post-read"
+        payload = bytearray(synthetic_png(name))
+        idat_offset = payload.find(b"IDAT")
+        self.assertGreaterEqual(idat_offset, 0)
+        payload[idat_offset + 4] ^= 1
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
     def test_image_manifest_mismatch_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/capture.json",
                     lambda x: x.update({"imageSha256": "0" * 64}))

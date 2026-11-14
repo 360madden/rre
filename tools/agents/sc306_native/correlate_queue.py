@@ -43,8 +43,8 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest().upper()
 
 
-def check_png_header(data: bytes, label: str) -> None:
-    """Check PNG signature, first IHDR dimensions and CRC; not visual content."""
+def check_png_structure(data: bytes, label: str) -> None:
+    """Check PNG chunk framing and CRCs; not pixel decoding or visual content."""
     check(len(data) >= 33 and data[:8] == b"\x89PNG\r\n\x1a\n"
           and data[8:12] == b"\x00\x00\x00\r" and data[12:16] == b"IHDR",
           f"{label}: PNG signature/IHDR missing")
@@ -53,6 +53,30 @@ def check_png_header(data: bytes, label: str) -> None:
     check(width > 0 and height > 0, f"{label}: PNG dimensions invalid")
     crc = int.from_bytes(data[29:33], "big")
     check(zlib.crc32(data[12:29]) == crc, f"{label}: PNG IHDR CRC mismatch")
+
+    position = 33  # Immediately after the mandatory first IHDR chunk.
+    found_image_data = False
+    while position < len(data):
+        check(len(data) - position >= 12, f"{label}: PNG chunk truncated")
+        size = int.from_bytes(data[position:position + 4], "big")
+        end = position + 12 + size
+        check(end <= len(data), f"{label}: PNG chunk extends beyond file")
+        kind = data[position + 4:position + 8]
+        check(len(kind) == 4 and all(65 <= c <= 90 or 97 <= c <= 122
+                                     for c in kind),
+              f"{label}: PNG chunk type invalid")
+        check(kind != b"IHDR", f"{label}: PNG duplicate IHDR")
+        expected_crc = int.from_bytes(data[end - 4:end], "big")
+        check(zlib.crc32(data[position + 4:end - 4]) == expected_crc,
+              f"{label}: PNG chunk CRC mismatch")
+        if kind == b"IDAT":
+            found_image_data = True
+        if kind == b"IEND":
+            check(size == 0 and found_image_data and end == len(data),
+                  f"{label}: PNG IEND/image-data/trailing-bytes invalid")
+            return
+        position = end
+    raise EvidenceError(f"{label}: PNG missing image data/IEND")
 
 
 def decode64(encoded: str, label: str) -> bytes:
@@ -324,7 +348,7 @@ def audit(folder: Path, label: str, ui_before_utc: str, ui_after_utc: str,
         manifest = read_record(ui_dir / "capture.json")
         result = read_record(ui_dir / "result.json")
         image_bytes = (ui_dir / "before.png").read_bytes()
-        check_png_header(image_bytes, name)
+        check_png_structure(image_bytes, name)
         check(sha256(image_bytes) == str(manifest["imageSha256"]).upper(),
               f"{name}: original image SHA mismatch")
         check(result.get("status") == "completed-awaiting-visual-review"

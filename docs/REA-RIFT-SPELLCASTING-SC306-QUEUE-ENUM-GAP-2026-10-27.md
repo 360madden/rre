@@ -1,5 +1,13 @@
 # SC-306 — Local AbilityQueue value-to-label mapping: bounded negative result
 
+## November 14, 2026 — reject incomplete PNG screenshot receipts (12:43 EST)
+
+- **Independent red-first reproduction:** the prior image gate accepted a 33-byte PNG-signature/IHDR-only file with a valid IHDR CRC but **no IDAT or IEND**, even when paired with its updated matching screenshot-manifest SHA. Read-only probe `rre_20261114_1235_sc306_header_only_probe` exited 0 and confirmed that false acceptance. Three new regression cases reproduced acceptance of a header-only file, missing IEND, and corrupted IDAT CRC; the 55-test suite failed exactly those three cases (job `rre_20261114_1235_sc306_red_suite`, exit 1).
+- **Manager-only repair:** `tools/agents/sc306_native/correlate_queue.py` now requires a complete, correctly bounded PNG chunk sequence, alphabetic chunk types, per-chunk CRC, IDAT present, and a zero-length final IEND with no trailing data. The checker still **does not decompress pixels or authenticate screenshot content/visual labels**. `tools/agents/sc306_native/test_correlate_queue.py` adds the three negative controls.
+- **Independent proof:** suite `rre_20261114_1235_sc306_green_suite` **55/55**, exit 0; replay of the preserved November 7 original same-bracket evidence `rre_20261114_1235_sc306_original_replay`, exit 0, remains **native value 1 ↔ human-reviewed Short**, with both original screenshot hashes and four native command-output receipts matched. `rre_20261114_1235_roadmap_check`: **47 tasks / 11 milestones / zero failures**, exit 0. Exact RRE source hashes after repair: checker `4488f534cc8c5934a1173ad2200a1fc0285e8abaeee1138c5e55c0f1d91df01c`, tests `a5221e269a9180246635e12892e66e602f8c6f1d3c0b051ce42ebaadf41677d0`.
+- **Gate:** This strengthens file-format consistency only. It does not qualify game pixels, contemporaneous VM/process identity, independent timestamps, native enum values `0/2`, RC-30 Pin→Undo→Reload, SC-103 Legendary identity or SC-604 full mechanism. No game input, loaded-addon/SavedVariables modification, installed software/process control, cross-project edit, RR2 feed update or remote push.
+
+
 **2026-10-27. REA research on physical PC only.** This task investigated whether the local game's native setting value **`1`** can be reliably mapped to user-visible **Full / Short / None** without modifying gameplay or stealing focus. **Outcome: unresolved / blocked on direct user-interface mapping evidence.** This is a saved negative result, not a claim that the value has no mapping.
 
 ## Source-backed facts retained
