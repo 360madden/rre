@@ -1,5 +1,11 @@
 # RRE session handoff — November 15, 2026 (ROOT-001 registered-handler dispatch checkpoint ~17:52 EST)
 
+## Evening EST — durable full Node test discovery runner and checkpoint
+
+- **Prior local commit:** `a6fd5ceaa9d5df1aa6ff1ed76723f5566106a078` included the six-file ROOT ID/C2M/argument integration and historical SC-103 test provenance correction; `main` is eight commits ahead of `origin/main`; no push, nine inherited untracked paths unchanged.
+- **Coverage hardening:** Added `tools/run-rre-node-tests.mjs`, auto-discovering all top-level `tools/*.mjs` that import `node:test` and running them with the current Node executable. `--list` yielded **18/18** module names, `--bad-flag` failed closed with exit **2**, Node syntax check exit **0**, and `node tools/run-rre-node-tests.mjs` exited **0, 181/181 tests** (job `rre_20261115_1903_node_runner_18_full_gate_01`). It does not run nested suites or non-Node gates. README now documents the command so future sessions avoid the old seven-file/105-test undercount.
+- **Scope/next:** This is offline test orchestration only; no source PE change, live RIFT, addon, RR2, LEGION or VMware changes. Validate README links/roadmap/whitespace, check owner and exact Git hashes, then separately commit only the runner, README and this handoff. RRECollector RC source remains stopped; SC-306 queue values 0/2, Legendary and ROOT live player identity remain unverified. No remote push.
+
 ## Evening EST — ROOT internal ID, argument reference and RC-81 C2M constructor crosslink (current checkpoint)
 
 - **Ownership/source:** AMD-DESKTOP Workbridge `0.16.5-dev` verified independently via `rre_20261115_1800_newturn_hostname_01` (exit0); only `C:\work\rre` repository modified. Previous `main` HEAD `5878ab912ba96e3a29e6a09cd79ffe5eee425eb1` locally 7 commits ahead of `origin/main`, pre-edit tracked-clean; nine inherited untracked backup/raw-probe paths remain untouched. Read-only independent agents reviewed SC-306, SC-103 cross-calling, RC-30 parked test harness, ROOT argument flow, and RC-81 C2M; manager alone performs edits. **No push, LEGION, physical game, VM, addon deployment, RR2 or REA repository actions**.

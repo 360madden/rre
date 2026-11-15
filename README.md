@@ -6,6 +6,18 @@ Research workspace for reverse engineering older MMO games, starting with RIFT.
 
 Begin at [ROADMAP.md](ROADMAP.md) for the staged prototype plan, dependency gates, and reuse-first decisions. The [manager-owned task register](docs/roadmap-tasks.json) records task IDs, branch ownership, blockers and accepted evidence. Agents must follow both rather than launch independent off-roadmap work. Use the [manager-led multi-agent launch prompt](docs/MULTI_AGENT_PROMPT.md) for new sessions; verify task dependencies and exclusive lanes with `node tools/validate-roadmap.mjs`.
 
+## Offline Node regression gate
+
+From the RRE repository root, use the discovery-based gate so newly added top-level Node tests are included:
+
+```powershell
+node tools/run-rre-node-tests.mjs --list
+node tools/run-rre-node-tests.mjs
+node tools/validate-roadmap.mjs
+```
+
+The runner discovers `node:test` imports in top-level `tools/*.mjs`, fails if no tests exist, and propagates the Node test process's exit status. The November 15 baseline is **18 modules / 181 passing tests**. This gate is **offline**; it does not replace separately scoped Python, .NET, Lua or physical-client validation.
+
 ## Native navigation research
 
 Start with [the current research report](docs/navigation-research-2026-10-18.md) and
