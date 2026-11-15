@@ -44,6 +44,15 @@ const WINDOWS = [
   ['internal_id_record_store', 0x1276c29, 0x137, '5457a59982428434c31033ac4a8ba1d3edc3a2a2398a93003448bf92a6971123'],
   ['internal_id_lookup_return', 0x1276596, 0x0c, '33e7d074c2a83640ba2aa667bcc19d387b2f098419f2ef0a9f2f7933f5ff45cb'],
   ['named_singleton_vtable', 0x2b4a2a8, 0x40, '9f9037d0b8b1cba176066c896600ce048ccb7195bcd62d57a31a18633f5ae4ae'],
+  // Two source-qualified vector-slot callers of the existing 0x7E91F0 dispatcher.
+  ['dispatch_vector_caller_a', 0x787470, 0x209, 'aee469be6d6e1db4f891b7e345ce9d27bfcaa59b06ae91a1a0afcf3dc6f40dea'],
+  ['dispatch_vector_caller_b', 0x7885e0, 0x1e0, 'd3084bb14e52aa4cc9fb0a2df921024fe29fc8a8cfac7a7648a303b7fdc03ee5'],
+  ['dispatch_vector_triple_swap', 0x74b8f0, 0x8d, 'a7d3ab5974b96ac931e5b5254138a30a85e46206c7bc513a0c547bf48cb43663'],
+  ['dispatch_vector_global_cleanup', 0x2554970, 0x58, '35085a7dfca9a2532efcf195993be6a758c461cb67c67004302ef24292976012'],
+  // Positive C2M root+0x358 writer, keyed callsite, and pointer availability.
+  ['c2m_positive_flag_writer', 0x580950, 0x121, '360e70964e190b4b62145c19edffb398a34e874eb19834987cf38ec517fa946b'],
+  ['c2m_key_equality_caller', 0x5f6650, 0x2d6, '1d41bf2d55203b6ce3d703176048a033cb198c6918608cef0f04ee6514fe7208'],
+  ['c2m_caller_pointer_table', 0x26afbb0, 0xa0, 'd196cad731b8181ad9042c3a68d8b6d35b1ee1436eac0bb223492097fe479691'],
 ];
 
 function sha256(value) {
@@ -198,6 +207,30 @@ export function verifyRoot001Bytes(bytes) {
     [0x1276596, '488b4228'], // lookup follows stored ID-record pointer
     [0x127659a, '0fb708'], // lookup reads stored 16-bit ID
     [0x127659f, '66890e'], // lookup writes key for registration
+
+    [0x78759b, 'e85043fcff'], // first caller exchanges vector triple
+    [0x7875a0, '488b1d'], // reads global vector begin
+    [0x7875a7, '488b35'], // reads global vector end
+    [0x7875b3, '488bcb'], // dispatch receives address of QWORD slot
+    [0x7875b6, 'e8351c0600'], // first vector-slot dispatcher call
+    [0x7886f2, 'e8f931fcff'], // second caller exchanges vector triple
+    [0x7886f7, '488b1d'], // reads same vector begin
+    [0x7886fe, '488b35'], // reads same vector end
+    [0x788710, '488bcb'], // second slot address, not element value
+    [0x788713, 'e8d80a0600'], // second dispatcher call
+    [0x74b916, '4c8d8680000000'], // swap destination object+0x80
+    [0x74b922, '498b00488b0f488907498908'], // swap begin
+    [0x74b93b, '488b02498b0949890148890a'], // swap end
+    [0x74b954, '498b00488b0f488907498908'], // swap capacity
+    [0x3c310, '48ff25d1335b02'], // imported enter critical-section thunk
+    [0x3c320, '48ff25c9335b02'], // imported leave critical-section thunk
+    [0x580a14, '488bcb'], // positive writer forwards retained root
+    [0x580a1c, 'c6835803000001'], // positive writer sets root+0x358=1
+    [0x5f6724, '488b8860030000'], // root opaque key at +0x360
+    [0x5f672b, '49398e18030000'], // compare against distinct object+0x318
+    [0x5f6732, '7553'], // mismatch skips writer
+    [0x5f6734, '498b4610'], // stage reference from object+0x10
+    [0x5f6744, '488d5540'], // address of staged reference to writer
   ];
   for (const [rva, hex] of anchors) hasBytes(rva, hex);
 
@@ -220,6 +253,16 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x1ec50d8, 0x1ece1c0);
   directCall(0x1ec50eb, 0x1276a6c);
   directCall(0x1edda69, 0x1ed56b0);
+  directCall(0x78759b, 0x74b8f0);
+  directCall(0x7875b6, 0x7e91f0);
+  directCall(0x7886f2, 0x74b8f0);
+  directCall(0x788713, 0x7e91f0);
+  directCall(0x580a17, 0x5807d0);
+  directCall(0x5f671c, 0x49a020);
+  directCall(0x5f673c, 0x49a020);
+  directCall(0x5f6748, 0x580950);
+  directCall(0x74b911, 0x3c310); // enter object+0x40 critical section before vector exchange
+  directCall(0x74b968, 0x3c320); // leave the same critical section after exchange
 
   let ripTargetsVerified = 0;
   function ripReference(at, prefix, target) {
@@ -241,6 +284,13 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0x1ece247, '488905', 0x35199f0);
   ripReference(0x1ec50c3, '488d15', 0x35159f8);
   ripReference(0x1ed56c0, '488d0d', 0x35159f8);
+  ripReference(0x7875a0, '488b1d', 0x3372c58);
+  ripReference(0x7875a7, '488b35', 0x3372c60);
+  ripReference(0x7886f7, '488b1d', 0x3372c58);
+  ripReference(0x7886fe, '488b35', 0x3372c60);
+  // Original seven-byte FF 25 import thunks: Kernel32 critical-section enter/leave.
+  ripReference(0x3c310, '48ff25', 0x25ef6e8);
+  ripReference(0x3c320, '48ff25', 0x25ef6f0);
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -250,6 +300,7 @@ export function verifyRoot001Bytes(bytes) {
   }
   shortBranch(0x7e928a, 'eb', 0x7e92c9);
   shortBranch(0x7e92e6, '75', 0x7e92ed);
+  shortBranch(0x5f6732, '75', 0x5f6787); // key mismatch skips C2M positive writer
 
   let recordsVerified = 0;
   let rootRecord;
@@ -278,6 +329,8 @@ export function verifyRoot001Bytes(bytes) {
   }
   assertClaim(pe.slice(0x7068c0, 10).toString('hex') === '488b4108488bca48ffe0',
     '10-byte handler-loading tail-jump trampoline');
+  assertClaim(pe.qword(0x26afc00) === 0x1405f6650n,
+    'source-initialized conditional C2M writer caller method pointer');
 
   // Named singleton and formatted-name buffer are distinct globals, 0x3ff8 bytes apart.
   // The 16-bit ROOT tag is source-derived only for the successful new-record path.
@@ -322,6 +375,7 @@ export function verifyRoot001Bytes(bytes) {
     directCallsVerified,
     ripTargetsVerified,
     dispatchBranchesVerified: 2,
+    c2mKeyMismatchBranchesVerified: 1,
     trampolineRva: '0x7068c0',
     handlerEntryOffset: '+0x18',
     rootInternalTagHex: '0x' + rootInternalTag.toString(16),
@@ -331,6 +385,12 @@ export function verifyRoot001Bytes(bytes) {
     staticCallbackArgumentReferenceFlowQualified: true,
     staticC2mRootPointerIdentityQualified: true,
     staticHandlerDispatchPathQualified: true,
+    staticDispatchVectorSlotLoopQualified: true,
+    staticDispatchVectorTripleSwapQualified: true,
+    staticVectorCriticalSectionGuardQualified: true,
+    staticC2mPositiveEligibilityWriterQualified: true,
+    staticC2mRootKeyEqualityGateQualified: true,
+    staticC2mMethodPointerAvailabilityQualified: true,
     liveExecutionProven: false,
     playerIdentityProven: false,
     negativeMutationRejected: true,
