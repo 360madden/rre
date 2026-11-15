@@ -1,6 +1,7 @@
 // SC-103: review sanitized, source-hashed current-client Detail documentation fields.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
@@ -11,13 +12,19 @@ const json = JSON.parse(fs.readFileSync(path.join(root,
   "docs/REA-RIFT-SPELLCASTING-SC103-RUNTIME-ABILITY-DETAIL-FIELDS-2026-11-03.json"), "utf8"));
 const abilitySrc = fs.readFileSync(path.join(root, "addons/RRECollector/abilities.lua"));
 const sha256 = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
+// The frozen November 3 source index predates later RRECollector edits. Re-read
+// that exact Git revision; the current allowlist is checked separately below.
+const historicalAbilityRevision = "9b9f6d528b4843db33defd7d44e8962b015451e4:addons/RRECollector/abilities.lua";
 const fieldBody = abilitySrc.toString("utf8").match(/local FIELDS = \{([\s\S]*?)\n\}/);
 assert.ok(fieldBody, "RRECollector field allowlist missing from source");
 const exportedFields = [...fieldBody[1].matchAll(/"([A-Za-z][A-Za-z0-9]*)"/g)].map(m => m[1]);
 
 test("saved-runtime source and field-list integrity", () => {
   assert.equal(json.schemaVersion, 1);
-  assert.equal(json.sourceIndex.rrecollectorFieldSource.sha256, sha256(abilitySrc));
+  const historicalAbilitySrc = execFileSync("git", ["show", historicalAbilityRevision], {
+    cwd: root, maxBuffer: 1024 * 1024, windowsHide: true
+  });
+  assert.equal(json.sourceIndex.rrecollectorFieldSource.sha256, sha256(historicalAbilitySrc));
   assert.equal(json.sourceIndex.documentation.api, "Inspect.Ability.New.Detail");
   assert.equal(json.sourceIndex.documentation.lengthCharacters, 2711);
   assert.match(json.sourceIndex.documentation.sha256, /^[a-f0-9]{64}$/);

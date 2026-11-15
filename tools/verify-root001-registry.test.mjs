@@ -14,6 +14,16 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
+  assert.equal(result.sourceWindowsVerified, 27);
+  assert.equal(result.opcodeAnchorsVerified, 59);
+  assert.equal(result.directCallsVerified, 12);
+  assert.equal(result.ripTargetsVerified, 12);
+  assert.equal(result.rootInternalTagHex, '0xdd3c');
+  assert.equal(result.rootTagNameRegistrationConditional, true);
+  assert.equal(result.namedSingletonRva, '0x35199f0');
+  assert.equal(result.separateNameBufferRva, '0x35159f8');
+  assert.equal(result.staticCallbackArgumentReferenceFlowQualified, true);
+  assert.equal(result.staticC2mRootPointerIdentityQualified, true);
   assert.equal(result.staticHandlerDispatchPathQualified, true);
   assert.equal(result.liveExecutionProven, false);
   assert.equal(result.playerIdentityProven, false);
@@ -46,6 +56,10 @@ for (const [name, rva] of [
   ['dispatch-function table slot', 0x26c5a48],
   ['native handler trampoline', 0x7068c0],
   ['keyed handler-store instruction', 0x81765b],
+  ['named singleton ID vtable method', 0x1edda64],
+  ['separate formatted-name vtable method', 0x1ede6f0],
+  ['C2M callback-state root pointer store', 0x6a3e97],
+  ['C2M root eligibility byte guard', 0x6a5e3b],
 ]) {
   test('exact-build SHA rejects a mutation at source RVA: ' + name, () => {
     const modified = Buffer.from(original);

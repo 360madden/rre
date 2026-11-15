@@ -8,6 +8,14 @@
 
 Matching physical build for the existing RR2 sample (not a universal build claim): SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. RRE must independently check byte/build identity before asserting static applicability.
 
+## ROOT-001 — conditional internal tag and C2M root identity (November 15, 2026, evening EST)
+
+**RRE-owned source handoff only; no RR2 repository edit or current-game attestation.** Original archived `rift_x64.exe` exact SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; all RVAs apply only to that build. Full [ROOT source report](REA-RIFT-ROOT001-CROSS-HOST-REGISTRY-KEY-2026-11-15.md) now distinguishes the named singleton **`0x35199F0`** from the separate formatted-name buffer **`0x35159F8`** (earlier embedded-buffer interpretation corrected). For the **no-existing-name/new-record** branch, VMT `+0x08` ID method `0x1EDDA60` and selector `0x1ED56B0` derive **internal WORD `0xDD3C`**; VMT `+0x10` name method `0x1EDE6F0` selects `0x35159F8`. An existing name-map record may reuse a different stored ID; **`0xDD3C` is not proven to be a player/class ID**.
+
+The registered handler's conditional static path now preserves an **input pointer-to-reference** (`0x7E91FA` RSI save, `0x7E9202` dereference, `0x7E92F1` RDX forwarding), through the `0x7068C0` tail-jump to ROOT wrapper `0x7F2570`. Wrapper root getter `0x49A020` uses singleton-global **`0x33623E0`** and conditionally allocates a `0xF40` root. Constructor `0x53E553→0x6A3E80` stores the **same root pointer** at C2M state `+0x10` (`0x6A3E97`); RC-81 callback `0x6A5E25` dereferences that state slot and `0x6A5E3B` checks root `+0x358`. This qualifies static constructor/state/wrapper pointer identity, **not** a live C2M callback, valid current-player resolver, live tag match, or nonzero `root+0x360` value.
+
+**Offline acceptance:** RRE `node tools/verify-root001-registry.mjs --self-test` source verifier: 850 records, 27 SHA-pinned windows, 59 opcode anchors, 12 direct calls, 12 RIP targets, negative original-byte mutation rejected; focused `node --test tools/verify-root001-registry.test.mjs` **11/11**. RR2 owner alone may compare `root+0x360` to same-epoch Lua `player.id` under a freshly qualified physical-PID/build observation, using existing `CurrentBuildPlayerLookup` and separating player from target. No RR2 change or live probe is justified by this source result alone.
+
 ## ROOT-001 — independent self-key origin check (November 10, 2026, ~22:40 EST)
 
 **Status:** **independently validated exact-build *static entry fragment***, **not** a new live-qualified entity locator. This corroborates, rather than supersedes, RR2's existing `CurrentBuildPlayerLookup`. **Owner:** RRE owns this source-evidence feed; the existing RR2 owner alone owns candidate-reader integration, process reads and any controlled input.
