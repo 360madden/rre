@@ -1,5 +1,10 @@
 # RRE session handoff — November 15, 2026 (ROOT-001 registered-handler dispatch checkpoint ~17:52 EST)
 
+## ~17:59 EST — successful local ROOT-001 integration and post-commit checkpoint
+
+- **Verified local commit:** `21a6849dfa764cba75b94428b1599473db3ef149` (`feat(root): verify registered handler dispatch from archived PE`) on AMD-DESKTOP `main`; **5 selected files, 354 insertions/4 deletions**, exact five-file scope confirmed by Git. Immediately after, tracked worktree clean; `main` six commits ahead of `origin/main`; all nine inherited untracked items unchanged. No push, no live game/process actions, no cross-host repo changes; current Workbridge agent owner registry empty.
+- **Gate receipts:** Offline verifier exit0, focused ROOT tests **7/7**, complete available top-level Node tests **105/105**, roadmap 47-task/11-milestone validation, 5-file/13-link scan and post-edit Git diff check all exit0. Runtime process identity and ROOT player linkage still unproven. Stop further speculative ROOT offsets until a novel discriminator or separately authorized fresh physical RIFT/Lua observation; SC-306 queue 0/2 and RC-30 operator gates remain independent.
+
 ## ~17:52 EST — exact-build ROOT-001 registration-to-callback chain completed offline
 
 - **Machine/Git/ownership:** Fresh independent AMD-DESKTOP `hostname.exe` Workbridge job `rre_20261115_1737_hostname_verify_01` exit0; Workbridge `0.16.5-dev`, RRE `C:\work\rre`. Pre-task tracked-clean RRE `main` at `d19990b429e495504a34a402f81794994eccd0c5`, **five local commits ahead of `origin/main`**; nine inherited untracked paths preserved and no active RRE file owners. One manager holds all edits; read-only agents `registry_dispatch_provenance`, `root_trampoline_target`, `root_verifier_review` and `collector_rc30_audit` worked on disjoint lanes. No remote push, game, process, VM, LEGION, RR2 or installed-addon mutations.
