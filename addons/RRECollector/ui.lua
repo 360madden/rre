@@ -1,4 +1,4 @@
--- RRECollector v0.4.10: truthful saved-slot presentation, reversible pins, measured captions.
+-- RRECollector v0.4.19: calling-neutral browser, saved-capture provenance, guarded pins.
 -- Manual clicks only; icons do not cast and status is not a native action-bar verdict.
 local runtime = RRECollectorRuntime
 local say = runtime.core.say
@@ -43,7 +43,10 @@ local function safe(value, fallback)
 end
 local function short(value, length)
   local v = safe(value, "?")
+  if type(length) ~= "number" or length < 1 then return "" end
+  length = math.floor(length)
   if #v <= length then return v end
+  if length <= 3 then return v:sub(1, length) end
   local n = length - 3
   while n > 1 do
     local b = string.byte(v, n + 1)
@@ -308,10 +311,18 @@ local function known()
   local v = saved().latest
   return type(v) == "table" and type(v.abilities) == "table" and v.abilities or {}
 end
+local function snapshotCalling()
+  local latest = saved().latest
+  local player = type(latest) == "table" and latest.player or nil
+  return type(player) == "table" and type(player.calling) == "string"
+    and player.calling or nil
+end
 local function knownMap()
   local map = {}
   for _, a in ipairs(known()) do
-    if type(a.lookupId) == "string" then map[a.lookupId] = a end
+    if type(a) == "table" and type(a.lookupId) == "string" then
+      map[a.lookupId] = a
+    end
   end
   return map
 end
@@ -334,24 +345,31 @@ local function candidateMap()
   local map, report = {}, saved().candidateLookup
   if type(report) == "table" and type(report.entries) == "table" then
     for _, entry in ipairs(report.entries) do
-      if type(entry.id) == "string" then map[entry.id] = entry end
+      if type(entry) == "table" and type(entry.id) == "string" then
+        map[entry.id] = entry
+      end
     end
   end
   return map
 end
 local function records()
-  local result, filter = {}, soul
+  -- API-known IDs come from the current calling, not the Warrior-only research catalog.
+  local result, filter = {}, mode == "static" and soul or "All"
   if mode == "known" then
+    local calling = snapshotCalling()
+    local warrior = type(calling) == "string"
+      and calling:lower():find("warrior", 1, true) ~= nil
     for _, a in ipairs(known()) do
-      local src = sourceById[a.lookupId]
-      if filter == "All" or (src and src.soul == filter) then
+      if type(a) == "table" and type(a.lookupId) == "string" then
+        -- Never cross-label non-Warrior abilities using static Warrior IDs.
+        local src = warrior and sourceById[a.lookupId] or nil
         result[#result + 1] = {
           kind = "known", id = a.lookupId, name = a.name,
           detail = a, source = src
         }
       end
     end
-  else
+  elseif snapshotCalling() == nil or snapshotCalling():lower():find("warrior", 1, true) then
     local looked = candidateMap()
     for _, src in ipairs(runtime.candidateCatalog.entries or {}) do
       if filter == "All" or src.soul == filter then
@@ -369,6 +387,20 @@ local function records()
   end)
   return result
 end
+-- Actions require an API-known row visible on the current page, not merely
+-- an ID that survives in an earlier snapshot or an off-page selection.
+local function visibleKnownSelection()
+  if mode ~= "known" or selectedKind ~= "known" or type(selectedId) ~= "string" then
+    return nil
+  end
+  local items = records()
+  local first = (page - 1) * MAX_ROWS + 1
+  for i = first, math.min(first + MAX_ROWS - 1, #items) do
+    local item = items[i]
+    if item and item.kind == "known" and item.id == selectedId then return item end
+  end
+  return nil
+end
 local function loadSlots()
   local previous, available = saved().toolbarSlots, known()
   if type(previous) == "table" then
@@ -380,7 +412,7 @@ local function loadSlots()
   else
     local index = 1
     for _, a in ipairs(available) do
-      if type(a.lookupId) == "string" and a.passive ~= true
+      if type(a) == "table" and type(a.lookupId) == "string" and a.passive ~= true
         and index <= MAX_SLOTS then
         slots[index] = a.lookupId
         index = index + 1
@@ -401,6 +433,12 @@ local function apiCheck(id)
   if not ok or type(detail) ~= "table" then
     return {status = "DETAIL UNKNOWN", tint = color.grey}
   end
+  -- Detail may be a proxy: individually guard property reads and drop nonfinite data.
+  local copiedOk, clean = pcall(runtime.abilities.copyDetail, detail)
+  if not copiedOk or type(clean) ~= "table" then
+    return {status = "DETAIL UNKNOWN", tint = color.grey}
+  end
+  detail = clean
   if detail.passive == true then
     return {status = "PASSIVE", tint = color.grey}
   end
@@ -419,7 +457,8 @@ local function apiCheck(id)
       tint = color.amber}
   end
   -- Missing flags are unknown, not false. Independent GCD/LOS are unverified.
-  if detail.unusable == false and detail.outOfRange == false and left == 0 then
+  if detail.passive == false and detail.unusable == false
+    and detail.outOfRange == false and left == 0 then
     return {status = "API NO BLOCK*", tint = color.cyan}
   end
   return {status = "READINESS UNKNOWN", tint = color.grey}
@@ -429,19 +468,40 @@ local function checkPinned()
     if slots[i] then checked[slots[i]] = apiCheck(slots[i]) end
   end
 end
+-- This is a persisted capture flag, not proof of a fresh or complete live scan.
+local function savedCaptureLabel(compact)
+  local latest = saved().latest
+  if type(latest) ~= "table" then return "no capture" end
+  local version = latest.addonVersion
+  if type(version) ~= "string" or #version > 12
+    or not version:match("^%d+%.%d+%.%d+$") then version = "?" end
+  local age = version == "?" and "UNKNOWN "
+    or version ~= runtime.VERSION and "OLD " or ""
+  local flag = latest.captureComplete == true
+    and (compact and "flag:full" or "marked complete") or "INCOMPLETE"
+  return "v" .. version .. " " .. age .. flag
+end
 local function summaryText()
   local report, attempt = saved().candidateLookup, saved().candidateAttempt
+  local calling = snapshotCalling()
+  if type(calling) == "string" and not calling:lower():find("warrior", 1, true) then
+    return "Known: " .. tostring(#known())
+      .. "\n" .. short(calling, 10) .. " " .. short(savedCaptureLabel(true), 22)
+      .. "\nWarrior IDs: N/A"
+      .. "\nManual checks only"
+  end
+  local counts = type(report) == "table" and report.counts or nil
   local status = type(report) == "table" and
-    ("saved " .. tostring((report.counts or {}).queried or 0) .. " queries") or
+    ("saved " .. tostring((type(counts) == "table" and counts.queried) or 0) .. " queries") or
     "no saved receipt"
   local reason = type(attempt) == "table"
     and (safe(attempt.status, "?") .. ": " .. safe(attempt.reason, "-"))
     or "attempt not recorded"
   return "Known: " .. tostring(#known()) .. "   Static: "
     .. tostring(#(runtime.candidateCatalog.entries or {}))
-    .. "\nCandidate: " .. short(status, 25)
-    .. "\n" .. short(reason, 31)
-    .. "\nManual checks are not live tracking"
+    .. "\nSaved " .. short(savedCaptureLabel(true), 24)
+    .. "\n" .. short("Candidate " .. status .. " " .. reason, 31)
+    .. "\nManual checks only"
 end
 local function selectedText(items)
   if not selectedId then return "Select a row, or click an icon. API readiness, GCD and LOS are unverified." end
@@ -453,14 +513,15 @@ local function selectedText(items)
   local src = item.source
   local cd = item.detail and item.detail.cooldown
   local meta = item.kind == "known"
-    and ("SAVED API-LISTED | " .. (src and src.soul or "other/unknown")
+    and ("SAVED API-LISTED | " .. (src and src.soul or (snapshotCalling() or "soul unknown"))
       .. " | base CD " .. (type(cd) == "number" and tostring(cd) .. "s" or "?"))
     or ("HISTORICAL STATIC | " .. (src and src.soul or "?")
       .. " | " .. (item.lookup and safe(item.lookup.status, "?") or "not checked"))
   local live = item.kind == "known" and checked[item.id]
   local extra = live and (" | manual check: " .. live.status) or ""
+  local lookupDetail = item.lookup and item.lookup.detail
   local description = item.detail and item.detail.description or
-    (item.lookup and item.lookup.detail and item.lookup.detail.description)
+    (type(lookupDetail) == "table" and lookupDetail.description)
   return short(safe(item.name, "?"), 62) .. "\nID " .. tostring(item.id)
     .. "\n" .. short(meta .. extra, 96)
     .. "\n" .. short(safe(description, "No description in this source"), 104)
@@ -506,6 +567,28 @@ local function fitTileLine(frame, value)
   frame:SetText("...")
   return "..."
 end
+local function withoutFirstGlyph(value)
+  if #value <= 1 then return "" end
+  local first = 2
+  while first <= #value do
+    local byte = value:byte(first)
+    if byte < 128 or byte >= 192 then break end
+    first = first + 1
+  end
+  return value:sub(first)
+end
+local function fitTileTail(frame, value)
+  if tileLineFits(frame, value) then return value end
+  local suffix = value
+  for _ = 1, 160 do
+    suffix = withoutFirstGlyph(suffix)
+    local candidate = "..." .. suffix
+    if tileLineFits(frame, candidate) then return candidate end
+    if #suffix == 0 then break end
+  end
+  frame:SetText("...")
+  return "..."
+end
 local function layoutTileCaption(first, second, value)
   local words = {}
   for word in safe(value, "Empty"):gmatch("%S+") do words[#words + 1] = word end
@@ -521,7 +604,11 @@ local function layoutTileCaption(first, second, value)
   end
   first:SetText(top)
   local remaining = table.concat(words, " ", consumed + 1)
-  second:SetText(remaining ~= "" and fitTileLine(second, remaining) or "")
+  -- One overwide word has no remaining token; show its identifying suffix too.
+  if #words == 1 and remaining == "" and top ~= words[1] then
+    remaining = words[1]
+  end
+  second:SetText(remaining ~= "" and fitTileTail(second, remaining) or "")
 end
 -- RC25-CAPTIONS-END
 local function draw()
@@ -581,6 +668,12 @@ local function draw()
     end
   end
   local list = records()
+  local currentCapture = saved().latest
+  local savedSeq = type(currentCapture) == "table" and currentCapture.sequence or nil
+  local savedCalling = snapshotCalling() or "unknown"
+  local savedPlayer = type(currentCapture) == "table" and currentCapture.player or nil
+  local savedName = type(savedPlayer) == "table" and safe(savedPlayer.name, "unknown") or "unknown"
+  local savedRole = type(currentCapture) == "table" and currentCapture.roleSlot or nil
   local total = math.max(1, math.ceil(#list / MAX_ROWS))
   if page > total then page = total end
   if page < 1 then page = 1 end
@@ -588,13 +681,23 @@ local function draw()
   modeButtons.static.setSelected(mode == "static")
   modeAccents.known:SetVisible(mode == "known")
   modeAccents.static:SetVisible(mode == "static")
-  soulButton.setText("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul))
+  soulButton.setText(mode == "known" and "All abilities"
+    or ("Soul: " .. (soul == "VoidKnight" and "Void Knight" or soul)))
+  soulButton.setEnabled(mode == "static")
   pageButtons.prev.setEnabled(page > 1)
   pageButtons.next.setEnabled(page < total)
-  if pinControls.pin then pinControls.pin.setText("Pin to #" .. tostring(pinSlot)) end
+  if pinControls.pin then
+    pinControls.pin.setText("Pin to #" .. tostring(pinSlot))
+    pinControls.pin.setEnabled(visibleKnownSelection() ~= nil)
+  end
+  if pinControls.check then pinControls.check.setEnabled(visibleKnownSelection() ~= nil) end
   if pinControls.undo then pinControls.undo.setEnabled(pinBaseline ~= nil) end
-  pageLabel:SetText((mode == "known" and "API-known" or "Static candidates")
-    .. " | " .. soul .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
+  local heading = mode == "known" and ("Saved " .. short(savedName, 9)
+      .. " " .. short(savedCalling, 9) .. " " .. short(savedCaptureLabel(), 27)
+      .. " r" .. short(tostring(savedRole or "?"), 2)
+      .. " #" .. tostring(savedSeq or "?"))
+    or ("Warrior-only static candidates | " .. soul)
+  pageLabel:SetText(heading .. " | " .. #list .. " entries | page " .. page .. "/" .. total)
   for i = 1, MAX_ROWS do
     local item = list[(page - 1) * MAX_ROWS + i]
     local row = rowButtons[i]
@@ -602,12 +705,20 @@ local function draw()
     row.setSelected(item ~= nil and item.id == selectedId and item.kind == selectedKind)
     if item then
       local tag = item.kind == "known" and "[API] " or "[STATIC] "
-      local source = item.source and item.source.soul or "Other"
-      row.label:SetText(tag .. short(safe(item.name, item.id), 43)
-        .. "   [" .. source .. "]")
+      local source = item.source and item.source.soul
+        or (item.kind == "known" and (snapshotCalling() or "Soul unknown") or "Warrior")
+      row.label:SetText(tag .. item.id .. "  "
+        .. short(safe(item.name, item.id), 30)
+        .. "   [" .. short(source, 18) .. "]")
     end
   end
-  detailLabel:SetText(selectedText(list))
+  if mode == "static" and snapshotCalling() ~= nil
+    and not snapshotCalling():lower():find("warrior", 1, true) then
+    detailLabel:SetText("Warrior-only historical candidates do not apply to saved "
+      .. short(savedCalling, 24) .. ". Choose Saved API for this calling.")
+  else
+    detailLabel:SetText(selectedText(list))
+  end
 end
 local function execute(command)
   if type(runtime.command) == "function" then
@@ -624,8 +735,8 @@ end
 -- A session baseline permits one Undo to restore ALL pins changed since the
 -- first click. It preserves the original SavedVariables table (or nil) exactly.
 local function pinSelected()
-  if selectedKind ~= "known" or not knownMap()[selectedId] then
-    say("Select an API-known ability before pinning; static candidates are not verified.")
+  if not visibleKnownSelection() or not knownMap()[selectedId] then
+    say("Select a visible API-known row before pinning; off-page and static IDs are not eligible.")
     return
   end
   if type(RRECollectorData) ~= "table" then
@@ -831,11 +942,11 @@ local function createUI()
     color.background)
   modeButtons.known = button("RREKnownMode", browser, 10, 8, 98, 30,
     "Known", function()
-    mode, page, selectedId = "known", 1, nil; draw()
+    mode, soul, page, selectedId = "known", "All", 1, nil; draw()
   end)
   modeButtons.static = button("RREStaticMode", browser, 114, 8, 102, 30,
-    "Candidates", function()
-    mode, page, selectedId = "static", 1, nil; draw()
+    "Warrior IDs", function()
+    mode, soul, page, selectedId = "static", "All", 1, nil; draw()
   end)
   modeAccents.known = block("RREKnownActive", browser, 10, 38, 98, 2, color.cyan)
   modeAccents.static = block("RREStaticActive", browser, 114, 38, 102, 2, color.cyan)
@@ -849,10 +960,13 @@ local function createUI()
     page, selectedId = 1, nil; draw()
   end)
   pageButtons.prev = button("RREPrev", browser, 358, 8, 67, 30, "< Prev", function()
-    page = math.max(1, page - 1); draw()
+    if page > 1 then page = page - 1; selectedId, selectedKind = nil, nil end
+    draw()
   end)
   pageButtons.next = button("RRENext", browser, 431, 8, 67, 30, "Next >", function()
-    page = page + 1; draw()
+    local totalPages = math.max(1, math.ceil(#records() / MAX_ROWS))
+    if page < totalPages then page = page + 1; selectedId, selectedKind = nil, nil end
+    draw()
   end)
   button("RRECloseBrowser", browser, 504, 8, 122, 30, "Close", function()
     browserVisible = false; browser:SetVisible(false)
@@ -867,11 +981,11 @@ local function createUI()
     12, "", color.text, true)
   pinControls.pin = button("RREPin", browser, 12, 416, 125, 28,
     "Pin to #1", pinSelected)
-  button("RRECheckSelected", browser, 143, 416, 172, 28,
+  pinControls.check = button("RRECheckSelected", browser, 143, 416, 172, 28,
     "Check selected", function()
-      if selectedKind == "known" and selectedId then
+      if visibleKnownSelection() then
         checked[selectedId] = apiCheck(selectedId)
-      else say("Only API-known abilities support a manual Detail check.") end
+      else say("Select a visible API-known row before checking Detail.") end
       draw()
     end)
   pinControls.undo = button("RREUndoPins", browser, 321, 416, 106, 28,
@@ -956,7 +1070,16 @@ end
 runtime.ui = {
   start = start,
   refresh = function(clearChecks)
-    if clearChecks then checked = {} end
+    if clearChecks then
+      checked = {}
+      selectedId, selectedKind = nil, nil
+      -- A newly captured character may have started with no saved snapshot.
+      -- Populate only untouched empty slots; never replace existing pins.
+      if ready and type(slots) == "table" and next(slots) == nil
+        and type(saved().toolbarSlots) ~= "table" then
+        loadSlots()
+      end
+    end
     if ready then draw() end
   end,
   toggle = toggle

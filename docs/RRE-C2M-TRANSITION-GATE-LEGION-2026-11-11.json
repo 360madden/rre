@@ -1,0 +1,126 @@
+{
+  "milestone": "RC-60",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "project": "rre",
+  "proof_kind": "static_original_pe_only",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "size": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "preferred_image_base": "0x140000000"
+  },
+  "event7": {
+    "callback_root_rva": "0x6A6120",
+    "call_gate_rva": "0x6A8899",
+    "gate_rva": "0x6A98C0",
+    "gate_arg_edx": 0,
+    "result_preserved_in": "BL",
+    "gate_test_rva": "0x6A88AB",
+    "receiver_field": "callbackThis+0x10",
+    "conditional_clear_functions": [
+      "0x5460A0",
+      "0x546830"
+    ],
+    "qualification": "static_branch_conditional_only"
+  },
+  "windows": [
+    {
+      "name": "transition_detector",
+      "rva_range": [
+        "0x6A98C0",
+        "0x6A9B0E"
+      ],
+      "bytes": 590,
+      "instructions": 186,
+      "sha256": "3f10a058b42ec0145fbf7de76fd8d42d3d367af1110be071bf9b13db711ffb32"
+    },
+    {
+      "name": "indexed_lookup",
+      "rva_range": [
+        "0x7C97E0",
+        "0x7C98CD"
+      ],
+      "bytes": 237,
+      "instructions": 74,
+      "sha256": "0b2676dcc89d521b6795a826c851d6756c1e8157779acccd8ab314354ae94250"
+    },
+    {
+      "name": "companion_helper_first_unwind_only",
+      "rva_range": [
+        "0x6A8FC0",
+        "0x6A9026"
+      ],
+      "bytes": 102,
+      "instructions": 30,
+      "sha256": "b14f1dfc92c259413990403af5df8c23b101b045b055bafc6fd0bb3b1f673441"
+    }
+  ],
+  "indexed_conditions": [
+    {
+      "index": 2,
+      "mask": "0x10"
+    },
+    {
+      "index": 3,
+      "mask": "0x20"
+    },
+    {
+      "index": 6,
+      "mask": "0x40"
+    },
+    {
+      "index": 7,
+      "mask": "0x80"
+    },
+    {
+      "index": 4,
+      "mask": "0x08"
+    },
+    {
+      "index": 5,
+      "mask": "0x04"
+    }
+  ],
+  "other_indices": [
+    8,
+    16
+  ],
+  "cache_offsets": [
+    "callbackThis+0x0C",
+    "callbackThis+0x0D"
+  ],
+  "selected_native_rvas": {
+    "init_change": "0x6A98DB",
+    "query_source": "0x6A98DE",
+    "first_query": "0x6A98EE",
+    "last_query": "0x6A996A",
+    "update_bit": "0x6A9985",
+    "mark_transition": "0x6A9989",
+    "return_change": "0x6A9AF5",
+    "return_special_true": "0x6A9AF1",
+    "tree_compare": "0x7C9801",
+    "tree_left": "0x7C9807",
+    "tree_right": "0x7C980F",
+    "tree_miss_return": "0x7C9818"
+  },
+  "jobs": {
+    "agent_gate": "rre-rc60-gate-pdata-20261111-01",
+    "agent_lookup": "rre-rc60-gate-index-helper-20261111-01",
+    "manager_recheck": "rre-rc60-manager-two-helper-independent-20261111-01",
+    "manager_gate": "rre-rc60-manager-check-gate-selected-20261111-01",
+    "manager_slices": "rre-rc60-manager-gate-bitfield-slices-20261111-01"
+  },
+  "limitations": [
+    "No indexed condition mapped to physical key or input device",
+    "No runtime event/input verification",
+    "No callback ownership or local-player proof",
+    "Companion helper window is only one unwind region",
+    "No actual movement or cancellation verified"
+  ],
+  "writes": [
+    "docs/RRE-C2M-TRANSITION-GATE-LEGION-2026-11-11.md",
+    "docs/RRE-C2M-TRANSITION-GATE-LEGION-2026-11-11.json",
+    "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-11.md"
+  ]
+}

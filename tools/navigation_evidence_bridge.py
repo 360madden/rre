@@ -15,19 +15,23 @@ def obj(p):
         return d
     return json.loads(raw,object_pairs_hook=pairs,parse_constant=lambda x: (_ for _ in ()).throw(ValueError("nonfinite number")))
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def nested_object(parent,key,label):
+    value=parent.get(key,{})
+    if not isinstance(value,dict):raise ValueError(label+" must be an object")
+    return value
 def assess(capture,action,image_path):
     issues=[]
     if not isinstance(capture,dict) or not isinstance(action,dict):raise ValueError("object inputs required")
-    expected=(capture.get("savedImage") or {}).get("sha256")
+    expected=nested_object(capture,"savedImage","capture.savedImage").get("sha256")
     img_hash=digest(image_path)
     valid_image=isinstance(expected,str) and len(expected)==64 and expected.lower()==img_hash
     if not valid_image:issues.append("image-hash-mismatch")
-    ct=capture.get("target") or {};at=action.get("target") or {}
+    ct=nested_object(capture,"target","capture.target");at=nested_object(action,"target","action.target")
     identity_keys=("processId","processStartUtcTicks","windowHandle","executableSha256","clientWidth","clientHeight")
     identity=all(k in ct and k in at and ct[k]==at[k] for k in identity_keys)
     if not identity:issues.append("target-identity-mismatch")
-    gesture=action.get("action") or {}
-    result=action.get("result") or {}
+    gesture=nested_object(action,"action","action.action")
+    result=nested_object(action,"result","action.result")
     action_kind="keyboard" if gesture.get("keys") else ("mouse-button" if gesture.get("mouseButton") else ("wheel" if gesture.get("wheelNotches") else "unknown"))
     if action_kind!="mouse-button" or gesture.get("mouseButton")!="left":
         issues.append("not-a-ground-click-candidate")

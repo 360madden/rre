@@ -9,6 +9,8 @@ assert(mode == "--expect-red" or mode == "--require-fixed",
 local f = assert(io.open("addons/RRECollector/ui.lua", "rb"))
 local src = f:read("*a"); f:close()
 src = src:gsub("\r\n", "\n")
+local selector = assert(src:match("(local function visibleKnownSelection%(%).-)\nlocal function loadSlots%(%)"),
+  "RC31 visible selection guard source not found")
 local drawStart = assert(src:find("local function draw()", 1, true),
   "ui.lua draw() not found")
 local drawSource = src:sub(drawStart)
@@ -28,7 +30,10 @@ local prefix = [==[
 local MAX_ROWS = 8
 local page, mode, soul, pinSlot, pinBaseline, selectedId, selectedKind =
   1, "known", "All", 1, nil, nil, nil
-local rows, checked, ready = {}, {}, true
+local rows, checked, ready, slots = {}, {}, true, {}
+local function saved() return {toolbarSlots={}} end
+local function snapshotCalling() return "warrior" end
+local function loadSlots() end
 local states = {}
 local function records() return rows end
 local function control(name)
@@ -77,7 +82,7 @@ return {
 ]==]
 -- Lua long-bracket strings discard their first newline; separate each
 -- extracted callback body from the enclosing synthetic function explicitly.
-local compilation = prefix .. fragment .. "\n" .. suffix1 .. prevBody ..
+local compilation = prefix .. selector .. "\n" .. fragment .. "\n" .. suffix1 .. prevBody ..
   "\n" .. suffix2 .. nextBody .. "\n" .. suffix3 .. refreshBody ..
   "\n" .. suffix4
 local fn, err = (loadstring or load)(compilation, "RC31 selection state")

@@ -4,7 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { parseSavedLua, buildAbilityCrosswalk } from "./read-rrecollector-saved.mjs";
+import { parseSavedLuaBytes, buildAbilityCrosswalk } from "./read-rrecollector-saved.mjs";
+import {readStableOriginal, readStableOriginalWithMetadata} from "./read-stable-original.mjs";
 
 function assertRecords(value, label) {
   if (!value || !Array.isArray(value.records)) throw new Error(label + " records required");
@@ -12,7 +13,7 @@ function assertRecords(value, label) {
 function byExactId(records, label) {
   const result = new Map();
   for (const r of records) {
-    if (typeof r?.id !== "string" || !/^A[0-9A-F]{16}$/i.test(r.id) || result.has(r.id)) {
+    if (typeof r?.id !== "string" || !/^A[0-9A-F]{16}$/.test(r.id) || result.has(r.id)) {
       throw new Error(label + " has invalid/duplicate exact ID");
     }
     result.set(r.id, r);
@@ -132,27 +133,35 @@ if (invoked) {
     process.stderr.write("Usage: node tools/build-rift-ability-atlas-live.mjs <RRECollector.lua> <output.json>\n");
     process.exitCode = 2;
   } else {
-    const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-    const paths = {
-      originalThree: "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
-      allWarrior: "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
-      priorAtlas: "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json"
-    };
-    const inputs = Object.fromEntries(Object.entries(paths).map(([key,p])=>{
-      const bytes = fs.readFileSync(path.join(root,p));
-      return [key,{value:JSON.parse(bytes.toString("utf8")),path:p,sha256:sha(bytes)}];
-    }));
-    const savedBytes = fs.readFileSync(savedFile);
-    const atlas = buildLiveAtlas({
-      saved:parseSavedLua(savedBytes.toString("utf8")),savedSha256:sha(savedBytes),
-      originalThree:inputs.originalThree.value,allWarrior:inputs.allWarrior.value,
-      priorAtlas:inputs.priorAtlas.value,
-      sourceIndex:{...Object.fromEntries(Object.entries(inputs).map(([key,v])=>[key,{path:v.path,sha256:v.sha256}])),
-        generatorSha256:sha(fs.readFileSync(fileURLToPath(import.meta.url))),
-        decoderSha256:sha(fs.readFileSync(path.join(root,"tools/read-rrecollector-saved.mjs")))},
-      savedFileModifiedUtc:fs.statSync(savedFile).mtime.toISOString()
-    });
-    fs.writeFileSync(output,JSON.stringify(atlas,null,2)+"\n",{encoding:"utf8",flag:"wx"});
-    process.stdout.write(JSON.stringify({output,counts:atlas.counts,savedSha256:atlas.sourceIndex.characterSavedVariablesSha256})+"\n");
+    try {
+      const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+      const paths = {
+        originalThree: "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json",
+        allWarrior: "docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-ALL-SOULS-STATIC-2026-11-02.json",
+        priorAtlas: "docs/REA-RIFT-SPELLCASTING-SC103-ABILITY-ATLAS-2026-11-02.json"
+      };
+      const inputs = Object.fromEntries(Object.entries(paths).map(([key,p])=>{
+        const bytes = readStableOriginal(path.join(root,p));
+        return [key,{value:JSON.parse(bytes.toString("utf8")),path:p,sha256:sha(bytes)}];
+      }));
+      const {bytes: savedBytes, modifiedAtUtc} = readStableOriginalWithMetadata(savedFile);
+      const atlas = buildLiveAtlas({
+        saved:parseSavedLuaBytes(savedBytes),savedSha256:sha(savedBytes),
+        originalThree:inputs.originalThree.value,allWarrior:inputs.allWarrior.value,
+        priorAtlas:inputs.priorAtlas.value,
+        sourceIndex:{...Object.fromEntries(Object.entries(inputs).map(([key,v])=>[key,{path:v.path,sha256:v.sha256}])),
+          generatorSha256:sha(readStableOriginal(fileURLToPath(import.meta.url))),
+          decoderSha256:sha(readStableOriginal(path.join(root,"tools/read-rrecollector-saved.mjs")))},
+        savedFileModifiedUtc:modifiedAtUtc
+      });
+      fs.writeFileSync(output,JSON.stringify(atlas,null,2)+"\n",{encoding:"utf8",flag:"wx"});
+      process.stdout.write(JSON.stringify({output,counts:atlas.counts,savedSha256:atlas.sourceIndex.characterSavedVariablesSha256})+"\n");
+    } catch (error) {
+      const reason = error?.code === "ENOENT" ? "saved-file-not-found"
+        : error?.code === "EACCES" || error?.code === "EPERM"
+          ? "saved-file-unreadable" : "saved-input-invalid";
+      process.stderr.write(JSON.stringify({error:reason})+"\n");
+      process.exitCode=2;
+    }
   }
 }

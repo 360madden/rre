@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "2026-11-07 SC-610: Lab-2 sole live target; Bolinao L43 Rogue role1 current-known capture/save qualified on loaded/saved RRECollector v0.4.11, 54/54 and 10/10 installed source hashes. Existing action-bar reloadui worked; old-v0.4.10 toolbar Reload success unverified. Warrior candidate attempt deferred/context-inapplicable. RC-26/30/31/32 remain pending and SC-103/306 blocked; physical runtime records historical.",
+  "status": "Stopped by user 2026-11-11T23:48:58-05:00. No activegoal. RC88source0.4.21/reader0.2.7 reviewed/offline-tested, notdeployed; installed0.4.20 boundedactualreceipt remains. Resume onlyonnewuserrequest; noWorkbridge/LEGIONVM.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
@@ -20,7 +20,7 @@
   },
   "gameInputAuthorized": false,
   "implementationStarted": true,
-  "nextTaskId": "RC-26",
+  "nextTaskId": "RC-88",
   "parallelExternalGate": {
     "taskId": "SC-102",
     "status": "SC102-closed-bounded; RC08 explicit-ID candidate API response accepted (50 returned/7 no-detail); SC103 eligibility remains open",
@@ -1091,8 +1091,300 @@
         ]
       },
       "latestProgress20261105": "11:29 EST: v0.4.11 repo source-only RC-32 fixed and reviewed; candidate 9/9, startup 8/8, batch 7/7 (24/24), seven older green suites 143/143 (including repaired RC-30 interleaved 36/36), all ten Lua suites 167/167 and eight Lua syntax checks pass, strict source package 10 files + six candidate Node checks pass. Physical RIFT remains installed v0.4.10; no game actions or SavedVariables modification. RC-30 strict archival and RC-32 deployment/runtime are pending."
-    }
-  ],
+    },
+    {
+      "id": "RC-33",
+      "phase": "M4",
+      "title": "Support all callings in RRECollector and qualify versioned release",
+      "state": "in-progress",
+      "dependsOn": ["RC-32"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/candidates.lua",
+        "addons/RRECollector/abilities.lua",
+        "tools/verify-rrecollector-cross-calling.mjs",
+        "docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"
+      ],
+      "scope": [
+        "Rogue, Warrior, Mage, Cleric and Primalist current API-known abilities and role/build changes",
+        "Isolate Warrior-only 96-ID research and avoid misleading non-Warrior deferrals",
+        "Harden malformed SavedVariables and empty-first-capture toolbar behavior",
+        "Keep RREC2 host reader and SavedVariables adapter version-admission synchronized",
+        "Do not misrepresent profession APIs or OneDrive propagation as verified"
+      ],
+      "acceptance": [
+        "Focused original Rogue 54/54 and synthetic cross-calling regressions pass",
+        "Lua parse, package gate and C# reader compatibility regressions pass",
+        "Full source/OneDrive install hash parity for a new version, and separate live acceptance receipt",
+        "No cross-repo writes, VMware operations on LEGION, or unapproved game input"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "v0.4.15 source and 11/11 LEGION OneDrive install parity verified after v0.4.14 backup; focused Node 27/27, C# production 87/87 PASS; commit a948270 pushed to origin/main. Lua runtime and physical UI/Rogue acceptance pending."
+    },
+    {
+      "id": "RC-34",
+      "phase": "M4",
+      "title": "Harden RRECollector Pin/Check state, labels, API probe and wire receipts",
+      "state": "in-progress",
+      "dependsOn": ["RC-33"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": [
+        "addons/RRECollector/ui.lua",
+        "addons/RRECollector/main.lua",
+        "addons/RRECollector/capabilities.lua",
+        "tools/verify-rrecollector-cross-calling.mjs",
+        "tools/verify-rrecollector-rc31-selection-state.lua",
+        "tools/verify-rrecollector-rc31-hidden-clicks.lua",
+        "tools/verify-rrecollector-rc31-browser-duplicate-identity.lua"
+      ],
+      "scope": [
+        "BH-03 ensure only current-page valid API rows may Pin/Check and navigation clears selection",
+        "BH-13 make same-name browser records distinguishable by exact ID and preserve tile caption suffixes",
+        "BH-12 bound scanned API documentation index counter",
+        "BH-06 distinguish retained saved Capture from current-load wire publication without erasing useful complete data",
+        "Version all v0.4.16 producer/reader/contract surfaces and deploy only to LEGION OneDrive with backup"
+      ],
+      "acceptance": [
+        "Focused cross-calling and source UI regression gates PASS; independent Lua test harness updated",
+        "RREC2 C# reader and SavedVariables adapter accept v0.4.16 preserving older versions",
+        "Verified v0.4.16 OneDrive 11/11 parity, separate live in-game versioned acceptance pending",
+        "No unrelated add-on changes or LEGION VMware operation"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "RC34-A/B/C/D offline complete: v0.4.16 exact guarded Pin/Check, distinct ID/caption and saved/context/wire status, capped API docs, producer/reader version alignment. Node focused 31/31 and auto suite 38/38 PASS; C# production 89/89 PASS; strict source and LEGION OneDrive installed 11/11 SHA parity after backup artifacts/RRECollector-installed-v0416-LEGION-20261110-174700-526; pushed as commit 993c234. Lua execution and physical Rogue/Warrior/profession in-game acceptance RC34-E pending; OneDrive sync to other machines unverified."
+    },
+    {
+      "id": "RC-35",
+      "phase": "M4",
+      "title": "Preserve complete ability snapshots and discover profession APIs without gameplay actions",
+      "state": "in-progress",
+      "dependsOn": ["RC-34"],
+      "owner": "RRE/REA manager",
+      "ownedPaths": ["addons/RRECollector/abilities.lua", "addons/RRECollector/capabilities.lua", "addons/RRECollector/main.lua", "addons/RRECollector/ui.lua", "tools/verify-rrecollector-cross-calling.mjs", "docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "scope": [
+        "Reject incomplete player/role/clock context and inconclusive Detail tables before saving a complete ability capture",
+        "Bound and sanitize ability IDs and persisted probe/candidate counters",
+        "Manually collect profession API documentation/path-type receipt in professionProbe without invoking crafting APIs",
+        "Update v0.4.17 title, startup chat, TOC and RREC2 C#/Node readers; deploy exclusively to LEGION OneDrive"
+      ],
+      "acceptance": [
+        "Focused source regressions and .NET production reader pass, 11/11 source/installed parity",
+        "Existing latest/probe/candidateLookup unchanged by profession discovery",
+        "Current-game profession API schema and live Rogue/Warrior capture require separate physical runtime receipt",
+        "No LEGION VMware/game input, cross-repo writes or unverified propagation claims"
+      ],
+      "evidence": ["docs/RRECOLLECTOR-ALL-CALLINGS-ROADMAP-2026-11-10.md"],
+      "currentResult": "RC35-B/C/D source and OneDrive complete v0.4.17: 33/33 focused Node, 38/38 Node auto, 91/91 C# production, strict 11/11 LEGION OneDrive parity after v0.4.16 backup. RC35-E physical client `/rre professions` and Rogue/Warrior current-client live acceptance still pending; Lua interpreter unavailable on LEGION."
+    },
+      {
+        "id": "RC-79",
+        "title": "Bounded quest journal and objective map-location capture",
+        "owner": "RRE manager; read-only Codex reviewers; isolated quest candidate lane",
+        "status": "live-quantity-journal-accepted-indicator-capture-open",
+        "ownedPaths": [
+          "addons/RRECollector/capabilities.lua",
+          "addons/RRECollector/main.lua",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/agents/quest_journal/verify_quest_capture.lua"
+        ],
+        "scope": [
+          "Manual read-only quest and referenced map capture; preserve prior journal when player/API unavailable",
+          "Bound global objective, indicator and repeated content-text retention",
+          "Offline original-byte-hashed remaining-objective JSON export; no gameplay actions",
+          "Retain v0.4.19/v0.4.20 ability/context reader compatibility"
+        ],
+        "acceptance": [
+          "Focused Node/C# checks and strict11file source package pass",
+          "Actual Lua source regression passed56 assertions under existing Fengari0.1.5/Lua5.3.4; RIFT Lua5.1 remains unverified",
+          "RC87 observed version-matched physical load/capture/persistence; complete indicator/location coverage remains unverified"
+        ],
+        "evidence": [
+          "docs/RRE-RC79-QUEST-JOURNAL-LEGION-2026-11-11.md",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
+        ],
+        "currentResult": "RC87 bounded physical .20capture+persist succeeded:27quests43objectives15remaininggoals, partial40unsupportedindicatorentries0mapreads. Lua source checks and actualRIFTload verified; indicator shape/location/travel remain open."
+      },
+      {
+        "id": "RC-84",
+        "title": "Read existing casting evidence as practical combat feedback",
+        "parentResearchTask": "SC-502",
+        "owner": "RRE manager; independent read-only Codex protocol review",
+        "status": "implemented-offline-reader-and-focused-checks-passed",
+        "ownedPaths": [
+          "tools/rre-casting-observation.mjs",
+          "tools/read-rrecollector-saved.mjs",
+          "tools/read-stable-original.mjs",
+          "tools/tests_reader/test_casting_observation.mjs",
+          "reader/Rre.Reader/CastingEvidenceSource.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Contracts.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/CombatChecks.cs",
+          "reader/Rre.Reader.Checks/Program.cs",
+          "reader/README.md",
+          "reader/contract-rrec2.md"
+        ],
+        "scope": [
+          "Exact identity/time/positive-event feedback through RRE.Reader combat command",
+          "Preserve modern-ID precedence and capped last-hit records",
+          "Keep collector parser/default limits and SourceCapture contract unchanged",
+          "No observer edits or gameplay inputs"
+        ],
+        "acceptance": [
+          "90 Node,99 C#production,8 actual adapter checks passed",
+          "Source-hashed original; false live/freshness/delivery/authority qualifications",
+          "RC87 fresh persisted .4.0 observer file read successfully, zero trials; no cast-success claim"
+        ],
+        "evidence": [
+          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.md",
+          "docs/RRE-RC84-COMBAT-FEEDBACK-LEGION-2026-11-11.json",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
+        ]
+      },
+      {
+        "id": "RC-85",
+        "title": "Execute existing Lua fixtures and expose quest goals through RRE.Reader",
+        "parentTask": "RC-79",
+        "owner": "RRE manager; two independent read-only Codex reviews",
+        "status": "offline-accepted-extended-by-RC87-physical-receipt",
+        "ownedPaths": [
+          "tools/run-collector-lua.mjs",
+          "tools/agents/quest_journal/verify_quest_command.lua",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "reader/Rre.Reader/QuestJournalSource.cs",
+          "reader/Rre.Reader.Checks/QuestChecks.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Contracts.cs",
+          "reader/Rre.Reader/CastingEvidenceSource.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/Program.cs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "Reuse pre-existing Fengari dependency read-only; no installation or external source changes",
+          "Actual addon startup and saved/slash handler through literal SavedVariables parser, Node exporter and C# command",
+          "Report retained journal separately from later recorded failure; preserve false runtime qualifications",
+          "Keep RRECollector source unchanged at a2d9660"
+        ],
+        "acceptance": [
+          "261 distinct Lua assertions passed;11 historical fixtures fail with harness drift, no full-Lua-pass claim",
+          "98 distinct Node checks (95 plus3 review regressions),99 C# production,8 combat and7 quest adapter checks passed; warnings-as-errors build passed",
+          "Full historical507-test gate failed on existing errors/skips; sources unchanged during run",
+          "RC87 observed bounded .20physical Rogue load/capture/persistence; full Lua5.1 regression coverage, continuity and gameplay results remain unverified"
+        ],
+        "evidence": [
+          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.md",
+          "docs/RRE-RC85-QUEST-READER-LUA-LEGION-2026-11-11.json",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md"
+        ]
+      },
+      {
+        "id": "RC-86",
+        "title": "Compare retained quest captures for recorded objective changes",
+        "parentTask": "RC-85",
+        "owner": "RRE manager; independent read-only Codex contract review",
+        "status": "implemented-offline-comparison-verified",
+        "ownedPaths": [
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/agents/quest_journal/verify_quest_command.lua",
+          "reader/Rre.Reader/QuestJournalSource.cs",
+          "reader/Rre.Reader/Program.cs",
+          "reader/Rre.Reader/Rre.Reader.csproj",
+          "reader/Rre.Reader.Checks/QuestChecks.cs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "Optional --previous on existing quests command only; source-hash both retained original files",
+          "Compare same typed player/quest/objective identity and advancing clocks/sequence; both captures complete",
+          "Require unique nonempty exact objective description and same required count; ambiguous/reset/disappeared rows remain diagnostic",
+          "Report explicit completion/failure separately; no live/game/action/causation authority or addon changes"
+        ],
+        "acceptance": [
+          "124Node,99production,8combat,11quest adapter checks passed; actual Lua pair19assertions",
+          "Both original SHA/lengths pinned; partial/ambiguous/stale sources cannot qualify progress",
+          "Full historical507gate failed on existing errors/skips; source inventory unchanged",
+          "Independent read-only review accepted; no addon source changes"
+        ],
+        "evidence": [
+          "docs/RRE-RC86-QUEST-COMPARISON-LEGION-2026-11-11.md",
+          "docs/RRE-RC86-QUEST-COMPARISON-LEGION-2026-11-11.json"
+        ]
+      },
+      {
+        "id": "RC-87",
+        "title": "Accept actual physical quest/ability capture and RIFT shared-table SavedVariables encoding",
+        "parentTask": "RC-79",
+        "owner": "RRE manager; independent read-only parser review",
+        "status": "bounded-live-data-and-reference-reader-accepted-indicator-shape-open",
+        "ownedPaths": [
+          "tools/read-rrecollector-saved.mjs",
+          "tools/verify-rrecollector-saved.mjs",
+          "tools/tests_reader/test_saved_adapter.mjs",
+          "tools/tests_reader/test_casting_observation.mjs",
+          "reader/README.md"
+        ],
+        "scope": [
+          "User-approved .20-only backup/deploy, two reloads, one quests and one capture command; no movement/combat",
+          "Exact physical LEGION client version/load/hash and source/install11file parity",
+          "Preserve original50,639B SHA159f37a3551735814e92a69b53e64538c27cbeecfada947da08f5ea493ae973e and private screenshots locally",
+          "Parse exact RIFT shared-table prologue as bounded data syntax without executing originalLua; reject cycles and expansion attacks"
+        ],
+        "acceptance": [
+          "Real original read by quest and ability reader with matching hashes/counts and explicit partial flags",
+          "Literal-only fixtures remain supported; no arbitrary Lua expressions/loops/calls admitted",
+          "Bound raw and expanded reference nodes/depth/string-key bytes; independent finalreview",
+          "No further game inputs after approved sequence; no private original/screenshots committed"
+        ],
+        "evidence": [
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.md",
+          "docs/RRE-RC87-PHYSICAL-CAPTURE-LEGION-2026-11-11.json"
+        ],
+        "currentResult": "Approved input sequence complete; .20load/install11parity,53completeRogueabilities,27quests43objectives15remaininggoals persisted/read.40unsupportedindicators0mapreads; no movement/combat. Shared-table format safely parsed; private originals/screenshots stay local."
+      },
+      {
+        "id": "RC-88",
+        "title": "Bound unsupported quest indicator shape and candidate map-lookup diagnostics",
+        "parentTask": "RC-87",
+        "owner": "RRE manager; read-only Codex contract/source review",
+        "status": "source-ready-reviewed-user-stopped-before-deployment-request",
+        "ownedPaths": [
+          "addons/RRECollector/capabilities.lua",
+          "addons/RRECollector/core.lua",
+          "addons/RRECollector/RiftAddon.toc",
+          "addons/RRECollector/README.md",
+          "tools/agents/quest_journal",
+          "tools/export-rrecollector-quests.mjs",
+          "tools/test-export-rrecollector-quests.mjs",
+          "tools/deploy-rrecollector-onedrive.ps1",
+          "tools/rre-reader-saved-snapshot.mjs",
+          "tools/export-rrecollector-navigation-api.mjs",
+          "reader/Rre.Reader",
+          "reader/Rre.Reader.Checks",
+          "reader/README.md"
+        ],
+        "scope": [
+          "v.21 additive bounded diagnostics for unsupported indicators seen during manual quests; no polling or new game-action path",
+          "Raw key/value types and binary-safe previews, one-level fields only; sample/text/read budgets",
+          "Separately labelled bounded diagnostic Map.Detail candidate lookups for direct identifier-like strings only, exact returned identity; never canonical destinations",
+          "Retain .20 compatibility and source provenance; prepare offline and review before separate concrete deployment request"
+        ],
+        "acceptance": [
+          "Executable Lua shape/budget/hostile-value checks and actual-package fixture pass",
+          "Node/.NET readers preserve diagnostics and qualifiers while accepting retained .20 data",
+          "Strict source package, focused regressions and one historical gate recorded honestly",
+          "Concrete new approval required before deploying .21 or issuing any new game commands"
+        ],
+        "evidence": [
+          "docs/HANDOFF-2026-11-11-2348-EST.md"
+        ],
+        "currentResult": "Source0.4.21/reader0.2.7 offline ready:145Node,101production,13quest,8combat;72questLua,23packageLua,25UI; strictmanifest/build/preflight pass. Full507gate failed existingerrors/skips. Installed0.4.20 unchanged; no newapproval requested/granted. User stopped and clearedgoal."
+      }
+    ],
   "workingSource": {
     "version": "0.4.10",
     "supersededRuntimeUnverifiedVersion": "0.4.9",

@@ -1,0 +1,213 @@
+{
+  "milestone": "RC-66",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "proof": "original_static_PE_OS_key_state_to_native_receiver_writer",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "bytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "repository": {
+    "path": "C:\\work\\rre",
+    "branch": "main",
+    "startingHead": "04ecf656d50ebbaf43192180d258879eaeb7f726",
+    "startingAheadOfOrigin": 21
+  },
+  "windows": [
+    {
+      "name": "os_vk_source",
+      "start": "0xFB6C5F",
+      "end": "0xFB6D0B",
+      "bytes": 172,
+      "instructions": 36,
+      "sha256": "f03d32d78486f93d7be9ef3bc16a498366ab0dc54c4133c3d20505e0ac281b97"
+    },
+    {
+      "name": "type6_record_initializer",
+      "start": "0x7C0200",
+      "end": "0x7C0286",
+      "bytes": 134,
+      "instructions": 33,
+      "sha256": "c010ae7d7309e77f768c89ff060177e88f153c41ac2c46627392110e9efa0e82"
+    },
+    {
+      "name": "vk_state_to_record",
+      "start": "0x7C21F0",
+      "end": "0x7C222C",
+      "bytes": 60,
+      "instructions": 18,
+      "sha256": "6d2f06910e6579acc8bb4ba7e8c0514742433726b7926dc91e4e268e5689cf23"
+    },
+    {
+      "name": "receiver_wrapper_no_pdata",
+      "start": "0x7C1AC0",
+      "end": "0x7C1AC8",
+      "bytes": 8,
+      "instructions": 2,
+      "sha256": "890375bf530a9b9cc41e1c92ebd56eb78e373e4ff696ce536f88c639a94afaf3"
+    },
+    {
+      "name": "receiver_writer",
+      "start": "0x7C1AD0",
+      "end": "0x7C1B7F",
+      "bytes": 175,
+      "instructions": 44,
+      "sha256": "967e6ae9c1220e9c8c5a3d72b9360710ac37d25a8d126f9eb00ba91caa0ef0a5"
+    },
+    {
+      "name": "receiver_constructor",
+      "start": "0x7C00A0",
+      "end": "0x7C016A",
+      "bytes": 202,
+      "instructions": 48,
+      "sha256": "91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a"
+    },
+    {
+      "name": "receiver_ctor_caller",
+      "start": "0x79A590",
+      "end": "0x79A9D3",
+      "bytes": 1091,
+      "instructions": 237,
+      "sha256": "3c8cfd1121328b2fc65160f976991f908cc98817b3f2e3eae62690c81faa018f"
+    },
+    {
+      "name": "dispatcher",
+      "start": "0x7C0480",
+      "end": "0x7C0673",
+      "bytes": 499,
+      "instructions": 126,
+      "sha256": "0aaaad0bc6f186ab172dee5c4bfa77647d9f406288b257266422a82140c1fa97"
+    },
+    {
+      "name": "type7_reset_precondition_loop",
+      "start": "0x7C0940",
+      "end": "0x7C0A40",
+      "bytes": 256,
+      "instructions": 57,
+      "sha256": "3dff7574010a45e934bc05814988f235f2d57c3ddb7cba8b74aa25c2c62f9f7f"
+    },
+    {
+      "name": "type2_reset_tail",
+      "start": "0x7C0A40",
+      "end": "0x7C0BAA",
+      "bytes": 362,
+      "instructions": 82,
+      "sha256": "d10dd985a73f7e52f18352ad9362d397b65753f93fe69511b81be0fd512e41ee"
+    }
+  ],
+  "osImports": {
+    "GetKeyboardState": {
+      "dll": "USER32.dll",
+      "iatRva": "0x25EFD68"
+    },
+    "MapVirtualKeyW": {
+      "dll": "USER32.dll",
+      "iatRva": "0x25EFC68"
+    },
+    "memcpy": {
+      "dll": "VCRUNTIME140.dll",
+      "iatRva": "0x25EFDF8"
+    },
+    "memset": {
+      "dll": "VCRUNTIME140.dll",
+      "iatRva": "0x25EFE40"
+    }
+  },
+  "provenChain": [
+    {
+      "rva": "0xFB6C95",
+      "event": "GetKeyboardState",
+      "output": "rsp+0x150"
+    },
+    {
+      "rva": "0xFB6CAB",
+      "event": "initialize record type6",
+      "record": "rsp+0x20"
+    },
+    {
+      "rva": "0xFB6CBD",
+      "event": "memcpy state into record+0x19",
+      "bytes": 256,
+      "maskIndexes": {
+        "0x10": "Shift/bit2",
+        "0x11": "Control/bit4",
+        "0x12": "Alt/bit1"
+      }
+    },
+    {
+      "rva": "0xFB6CE6",
+      "event": "call wrapper with receiver pointer + record"
+    },
+    {
+      "rva": "0x7C1AC0",
+      "event": "set r8b1 + tailjump to 0x7C1AD0"
+    },
+    {
+      "rva": "0x7C1B52",
+      "event": "memcpy record+0x19 to receiver+0xA41",
+      "bytes": 256
+    }
+  ],
+  "reset": {
+    "rva": "0x7C0940",
+    "requiresDLZero": true,
+    "activeByteType": 7,
+    "indexField": "record+0x124",
+    "translatedCharField": "record+0x120",
+    "translation": {
+      "function": "MapVirtualKeyW",
+      "mode": 2
+    },
+    "maskType": 2,
+    "maskSubcodes": [
+      1,
+      2,
+      4
+    ],
+    "zeroTableBytes": 256,
+    "zeroMask": true
+  },
+  "initialState": {
+    "allocBytes": "0xB48",
+    "constructor": "0x7C00A0",
+    "ownerPointerField": "owner+0x0",
+    "tableZero": true,
+    "gateField": "receiver+0xA40",
+    "gateValue": 0,
+    "maskField": "receiver+0x38",
+    "maskValue": 0
+  },
+  "negative": {
+    "fragment": "0x7C0780",
+    "directE8Hits": 0,
+    "literalPtrHitsInRdataData": 0,
+    "notProofUnreachable": true
+  },
+  "limitations": [
+    "no runtime keyboard event or movement verified",
+    "no simulated-key acceptance verified",
+    "active player receiver ownership unqualified",
+    "GetKeyboardState return value not tested in selected callsite",
+    "queue gate later nonzero writer unqualified"
+  ],
+  "microsoftDocs": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardstate",
+    "https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mapvirtualkeyw"
+  ],
+  "managerJobs": [
+    "rre-rc66-manager-reset-independent-20261111-01",
+    "rre-rc66-manager-constructor-gate-independent-20261111-01",
+    "rre-rc66-manager-prologue-type7-independent-20261111-01",
+    "rre-rc66-manager-win32-import-mapvk-independent-20261111-01",
+    "rre-rc66-manager-getkeyboardstate-chain-independent-20261111-01",
+    "rre-rc66-manager-vkcopy-owner-independent-20261111-01",
+    "rre-rc66-manager-endtoend-wrapper-independent-20261111-01",
+    "rre-rc66-manager-type6-record-ctor-independent-20261111-01",
+    "rre-rc66-manager-type6-handler-conditional-inspection-20261111-01",
+    "rre-rc66-manager-osvk-branch-proof-20261111-01"
+  ]
+}
+

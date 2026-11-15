@@ -8,6 +8,8 @@ assert(mode=="--expect-red" or mode=="--require-fixed",
 local f=assert(io.open("addons/RRECollector/ui.lua","rb"))
 local src=f:read("*a"); f:close()
 src=src:gsub("\r\n","\n")
+local selector=assert(src:match("(local function visibleKnownSelection%(%).-)\nlocal function loadSlots"),
+  "visible selection guard source missing")
 local pin=assert(src:match("(local function pinSelected%(%).-)\nlocal function undoPins"),
   "source-extracted Pin handler missing")
 local checkBody=assert(src:match('button%("RRECheckSelected".-function%(%)(.-)\n%s*end%)'),
@@ -101,7 +103,7 @@ local function performCheck(selectedIndex)
 end
 return {pin=performPin,check=performCheck}
 ]==]
-local compilation=prelude..pin.."\n"..between..checkBody.."\n"..suffix
+local compilation=prelude..selector.."\n"..pin.."\n"..between..checkBody.."\n"..suffix
 local chunk,err=(loadstring or load)(compilation,"RC31 source click guards")
 assert(chunk,"source-extracted click guards could not compile: "..tostring(err))
 local handlers=chunk()

@@ -1,0 +1,16 @@
+{
+  "_comment": "LEGION physical-RIFT native PE source; preflight-only until a separately approved full Ghidra import. Historical AMD/VM options remain untouched.",
+  "expectedHost": "LEGION",
+  "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+  "expectedSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+  "format": "pe",
+  "allowFullPeImport": false,
+  "expectedReaVersion": "6.8.0",
+  "reaHome": "C:\\work\\tools\\rea",
+  "ghidraHome": "C:\\work\\tools\\ghidra_12.1.4_PUBLIC",
+  "javaHome": "C:\\work\\tools\\jdk-21.0.13+9",
+  "outputDirectory": "C:\\work\\rre\\artifacts\\rea-legion-physical-pending-20261109",
+  "durationSeconds": 550,
+  "startupTimeoutMs": 450000,
+  "disabledAnalyzers": []
+}

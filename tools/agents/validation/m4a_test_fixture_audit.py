@@ -1,6 +1,6 @@
 import unittest
 import json
-from m4a_fixture_audit import validate_suite
+from m4a_fixture_audit import validate_suite, ALLOWED_STATUSES, TERMINAL_STATES
 
 
 def make_valid_contract():
@@ -8,6 +8,13 @@ def make_valid_contract():
         "schemaVersion": 1,
         "taskId": "M4A-001",
         "runMode": "offline-replay-only",
+        "exactBuildSha256": "a" * 64,
+        "stateVocabulary": sorted(ALLOWED_STATUSES),
+        "terminalStates": sorted(TERMINAL_STATES),
+        "policy": {"arrivalRadiusM": 1.5, "maximumVerticalDifferenceM": 2,
+                   "staleAfterGapMs": 1200, "progressWindowMs": 1500,
+                   "minimumProgressM": 0.25, "movingAwayToleranceM": 0.75,
+                   "numericTolerance": 1e-9},
         "source": {
             "kind": "synthetic-fixture",
             "replayOnly": True
@@ -19,6 +26,7 @@ def make_valid_corpus_base():
     return {
         "schemaVersion": 1,
         "taskId": "M4A-001",
+        "fixtureSetId": "rre-m4a-synthetic-test-v1",
         "source": {
             "kind": "synthetic-fixture",
             "replayOnly": True
@@ -104,6 +112,35 @@ class TestM4AFixtureAudit(unittest.TestCase):
         self.assertIn("invalid-coordinate", result["intentionalInvalidCases"])
         self.assertIn("nonmonotonic-time", result["intentionalInvalidCases"])
     
+    def test_missing_replay_required_fields_are_rejected(self):
+        corpus = make_corpus_with_intentional_invalids([make_simple_valid_case(f"c{i}") for i in range(6)])
+        for key in ("terminalStates", "stateVocabulary", "exactBuildSha256", "policy"):
+            with self.subTest(contractMissing=key):
+                contract = make_valid_contract()
+                del contract[key]
+                result = validate_suite(contract, corpus)
+                self.assertFalse(result["ok"])
+                self.assertIn("contract " + key, " ".join(result["errors"]))
+        del corpus["fixtureSetId"]
+        result = validate_suite(make_valid_contract(), corpus)
+        self.assertFalse(result["ok"])
+        self.assertIn("corpus fixtureSetId", " ".join(result["errors"]))
+
+    def test_malformed_replay_contract_fields_are_rejected_without_exceptions(self):
+        corpus = make_corpus_with_intentional_invalids([make_simple_valid_case(f"c{i}") for i in range(6)])
+        bad_values = (("terminalStates", ["arrived", "arrived"]),
+                      ("stateVocabulary", ["arrived", {}]),
+                      ("exactBuildSha256", "g" * 64),
+                      ("policy", {"arrivalRadiusM": -1}),
+                      ("source", "invalid"))
+        for key, invalid in bad_values:
+            with self.subTest(contractKey=key):
+                contract = make_valid_contract()
+                contract[key] = invalid
+                self.assertFalse(validate_suite(contract, corpus)["ok"])
+        corpus["fixtureSetId"] = []
+        self.assertFalse(validate_suite(make_valid_contract(), corpus)["ok"])
+
     def test_contract_wrong_schema_version(self):
         contract = make_valid_contract()
         contract["schemaVersion"] = 2

@@ -1,4 +1,4 @@
--- RRECollector v0.4.14: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.20: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -19,6 +19,13 @@ local function refreshUI(clearChecks)
 end
 
 local function candidateStatus()
+  local latest = RRECollectorData.latest
+  local player = type(latest) == "table" and latest.player or nil
+  local calling = type(player) == "table" and player.calling or nil
+  if type(calling) == "string" and not calling:lower():find("warrior", 1, true) then
+    say("Static candidate research is Warrior-only; not applicable to " .. calling .. ".")
+    return
+  end
   local report = RRECollectorData.candidateLookup
   if type(report) ~= "table" then
     say("Static Warrior candidate lookup not yet recorded; /rre candidates.")
@@ -29,7 +36,7 @@ local function candidateStatus()
     end
     return
   end
-  local c = report.counts or {}
+  local c = type(report.counts) == "table" and report.counts or {}
   say("Candidate lookup #" .. tostring(report.sequence or "?")
     .. " " .. tostring(report.catalogVersion or "?")
     .. ": " .. tostring(c.listed or "?") .. " currently listed, "
@@ -37,6 +44,37 @@ local function candidateStatus()
     .. tostring(c.unlistedReturned or 0) .. " unlisted returned by Detail.")
   say("Queries " .. tostring(c.queried or 0) .. ", policy "
     .. tostring(report.policy or "?") .. "; not a lock/learnability conclusion.")
+end
+
+local function savedSnapshotComplete(latest)
+  if type(latest) ~= "table" or latest.captureComplete ~= true
+    or type(latest.abilityList) ~= "table"
+    or type(latest.player) ~= "table"
+    or type(latest.abilities) ~= "table" then return false end
+  local list, count = latest.abilityList, #latest.abilities
+  if count < 1 or count > 512 or list.uniqueCount ~= count
+    or list.detailCount ~= count or list.detailFailures ~= 0
+    or list.apiAvailable ~= true or list.enumerationComplete ~= true
+    or list.ignored ~= 0 or list.truncated ~= 0
+    or type(latest.player.id) ~= "string" or #latest.player.id == 0
+    or type(latest.player.name) ~= "string" or #latest.player.name == 0
+    or type(latest.player.calling) ~= "string" or #latest.player.calling == 0
+    or not finite(latest.player.level) or latest.player.level <= 0 then return false end
+  local seen = {}
+  for i = 1, count do
+    local item = rawget(latest.abilities, i)
+    local id = type(item) == "table" and item.lookupId or nil
+    if type(id) ~= "string" or #id ~= 17
+      or not id:match("^A[0-9A-F]+$") or seen[id] then return false end
+    seen[id] = true
+  end
+  return true
+end
+
+local function nextSequence(previous)
+  if not finite(previous) or previous < 0 or previous >= 9007199254740991
+    or previous ~= math.floor(previous) then previous = 0 end
+  return previous + 1
 end
 
 local function status()
@@ -50,20 +88,39 @@ local function status()
     candidateStatus()
     return
   end
-  local list = latest.abilityList or {}
-  local p = latest.player or {}
-  say("v" .. VERSION .. " capture #" .. tostring(latest.sequence)
+  local list = type(latest.abilityList) == "table" and latest.abilityList or {}
+  local p = type(latest.player) == "table" and latest.player or {}
+  -- A previous capture survives addon updates; identify it by its saved version.
+  local captureVersion = type(latest.addonVersion) == "string"
+    and latest.addonVersion:match("^%d+%.%d+%.%d+$")
+    and latest.addonVersion or "unknown"
+  local versionNote = captureVersion ~= VERSION
+    and (" | loaded v" .. VERSION) or ""
+  say("v" .. captureVersion .. " capture #" .. tostring(latest.sequence)
     .. " " .. tostring(p.name or "[name unknown]") .. " lvl "
-    .. tostring(p.level or "?") .. " " .. tostring(p.calling or "?"))
+    .. tostring(p.level or "?") .. " " .. tostring(p.calling or "?")
+    .. versionNote)
   say("Known API IDs " .. tostring(list.uniqueCount or 0)
     .. " | details " .. tostring(list.detailCount or 0)
     .. " | failed " .. tostring(list.detailFailures or 0)
     .. " | ignored " .. tostring(list.ignored or 0)
     .. " | truncated " .. tostring(list.truncated or 0)
-    .. " | complete " .. tostring(latest.captureComplete == true))
+    .. " | complete " .. tostring(savedSnapshotComplete(latest)))
   say("Role slot " .. tostring(latest.roleSlot or "?")
     .. " | combat role " .. tostring(p.role or "?")
     .. " | saved on next normal UI reload/logout.")
+  -- A retained SavedVariables publication receipt can outlive the Lua frames.
+  -- Report ONLY the transient current-load receipt as live publication status.
+  local publication = type(wire) == "table" and type(wire.receipt) == "function"
+    and wire.receipt() or nil
+  if type(publication) == "table" and publication.status == "complete" then
+    say("Current-load RREC2 published: seq=" .. tostring(publication.sequence)
+      .. " parts=" .. tostring(publication.parts) .. ".")
+  else
+    say("Current-load RREC2 not published: " .. tostring(type(publication) == "table"
+      and publication.reason or "no capture this UI load")
+      .. "; saved API capture and wire publication are separate.")
+  end
   candidateStatus()
 end
 
@@ -71,7 +128,10 @@ local function showPage(page)
   if not savedLoaded or type(RRECollectorData.latest) ~= "table" then
     say("No snapshot. Use /rre capture."); return
   end
-  local records = RRECollectorData.latest.abilities or {}
+  local records = RRECollectorData.latest.abilities
+  if type(records) ~= "table" then
+    say("Saved ability list malformed; /rre capture."); return
+  end
   local totalPages = math.max(1, math.ceil(#records / 8))
   if not finite(page) or page < 1 or page > totalPages
     or page ~= math.floor(page) then
@@ -80,13 +140,16 @@ local function showPage(page)
   say("Ability page " .. tostring(page) .. "/" .. tostring(totalPages))
   for i = (page - 1) * 8 + 1, math.min(page * 8, #records) do
     local entry = records[i]
+    if type(entry) ~= "table" then
+      say("Saved ability record malformed; /rre capture."); return
+    end
     say(tostring(i) .. ". " .. tostring(entry.lookupId)
       .. " " .. tostring(entry.name or "[name unknown]"))
   end
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | candidates | ui | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | navigation | quests | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -99,7 +162,9 @@ local function runCandidateLookup(trigger)
   if not ok or type(report) ~= "table" or report.apiReady ~= true then
     local code = not ok and "lua-exception" or
       (type(reason) == "string" and #reason <= 80 and reason or "api-report-unavailable")
-    lastMessage = "candidate-lookup-deferred"
+    local notApplicable = code == "warrior-catalog-not-applicable"
+    lastMessage = notApplicable and "candidate-lookup-not-applicable"
+      or "candidate-lookup-deferred"
     if trigger == "startup" then
       pendingContextRetry = code == "warrior-player-context-not-ready"
     elseif trigger == "manual" then
@@ -107,11 +172,15 @@ local function runCandidateLookup(trigger)
     end
     RRECollectorData.candidateAttempt = {
       schemaVersion = SCHEMA, addonVersion = VERSION, trigger = trigger,
-      status = "deferred", reason = code,
+      status = notApplicable and "not-applicable" or "deferred", reason = code,
       automaticRetries = automaticCandidateRetries
     }
-    say("Candidate lookup " .. tostring(trigger) .. " deferred: "
-      .. code .. "; previous records preserved.")
+    if notApplicable then
+      say("Warrior-only candidate catalog not applicable to this calling; /rre capture works across callings.")
+    else
+      say("Candidate lookup " .. tostring(trigger) .. " deferred: "
+        .. code .. "; previous records preserved.")
+    end
     refreshUI(false)
     return false
   end
@@ -125,8 +194,15 @@ local function runCandidateLookup(trigger)
   end
   local countersValid = type(counts) == "table"
     and validCount(counts.queried) and counts.queried > 0
+    and validCount(counts.listed)
     and validCount(counts.errors) and validCount(counts.inconclusiveTables)
-    and counts.errors + counts.inconclusiveTables <= counts.queried
+    and validCount(counts.noDetail) and validCount(counts.returned)
+    and validCount(counts.listedControlQueried) and counts.listedControlQueried <= 1
+    and counts.listedControlQueried == (counts.listed > 0 and 1 or 0)
+    and validCount(counts.listedControlReturned)
+    and counts.listedControlReturned <= counts.listedControlQueried
+    and counts.errors + counts.inconclusiveTables + counts.noDetail
+      + counts.returned == counts.queried
   local rejectedStatus, rejectedReason
   if not countersValid then
     rejectedStatus, rejectedReason = "incomplete", "detail-invalid-counts"
@@ -138,6 +214,10 @@ local function runCandidateLookup(trigger)
     end
   elseif counts.inconclusiveTables == counts.queried then
     rejectedStatus, rejectedReason = "incomplete", "detail-all-inconclusive"
+  elseif counts.returned == 0 then
+    rejectedStatus, rejectedReason = "incomplete", "detail-no-positive-result"
+  elseif counts.listedControlQueried > 0 and counts.listedControlReturned == 0 then
+    rejectedStatus, rejectedReason = "incomplete", "detail-listed-control-unverified"
   end
   if rejectedReason then
     pendingContextRetry = false
@@ -153,8 +233,7 @@ local function runCandidateLookup(trigger)
     return false
   end
   pendingContextRetry = false
-  local sequence = (type(RRECollectorData.candidateSequence) == "number"
-    and RRECollectorData.candidateSequence or 0) + 1
+  local sequence = nextSequence(RRECollectorData.candidateSequence)
   report.sequence = sequence
   report.trigger = trigger
   RRECollectorData.candidateLookup = report
@@ -210,8 +289,7 @@ local function recordCapture()
     return
   end
   local prior = RRECollectorData.latest
-  if type(prior) == "table" and prior.captureComplete == true
-    and record.captureComplete ~= true then
+  if savedSnapshotComplete(prior) and record.captureComplete ~= true then
     lastMessage = "capture-incomplete-preserved"
     if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("capture-incomplete") end
     say("Capture incomplete; previous complete ability snapshot preserved.")
@@ -257,8 +335,7 @@ local function onSlash(_, raw)
         say("Probe failed safely; prior ability and probe snapshots preserved.")
         return
       end
-      local nextProbe = (type(RRECollectorData.probeSequence) == "number"
-        and RRECollectorData.probeSequence or 0) + 1
+      local nextProbe = nextSequence(RRECollectorData.probeSequence)
       report.sequence = nextProbe
       RRECollectorData.probe = report
       RRECollectorData.probeSequence = nextProbe
@@ -269,6 +346,93 @@ local function onSlash(_, raw)
         .. tostring(index.retained or 0) .. ", doc errors "
         .. tostring(report.documentErrors or 0) .. ".")
       say("Probe saved separately in RRECollectorData.probe after normal /reloadui/logout; current known ability snapshot unchanged.")
+    elseif action == "quests" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local questApi = RRECollectorRuntime.quests
+      local ok, report = pcall(function() return questApi.capture() end)
+      if not ok or type(report) ~= "table" or type(report.counts) ~= "table"
+        or type(report.quests) ~= "table" then
+        lastMessage = "quest-capture-error"
+        say("Quest capture failed safely; prior journal preserved.")
+        return
+      end
+      RRECollectorData.questAttempt = {status = report.status, counts = report.counts,
+        addonVersion = VERSION}
+      if report.status == "unavailable" or report.status == "error" then
+        lastMessage = "quest-capture-" .. report.status
+        say("Quest API " .. tostring(report.questListStatus or report.status)
+          .. "; prior journal preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.questSnapshotSequence)
+      report.sequence = sequence
+      RRECollectorData.questSnapshot = report
+      RRECollectorData.questSnapshotSequence = sequence
+      lastMessage = "quest-capture-recorded"
+      say("Quest journal #" .. tostring(sequence) .. " " .. tostring(report.status)
+        .. ": " .. tostring(report.counts.questsRetained) .. " quests, "
+        .. tostring(report.counts.objectivesRetained) .. " objectives, "
+        .. tostring(report.counts.mapReads) .. " map reads.")
+      if type(report.indicatorShapes) == "table" then
+        local counts = report.indicatorShapes.counts
+        say("Indicator diagnostics: " .. tostring(counts.sampled) .. " samples, "
+          .. tostring(counts.mapReads) .. " candidate map reads; not verified destinations.")
+      end
+      say("In memory until normal UI reload/logout; no quest, movement or combat action sent.")
+    elseif action == "professions" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local probeOk, report = pcall(RRECollectorRuntime.capabilities.professions)
+      if not probeOk or type(report) ~= "table" or type(report.index) ~= "table"
+        or type(report.pathTypes) ~= "table" then
+        lastMessage = "profession-probe-error"
+        say("Profession discovery failed safely; prior snapshots and probe preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.professionProbeSequence)
+      report.sequence = sequence
+      RRECollectorData.professionProbe = report
+      RRECollectorData.professionProbeSequence = sequence
+      lastMessage = "profession-probe-recorded"
+      local callable = 0
+      for _, value in pairs(report.pathTypes) do
+        if value == "function" then callable = callable + 1 end
+      end
+      local idx = report.index
+      say("Profession API discovery #" .. tostring(sequence) .. ": docs "
+        .. tostring(report.documentationStatus) .. ", names " .. tostring(idx.retained or 0)
+        .. ", scanned " .. tostring(idx.scanned or 0)
+        .. ", limit " .. tostring(idx.scanLimitReached == true)
+        .. ", candidate callable paths " .. tostring(callable) .. ".")
+      say("Saved separately as professionProbe after normal UI reload/logout. API names/types do not prove profession data coverage.")
+    elseif action == "navigation" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local probeOk, report = pcall(RRECollectorRuntime.capabilities.navigation)
+      if not probeOk or type(report) ~= "table" or type(report.index) ~= "table"
+        or type(report.index.names) ~= "table" or type(report.pathTypes) ~= "table" then
+        lastMessage = "navigation-probe-error"
+        say("Navigation API discovery failed safely; prior snapshots preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.navigationProbeSequence)
+      report.sequence = sequence
+      RRECollectorData.navigationProbe = report
+      RRECollectorData.navigationProbeSequence = sequence
+      lastMessage = "navigation-probe-recorded"
+      local idx = report.index
+      say("Navigation API discovery #" .. tostring(sequence) .. ": docs "
+        .. tostring(report.documentationStatus) .. ", names " .. tostring(idx.retained or 0)
+        .. " / " .. tostring(idx.matched or 0) .. ", scanned " .. tostring(idx.scanned or 0)
+        .. ", limit " .. tostring(idx.scanLimitReached == true) .. ".")
+      say("Research leads saved separately as navigationProbe after normal UI reload/logout; no movement or targeting commands executed.")
     elseif action == "candidates" then
       runCandidateLookup("manual")
     elseif action == "ui" then
@@ -284,9 +448,26 @@ local function onSlash(_, raw)
     elseif action == "page" then
       showPage(tonumber(argument))
     elseif action == "export" then
-      say("Full snapshot stored in character SavedVariables: RRECollectorData.latest.")
-      say("Separate research receipts: RRECollectorData.probe and .candidateLookup.")
-      say("Use a normal /reloadui or logout to flush; /rre page N previews 8 names.")
+      if not savedLoaded then
+        say("SavedVariables not ready; no capture available to export.")
+        return
+      end
+      local latest = RRECollectorData.latest
+      if type(latest) ~= "table" then
+        say("No snapshot to export. Use /rre capture first.")
+        return
+      end
+      if not savedSnapshotComplete(latest) then
+        say("Snapshot incomplete; use /rre capture to collect a complete one.")
+        return
+      end
+      local captureVersion = type(latest.addonVersion) == "string"
+        and latest.addonVersion:match("^%d+%.%d+%.%d+$")
+        and latest.addonVersion or "unknown"
+      say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
+        .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
+      say("Separate research receipts: .probe, .professionProbe, .navigationProbe, .questSnapshot and .candidateLookup.")
+      say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")
     end
@@ -354,7 +535,15 @@ if savedEvent then
     local errors = type(priorCounts) == "table" and priorCounts.errors or nil
     local inconclusive = type(priorCounts) == "table"
       and priorCounts.inconclusiveTables or nil
-    -- Backward-compatible older cached reports may omit this newer counter.
+    local noDetail = type(priorCounts) == "table" and priorCounts.noDetail or nil
+    local returned = type(priorCounts) == "table" and priorCounts.returned or nil
+    local listed = type(priorCounts) == "table" and priorCounts.listed or nil
+    local controlQueried = type(priorCounts) == "table"
+      and priorCounts.listedControlQueried or nil
+    local controlReturned = type(priorCounts) == "table"
+      and priorCounts.listedControlReturned or nil
+    -- Retain backward-compatible missing inconclusive count; missing positive
+    -- control evidence requires a fresh source-only probe, not a cached success.
     if inconclusive == nil then inconclusive = 0 end
     local function validSavedCount(value)
       return type(value) == "number" and value == value
@@ -364,9 +553,14 @@ if savedEvent then
     if type(prior) == "table" and prior.catalogVersion == candidateVersion
       and prior.apiReady == true
       and validSavedCount(queried) and queried > 0
-      and validSavedCount(errors) and errors < queried
+      and validSavedCount(errors) and errors == 0
       and validSavedCount(inconclusive) and inconclusive < queried
-      and errors + inconclusive < queried then
+      and validSavedCount(noDetail) and validSavedCount(returned) and returned > 0
+      and validSavedCount(listed)
+      and validSavedCount(controlQueried) and controlQueried <= 1
+      and controlQueried == (listed > 0 and 1 or 0)
+      and validSavedCount(controlReturned) and controlReturned == controlQueried
+      and errors + inconclusive + noDetail + returned == queried then
       say("Prior candidate lookup retained for this catalog; /rre candidates to refresh.")
     else
       runCandidateLookup("startup")

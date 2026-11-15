@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "task": "RC-57",
+  "host": "LEGION",
+  "capturedLocal": "2026-11-11T07:27:00-05:00",
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "search": {
+    "kind": "read-only selected setter direct E8 callsite",
+    "targetSetterRva": "0x5749c0",
+    "rawCandidateCount": 1,
+    "instructionBoundaryQualifiedCount": 1,
+    "claimOfExhaustiveCalls": false
+  },
+  "verifiedRegion": {
+    "beginRva": "0x6a62b1",
+    "endRvaExclusive": "0x6a652e",
+    "bytes": 637,
+    "sha256": "e820bb56a8d8b4ed6f21d61314d40ce003e01ec4a17e3c5d795da0f2a1e1fa09",
+    "decodedInstructions": 142,
+    "peUnwindBounded": true
+  },
+  "instructions": [
+    {
+      "rva": "0x6a64ec",
+      "bytes": "e82f688d00",
+      "decoded": "call 0x140f7cd20",
+      "role": "query call"
+    },
+    {
+      "rva": "0x6a64f1",
+      "bytes": "84c0",
+      "decoded": "test al, al",
+      "role": "success test"
+    },
+    {
+      "rva": "0x6a64f3",
+      "bytes": "7421",
+      "decoded": "je 0x1406a6516",
+      "role": "skip failure"
+    },
+    {
+      "rva": "0x6a64f5",
+      "role": "read first eight bytes of query output"
+    },
+    {
+      "rva": "0x6a64fe",
+      "role": "read third value of query output"
+    },
+    {
+      "rva": "0x6a6501",
+      "bytes": "498b4e10",
+      "decoded": "mov rcx, qword ptr [r14+0x10]",
+      "role": "load setter receiver"
+    },
+    {
+      "rva": "0x6a6505",
+      "role": "form destination vector"
+    },
+    {
+      "rva": "0x6a650a",
+      "role": "form destination vector"
+    },
+    {
+      "rva": "0x6a650d",
+      "bytes": "e8aee4ecff",
+      "decoded": "call 0x1405749c0",
+      "role": "verified direct setter call"
+    },
+    {
+      "rva": "0x6a6512",
+      "bytes": "c6461801",
+      "decoded": "mov byte ptr [rsi+0x18], 1",
+      "role": "event consumed flag"
+    }
+  ],
+  "relationship": "new-build static query-success -> 12-byte result -> setter(0x5749c0) -> consumed flag; destination setter and consumer are separately qualified in RC-56; input-event meaning/owner unknown",
+  "jobs": [
+    "rre-rc57-native-newbuild-c2m-direct-call-20261111",
+    "rre-rc57-manager-original-byte-confirm-20261111"
+  ],
+  "limits": {
+    "searches": 1,
+    "readOnly": true,
+    "gameInput": false,
+    "vmAccess": false,
+    "processAttached": false,
+    "memoryWritten": false,
+    "currentPlayerOwnerConfirmed": false,
+    "physicalMovementConfirmed": false,
+    "eventButtonMeaningConfirmed": false,
+    "callbackRegistrationConfirmed": false
+  }
+}

@@ -11,8 +11,17 @@ public static class ProductionFrameCodec
 {
     public const string AddonVersion = "0.4.12";
     public const string MetadataAddonVersion = "0.4.13";
-    public const string LatestAddonVersion = "0.4.14";
-    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or LatestAddonVersion;
+    public const string ExperienceAddonVersion = "0.4.14";
+    public const string PreviousAddonVersion = "0.4.15";
+    public const string RecentAddonVersion = "0.4.16";
+    public const string FormerLatestAddonVersion = "0.4.17";
+    public const string FormerRecentAddonVersion = "0.4.18";
+    public const string NavigationAddonVersion = "0.4.19";
+    public const string QuestAddonVersion = "0.4.20";
+    public const string LatestAddonVersion = "0.4.21";
+    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
+    private static bool HasUnitMetadata(string version) => version is MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
+    private static bool HasExperience(string version) => version is ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
     public static JsonObject DecodeFrame(ReadOnlySpan<byte> bytes, string session, long sequence, bool allowContextTail = false)
     {
@@ -101,7 +110,7 @@ public static class ProductionFrameCodec
             && N("detailFailures") == 0 && N("ignored") == 0 && N("truncated") == 0, "production-count-coherence");
         var context = DataRules.Object(document["context"], "production-context");
         var keys = new HashSet<string>(["player", "target", "roleSlot", "roleNames", "clientVersion", "frameTime", "realTime", "capabilities", "scope", "stats", "statsTruncated"], StringComparer.Ordinal);
-        if (addonVersion == LatestAddonVersion) keys.Add("experience");
+        if (HasExperience(addonVersion)) keys.Add("experience");
         DataRules.Require(context.All(kv => keys.Contains(kv.Key)), "production-context-field");
         var player = DataRules.Object(context["player"], "production-player");
         Nonempty(player["id"], 128); Nonempty(player["name"], 256); Nonempty(player["calling"], 128);
@@ -116,10 +125,10 @@ public static class ProductionFrameCodec
     private static void ValidateContext(JsonObject context, string addonVersion)
     {
         string[] unitFields = ["id", "name", "calling", "level", "role", "health", "healthMax", "power", "powerMax", "mana", "manaMax", "energy", "energyMax", "charge", "spirit", "combo", "combat", "coordX", "coordY", "coordZ"];
-        if(addonVersion is MetadataAddonVersion or LatestAddonVersion) unitFields = [..unitFields, "race", "raceName", "zone"];
+        if(HasUnitMetadata(addonVersion)) unitFields = [..unitFields, "race", "raceName", "zone"];
         ScalarMap(context["player"], unitFields.Length, 2048, unitFields);
         if(context.ContainsKey("target")) ScalarMap(context["target"], unitFields.Length, 2048, unitFields);
-        var extended = addonVersion == LatestAddonVersion;
+        var extended = HasExperience(addonVersion);
         var allowedCapabilities = extended
             ? new[] { "frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats", "experience" }
             : new[] { "frameTime", "realTime", "clientVersion", "player", "target", "roleSlot", "roleList", "stats" };

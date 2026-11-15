@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import {fileURLToPath} from "node:url";
+import {canonicalRepositoryTextBytes} from "./repository-text-eol.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const inputs = Object.freeze({
  "docs/REA-RIFT-SPELLCASTING-SC604-INTERIM-MECHANISM-2026-11-01.json":"963774ae669970767b4267a10b75a835d4d24e90954a814494f3c504e695c824",
@@ -125,10 +126,10 @@ export function buildReplay(model, catalog, crosswalk, outcomes){
 }
 export function replay(){
  const [m,c,x,e]=Object.entries(inputs).map(([p,d])=>{
-  const b=raw(p);check(sha(b)===d,"Pinned input SHA mismatch: "+p);return JSON.parse(b.toString("utf8"));
+  const b=canonicalRepositoryTextBytes(raw(p));check(sha(b)===d,"Pinned input SHA mismatch: "+p);return JSON.parse(b.toString("utf8"));
  });
  for(const s of Object.values(m.sourceIndex)){
-  check(hex.test(s.sha256)&&sha(raw(s.path))===s.sha256,"Indexed source SHA mismatch: "+s.path);
+  check(hex.test(s.sha256)&&sha(canonicalRepositoryTextBytes(raw(s.path)))===s.sha256,"Indexed source SHA mismatch: "+s.path);
  }
  return buildReplay(m,c,x,e);
 }

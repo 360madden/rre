@@ -3,8 +3,9 @@
 -- Never invokes RIFT, input, SavedVariables on disk, or addon deployment.
 -- Usage: lua tools/verify-rrecollector-rc32-startup-retention.lua --expect-red
 --        lua tools/verify-rrecollector-rc32-startup-retention.lua --require-fixed
--- Expanded eight-case frozen-source expectation: 3 RED and 5 PASS in --expect-red.
--- After an authorized source fix, --require-fixed must yield 8 PASS.
+-- Frozen eight-case expectation: 3 RED and 5 PASS in --expect-red.
+-- Fixed mode adds four targeted positive-control and partial-error cases
+-- and requires all twelve cases to pass.
 --
 -- Failure is deliberately strict: changing/extracting the startup branch
 -- incompatibly requires fixture review, not an automatic green result.
@@ -84,6 +85,7 @@ local function report(kind)
     noDetail = 0,
     errors = 0,
     listedControlQueried = 0,
+    listedControlReturned = 0,
     unlistedQueried = 0,
     unlistedReturned = 0,
     inconclusiveTables = 0,
@@ -109,6 +111,7 @@ local function report(kind)
     counts.returned = 51
     counts.noDetail = 7
     counts.listedControlQueried = 1
+    counts.listedControlReturned = 1
     counts.unlistedQueried = 57
     counts.unlistedReturned = 50
     counts.skipped = 0
@@ -135,6 +138,7 @@ local function report(kind)
     counts.listedControlQueried = 1
     counts.unlistedQueried = 8
     counts.returned = kind == "listed-only" and 1 or 0
+    counts.listedControlReturned = kind == "listed-only" and 1 or 0
     counts.noDetail = kind == "listed-only" and 8 or 9
     counts.skipped = 49
   elseif kind ~= "zero-query" then
@@ -200,9 +204,9 @@ local tests = {
     frozenRed = true,
   },
   {
-    name = "error-free all-no-detail prior retained",
+    name = "all-no-detail prior must retry startup",
     saved = report("negative"),
-    expected = 0,
+    expected = mode == "--expect-red" and 0 or 1,
     frozenRed = false,
   },
   {
@@ -218,13 +222,49 @@ local tests = {
     frozenRed = true,
   },
   {
-    name = "legacy no-inconclusive-counter report retained",
+    name = "legacy no-inconclusive all-no-detail must retry",
     saved = legacySaved,
-    expected = 0,
+    expected = mode == "--expect-red" and 0 or 1,
     frozenRed = false,
   },
 }
 tests[3].saved.catalogVersion = "rc32-obsolete-catalog"
+if mode == "--require-fixed" then
+  local failedControl = report("valid")
+  failedControl.entries[1].status, failedControl.entries[1].detail = "no-detail", nil
+  failedControl.counts.listedControlReturned = 0
+  failedControl.counts.returned = failedControl.counts.returned - 1
+  failedControl.counts.noDetail = failedControl.counts.noDetail + 1
+  tests[#tests + 1] = {
+    name = "failed listed control must retry despite positive canaries",
+    saved = failedControl, expected = 1, frozenRed = false,
+  }
+  local partialError = report("valid")
+  -- One failed unlisted Detail in an otherwise coherent, positive-control batch.
+  -- A prior rejected batch must not become a cached startup success.
+  partialError.entries[40].status, partialError.entries[40].detail = "lookup-error", nil
+  partialError.counts.errors = 1
+  partialError.counts.returned = partialError.counts.returned - 1
+  partialError.counts.unlistedReturned = partialError.counts.unlistedReturned - 1
+  tests[#tests + 1] = {
+    name = "partial-error prior must retry despite positive listed control",
+    saved = partialError, expected = 1, frozenRed = false,
+  }
+  local noControl = report("valid")
+  -- Saved positive Detail counts must not hide a missing listed-control query.
+  noControl.counts.listedControlQueried = 0
+  noControl.counts.listedControlReturned = 0
+  tests[#tests + 1] = {
+    name = "listed positive catalog without control query must retry",
+    saved = noControl, expected = 1, frozenRed = false,
+  }
+  local legacyPositive = report("valid")
+  legacyPositive.counts.listedControlReturned = nil
+  tests[#tests + 1] = {
+    name = "missing positive-control counter requires fresh qualification",
+    saved = legacyPositive, expected = 1, frozenRed = false,
+  }
+end
 
 local failed, unexpected = 0, 0
 for _, test in ipairs(tests) do

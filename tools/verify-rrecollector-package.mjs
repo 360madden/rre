@@ -81,6 +81,16 @@ function verifySource() {
   assert.ok(m, "core.lua version not found");
   assert.equal(toc.version, m[1], "TOC/core version mismatch");
   assert.ok(readme.includes(`RRECollector v${toc.version}`), "TOC/README version mismatch");
+  // Future releases must show the shared VERSION in the window title and
+  // startup chat; otherwise the operator can mistake old UI for a new build.
+  const ui = fs.readFileSync(path.join(addon, "ui.lua"), "utf8");
+  const main = fs.readFileSync(path.join(addon, "main.lua"), "utf8");
+  assert.match(ui, /title:SetText\("RRE v"\s*\.\.\s*runtime\.VERSION\b/,
+    "toolbar title must display the current shared addon version");
+  assert.match(main, /local VERSION,\s*SCHEMA\s*=\s*RRECollectorRuntime\.VERSION\b/,
+    "startup version must originate from the shared addon version");
+  assert.match(main, /say\("v"\s*\.\.\s*VERSION\s*\.\.\s*" ready\. \/rre status"\)/,
+    "startup chat must display the current shared addon version");
   for (const name of toc.scripts) {
     assert.ok(fs.statSync(path.join(addon, name)).isFile(), `missing module ${name}`);
   }

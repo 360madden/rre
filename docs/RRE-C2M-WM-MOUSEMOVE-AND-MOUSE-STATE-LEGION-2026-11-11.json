@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "taskId": "RC-74",
+  "asOfLocal": "2026-11-11T12:58:00-05:00",
+  "timezone": "America/New_York",
+  "hostVerified": "LEGION",
+  "repository": {
+    "path": "C:\\work\\rre",
+    "baselineHead": "143388b067ad1bd4ccfa183ecbc4c4ffaa8f6b15",
+    "startingState": "clean",
+    "pushPerformed": false
+  },
+  "source": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBaseHex": "0x140000000",
+    "addresses": "RVAs"
+  },
+  "facts": {
+    "win32MouseMove": {
+      "messageHex": "0x0200",
+      "entryRva": "0x7C0BB0",
+      "compareRva": "0x7C0BE6",
+      "branchRva": "0x7C0BF2",
+      "branchTargetRva": "0x7C0E72",
+      "packedParamRegister": "R9 saved to R14",
+      "recordType": 3,
+      "helperRva": "0x7C0680",
+      "helperCallRva": "0x7C0ED8",
+      "recordOffsetsHex": [
+        "0x128",
+        "0x12C"
+      ],
+      "receiverOffsetsHex": [
+        "0x30",
+        "0x34"
+      ],
+      "receiverWriterRvas": [
+        "0x7C06BA",
+        "0x7C06C4"
+      ],
+      "conditionalDispatcherRva": "0x7C0F37",
+      "dispatcherRva": "0x7C0480",
+      "downstreamEventProducerRva": "0x4BD9A0",
+      "eventLiteral": "Event Mouse_Move",
+      "eventEmitterRva": "0x98E8B0",
+      "proofLevel": "original PE static dataflow, conditionally gated"
+    },
+    "separateScreenToClient": {
+      "branchRva": "0x7C1642",
+      "callRva": "0x7C16A6",
+      "iatRva": "0x25EFC60",
+      "import": "USER32!ScreenToClient",
+      "coordinateStoreRvas": [
+        "0x7C16E6",
+        "0x7C16EC"
+      ],
+      "sameAsWmMouseMoveBranch": false,
+      "selectorProven": false
+    },
+    "resultBuilder": {
+      "rvaStart": "0x9AC1D0",
+      "rvaEnd": "0x9AC832",
+      "marker": "results@mouse",
+      "markerRva": "0x26D7DB8",
+      "buttonGetterRva": "0x93B4B0",
+      "buttonGetterExpression": "zero_extend_u8(owner+0x1C0+index)",
+      "coordinateGetterRvas": {
+        "x": "0x93B4C0",
+        "y": "0x93B500"
+      },
+      "coordinateResultCallRvas": {
+        "x": "0x9AC26E",
+        "y": "0x9AC29E"
+      },
+      "scaleGetterChain": [
+        "0xFB4860",
+        "0xFAFAB0"
+      ],
+      "buttonMapping": [
+        {
+          "index": 0,
+          "recordSubcode": 1,
+          "ownerOffsetHex": "0x1C0",
+          "name": "Left",
+          "nameLiteralRva": "0x26A3F98",
+          "callRva": "0x9AC2D0"
+        },
+        {
+          "index": 1,
+          "recordSubcode": 2,
+          "ownerOffsetHex": "0x1C1",
+          "name": "Right",
+          "nameLiteralRva": "0x26A3FC8",
+          "callRva": "0x9AC3E4"
+        },
+        {
+          "index": 2,
+          "recordSubcode": 4,
+          "ownerOffsetHex": "0x1C2",
+          "name": "Middle",
+          "nameLiteralRva": "0x26D7DC8",
+          "callRva": "0x9AC4E8"
+        },
+        {
+          "index": 3,
+          "recordSubcode": 8,
+          "ownerOffsetHex": "0x1C3",
+          "name": "Mouse4",
+          "nameLiteralRva": "0x26D7DD0",
+          "callRva": "0x9AC5EC"
+        },
+        {
+          "index": 4,
+          "recordSubcode": 16,
+          "ownerOffsetHex": "0x1C4",
+          "name": "Mouse5",
+          "nameLiteralRva": "0x26D7DD8",
+          "callRva": "0x9AC6F0"
+        }
+      ],
+      "keys": {
+        "x": "0x26A65A0",
+        "y": "0x26A7E3C"
+      },
+      "proofLevel": "native x/y/five-button result and exact Inspect.Mouse/results@mouse descriptor pair; runtime dispatch edge not proven",
+      "nativeApiMetadata": {
+        "apiName": "Inspect.Mouse",
+        "nameStringRva": "0x26D7D98",
+        "nameResultPairRva": "0x2F63F48",
+        "pairFileOffset": "0x2F62548",
+        "pointerValues": [
+          "0x1426D7D98",
+          "0x1426D7DB8",
+          "0x0"
+        ],
+        "proven": "contiguous original .data native name/result pointer pair",
+        "unproven": "registration/call edge from metadata pair to exact builder RVA 0x9AC1D0",
+        "directE8CallToBuilderObserved": false
+      }
+    },
+    "addonReuse": {
+      "path": "addons/RRECollector/ui.lua",
+      "lines": "997-1039",
+      "uses": [
+        "Inspect.Mouse()",
+        "Event.Mouse.Move",
+        "Command.Event.Attach"
+      ],
+      "historicalRuntimeReport": "docs/RRECOLLECTOR-RC25-TWO-LINE-TILES-LIVE-2026-11-03.md",
+      "historicalClientNotLegionCurrent": true
+    }
+  },
+  "sourceWindows": [
+    {
+      "startRva": "0x7C0BAA",
+      "endRva": "0x7C0CA0",
+      "sizeBytes": 246,
+      "sha256": "c029d0a258fe75fbfcb5fb460522e10e6793e1ba29fb7e6616bcfbf094b96d6c"
+    },
+    {
+      "startRva": "0x7C0E72",
+      "endRva": "0x7C0F68",
+      "sizeBytes": 246,
+      "sha256": "b9213f64e06e82e5849a5ca0dc060672d266eb9f8bb8326a6f84bd650972f448"
+    },
+    {
+      "startRva": "0x7C0580",
+      "endRva": "0x7C0750",
+      "sizeBytes": 464,
+      "sha256": "20fd7114a1bf8939731de5fdea185943c785af856204882b79de1779c45910cd"
+    },
+    {
+      "startRva": "0x7C1600",
+      "endRva": "0x7C1740",
+      "sizeBytes": 320,
+      "sha256": "75f53621949975c0aa2d0214fa19f371fb46723ab129f2822475afb568a62731"
+    },
+    {
+      "startRva": "0x93B4B0",
+      "endRva": "0x93B4BC",
+      "sizeBytes": 12,
+      "sha256": "a6a26820e48ad17a8d3b0bcbd4feda1e8773c54cae8e58251079a2dc9d1504bd"
+    },
+    {
+      "startRva": "0x93B4C0",
+      "endRva": "0x93B4F2",
+      "sizeBytes": 50,
+      "sha256": "43f9f655aff92d513a768bd841ff5d7572ba18a4340f1fc005ac0b3cfd6fa2eb"
+    },
+    {
+      "startRva": "0x93B500",
+      "endRva": "0x93B532",
+      "sizeBytes": 50,
+      "sha256": "98eacdb0162a0230ac686be864f1c8e7ab96af85bdcf39a3aaecada6494b8015"
+    },
+    {
+      "startRva": "0x9AC1D0",
+      "endRva": "0x9AC832",
+      "sizeBytes": 1634,
+      "sha256": "190f28cba5e450196bb81eaee56e67a0b98886754d305e685b9b0657e194856a"
+    },
+    {
+      "startRva": "0x94CDD0",
+      "endRva": "0x94CDFB",
+      "sizeBytes": 43,
+      "sha256": "62c9248ef6d76e9445e19f12918f6f4c63521fb2e68ab13a81096734c54ae044"
+    },
+    {
+      "startRva": "0x4BD9A0",
+      "endRva": "0x4BDAC3",
+      "sizeBytes": 291,
+      "sha256": "c2261226ca4d3b35efaceaaefee0f9b36e71930555a7c9e31f1c4be53639415d"
+    },
+    {
+      "startRva": "0x2F63F40",
+      "endRva": "0x2F63F60",
+      "sizeBytes": 32,
+      "sha256": "ae323324706e2d78f60cfe5288c7a5469eb793f640934293ab0ce2413610b181"
+    },
+    {
+      "startRva": "0x26D7D90",
+      "endRva": "0x26D7DD0",
+      "sizeBytes": 64,
+      "sha256": "0f541e4263de98733260a84474fc13efae430310b05a86517d6139724cc64fa6"
+    }
+  ],
+  "verification": {
+    "managerJobs": [
+      {
+        "id": "rre-20261111-rc74-identity-001",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-event-dispatch-rvas-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-event-system-callees-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-win32-message-independent-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-wm-mousemove-helper-direct-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-wm-mousemove-final-independent-qa-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-flag-query-lua-caller-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-flag-key-literals-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-five-button-table-final-independent-qa-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-final-source-fragment-hashes-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-inspect-mouse-symbol-probe-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-inspect-mouse-registration-xref-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-inspect-mouse-table-pointers-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-inspect-mouse-builder-callsite-scan-20261111-01",
+        "exitCode": 0
+      },
+      {
+        "id": "rre-rc74-mgr-inspect-mouse-metadata-triple-qa-20261111-01",
+        "exitCode": 0
+      }
+    ],
+    "independentAgents": [
+      "rc74_mouse_upstream",
+      "rc74_camera_consumers",
+      "rc74_input_flags"
+    ],
+    "projectFilesChangedOnlyByManager": true
+  },
+  "unproven": [
+    "current physical LEGION input observation",
+    "indirect registration/call edge between Inspect.Mouse metadata and 0x9AC1D0 result builder",
+    "current addon subscriber invocation",
+    "actor movement or camera yaw/pitch",
+    "player/world XYZ change or stop",
+    "exact selector of distinct ScreenToClient branch",
+    "meaning of shared scale divisor"
+  ],
+  "next": [
+    "Resolve indirect runtime dispatch to native 0x9AC1D0 from source-proven Inspect.Mouse/results@mouse descriptor",
+    "Find a movement-specific native key/camera/actor consumer independently of Mouse_Move",
+    "Run separately authorized current LEGION runtime cross-correlation with RRECollector after load/provenance check"
+  ]
+}

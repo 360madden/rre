@@ -175,6 +175,27 @@ class M4AReplayIntegrationTest(unittest.TestCase):
                 if node.module in forbidden_imports:
                     self.fail(f"CLI imports forbidden module: {node.module}")
     
+    def test_missing_replay_contract_fields_fail_closed_without_keyerror(self):
+        spec = importlib.util.spec_from_file_location('offline_target_approach', self.CLI_PATH)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        original_contract = json.loads(self.contract_data)
+        original_corpus = json.loads(self.corpus_data)
+        for field in ('terminalStates', 'stateVocabulary', 'exactBuildSha256', 'policy'):
+            with self.subTest(missingContractField=field):
+                contract = copy.deepcopy(original_contract)
+                del contract[field]
+                result = module.replay(contract, original_corpus)
+                self.assertEqual(result['error'], 'locked-fixture-audit-failed')
+                self.assertFalse(result['ok'])
+                self.assertFalse(result['gameInputSent'])
+                self.assertEqual(result['commandsIssued'], 0)
+        corpus = copy.deepcopy(original_corpus)
+        del corpus['fixtureSetId']
+        result = module.replay(original_contract, corpus)
+        self.assertEqual(result['error'], 'locked-fixture-audit-failed')
+        self.assertFalse(result['gameInputSent'])
+
     def test_10_malformed_coordinate_in_corpus(self):
         """Test with malformed coordinate (string instead of numeric coordinate) returns ok false."""
         original = json.loads(self.corpus_data)

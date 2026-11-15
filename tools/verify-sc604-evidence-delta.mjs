@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { canonicalRepositoryTextBytes } from "./repository-text-eol.mjs";
 
 export const EXPECTED_FILES = Object.freeze([
   "REA-RIFT-SPELLCASTING-SC102-UI-SPELLDUMP-2026-11-02.md",
@@ -67,7 +68,7 @@ export function verifyDeltaOnDisk() {
   return verifyDeltaMarkdown(markdown, basename => {
     const url = new URL("../docs/" + basename, import.meta.url);
     if (!fs.lstatSync(url).isFile()) throw new Error("SC604 source is not a regular file");
-    return fs.readFileSync(url);
+    return canonicalRepositoryTextBytes(fs.readFileSync(url));
   });
 }
 

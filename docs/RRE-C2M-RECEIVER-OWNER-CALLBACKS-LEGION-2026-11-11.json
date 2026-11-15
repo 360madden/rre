@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "kind": "rre-native-input-receiver-evidence",
+  "milestone": "RC-68",
+  "observedDate": "2026-11-11",
+  "host": "LEGION",
+  "researchMode": "static-original-pe-and-source-only",
+  "originalPe": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "imageBase": "0x140000000",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8"
+  },
+  "findings": [
+    {
+      "id": "owner-pointer-chain",
+      "status": "source-proven",
+      "relationship": [
+        "globalRoot+0x350",
+        "owner (outer+0x1B8)",
+        "owner+0",
+        "input receiver"
+      ],
+      "evidence": [
+        {
+          "rva": "0x772DC9",
+          "instruction": "call 0x49A020",
+          "meaning": "global root getter"
+        },
+        {
+          "rva": "0x772DD3",
+          "instruction": "mov rdx,qword ptr [rcx+0x1B8]",
+          "meaning": "loads outer owner pointer"
+        },
+        {
+          "rva": "0x772DDD",
+          "instruction": "call 0x77E410",
+          "meaning": "sets root pointer"
+        },
+        {
+          "rva": "0x77E410",
+          "instruction": "mov qword ptr [rcx+0x350],rdx"
+        },
+        {
+          "rva": "0x772DF4",
+          "instruction": "mov rcx,qword ptr [rax+0x1B8]"
+        },
+        {
+          "rva": "0x772DFB",
+          "instruction": "call 0x79A590",
+          "meaning": "passes owner to receiver constructor caller"
+        }
+      ],
+      "runtimeActivePlayerIdentityProven": false
+    },
+    {
+      "id": "receiver-listener-notification",
+      "status": "source-proven",
+      "receiverDataOffset": "0xA41",
+      "receiverListenerGateOffset": "0x10",
+      "incomingPayloadOffset": "0x19",
+      "payloadBytes": 256,
+      "optionalFilterVtableOffset": "0x10",
+      "callbackVtableOffset": "0x08",
+      "callbackRecordArgumentRegister": "RDX",
+      "sourceRvas": [
+        "0x7C1B74",
+        "0x7C1B79",
+        "0x7C1C5B",
+        "0x7C1C6C",
+        "0x7C1CB9",
+        "0x7C1CC9"
+      ],
+      "movementConsumerIdentified": false
+    },
+    {
+      "id": "addon-observation",
+      "status": "source-capability-only",
+      "sourceVersion": "0.4.19",
+      "captureMode": "manual",
+      "optionalUnitFields": [
+        "coordX",
+        "coordY",
+        "coordZ"
+      ],
+      "clocks": [
+        "frameTime",
+        "realTime"
+      ],
+      "physicalKeyboardTransitionsSupported": false,
+      "continuousPositionSamplingSupported": false,
+      "readerSupportsVersion": true,
+      "readerOfflineRegressionPresent": true,
+      "gameLoadVerified": false
+    }
+  ],
+  "windows": [
+    {
+      "start": "0x772DC0",
+      "endExclusive": "0x772E27",
+      "bytes": 103,
+      "instructions": 24,
+      "sha256": "4dfcc44cebb1e12c7dd6a878e15599366d6ba456d270b0164ecec9db28c0988d"
+    },
+    {
+      "start": "0x77E410",
+      "endExclusive": "0x77E418",
+      "bytes": 8,
+      "instructions": 2,
+      "sha256": "85307e7dc88d2f6e162ce491e825ad427671ea63a6d1013ce53dd83e1ebd1bc8",
+      "unwindPdataPresent": false
+    },
+    {
+      "start": "0x7C1AD0",
+      "endExclusive": "0x7C1B7F",
+      "bytes": 175,
+      "instructions": 44,
+      "sha256": "967e6ae9c1220e9c8c5a3d72b9360710ac37d25a8d126f9eb00ba91caa0ef0a5"
+    },
+    {
+      "start": "0x7C1B7F",
+      "endExclusive": "0x7C1BA3",
+      "bytes": 36,
+      "instructions": 6,
+      "sha256": "869637d1a2c144884bfc2be6f851c4a29c6c3283b8c3515b912c1f1f29f592df"
+    },
+    {
+      "start": "0x7C1BA3",
+      "endExclusive": "0x7C1C53",
+      "bytes": 176,
+      "instructions": 47,
+      "sha256": "9830306d14cdec382ea8c14363d56b0952484dd8d95a4a26c58ea491d8241c70"
+    },
+    {
+      "start": "0x7C1C53",
+      "endExclusive": "0x7C1CF3",
+      "bytes": 160,
+      "instructions": 48,
+      "sha256": "b0ae0c6a9a2689bfc914794d28a450e4dc9569a31caba89243c1bfb4d9e718f4"
+    },
+    {
+      "start": "0x7C1CF3",
+      "endExclusive": "0x7C1D32",
+      "bytes": 63,
+      "instructions": 18,
+      "sha256": "7084ddc6c9c81b6606d7229eb93698146e2c8e7c11ca040227a47424a87e5236"
+    }
+  ],
+  "negativeChecks": [
+    {
+      "target": "0x7C3C90",
+      "directCallCount": 3,
+      "callSites": [
+        "0x7C9846",
+        "0x7C987E",
+        "0x7C9B4D"
+      ],
+      "interpretation": "conditional evaluators only, no movement owner proved"
+    },
+    {
+      "targets": [
+        "0xFB6C5F",
+        "0xFB51BF",
+        "0xFB6D6D"
+      ],
+      "directE8Rel32Matches": 0,
+      "interpretation": "fragment starts, not reachability assertion"
+    }
+  ],
+  "receipts": {
+    "manager": "rre-rc68-manager-independent-callback-owner-20261111-01",
+    "owner": [
+      "rre-rc68-owner-caller-79a590-e8scan-20261111-01",
+      "rre-rc68-owner-caller-772dc0-full-20261111-01",
+      "rre-rc68-owner-root-link-leaf8-sha-20261111-01"
+    ],
+    "predicate": [
+      "rre-rc68-a-predicate-direct-call-index-20261111-01",
+      "rre-rc68-a-two-predicate-caller-windows-20261111-01"
+    ],
+    "addon": "rre-rc68-addon-audit-host-20261111-01"
+  },
+  "unproven": [
+    "runtime active player binding",
+    "physical keyboard action meaning of numeric types",
+    "specific movement/stop callback consumer",
+    "synthetic input acceptance",
+    "physical game v0.4.19 load/capture",
+    "passive input-to-position causal correlation"
+  ],
+  "next": [
+    "bounded listener registration/vtable identity",
+    "separately approved physical snapshot/movement trace",
+    "offline reader v0.4.19 production check"
+  ],
+  "limitations": [
+    "static source only",
+    "no game input or process/UI/VM actions",
+    "no remote push"
+  ]
+}

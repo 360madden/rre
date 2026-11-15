@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "milestone": "RC-70",
+  "date": "2026-11-11",
+  "host": "LEGION",
+  "mode": "original-pe-static-read-only",
+  "originalPe": {
+    "path": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sizeBytes": 60493640,
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "imageBase": "0x140000000"
+  },
+  "findings": [
+    {
+      "id": "queue-drain-unique-direct-callsite",
+      "status": "source-proven",
+      "directE8CallSites": [
+        "0xFCA473"
+      ],
+      "syntacticRawDirectCallCount": 1,
+      "globalRootGetterSite": "0xFCA2D1",
+      "rootHeldRegister": "R14",
+      "receiverGetterCalls": [
+        "0xFCA45E",
+        "0xFCA46B"
+      ],
+      "nullCheck": "0xFCA463",
+      "nullBranch": "0xFCA466",
+      "drainTarget": "0x7C1D40",
+      "receiverGetterRva": "0x54F7C0",
+      "receiverGetterChain": [
+        "[rcx+0x350]",
+        "[owner+0]"
+      ],
+      "eventTimingProven": false
+    },
+    {
+      "id": "receiver-teardown",
+      "status": "source-proven",
+      "outerCleanupRva": "0x779140",
+      "ownerCleanupRva": "0x7933C0",
+      "receiverCleanupRva": "0x7C0340",
+      "ownerReceiverField": "0x00",
+      "receiverAllocationSizeBytes": 2888,
+      "receiverFreeCallSite": "0x7936E4",
+      "ownerReceiverZeroSite": "0x7936E9",
+      "outerGlobalRootZeroSite": "0x779365",
+      "listSentinelOffsets": [
+        "0x08",
+        "0x18"
+      ],
+      "buffersFreed": true,
+      "allocatorInternalsProven": false
+    },
+    {
+      "id": "listener-list-layout-correction",
+      "status": "source-proven-with-probable-field-meaning",
+      "previousIncorrectClaim": "receiver+0x10 is callback root pointer",
+      "correctedListSentinelOffset": "0x08",
+      "secondListSentinelOffset": "0x18",
+      "adjacentZeroFieldOffsets": [
+        "0x10",
+        "0x20"
+      ],
+      "adjacentFieldProbableInterpretation": "MSVC list size/count",
+      "numericMeaningDefinitivelyProven": false,
+      "listInsertionSiteFound": false,
+      "listenerVtableCallback": "0x08",
+      "movementListenerIdentified": false
+    }
+  ],
+  "sourceWindows": [
+    {
+      "start": "0xFCA0D0",
+      "endExclusive": "0xFCAE98",
+      "bytes": 3528,
+      "instructions": 865,
+      "sha256": "35e7e89ce4795d13eec2de00b64d2b7ce9e23f772bbf5582e60a83e2d3d72cd6"
+    },
+    {
+      "start": "0x54F7C0",
+      "endExclusive": "0x54F7D1",
+      "bytes": 17,
+      "instructions": 6,
+      "sha256": "66a56a6b070f8087cdd68637f4dab49dbd8fbdd6b6107b0599340b36f2d93d64",
+      "pdataPresent": false
+    },
+    {
+      "start": "0x7933C0",
+      "endExclusive": "0x793751",
+      "bytes": 913,
+      "instructions": 218,
+      "sha256": "0c58476387a692b289ecc057fe8ee894c234fe6613b10f10c0758e7321d145fe"
+    },
+    {
+      "start": "0x7C0340",
+      "endExclusive": "0x7C047D",
+      "bytes": 317,
+      "instructions": 79,
+      "sha256": "b0b48f625094ce1d69595973c827797942df8ba6293b3af523dae33dc876bd7e"
+    },
+    {
+      "start": "0x7C00A0",
+      "endExclusive": "0x7C016A",
+      "bytes": 202,
+      "instructions": 48,
+      "sha256": "91dd527b1562b535ed21c3675fde7a711f04b40f30416a55e894d4979b7cee2a"
+    }
+  ],
+  "verification": {
+    "manager": "rre-rc70-manager-independent-five-window-qa-20261111-01",
+    "managerOtherJobs": [
+      "rre-rc70-manager-drain-direct-caller-scan-20261111-01",
+      "rre-rc70-manager-drain-one-caller-full-source-20261111-01",
+      "rre-rc70-manager-drain-root-register-trace-20261111-01",
+      "rre-rc70-manager-receiver-dtor-drain-getter-20261111-01"
+    ],
+    "agentJobs": [
+      "rre-rc70-lane-a-receiver-constructor-owner-source-20261111-01",
+      "rre-rc70-b-ctor-list-sentinel-and-size-20261111-01",
+      "rre-rc70-lane-c-owner-teardown-callee-7933c0-20261111-01",
+      "rre-rc70-lane-c-owner-zero-value-proof-20261111-01"
+    ]
+  },
+  "unproven": [
+    "physical gameplay movement/stop",
+    "native listener registration/list count writer",
+    "which listener changes player movement",
+    "exact update-cycle timing of drain call",
+    "active local player identity in live session"
+  ],
+  "next": [
+    "anchored list insertion and +0x10 field update",
+    "source-qualified movement listener vtable",
+    "separately approved timestamped physical position/input correlation"
+  ],
+  "scope": {
+    "otherHostAccess": false,
+    "vmAccess": false,
+    "gameInput": false,
+    "processAttach": false,
+    "remotePush": false
+  }
+}

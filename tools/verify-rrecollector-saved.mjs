@@ -4,10 +4,79 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { parseSavedLua, buildAbilityCrosswalk, assessSnapshotForComparison } from "./read-rrecollector-saved.mjs";
+import { exportSavedSnapshot } from "./rre-reader-saved-snapshot.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const staticCatalog = JSON.parse(fs.readFileSync(
   path.join(root,"docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json"),"utf8"));
+
+const refSource = (assignments, body = '{counts=ref[1],attempt={counts=ref[1]}}', count = 1,
+  assignment = 'RRECollectorData') => `local ref = {}\nfor k=1,${count} do ref[k] = {} end\n${assignments}\n${assignment}=${body}`;
+test('RIFT shared-counter prologue decodes as bounded data without executing Lua', () => {
+  const parsed = parseSavedLua(refSource('ref[1].mapFailures=0\nref[1].available=false'));
+  assert.equal(parsed.counts.mapFailures, 0); assert.equal(parsed.counts.available, false);
+  assert.deepEqual(parsed.counts, parsed.attempt.counts);
+  assert.notEqual(parsed.counts, parsed.attempt.counts);
+  assert.equal(Object.getPrototypeOf(parsed.counts), null);
+});
+test('reference fields resolve after all writes and preserve keyed and empty shapes', () => {
+  const parsed = parseSavedLua(refSource('ref[1].later=ref[2]\nref[2].name="late"\nref[2][1]=false',
+    '{data=ref[1],empty=ref[3],literal={ref=1}}', 3));
+  assert.equal(parsed.data.later.name, 'late'); assert.equal(parsed.data.later['1'], false);
+  assert.ok(Array.isArray(parsed.empty)); assert.equal(parsed.empty.length, 0);
+  assert.equal(parsed.literal.ref, 1);
+});
+test('reference objects do not mutate JavaScript prototypes', () => {
+  const parsed = parseSavedLua(refSource('ref[1]["__proto__"]={polluted=true}\nref[1].constructor=0'));
+  assert.equal(Object.getPrototypeOf(parsed.counts), null);
+  assert.equal(parsed.counts.__proto__.polluted, true);
+  assert.equal({}.polluted, undefined);
+  assert.equal(parsed.counts.constructor, 0);
+});
+test('reference allocator recognizes only its fixed declaration and loop grammar', () => {
+  const valid = refSource('ref[1].n=0');
+  for (const changed of [valid.replace('local ref', 'local other'),
+    valid.replace('k=1,1', 'k=0,1'), valid.replace('k=1,1', 'k=1,0'),
+    valid.replace('k=1,1', 'k=1,01'), valid.replace('k=1,1', 'k=1,16385'),
+    valid.replace('ref[k] = {}', 'ref[k] = run_game()'),
+    valid.replace('do ref[k]', 'do notify(); ref[k]'),
+    valid.replace('end\n', 'end; run_game()\n')])
+    assert.throws(() => parseSavedLua(changed), /Unsupported SavedVariables/);
+});
+test('references require declared positive integer slots and unique field assignments', () => {
+  for (const body of ['{x=ref[0]}', '{x=ref[-1]}', '{x=ref[2]}', '{x=ref[1.0]}',
+    '{x=ref[1+0]}', '{x=ref[1].n}'])
+    assert.throws(() => parseSavedLua(refSource('ref[1].n=0', body)), /Unsupported SavedVariables/);
+  assert.throws(() => parseSavedLua('RRECollectorData={x=ref[1]}'), /undeclared/);
+  for (const writes of ['ref[1].n=0\nref[1]["n"]=1', 'ref[1]={n=0}',
+    'ref[1].n=os.execute("anything")', 'ref[1].n=function() end'])
+    assert.throws(() => parseSavedLua(refSource(writes)), /Unsupported SavedVariables/);
+});
+test('self and mutual reference cycles are rejected including unused tables', () => {
+  for (const source of [refSource('ref[1].self=ref[1]'),
+    refSource('ref[1].other=ref[2]\nref[2].other=ref[1]', '{unused=true}', 2)])
+    assert.throws(() => parseSavedLua(source), /cyclic table reference/);
+});
+test('reference expansion enforces depth and expanded node count', () => {
+  const chain = Array.from({length: 49}, (_, i) => `ref[${i + 1}].next=ref[${i + 2}]`).join('\n');
+  assert.throws(() => parseSavedLua(refSource(chain, '{x=ref[1]}', 50)), /expanded table nesting/);
+  const tree = Array.from({length: 16}, (_, i) => `ref[${i + 1}].a=ref[${i + 2}]\nref[${i + 1}].b=ref[${i + 2}]`).join('\n');
+  assert.throws(() => parseSavedLua(refSource(tree + '\nref[17].n=0', '{x=ref[1]}', 17)), /expanded value limit/);
+});
+test('reference expansion bounds repeated large string values and keys per occurrence', () => {
+  const body = '{a=ref[1],b=ref[1],c=ref[1],d=ref[1],e=ref[1]}';
+  assert.throws(() => parseSavedLua(refSource('ref[1].name="' + 'x'.repeat(500_000) + '"', body)), /expanded string and key byte limit/);
+  assert.throws(() => parseSavedLua(refSource('ref[1]["' + 'k'.repeat(500_000) + '"]=0', body)), /expanded string and key byte limit/);
+});
+test('reference encoding keeps exact root contracts and rejects trailing executable code', () => {
+  const source = refSource('ref[1].n=0');
+  assert.throws(() => parseSavedLua(source + '\nRRECollectorData={}'), /trailing code/);
+  assert.throws(() => parseSavedLua(source + '\nrun_game()'), /trailing code/);
+  const casting = refSource('ref[1].n=0', '{sample=ref[1]}', 1, 'RiftReader2CastingEvidence');
+  assert.equal(parseSavedLua(casting, 'RiftReader2CastingEvidence').sample.n, 0);
+  assert.throws(() => parseSavedLua(casting), /unexpected SavedVariables assignment/);
+  assert.throws(() => parseSavedLua(source, 'OtherGlobal'), /assignment contract/);
+});
 
 test("SavedVariables literal parser retains 0/false and escaped physical newlines", () => {
   const id = staticCatalog.records[0].id;
@@ -207,4 +276,33 @@ test("explicit one-based Lua ability keys pass the offline structure gate", () =
   const result = assessSnapshotForComparison(saved);
   assert.equal(result.offlineStructureQualified,true);
   assert.equal(result.eventComparisonReady,false);
+});
+
+test("saved reader rejects malformed raw ability fields before the crosswalk drops them", () => {
+  const bad = 'RRECollectorData = {addonVersion="0.4.14", sequence=7, latest={addonVersion="0.4.14", sequence=7, captureComplete=true, abilityList={apiAvailable=true, enumerationComplete=true, detailFailures=0, ignored=0, truncated=0, uniqueCount=1, detailCount=1, rawEntries=1}, player={id="uFIXTURE", name="Fixture"}, roleSlot=1, frameTime=10, realTime=20, capabilities={player=true, experience=false}, abilities={{lookupId="A0000000100000000", name="Fixture", passive={}}}}}';
+  assert.throws(() => exportSavedSnapshot(Buffer.from(bad)), /ability-field-not-scalar/);
+  const corrected = Buffer.from(bad.replace("passive={}", "passive=false, cooldown=0"));
+  const result = exportSavedSnapshot(corrected);
+  assert.equal(result.structure.offlineStructureQualified, true);
+  assert.equal(result.abilities[0].passive, false);
+  assert.equal(result.abilities[0].cooldown, 0);
+});
+
+const decodeDecimal = body => parseSavedLua('RRECollectorData={name="' + body + '"}').name;
+test("Lua decimal escapes reconstruct UTF-8 bytes without mojibake", () => {
+  assert.equal(decodeDecimal(String.raw`Caf\195\169`), "Café");
+  assert.equal(decodeDecimal(String.raw`São \240\159\152\128`), "São 😀");
+  assert.equal(decodeDecimal(String.raw`one\n\t\r\\\"`), "one\n\t\r\\\"");
+});
+test("invalid decimal-escaped UTF-8 rejects instead of inventing characters", () => {
+  assert.throws(() => decodeDecimal(String.raw`bad\256`), /decimal escape out of range/);
+  assert.throws(() => decodeDecimal(String.raw`bad\195`), /invalid UTF-8 in quoted string/);
+});
+test("SavedSource export preserves escaped UTF-8 names plus false and zero", () => {
+  const capture = Buffer.from(String.raw`RRECollectorData = {addonVersion="0.4.14", sequence=7, latest={addonVersion="0.4.14", sequence=7, captureComplete=true, abilityList={apiAvailable=true, enumerationComplete=true, detailFailures=0, ignored=0, truncated=0, uniqueCount=1, detailCount=1, rawEntries=1}, player={id="uFIXTURE", name="Caf\195\169"}, roleSlot=1, frameTime=10, realTime=20, capabilities={player=true, experience=false}, abilities={{lookupId="A0000000100000000", name="São \240\159\152\128", passive=false, cooldown=0}}}}`);
+  const snapshot = exportSavedSnapshot(capture);
+  assert.equal(snapshot.context.player.name, "Café");
+  assert.equal(snapshot.abilities[0].name, "São 😀");
+  assert.equal(snapshot.abilities[0].passive, false);
+  assert.equal(snapshot.abilities[0].cooldown, 0);
 });

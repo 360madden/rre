@@ -1,5 +1,5 @@
 // Read-only RRECollector SavedVariables decoder. Lua values are parsed, never executed.
-import fs from "node:fs";
+import {readStableOriginal} from "./read-stable-original.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -18,12 +18,25 @@ const DETAILS = [
   "gainCharge", "racial", "icon", "focusMin", "focusMax"
 ];
 
-export function parseSavedLua(input) {
-  if (typeof input !== "string" || input.length > MAX_CHARS) {
+export function parseSavedLuaBytes(bytes, expectedAssignment = "RRECollectorData") {
+  if (!(bytes instanceof Uint8Array)) throw new Error("SavedVariables input must be bytes");
+  return parseSavedLua(new TextDecoder("utf-8", { fatal: true }).decode(bytes), expectedAssignment);
+}
+
+export function parseSavedLua(input, expectedAssignment = "RRECollectorData") {
+  if (!["RRECollectorData", "RiftReader2CastingEvidence"].includes(expectedAssignment)) {
+    throw new Error("Unsupported SavedVariables assignment contract");
+  }
+  const casting = expectedAssignment === "RiftReader2CastingEvidence";
+  const maxChars = casting ? 32_000_000 : MAX_CHARS;
+  const maxValues = casting ? 4_000_000 : MAX_VALUES;
+  if (typeof input !== "string" || input.length > maxChars) {
     throw new Error("SavedVariables input missing or too large");
   }
   const src = input.charCodeAt(0) === 0xfeff ? input.slice(1) : input;
   let i = 0, depth = 0, values = 0;
+  let references = null;
+  const referenceTables = new WeakSet();
   const fail = what => { throw new Error("Unsupported SavedVariables Lua at offset " + i + ": " + what); };
   function skip() {
     for (;;) {
@@ -43,27 +56,60 @@ export function parseSavedLua(input) {
     if (src[i] !== c) fail("expected " + c);
     i++;
   }
+  function word(expected) {
+    skip();
+    if (identifier() !== expected) fail("unexpected reference prologue token");
+  }
+  function positiveInteger() {
+    skip();
+    const match = /^[1-9][0-9]*/.exec(src.slice(i));
+    if (!match) fail("positive integer expected");
+    i += match[0].length;
+    const n = Number(match[0]);
+    if (!Number.isSafeInteger(n)) fail("reference integer out of range");
+    return n;
+  }
+  function reference() {
+    if (references === null) fail("undeclared table reference");
+    expect("[");
+    const index = positiveInteger();
+    expect("]");
+    if (index > references.length) fail("table reference out of range");
+    return references[index - 1];
+  }
   function quoted() {
     const delim = src[i++];
-    let result = "";
-    const special = {n:"\n",r:"\r",t:"\t",a:"\x07",b:"\b",f:"\f",v:"\v"};
+    const bytes = [];
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder("utf-8", {fatal:true});
+    let rawStart = i;
+    function appendRaw(end) {
+      for (const byte of encoder.encode(src.slice(rawStart, end))) bytes.push(byte);
+    }
+    const special = {n:10,r:13,t:9,a:7,b:8,f:12,v:11};
     while (i < src.length) {
       const c = src[i++];
-      if (c === delim) return result;
+      if (c === delim) {
+        appendRaw(i - 1);
+        try { return decoder.decode(Uint8Array.from(bytes)); }
+        catch { fail("invalid UTF-8 in quoted string"); }
+      }
       if (c === "\n" || c === "\r") fail("unescaped newline in quoted string");
-      if (c !== "\\") { result += c; continue; }
+      if (c !== "\\") continue;
+      appendRaw(i - 1);
       if (i >= src.length) fail("unterminated escape");
       let e = src[i++];
       if (/[0-9]/.test(e)) {
         while (i < src.length && e.length < 3 && /[0-9]/.test(src[i])) e += src[i++];
         const n = Number(e);
         if (n > 255) fail("decimal escape out of range");
-        result += String.fromCharCode(n);
-      } else if (e === delim || e === "\\") result += e;
-      else if (e === "\n") result += "\n";
-      else if (e === "\r") { if (src[i] === "\n") i++; result += "\n"; }
-      else if (Object.hasOwn(special, e)) result += special[e];
+        bytes.push(n);
+      } else if (e === delim || e === "\\") bytes.push(e.charCodeAt(0));
+      else if (e === "\n") bytes.push(10);
+      else if (e === "\r") { if (src[i] === "\n") i++; bytes.push(10); }
+      else if (Object.hasOwn(special, e)) bytes.push(special[e]);
       else fail("unsupported escape");
+      rawStart = i;
     }
     fail("unterminated quoted string");
   }
@@ -77,7 +123,7 @@ export function parseSavedLua(input) {
   }
   function value() {
     skip();
-    if (++values > MAX_VALUES) fail("value limit exceeded");
+    if (++values > maxValues) fail("value limit exceeded");
     if (src[i] === "{") return table();
     if (src[i] === '"' || src[i] === "'") return quoted();
     if (/[0-9+.\-]/.test(src[i] || "")) return number();
@@ -85,6 +131,7 @@ export function parseSavedLua(input) {
     if (v === "true") return true;
     if (v === "false") return false;
     if (v === "nil") return null;
+    if (v === "ref") return reference();
     fail("only literal Lua values allowed");
   }
   function table() {
@@ -130,14 +177,83 @@ export function parseSavedLua(input) {
     }
     return keyed;
   }
+  function referencePrologue() {
+    // Recognize the serializer's declaration; no Lua statements are evaluated.
+    word("local"); word("ref"); expect("="); expect("{"); expect("}");
+    word("for"); word("k"); expect("=");
+    if (positiveInteger() !== 1) fail("reference allocation must start at one");
+    expect(","); const count = positiveInteger();
+    if (count > 16384 || count > maxValues) fail("reference table limit exceeded");
+    word("do"); word("ref"); expect("["); word("k"); expect("]");
+    expect("="); expect("{"); expect("}"); word("end");
+    references = Array.from({length: count}, () => {
+      const table = Object.create(null); referenceTables.add(table); return table;
+    });
+    for (;;) {
+      skip();
+      if (!/^ref\b/.test(src.slice(i))) break;
+      word("ref"); const target = reference();
+      skip(); let key;
+      if (src[i] === ".") { i++; skip(); key = identifier(); }
+      else {
+        expect("["); key = value(); expect("]");
+        if (typeof key !== "string" && typeof key !== "number") fail("invalid reference field key");
+      }
+      expect("=");
+      const name = String(key);
+      if (Object.hasOwn(target, name)) fail("duplicate reference field");
+      target[name] = value();
+      skip(); if (src[i] === ";") i++;
+    }
+  }
+  function expandReferences(root) {
+    const checked = new WeakSet(), visiting = new WeakSet();
+    function check(value, level) {
+      if (value === null || typeof value !== "object") return;
+      if (level > MAX_DEPTH) fail("expanded table nesting limit exceeded");
+      if (visiting.has(value)) fail("cyclic table reference");
+      if (checked.has(value)) return;
+      visiting.add(value);
+      for (const child of Object.values(value)) check(child, level + 1);
+      visiting.delete(value); checked.add(value);
+    }
+    for (const table of references) check(table, 1);
+    check(root, 1);
+    let expandedValues = 0, expandedTextBytes = 0;
+    const chargeText = text => {
+      expandedTextBytes += Buffer.byteLength(text);
+      if (expandedTextBytes > maxChars) fail("expanded string and key byte limit exceeded");
+    };
+    function copy(value, level) {
+      if (++expandedValues > maxValues) fail("expanded value limit exceeded");
+      if (typeof value === "string") chargeText(value);
+      if (value === null || typeof value !== "object") return value;
+      if (level > MAX_DEPTH) fail("expanded table nesting limit exceeded");
+      const entries = Object.entries(value);
+      const array = Array.isArray(value) || referenceTables.has(value) && entries.length === 0;
+      const result = array ? [] : Object.create(null);
+      for (const [key, child] of entries) {
+        chargeText(key);
+        result[key] = copy(child, level + 1);
+      }
+      return result;
+    }
+    return copy(root, 1);
+  }
   skip();
-  if (identifier() !== "RRECollectorData") fail("unexpected SavedVariables assignment");
+  if (/^local\b/.test(src.slice(i))) referencePrologue();
+  skip();
+  if (identifier() !== expectedAssignment) fail("unexpected SavedVariables assignment");
   expect("=");
-  const data = value();
+  let data = value();
   skip();
   if (src[i] === ";") { i++; skip(); }
   if (i !== src.length || !data || Array.isArray(data) || typeof data !== "object") {
     fail("trailing code or invalid root");
+  }
+  if (references !== null) {
+    data = expandReferences(data);
+    if (Array.isArray(data)) fail("invalid root");
   }
   return data;
 }
@@ -286,10 +402,19 @@ if (invoked) {
     process.stderr.write("Usage: node tools/read-rrecollector-saved.mjs <RRECollector.lua> [static catalog JSON]\n");
     process.exitCode = 2;
   } else {
-    const bytes = fs.readFileSync(savedFile);
-    const saved = parseSavedLua(bytes.toString("utf8"));
-    const staticCatalog = JSON.parse(fs.readFileSync(staticFile,"utf8"));
-    const digest = crypto.createHash("sha256").update(bytes).digest("hex");
-    process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
+    try {
+      const bytes = readStableOriginal(savedFile);
+      const saved = parseSavedLuaBytes(bytes);
+      const staticCatalog = JSON.parse(readStableOriginal(staticFile).toString("utf8"));
+      const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+      process.stdout.write(JSON.stringify(buildAbilityCrosswalk(saved,staticCatalog,digest)) + "\n");
+    } catch (error) {
+      // Raw Node errors and parser diagnostics can reveal account paths or source text.
+      const reason = error?.code === "ENOENT" ? "saved-file-not-found"
+        : error?.code === "EACCES" || error?.code === "EPERM"
+          ? "saved-file-unreadable" : "saved-input-invalid";
+      process.stderr.write(JSON.stringify({error: reason}) + "\n");
+      process.exitCode = 2;
+    }
   }
 }

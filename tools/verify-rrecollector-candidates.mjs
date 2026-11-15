@@ -58,7 +58,7 @@ test("RIFT TOC metadata and dependency order are complete", () => {
   const scripts = [...toc.matchAll(/^\s+"([^"]+\.lua)",?$/gm)].map(m=>m[1]);
   assert.deepEqual(scripts, [
     "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-    "candidate_catalog.lua", "candidates.lua", "ui.lua", "main.lua"
+    "candidate_catalog.lua", "candidates.lua", "wire.lua", "ui.lua", "main.lua"
   ]);
   for (const s of scripts) assert.ok(fs.existsSync(path.join(root,"addons/RRECollector",s)));
 });
@@ -77,6 +77,16 @@ test("candidate probe remains bounded, guarded and separate from known/probe dat
   assert.match(main, /elseif action == "candidates"/);
   assert.match(main, /runCandidateLookup\("startup"\)/);
   assert.match(main, /prior\.catalogVersion == candidateVersion/);
+  // Prevent recording a nil-only Detail batch or hiding a failed known-ability control.
+  assert.match(candidateLua, /listedControlReturned = 0/);
+  assert.match(candidateLua, /counts\.listedControlReturned = counts\.listedControlReturned \+ 1/);
+  assert.match(main, /detail-no-positive-result/);
+  assert.match(main, /detail-listed-control-unverified/);
+  assert.match(main, /counts\.errors \+ counts\.inconclusiveTables \+ counts\.noDetail/);
+  assert.match(main, /controlReturned == controlQueried/);
+  assert.match(main, /validSavedCount\(errors\) and errors == 0/);
+  assert.match(main, /counts\.listedControlQueried == \(counts\.listed > 0 and 1 or 0\)/);
+  assert.match(main, /controlQueried == \(listed > 0 and 1 or 0\)/);
   assert.doesNotMatch(candidateLua, /Command\.(?:Ability|Unit|Input|System|Focus)/);
 });
 

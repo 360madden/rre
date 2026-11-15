@@ -22,6 +22,29 @@ public static class ProductionChecks
         ProductionPublication Decode(JsonObject doc) => ProductionFrameCodec.Assemble(Frames(Bytes(doc),DataRules.Text(doc["addonVersion"],"fixture-version")).Select(b => ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2)).ToList());
         void BadDoc(string name, Action<JsonObject> mutate) { Reject(name, () => { var d = Document(); mutate(d); Decode(d); }); }
         void BadBody(string name, Action<JsonObject> mutate) { Reject(name, () => { var b = Frames(Bytes(Document()))[0]; mutate(b); ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2); }); }
+        Accept("LEGION rejects Lab2 before acquisition", () =>
+        {
+            foreach (var host in new[] { "LEGION", "legion", "Legion" })
+            {
+                try { Program.RequireSourceHost("lab2", host); }
+                catch (ReaderFailure e) when (e.Message == "legion-physical-only") { continue; }
+                throw new Exception("LEGION Lab2 source was not rejected: " + host);
+            }
+        });
+        Accept("LEGION offline sources stay available", () =>
+        {
+            foreach (var source in new[] { "saved", "memory-scan", "native-snapshot", "publication" })
+                Program.RequireSourceHost(source, "LEGION");
+        });
+        Accept("other host retains explicitly scoped Lab2 route", () => Program.RequireSourceHost("lab2", "AMD-DESKTOP"));
+        Accept("doctor tolerates absent Node executable", () =>
+        {
+            var repo = Environment.CurrentDirectory;
+            var absent = Path.Combine(repo, "rre-missing-node-" + Guid.NewGuid().ToString("N") + ".exe");
+            var probe = Program.ProbeNodeAsync(repo, absent).GetAwaiter().GetResult();
+            if (probe.Available || probe.Version is not null)
+                throw new Exception("missing Node executable reported available");
+        });
         Accept("production Unicode false zero and target survive", () =>
         {
             var p = Decode(Document()); var r = p.Abilities[0]!;
@@ -51,6 +74,100 @@ public static class ProductionChecks
         Reject("production mixed supported frame versions rejected",()=>{var d=Document();d["abilities"]![0]!["description"]=new string('x',4096);var b=Frames(Bytes(d));b[1]["addonVersion"]="0.4.13";ProductionFrameCodec.Assemble(b);});
         Reject("production0413 undocumented decoration rejected",()=>{var d=Document("0.4.13");d["context"]!["player"]!["decoration"]=1704;Decode(d);});
         Accept("production0413 native carrier reports actual producer version",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.13")[0];var(r,s)=NativeChecks.Fixture(Wire(b));var c=NativeSnapshotSource.Decode(Bytes(s),Bytes(r),Session,2);if(c.Evidence["producerVersion"]!.GetValue<string>()!="0.4.13")throw new Exception("wrong version");});
+        Accept("production0421 diagnostic release preserves ability and Experience wire contract", () =>
+        {
+            var d=Document("0.4.21");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=78};
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.21" || p.Abilities.Count!=1
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=78)
+                throw new Exception("v21 ability/Experience regression");
+        });
+        BadDoc("production0421 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.21");
+        Accept("production0420 ability and Experience wire contract preserved", () =>
+        {
+            var d=Document("0.4.20");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=78};
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.20" || p.Abilities.Count!=1
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=78)
+                throw new Exception("v20 ability/Experience regression");
+        });
+        BadDoc("production0420 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.20");
+        Accept("production0419 ability and Experience wire contract preserved", () =>
+        {
+            var d=Document("0.4.19");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=78};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.19" || p.Abilities.Count!=1
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=78)
+                throw new Exception("v19 ability/Experience regression");
+        });
+        BadDoc("production0419 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.19");
+        Accept("production0418 current-load Rogue and Experience contract preserved", () =>
+        {
+            var d=Document("0.4.18");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["rested"]=0,["needed"]=256};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.18" || p.Abilities.Count!=1
+                || p.Context["player"]!["calling"]!.GetValue<string>()!="rogue"
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=256)
+                throw new Exception("v18 ability/Experience regression");
+        });
+        BadDoc("production0418 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.18");
+        Accept("production0417 current-load Rogue and Experience contract preserved", () =>
+        {
+            var d=Document("0.4.17");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["rested"]=0};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.17" || p.Abilities.Count!=1
+                || p.Context["player"]!["calling"]!.GetValue<string>()!="rogue"
+                || p.Context["experience"]!["rested"]!.GetValue<int>()!=0)
+                throw new Exception("v17 ability/Experience regression");
+        });
+        BadDoc("production0417 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.17");
+        Accept("production0416 current-load Rogue and Experience contract preserved", () =>
+        {
+            var d=Document("0.4.16");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=144};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.16" || p.Abilities.Count!=1
+                || p.Context["player"]!["calling"]!.GetValue<string>()!="rogue"
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=144)
+                throw new Exception("v16 ability/Experience regression");
+        });
+        BadDoc("production0416 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.16");
+        Accept("production0415 Rogue calling and Experience contract preserved", () =>
+        {
+            var d=Document("0.4.15");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["needed"]=0};
+            d["context"]!["player"]!["zone"]="zROGUE";
+            var frames=Frames(Bytes(d),"0.4.15");
+            var publication=ProductionFrameCodec.Assemble(frames.Select(p=>ProductionFrameCodec.DecodeFrame(Wire(p),Session,2)).ToList());
+            if(publication.AddonVersion!="0.4.15" || publication.Abilities.Count!=1
+                || publication.Context["player"]!["calling"]!.GetValue<string>()!="rogue"
+                || publication.Context["player"]!["zone"]!.GetValue<string>()!="zROGUE"
+                || publication.Context["experience"]!["needed"]!.GetValue<int>()!=0)
+                throw new Exception("v15 calling/Experience regression");
+        });
+        BadDoc("production0415 missing Experience capability rejected",d=>d["addonVersion"]="0.4.15");
         Accept("production0414 Experience zero partial and metadata survive",()=>
         {
             var d=Document("0.4.14"); d["context"]!["capabilities"]!["experience"]=true;
@@ -146,6 +263,24 @@ public static class ProductionChecks
         BadDoc("production client version nested rejected", d=>d["context"]!["clientVersion"]=new JsonObject{["nested"]=new JsonObject()});
         BadDoc("production scalar map string byte limit rejected", d=>d["context"]!["stats"]=new JsonObject{["fixture"]=new string('é',129)});
         BadDoc("production string UTF8 byte limit rejected", d=>d["abilities"]![0]!["description"]=new string('é',2049));
+        Accept("saved ability UTF8 byte boundary accepted", () =>
+        {
+            var abilities = new JsonArray(new JsonObject
+            {
+                ["lookupId"] = "A0000000100000000",
+                ["description"] = new string('é',2048)
+            });
+            DataRules.Abilities(abilities);
+        });
+        Reject("saved ability UTF8 byte limit rejected across adapters", () =>
+        {
+            var abilities = new JsonArray(new JsonObject
+            {
+                ["lookupId"] = "A0000000100000000",
+                ["description"] = new string('é',2049)
+            });
+            DataRules.Abilities(abilities);
+        });
         BadDoc("production nested scalar rejected", d=>d["abilities"]![0]!["name"]=new JsonObject());
         BadDoc("production duplicate ID rejected", d=>d["abilities"]!.AsArray().Add(d["abilities"]![0]!.DeepClone()));
         BadBody("production unknown frame field rejected", b=>b["command"]="never");

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-80",
+  "parentTask": "NAV-002",
+  "host": "LEGION",
+  "source": {
+    "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "preferredImageBase": "0x140000000",
+    "addressConvention": "RVA"
+  },
+  "sourceWindows": [
+    {"id":"callback-predicate","start":"0x6A6620","end":"0x6A6AC1","sha256":"a7ecd8d610598f0a1e43d351d095b3f3daea51b0e1c0e80bfcd72a6ae8bc4a70"},
+    {"id":"window-prologue","start":"0x7C0BB0","end":"0x7C0F68","sha256":"079441987c172bb2f9bcb23c7f39039d932830f81e1317d7685454b39d3119ed"},
+    {"id":"button-dispatch","start":"0x7C0F68","end":"0x7C17FF","sha256":"467d8d0e625cb015975ba233a35017a2b6f085cd02d09823fcd1bd200c176576"},
+    {"id":"left-release","start":"0x7C105B","end":"0x7C113A","sha256":"38f0efc1a0fcfc5199af15fa5068603ae1c86790c2c61a1d818f3ca177151027"},
+    {"id":"shared-subcode","start":"0x7C104E","end":"0x7C105B","sha256":"0a988f789af05476835dbbf69c9fe46ffe5a99d8c402abc3d75cdeb85c622d16"},
+    {"id":"record-submit","start":"0x7C17EA","end":"0x7C17F7","sha256":"529422c6da6a18a02403ac73c0b1571624c29dbaba8b0f157036b1ed1633366a"},
+    {"id":"message-selectors","start":"0x7C1928","end":"0x7C19AA","sha256":"770367361163fd8f09255565dd28c6e7589c47eccc52e55c371759c29bab376f"},
+    {"id":"branch-destinations","start":"0x7C18FC","end":"0x7C1928","sha256":"755b1181d47e5ac7ae9cdd78ff447238f5fb65bcdaf5e74e481bed5107bf74a7"},
+    {"id":"selected-subcode-predicate","start":"0x6A69EF","end":"0x6A6A08","sha256":"f5df9c39d277dca0248c784402303a561f99125978ab93f151fe8ea6056cc509"},
+    {"id":"predicate-false-return","start":"0x6A6AAA","end":"0x6A6AC1","sha256":"96011e4d1a7307fa9dcfdf29bcd5b9e4c3629c4ba30c9983c393c15f8c7a9bcb"}
+  ],
+  "accepted": {
+    "leftButtonReleaseProducesType2Subcode1": true,
+    "type2Subcode1SelectedPredicateReturnsFalse": true,
+    "allType2Subcode1RecordsArePhysicalRelease": false,
+    "wholePredicateIsPure": false,
+    "runtimeDeliveryOrMovement": false
+  },
+  "verification": {"independentAgent":"/root/rea_context_audit","managerOriginalWindows":10,"hashMismatches":0,"fullContainingFragmentAlignment":"pass","workbridgeUsed":false,"gameInput":false}
+}

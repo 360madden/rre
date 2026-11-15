@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "RC-81",
+  "parentTask": "NAV-002",
+  "host": "LEGION",
+  "source": {
+    "binary": "C:\\Program Files (x86)\\Glyph\\Games\\RIFT\\Live\\rift_x64.exe",
+    "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "bytes": 60493640,
+    "addressConvention": "RVA",
+    "preferredImageBase": "0x140000000"
+  },
+  "correction": {
+    "rejectedContextGlobal": "0x337FD20",
+    "actualContextGlobal": "0x336FD20",
+    "method": "0x6A9B17 + 0x2CC6209 = 0x336FD20"
+  },
+  "sourceWindows": [
+    {
+      "id": "callback",
+      "start": "0x6a5e10",
+      "end": "0x6a611d",
+      "sha256": "9a10835508f422a0050c5b54f915f3b2a6c20f200979e13143af69e88f04aeb7",
+      "bytes": 781,
+      "instructions": 194
+    },
+    {
+      "id": "resolver-entry",
+      "start": "0x54eca0",
+      "end": "0x54ecb5",
+      "sha256": "9ee1cadad061bdc5397ab62866fbb7b4def7cff247b5ea9c3c95988357133c6c",
+      "bytes": 21,
+      "instructions": 6
+    },
+    {
+      "id": "resolver-2",
+      "start": "0x54ecb5",
+      "end": "0x54ecbe",
+      "sha256": "8364cab95987d2fae60ab803aaaf8d92e0df160e52c873b444af751577220681",
+      "bytes": 9,
+      "instructions": 3
+    },
+    {
+      "id": "resolver-3",
+      "start": "0x54ecbe",
+      "end": "0x54eccc",
+      "sha256": "07e05181a49b9c5e29625d21b3af12a925f3690f5cec1f1be4db34536ae58138",
+      "bytes": 14,
+      "instructions": 3
+    },
+    {
+      "id": "resolver-4",
+      "start": "0x54eccc",
+      "end": "0x54ecfb",
+      "sha256": "422cc02457bdeb418b34d94ef40c12d6c794abe713ba919cd57911f60a35aa7f",
+      "bytes": 47,
+      "instructions": 9
+    },
+    {
+      "id": "resolver-5",
+      "start": "0x54ecfb",
+      "end": "0x54ed0c",
+      "sha256": "c180db4d51ac74dd35588f2825b658a893b319616ec700215e24fd0cffbdf8b9",
+      "bytes": 17,
+      "instructions": 4
+    },
+    {
+      "id": "resolver-6",
+      "start": "0x54ed0c",
+      "end": "0x54ed34",
+      "sha256": "6c25e2742ce92ddcf0240d87e3483ece30630e9db357e378c77b32da3d6af1e1",
+      "bytes": 40,
+      "instructions": 9
+    },
+    {
+      "id": "resolver-7",
+      "start": "0x54ed34",
+      "end": "0x54ed3a",
+      "sha256": "ac829edc8d3d5ff13f0d67c2504827d5bc4a860f9e0462749c945b7728053f34",
+      "bytes": 6,
+      "instructions": 3
+    },
+    {
+      "id": "correct-slot-getter",
+      "start": "0x6a9b10",
+      "end": "0x6a9b1c",
+      "sha256": "c844167fe060588195f9162d4e42f80db890fa1eb81a62b4b34da479eef17b1e",
+      "bytes": 12,
+      "instructions": 2
+    },
+    {
+      "id": "getter-thunk",
+      "start": "0x6a3ee0",
+      "end": "0x6a3ee5",
+      "sha256": "8c3deaf3b9c97746b0c25ed920b7f58b845b14915debbf50609e791ff2132d4b",
+      "bytes": 5,
+      "instructions": 1
+    },
+    {
+      "id": "getter-leaf",
+      "start": "0x58b20",
+      "end": "0x58b24",
+      "sha256": "92ca7142687bd5513bea360e328ca1c00c3c3a9b71ffdda7bfc2407de7693978",
+      "bytes": 4,
+      "instructions": 2
+    },
+    {
+      "id": "state-constructor",
+      "start": "0x6a3e80",
+      "end": "0x6a3eb7",
+      "sha256": "9484c5dfee91c06e792f3e993e619af7d3e1e3e76bee9883434c89700331ed71",
+      "bytes": 55,
+      "instructions": 17
+    },
+    {
+      "id": "root-constructs-state",
+      "start": "0x53e53a",
+      "end": "0x53e55e",
+      "sha256": "c89d44ed3d962157989c806b8a67994fd33e966e361029d43e90a5c4accb9ce0",
+      "bytes": 36,
+      "instructions": 10
+    },
+    {
+      "id": "setter-wrapper",
+      "start": "0x6a3e60",
+      "end": "0x6a3e77",
+      "sha256": "ca47b929b2f6ea249d060020786e26c3b72d3fb60134074ccaa98a95c47afbda",
+      "bytes": 23,
+      "instructions": 8
+    },
+    {
+      "id": "setter-leaf",
+      "start": "0x589d0",
+      "end": "0x589d4",
+      "sha256": "1b97e9656365fefb824e1a24a6846645b520ec3b4e37fe427c529a4f3c7fdeb9",
+      "bytes": 4,
+      "instructions": 2
+    },
+    {
+      "id": "clear-state",
+      "start": "0x6a3ed0",
+      "end": "0x6a3ede",
+      "sha256": "74a55272c293c7b7b561afb833c25c8818413a459781b7105a2c379e34c28da9",
+      "bytes": 14,
+      "instructions": 3
+    },
+    {
+      "id": "slot-initializer",
+      "start": "0x16a930",
+      "end": "0x16a952",
+      "sha256": "bbb66a9af9d3d4b4286bcadc280cd45770f2c158dde4b1dbbfdcd3fd755e6c55",
+      "bytes": 34,
+      "instructions": 7
+    },
+    {
+      "id": "cleanup-stub",
+      "start": "0x2551da0",
+      "end": "0x2551dac",
+      "sha256": "e1d5d223e3b8620f91f88e93214fccf6f5ae8d42ab0f3a51a6f266a126581c73",
+      "bytes": 12,
+      "instructions": 2
+    },
+    {
+      "id": "root-constructor",
+      "start": "0x53dc70",
+      "end": "0x53e773",
+      "sha256": "ad5de6f4c667efdb89b2b9d3d0445ae55e45fb7b9dc024f688e3e77b26ce8e75",
+      "bytes": 2819,
+      "instructions": 516
+    }
+  ],
+  "accepted": {
+    "globalWriterSourceProven": true,
+    "callbackStateBytes": 32,
+    "callbackStateRootField": "0x10",
+    "eligibilityFlagOnRoot": "0x358",
+    "resolverCacheOnRoot": "0x400",
+    "directC2mRequiresUnconsumedRecord": true,
+    "activePlayerIdentity": false,
+    "runtimeMovementOrStop": false
+  },
+  "verification": {
+    "independentAgents": [
+      "/root/rea_context_audit",
+      "/root/recent_history_context"
+    ],
+    "managerOriginalWindowHashes": 19,
+    "mismatches": 0,
+    "completeWindowDecodeAlignment": "pass",
+    "workbridgeUsed": false,
+    "gameInput": false
+  }
+}

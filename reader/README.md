@@ -1,5 +1,48 @@
 # RRE modular host reader
 
+**Reader0.2.6: compare retained quest captures and read RIFT shared tables.** Add `--previous` to the existing quest command:
+
+```powershell
+dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll quests --input 'CURRENT_FOLDER/RRECollector.lua' --previous 'PREVIOUS_FOLDER/RRECollector.lua' --repo C:\work\rre --output 'NEW_quest_changes.json'
+```
+
+Both originals retain their SHA/length, sequence and clocks. Complete captures with the same typed player identity and advancing sequence/clocks can report count advances, counter decreases and observed presence changes. An objective must have the same typed key, exact unique nonempty description and required quantity. Partial coverage, ambiguous/reordered definitions, stale inputs and identity mismatches stay unqualified. Missing quests do not imply completion; reported completion/failure flags stay separate from quantities. Neither clock is interpreted as UTC, and comparison grants no game-session continuity, action execution or causation proof. `--previous` is rejected by `combat`.
+
+The data parser now accepts RIFT's exact shared-table declaration/allocation/field encoding without executing Lua. It resolves references after all writes, rejects cycles, duplicate fields, altered loop bodies, arbitrary expressions and trailing code, and bounds expanded depth, nodes and UTF-8 string/key bytes. Ordinary literal inputs remain supported. Quest CLI serialization is capped at4,000,000 UTF-8 bytes before stdout/file publication; exceptional escape-heavy reports fail with `quest-output-limit`, preserving original data and existing child-process limits.
+
+Physical LEGION v0.4.20 validation on November11 produced one complete53-record Rogue ability capture plus a partial27-quest/43-objective journal with15 remaining goals. All persisted and were decoded by this reader. The40 unsupported indicator entries yielded no map reads or locations; their actual representation needs a separate bounded capture. No movement or combat occurred. These are bounded observed receipts; file outputs still keep their general live/freshness qualifications false.
+
+**Reader0.2.5: quest goals from the existing collector journal.** After an authorized `/rre quests` capture and normal SavedVariables persistence, run:
+
+```powershell
+dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll quests --input 'FULL_PATH_TO_RRECollector.lua' --repo C:\work\rre --output 'NEW_quests.json'
+```
+
+Omit `--output` to print JSON. The `rre-quest-journal/1` report includes source SHA/length, retained journal status, the last recorded attempt status, remaining quantities and exact-ID map locations. A later failed capture preserves the journal and is reported separately; it does not establish present freshness. Quest goals remain separate from ability `SourceCapture` and RREC2. Live freshness, coordinate frame, travel feasibility and completion actions remain unverified. This command reads files and issues no game input.
+
+The actual nine-module addon startup and manual quest handler can be checked offline with the existing Fengari0.1.5 dependency, without installing packages:
+
+```powershell
+dotnet run --project reader/Rre.Reader.Checks -- --quest-only C:\work\rre C:\work\LuaPadModern\node_modules\fengari
+node tools/run-collector-lua.mjs C:\work\LuaPadModern\node_modules\fengari tools/agents/quest_journal/verify_quest_capture.lua
+```
+
+Fengari implements Lua5.3.4; these mocked logic checks are not RIFT's Lua5.1 or current-client acceptance. The runner propagates Lua errors as failure exits and limits fixture file reads to an in-memory addon snapshot. It is intended for trusted repository fixtures, not as a sandbox for untrusted code.
+
+**Reader0.2.4: combat feedback from the existing casting observer.** After a genuine recording and normal SavedVariables persistence, run:
+
+```powershell
+dotnet reader/Rre.Reader/bin/Debug/net10.0/Rre.Reader.dll combat --input 'FULL_PATH_TO_RiftReader2Casting.lua' --repo C:\work\rre
+```
+
+This source-hashed report distinguishes exact-target damage/heal, overheal-only, matched failures and inconclusive observations. It preserves an earlier observed result separately from an aborted/incomplete trial, honors modern ability-ID precedence, and handles capped event lists plus retained last-hit evidence. Archived trials retain unknown producer-version provenance. The `rre-casting-evidence/1` contract is separate from ability `SourceCapture`; it invents no inventory or sequence. It grants no live freshness or action authority. `--output NEW_FILE` uses exclusive publication. The casting consumer has a practical32MB/4M-literal-value ceiling; ordinary RRECollector inputs retain their2MB/100k-value limits. Unknown/unreadable files are not empty trials.
+
+Focused adapter checks: `dotnet run --project reader/Rre.Reader.Checks -- --combat-only C:\work\rre`. Existing production-only and historical full checks remain separate.
+
+RRECollector v0.4.20 retains the existing ability/context/Experience wire contract and v0.4.19 compatibility. Its separate quest journal stays outside RREC2; use `tools/export-rrecollector-quests.mjs` for source-hashed offline quest goals. Package/reader checks do not establish current client load or gameplay results.
+
+**Host routing (November 9, 2026):** RRE is one cross-computer application: **LEGION → its physical local RIFT**, **AMD-DESKTOP → its authorized VMware RIFT labs**. Joey reports VMware is not installed on LEGION. All game-facing RRE work on LEGION targets only its physical local RIFT. `capture --source lab2` is now rejected on LEGION *before* any acquisition preflight, irrespective of supplied files. Offline `saved`, `memory-scan`, `native-snapshot`, and `publication` inputs remain supported; replaying an existing artifact is not live VM access. Do not contact VMware labs from LEGION.
+
 One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.3 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
 
 ## Build and use
@@ -14,6 +57,14 @@ dotnet $reader capture --source saved --input C:\path\RRECollector.lua --repo C:
 ```
 
 The last command emits one compact JSON document. PowerShell can pipe it to `ConvertFrom-Json`; C# consumers can parse the same contract or reference the assembly's `IObservationSource`/`ObservationModules` APIs. Add `--module abilities` or `--module context` to select output. `validate` performs the same parsing checks and emits a compact validation receipt. `--output NEW_FILE` publishes without overwriting existing evidence; its parent must exist. There is no shell command interpolation.
+
+### LEGION physical RIFT: first supported data path
+
+1. Verify that the **physical** RIFT client actually loaded the matching RRECollector addon; an offline package check is not installed/runtime proof. Any in-game `/rre capture`, `/reloadui`, or game shutdown must be separately authorized before execution.
+2. After an authorized capture and normal SavedVariables flush, locate the *actual* per-character `RRECollector.lua` under the active RIFT documents/SavedVariables tree. Windows Documents may be redirected (including OneDrive); **do not assume an account/path or silently use a stale copy**.
+3. Read a retained copy without replacing the original: `dotnet $reader validate --source saved --input 'FULL_PATH_TO_RRECollector.lua' --repo C:\work\rre`. Use `capture` instead of `validate` for normalized JSON. A Workbridge connector limited to `C:\work` cannot access Documents directly; use an explicitly admitted root or an authorized copy inside the allowed workspace, never a path-rule bypass.
+
+This is a **file-backed physical workflow**, not continuous live memory acquisition. Its reader qualification remains offline and does not prove current game-process identity, freshness, or runtime acceptance. No VMware tools are involved on LEGION.
 
 For an explicit **SC618 fixture replay**, obtain its32hex session from the retained scan's SearchText:
 
@@ -37,7 +88,7 @@ Version0.1.2 adds the [RREC2 production contract](contract-rrec2.md) and a direc
 dotnet $reader capture --source publication --input C:\path\publication.json --session HEX32 --sequence 4
 ```
 
-The export has exactly schemaVersion=1, evidenceKind=`rrec2-publication-artifact/1`, origin (bounded declared/unverified description), and frames (1..16 ASCII strings). RREC2 carries one complete≤64KiB UTF8 document in≤16 canonical Base64 parts, each≤4096raw bytes/≤8192ASCII carrier bytes. It preserves context, exact API-list accounting and ability records, verifies whole-payload Adler32, and records SHA256. The consumer enforces version/session/sequence in header/body/document, complete unique parts and exact scalar-map context shapes. No highest-sequence selection, inbound commands, arbitrary dispatch or game action exists. The reader accepts exactly RRECollector0.4.12,0.4.13 and0.4.14, with identical version required across all parts and the decoded document. Version0.4.12 retains its original20-field unit maps;0.4.13 and0.4.14 permit optional `race`, `raceName`, and `zone` in player/target maps (maximum23 fields). Version0.4.14 alone permits `capabilities.experience` and an optional finite numeric `experience` map with `accumulated`, `needed`, `rested` (including zero and empty map); missing/false and contradictory bindings fail closed. This .14 contract is offline source-only, not live acceptance. Missing values remain unknown. Existing raw scalars are retained; non-string or empty metadata is semantically unqualified. Undocumented `decoration` is excluded. SC622 accepted one bounded Lab2 transfer from0.4.12;SC628 subsequently accepted a bounded0.4.13 Lab2 install/load/manual transfer with all three metadata strings also persisted; see the [live report](../docs/REA-RIFT-UNIT-CONTEXT-EXPANSION-2026-11-07.md). Continuous/passive acquisition remains unimplemented.
+The export has exactly schemaVersion=1, evidenceKind=`rrec2-publication-artifact/1`, origin (bounded declared/unverified description), and frames (1..16 ASCII strings). RREC2 carries one complete≤64KiB UTF8 document in≤16 canonical Base64 parts, each≤4096raw bytes/≤8192ASCII carrier bytes. It preserves context, exact API-list accounting and ability records, verifies whole-payload Adler32, and records SHA256. The consumer enforces version/session/sequence in header/body/document, complete unique parts and exact scalar-map context shapes. No highest-sequence selection, inbound commands, arbitrary dispatch or game action exists. The reader accepts exactly RRECollector0.4.12,0.4.13,0.4.14,0.4.15,0.4.16,0.4.17,0.4.18,0.4.19 and0.4.20, with identical version required across all parts and the decoded document. Version0.4.12 retains its original20-field unit maps;0.4.13,0.4.14,0.4.15,0.4.16,0.4.17,0.4.18 and0.4.19 permit optional `race`, `raceName`, and `zone` in player/target maps (maximum23 fields). Versions0.4.14,0.4.15,0.4.16,0.4.17,0.4.18 and0.4.19 permit `capabilities.experience` and an optional finite numeric `experience` map with `accumulated`, `needed`, `rested` (including zero and empty map); missing/false and contradictory bindings fail closed. The v0.4.19 reader contract is regression-verified offline; a version-matched physical-game load/capture acceptance receipt for v0.4.18 or v0.4.19 remains outstanding. Missing values remain unknown. Existing raw scalars are retained; non-string or empty metadata is semantically unqualified. Undocumented `decoration` is excluded. SC622 accepted one bounded Lab2 transfer from0.4.12;SC628 subsequently accepted a bounded0.4.13 Lab2 install/load/manual transfer with all three metadata strings also persisted; see the [live report](../docs/REA-RIFT-UNIT-CONTEXT-EXPANSION-2026-11-07.md). Continuous/passive acquisition remains unimplemented.
 
 ## Contract and truth boundaries
 
@@ -65,7 +116,7 @@ The package-free C# check executable covers both contracts' frame/assembly failu
 `tools/tests_reader/verify-wire-publisher.py --output NEW_DIR --saved SAVED_LUA --reader READER_DLL` additionally runs the existing SHA-pinned host Lua5.3 runtime (or `--lua-runtime lua51` for the retained Lua5.1 runtime) (no install), synthetic malformed/lifecycle cases and prior-good capture preservation, then an independently audited Python Base64/zlib roundtrip through the C# reader. The retained0.4.11 capture is safely literal-parsed, converted to byte-escaped Lua fixture data, and explicitly retagged to the current source version only offline. Empty Lua context tables are normalized to object maps for comparison; no populated values are changed. These are host interoperability checks, not RIFT runtime acceptance. Retagging is not proof of exact historical0.4.12 carrier compatibility; the separate SC628 regression replays the original SC622 snapshot/request. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.
 
 
-## Explicit Lab2 acquisition (SC625, one bounded live generation accepted)
+## Lab2 acquisition on supported hosts (SC625; never from LEGION)
 
 First coordinate a new exclusive Lab2 window with its current owner and manually Capture a fresh collector generation using the existing reviewed external mouse setup. Create exact binding/window JSON under the [contract](contract-lab2-acquisition.md); they record context, not permission. Then use the same entry point:
 
