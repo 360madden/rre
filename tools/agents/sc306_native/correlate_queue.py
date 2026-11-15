@@ -76,6 +76,11 @@ def check_png_structure(data: bytes, label: str) -> None:
                                      for c in kind),
               f"{label}: PNG chunk type invalid")
         check(kind != b"IHDR", f"{label}: PNG duplicate IHDR")
+        # Unknown critical chunks change image interpretation; reject rather
+        # than treating a hash-matched but undecodable image as valid evidence.
+        if not (kind[0] & 0x20):
+            check(kind in (b"PLTE", b"IDAT", b"IEND"),
+                  f"{label}: PNG unknown critical chunk")
         expected_crc = int.from_bytes(data[end - 4:end], "big")
         check(zlib.crc32(data[position + 4:end - 4]) == expected_crc,
               f"{label}: PNG chunk CRC mismatch")

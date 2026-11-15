@@ -572,6 +572,28 @@ class CorrelationTests(unittest.TestCase):
         self.assertEqual(audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
                          ["originalImagesHashMatched"], 2)
 
+    def test_png_unknown_critical_chunk_rejected_even_with_matching_sha(self) -> None:
+        # A CRC-valid, unrecognized critical chunk must not be ignored.
+        name = "queue-ui-pre-read"
+        original = synthetic_png(name)
+        payload = original[:33] + png_chunk(b"ABCD", b"probe") + original[33:]
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG.*critical"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_png_known_ancillary_chunk_accepted(self) -> None:
+        # Ancillary metadata may be ignored without affecting decoded pixels.
+        name = "queue-ui-post-read"
+        original = synthetic_png(name)
+        payload = original[:33] + png_chunk(b"tEXt", b"test\x00ok") + original[33:]
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        self.assertEqual(audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+                         ["originalImagesHashMatched"], 2)
+
     def test_image_manifest_mismatch_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/capture.json",
                     lambda x: x.update({"imageSha256": "0" * 64}))

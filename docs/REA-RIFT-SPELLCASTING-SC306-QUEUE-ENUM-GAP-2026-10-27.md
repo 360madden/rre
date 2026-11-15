@@ -1,5 +1,11 @@
 # SC-306 — Local AbilityQueue value-to-label mapping: bounded negative result
 
+## November 15, 2026 — unknown PNG critical-chunk regression (05:30 EST; offline)
+
+- **New red-first defect:** The SC-306 screenshot verifier accepted an otherwise valid 1×1 RGB PNG containing a CRC-correct, unrecognized **critical** PNG chunk `ABCD` inserted between IHDR and IDAT, when the evidence manifest SHA was also updated. A bounded read-only direct probe showed ordinary, fake-critical, and known-ancillary images all accepted (`rre1115_0525_png_critical_ro_probe`, exit 0). The 63-test red suite `rre1115_0525_sc306_critical_red` exited 1 with exactly one expected failure: the unknown critical-chunk negative. The independent valid `tEXt` ancillary control passed.
+- **Scoped fix:** `tools/agents/sc306_native/correlate_queue.py` now rejects unrecognized critical chunk types while permitting known PNG `PLTE`, `IDAT`, `IEND` and CRC-verified ancillary chunks. The original IHDR is still required first and separately rejects duplicates. Correlator SHA-256 `4b5a82b99bc180155b434101ccad35d131d4a1bbec13405bfe49cc570045279b`; regression test SHA-256 `a2ec45ac5803cfcc5c89c104102c09a70b59ba7039bbb98ee87ee572da6d809e`.
+- **Green checks:** `rre1115_0525_sc306_critical_green` **63/63**, exit 0. Untouched original November 7 Lab-2 SC-613 native/UI replay `rre1115_0525_sc306_critical_original` exit 0: two original screenshot hashes, three native code windows and four execution receipts matched; retains only the historical **native 1 ↔ operator-reviewed Short** bracket. The verifier still does **not** authenticate pixels, operator label, gameplay behavior, screenshot/process atomicity or values 0/2. No live game/desktop/process action, installed addon or SavedVariables write, other-repository edit, or push.
+
 ## November 15, 2026 — indexed PNG palette-integrity regression (03:56 EST; offline)
 
 - **Reproduced defect:** SC-306's checksum/IDAT-valid PNG verifier accepted a one-pixel indexed-color image without the PNG-required `PLTE` chunk when the evidence manifest SHA was also updated. Direct red probe `rre1115_0351_sc306_palette_red` exited 1. Added four end-to-end synthetic fixtures; the red-first 61-test suite failed precisely three expected negatives: absent palette, `PLTE` after IDAT, and invalid palette size. Valid indexed PNG was accepted.
