@@ -145,6 +145,12 @@ The unique non-initializer head reader at `0x8174CB` performs a null check, then
 
 **RR2 action:** unchanged and separately owner-authorized only: source-qualified current-build, same-process-epoch read-only comparison against independent Lua `player.id` while retaining `player.target` separately. Do not treat a stored registry handler as a player identity, call it from RRE, alter RR2 source, or infer runtime dispatch. RRE can next trace *reads/indirect calls* of keyed entry `+0x18` within a bounded static source window.
 
+## ROOT-001 — internal 16-bit key and dynamic-tag lookup (November 15, 2026, ~17:32 EST)
+
+**Static original-build refinement; no new RR2 runtime/reader action.** The registration consumer passes each node's formatted name to `0x12764AC` (`0x817600` direct call); a successful name-manager lookup yields a **16-bit internal ID** from `WORD[found-node+0x28]`. That WORD keys the table accessed through `0x817F60`, whose container/global is **RVA `0x2F59FD0`**. Independently, `0x7E920A` calls type discriminator `0x127303C`, captures AX at `0x7E9218`, and uses the **same `0x2F59FD0` table** to search matching 16-bit keys. An adjacent source fragment `0x7E92D8–0x7E9305` has an indirect call at `0x7E92F7`, but **no proven dataflow** connects this call to the stored handler at entry `+0x18`. In particular, **`0xDD3C` is not established as a player class or ID**.
+
+**Evidence:** same archived exact-build PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; original window hashes name resolver `0x12764AC–0x12765B4` = `2a4e02372f6c1da4e5f5f8a82ed1d17e7b762bb3647f2d54499ab3431316cdfe`, table helper `0x817F60–0x818238` = `10aa1133abb1b4de57ca99515dd63547efeda938af2550451ff6f6f4dc123aea`, dynamic-tag lookup `0x7E91FD–0x7E92D8` = `d7bbfb71d0a2fea0a97c1b549d6ece34cf65e68cd1411a4a0b675ce1bbb34b45`, adjacent call `0x7E92D8–0x7E9305` = `d45d7936cba5416f47b7dd04a688ede6486e31163280b2272eab345ad5d52c84`. Independent agent probes and manager byte/hash/negative-mutation checks all exited 0; detailed receipts in [ROOT report](REA-RIFT-ROOT001-CROSS-HOST-REGISTRY-KEY-2026-11-15.md). **RR2 action remains the existing owner-only same-epoch physical/Lua identity comparison**, not use of this internal type table.
+
 ## Publish only findings that RR2 can act on
 
 For a useful finding, add one short entry here with:
