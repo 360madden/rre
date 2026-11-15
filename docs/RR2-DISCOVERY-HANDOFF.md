@@ -137,6 +137,14 @@ The unique non-initializer head reader at `0x8174CB` performs a null check, then
 
 **RR2 action stays narrowly unchanged:** if independently authorized by the RR2 owner later, obtain fresh current-build, same-PID/start **read-only** native key and independent Lua `player.id`/separate `player.target` in the same physical epoch, fail closed. Do not call RRE wrapper `0x7F2570`, metadata helper `0x817F60`, or infer runtime dispatch from this offline registration loop.
 
+## ROOT-001 — handler stored in keyed registry entry (November 15, 2026, ~17:21 EST)
+
+**Independent exact-build static evidence, not a live-qualified ROOT/player lookup.** In the already qualified 850-node list consumer, `0x81752A` loads each node's handler pointer from `[rsi+0x08]` and `0x817536` stages it at `[rsp+0x70]`. The keyed lookup/insertion helper `0x817F60` returns a selected/new map-entry pointer through `0x818223: mov [r14+0x10],rdi`. The caller loads the selected entry via `0x817657: mov rcx,[rax+0x10]`, then **`0x81765B: movups [rcx+0x10],xmm0` publishes the staged handler at keyed map entry `+0x18`** and the adjacent context pointer at `+0x10`. The next `0x81765F` store is only the adjacent clear, not the handler store. This confirms **registration node → keyed entry handler storage**, not handler invocation.
+
+**Source/independent checks:** archived 60,493,640-byte PE SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; traversal original window `0x8174DB–0x8176B0` SHA `62a0614b121c967cf1c5286c94779c0463dab787bb00ca98656846765d117b68`; helper tail `0x818180–0x818238` SHA `85452884ef193f6cb9f4944754ecc1bbf68aaada9c2b8bb51e7429840502b093`. Corrected worker `rre_20261115_1719_descriptor_storage_stdlib_corrected_01` exit 0 (**20/20** opcode anchors, **2/2** hashes, negative mutation); independent manager `rre_20261115_1721_handler_storage_fixed_verify_01` exit 0 (**8/8** anchors, **2/2** hashes, negative mutation). The earlier worker script mistakenly placed the handler store at `0x81765F` and failed; the original-byte correction is `0x81765B`. Details and limitations: [RRE-owned ROOT report](REA-RIFT-ROOT001-CROSS-HOST-REGISTRY-KEY-2026-11-15.md).
+
+**RR2 action:** unchanged and separately owner-authorized only: source-qualified current-build, same-process-epoch read-only comparison against independent Lua `player.id` while retaining `player.target` separately. Do not treat a stored registry handler as a player identity, call it from RRE, alter RR2 source, or infer runtime dispatch. RRE can next trace *reads/indirect calls* of keyed entry `+0x18` within a bounded static source window.
+
 ## Publish only findings that RR2 can act on
 
 For a useful finding, add one short entry here with:
