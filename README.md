@@ -8,7 +8,7 @@ Begin at [ROADMAP.md](ROADMAP.md) for the staged prototype plan, dependency gate
 
 ## Offline Node regression gate
 
-From the RRE repository root, use the discovery-based gate so newly added top-level Node tests are included:
+From the RRE repository root, use the discovery-based gate so newly added Node tests in nested tools folders are included:
 
 ```powershell
 node tools/run-rre-node-tests.mjs --list
@@ -16,7 +16,7 @@ node tools/run-rre-node-tests.mjs
 node tools/validate-roadmap.mjs
 ```
 
-The runner discovers `node:test` imports in top-level `tools/*.mjs`, fails if no tests exist, and propagates the Node test process's exit status. The November 15 baseline is **18 modules / 181 passing tests**. This gate is **offline**; it does not replace separately scoped Python, .NET, Lua or physical-client validation.
+The runner recursively discovers `node:test` imports under `tools/` with bounded traversal, excluding symlinks and generated/dependency directories; it fails if no tests exist and propagates the Node test process's exit status. The November 15 baseline is **22 modules / 261 passing tests**. This gate is **offline**; it does not replace separately scoped Python, .NET, Lua or physical-client validation.
 
 ## Native navigation research
 
