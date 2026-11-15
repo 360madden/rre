@@ -38,6 +38,15 @@ def synthetic_png(seed: str) -> bytes:
             + png_chunk(b"IEND", b""))
 
 
+def synthetic_indexed_png(palette: bytes | None = None, *, late: bool = False) -> bytes:
+    """One-pixel indexed PNG; optional or misplaced PLTE for negative controls."""
+    sig = b"\x89PNG\r\n\x1a\n"
+    header = png_chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 3, 0, 0, 0))
+    image = png_chunk(b"IDAT", zlib.compress(b"\x00\x00"))
+    plte = b"" if palette is None else png_chunk(b"PLTE", palette)
+    return sig + header + (image + plte if late else plte + image) + png_chunk(b"IEND", b"")
+
+
 class CorrelationTests(unittest.TestCase):
     def setUp(self) -> None:
         temp = tempfile.TemporaryDirectory(prefix="rre-sc306-test-")
@@ -526,6 +535,42 @@ class CorrelationTests(unittest.TestCase):
                     lambda x: x.update({"imageSha256": sha256(payload)}))
         with self.assertRaisesRegex(EvidenceError, "PNG IDAT"):
             audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_indexed_png_without_palette_rejected_even_with_matching_sha(self) -> None:
+        name = "queue-ui-pre-read"
+        payload = synthetic_indexed_png()
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG.*PLTE"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_indexed_png_late_palette_rejected(self) -> None:
+        name = "queue-ui-post-read"
+        payload = synthetic_indexed_png(b"\x00\x00\x00", late=True)
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG.*PLTE"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_indexed_png_invalid_palette_size_rejected(self) -> None:
+        name = "queue-ui-pre-read"
+        payload = synthetic_indexed_png(b"\x00\x00")
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        with self.assertRaisesRegex(EvidenceError, "PNG.*PLTE"):
+            audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+
+    def test_indexed_png_valid_palette_accepted(self) -> None:
+        name = "queue-ui-pre-read"
+        payload = synthetic_indexed_png(b"\x00\x00\x00\xff\xff\xff")
+        (self.folder / name / "before.png").write_bytes(payload)
+        self.mutate(f"{name}/capture.json",
+                    lambda x: x.update({"imageSha256": sha256(payload)}))
+        self.assertEqual(audit(self.folder, "Short", UI_BEFORE, UI_AFTER)
+                         ["originalImagesHashMatched"], 2)
 
     def test_image_manifest_mismatch_rejected(self) -> None:
         self.mutate("queue-ui-pre-read/capture.json",

@@ -1,4 +1,12 @@
-# RRE session handoff — November 15, 2026 (01:18 EST)
+# RRE session handoff — November 15, 2026 (updated 03:56 EST)
+
+## 03:56 EST — SC-306 PNG palette regression fixed offline
+
+- **Preflight:** Workbridge 0.16.5-dev and actual `hostname.exe` job `rre1115_0351_hostname` (exit 0) independently confirmed AMD-DESKTOP. Pre-edit RRE main HEAD `39f36ca97bade011553d78e373ebee69d61bcca6`, 72 ahead of origin, tracked clean, nine historical untracked entries untouched. All 12 RRE worktrees reviewed: only two historical wire-proof folders and two pathfinding scripts untracked outside main; separate RR2 and REA-Lab1 dirty/queued work retained, no edits. RRE assignment registry empty, Workbridge zero running jobs, 36 free **command slots**; historical inventory incomplete. No independent reasoning agents because FreeBuff/Ollama remain explicitly held.
+- **Reproduced defect and fix:** One new bounded SC-306 verification found missing/late/malformed `PLTE` in indexed-color PNG was falsely accepted with matching image manifest SHA. Direct red probe exit 1; red-first suite 61 tests with exactly 3 expected failures; valid indexed image passed. Manager fixed `tools/agents/sc306_native/correlate_queue.py` (SHA `811950ac79bfbce793eb83779e0eb00fd4eb80a15eb75e915c74e13d0b53b38b`) and added four fixtures to `test_correlate_queue.py` (SHA `a13a8377a10e0081e58117bc0e5774ef7d5676be35aaa5b19c9f6eba965dfec5`).
+- **Tests:** `rre1115_0351_sc306_palette_green` 61/61, exit 0; original November 7 SC-613 replay `rre1115_0351_sc306_palette_replay` exit 0, two original image hashes and narrow 1↔Short match intact; `rre1115_0351_roadmap` exit 0 (47 tasks / 11 milestones); pre-documentation `rre1115_0351_diffcheck` exit 0. Finish with scoped Git diff/roadmap check and local commit. This is PNG evidence integrity only, not an independent screenshot authentication or queue 0/2 mapping.
+- **Remaining gates:** physical Atank SavedVariables unchanged at 72,354 bytes and SHA-256 `ca0cca037709a6afa1b8fd020d27b30c94382d2d909968573293ce891624f672`, with root v0.4.20 but nested ability v0.1.0 and candidates v0.4.14. RC-30 same-trial Pin→Undo→Reload remains missing; SC-103 Legendary, SC-306 0/2, SC-604 full mechanism and ROOT-001/ORIENT-001 live proof remain open. RRE→RR2 discovery feed unchanged. No RIFT input/reload, process/desktop action, installed-addon/SavedVariables write, another-repository edit, model-provider launch or push.
+- **Next:** reconcile identity and ownership again, then seek genuinely new owner-authorized runtime evidence or a qualified static discriminator, not repeat parked formatting/direct-string scans. No continuing job remains.
 
 ## SC-306 original-build formatter-path refinement (offline; no runtime qualification)
 

@@ -65,6 +65,7 @@ def check_png_structure(data: bytes, label: str) -> None:
     position = 33  # Immediately after the mandatory first IHDR chunk.
     idat_parts = []
     image_data_finished = False
+    palette_entries = None
     while position < len(data):
         check(len(data) - position >= 12, f"{label}: PNG chunk truncated")
         size = int.from_bytes(data[position:position + 4], "big")
@@ -78,7 +79,15 @@ def check_png_structure(data: bytes, label: str) -> None:
         expected_crc = int.from_bytes(data[end - 4:end], "big")
         check(zlib.crc32(data[position + 4:end - 4]) == expected_crc,
               f"{label}: PNG chunk CRC mismatch")
+        if kind == b"PLTE":
+            check(not idat_parts and palette_entries is None and color not in (0, 4)
+                  and 0 < size <= 768 and size % 3 == 0
+                  and (color != 3 or size // 3 <= (1 << depth)),
+                  f"{label}: PNG PLTE palette missing, late, duplicate or invalid")
+            palette_entries = size // 3
         if kind == b"IDAT":
+            check(color != 3 or palette_entries is not None,
+                  f"{label}: PNG indexed color requires PLTE before IDAT")
             check(not image_data_finished, f"{label}: PNG IDAT not consecutive")
             idat_parts.append(data[position + 8:end - 4])
         elif idat_parts:

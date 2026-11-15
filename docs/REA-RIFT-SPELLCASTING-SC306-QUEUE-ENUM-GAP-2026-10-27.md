@@ -1,5 +1,12 @@
 # SC-306 — Local AbilityQueue value-to-label mapping: bounded negative result
 
+## November 15, 2026 — indexed PNG palette-integrity regression (03:56 EST; offline)
+
+- **Reproduced defect:** SC-306's checksum/IDAT-valid PNG verifier accepted a one-pixel indexed-color image without the PNG-required `PLTE` chunk when the evidence manifest SHA was also updated. Direct red probe `rre1115_0351_sc306_palette_red` exited 1. Added four end-to-end synthetic fixtures; the red-first 61-test suite failed precisely three expected negatives: absent palette, `PLTE` after IDAT, and invalid palette size. Valid indexed PNG was accepted.
+- **Scoped fix:** `tools/agents/sc306_native/correlate_queue.py` now rejects indexed PNG with absent/late/duplicate/invalid `PLTE`, bounds entry count by indexed bit depth and forbids grayscale `PLTE`; ordinary RGB PNG remains valid. Source SHA-256 `811950ac79bfbce793eb83779e0eb00fd4eb80a15eb75e915c74e13d0b53b38b`, test SHA-256 `a13a8377a10e0081e58117bc0e5774ef7d5676be35aaa5b19c9f6eba965dfec5`.
+- **Green verification:** `rre1115_0351_sc306_palette_green` 61/61, exit 0; untouched November 7 SC-613 native/UI receipt replay `rre1115_0351_sc306_palette_replay` exit 0 with both original image hashes, three native code windows, four execution receipts, and narrowly qualified **native 1 ↔ operator-reviewed Short** retained; `rre1115_0351_roadmap` exit 0 (47 tasks, 11 milestones); `rre1115_0351_diffcheck` exit 0 before documentation edits.
+- **Limitation:** More complete PNG-file format checks do not authenticate the visible label, image producer, concurrent game process, or enum values 0/2. RC-30 operator acceptance, SC-103 Legendary ID, SC-604 full mechanism and ROOT-001 live identity remain open. No RIFT input, process/desktop action, installed-addon/SavedVariables modification, cross-project edit or remote push.
+
 ## November 15, 2026 — labeled numeric formatter classified; enum choice map still absent (01:16 EST, offline)
 
 - **Exact original source:** RRE-owned `artifacts/lab2-live-20261107-0922/guest-rift_x64.exe` (60,493,640 bytes), SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. The inspected original RVA windows and SHA-256s are `0x66CC70+0xB0` = `40f33a10b58f40cfbdaac7b7c3d79596e95e828e9d26196ab8e5b2627794edb3`, `0x493190+0xE0` = `716a89bb091fd54544273f9345efc69fee9441833f7f1655a67bff845c2ebb39`, and `0x129CAA0+0xF0` = `6da2b4ad27fe980ceb11cd6b4bd6397d7bc51858762b5c7cbb786aa998a2bbcf`.
