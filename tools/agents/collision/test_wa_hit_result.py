@@ -5,14 +5,16 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from legacy_pe_fixture import resolve_legacy_pe
 import wa_hit_result_verify as V
 
 
 class HitResultTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.proof = V.verify()
+        cls.proof = V.verify(binary=resolve_legacy_pe())
 
     def test_two_unwind_regions_are_155_exact_rows(self):
         self.assertEqual(len(self.proof['capturedUnwindRegions']), 2)
@@ -51,14 +53,14 @@ class HitResultTests(unittest.TestCase):
     def test_changed_instruction_pin_rejected(self):
         with patch.dict(V.PINS, {0xf673b0: '90'}):
             with self.assertRaisesRegex(ValueError, 'pin changed'):
-                V.verify()
+                V.verify(binary=resolve_legacy_pe())
 
     def test_missing_v7_receipt_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaises(FileNotFoundError): V.verify(root=Path(directory))
+            with self.assertRaises(FileNotFoundError): V.verify(binary=resolve_legacy_pe(), root=Path(directory))
 
     def test_repeatability(self):
-        self.assertEqual(self.proof, V.verify())
+        self.assertEqual(self.proof, V.verify(binary=resolve_legacy_pe()))
 
 
 if __name__ == '__main__': unittest.main()

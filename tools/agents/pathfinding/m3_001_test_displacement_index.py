@@ -6,6 +6,8 @@ import unittest
 import sys
 
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
+from legacy_pe_fixture import resolve_legacy_pe
 from m3_001_displacement_index import classify, scan, BUILD_SHA, IMAGE_BASE, adjacent_zero_source_rva
 
 
@@ -34,7 +36,7 @@ class DisplacementIndexTests(unittest.TestCase):
 
     def test_actual_window_stores_are_not_qualified_type7(self):
         # Bounded original PE index; no dynamic game process.
-        result=scan(0x70000,0xA0000)
+        result=scan(0x70000,0xA0000,binary=resolve_legacy_pe())
         self.assertEqual(result["buildSha256"],BUILD_SHA)
         rows={(r["rva"],r["field"]):r for r in result["records"]}
         self.assertIn(("0x79a9f","0x210"),rows)
@@ -50,10 +52,10 @@ class DisplacementIndexTests(unittest.TestCase):
 
     def test_window_must_be_in_text(self):
         with self.assertRaisesRegex(ValueError, "within .text"):
-            scan(0,0x100)
+            scan(0,0x100,binary=resolve_legacy_pe())
 
     def test_rbp_proven_frame_alias_is_not_heap_writer(self):
-        result = scan(0x890000,0x894000)
+        result = scan(0x890000,0x894000,binary=resolve_legacy_pe())
         rows = [r for r in result["records"]
                 if r["rva"]=="0x892c41" and r["field"]=="0x160"]
         self.assertEqual(len(rows),1)
@@ -70,7 +72,7 @@ class DisplacementIndexTests(unittest.TestCase):
         # allocation) have similar digit strings, but are 8+ MiB apart.
         self.assertLess(0x89bd7,0x89a000)
         self.assertGreater(0x89c605,0x800000)
-        result = scan(0x89a000,0x89d000)
+        result = scan(0x89a000,0x89d000,binary=resolve_legacy_pe())
         self.assertFalse(any(r["rva"]=="0x89bd7" for r in result["records"]))
         rows = [r for r in result["records"]
                 if r["field"]=="0x160" and
@@ -84,7 +86,7 @@ class DisplacementIndexTests(unittest.TestCase):
 
     def test_adjacent_zero_reg_store_is_not_queued_as_nonnull_candidate(self):
         # Exact original PE and complete 0x6BA30..0x6BC69 unwind method.
-        result=scan(0x6ba00,0x6bd00)
+        result=scan(0x6ba00,0x6bd00,binary=resolve_legacy_pe())
         rows=[r for r in result["records"] if r["rva"]=="0x6bb83"]
         self.assertEqual(len(rows),1)
         self.assertEqual(rows[0]["asm"],"mov qword ptr [rsi + 0x160], rdx")
@@ -115,8 +117,8 @@ class DisplacementIndexTests(unittest.TestCase):
         self.assertIsNone(adjacent_zero_source_rva(gap[1],gap[2],md))
 
     def test_repeatable_window_output_ignoring_time(self):
-        first=scan(0x70000,0xA0000)
-        second=scan(0x70000,0xA0000)
+        first=scan(0x70000,0xA0000,binary=resolve_legacy_pe())
+        second=scan(0x70000,0xA0000,binary=resolve_legacy_pe())
         self.assertEqual(first,second)
 
 

@@ -77,14 +77,14 @@ def adjacent_zero_source_rva(previous, current, decoder, direct_entry_targets=()
 
 
 def scan(start: int, end: int, max_ranges: int = 5000,
-         max_bytes: int = 7500000) -> dict:
+         max_bytes: int = 7500000, binary: Path | None = None) -> dict:
     import pefile
     import capstone
     from capstone.x86_const import (X86_OP_MEM, X86_OP_IMM, X86_OP_REG,
         X86_REG_RBP, X86_REG_EBP, X86_REG_BP, X86_REG_BPL,
         X86_REG_RSP, X86_REG_ESP)
 
-    raw = BINARY.read_bytes()
+    raw = (binary if binary is not None else BINARY).read_bytes()
     source_sha = hashlib.sha256(raw).hexdigest()
     if source_sha != BUILD_SHA:
         raise ValueError("Pinned binary SHA mismatch: no disassembly attempted")

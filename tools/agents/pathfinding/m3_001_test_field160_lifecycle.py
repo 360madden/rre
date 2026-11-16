@@ -12,13 +12,16 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from legacy_pe_fixture import resolve_legacy_pe
 from m3_001_verify_field160_lifecycle import BUILD_SHA, EXE, PINNED_V7, verify, validate_v7
 
 
 class Field160LifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.proof=verify()
+        cls.binary=resolve_legacy_pe()
+        cls.proof=verify(binary=cls.binary)
 
     def test_pinned_build_and_four_original_captures(self):
         p=self.proof
@@ -66,7 +69,7 @@ class Field160LifecycleTests(unittest.TestCase):
         self.assertFalse(self.proof["binaryModified"])
 
     def test_byte_identical_source_is_repeatable(self):
-        second=verify()
+        second=verify(binary=self.binary)
         self.assertEqual(json.dumps(second,sort_keys=True),
                          json.dumps(self.proof,sort_keys=True))
 

@@ -8,11 +8,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
 import sys
 from datetime import datetime, timezone
+from agents.legacy_pe_fixture import ENV_NAME, qualify_legacy_pe
 ROOT=Path(__file__).resolve().parents[1]
 TEST_SCRIPT="""import json,sys,unittest
 suite=unittest.TestLoader().discover(sys.argv[1],pattern='*test*.py')
@@ -32,12 +34,16 @@ def source_inventory():
     files=sorted(p for p in (ROOT/'tools').rglob('*') if p.is_file() and p.suffix in ('.py','.mjs'))
     return {str(p.relative_to(ROOT)).replace('\\','/'):sha(p.read_bytes()) for p in files}
 
-def run(output:Path, image_python:Path | None = None):
+def run(output:Path, image_python:Path | None = None, legacy_pe:Path | None = None):
+    if legacy_pe is None:
+        raise ValueError("--legacy-pe is required for the exact-build native research suites")
+    fixture=qualify_legacy_pe(legacy_pe)  # Check archived source before any group starts.
     output.mkdir(parents=False,exist_ok=False)
     before=source_inventory()
     state={'schemaVersion':1,'startedAt':now(),'status':'running','sourceHashes':before,'groups':[],
            'scope':'RRE lane Python tests, navigation evidence tests, separate screenshot image-runtime tests, review-adapter Node tests and roadmap validator',
-           'excludes':'Other repositories, model inference, live game observation and unrelated hardware/runtime acceptance'}
+           'excludes':'Other repositories, model inference, live game observation and unrelated hardware/runtime acceptance',
+            'legacyPeFixture':{**fixture,'selection':'explicit --legacy-pe','envScope':['collision','pathfinding']}}
     def checkpoint():
         temp=output/'state.tmp';temp.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8');temp.replace(output/'validation.json')
     checkpoint()
@@ -55,8 +61,12 @@ def run(output:Path, image_python:Path | None = None):
     ok=True;count=0;all_ids=[]
     for name,args,kind,timeout in commands:
         result={'group':name,'argv':args,'startedAt':now(),'timeoutSeconds':timeout,'testCount':0}
+        child_env=os.environ.copy()
+        child_env.pop(ENV_NAME,None)  # Never inherit a stale fixture in unrelated lanes.
+        if name in ('collision','pathfinding'):
+            child_env[ENV_NAME]=str(fixture['path'])
         try:
-            completed=subprocess.run(args,cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout,check=False)
+            completed=subprocess.run(args,cwd=ROOT,env=child_env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout,check=False)
             stdout,stderr=completed.stdout,completed.stderr;result['exitCode']=completed.returncode
             result['timedOut']=False
         except subprocess.TimeoutExpired as exc:
@@ -86,7 +96,11 @@ def run(output:Path, image_python:Path | None = None):
         print(json.dumps({'group':name,'status':result['status'],'exitCode':result['exitCode'],'tests':result['testCount']}),flush=True)
     state['sourcesUnchanged']=source_inventory()==before
     state['duplicatePythonTestIds']=len(all_ids)-len(set(all_ids))
-    ok=ok and state['sourcesUnchanged'] and not state['duplicatePythonTestIds']
+    try:
+        state['legacyPeFixture']['unchangedAtEnd']=qualify_legacy_pe(fixture['path'])==fixture
+    except ValueError:
+        state['legacyPeFixture']['unchangedAtEnd']=False
+    ok=ok and state['sourcesUnchanged'] and not state['duplicatePythonTestIds'] and state['legacyPeFixture']['unchangedAtEnd']
     state.update(status='passed' if ok else 'failed',endedAt=now(),totalTests=count)
     checkpoint()
     return state
@@ -94,9 +108,10 @@ def run(output:Path, image_python:Path | None = None):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output-dir',required=True,type=Path)
     p.add_argument('--image-python',type=Path,help='Existing interpreter with Pillow; missing runtime fails, never silently skips')
+    p.add_argument('--legacy-pe',type=Path,help='Required exact SHA-pinned archived RIFT executable; never read installed game by default')
     args=p.parse_args()
     try:
-        state=run(args.output_dir.resolve(),args.image_python);print(json.dumps({'status':state['status'],'totalTests':state['totalTests'],'sourcesUnchanged':state['sourcesUnchanged']}));return 0 if state['status']=='passed' else 1
+        state=run(args.output_dir.resolve(),args.image_python,args.legacy_pe);print(json.dumps({'status':state['status'],'totalTests':state['totalTests'],'sourcesUnchanged':state['sourcesUnchanged']}));return 0 if state['status']=='passed' else 1
     except (OSError,ValueError,TypeError) as exc:
         print(json.dumps({'status':'failed','error':str(exc)}),file=sys.stderr);return 2
 if __name__=='__main__':raise SystemExit(main())

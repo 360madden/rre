@@ -6,21 +6,25 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
-from m3_001_verify_dispatcher_handler_aliases import BUILD_SHA, SOURCE, verify
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from legacy_pe_fixture import resolve_legacy_pe
+from m3_001_verify_dispatcher_handler_aliases import BUILD_SHA, verify
 
 
 class TypedDispatcherAliasTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.result = verify()
+        cls.binary = resolve_legacy_pe()
+        cls.result = verify(binary=cls.binary)
 
     def test_static_source_identity(self):
         self.assertEqual(self.result["status"], "PASS")
         self.assertEqual(self.result["buildSha256"], BUILD_SHA)
-        self.assertEqual(hashlib.sha256(SOURCE.read_bytes()).hexdigest(), BUILD_SHA)
+        self.assertEqual(hashlib.sha256(self.binary.read_bytes()).hexdigest(), BUILD_SHA)
 
     def test_type_byte_and_stride_exactly_32(self):
         record = self.result["queueDispatch"]
@@ -90,7 +94,7 @@ class TypedDispatcherAliasTests(unittest.TestCase):
                 verify(bad)
 
     def test_semantically_identical_repeat(self):
-        self.assertEqual(verify(), self.result)
+        self.assertEqual(verify(binary=self.binary), self.result)
 
 
 if __name__ == "__main__":

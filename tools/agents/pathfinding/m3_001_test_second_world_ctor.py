@@ -11,6 +11,8 @@ import unittest
 import sys
 
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
+from legacy_pe_fixture import resolve_legacy_pe
 from m3_001_verify_second_world_ctor import (
     DEFAULT_EXE, EXPECTED, verify
 )
@@ -18,7 +20,7 @@ from m3_001_verify_second_world_ctor import (
 
 class SecondWorldConstructorTests(unittest.TestCase):
     def test_world_vft_owner_and_zero_reaching_definition(self):
-        r=verify()
+        r=verify(binary=resolve_legacy_pe())
         self.assertEqual(r["status"],"PASS")
         self.assertEqual(r["worldVtable"]["className"],".?AVhkpWorld@@")
         self.assertEqual(r["worldVtable"]["tableRva"],"0x2724038")
@@ -29,7 +31,7 @@ class SecondWorldConstructorTests(unittest.TestCase):
         self.assertFalse(r["gameProcessAttached"])
 
     def test_native_disassembly_window_complete(self):
-        r=verify()
+        r=verify(binary=resolve_legacy_pe())
         self.assertEqual(r["decodedInstructions"],79)
         self.assertTrue(r["regionCoversAllInstructions"])
         self.assertEqual(r["fieldStoreBytes"],"48898b10020000")
