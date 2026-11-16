@@ -33,15 +33,28 @@ ANCHORS = {
     0x13E9FE6: "48 8b 49 08",  # RCX=[wrapper+8]
     0x78B2E: "48 8b d9",        # save parent query receiver RCX in RBX
     0x78B6E: "48 8b 8b 88 00 00 00",  # RCX=[parent+0x88]
-    0x78B7C: "38 51 30",        # [WorldManager+0x30] readiness
+    0x78B77: "48 3b ca",        # parent pointer compared with zero
+    0x78B7A: "74 19",           # null parent goes to descriptor fallback
+    0x78B7C: "38 51 30",        # [WorldManager+0x30] state guard
+    0x78B7F: "75 14",           # nonzero state goes to descriptor fallback
+    0x78B93: "eb 40",           # WorldManager call skips fallback to common join
+    0x78B95: "4c 8b 8b c8 00 00 00",  # fallback input from parent+0xC8
+    0x78BBC: "48 8b 93 80 00 00 00", # fallback receiver from parent+0x80
 }
 CALLS = {
     0x6A6489: 0x78E110, 0x6A6496: 0xF7CC50, 0x6A64EC: 0xF7CD20,
     0xF7CC59: 0x13E9A60, 0xF7CDFE: 0x13E9FE0,
-    0x13E9FED: 0x78B1C, 0x78B8E: 0x8E744,
+    0x13E9FED: 0x78B1C, 0x78B8E: 0x8E744, 0x78BD0: 0x9FD68,
+}
+BRANCHES = {
+    0x78B7A: (0x74, 0x78B95),  # null-parent JE
+    0x78B7F: (0x75, 0x78B95),  # nonzero-state JNE
+    0x78B93: (0xEB, 0x78BD5),  # fast path skips descriptor fallback
 }
 MUTATIONS = (0x6A649B, 0x6A64BC, 0xF7CD57, 0xF7CD9C, 0x13E9A7E, 0x13E9FE9,
-             0x78B2E, 0x78B71, 0x6A64ED, 0xF7CDFF, 0x13E9FEE)
+             0x78B2E, 0x78B71, 0x6A64ED, 0xF7CDFF, 0x13E9FEE,
+             0x78B7A, 0x78B7B, 0x78B7F, 0x78B80, 0x78B93, 0x78B94,
+             0x78BD1, 0x78B95, 0x78BBC)
 
 
 def insist(value, message):
@@ -64,6 +77,10 @@ def semantic_check(windows):
         insn = rva_bytes(windows, site, 5)
         insist(insn[0] == 0xE8 and site + 5 + struct.unpack_from("<i", insn, 1)[0] == expected,
                f"bad direct call {site:#x}")
+    for site, (opcode, expected) in BRANCHES.items():
+        insn = rva_bytes(windows, site, 2)
+        insist(insn[0] == opcode and site + 2 + struct.unpack_from("<b", insn, 1)[0] == expected,
+               f"bad conditional/fallback branch {site:#x}")
 
 
 def read_windows(raw):
@@ -115,6 +132,7 @@ def main():
         "task": "WA-006", "evidence": "static-wrapper-parent-route-only",
         "sourceSha256": SHA, "windows": len(WINDOWS),
         "opcodeAnchors": len(ANCHORS), "directCalls": len(CALLS),
+        "checkedBranches": len(BRANCHES),
         "ramNegativeControls": len(MUTATIONS), "wa006Accepted": False,
         "unproven": ["nonzero wrapper+8 setter", "same runtime parent",
                      "WorldManager virtual dispatch", "physics/gameplay owner"]

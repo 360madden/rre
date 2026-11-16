@@ -31,6 +31,18 @@ Another independent read-only worker used two exact-build Capstone probes to tes
 
 Neither test supports promotion of earlier container-header writes `0xD0828` or `0xD0904` to per-record producers. **Park this lead after two non-decision-changing probes**; do not broad-scan or import the full executable.
 
+## ~15:00 EST addendum — exact dual-path guard in the query caller
+
+A separate read-only Capstone disassembly (`rre_1116_1452_wa006_gate_branches`) and independent standard-library branch/call decoder (`rre_1116_1452_wa006_gate_stdlib_qa`) both passed against the **same archived** 60,493,640-byte PE SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. The original 261-byte query window at RVA `0x78B1C` has SHA-256 `3d24fd605664f325b6e1006b6ec75a82efa426e0e13bd746e81974077024c088`.
+
+- At `0x78B6E`, the query receiver's `parent+0x88` pointer is loaded. `0x78B77/0x78B7A` compare it to zero and branch to fallback `0x78B95` when null.
+- A nonnull `parent+0x88` whose byte `+0x30` is **zero** passes `0x78B7C/0x78B7F` into direct call `0x78B8E → 0x8E744`; byte **nonzero** branches to the fallback. The byte is an observed gate, not an independently proven gameplay readiness state.
+- Fallback starts at `0x78B95`, reads `parent+0xC8` for R9 and `parent+0x80` for RDX (`0x78BBC`), then directly calls descriptor helper `0x78BD0 → 0x9FD68`. The WorldManager path jumps at `0x78B93 → 0x78BD5`, skipping that fallback; both paths rejoin at `0x78BD5`.
+
+This source-level **either/or** relationship connects the already known descriptor fallback to the same guarded caller, rather than treating `0x9FD68` as an unrelated unconditional operation. It does **not** identify the fallback receiver, nonzero `wrapper+0x08` writer, actual virtual dispatch, selected candidate, hit/miss, gameplay object, player, live process or running scene.
+
+The existing RRE verifier was strengthened in place (no broad scan): **6 SHA-pinned source windows, 17 operand/opcode anchors, 8 verified direct calls, 3 branch destinations and 20 RAM-only mutation rejects**, `wa006Accepted=false`. Job `rre_1116_1452_wa006_extended_verifier` exited 0. The independent standard-library check separately rejected 9 branch/call mutation controls. All analysis remained in memory on the archived source; no game, VM, addon, external repository or process manipulation.
+
 ## Status and next exact discriminator
 
 - 🟢 **Verified static path:** constructed wrapper → preserved receiver → `[wrapper+0x08]` dereference → guarded parent `+0x88` WorldManager query.
