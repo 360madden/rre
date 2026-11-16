@@ -14,9 +14,9 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 102);
-  assert.equal(result.opcodeAnchorsVerified, 319);
-  assert.equal(result.directCallsVerified, 72);
+  assert.equal(result.sourceWindowsVerified, 109);
+  assert.equal(result.opcodeAnchorsVerified, 326);
+  assert.equal(result.directCallsVerified, 74);
   assert.equal(result.directJumpsVerified, 3);
   assert.equal(result.ripTargetsVerified, 42);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
@@ -49,6 +49,7 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticInitializerOwnerField6a8StoreQualified, true);
   assert.equal(result.staticAppendOwnerConditionalPublicationQualified, true);
   assert.equal(result.staticThreadEntrypointForwardsUnprovenRdiReceiverQualified, true);
+  assert.equal(result.staticThreadReceiverViaHost6a8SlotQualified, true);
   assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
   assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);
   assert.equal(result.staticInitializerSameReceiverCallbackRegistrationQualified, true);
@@ -212,6 +213,12 @@ for (const [name, rva] of [
   ['thread callback saves incoming receiver', 0x74d5f2],
   ['thread parameter forwarded to virtual receiver', 0x74d6d7],
   ['virtual receiver retains incoming argument', 0x74d730],
+  // These source mutations are rejected by the whole-image SHA gate first.
+  ['host owner slot passed to native accessor', 0x77258c],
+  ['host slot value forwarded to spawner', 0x772594],
+  ['spawner receives same pointer in RDI', 0x74c6c9],
+  ['thread spawner chained pdata record', 0x36465f4],
+  ['thread spawner chained unwind header', 0x2e31fc4],
   ['owner vector end reset', 0x74b827],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],

@@ -88,6 +88,15 @@ const WINDOWS = [
   ['callback_thread_wrapper_tail', 0x74d6c0, 0x30, '714999dbebce80cf440926dd53a6afcd10bbeb862ad417ec4f7e6c8080f10db7'],
   ['callback_receiver_entry', 0x74d700, 0x5a, 'd114365b678620390e7eee1e524531f04ac489619c6d817f92c7494ae2390c60'],
   ['callback_receiver_virtual_sites', 0x74dab0, 0x27, '49c4ddfcf52933f5e2aed26a65b5b5ec1c638051d863b3f6f2f8eaf94381ac41'],
+  // This source path rereads the SAME host+0x6A8 field as the conditional owner store.
+  // Chained unwind metadata associates the spawner tail with its RDI-saving prologue.
+  ['thread_host_owner_slot_to_spawner', 0x77257e, 0x1e, '9383d39104f727ea0a64ea3dff2b5158f66b6ff0ac343ec2890c86a3aa006faf'],
+  ['thread_spawner_receiver_prologue', 0x74c6c0, 0x0c, '03129fcfaf1860e35f763e15165c85a0b52346c579d3a66f6325b94f55940607'],
+  ['thread_spawner_chain_fragment_1', 0x74c6cc, 0x1e, '0344d5955ff60cf01c56ad62d5cb4883abb3a206cc0dfd61238922842552463e'],
+  ['thread_spawner_chain_fragment_2', 0x74c6ea, 0x8e, '18ab8bf3e2c7185deb8a3e1a139c448889e5fa619c1d29ae4f88adcb5163a43d'],
+  ['thread_spawner_chain_fragment_3', 0x74c778, 0x86, '3a1015952853bb1c879492bd71d1e365d23c8141c37d200f8446de29d2e17adb'],
+  ['thread_spawner_chained_pdata_entry', 0x36465f4, 0x0c, '756faecf8eb3bdaad32c785c6adf4fe41929996a5157ffbeefe6a9bb81863fa9'],
+  ['thread_spawner_chained_unwind_info', 0x2e31fc4, 0x10, 'fcf97161769c0de1d798ad8355af7be099595488309e353b19608b4dfe9e93dd'],
   ['append_owner_receiver_initializer', 0x76f010, 0x36d4, '257bbfb8b8a01445c427d5b4215a5652ce02bfd972fbefd77483289ec70f5a1a'],
   ['initializer_rax_preserving_stack_probe', 0x24e1160, 0x4e, '24ba2f8e6f97e3f8dec9771f775f11294b7da43ba09efabbb1bd3c079ac25b6e'],
   // One SOURCE-only host receiver: +0x240 callbacks, +0x6A8 vector owner;
@@ -490,7 +499,8 @@ export function verifyRoot001Bytes(bytes) {
     [0x74b756, '83b9e003000000'], // owner+0x3E0 gate, must not assume true
     [0x74b760, '0f8453010000'], // skip reset when gate false
     [0x74b827, '48898688000000'], // set owner vector end to beginning
-    // Conditional append-owner publication; not identity with the thread receiver.
+    // Conditional owner publication; later thread receiver rereads this SAME host slot.
+    // This is a static pointer-flow match, NOT an unconditional vptr/runtime identity.
     [0x74aab0, '488903'], // constructed object's first vptr is 0x26BE378
     [0x7724de, '4889842470020000'], // save constructed owner pointer
     [0x7724fc, '4805a8060000'], // form host+0x6A8 slot
@@ -508,6 +518,14 @@ export function verifyRoot001Bytes(bytes) {
     [0x74d730, '488bf9'], // new function preserves same RCX in RDI
     [0x74dabf, 'ff5030'], // conditional virtual method on current RDI
     [0x74dad1, 'ff5030'], // second virtual path on current RDI
+    // The source-qualified thread receiver is loaded from host+0x6A8.
+    [0x77257e, '488b8424000e0000'], // reread the same initializer host spill
+    [0x772586, '4805a8060000'], // address host+0x6A8 slot
+    [0x77258c, '488bc8'], // pass slot address to accessor
+    [0x77258f, 'e88c658eff'], // accessor at 0x58B20 returns QWORD[slot]
+    [0x772594, '488bc8'], // move dereferenced slot value to spawner RCX
+    [0x772597, 'e824a1fdff'], // direct call to chained spawner entry 0x74C6C0
+    [0x74c6c9, '488bf9'], // spawner prologue retains its incoming RCX in RDI
     // Host registry uses a masked hash bucket, then resolves collisions by length and byte comparison.
     [0x4ef44f, '488b4108'], // head sentinel for empty bucket
     [0x4ef45d, '4923d1'], // hash value masked by bucket mask
@@ -647,7 +665,9 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x7639d7, 0x58b20); // fetch object at host+0x6A8
   directCall(0x7639df, 0x74b750); // owner-local conditional vector reset
   directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
-  directCall(0x74d6d7, 0x74d700); // thread callback forwards original RCX to virtual receiver
+  directCall(0x74d6d7, 0x74d700); // thread entry's saved RCX reaches virtual receiver
+  directCall(0x77258f, 0x58b20); // read pointer currently at host+0x6A8
+  directCall(0x772597, 0x74c6c0); // pass that pointer to chained thread spawner
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
   assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
@@ -828,6 +848,19 @@ export function verifyRoot001Bytes(bytes) {
     'source-installed host +0x78 method for owner vector reset');
   assertClaim(pe.slice(0x58b20, 4).toString('hex') === '488b01c3',
     'owner pointer accessor dereferences, not an owner constructor');
+  // The unwind tail 0x74C7FE..0x74C8A1 chains to 0x74C6C0's prologue;
+  // RDI is saved there before the CRT thread-start callback receives R9=RDI.
+  const spawnerPdata = pe.slice(0x36465f4, 0x0c);
+  assertClaim(spawnerPdata.readUInt32LE(0) === 0x74c7fe &&
+    spawnerPdata.readUInt32LE(4) === 0x74c8a1 &&
+    spawnerPdata.readUInt32LE(8) === 0x2e31fc4,
+    'thread spawner tail pdata points at chained unwind info');
+  const spawnerUnwind = pe.slice(0x2e31fc4, 0x10);
+  assertClaim((spawnerUnwind[0] >> 3) === 4 && spawnerUnwind[2] === 0 &&
+    spawnerUnwind.readUInt32LE(4) === 0x74c6c0 &&
+    spawnerUnwind.readUInt32LE(8) === 0x74c6cc &&
+    spawnerUnwind.readUInt32LE(12) === 0x2e17ae8,
+    'thread spawner tail chains to original RDI-saving prologue');
   const fnvBytes = pe.slice(0x783aa0, 0xb8);
   assertClaim(fnvBytes.includes(Buffer.from('25232284e49cf2cb', 'hex')) &&
     fnvBytes.includes(Buffer.from('b301000000010000', 'hex')),
@@ -923,6 +956,7 @@ export function verifyRoot001Bytes(bytes) {
     staticInitializerOwnerField6a8StoreQualified: true,
     staticAppendOwnerConditionalPublicationQualified: true,
     staticThreadEntrypointForwardsUnprovenRdiReceiverQualified: true,
+    staticThreadReceiverViaHost6a8SlotQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
     staticProducerProcessorFieldLayoutBridgeQualified: true,
     staticInitializerSameReceiverCallbackRegistrationQualified: true,
