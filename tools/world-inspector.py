@@ -14,9 +14,10 @@ import math
 from pathlib import Path
 import re
 import sys
+import unicodedata
 from typing import Any
 
-VERSION = "1.1.1"
+VERSION = "1.1.2"
 MAX_BYTES = 8 * 1024 * 1024
 MAX_UNITS = 512
 NUMBER_LIMIT = 1e12
@@ -49,7 +50,9 @@ def text(value: Any, label: str, *, nullable: bool = True) -> str | None:
         return None
     require(isinstance(value, str) and 0 < len(value) <= 512,
             f"{label}: expected a nonempty bounded string")
-    require(not any(ord(c) < 32 or 0xD800 <= ord(c) <= 0xDFFF for c in value),
+    # Category Cc covers C0, DEL and C1 control characters.
+    require(not any(unicodedata.category(c) == "Cc" or 0xD800 <= ord(c) <= 0xDFFF
+                    for c in value),
             f"{label}: control characters or invalid Unicode scalar forbidden")
     return value
 
@@ -58,7 +61,8 @@ def entity_id(value: Any, label: str) -> str:
     result = text(value, label, nullable=False)
     assert result is not None
     require(result.strip() == result and len(result) <= 160, f"{label}: invalid ID")
-    require(not re.fullmatch(r"(?:player|target|focus|mouseover)(?:\..*)?|(?:group|raid)\d+|0x[0-9a-f]+",
+    # Dotted group/raid forms are specifier-shaped; their live resolution is unverified.
+    require(not re.fullmatch(r"(?:player|target|focus|mouseover)(?:\..*)?|(?:group|raid)\d+(?:\..*)?|0x[0-9a-f]+",
                              result, re.IGNORECASE), f"{label}: unit specifier/address is not an entity ID")
     return result
 

@@ -113,9 +113,22 @@ class EntityTests(unittest.TestCase):
             self.inspect(x)
 
     def test_unit_aliases_and_addresses_rejected(self):
-        for key in ("player", "player.target", "group01", "0x123ABC", " target", ""):
+        for key in ("player", "player.target", "group01", "group01.target", "raid01.target", "raid20.focus", "0x123ABC", " target", ""):
             with self.subTest(key=key), self.assertRaises(ValueError):
                 M.entity_id(key, "id")
+
+    def test_all_unicode_control_categories_rejected_in_consumed_fields(self):
+        # C0, DEL, and C1 are Unicode category Cc. Ignored legacy fields
+        # retain their separate permissive contract.
+        for bad in ("\u001f", "\u007f", "\u0085", "\u009f"):
+            for field in ("id", "name", "zone"):
+                with self.subTest(codepoint=hex(ord(bad)), field=field):
+                    x = snapshot()
+                    x["player"][field] = "u" + bad + "x"
+                    if field == "id":
+                        x["playerId"] = x["player"]["id"]
+                    with self.assertRaisesRegex(ValueError, "control characters"):
+                        self.inspect(x)
 
     def test_missing_id_not_replaced_by_name(self):
         x = snapshot(); del x["player"]["id"]
@@ -383,7 +396,7 @@ class FileAndPresentationTests(unittest.TestCase):
             if isinstance(node,ast.ImportFrom): names.add(node.module.split('.')[0])
             if isinstance(node,ast.Call) and isinstance(node.func,ast.Name):
                 self.assertNotIn(node.func.id,{"eval","exec","__import__"})
-        self.assertLessEqual(names,{"__future__","argparse","hashlib","html","json","math","pathlib","re","sys","typing"})
+        self.assertLessEqual(names,{"__future__","argparse","hashlib","html","json","math","pathlib","re","sys","typing","unicodedata"})
 
 
 if __name__ == "__main__": unittest.main()
