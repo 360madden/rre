@@ -1,5 +1,12 @@
 # RRE session handoff — November 15, 2026 (ROOT-001 registered-handler dispatch checkpoint ~17:52 EST)
 
+## ~20:42 EST November 15 — accepted local commit and resume checkpoint
+
+- **Accepted guarded integration:** Commit **`2fec24a50a4c065827e80e020eab53b8769123b1`** (`feat(root): qualify selected callback host-argument dispatch`), parent `5a7ae621c92387b1403c869a5e2ed62002b8bc60`, five RRE-owned files, 159 insertions / 5 deletions. Fresh `git_history` and `git_status` after commit confirmed **main ahead 16**, no tracked edits, exactly nine pre-existing untracked backups/probes unchanged. No push.
+- **Machine and exact evidence:** `hostname.exe` exit0 **AMD-DESKTOP**, Workbridge `0.16.5-dev`, `C:\work\rre`; only archived original PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8` analyzed, no current game process, VM, installed addon, LEGION or other repository touched.
+- **Acceptance gates:** Source checker 77/254/55/32, focused **73/73** exit0, canonical full **323/323** exit0, roadmap **47 tasks/11 milestones** exit0, documentation links **22/22**, `git diff --check` exit0. Independent post-edit architecture QA **ACCEPT** (`rre_20261116_archqa_postedit_independent_pins_01`), 6/6 source SHA pins and conditional truth gates. Current P0 is a generic source dispatch receiver path only; A/B dynamic selection, cross-invocation live-instance equality, player identity and live execution remain false.
+- **Next read-only source investigation:** determine `host+0x1F8` dynamic selector key identity and when it can choose literal `LoginFailed`; independently qualify host+0x6A8 owner-vector reset. Preserve RC-30 user stop, SC-306 0/2 and SC-103 Legendary blocked. Do not repeat gameplay, update installed files, or attempt external push.
+
 ## ~20:39 EST November 15 (Nov. 16 UTC) — conditional same-host callback invocation (ROOT-001 P0)
 
 - **Fresh host, baseline and owner:** Workbridge `0.16.5-dev` plus `hostname.exe` exit0 confirm **AMD-DESKTOP**. Git `C:\work\rre` `main` baseline `5a7ae621c92387b1403c869a5e2ed62002b8bc60`, ahead 15, tracked clean; nine inherited untracked backups/probes untouched. Single main writer; four newly spawned independent read-only research/QA agents. Workbridge agent assignments/owners empty. No physical RIFT, VM, LEGION, installed addon, RR2 repo, process input/reload, memory writes, provider service or push.
