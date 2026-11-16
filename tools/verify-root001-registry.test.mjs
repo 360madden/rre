@@ -14,13 +14,14 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 49);
-  assert.equal(result.opcodeAnchorsVerified, 113);
-  assert.equal(result.directCallsVerified, 33);
+  assert.equal(result.sourceWindowsVerified, 55);
+  assert.equal(result.opcodeAnchorsVerified, 149);
+  assert.equal(result.directCallsVerified, 39);
   assert.equal(result.directJumpsVerified, 1);
-  assert.equal(result.ripTargetsVerified, 19);
+  assert.equal(result.ripTargetsVerified, 23);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
-  assert.equal(result.c2mVtableMethodsVerified, 40);
+  assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
+  assert.equal(result.vectorAppendPathsVerified, 2);
   assert.equal(result.rootInternalTagHex, '0xdd3c');
   assert.equal(result.rootTagNameRegistrationConditional, true);
   assert.equal(result.namedSingletonRva, '0x35199f0');
@@ -34,14 +35,16 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticC2mPositiveEligibilityWriterQualified, true);
   assert.equal(result.staticC2mRootKeyEqualityGateQualified, true);
   assert.equal(result.staticC2mMethodPointerAvailabilityQualified, true);
-  assert.equal(result.staticC2mVtableSlot24Qualified, true);
+  assert.equal(result.staticC2mInteriorVptrAssignmentsQualified, true);
   assert.equal(result.staticC2mFirstKeyReferencePairUpdateQualified, true);
   assert.equal(result.staticC2mTransientReferenceCleanupQualified, true);
   assert.equal(result.staticVectorProcessorCallersQualified, true);
   assert.equal(result.c2mKeyMismatchBranchesVerified, 1);
   assert.equal(result.c2mFirstKeyEqualityBranchesVerified, 1);
   assert.equal(result.c2mVtableDeleteBranchesVerified, 1);
-  assert.equal(result.vectorElementWritersProven, false);
+  assert.equal(result.objectLocalVectorElementWritersProven, true);
+  assert.equal(result.dispatchVectorElementProducerProven, false);
+  assert.equal(result.dispatchVectorProducerOwnerIdentityProven, false);
   assert.equal(result.liveExecutionProven, false);
   assert.equal(result.playerIdentityProven, false);
   assert.equal(result.dispatchBranchesVerified, 2);
@@ -87,8 +90,22 @@ for (const [name, rva] of [
   ['vector processor first direct parent call', 0xfba02c],
   ['vector processor midstream parent call', 0xfc8abd],
   ['vector processor second-path parent call', 0xfca4b0],
-  // The virtual-method slot is source-initialized; its invocation is unobserved.
-  ['C2M vtable owner installer', 0x5dc530],
+  // The contiguous code-pointer run has multiple interior vptr starts; no slot is established.
+  ['C2M one object-vptr assignment', 0x5dc530],
+  ['C2M interior vptr at +0x100', 0x5da7df],
+  ['C2M interior vptr +0x190', 0x5da88e],
+  ['C2M distinct vptr at +0x198', 0x5da89c],
+  ['C2M interior vptr at object start', 0x5db354],
+  // The following writers append into an object-local +0x80 vector.
+  // Ownership identity with the registered-handler swapper is still unresolved.
+  ['append writer A owner parameter', 0x74bc1f],
+  ['append writer A capacity guard', 0x74bd92],
+  ['append writer A element pointer store', 0x74bdc5],
+  ['append writer A lock release', 0x74be07],
+  ['append writer B owner parameter', 0x74bf1f],
+  ['append writer B capacity guard', 0x74c085],
+  ['append writer B element pointer store', 0x74c0b8],
+  ['append writer B lock release', 0x74c0fa],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],
   ['C2M reference pair first-key match branch', 0x5807f8],

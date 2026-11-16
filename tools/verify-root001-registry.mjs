@@ -63,10 +63,18 @@ const WINDOWS = [
   ['vector_upstream_07', 0xfd1160, 0x13, 'a3c272fc7556d9b0d78712d4c111f74020b74fe3402acee94f60dcf7a2088f9b'],
   ['vector_upstream_08', 0xfd8cd0, 0x4d0, '18a0464ae3652aa86c8dbabd4b7038281ec9c820975fc7aa8d268b129a384806'],
   ['vector_upstream_09', 0xfca0d0, 0xdc8, '35e7e89ce4795d13eec2de00b64d2b7ce9e23f772bbf5582e60a83e2d3d72cd6'],
-  // Vtable membership/installer and first-key-conditioned reference-pair transition.
-  ['c2m_activation_vtable', 0x26afb40, 0x140, '1f8e1529b4eff25d14f0f4281a84043fb684b5fdc879a05a6e7701095d1ee862'],
-  ['c2m_vtable_installer', 0x5dc520, 0x2b, '032e2cd9030488e8cc1aa70b592eaeedd594840d66db1e56355b279ff674380d'],
-  ['c2m_vtable_user_context', 0x601900, 0x157e, 'dd373abcdacfd22dd3bf8cdca8fd40abb4601903eea6630b2c33b72d6a8b2823'],
+  // Contiguous code-pointer run includes multiple independently assigned interior vptr starts.
+  // Neither a single 40-method VMT nor the slot of 0x26afc00 is established.
+  ['c2m_contiguous_code_pointer_region', 0x26afb40, 0x140, '1f8e1529b4eff25d14f0f4281a84043fb684b5fdc879a05a6e7701095d1ee862'],
+  ['c2m_vptr_assignment_routine', 0x5dc520, 0x2b, '032e2cd9030488e8cc1aa70b592eaeedd594840d66db1e56355b279ff674380d'],
+  ['c2m_vptr_interior_owner_a', 0x5da680, 0x85f, 'b1729ca6f7f137d66b5eed3933d9a72fd718c33c5c23ce7240fc5be874bb6126'],
+  ['c2m_vptr_interior_owner_b', 0x5db344, 0x3ce, '412c845e22e6a36e2624fc69db4cc6e8c94955b9a689399d83ace847490fdadf'],
+  ['c2m_vptr_context', 0x601900, 0x157e, 'dd373abcdacfd22dd3bf8cdca8fd40abb4601903eea6630b2c33b72d6a8b2823'],
+  // Object-local append routines, not yet linked to the registered-handler vector owner.
+  ['object_vector_append_parent_a', 0x74bbe0, 0xa0, '6c0e24b80c3aa616aacb6954b94631e85a416deb201bdb72e8ed943f531f7625'],
+  ['object_vector_append_parent_b', 0x74bee0, 0xa0, '739c187b9b486a9ab5dd33dd97d4beb2936e087829b8622b810386a97d1a5c71'],
+  ['object_vector_append_writer_a', 0x74bd57, 0xb5, '7ebbbc976781c3a80bffdcecac070d1a9e53b0680fcadacb215488e4e01f4bee'],
+  ['object_vector_append_writer_b', 0x74c04a, 0xb5, 'e3d670e6ec493ca4663b0cb942d79e1906dec0795c037e4179be7c493cd59f13'],
   ['c2m_first_key_pair_update', 0x5807d0, 0x7b, '3c1e9d159e93e25adeb29e041511de7b55d0960d96419d5fa023f357f4dab6d8'],
   ['c2m_reference_release_prefix', 0x4a02d0, 0x78, 'b60cb2e4db49aedbb49748a38d832955e115af78283a9aa46c59b9d7c3911bc4'],
   ['c2m_transient_pair_cleanup_prefix', 0x49ac00, 0x78, 'abae0ea33271d8082429d95b1bd3413723683b6597a9487580fa919bbb66b9f6'],
@@ -263,11 +271,48 @@ export function verifyRoot001Bytes(bytes) {
     [0xfd8d0d, 'e85ee77aff'], // upstream direct caller 8
     [0xfca4b0, 'e82be17bff'], // upstream direct caller 9
 
-    [0x5dc526, '488d0513360d02'], // installer loads 40-QWORD vtable
-    [0x5dc530, '488901'], // installer writes vtable pointer at object+0
+    [0x5dc526, '488d0513360d02'], // deleting-destructor-style vptr reset at 0x26afb40
+    [0x5dc530, '488901'], // assigns one vptr to [RCX], not a full VMT identity
     [0x5dc533, 'f6c201'], // optional delete path selected by DL&1
     [0x5dc536, '740a'], // skips optional delete call when flag clear
     [0x5dc538, 'ba18000000'], // deallocator size argument
+    [0x5da7d3, '488d0d96530d02'], // distinct interior vptr 0x26afb70
+    [0x5da7df, '48898b00010000'], // assignment [RBX+0x100]
+    [0x5da87e, '488d05eb520d02'], // vptr 0x26afb70
+    [0x5da88e, '48898390010000'], // assignment [RBX+0x190]
+    [0x5da895, '488d05f4520d02'], // distinct interior vptr 0x26afb90
+    [0x5da89c, '48898398010000'], // assignment [RBX+0x198]
+    [0x5db354, '488d0545480d02'], // distinct interior vptr 0x26afba0
+    [0x5db35b, '488901'], // assignment [RCX]
+    // Two independent source functions retain incoming owner RCX in R14.
+    [0x74bc1f, '4c8bf1'],
+    [0x74bd5f, '498d7e40'], // owner+0x40 lock
+    [0x74bd6b, 'e8a0058fff'], // EnterCriticalSection
+    [0x74bd83, '498db680000000'], // owner+0x80 vector
+    [0x74bd8a, '488b5610'], // vector capacity end
+    [0x74bd8e, '48395608'], // compare allocation end to used end
+    [0x74bd92, '7525'], // skip growth when capacity available
+    [0x74bdb4, 'e887220000'], // growth helper
+    [0x74bdb9, '488b4608'], // load used end
+    [0x74bdbd, '4c8920'], // initialize slot
+    [0x74bdc5, '488918'], // assign refcounted element pointer
+    [0x74bdcb, '4883460808'], // increment end by 8 bytes
+    [0x74be04, '488bcf'], // owner lock address
+    [0x74be07, 'e814058fff'], // LeaveCriticalSection
+    [0x74bf1f, '4c8bf1'], // second entry owner RCX to R14
+    [0x74c052, '498d7e40'], // second owner+0x40 lock
+    [0x74c05e, 'e8ad028fff'], // EnterCriticalSection
+    [0x74c076, '498db680000000'], // second owner+0x80 vector
+    [0x74c07d, '488b5610'],
+    [0x74c081, '48395608'],
+    [0x74c085, '7525'],
+    [0x74c0a7, 'e8941f0000'], // same growth helper
+    [0x74c0ac, '488b4608'],
+    [0x74c0b0, '4c8920'],
+    [0x74c0b8, '488918'], // assign element pointer
+    [0x74c0be, '4883460808'], // increment end by 8 bytes
+    [0x74c0f7, '488bcf'],
+    [0x74c0fa, 'e821028fff'], // LeaveCriticalSection
 
     [0x5807e4, '488b2a'], // incoming pair first QWORD
     [0x5807ed, '488b5a08'], // incoming pair second QWORD
@@ -324,7 +369,14 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0xfd8d0d, 0x787470);
   directCall(0xfca4b0, 0x7885e0);
   directCall(0x58081c, 0x4a02d0); // releases prior root+0x338 when present
-  directCall(0x5dc53d, 0x24e0d50); // vtable installer optional delete path
+  directCall(0x5dc53d, 0x24e0d50); // deleting-destructor optional delete path
+  // Both object-local append routines lock, grow if necessary, then unlock.
+  directCall(0x74bd6b, 0x3c310);
+  directCall(0x74bdb4, 0x74e040);
+  directCall(0x74be07, 0x3c320);
+  directCall(0x74c05e, 0x3c310);
+  directCall(0x74c0a7, 0x74e040);
+  directCall(0x74c0fa, 0x3c320);
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
   assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
@@ -358,7 +410,11 @@ export function verifyRoot001Bytes(bytes) {
   // Original seven-byte FF 25 import thunks: Kernel32 critical-section enter/leave.
   ripReference(0x3c310, '48ff25', 0x25ef6e8);
   ripReference(0x3c320, '48ff25', 0x25ef6f0);
-  ripReference(0x5dc526, '488d05', 0x26afb40); // installer vtable pointer
+  ripReference(0x5dc526, '488d05', 0x26afb40); // vptr reset at start of region
+  ripReference(0x5da7d3, '488d0d', 0x26afb70); // interior vptr
+  ripReference(0x5da87e, '488d05', 0x26afb70); // interior vptr
+  ripReference(0x5da895, '488d05', 0x26afb90); // interior vptr
+  ripReference(0x5db354, '488d05', 0x26afba0); // interior vptr
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -370,7 +426,9 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x7e92e6, '75', 0x7e92ed);
   shortBranch(0x5f6732, '75', 0x5f6787); // key mismatch skips C2M positive writer
   shortBranch(0x5807f8, '74', 0x58082f); // first-pair-member equality only
-  shortBranch(0x5dc536, '74', 0x5dc542); // optional vtable deleting-destructor path
+  shortBranch(0x5dc536, '74', 0x5dc542); // deleting-destructor optional delete path
+  shortBranch(0x74bd92, '75', 0x74bdb9); // writer A capacity suffices
+  shortBranch(0x74c085, '75', 0x74c0ac); // writer B capacity suffices
 
   let recordsVerified = 0;
   let rootRecord;
@@ -401,17 +459,19 @@ export function verifyRoot001Bytes(bytes) {
     '10-byte handler-loading tail-jump trampoline');
   assertClaim(pe.qword(0x26afc00) === 0x1405f6650n,
     'source-initialized conditional C2M writer caller method pointer');
-  // Slot 24 belongs to a 40-QWORD initialized vtable; code pointer availability
-  // is not evidence of runtime invocation or proof of the owning class name.
-  let c2mVtableMethodsVerified = 0;
-  for (let slot = 0; slot < 40; slot++) {
-    const pointer = pe.qword(0x26afb40 + slot * 8);
-    assertClaim(pointer >= EXPECTED_BASE, 'C2M table slot image VA ' + slot);
+  // This original .rdata interval has forty consecutive .text pointers, but
+  // independent code stores several INTERIOR addresses as object vptrs.
+  // The positional +0xC0 offset does not establish a method slot or class.
+  let c2mConsecutiveCodePointersVerified = 0;
+  for (let index = 0; index < 40; index++) {
+    const pointer = pe.qword(0x26afb40 + index * 8);
+    assertClaim(pointer >= EXPECTED_BASE, 'C2M code pointer image VA ' + index);
     assertClaim(pe.virtualSectionFor(Number(pointer - EXPECTED_BASE), 1).name === '.text',
-      'C2M table code pointer section ' + slot);
-    c2mVtableMethodsVerified++;
+      'C2M code pointer section ' + index);
+    c2mConsecutiveCodePointersVerified++;
   }
-  assertClaim(0x26afc00 - 0x26afb40 === 24 * 8, 'C2M vtable slot 24 offset');
+  assertClaim(0x26afc00 - 0x26afb40 === 0xc0,
+    'C2M method pointer positional offset only, not virtual slot index');
 
   // Named singleton and formatted-name buffer are distinct globals, 0x3ff8 bytes apart.
   // The 16-bit ROOT tag is source-derived only for the successful new-record path.
@@ -460,7 +520,8 @@ export function verifyRoot001Bytes(bytes) {
     c2mKeyMismatchBranchesVerified: 1,
     c2mFirstKeyEqualityBranchesVerified: 1,
     c2mVtableDeleteBranchesVerified: 1,
-    c2mVtableMethodsVerified,
+    c2mConsecutiveCodePointersVerified,
+    vectorAppendPathsVerified: 2,
     vectorUpstreamDirectCallersVerified: 9,
     trampolineRva: '0x7068c0',
     handlerEntryOffset: '+0x18',
@@ -477,11 +538,13 @@ export function verifyRoot001Bytes(bytes) {
     staticC2mPositiveEligibilityWriterQualified: true,
     staticC2mRootKeyEqualityGateQualified: true,
     staticC2mMethodPointerAvailabilityQualified: true,
-    staticC2mVtableSlot24Qualified: true,
+    staticC2mInteriorVptrAssignmentsQualified: true,
     staticC2mFirstKeyReferencePairUpdateQualified: true,
     staticC2mTransientReferenceCleanupQualified: true,
     staticVectorProcessorCallersQualified: true,
-    vectorElementWritersProven: false,
+    objectLocalVectorElementWritersProven: true,
+    dispatchVectorElementProducerProven: false,
+    dispatchVectorProducerOwnerIdentityProven: false,
     liveExecutionProven: false,
     playerIdentityProven: false,
     negativeMutationRejected: true,
