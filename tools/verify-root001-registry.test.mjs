@@ -15,8 +15,8 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
   assert.equal(result.sourceWindowsVerified, 111);
-  assert.equal(result.opcodeAnchorsVerified, 333);
-  assert.equal(result.directCallsVerified, 75);
+  assert.equal(result.opcodeAnchorsVerified, 334);
+  assert.equal(result.directCallsVerified, 76);
   assert.equal(result.directJumpsVerified, 3);
   assert.equal(result.ripTargetsVerified, 42);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
@@ -53,6 +53,7 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticSpawnerRdiPreservedToCrtR9Qualified, true);
   assert.equal(result.staticThreadCreatorCrtImportNameQualified, true);
   assert.equal(result.staticCrtThreadHandleStoredAndStatusByteQualified, true);
+  assert.equal(result.staticImmediateCallerNoDirectThreadReturnGateQualified, true);
   assert.equal(result.staticThreadReceiverViaHost6a8SlotQualified, true);
   assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
   assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);

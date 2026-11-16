@@ -541,6 +541,7 @@ export function verifyRoot001Bytes(bytes) {
     [0x77258f, 'e88c658eff'], // accessor at 0x58B20 returns QWORD[slot]
     [0x772594, '488bc8'], // move dereferenced slot value to spawner RCX
     [0x772597, 'e824a1fdff'], // direct call to chained spawner entry 0x74C6C0
+    [0x8174c0, '488bc4'], // next callee's first instruction overwrites all incoming RAX/AL
     [0x74c6c9, '488bf9'], // spawner prologue retains its incoming RCX in RDI
     // Host registry uses a masked hash bucket, then resolves collisions by length and byte comparison.
     [0x4ef44f, '488b4108'], // head sentinel for empty bucket
@@ -685,6 +686,7 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x772578, 0x75eaf0); // conditional owner+0x20 retain; not a vptr write
   directCall(0x77258f, 0x58b20); // read pointer currently at host+0x6A8
   directCall(0x772597, 0x74c6c0); // pass that pointer to chained thread spawner
+  directCall(0x77259c, 0x8174c0); // immediately next call, with no AL/RAX inspection
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
   assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
@@ -1008,6 +1010,10 @@ export function verifyRoot001Bytes(bytes) {
     // Source stores the CRT result at receiver+0x30 and sets AL to !!result.
     // Not proof of successful execution, receiver type, or handle cleanup.
     staticCrtThreadHandleStoredAndStatusByteQualified: true,
+    // Back-to-back caller E8s and next callee's first MOV RAX,RSP prove no
+    // DIRECT consumption of the returned RAX/AL at this callsite. The shared
+    // receiver field and other runtime/failure behavior remain unqualified.
+    staticImmediateCallerNoDirectThreadReturnGateQualified: true,
     staticThreadReceiverViaHost6a8SlotQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
     staticProducerProcessorFieldLayoutBridgeQualified: true,
