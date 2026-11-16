@@ -92,8 +92,114 @@
       "path": "C:/work/rre/artifacts/wa2-backlink-saved-verification-20261020-01.json",
       "sha256": "01573023f103dbe7c1c1346fb362f674b99b7ff3315fb4ea61d40a10e5eb0c4c",
       "evidenceKind": "old-build-saved-v7-static-chain"
+    },
+    {
+      "id": "rr2-self-temporal-bracket",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/summary.json",
+      "sha256": "d2396a84ce76f815635d917af507e1bfa2df78cb7fb87ad4d7a5c35d3908e45c",
+      "evidenceKind": "separate-epoch-physical-native-lua-self-correlation"
+    },
+    {
+      "id": "rr2-self-native-before",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/native-before/summary.json",
+      "sha256": "7329b862ac4f724bd6c52cd4080e08330f9ce6c902020f8436332a1b7104e114",
+      "evidenceKind": "direct-native-self-key-and-position"
+    },
+    {
+      "id": "rr2-self-native-raw",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/native-before/position.json",
+      "sha256": "fe3a50972774435bce9fa028423cd4079b222023856b78c13ae068be1405bd5c",
+      "evidenceKind": "per-sample-native-unit-key"
+    },
+    {
+      "id": "rr2-self-native-after",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/native-after/summary.json",
+      "sha256": "f68a59fcb49e317f791b0fddb9035fe60e8911a711dc34bed4b7fd8efd729c5d",
+      "evidenceKind": "post-lua-native-bracket"
+    },
+    {
+      "id": "rr2-addon-producer",
+      "path": "C:/work/riftreader2/addon/RiftReader2/producer.lua",
+      "sha256": "ba565468bda7fc054186d1bb1f15b504620565eeb448818451ffa346887dc779",
+      "evidenceKind": "independent-rift-inspect-unit-lookup-detail-source"
+    },
+    {
+      "id": "rr2-addon-wire",
+      "path": "C:/work/riftreader2/addon/RiftReader2/wire.lua",
+      "sha256": "45d10ab987e29e25c45c1260828c442c381afbea928ce8bc453c01efd163c9a0",
+      "evidenceKind": "rr2a1-lua-frame-wire-source"
+    },
+    {
+      "id": "rre-current-query-rc58-json",
+      "path": "C:/work/rre/docs/RRE-C2M-EVENT-QUERY-STOP-LEGION-2026-11-11.json",
+      "sha256": "081395f49d51e88062f20b7be8683f2c9c2ecbbd28f827981af860cc566d37b5",
+      "evidenceKind": "current-build-static-original-rva-window-hashes"
+    },
+    {
+      "id": "rre-current-query-rc58-report",
+      "path": "C:/work/rre/docs/RRE-C2M-EVENT-QUERY-STOP-LEGION-2026-11-11.md",
+      "sha256": "f5f28fcfea9146d520f940896a36daa71d74fb7f9ee130a5744bb44c83adbaf3",
+      "evidenceKind": "source-qualified-current-event-query"
+    },
+    {
+      "id": "rre-current-type3-report",
+      "path": "C:/work/rre/docs/RRE-NAV-NEW-BUILD-LEGION-2026-11-11.md",
+      "sha256": "f218eb74d4ffae38ca1342417b3511529fa41f65ebc3d150b4ac9762dea224ba",
+      "evidenceKind": "alternative-source-qualified-type3-raycast-dispatch"
+    },
+    {
+      "id": "rre-current-query-verifier",
+      "path": "C:/work/rre/tools/agents/collision/verify_current_query_wa006.py",
+      "sha256": "059c2e45c21194d0d54cb568a0adf88675e2fd3363a3bb381298ad2198a80133",
+      "evidenceKind": "offline-exact-build-fail-closed-validator"
     }
   ],
+  "recordedSelfCorrelation": {
+    "captureKind": "different earlier AMD physical process epoch, independently sampled native self and Lua API",
+    "status": "candidate-only-unbound",
+    "host": "AMD-DESKTOP",
+    "pid": 18092,
+    "processStartUtcTicks": "639300391441133615",
+    "hwnd": 919618,
+    "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "nativeSelfKeyDecimal": "239816685251645959",
+    "nativeSelfKeyHex": "035400012FA2D207",
+    "independentLuaPlayerId": "u035400012FA2D207",
+    "luaSourceApis": ["Inspect.Unit.Lookup(player)", "Inspect.Unit.Detail(playerId)"],
+    "luaFramesPerScan": [4, 3],
+    "scanStatus": "partial-byte-budget-exceeded",
+    "maxAbsoluteNativeLuaAxisDifference": {"x": 0.002215, "y": 0.003416, "z": 0.002681},
+    "temporalOrder": "native before -> two sequential 256 MiB partial Lua scans -> native after; not atomic",
+    "sameEpochSelfCorrelation": true,
+    "sameEpochNonselfCorrelation": false,
+    "nonceAuthenticated": false,
+    "changedPositionQualified": false,
+    "sceneInstanceQualified": false,
+    "cannotCombineWithLaterPid51524Scene": true,
+    "evidenceIds": ["rr2-self-temporal-bracket", "rr2-self-native-before", "rr2-self-native-raw", "rr2-self-native-after", "rr2-addon-producer", "rr2-addon-wire"]
+  },
+  "currentBuildStaticQuery": {
+    "mode": "read-only installed on-disk executable, no live process or VM",
+    "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "job": "rre_wa006_current_query_verifier_20261116_01",
+    "exitCode": 0,
+    "sourceWindows": 4,
+    "decodedInstructions": 360,
+    "opcodeAnchors": 15,
+    "directCallEdges": 4,
+    "inMemoryNegativeControls": 2,
+    "queryRva": "0xF7CD20",
+    "helperRva": "0x13E9FE0",
+    "directCalleeRva": "0x78B1C",
+    "directCalleeSha256": "3d24fd605664f325b6e1006b6ec75a82efa426e0e13bd746e81974077024c088",
+    "nextChildCallees": ["0x8E744", "0x9FD68"],
+    "readResultRecordOffset": "0x60",
+    "successWithoutOwnerWrite": true,
+    "actualRaycastHitMissVerified": false,
+    "physicalShapeOrOwnerVerified": false,
+    "logicalGameplayOwnerVerified": false,
+    "sourceIds": ["rre-current-query-rc58-json", "rre-current-query-rc58-report", "rre-current-query-verifier", "rre-current-type3-report"]
+  },
   "recordedObservation": {
     "captureKind": "existing saved RR2 native physical evidence",
     "host": "AMD-DESKTOP",
@@ -147,11 +253,14 @@
       "evidenceIds": [
         "rr2-unit-wrapper",
         "rr2-unit-names-wrapper",
+        "rr2-self-temporal-bracket",
+        "rr2-self-native-raw",
+        "rr2-addon-producer",
         "rre-contract"
       ],
       "missing": [
-        "self and >=2 distinct independently confirmed nonself RIFT gameplay IDs with XYZ within one scene/epoch",
-        "native-to-gameplay-ID correspondence"
+        ">=2 distinct independently confirmed nonself RIFT gameplay IDs with XYZ within one scene/epoch",
+        "same-epoch native-to-nonself-gameplay-ID correspondence; retained self-only correlation is different PID/epoch"
       ]
     },
     {
@@ -159,10 +268,12 @@
       "status": "blocked",
       "evidenceIds": [
         "rre-old-physics-hit",
-        "rre-old-backlink"
+        "rre-old-backlink",
+        "rre-current-query-rc58-json",
+        "rre-current-query-verifier"
       ],
       "missing": [
-        "current-build hit/miss pair",
+        "current-build real hit/miss pair; static current query path is not a runtime raycast",
         "fresh hit XYZ/normal/fraction and collision filter",
         "shape/owner to gameplay ID same-epoch proof"
       ]
@@ -206,7 +317,7 @@
     },
     {
       "priority": 1,
-      "task": "Trace current-build collision owner and correlate to gameplay IDs using source-first work",
+      "task": "Trace only current-build query callees 0x8E744/0x9FD68 and result+0x60 producer; self gameplay/native match exists in a separate PID, nonself remains blocked",
       "acceptance": "qualified hit/miss/shape/owner and independent logical-ID link, with negative control"
     },
     {
