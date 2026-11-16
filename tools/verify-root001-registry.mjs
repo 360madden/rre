@@ -53,6 +53,23 @@ const WINDOWS = [
   ['c2m_positive_flag_writer', 0x580950, 0x121, '360e70964e190b4b62145c19edffb398a34e874eb19834987cf38ec517fa946b'],
   ['c2m_key_equality_caller', 0x5f6650, 0x2d6, '1d41bf2d55203b6ce3d703176048a033cb198c6918608cef0f04ee6514fe7208'],
   ['c2m_caller_pointer_table', 0x26afbb0, 0xa0, 'd196cad731b8181ad9042c3a68d8b6d35b1ee1436eac0bb223492097fe479691'],
+  // Original callers of the two known vector processors: not vector element writers.
+  ['vector_upstream_01', 0xfba020, 0x21, '90812a8e57da7e0cb14e853f79a571dae50563546ef829f44dc1f8f8dc6b2458'],
+  ['vector_upstream_02', 0xfbc460, 0x745, 'a6131382c9ea636bc9783c216df2eca234b42d245b708d198c33219e2a4a0157'],
+  ['vector_upstream_03', 0xfc3c24, 0xb3, '3973f5182f0116c7e76f78063268fc1067fe44ba93c346351df1ff96dfd88c62'],
+  ['vector_upstream_04', 0xfc8a90, 0x18b, '3a0cdbf84425db65a2f970584fe424fb03cfa7147d76b54695c57f791121b63d'],
+  ['vector_upstream_05', 0xfd07b0, 0x31, '436a38eb3254fc85b07ec1b3c8a8195c73e8d5dfca1ba5971f518d74ba6089cf'],
+  ['vector_upstream_06', 0xfd0d80, 0xb7, 'c5b94e13262103d8654765243d5768acfbd97650a699a9c062fe8f0ea13a6b62'],
+  ['vector_upstream_07', 0xfd1160, 0x13, 'a3c272fc7556d9b0d78712d4c111f74020b74fe3402acee94f60dcf7a2088f9b'],
+  ['vector_upstream_08', 0xfd8cd0, 0x4d0, '18a0464ae3652aa86c8dbabd4b7038281ec9c820975fc7aa8d268b129a384806'],
+  ['vector_upstream_09', 0xfca0d0, 0xdc8, '35e7e89ce4795d13eec2de00b64d2b7ce9e23f772bbf5582e60a83e2d3d72cd6'],
+  // Vtable membership/installer and first-key-conditioned reference-pair transition.
+  ['c2m_activation_vtable', 0x26afb40, 0x140, '1f8e1529b4eff25d14f0f4281a84043fb684b5fdc879a05a6e7701095d1ee862'],
+  ['c2m_vtable_installer', 0x5dc520, 0x2b, '032e2cd9030488e8cc1aa70b592eaeedd594840d66db1e56355b279ff674380d'],
+  ['c2m_vtable_user_context', 0x601900, 0x157e, 'dd373abcdacfd22dd3bf8cdca8fd40abb4601903eea6630b2c33b72d6a8b2823'],
+  ['c2m_first_key_pair_update', 0x5807d0, 0x7b, '3c1e9d159e93e25adeb29e041511de7b55d0960d96419d5fa023f357f4dab6d8'],
+  ['c2m_reference_release_prefix', 0x4a02d0, 0x78, 'b60cb2e4db49aedbb49748a38d832955e115af78283a9aa46c59b9d7c3911bc4'],
+  ['c2m_transient_pair_cleanup_prefix', 0x49ac00, 0x78, 'abae0ea33271d8082429d95b1bd3413723683b6597a9487580fa919bbb66b9f6'],
 ];
 
 function sha256(value) {
@@ -231,6 +248,40 @@ export function verifyRoot001Bytes(bytes) {
     [0x5f6732, '7553'], // mismatch skips writer
     [0x5f6734, '498b4610'], // stage reference from object+0x10
     [0x5f6744, '488d5540'], // address of staged reference to writer
+
+    [0x787482, '488be9'], // first vector processor preserves incoming RCX in RBP
+    [0x7885fc, '488be9'], // second processor likewise
+    [0x78758d, '488b8da8060000'], // object+0x6A8 is vector container owner
+    [0x7886e4, '488b8da8060000'], // second processor follows same object+0x6A8
+    [0xfba02c, 'e83fd47cff'], // upstream direct caller 1
+    [0xfbc489, 'e8e2af7cff'], // upstream direct caller 2
+    [0xfc3c61, 'e80a387cff'], // upstream direct caller 3
+    [0xfc8abd, 'e8aee97bff'], // upstream direct caller 4
+    [0xfd07c1, 'e8aa6c7bff'], // upstream direct caller 5
+    [0xfd0da4, 'e8c7667bff'], // upstream direct caller 6
+    [0xfd1167, 'e804637bff'], // upstream direct caller 7
+    [0xfd8d0d, 'e85ee77aff'], // upstream direct caller 8
+    [0xfca4b0, 'e82be17bff'], // upstream direct caller 9
+
+    [0x5dc526, '488d0513360d02'], // installer loads 40-QWORD vtable
+    [0x5dc530, '488901'], // installer writes vtable pointer at object+0
+    [0x5dc533, 'f6c201'], // optional delete path selected by DL&1
+    [0x5dc536, '740a'], // skips optional delete call when flag clear
+    [0x5dc538, 'ba18000000'], // deallocator size argument
+
+    [0x5807e4, '488b2a'], // incoming pair first QWORD
+    [0x5807ed, '488b5a08'], // incoming pair second QWORD
+    [0x5807f1, '483ba930030000'], // compares ONLY first QWORD to root+0x330
+    [0x5807f8, '7435'], // identical first QWORD skips pair replacement
+    [0x5807ff, '448b03'], // reads count from second member
+    [0x580806, '8903'], // retain count
+    [0x58080d, 'ff4304'], // secondary count on zero-crossing
+    [0x580810, '488b8938030000'], // old root+0x338 reference
+    [0x580821, '4889af30030000'], // write root+0x330
+    [0x580828, '48899f38030000'], // write root+0x338
+    [0x58082f, '488bce'], // pass transient pair to cleanup
+    [0x580846, 'e9b5a3f1ff'], // unconditional jump to transient pair cleanup
+    [0x580a0f, '488d542430'], // positive writer passes staged 16-byte pair
   ];
   for (const [rva, hex] of anchors) hasBytes(rva, hex);
 
@@ -263,6 +314,22 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x5f6748, 0x580950);
   directCall(0x74b911, 0x3c310); // enter object+0x40 critical section before vector exchange
   directCall(0x74b968, 0x3c320); // leave the same critical section after exchange
+  directCall(0xfba02c, 0x787470);
+  directCall(0xfbc489, 0x787470);
+  directCall(0xfc3c61, 0x787470);
+  directCall(0xfc8abd, 0x787470);
+  directCall(0xfd07c1, 0x787470);
+  directCall(0xfd0da4, 0x787470);
+  directCall(0xfd1167, 0x787470);
+  directCall(0xfd8d0d, 0x787470);
+  directCall(0xfca4b0, 0x7885e0);
+  directCall(0x58081c, 0x4a02d0); // releases prior root+0x338 when present
+  directCall(0x5dc53d, 0x24e0d50); // vtable installer optional delete path
+  let directJumpsVerified = 0;
+  hasBytes(0x580846, 'e9');
+  assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
+    'reference-pair helper cleanup tail jump');
+  directJumpsVerified++;
 
   let ripTargetsVerified = 0;
   function ripReference(at, prefix, target) {
@@ -291,6 +358,7 @@ export function verifyRoot001Bytes(bytes) {
   // Original seven-byte FF 25 import thunks: Kernel32 critical-section enter/leave.
   ripReference(0x3c310, '48ff25', 0x25ef6e8);
   ripReference(0x3c320, '48ff25', 0x25ef6f0);
+  ripReference(0x5dc526, '488d05', 0x26afb40); // installer vtable pointer
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -301,6 +369,8 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x7e928a, 'eb', 0x7e92c9);
   shortBranch(0x7e92e6, '75', 0x7e92ed);
   shortBranch(0x5f6732, '75', 0x5f6787); // key mismatch skips C2M positive writer
+  shortBranch(0x5807f8, '74', 0x58082f); // first-pair-member equality only
+  shortBranch(0x5dc536, '74', 0x5dc542); // optional vtable deleting-destructor path
 
   let recordsVerified = 0;
   let rootRecord;
@@ -331,6 +401,17 @@ export function verifyRoot001Bytes(bytes) {
     '10-byte handler-loading tail-jump trampoline');
   assertClaim(pe.qword(0x26afc00) === 0x1405f6650n,
     'source-initialized conditional C2M writer caller method pointer');
+  // Slot 24 belongs to a 40-QWORD initialized vtable; code pointer availability
+  // is not evidence of runtime invocation or proof of the owning class name.
+  let c2mVtableMethodsVerified = 0;
+  for (let slot = 0; slot < 40; slot++) {
+    const pointer = pe.qword(0x26afb40 + slot * 8);
+    assertClaim(pointer >= EXPECTED_BASE, 'C2M table slot image VA ' + slot);
+    assertClaim(pe.virtualSectionFor(Number(pointer - EXPECTED_BASE), 1).name === '.text',
+      'C2M table code pointer section ' + slot);
+    c2mVtableMethodsVerified++;
+  }
+  assertClaim(0x26afc00 - 0x26afb40 === 24 * 8, 'C2M vtable slot 24 offset');
 
   // Named singleton and formatted-name buffer are distinct globals, 0x3ff8 bytes apart.
   // The 16-bit ROOT tag is source-derived only for the successful new-record path.
@@ -373,9 +454,14 @@ export function verifyRoot001Bytes(bytes) {
     sourceWindowsVerified: windowsVerified,
     opcodeAnchorsVerified: anchors.length,
     directCallsVerified,
+    directJumpsVerified,
     ripTargetsVerified,
     dispatchBranchesVerified: 2,
     c2mKeyMismatchBranchesVerified: 1,
+    c2mFirstKeyEqualityBranchesVerified: 1,
+    c2mVtableDeleteBranchesVerified: 1,
+    c2mVtableMethodsVerified,
+    vectorUpstreamDirectCallersVerified: 9,
     trampolineRva: '0x7068c0',
     handlerEntryOffset: '+0x18',
     rootInternalTagHex: '0x' + rootInternalTag.toString(16),
@@ -391,6 +477,11 @@ export function verifyRoot001Bytes(bytes) {
     staticC2mPositiveEligibilityWriterQualified: true,
     staticC2mRootKeyEqualityGateQualified: true,
     staticC2mMethodPointerAvailabilityQualified: true,
+    staticC2mVtableSlot24Qualified: true,
+    staticC2mFirstKeyReferencePairUpdateQualified: true,
+    staticC2mTransientReferenceCleanupQualified: true,
+    staticVectorProcessorCallersQualified: true,
+    vectorElementWritersProven: false,
     liveExecutionProven: false,
     playerIdentityProven: false,
     negativeMutationRejected: true,

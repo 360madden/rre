@@ -14,10 +14,13 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 34);
-  assert.equal(result.opcodeAnchorsVerified, 82);
-  assert.equal(result.directCallsVerified, 22);
-  assert.equal(result.ripTargetsVerified, 18);
+  assert.equal(result.sourceWindowsVerified, 49);
+  assert.equal(result.opcodeAnchorsVerified, 113);
+  assert.equal(result.directCallsVerified, 33);
+  assert.equal(result.directJumpsVerified, 1);
+  assert.equal(result.ripTargetsVerified, 19);
+  assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
+  assert.equal(result.c2mVtableMethodsVerified, 40);
   assert.equal(result.rootInternalTagHex, '0xdd3c');
   assert.equal(result.rootTagNameRegistrationConditional, true);
   assert.equal(result.namedSingletonRva, '0x35199f0');
@@ -31,7 +34,14 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticC2mPositiveEligibilityWriterQualified, true);
   assert.equal(result.staticC2mRootKeyEqualityGateQualified, true);
   assert.equal(result.staticC2mMethodPointerAvailabilityQualified, true);
+  assert.equal(result.staticC2mVtableSlot24Qualified, true);
+  assert.equal(result.staticC2mFirstKeyReferencePairUpdateQualified, true);
+  assert.equal(result.staticC2mTransientReferenceCleanupQualified, true);
+  assert.equal(result.staticVectorProcessorCallersQualified, true);
   assert.equal(result.c2mKeyMismatchBranchesVerified, 1);
+  assert.equal(result.c2mFirstKeyEqualityBranchesVerified, 1);
+  assert.equal(result.c2mVtableDeleteBranchesVerified, 1);
+  assert.equal(result.vectorElementWritersProven, false);
   assert.equal(result.liveExecutionProven, false);
   assert.equal(result.playerIdentityProven, false);
   assert.equal(result.dispatchBranchesVerified, 2);
@@ -73,6 +83,17 @@ for (const [name, rva] of [
   ['C2M positive eligibility byte writer', 0x580a1c],
   ['C2M key equality conditional branch', 0x5f6732],
   ['C2M conditional writer method pointer', 0x26afc00],
+  // Newly source-qualified callers, not producers of vector elements.
+  ['vector processor first direct parent call', 0xfba02c],
+  ['vector processor midstream parent call', 0xfc8abd],
+  ['vector processor second-path parent call', 0xfca4b0],
+  // The virtual-method slot is source-initialized; its invocation is unobserved.
+  ['C2M vtable owner installer', 0x5dc530],
+  // Only the first QWORD is compared before the reference pair is replaced.
+  ['C2M reference pair first-key comparison', 0x5807f1],
+  ['C2M reference pair first-key match branch', 0x5807f8],
+  ['C2M reference pair retain/release transition', 0x580821],
+  ['C2M transient reference-pair cleanup', 0x49ac00],
 ]) {
   test('exact-build SHA rejects a mutation at source RVA: ' + name, () => {
     const modified = Buffer.from(original);
