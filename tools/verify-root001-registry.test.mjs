@@ -14,11 +14,11 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 93);
-  assert.equal(result.opcodeAnchorsVerified, 291);
-  assert.equal(result.directCallsVerified, 69);
+  assert.equal(result.sourceWindowsVerified, 96);
+  assert.equal(result.opcodeAnchorsVerified, 303);
+  assert.equal(result.directCallsVerified, 71);
   assert.equal(result.directJumpsVerified, 3);
-  assert.equal(result.ripTargetsVerified, 39);
+  assert.equal(result.ripTargetsVerified, 40);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
@@ -67,6 +67,9 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticHostSelectorExistingCallbackPrelookupMethodQualified, true);
   assert.equal(result.staticHostLookupMissBypassesCallbackStageQualified, true);
   assert.equal(result.staticHostRegistryFNV1a64Qualified, true);
+  assert.equal(result.staticHostRegistryCollisionLengthAndByteEqualityQualified, true);
+  assert.equal(result.staticHostRegistryMemcmpImportThunkQualified, true);
+  assert.equal(result.specificRegisteredEventKeyMatchObserved, false);
   assert.equal(result.staticHostOwnerConditionalVectorResetQualified, true);
   assert.equal(result.specificFba020AdapterSelectedProven, false);
   // Generic callback dispatch preserves its own host; particular adapter
@@ -183,6 +186,11 @@ for (const [name, rva] of [
   ['host existing callback virtual cleanup', 0x7761da],
   ['null registry result skips staging', 0x776275],
   ['host FNV key hash', 0x783aa0],
+  ['host lookup calls collision checker', 0x783afc],
+  ['collision length comparison', 0x4ef4bf],
+  ['collision byte comparator call', 0x4ef4d5],
+  ['collision chain mismatch advance', 0x4ef4e8],
+  ['collision memcmp IAT thunk', 0x25047c7],
   ['registered InGame literal', 0x26a79d0],
   ['LoginFailed key to setter', 0x765edc],
   ['InGame literal to setter caller', 0xfcf553],

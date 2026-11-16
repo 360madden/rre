@@ -115,6 +115,9 @@ const WINDOWS = [
   ['host_selector_empty_assignment', 0x4f4030, 0x30, '00f63051b9cffcde84bee4cc3d800eaf05891d7d56783604c964691e4a87f1e2'],
   ['host_selector_empty_literal', 0x26a10b0, 0x10, '374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb'],
   ['host_registry_fnv1a64_hash', 0x783aa0, 0xb8, '97488a694482f430eb88005da2262479adc81057d1e5a6d8538fe38c57e5e5fa'],
+  ['host_registry_collision_equality', 0x4ef440, 0xdd, '74f7174a57fba4750420db17b83d224e4ec114ebebdc7193abbfb562b72b4326'],
+  ['host_registry_hash_lookup_caller', 0x4ef520, 0x90, '5669bf8acf296ff0ebe0fd2564823b8ec0d4250caa532d673c8ee8ed608c402a'],
+  ['host_registry_memcmp_import_thunk_region', 0x25047c0, 0x24, '7dec0700881fe411b3eec249791d97cb27702cc4d6a7f7bc182489433fc5b12e'],
   ['source_loginfailed_key_setter_caller', 0x765ebe, 0x2d, '4094296b5996aa0dd4952a300e81bd92bd934f947601e562cad88733f847285b'],
   ['source_ingame_literal_to_setter_caller', 0xfcf539, 0x126, 'a29cb830f7641658aa22010a721368d7cd7f0f521d0d35e3f4c28c7dcd3f5754'],
   ['source_ingame_host_global_getter', 0x766010, 0x40, 'c9691951076a7a1f4c12ff9495f6a6d5dbefbe92bee09c1bc7c0e6bc7e3c9423'],
@@ -480,6 +483,20 @@ export function verifyRoot001Bytes(bytes) {
     [0x74b756, '83b9e003000000'], // owner+0x3E0 gate, must not assume true
     [0x74b760, '0f8453010000'], // skip reset when gate false
     [0x74b827, '48898688000000'], // set owner vector end to beginning
+    // Host registry uses a masked hash bucket, then resolves collisions by length and byte comparison.
+    [0x4ef44f, '488b4108'], // head sentinel for empty bucket
+    [0x4ef45d, '4923d1'], // hash value masked by bucket mask
+    [0x4ef460, '48c1e204'], // 16-byte bucket descriptor
+    [0x4ef468, '488b5a08'], // candidate chain head
+    [0x4ef4a0, '48837b280f'], // candidate string inline/heap decision
+    [0x4ef4bf, '4c3b4320'], // require equal lengths
+    [0x4ef4d5, 'e8ed520102'], // compare equal-length bytes through imported memcmp thunk
+    [0x4ef4e8, '488b5b08'], // advance collision chain
+    [0x4ef4fb, '488b03'], // matched entry payload
+    [0x4ef501, '48895e08'], // return matched node; zero on miss
+    [0x783afc, 'e83fb9d6ff'], // existing host registry hash helper calls equality routine
+    [0x25047c7, 'ff2593b60e00'], // six-byte indirect import thunk (VCRUNTIME140 memcmp)
+
     // Two independent source functions retain incoming owner RCX in R14.
     [0x74bc1f, '4c8bf1'],
     [0x74bd5f, '498d7e40'], // owner+0x40 lock
@@ -595,6 +612,8 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x776256, 0x4f4030); // assign empty string after reached nonempty lookup
   directCall(0x778728, 0x4d5fb0); // registered InGame string constructor
   directCall(0x76607f, 0x783aa0); // hash string key during registry lookup
+  directCall(0x783afc, 0x4ef440); // host registry hash reaches collision-aware equality
+  directCall(0x4ef4d5, 0x25047c7); // equal-length byte comparison via imported thunk
   directCall(0x765eca, 0x4d5fb0); // caller builds literal LoginFailed string
   directCall(0x765edc, 0x77d740); // caller supplies key to setter
   directCall(0xfcf5f2, 0x766010); // InGame caller obtains host via global getter
@@ -657,6 +676,7 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0xfcf588, '488d15', 0x26a79d0); // same literal in copy
   ripReference(0xfcf5d2, '488d15', 0x26a79d0); // InGame long-string branch
   ripReference(0x766014, '488d0d', 0x33724f0); // already-published host global
+  ripReference(0x25047c7, 'ff25', 0x25efe60); // IAT referenced by comparison thunk
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -678,6 +698,11 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x77d775, '75', 0x77d799); // guard already active skips reentrant dispatch
   shortBranch(0x7761af, '74', 0x7761de); // no cached callback to call before lookup
   shortBranch(0x7660af, '74', 0x7660c4); // failed map lookup returns null
+  shortBranch(0x4ef46f, '75', 0x4ef48f); // nonempty bucket enters candidate chain
+  shortBranch(0x4ef4c3, '74', 0x4ef4cc); // equal string lengths, not just hash
+  shortBranch(0x4ef4cf, '75', 0x4ef4d5); // nonempty equal-length key needs memcmp
+  shortBranch(0x4ef4e1, '74', 0x4ef4fb); // zero mismatch returns matched node
+  shortBranch(0x4ef4ec, 'eb', 0x4ef4a0); // mismatch advances collision chain
   shortBranch(0xfcf5a7, 'eb', 0xfcf5f2); // short InGame string joins host-getter tail
   hasBytes(0x6a3ee0, 'e9');
   assertClaim(0x6a3ee0 + 5 + pe.int32(0x6a3ee1) === 0x58b20,
@@ -886,6 +911,9 @@ export function verifyRoot001Bytes(bytes) {
     staticHostSelectorExistingCallbackPrelookupMethodQualified: true,
     staticHostLookupMissBypassesCallbackStageQualified: true,
     staticHostRegistryFNV1a64Qualified: true,
+    staticHostRegistryCollisionLengthAndByteEqualityQualified: true,
+    staticHostRegistryMemcmpImportThunkQualified: true,
+    specificRegisteredEventKeyMatchObserved: false,
     staticHostOwnerConditionalVectorResetQualified: true,
     // Source path exists; no confirmed dynamic selection or live host instance.
     staticInGameLiteralReachesSetterProven: true,
