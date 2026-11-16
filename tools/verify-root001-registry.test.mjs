@@ -14,9 +14,9 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 109);
-  assert.equal(result.opcodeAnchorsVerified, 326);
-  assert.equal(result.directCallsVerified, 74);
+  assert.equal(result.sourceWindowsVerified, 110);
+  assert.equal(result.opcodeAnchorsVerified, 331);
+  assert.equal(result.directCallsVerified, 75);
   assert.equal(result.directJumpsVerified, 3);
   assert.equal(result.ripTargetsVerified, 42);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
@@ -48,6 +48,7 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticAppendOwnerVectorLifecycleQualified, true);
   assert.equal(result.staticInitializerOwnerField6a8StoreQualified, true);
   assert.equal(result.staticAppendOwnerConditionalPublicationQualified, true);
+  assert.equal(result.staticPublishedOwnerRefcountRetainSourcePathQualified, true);
   assert.equal(result.staticThreadEntrypointForwardsUnprovenRdiReceiverQualified, true);
   assert.equal(result.staticThreadReceiverViaHost6a8SlotQualified, true);
   assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
@@ -219,6 +220,8 @@ for (const [name, rva] of [
   ['spawner receives same pointer in RDI', 0x74c6c9],
   ['thread spawner chained pdata record', 0x36465f4],
   ['thread spawner chained unwind header', 0x2e31fc4],
+  ['post-publication owner retain call', 0x772578],
+  ['owner refcount retain helper', 0x75eaf0],
   ['owner vector end reset', 0x74b827],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],

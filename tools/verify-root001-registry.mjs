@@ -83,6 +83,7 @@ const WINDOWS = [
   ['append_owner_host_field_store', 0x7724b4, 0xa4, '4bc7236c3ea0e32738e0ff647eefbd0bc3e917c9594e46ca450d6c40ff1ec75a'],
   // Owner publication and thread callback are separate SOURCE paths; receiver type is unknown.
   ['append_owner_conditional_publication', 0x772512, 0x131, 'ff63d9d2da1a47ce1c78e671228c962faf2200794ab938e5f96f901b1e5c0f15'],
+  ['append_owner_refcount_retain_helper', 0x75eaf0, 0x07, 'aa248b3c232df51ca83fb4c4bbcd8c837d429b83bb7fc6880d07ab103aa372c8'],
   ['callback_thread_start_callsite', 0x74c830, 0xa0, '4bef08650df6b9176136efa9f507afb200b3bc13524e241d14ad0beb6aa5ab1f'],
   ['callback_thread_entry_wrapper', 0x74d5e0, 0x48, 'ee343e3774367fb4872619dfd0a60266503587d8d65fa8f89dbc1bc57544e874'],
   ['callback_thread_wrapper_tail', 0x74d6c0, 0x30, '714999dbebce80cf440926dd53a6afcd10bbeb862ad417ec4f7e6c8080f10db7'],
@@ -507,6 +508,11 @@ export function verifyRoot001Bytes(bytes) {
     [0x772515, '4839842470020000'], // compare existing slot and new candidate
     [0x77254d, '488b8c2470020000'], // reload possibly-null candidate
     [0x772555, '488908'], // conditional owner publication into host+0x6A8
+    [0x772560, '48833800'], // only retain the newly stored owner when non-null
+    [0x77256e, '488b00'], // reread stored owner QWORD from same slot
+    [0x772571, '4883c018'], // pass owner+0x18 control-block address
+    [0x772575, '488bc8'], // RCX receives owner+0x18 for retain helper
+    [0x75eaf0, 'ff41088b4108c3'], // inc DWORD[RCX+8]; read count; RET (no vptr write)
     // CRT _beginthreadex start callback and argument, source only.
     [0x74c875, '4c8d05'], // load thread-start routine RVA 0x74D5E0 into R8
     [0x74c87c, '4c8bcf'], // pass caller's RDI as _beginthreadex argument R9
@@ -666,6 +672,7 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x7639df, 0x74b750); // owner-local conditional vector reset
   directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
   directCall(0x74d6d7, 0x74d700); // thread entry's saved RCX reaches virtual receiver
+  directCall(0x772578, 0x75eaf0); // conditional owner+0x20 retain; not a vptr write
   directCall(0x77258f, 0x58b20); // read pointer currently at host+0x6A8
   directCall(0x772597, 0x74c6c0); // pass that pointer to chained thread spawner
   let directJumpsVerified = 0;
@@ -741,6 +748,7 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x74c085, '75', 0x74c0ac); // writer B capacity suffices
   shortBranch(0x7781a0, '74', 0x7781e8); // null A adapter constructor path
   shortBranch(0x7786f4, '74', 0x77870d); // null B adapter constructor path
+  shortBranch(0x772564, '74', 0x77257e); // null owner skips post-publication retain
   shortBranch(0x776265, '75', 0x77627a); // only stage non-null registry result
   shortBranch(0x779c50, '74', 0x779c79); // only invoke non-null callback slot
   shortBranch(0x77d775, '75', 0x77d799); // guard already active skips reentrant dispatch
@@ -955,6 +963,9 @@ export function verifyRoot001Bytes(bytes) {
     staticAppendOwnerVectorLifecycleQualified: true,
     staticInitializerOwnerField6a8StoreQualified: true,
     staticAppendOwnerConditionalPublicationQualified: true,
+    // On the reached non-null store branch: retain helper adjusts +0x20 count only.
+    // This does not establish the owner's vptr when an async callback later runs.
+    staticPublishedOwnerRefcountRetainSourcePathQualified: true,
     staticThreadEntrypointForwardsUnprovenRdiReceiverQualified: true,
     staticThreadReceiverViaHost6a8SlotQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
