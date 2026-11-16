@@ -2,7 +2,11 @@
 
 Authorized by Joey on October 20, 2026 after proposing entity identity, collision-hit ownership, camera projection, player clearance and native-navigation reuse. Repository: `C:/work/rre`. The Manager is this ChatGPT session; independent reviewers may work only in their assigned lanes. Model reported by the Manager: GPT-6 Astra Pro. Reasoning level: not available (leave blank in machine records).
 
-## Current checkpoint
+## Current checkpoint — November 16, 2026
+
+**WA-005 integrated (offline QA):** Three independent inspector review lanes accepted the exact v1.1.2 source. The preserved historical RIFT PE was found in a read-only RiftReader2 archive and selected through a strict size/SHA-validated `--legacy-pe` option. The nine-group research gate passed **550 tests** (exit 0) with source hashes unchanged, the fixture unchanged at completion and no skipped Python tests. [Acceptance report](RRE-WA005-LEGACY-PE-ACCEPTANCE-2026-11-16.md). **WA-006 and WA-007 are still blocked:** no actual multi-object physics/camera scene or final gameplay identity has been validated. No live game/VM operation.
+
+## October 20 checkpoint (historical)
 
 WA-001..004 are integrated as contract `02fbcc1` and implementation/research `5478207`. The file-only inspector has a real historical player-only report and a separately labeled synthetic multi-object report. The final regression run passed 80 distinct tests. WA-005 is blocked on unfinished independent full-code review, not on failing tests. WA-006 still needs actual simultaneous non-self entities, a qualified physical hit/owner and camera calibration. Read [the research/validation record](world-awareness-research-2026-10-20.md) and the machine task board before resuming; do not redo the accepted consumer or treat it as live recognition.
 
