@@ -118,6 +118,18 @@
       "evidenceKind": "post-lua-native-bracket"
     },
     {
+      "id": "rr2-self-scan-index-first",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/pass-01/scan/index.json",
+      "sha256": "59bd92ba270851eac0fbb024dfd2791a5499da9297e4e546cdb643d61ce11d32",
+      "evidenceKind": "partial-first-lua-rr2a1-scan-index"
+    },
+    {
+      "id": "rr2-self-scan-index-second",
+      "path": "C:/work/riftreader2/artifacts/physical-rr2a1-temporal-bracketed-20261111-2307/pass-02/scan/index.json",
+      "sha256": "e89d4651a13dfb8ede85822adf9ac11ee3107509a7d4506aa86508ee68697a73",
+      "evidenceKind": "partial-second-lua-rr2a1-scan-index"
+    },
+    {
       "id": "rr2-addon-producer",
       "path": "C:/work/riftreader2/addon/RiftReader2/producer.lua",
       "sha256": "ba565468bda7fc054186d1bb1f15b504620565eeb448818451ffa346887dc779",
@@ -150,7 +162,7 @@
     {
       "id": "rre-current-query-verifier",
       "path": "C:/work/rre/tools/agents/collision/verify_current_query_wa006.py",
-      "sha256": "059c2e45c21194d0d54cb568a0adf88675e2fd3363a3bb381298ad2198a80133",
+      "sha256": "04f1202242a572436c0235f5756a89a530d97e14f67b29ca9aaf00bf9183de4b",
       "evidenceKind": "offline-exact-build-fail-closed-validator"
     }
   ],
@@ -176,23 +188,31 @@
     "changedPositionQualified": false,
     "sceneInstanceQualified": false,
     "cannotCombineWithLaterPid51524Scene": true,
-    "evidenceIds": ["rr2-self-temporal-bracket", "rr2-self-native-before", "rr2-self-native-raw", "rr2-self-native-after", "rr2-addon-producer", "rr2-addon-wire"]
+    "evidenceIds": ["rr2-self-temporal-bracket", "rr2-self-native-before", "rr2-self-native-raw", "rr2-self-native-after", "rr2-self-scan-index-first", "rr2-self-scan-index-second", "rr2-addon-producer", "rr2-addon-wire"]
   },
   "currentBuildStaticQuery": {
     "mode": "read-only installed on-disk executable, no live process or VM",
     "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
-    "job": "rre_wa006_current_query_verifier_20261116_01",
+    "job": "rre_wa006_query_expanded_911_20261116_01",
     "exitCode": 0,
-    "sourceWindows": 4,
-    "decodedInstructions": 360,
+    "sourceWindows": 7,
+    "decodedInstructions": 911,
     "opcodeAnchors": 15,
-    "directCallEdges": 4,
+    "directCallEdges": 5,
     "inMemoryNegativeControls": 2,
+    "negativeControlsExerciseActualVerifier": true,
     "queryRva": "0xF7CD20",
     "helperRva": "0x13E9FE0",
     "directCalleeRva": "0x78B1C",
     "directCalleeSha256": "3d24fd605664f325b6e1006b6ec75a82efa426e0e13bd746e81974077024c088",
-    "nextChildCallees": ["0x8E744", "0x9FD68"],
+    "queryChildCallees": ["0x8E744", "0x9FD68"],
+    "verifiedChildWindows": [
+      {"beginRva": "0x8E744", "endRvaExclusive": "0x8E7ED", "bytes": 169, "instructions": 35, "sha256": "84493c16cc018b254698dd8a1d37406f6e7ee3150d1e407bc232cd5608014274", "classification": "query-descriptor-adapter"},
+      {"beginRva": "0xD0944", "endRvaExclusive": "0xD1074", "bytes": 1840, "instructions": 443, "sha256": "2f37be6b71b566885610faa92f6bf0c1a210dc821a4c459ce985cf39d2b566fe", "classification": "conditional-geometry-candidate-record-producer-not-owner"},
+      {"beginRva": "0x9FD68", "endRvaExclusive": "0x9FE88", "bytes": 288, "instructions": 73, "sha256": "1f044f797e13c5d773122a9e777038d5ff4bd3ebafaf2e621d55c4ee8f7c0372", "classification": "temporary-descriptor-and-indirect-vtable-dispatch"}
+    ],
+    "geometricCandidateRecordStride": "0x20",
+    "candidateToResultPlus0x60Qualified": false,
     "readResultRecordOffset": "0x60",
     "successWithoutOwnerWrite": true,
     "actualRaycastHitMissVerified": false,
@@ -317,7 +337,7 @@
     },
     {
       "priority": 1,
-      "task": "Trace only current-build query callees 0x8E744/0x9FD68 and result+0x60 producer; self gameplay/native match exists in a separate PID, nonself remains blocked",
+      "task": "Bounded next producer: connect 0xD0944 scratch candidate records or 0x9FE36 indirect dispatch to wrapper result+0x60, without assuming shape/gameplay owner; independent nonself ID correlation still missing",
       "acceptance": "qualified hit/miss/shape/owner and independent logical-ID link, with negative control"
     },
     {

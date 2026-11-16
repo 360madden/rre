@@ -15,6 +15,9 @@ REGIONS = (
     ("query", 0xF7CD20, 0xF7CF47, 144, "ae78a6ae1c6bed37d01a2173c43a265a91c0d8c3c0bc28fd6f585e65c8d33564"),
     ("helper", 0x13E9FE0, 0x13EA007, 11, "03d9b554e958d1e590ec3e9ecc4f87df18d60ed3dd009a8b42e584197901ab12"),
     ("callee", 0x78B1C, 0x78C21, 63, "3d24fd605664f325b6e1006b6ec75a82efa426e0e13bd746e81974077024c088"),
+    ("query-adapter", 0x8E744, 0x8E7ED, 35, "84493c16cc018b254698dd8a1d37406f6e7ee3150d1e407bc232cd5608014274"),
+    ("geometry-candidate-producer", 0xD0944, 0xD1074, 443, "2f37be6b71b566885610faa92f6bf0c1a210dc821a4c459ce985cf39d2b566fe"),
+    ("virtual-dispatch-adapter", 0x9FD68, 0x9FE88, 73, "1f044f797e13c5d773122a9e777038d5ff4bd3ebafaf2e621d55c4ee8f7c0372"),
 )
 ANCHORS = (
     (0x6A64EC, "e82f688d00"), (0x6A64F1, "84c0"),
@@ -27,7 +30,8 @@ ANCHORS = (
     (0xF7CF23, "32c0"),
 )
 CALLS = ((0x6A64EC, 0xF7CD20), (0xF7CDFE, 0x13E9FE0),
-         (0x78B8E, 0x8E744), (0x78BD0, 0x9FD68))
+         (0x78B8E, 0x8E744), (0x78BD0, 0x9FD68),
+         (0x8E7E0, 0xD0944))
 
 
 def digest(blob):
@@ -39,7 +43,7 @@ def check(ok, message):
         raise ValueError(message)
 
 
-def verify(blob):
+def verify(blob, *, run_negative_controls=True):
     check(len(blob) == 60493640, "wrong executable size")
     check(digest(blob) == SHA, "wrong executable SHA-256")
     pe = pefile.PE(data=blob, fast_load=True)
@@ -68,22 +72,34 @@ def verify(blob):
         check(raw[0] == 0xe8 and
               rva + 5 + int.from_bytes(raw[1:], "little", signed=True) == target,
               "call edge mismatch")
-    # Negative controls modify ONLY transient in-memory copies.
-    modified = bytearray(blob)
-    modified[0x40] ^= 1
-    check(digest(modified) != SHA, "wrong-build negative control failed")
-    sample = bytearray(region(0xF7CD20, 0x227))
-    sample[0xF7CE74-0xF7CD20] ^= 1
-    check(digest(sample) != REGIONS[1][4], "window negative control failed")
+    # Exercise the ACTUAL verifier with two in-memory corruptions. No file writes.
+    # Recursive invocations disable their own controls, so both must fail at
+    # the top-level exact-executable SHA guard before any assertion is promoted.
+    if run_negative_controls:
+        modified = bytearray(blob)
+        for offset in (0x40, pe.get_offset_from_rva(0xF7CE74)):
+            modified[offset] ^= 1
+            try:
+                verify(bytes(modified), run_negative_controls=False)
+            except ValueError as exc:
+                check(str(exc) == "wrong executable SHA-256",
+                      "tampered-executable rejection reason changed")
+            else:
+                raise ValueError("corrupted source accepted by full verifier")
+            modified[offset] ^= 1
     return {"task": "WA-006", "status": "static-source-qualified",
             "executableSha256": SHA, "verifiedWindows": len(REGIONS),
             "verifiedInstructions": sum(x[3] for x in REGIONS),
             "anchors": len(ANCHORS), "callEdges": len(CALLS),
-            "inMemoryNegativeControlsPassed": 2,
+            "inMemoryNegativeControlsPassed": 2 if run_negative_controls else 0,
             "resultRecordOffset": "0x60",
             "successWithoutOwnerWrite": "0xF7CE77 -> 0xF7CEC5 (AL=1)",
             "wrongTypeWithoutOwnerWrite": "0xF7CE86 -> 0xF7CEC5 (AL=1)",
-            "nextCallees": ["0x8E744", "0x9FD68"],
+            "queryChildCallees": ["0x8E744", "0x9FD68"],
+            "geometryCandidateProducerRva": "0xD0944",
+            "indirectVirtualDispatchRva": "0x9FE36",
+            "candidateRecordStride": "0x20",
+            "candidateToResultPlus0x60Qualified": False,
             "runtimeHitQualified": False, "ownerQualified": False,
             "gameplayIdQualified": False, "worldInstanceQualified": False}
 
