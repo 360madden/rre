@@ -162,7 +162,7 @@
     {
       "id": "rre-current-query-verifier",
       "path": "C:/work/rre/tools/agents/collision/verify_current_query_wa006.py",
-      "sha256": "04f1202242a572436c0235f5756a89a530d97e14f67b29ca9aaf00bf9183de4b",
+      "sha256": "97075d583660708ce49fc99ab2a4a6df542476d32fbba2c647215a6c000d4fc3",
       "evidenceKind": "offline-exact-build-fail-closed-validator"
     }
   ],
@@ -179,6 +179,9 @@
     "independentLuaPlayerId": "u035400012FA2D207",
     "luaSourceApis": ["Inspect.Unit.Lookup(player)", "Inspect.Unit.Detail(playerId)"],
     "luaFramesPerScan": [4, 3],
+    "originalRawLuaSnapshotsTransitivelyHashVerified": 7,
+    "originalRawLuaReplayIndependentJob": "rre_wa006_independent_rr2_raw_lua_replay_20261116_01",
+    "originalRawLuaReplayRreVerifierJob": "rre_wa006_lua_raw_full_replay_20261116_01",
     "scanStatus": "partial-byte-budget-exceeded",
     "maxAbsoluteNativeLuaAxisDifference": {"x": 0.002215, "y": 0.003416, "z": 0.002681},
     "temporalOrder": "native before -> two sequential 256 MiB partial Lua scans -> native after; not atomic",
@@ -193,11 +196,11 @@
   "currentBuildStaticQuery": {
     "mode": "read-only installed on-disk executable, no live process or VM",
     "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
-    "job": "rre_wa006_query_expanded_911_20261116_01",
+    "job": "rre_wa006_current_9region_vtable_fullcheck_20261116_01",
     "exitCode": 0,
-    "sourceWindows": 7,
-    "decodedInstructions": 911,
-    "opcodeAnchors": 15,
+    "sourceWindows": 9,
+    "decodedInstructions": 1036,
+    "opcodeAnchors": 19,
     "directCallEdges": 5,
     "inMemoryNegativeControls": 2,
     "negativeControlsExerciseActualVerifier": true,
@@ -209,9 +212,19 @@
     "verifiedChildWindows": [
       {"beginRva": "0x8E744", "endRvaExclusive": "0x8E7ED", "bytes": 169, "instructions": 35, "sha256": "84493c16cc018b254698dd8a1d37406f6e7ee3150d1e407bc232cd5608014274", "classification": "query-descriptor-adapter"},
       {"beginRva": "0xD0944", "endRvaExclusive": "0xD1074", "bytes": 1840, "instructions": 443, "sha256": "2f37be6b71b566885610faa92f6bf0c1a210dc821a4c459ce985cf39d2b566fe", "classification": "conditional-geometry-candidate-record-producer-not-owner"},
-      {"beginRva": "0x9FD68", "endRvaExclusive": "0x9FE88", "bytes": 288, "instructions": 73, "sha256": "1f044f797e13c5d773122a9e777038d5ff4bd3ebafaf2e621d55c4ee8f7c0372", "classification": "temporary-descriptor-and-indirect-vtable-dispatch"}
+      {"beginRva": "0x9FD68", "endRvaExclusive": "0x9FE88", "bytes": 288, "instructions": 73, "sha256": "1f044f797e13c5d773122a9e777038d5ff4bd3ebafaf2e621d55c4ee8f7c0372", "classification": "temporary-descriptor-and-indirect-vtable-dispatch"},
+      {"beginRva": "0xA2514", "endRvaExclusive": "0xA26D2", "bytes": 446, "instructions": 119, "sha256": "ea78e0b39823e7ae154144f11e0d31a9acb794f8acfbfb9a4087e83255bba973", "classification": "candidate-selection-callback-unresolved-object-plus-0x48-virtual"},
+      {"beginRva": "0xA24F4", "endRvaExclusive": "0xA2506", "bytes": 18, "instructions": 6, "sha256": "f71c676e712dcd3bedc4a1fac726fe81e28d5a504c5adce47c8db91e9ef17860", "classification": "scratch-candidate-presence-check-not-gameplay-owner"}
     ],
     "geometricCandidateRecordStride": "0x20",
+    "candidateSelectorVtableRva": "0x278C980",
+    "candidateSelectorVtableSha256": "dea4f646f9944c1acf36b364687f96ff2e5476e2414c19197247067f08d9606f",
+    "candidateSelectorRva": "0xA2514",
+    "candidateBooleanReaderRva": "0xA24F4",
+    "candidateScratchFieldOffset": "0x50",
+    "candidateObjectVirtualResultProducerQualified": false,
+    "unresolvedVirtualResultMethodSlot": "+0x48",
+    "unresolvedSeparateReceiverVirtualSlot": "+0xB8",
     "candidateToResultPlus0x60Qualified": false,
     "readResultRecordOffset": "0x60",
     "successWithoutOwnerWrite": true,

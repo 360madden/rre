@@ -115,23 +115,128 @@ function verify(matrix) {
     requireTrue(ciEqual(expected, sha(sourceBytes.get(indexId))),
       'bracket scan-index SHA mismatch');
   }
+  const utc = compare.captureOrder?.observedUtc;
+  requireTrue(utc
+    && scans[0].startedAtUtc === utc.firstScanStarted
+    && scans[0].completedAtUtc === utc.firstScanCompleted
+    && scans[1].startedAtUtc === utc.secondScanStarted
+    && scans[1].completedAtUtc === utc.secondScanCompleted
+    && Date.parse(scans[0].startedAtUtc) < Date.parse(scans[0].completedAtUtc)
+    && Date.parse(scans[0].completedAtUtc) < Date.parse(scans[1].startedAtUtc)
+    && Date.parse(scans[1].startedAtUtc) < Date.parse(scans[1].completedAtUtc),
+    'original Lua scan timestamps are not source-coherent or ordered');
   requireTrue(bracket.scanSnapshots.length === 2 &&
     bracket.scanSnapshots.every((n, i) => n === self.luaFramesPerScan[i]) &&
     compare.frameCounts.every((n, i) => n === self.luaFramesPerScan[i]),
     'Lua frame counts not original-source bound');
+  // The original SHA-pinned scan indexes transitively pin their *actual* Lua
+  // snapshot files. Decode those 4-KiB captured pages, not just RR2's summary.
+  // RR2's separate strict raw replay remains the independent second implementation.
+  const replayLua = (scan, sourceId) => {
+    const pin = matrix.sources.find(x => x.id === sourceId);
+    requireTrue(pin && Array.isArray(scan.candidates), 'missing original Lua scan index');
+    const accepted = scan.candidates.filter(x => x.status === 'complete');
+    requireTrue(accepted.length === scan.publishedSnapshots && accepted.length >= 2,
+      'original Lua snapshot count mismatches index');
+    const frames = [];
+    for (const item of accepted) {
+      requireTrue(/^capture-\d{2}\.snapshot\.json$/.test(item.snapshotFile),
+        'unsafe Lua snapshot filename');
+      const raw = readFileSync(path.join(path.dirname(pin.path), item.snapshotFile));
+      requireTrue(sha(raw) === String(item.snapshotSha256).toLowerCase(),
+        'original Lua snapshot SHA mismatch');
+      const snapshotText = raw.toString('utf8');
+      const snapshot = JSON.parse(snapshotText);
+      const ticks = snapshotText.match(/"processStartUtcTicks"\s*:\s*(\d+)/);
+      requireTrue(snapshot.evidenceKind === 'native-memory-snapshot/1'
+        && snapshot.status === 'complete'
+        && snapshot.identity.processId === self.pid
+        && ciEqual(snapshot.identity.executableSha256, self.executableSha256)
+        && ticks && ticks[1] === self.processStartUtcTicks
+        && Array.isArray(snapshot.chunks) && snapshot.chunks.length > 0,
+        'Lua snapshot provenance mismatch');
+      let firstAddress = null;
+      let expectedAddress = null;
+      const pages = [];
+      for (const page of snapshot.chunks) {
+        const address = BigInt(page.address);
+        requireTrue(page.status === 'success' && page.requestedByteLength === 4096
+          && page.bytesRead === 4096
+          && (expectedAddress === null || address === expectedAddress),
+          'Lua page missing or noncontiguous');
+        const data = Buffer.from(page.bytesBase64, 'base64');
+        requireTrue(data.length === 4096
+          && data.toString('base64') === page.bytesBase64
+          && sha(data) === String(page.bytesSha256).toLowerCase(),
+          'Lua captured page corrupt');
+        if (firstAddress === null) firstAddress = address;
+        expectedAddress = address + 4096n;
+        pages.push(data);
+      }
+      const data = Buffer.concat(pages);
+      const relative = BigInt(item.markerAddress) - firstAddress;
+      requireTrue(relative >= 0n && relative < BigInt(data.length),
+        'Lua marker outside captured pages');
+      const offset = Number(relative);
+      const prefix = Buffer.from('RR2A1|');
+      const suffix = Buffer.from('|ENDRR2A1');
+      const end = data.indexOf(suffix, offset + prefix.length);
+      requireTrue(data.subarray(offset, offset + prefix.length).equals(prefix)
+        && end >= 0 && end + suffix.length - offset <= 4096,
+        'Lua frame marker or terminator missing');
+      const observed = JSON.parse(data.subarray(offset + prefix.length, end).toString('utf8'));
+      requireTrue(observed.schemaVersion === 1 && observed.addonVersion === '0.1.0'
+        && observed.player?.status === 'ok'
+        && observed.player.value === self.independentLuaPlayerId
+        && Number.isSafeInteger(observed.sequence) && observed.sequence > 0
+        && Number.isSafeInteger(observed.epoch) && observed.epoch > 0
+        && observed.clock?.status === 'ok'
+        && Number.isFinite(observed.clock.value)
+        && ['coordX', 'coordY', 'coordZ'].every(axis =>
+          observed.fields?.[axis]?.status === 'ok'
+          && Number.isFinite(observed.fields[axis].value)),
+        'actual original Lua player frame does not match matrix self identity');
+      frames.push({sequence: observed.sequence, epoch: observed.epoch,
+        clock: observed.clock.value});
+    }
+    frames.sort((a, b) => a.sequence - b.sequence);
+    requireTrue(frames.every((f, i) => i === 0 ||
+      (f.sequence > frames[i - 1].sequence && f.clock > frames[i - 1].clock)),
+      'Lua original frame sequence or time did not advance');
+    return frames;
+  };
+  const originalLuaFrames = scans.map((scan, i) => replayLua(scan,
+    i === 0 ? 'rr2-self-scan-index-first' : 'rr2-self-scan-index-second'));
+  requireTrue(originalLuaFrames[0].at(-1).sequence < originalLuaFrames[1][0].sequence
+    && originalLuaFrames[0].at(-1).clock < originalLuaFrames[1][0].clock
+    && originalLuaFrames[0][0].epoch === compare.luaEpochCandidate
+    && originalLuaFrames[0][0].epoch === originalLuaFrames[1][0].epoch
+    && originalLuaFrames.every((frames, i) =>
+      frames.length === self.luaFramesPerScan[i]
+      && frames.every(f => f.epoch === originalLuaFrames[0][0].epoch)
+      && frames[0].sequence === compare.sequenceWindows[i][0]
+      && frames.at(-1).sequence === compare.sequenceWindows[i][1]),
+    'Lua original scan frames disagree with source comparison');
   const hex = BigInt(self.nativeSelfKeyDecimal).toString(16).toUpperCase().padStart(16, '0');
   requireTrue(hex === self.nativeSelfKeyHex && 'u' + hex === self.independentLuaPlayerId,
     'native self key is not equal to separately recorded Lua player ID');
   requireTrue(self.status === 'candidate-only-unbound' && self.sameEpochSelfCorrelation === true
     && self.sameEpochNonselfCorrelation === false && self.nonceAuthenticated === false
+    && self.originalRawLuaSnapshotsTransitivelyHashVerified === 7
     && self.changedPositionQualified === false
     && self.cannotCombineWithLaterPid51524Scene === true, 'self proof overpromoted');
   requireTrue(other.displayedNonselfCandidates === 18, 'nonself candidate count changed');
   const query = matrix.currentBuildStaticQuery;
-  requireTrue(query.exitCode === 0 && query.sourceWindows === 7
-    && query.decodedInstructions === 911 && query.opcodeAnchors === 15
+  requireTrue(query.exitCode === 0 && query.sourceWindows === 9
+    && query.decodedInstructions === 1036 && query.opcodeAnchors === 19
     && query.directCallEdges === 5 && query.inMemoryNegativeControls === 2,
     'current-build static verification receipt changed');
+  requireTrue(query.candidateSelectorVtableRva === '0x278C980'
+    && query.candidateSelectorRva === '0xA2514'
+    && query.candidateBooleanReaderRva === '0xA24F4'
+    && query.candidateScratchFieldOffset === '0x50'
+    && query.candidateObjectVirtualResultProducerQualified === false,
+    'candidate selector/result ownership promoted or corrupted');
   requireTrue(query.successWithoutOwnerWrite === true
     && query.actualRaycastHitMissVerified === false
     && query.physicalShapeOrOwnerVerified === false
@@ -142,6 +247,8 @@ function verify(matrix) {
     for (const id of gate.evidenceIds ?? []) requireTrue(seen.has(id), 'unresolved source ID ' + id);
   }
   return { status: 'passed', task: 'WA-006', originalHashesVerified: seen.size,
+    originalLuaSnapshotsReplayed: originalLuaFrames.reduce((n, f) => n + f.length, 0),
+    originalLuaPassFrameCounts: originalLuaFrames.map(f => f.length),
     selfNativeLuaIdMatch: true, selfAndNonselfEpochsSeparate: true,
     staticQueryOnly: true, qualifiedRealScene: false,
     gates: matrix.acceptanceGates.map(g => ({id: g.id, status: g.status})) };

@@ -18,7 +18,11 @@ REGIONS = (
     ("query-adapter", 0x8E744, 0x8E7ED, 35, "84493c16cc018b254698dd8a1d37406f6e7ee3150d1e407bc232cd5608014274"),
     ("geometry-candidate-producer", 0xD0944, 0xD1074, 443, "2f37be6b71b566885610faa92f6bf0c1a210dc821a4c459ce985cf39d2b566fe"),
     ("virtual-dispatch-adapter", 0x9FD68, 0x9FE88, 73, "1f044f797e13c5d773122a9e777038d5ff4bd3ebafaf2e621d55c4ee8f7c0372"),
+    ("candidate-selector", 0xA2514, 0xA26D2, 119, "ea78e0b39823e7ae154144f11e0d31a9acb794f8acfbfb9a4087e83255bba973"),
+    ("candidate-bool", 0xA24F4, 0xA2506, 6, "f71c676e712dcd3bedc4a1fac726fe81e28d5a504c5adce47c8db91e9ef17860"),
 )
+VTABLE_RVA = 0x278C980
+VTABLE_SHA = "dea4f646f9944c1acf36b364687f96ff2e5476e2414c19197247067f08d9606f"
 ANCHORS = (
     (0x6A64EC, "e82f688d00"), (0x6A64F1, "84c0"),
     (0xF7CDFE, "e8ddd14600"), (0xF7CE03, "4c396360"),
@@ -28,6 +32,8 @@ ANCHORS = (
     (0xF7CEB1, "8139ffff0000"), (0xF7CEC5, "b001"),
     (0xF7CF10, "48894500"), (0xF7CF14, "b001"),
     (0xF7CF23, "32c0"),
+    (0x8E74B, "488d052ee26f02"), (0x8E75A, "4889442430"),
+    (0xD0EA3, "ff5008"), (0xD101B, "ff5010"),
 )
 CALLS = ((0x6A64EC, 0xF7CD20), (0xF7CDFE, 0x13E9FE0),
          (0x78B8E, 0x8E744), (0x78BD0, 0x9FD68),
@@ -65,6 +71,11 @@ def verify(blob, *, run_negative_controls=True):
         ins = list(cs.disasm(data, begin))
         check(len(ins) == count and ins[0].address == begin and
               ins[-1].address + ins[-1].size == end, "instruction boundary: " + name)
+    vtable = region(VTABLE_RVA, 64)
+    check(digest(vtable) == VTABLE_SHA, "candidate vtable hash changed")
+    for slot, callee in ((0x08, 0xA2514), (0x10, 0xA24F4)):
+        check(int.from_bytes(vtable[slot:slot + 8], "little") ==
+              pe.OPTIONAL_HEADER.ImageBase + callee, "candidate vtable target mismatch")
     for rva, expected in ANCHORS:
         check(region(rva, len(expected)//2).hex() == expected, "opcode mismatch")
     for rva, target in CALLS:
@@ -99,6 +110,10 @@ def verify(blob, *, run_negative_controls=True):
             "geometryCandidateProducerRva": "0xD0944",
             "indirectVirtualDispatchRva": "0x9FE36",
             "candidateRecordStride": "0x20",
+            "candidateSelectorVtableRva": "0x278C980",
+            "candidateSelectorRva": "0xA2514",
+            "candidateBooleanReaderRva": "0xA24F4",
+            "candidateScratchFieldOffset": "0x50",
             "candidateToResultPlus0x60Qualified": False,
             "runtimeHitQualified": False, "ownerQualified": False,
             "gameplayIdQualified": False, "worldInstanceQualified": False}
