@@ -1,0 +1,78 @@
+# WA-006 — Recorded physical evidence reuse and qualification protocol
+
+**Checkpoint:** 2026-11-16 EST · **Repository:** `C:\work\rre` · **Verified host:** AMD-DESKTOP · **State:** **offline evidence index prepared; WA-006 blocked**.  
+Machine-readable companion: [RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json](RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json) (source paths, exact SHA-256, observations, five remaining gates).
+
+## Decision: use the existing RR2 physical producers
+
+The older RRE inspector's recorded receipt is genuinely **player-only** (one source ID, one XYZ), and its multiple-entity demo is synthetic. However, RR2 already recorded a **physical AMD-DESKTOP native unit-manager sample** containing 18 nearby nonself position candidates. A current-build optical-camera reader, WGC screenshot bracket, camera-pan trials, and zone-context *candidates* also exist. Building another unit enumerator or basic camera reader now would duplicate existing work. Reuse these artifacts **read-only** under RRE's ownership and keep their original per-field identity, timing, build and uncertainty.
+
+### Source-bound evidence inventory
+
+| Layer | Physical/recorded proof and file | Exact limitations |
+|---|---|---|
+| RRE gameplay export | `C:\rift modding\RiftReader\addon\ReaderBridgeExport\main.lua` SHA `45b5c820a9001cf2adfa963bfa0c24fe2bc41b476b49af9494c3d5aede8b91fa`; DirectAPI asks for self/target/party/nearby, caps nearby at 10 | `Inspect.Unit.List` availability unverified, nil means unavailable **or** zero, specifier ID fallback, non-atomic fields. ReaderBridge mode exports nearby nil. See RRE [WA-002 audit](world-awareness-research-2026-10-20.md). |
+| RRE inspector | [world-awareness contract](world-awareness-contract.md) SHA `1ecfdbc7d3d06140a7101db10e519b39a64d5ac170aa3d8f93c2ba24e1bd5aa4`, original RR2 player receipt SHA `a7cddc62cd66a14f943e0bc2de82666fcd7de0013c5e6db12780518e726329d5` | Only **one player** ID `u035400012FA2D207`; no observed nonself gameplay entity, owner or calibrated camera. Current inspector must not reinterpret native pointers/keys as actual API IDs. |
+| **RR2 native physical nearby units** | `C:\work\riftreader2\docs\workflows\physical-world-screen.md` SHA `81d5abe2c10dc08ddf4d30a1bb86e54940983ab22ee188bfc17f5925d361a2bb`, lines 116–183; saved [manifest paths below](#immutable-bundle-to-reuse) | PID 51524; **420 entries examined → 158 XYZ candidates → 18 nearest nonself retained**, with actual source times and uint64 decimal keys. Names are later **8 candidates/10 cache misses**. Native keys and `unitIdCandidate` are **not verified RIFT addon gameplay IDs**, positions are not a census. |
+| Image/camera | RR2 `CurrentBuildOpticalCameraCandidateReader.cs` SHA `25616b5f6f203ee2e8eebdb9e278d7dd118a48a21178e3174b1a16bab0761ddb`; camera-pan report `C:\work\riftreader2\docs\validation\waypoint-overlay-camera-2026-11-12.md` SHA `7d8d3010e0bcc3465d9adb99ac824b89e37db4ddf87a3bc35ee8733d2f2060f9` | Current-build native projection/viewport reader and physical camera-only pan/overlay trial exist; **not** three-landmark independent pixel calibration or visibility/occlusion. The companion JSON gives the verified absolute path. |
+| Zone/restart | RR2 `physical-world-screen.md`, lines 228–239 and 715–765 | Process restart changed all 18 entity addresses; zone candidate `z487C9102D2EA79BE` reproduced with raw key `1216123138`/child `650763347`. **World-instance status unavailable**; matching zone candidates cannot authorize cross-session object identity. |
+| Old native physics | RRE `artifacts/wa-hit-result-qualified-20261020-01.json` SHA `0b5a00097e3fc2bbcd8b33d62edc5cad46d9f4c5ae14ae26bcc84882c3c822ba` and `artifacts/wa2-backlink-saved-verification-20261020-01.json` SHA `01573023f103dbe7c1c1346fb362f674b99b7ff3315fb4ea61d40a10e5eb0c4c` | **Historical executable only**. Closest-ray-hit-collector, geometric interpolation, optional `0xFFFF` keyed backlink and 7-region/469-instruction saved chain **do not** identify a gameplay unit/physical owner or qualify a current-build callable route. |
+
+**Build boundary is hard:** RRE's old collision verifier uses the archived **59,963,840-byte** executable SHA `7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd`. RR2's recorded physical scene uses the installed-client **60,493,640-byte** build SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Never apply old RVAs to the newer client. Both are records of different provenance; an accepted old-build 550-test offline suite does not make the physics callable in a current game session.
+
+### Immutable bundle to reuse
+
+RR2 artifact directory (existing, **do not modify**):
+
+`C:\work\riftreader2\artifacts\waypoint-view-2eb2952a1f2447e9a6dbda8105af9353\`
+
+| Saved file | SHA-256, verified on AMD-DESKTOP |
+|---|---|
+| `validation.json` | `f15723b44128cafe2db90590e03955f64c618c20784077249e615e6c46023aa7` |
+| `view.json` | `1fe9f41d806c0f789561381c6ea3b3f6e430d5018c635f8091a358a330b91279` |
+| `units-native.json` | `cc85bad53b7e909bd5ab8acc759a23979b711613749086071bc2815558fc911c` |
+| `units-sample.json` | `52ffd10386a59f7e3ac133013b9d3854674686d60ce95f26e783b408194cf0ce` |
+| `unit-names-sample.json` | `eeab75e2bb802aa400c7f84f6218aabd7f11eca75b94574ee74dce3a339cb50e` |
+
+The saved view records **AMD-DESKTOP / PID 51524 / processStartUtcTicks `639301139727197117` / HWND 36770560 / current-build SHA `1935...`**. WGC and the native before/after bracket retained source hashes. The unit scan was **after** the image/native bracket and finished within a **five-second association cap**. A unit projected on the older image is therefore a **candidate overlay**, not proof of same-instant pixel visibility, world-instance or independently observed entity classification. Names were fetched on a separate later clock interval; never retimestamp XYZ from a later name.
+
+The same view contains zone-before/after receipts marked `matching-candidates` with `worldInstanceStatus=unavailable`. This cannot establish continuous scene identity. RR2's old recorded route/calibration provenance may reference earlier process epochs: preserve that difference rather than relabeling all layers PID 51524.
+
+## Five hard WA-006 acceptance gates
+
+| Gate | Minimum required proof | State today |
+|---|---|---|
+| **G1 — coherent source** | One independently identified physical host, exact installed PE SHA/size, PID/start/window/owner, common bounded clock, and validated scene/world instance | 🟡 Partial process and source receipts; **instance unavailable** |
+| **G2 — gameplay entities** | Actual player gameplay ID plus **at least two distinct nonself actual RIFT gameplay IDs** with fresh XYZ, tied to native keys through independent same-epoch source comparison | 🟡 18 **native position candidates**, **no proved gameplay-ID crosswalk** |
+| **G3 — physics owner** | Known hit **and** miss with query endpoints, mask/filter, fresh hit fraction/point/normal, shape/collidable, owner handle and independently confirmed logical/gameplay owner; negative control | 🔴 Static old-build collector/backlink only |
+| **G4 — camera** | Two frame-bound **camera-only** states with unchanged player and stationary landmarks, independently sourced matrix/convention and viewport, three or more noncollinear measured landmarks plus an additional holdout, independently observed pixels and predeclared tolerance | 🟡 Native current-build camera + successful pan; independent calibration missing |
+| **G5 — invalidation** | Observed scene transition **and** process restart rejecting stale IDs, addresses, matrix, hit-owner links, then independently reacquiring them in a new epoch | 🟡 Restart changed native addresses; full stale/scene test missing |
+
+Do not derive arbitrary 4×4 projection from three landmarks. The matrix must be independently sourced and the landmark observations validate it; use additional nondegenerate correspondences/holdouts if estimating calibration. `cameraYawQualified=false` and unknown occlusion remain unknown until independently demonstrated. Never conflate gameplay entity, physics collidable and optical projected point based only on similar position or name.
+
+## Ordered minimal path — no extra infrastructure yet
+
+1. **P0 — Offline evidence reuse (authorized now).** Hash-check existing RR2 bundle and camera/zone source; make a source-pinned RRE candidate index, preserving native uint64 key as a decimal **string**, `unitIdCandidate` as an **unverified format candidate**, position UTC separately from names/WGC, process/epoch and explicit unavailable fields. This document + companion JSON complete the first cross-project *planning/index* slice. Keep the RRE world inspector's strict gameplay-ID schema unchanged unless a future proven adapter contract exists.
+2. **P1 — Source-first current-build collision/owner research (offline first).** On **SHA `1935...`** only, identify the current exact-build hit path and shape/owner chain. Preserve original bytes/region hashes, distinguish optional/unwritten outputs from fresh values and compare a miss/negative control. A static lead may be recorded as a candidate, **not** G3 acceptance. WA-007's original-build keyed-record producer and entity crosswalk remain separately blocked.
+3. **P2 — Later physical-RIFT qualification (separately authorized).** When Joey explicitly approves a scoped test window, independently verify AMD-DESKTOP, physical PID/start/window/current owner/current PE, then perform passive same-epoch self+nonself gameplay/native crosswalk capture; two camera-only frames with stable independent landmarks and measured pixels; one reviewed known-surface hit/miss, owner crosswalk and a scene/restart invalidation trial. Every active camera move, target selection, raycast invocation, scene transition, restart or UI action must be separately defined/approved. Sanctum Watch near the healer shrine is a *candidate test area*, not a verified current scene.
+4. **P3 — Consume only accepted identities.** Promote source-hashed recorded observations into the RRE inspector/RR2 consumer only after all gates pass; preserve unknown visibility, collision clearance, ground support and reachability until separately evidenced. No autonomous movement or path acceptance follows from the WA-006 scene audit alone.
+
+### Strict capture/decision record for a future authorized trial
+
+Each immutable observation row needs host, game executable path/hash/size, PID/start/HWND/owner, UTC **and** monotonic acquisition interval or a justified clock mapping, capture/scene/zone/instance qualification, raw source path/SHA, producer/version, and independently observed ID/XYZ with missingness. Physics rows additionally need actual ray start/end/filter, fresh-output sentinel/read-back, hit/miss, fraction/world point/normal, shape/collidable and owner. Image rows additionally need actual WGC frame time/client rect/dpi, explicit viewProjection convention/viewport, landmark world XYZ, independently measured screen pixels and error budget.
+
+**Fail closed:** different process epochs, guessed scene identity, stale timestamps, specifier IDs, pointer-as-entity claims, missing optional-output freshness, old-build offsets on the new PE, camera inferred from player facing, or synthetic demo promoted to runtime. Mark the result **inconclusive**, not passed. No source mutation can repair missing original observations.
+
+## Safety, authorship, verification and handoff
+
+This slice reads RRE and sibling RR2 artifacts only. No VMware access, no physical RIFT process attachment, no input, camera movement, addon deployment, reload/restart, debugger, installed game changes, RR2 edits or Git push. **WA-006 remains blocked; WA-007 remains blocked.** Independent read-only reviews: three WA-006 lanes (entity source, native/camera, acceptance protocol); root verified the core RR2 hashes and receipts through the named AMD-DESKTOP Workbridge. Save the JSON companion and this report as the durable offline starting point.
+
+Safe next verification in PowerShell, working directory `C:\work\rre`:
+
+```powershell
+node tools/validate-roadmap.mjs
+git diff --check
+git status --short
+```
+
+Do **not** rerun the 550-test native historical suite for documentation-only updates. The prior WA-005 [acceptance](RRE-WA005-LEGACY-PE-ACCEPTANCE-2026-11-16.md) retains its exact original-PE artifact, nine-group exit0 receipt and source-hash gate.

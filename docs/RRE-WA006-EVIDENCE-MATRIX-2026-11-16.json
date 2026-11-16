@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "taskId": "WA-006",
+  "asOfLocalDate": "2026-11-16",
+  "timezone": "America/New_York",
+  "scope": "offline read-only reuse audit; no new physical-game operation",
+  "taskStatus": "blocked",
+  "qualifiedRealScene": false,
+  "owner": "RRE Manager",
+  "machineVerified": "AMD-DESKTOP",
+  "buildBoundary": {
+    "historicalCollision": {
+      "bytes": 59963840,
+      "sha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+      "mode": "read-only static, old RVAs not transferable"
+    },
+    "recordedPhysicalRR2": {
+      "bytes": 60493640,
+      "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+      "mode": "previously recorded physical process, not current runtime"
+    }
+  },
+  "sources": [
+    {
+      "id": "rre-contract",
+      "path": "C:/work/rre/docs/world-awareness-contract.md",
+      "sha256": "1ecfdbc7d3d06140a7101db10e519b39a64d5ac170aa3d8f93c2ba24e1bd5aa4",
+      "evidenceKind": "source-contract"
+    },
+    {
+      "id": "rre-readerbridge-audit",
+      "path": "C:/work/rre/docs/world-awareness-research-2026-10-20.md",
+      "sha256": "02959b80129f2b83c2d8c1f1691f7e4e1e737bfde3228b519e4551e477b1acd7",
+      "evidenceKind": "historical-source-and-receipt-audit"
+    },
+    {
+      "id": "rr2-physical-workflow",
+      "path": "C:/work/riftreader2/docs/workflows/physical-world-screen.md",
+      "sha256": "81d5abe2c10dc08ddf4d30a1bb86e54940983ab22ee188bfc17f5925d361a2bb",
+      "evidenceKind": "documented-prior-physical-validation"
+    },
+    {
+      "id": "rr2-unit-validation",
+      "path": "C:/work/riftreader2/artifacts/waypoint-view-2eb2952a1f2447e9a6dbda8105af9353/validation.json",
+      "sha256": "f15723b44128cafe2db90590e03955f64c618c20784077249e615e6c46023aa7",
+      "evidenceKind": "saved-physical-validation"
+    },
+    {
+      "id": "rr2-unit-native",
+      "path": "C:/work/riftreader2/artifacts/waypoint-view-2eb2952a1f2447e9a6dbda8105af9353/units-native.json",
+      "sha256": "cc85bad53b7e909bd5ab8acc759a23979b711613749086071bc2815558fc911c",
+      "evidenceKind": "saved-physical-native-positions"
+    },
+    {
+      "id": "rr2-unit-wrapper",
+      "path": "C:/work/riftreader2/artifacts/waypoint-view-2eb2952a1f2447e9a6dbda8105af9353/units-sample.json",
+      "sha256": "52ffd10386a59f7e3ac133013b9d3854674686d60ce95f26e783b408194cf0ce",
+      "evidenceKind": "saved-physical-position-wrapper"
+    },
+    {
+      "id": "rr2-unit-names-wrapper",
+      "path": "C:/work/riftreader2/artifacts/waypoint-view-2eb2952a1f2447e9a6dbda8105af9353/unit-names-sample.json",
+      "sha256": "eeab75e2bb802aa400c7f84f6218aabd7f11eca75b94574ee74dce3a339cb50e",
+      "evidenceKind": "separately-timed-name-candidates"
+    },
+    {
+      "id": "rr2-saved-view",
+      "path": "C:/work/riftreader2/artifacts/waypoint-view-2eb2952a1f2447e9a6dbda8105af9353/view.json",
+      "sha256": "1fe9f41d806c0f789561381c6ea3b3f6e430d5018c635f8091a358a330b91279",
+      "evidenceKind": "wgc-native-zone-provenance-wrapper"
+    },
+    {
+      "id": "rr2-native-camera-reader",
+      "path": "C:/work/riftreader2/src/RiftReader2.Live/CurrentBuildOpticalCameraCandidateReader.cs",
+      "sha256": "25616b5f6f203ee2e8eebdb9e278d7dd118a48a21178e3174b1a16bab0761ddb",
+      "evidenceKind": "current-build-camera-source"
+    },
+    {
+      "id": "rr2-camera-pan-validation",
+      "path": "C:/work/riftreader2/docs/validation/waypoint-overlay-camera-2026-11-12.md",
+      "sha256": "7d8d3010e0bcc3465d9adb99ac824b89e37db4ddf87a3bc35ee8733d2f2060f9",
+      "evidenceKind": "prior-physical-camera-motion-report"
+    },
+    {
+      "id": "rre-old-physics-hit",
+      "path": "C:/work/rre/artifacts/wa-hit-result-qualified-20261020-01.json",
+      "sha256": "0b5a00097e3fc2bbcd8b33d62edc5cad46d9f4c5ae14ae26bcc84882c3c822ba",
+      "evidenceKind": "old-build-static-byte-and-cfg-verification"
+    },
+    {
+      "id": "rre-old-backlink",
+      "path": "C:/work/rre/artifacts/wa2-backlink-saved-verification-20261020-01.json",
+      "sha256": "01573023f103dbe7c1c1346fb362f674b99b7ff3315fb4ea61d40a10e5eb0c4c",
+      "evidenceKind": "old-build-saved-v7-static-chain"
+    }
+  ],
+  "recordedObservation": {
+    "captureKind": "existing saved RR2 native physical evidence",
+    "host": "AMD-DESKTOP",
+    "pid": 51524,
+    "processStartUtcTicks": "639301139727197117",
+    "hwnd": 36770560,
+    "executableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+    "WGC": true,
+    "focusChanged": false,
+    "inputSent": false,
+    "unitManagerExamined": 420,
+    "unitPositionCandidates": 158,
+    "displayedNonselfCandidates": 18,
+    "separateNameCandidates": 8,
+    "nameCacheMisses": 10,
+    "identityFields": {
+      "nativeUnitKey": "lossless uint64 decimal string",
+      "unitIdCandidate": "not independently correlated to public RIFT Inspect.Unit ID",
+      "entityAddress": "process-local, invalid across restarts"
+    },
+    "timing": "native position scan follows screenshot/native bracket; admitted association within five seconds is not simultaneity; later name samples retain separate UTC",
+    "zoneContext": "rawZoneKey=1216123138, childKey=650763347, zoneIdCandidate=z487C9102D2EA79BE; worldInstanceStatus=unavailable",
+    "notProved": [
+      "visible-at-pixel",
+      "same-world-instance",
+      "public-gameplay-entity-identity",
+      "hit-owner-binding",
+      "fresh-current-position",
+      "classification",
+      "occlusion",
+      "route-clearance"
+    ]
+  },
+  "acceptanceGates": [
+    {
+      "id": "scene-binding",
+      "status": "partial",
+      "evidenceIds": [
+        "rr2-saved-view",
+        "rr2-unit-validation"
+      ],
+      "missing": [
+        "independently qualified world-instance token",
+        "shared bounded time basis for all needed layers",
+        "current capture authority"
+      ]
+    },
+    {
+      "id": "distinct-gameplay-entities",
+      "status": "partial",
+      "evidenceIds": [
+        "rr2-unit-wrapper",
+        "rr2-unit-names-wrapper",
+        "rre-contract"
+      ],
+      "missing": [
+        "self and >=2 distinct independently confirmed nonself RIFT gameplay IDs with XYZ within one scene/epoch",
+        "native-to-gameplay-ID correspondence"
+      ]
+    },
+    {
+      "id": "physical-hit-and-owner",
+      "status": "blocked",
+      "evidenceIds": [
+        "rre-old-physics-hit",
+        "rre-old-backlink"
+      ],
+      "missing": [
+        "current-build hit/miss pair",
+        "fresh hit XYZ/normal/fraction and collision filter",
+        "shape/owner to gameplay ID same-epoch proof"
+      ]
+    },
+    {
+      "id": "independent-camera-calibration",
+      "status": "partial",
+      "evidenceIds": [
+        "rr2-native-camera-reader",
+        "rr2-camera-pan-validation"
+      ],
+      "missing": [
+        "two frame-bound camera-only states with stationary world landmarks",
+        "at least three noncollinear independently measured landmarks and pixel observations",
+        "predeclared pixel tolerance and independent holdout"
+      ]
+    },
+    {
+      "id": "scene-and-restart-invalidation",
+      "status": "partial",
+      "evidenceIds": [
+        "rr2-physical-workflow"
+      ],
+      "missing": [
+        "scene transition invalidation with independent instance identity",
+        "demonstrated prevention of stale entity/camera/physics associations across restart"
+      ]
+    }
+  ],
+  "deferredActions": [
+    "no physical RIFT attachment/capture/input/camera pan/reload/restart or deployment",
+    "no virtual-machine access",
+    "no edits to sibling RR2, installed game or historical source files",
+    "no applying old-build RVAs to current client"
+  ],
+  "nextSteps": [
+    {
+      "priority": 0,
+      "task": "Reuse and hash-pin existing RR2 unit/camera/WGC receipts in RRE offline cross-index; no new enumerator",
+      "acceptance": "candidate records and incompatible identities remain separate"
+    },
+    {
+      "priority": 1,
+      "task": "Trace current-build collision owner and correlate to gameplay IDs using source-first work",
+      "acceptance": "qualified hit/miss/shape/owner and independent logical-ID link, with negative control"
+    },
+    {
+      "priority": 2,
+      "task": "After separately approved physical-scene capture, calibrate landmarks and scene/restart invalidation",
+      "acceptance": "all five gates qualified on coherent exact-process evidence"
+    }
+  ]
+}

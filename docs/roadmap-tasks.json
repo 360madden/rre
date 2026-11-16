@@ -3,14 +3,17 @@
   "project": "RRE native navigation",
   "asOfLocalDate": "2026-11-16",
   "latestHandoff": {
-    "path": "docs/RRE-WA005-HANDOFF-2026-11-16.md",
+    "path": "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-16.md",
     "asOfLocalDate": "2026-11-16",
     "timezone": "America/New_York",
-    "startingHead": "701cbc45500dc27cb2b43a44b1653c8cb58bdf35",
-    "report": "docs/RRE-WA005-LEGACY-PE-ACCEPTANCE-2026-11-16.md",
-    "scope": "WA-005 accepted offline; WA-006 and WA-007 remain blocked",
+    "startingHead": "6c974b4939c25c2d638dfa0faa9b6fbb6523b68e",
+    "report": "docs/RRE-WA006-RECORDED-EVIDENCE-REUSE-PLAN-2026-11-16.md",
+    "evidenceMatrix": "docs/RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json",
+    "priorWa005Report": "docs/RRE-WA005-LEGACY-PE-ACCEPTANCE-2026-11-16.md",
+    "scope": "WA-005 accepted offline; WA-006 evidence-reuse plan source-verified; WA-006 and WA-007 remain blocked",
     "lastFullGateTests": 550,
-    "validationExitCode": 0
+    "validationExitCode": 0,
+    "wa006SourceHashesVerified": 12
   },
   "historicalHandoffAsOf20261020": {
     "path": "docs/HANDOFF-2026-10-20-1353-EDT.md",
@@ -1135,8 +1138,28 @@
       "assignedAgentId": null,
       "jobId": null,
       "integratedCommit": null,
+      "offlineEvidencePlan": "docs/RRE-WA006-RECORDED-EVIDENCE-REUSE-PLAN-2026-11-16.md",
+      "offlineEvidencePlanSha256": "f520e11a90a1089c7e8b32bacc89e129e6aa4569a11e62cf3ad9513a16354963",
+      "offlineEvidenceMatrix": "docs/RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json",
+      "offlineEvidenceMatrixSha256": "f97e1bbae2f5f5f22337f9afd5ce24627aed8be162729ad0643dffd54df1d023",
+      "reusedRecordedRR2Evidence": {
+        "host": "AMD-DESKTOP",
+        "physicalProcessId": 51524,
+        "sourceBuildSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+        "entriesExamined": 420,
+        "positionCandidates": 158,
+        "retainedNonselfNativeCandidates": 18,
+        "laterNameCandidates": 8,
+        "gameplayIdCorrespondenceQualified": false,
+        "worldInstanceQualified": false,
+        "physicsHitOwnerQualified": false,
+        "independentCameraLandmarksQualified": false,
+        "sourceValidationSha256": "f15723b44128cafe2db90590e03955f64c618c20784077249e615e6c46023aa7"
+      },
       "blockers": [
-        "Current multi-object enumeration, hit-owner binding and camera calibration are not established; historical player data and synthetic tests cannot substitute"
+        "18 recorded physical RR2 nonself native XYZ candidates are reusable, but are not independently correlated to RIFT addon/API gameplay IDs; no simultaneous screen or world-instance proof",
+        "Current-build physical hit/shape/owner-to-gameplay-ID association, independent camera landmark calibration and scene/restart invalidation are not established",
+        "New task-specific physical-game authority and exclusive current process owner would be required for any live trial"
       ]
     },
     {
