@@ -95,6 +95,16 @@ const WINDOWS = [
   ['registered_processor_adapter_vptr', 0x26beb28, 0x38, '8f3fbc80d06c36941a5e0ac7e325cce0512f0688bcb09a8d052a09bec78128c4'],
   ['registered_processor_callback_wrapper', 0xfba020, 0x21, '90812a8e57da7e0cb14e853f79a571dae50563546ef829f44dc1f8f8dc6b2458'],
   ['host_callback_registration_slot_accessor', 0x75d9e0, 0x1d, '20428d4ac96a8f77cd6c0ee34b3d2e4a64390835d6e5bcf295267f9fcf148de4'],
+  // Host +0x240 registry selection can stage a callback at +0x218, then invoke
+  // its +0x18 method with original host RDX. Exact adapter selection is unknown.
+  ['host_registry_callback_selector', 0x776160, 0x7ec, '60625393919901320ae3a3ac1b02ac6faaa16a919ae61746a6156338e48a56b2'],
+  ['host_selected_callback_indirect_invoker', 0x779ba0, 0xfc, '6d82a57d8b8c76d5250c5f42d716fa3d2762ab64c5b688b78e15e11496e8e9f6'],
+  // A distinct second processor adapter uses the SAME original host registry.
+  ['secondary_processor_adapter_registration', 0x7786d9, 0x110, '4a6701e6bb07327a02afda89dc6bfdfe12ca20324e7367be58b700918c58bb41'],
+  ['secondary_processor_adapter_constructor', 0xfc91a0, 0x47, '5f7085cb65711741969ff47404ecd0a9e1f9733c19e4348fae02e93a0a9d95eb'],
+  ['secondary_processor_adapter_vptr', 0x2712f08, 0x70, 'd089c12e1a943c9c2a764c9c4def012b298d5703363338d82f6bb79546b2ed62'],
+  // FBA020 also invokes 778C30 with the same incoming callback RDX.
+  ['registered_processor_callback_secondary_consumer', 0x778c30, 0x1e7, '4e4726cb3d31595617d7b8876f18c49b88809546a5428e2fc03a93417ec2f0b1'],
   ['c2m_first_key_pair_update', 0x5807d0, 0x7b, '3c1e9d159e93e25adeb29e041511de7b55d0960d96419d5fa023f357f4dab6d8'],
   ['c2m_reference_release_prefix', 0x4a02d0, 0x78, 'b60cb2e4db49aedbb49748a38d832955e115af78283a9aa46c59b9d7c3911bc4'],
   ['c2m_transient_pair_cleanup_prefix', 0x49ac00, 0x78, 'abae0ea33271d8082429d95b1bd3413723683b6597a9487580fa919bbb66b9f6'],
@@ -365,6 +375,53 @@ export function verifyRoot001Bytes(bytes) {
     [0x77822e, '488908'], // store adapter into host's collection slot
     [0xfba026, '488bca'], // callback wrapper forwards incoming RDX, NOT proven host
     [0xfba02c, 'e83fd47cff'], // route forwarded RDX into processor 0x787470
+    [0x77819a, '48837c244000'], // adapter A allocation may be null
+    [0x7781a0, '7446'], // null skips adapter A construction
+    [0x7781e8, '48c78424c800000000000000'], // A registry slot may receive null
+    [0xfba029, '488bda'], // preserve callback RDX in RBX
+    [0xfba031, '488bcb'], // same argument for second callback consumer
+    [0xfba034, 'e8f7eb7bff'], // second consumer 0x778C30
+    [0x778c30, '48894c2408'], // second consumer saves entry RCX
+    [0x778d5f, '488b8424a0000000'], // recover callback receiver
+    [0x778d67, '488b8880070000'], // read callback receiver+0x780
+    [0x772266, '488b8c24000e0000'], // original initializer host
+    [0x77226e, '488b9180070000'], // original host+0x780, layout compatibility ONLY
+    // Separate B adapter constructor, conditional allocation and same-host insertion.
+    [0x7786d9, 'b9a8000000'], // B adapter allocation 0xA8 bytes
+    [0x7786eb, '4883bc241801000000'], // B allocation null guard
+    [0x7786f4, '7417'], // skip construction on null
+    [0x7786fe, 'e89d0a8500'], // construct B adapter 0xFC91A0
+    [0x77870d, '48c784242001000000000000'], // null B can enter collection
+    [0x77872d, '488b8424f0030000'], // builder original host receiver
+    [0x778735, '480540020000'], // host+0x240 registry
+    [0x778746, 'e89552feff'], // source-known registry slot accessor
+    [0x77874b, '488b8c2420010000'], // B adapter pointer (possibly null)
+    [0x778753, '488908'], // B slot store under same original host
+    [0xfc91ba, '488d05479d7401'], // constructed B adapter vptr 0x2712F08
+    [0xfc91c9, '488903'], // set B adapter own vptr
+    [0xfca11f, '4c8bea'], // B wrapper preserves its incoming RDX in R13
+    // Host source vptr+0x18 calls callback selector and dispatches staged slot.
+    [0x776160, '48894c2408'], // selector saves original host RCX
+    [0x776204, '4805f8010000'], // request host+0x1F8 for registry lookup
+    [0x77621d, '488bd0'], // selector key pointer RDX
+    [0x776220, '488b8c2410010000'], // same host as lookup RCX
+    [0x776228, '488b842488000000'], // read host's previously saved vptr
+    [0x776230, 'ff90b8000000'], // virtual host+0xB8 -> 0x766050 registry lookup
+    [0x776236, '4889842480000000'], // save conditional lookup result
+    [0x77625c, '4883bc248000000000'], // null selected callback check
+    [0x776265, '7513'], // only non-null selection stores +0x218
+    [0x77627a, '488b842410010000'], // reload original host
+    [0x776282, '488b8c2480000000'], // reload selected callback
+    [0x77628a, '48898818020000'], // host+0x218 = selected callback
+    [0x779ba0, '48894c2408'], // host virtual method saves incoming RCX
+    [0x779c39, 'e822c5ffff'], // same host passed to selector
+    [0x779c48, '4883b81802000000'], // only call if slot+0x218 nonnull
+    [0x779c50, '7427'], // skip virtual call when absent
+    [0x779c57, '488b8018020000'], // load selected/cached callback
+    [0x779c63, '488b8918020000'], // callback as virtual receiver RCX
+    [0x779c6a, '488b00'], // selected callback vptr
+    [0x779c6d, '488b542450'], // original host as callback RDX
+    [0x779c72, 'ff5018'], // selected callback vptr+0x18 invoke
     [0x75d9f1, '488b00'], // slot accessor follows saved container pointer
     [0x75d9f4, '4883c030'], // returns +0x30 destination slot
     // Two independent source functions retain incoming owner RCX in R14.
@@ -470,6 +527,11 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x7781b5, 0x7873f0); // callback adapter base constructor
   directCall(0x778221, 0x75d9e0); // processor adapter registry slot
   directCall(0xfba02c, 0x787470); // wrapper forwards callback argument RDX
+  directCall(0xfba034, 0x778c30); // same callback RDX enters a second consumer
+  directCall(0x7786de, 0x78e110); // allocate separate B callback adapter
+  directCall(0x7786fe, 0xfc91a0); // initialize B adapter's distinct vptr
+  directCall(0x778746, 0x75d9e0); // insert B into original host+0x240
+  directCall(0x779c39, 0x776160); // host method calls conditional registry selector
   directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
@@ -516,6 +578,8 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0x75ba04, '488d0d', 0x26be9f0); // host vptr: initializer+lookup methods
   ripReference(0x761f4a, '488d0d', 0x33724f0); // separate host pointer global
   ripReference(0x7781bf, '488d0d', 0x26beb28); // constructed processor adapter vptr
+  ripReference(0xfc91ba, '488d05', 0x2712f08); // distinct B adapter vptr
+  ripReference(0x7781f4, '488d15', 0x26bf9b0); // A adapter literal LoginFailed key
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -530,6 +594,10 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x5dc536, '74', 0x5dc542); // deleting-destructor optional delete path
   shortBranch(0x74bd92, '75', 0x74bdb9); // writer A capacity suffices
   shortBranch(0x74c085, '75', 0x74c0ac); // writer B capacity suffices
+  shortBranch(0x7781a0, '74', 0x7781e8); // null A adapter constructor path
+  shortBranch(0x7786f4, '74', 0x77870d); // null B adapter constructor path
+  shortBranch(0x776265, '75', 0x77627a); // only stage non-null registry result
+  shortBranch(0x779c50, '74', 0x779c79); // only invoke non-null callback slot
 
   let recordsVerified = 0;
   let rootRecord;
@@ -595,7 +663,13 @@ export function verifyRoot001Bytes(bytes) {
   assertClaim(pe.qword(0x26beaa8) === 0x140766050n,
     'host vptr includes callback registry lookup method');
   assertClaim(pe.qword(0x26beb40) === 0x140fba020n,
-    'registered adapter vptr includes processor forwarding wrapper');
+    'registered adapter A vptr includes processor forwarding wrapper');
+  assertClaim(pe.qword(0x2712f20) === 0x140fca0d0n,
+    'separate registered adapter B vptr includes processor B wrapper');
+  assertClaim(pe.qword(0x26bea08) === 0x140779ba0n,
+    'original host vptr has conditional selected-callback caller');
+  assertClaim(pe.slice(0x26bf9b0, 12).toString('hex') === '4c6f67696e4661696c656400',
+    'registered adapter A literal LoginFailed key');
 
   // Source saves initial RCX at old RSP+8. An exact-hashed stack probe preserves
   // RAX=0xDF8 before the subtraction, so new RSP+0xE00 recovers that receiver.
@@ -603,6 +677,13 @@ export function verifyRoot001Bytes(bytes) {
   // possible cleanup before the conditional +0x6A8 store. Processors read the
   // same field offset; receiver class/instance equality remains unknown.
   assertClaim(0xe00 - 0xdf8 === 8, 'initializer receiver spill stack delta');
+  assertClaim(0x110 - 0x108 === 8 && 0x50 - 0x48 === 8,
+    'selector and caller original host RCX spill stack deltas');
+  // Host callback lookup selects from original host+0x240; if non-null it may
+  // become host+0x218. Any non-null callback invoked from that slot receives
+  // original host RDX, but this does not prove selection of FBA020 or FCA0D0.
+  assertClaim(0x240 !== 0x218 && 0x1f8 !== 0x218,
+    'registry, dynamic query and staged callback fields stay distinct');
 
   // Named singleton and formatted-name buffer are distinct globals, 0x3ff8 bytes apart.
   // The 16-bit ROOT tag is source-derived only for the successful new-record path.
@@ -682,6 +763,12 @@ export function verifyRoot001Bytes(bytes) {
     staticProducerProcessorFieldLayoutBridgeQualified: true,
     staticInitializerSameReceiverCallbackRegistrationQualified: true,
     staticRegisteredProcessorAdapterVptrQualified: true,
+    staticSecondaryProcessorAdapterSameHostRegistrationQualified: true,
+    staticHostRegistryLookupToStagedCallbackQualified: true,
+    staticHostSelectedCallbackSameReceiverRdxDispatchQualified: true,
+    staticAdapterAllocationConditionalQualified: true,
+    staticCallbackSecondConsumerQualified: true,
+    specificFba020AdapterSelectedProven: false,
     callbackProcessorArgumentMatchesRegisteredHostProven: false,
     producerProcessorReceiverTypeMatchProven: false,
     dispatchVectorElementProducerProven: false,

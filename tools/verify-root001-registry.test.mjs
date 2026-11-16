@@ -14,11 +14,11 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 71);
-  assert.equal(result.opcodeAnchorsVerified, 209);
-  assert.equal(result.directCallsVerified, 50);
+  assert.equal(result.sourceWindowsVerified, 77);
+  assert.equal(result.opcodeAnchorsVerified, 254);
+  assert.equal(result.directCallsVerified, 55);
   assert.equal(result.directJumpsVerified, 1);
-  assert.equal(result.ripTargetsVerified, 30);
+  assert.equal(result.ripTargetsVerified, 32);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
@@ -51,6 +51,14 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);
   assert.equal(result.staticInitializerSameReceiverCallbackRegistrationQualified, true);
   assert.equal(result.staticRegisteredProcessorAdapterVptrQualified, true);
+  assert.equal(result.staticSecondaryProcessorAdapterSameHostRegistrationQualified, true);
+  assert.equal(result.staticHostRegistryLookupToStagedCallbackQualified, true);
+  assert.equal(result.staticHostSelectedCallbackSameReceiverRdxDispatchQualified, true);
+  assert.equal(result.staticAdapterAllocationConditionalQualified, true);
+  assert.equal(result.staticCallbackSecondConsumerQualified, true);
+  assert.equal(result.specificFba020AdapterSelectedProven, false);
+  // Generic callback dispatch preserves its own host; particular adapter
+  // selection and equality with a previous initializer instance stay unproven.
   assert.equal(result.callbackProcessorArgumentMatchesRegisteredHostProven, false);
   assert.equal(result.producerProcessorReceiverTypeMatchProven, false);
   assert.equal(result.dispatchVectorElementProducerProven, false);
@@ -143,6 +151,17 @@ for (const [name, rva] of [
   ['adapter callback registered under host collection', 0x778210],
   ['callback wrapper preserves incoming RDX as processor receiver', 0xfba026],
   ['adapter reference committed to host collection slot', 0x77822e],
+  ['A adapter allocation can be null', 0x7781a0],
+  ['B adapter allocation can be null', 0x7786f4],
+  ['B adapter reads same original host', 0x77872d],
+  ['B adapter constructed vptr', 0xfc91ba],
+  ['B adapter vptr processor slot', 0x2712f20],
+  ['host selector virtual registry lookup', 0x776230],
+  ['selected registry result into host+0x218', 0x77628a],
+  ['host virtual callback invocation', 0x779c72],
+  ['callback invocation original host RDX', 0x779c6d],
+  ['A callback literal LoginFailed registration key', 0x26bf9b0],
+  ['A callback second consumer', 0xfba034],
   ['host callback registration slot accessor', 0x75d9f4],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],

@@ -2,6 +2,31 @@
 
 **Status:** independently reverified **exact-build static evidence** from AMD-DESKTOP and LEGION, including an 850-node registration chain, metadata traversal, keyed handler storage, and a conditional registered-handler dispatch mechanism; **not** proof of live handler execution, current-player identity, or a callable game API. **Owner:** RRE single manager; independent read-only ROOT upstream and helper workers. No RIFT, RR2, REA, installed addon, SavedVariables or LEGION operations in this AMD-DESKTOP continuation.
 
+## ~20:38 EST November 15 — conditional same-host callback selection and invocation
+
+**New source-qualified result (archived PE only):** One host-vptr call chain now ties callback selection from the original host's registry to an indirect callback invocation whose `RDX` is the **same receiver of that invocation**. This does **not** prove that a particular registered adapter is chosen, that two separate initializer/dispatcher calls use one live instance, or that the receiver is a player.
+
+1. The constructed 0xA50-byte host has source-installed vptr `0x26BE9F0`. Its `+0x18` method (`0x779BA0`) saves incoming host `RCX` and at `0x779C39` calls `0x776160` with that host. Inside the helper, original `RCX` is recovered at `[RSP+0x110]`; `0x776204` supplies `host+0x1F8` as lookup input while `0x776220/228/230` calls `[host_vptr+0xB8]` with `RCX=host`. On this source-installed vptr that method is `0x766050`, which selects from **host+0x240**, not an invocation.
+2. `0x776236` saves the lookup's callback pointer. Its non-null branch `0x77625C/265` permits `0x77627A/282/28A` to stage the returned pointer at **host+0x218**. A preceding guard can skip the lookup; null can skip the store, and **a previously cached callback at +0x218 may remain**. No fresh selection is presumed on every call.
+3. Returning to `0x779BA0`, `0x779C48/50` independently checks host+0x218; `0x779C57/63/6A` loads the selected-or-cached callback and its vptr; **`0x779C6D` passes the original *current call* host as `RDX`** to indirect `[callback_vptr+0x18]` at `0x779C72`. This qualifies the generic **conditional host→callback invocation argument**, not any actual live dispatch.
+4. The same builder `0x777CE0` also conditionally registers a **second, distinct** 0xA8-byte adapter B: `0x7786D9/DE/FE` allocates and calls constructor `0xFC91A0` (vptr `0x2712F08`, method `+0x18 → 0xFCA0D0`), and `0x77872D/735/746/74B/753` inserts its result under the **same original host+0x240** as the earlier adapter A (`0x26BEB28`, `+0x18 → 0xFBA020`). Both allocations have explicit null branches (`0x7781A0→0x7781E8`, `0x7786F4→0x77870D`), so a registered slot is not guaranteed non-null.
+5. Adapter A was registered with literal `LoginFailed` at original RVA `0x26BF9B0` (`0x7781F4` RIP reference). The host's dynamic lookup key at `host+0x1F8` has **not** been shown to select it; do not infer current player, login failure occurrence or gameplay behavior. Also `0xFBA020` sends its incoming `RDX` both to processor `0x787470` and a **second routine `0x778C30`**. That routine reads incoming receiver+0x780, as does the earlier initializer with its own host at `0x77226E`; shared offset does not prove cross-call instance equality.
+
+### Newly pinned source windows (RVA + size)
+
+| Exact original region | SHA-256 |
+| --- | --- |
+| `0x776160+0x7EC` registry selection/staging | `60625393919901320ae3a3ac1b02ac6faaa16a919ae61746a6156338e48a56b2` |
+| `0x779BA0+0xFC` indirect caller | `6d82a57d8b8c76d5250c5f42d716fa3d2762ab64c5b688b78e15e11496e8e9f6` |
+| `0x7786D9+0x110` B adapter registration | `4a6701e6bb07327a02afda89dc6bfdfe12ca20324e7367be58b700918c58bb41` |
+| `0xFC91A0+0x47` B adapter constructor | `5f7085cb65711741969ff47404ecd0a9e1f9733c19e4348fae02e93a0a9d95eb` |
+| `0x2712F08+0x70` B adapter vptr | `d089c12e1a943c9c2a764c9c4def012b298d5703363338d82f6bb79546b2ed62` |
+| `0x778C30+0x1E7` A secondary callback consumer | `4e4726cb3d31595617d7b8876f18c49b88809546a5428e2fc03a93417ec2f0b1` |
+
+**Guarded verification:** Same 60,493,640-byte original PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. Manager `--self-test` exit0 **77 SHA windows, 254 opcode anchors, 55 direct E8 calls, 32 RIP refs**; focused **73/73** and canonical full Node **323/323**, both exit0. Independent P0 and architecture reviewers verified branches/receiver spills. Output flags `staticHostRegistryLookupToStagedCallbackQualified=true` and `staticHostSelectedCallbackSameReceiverRdxDispatchQualified=true`; critically `specificFba020AdapterSelectedProven=false`, `callbackProcessorArgumentMatchesRegisteredHostProven=false`, all live/player claims false. No installed client, game UI, VM, LEGION, RR2 repo, addon or network publication was touched.
+
+**Next discriminator:** Source-qualify the dynamic `host+0x1F8` lookup key and show when (if ever) it matches the `LoginFailed` adapter or B adapter, without treating a static call path as an observed gameplay event. Preserve the separate host+0x6A8 vector-reset lead for a subsequent bounded milestone.
+
 ## New common-host callback registration and vector-owner linkage (~20:15 EST November 15)
 
 **New source-proven result, original PE only:** The same entry receiver of initializer `0x76F010` owns the callback-registration collection at **`+0x240`** and the constructed append-owner pointer at **`+0x6A8`**. This is a stronger, positively traced **common initializer receiver**, not proof that any later callback's argument identifies that receiver.
