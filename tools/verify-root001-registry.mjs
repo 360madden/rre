@@ -96,6 +96,9 @@ const WINDOWS = [
   ['thread_spawner_chain_fragment_1', 0x74c6cc, 0x1e, '0344d5955ff60cf01c56ad62d5cb4883abb3a206cc0dfd61238922842552463e'],
   ['thread_spawner_chain_fragment_2', 0x74c6ea, 0x8e, '18ab8bf3e2c7185deb8a3e1a139c448889e5fa619c1d29ae4f88adcb5163a43d'],
   ['thread_spawner_chain_fragment_3', 0x74c778, 0x86, '3a1015952853bb1c879492bd71d1e365d23c8141c37d200f8446de29d2e17adb'],
+  // Contiguous exact-code corpus includes the formerly uncovered 0x74C7FE..0x74C830 gap.
+  // A bounded independent disassembly found no RDI writes after 0x74C6C9 before R9=RDI at 0x74C87C.
+  ['thread_spawner_full_rdi_path', 0x74c6c0, 0x1e1, '2cdd269af2b38eaad58bc85063a5f8261b7c294ba035248b5dab3fd5573a7281'],
   ['thread_spawner_chained_pdata_entry', 0x36465f4, 0x0c, '756faecf8eb3bdaad32c785c6adf4fe41929996a5157ffbeefe6a9bb81863fa9'],
   ['thread_spawner_chained_unwind_info', 0x2e31fc4, 0x10, 'fcf97161769c0de1d798ad8355af7be099595488309e353b19608b4dfe9e93dd'],
   ['append_owner_receiver_initializer', 0x76f010, 0x36d4, '257bbfb8b8a01445c427d5b4215a5652ce02bfd972fbefd77483289ec70f5a1a'],
@@ -165,8 +168,11 @@ function imageMapper(bytes) {
   const optionalSize = bytes.readUInt16LE(pe + 20);
   const optional = pe + 24;
   assertClaim(machine === 0x8664 && count > 0 && count <= 96, 'expected AMD64 PE machine and bounded sections');
-  assertClaim(optionalSize >= 0x70 && optional + optionalSize <= bytes.length, 'optional header bounds');
+  assertClaim(optionalSize >= 0x80 && optional + optionalSize <= bytes.length, 'optional header bounds');
   assertClaim(bytes.readUInt16LE(optional) === 0x20b, 'expected PE32+');
+  // PE32+ DataDirectory[1] is the static import descriptor directory.
+  const importDirectoryRva = bytes.readUInt32LE(optional + 0x78);
+  const importDirectorySize = bytes.readUInt32LE(optional + 0x7c);
   const imageBase = bytes.readBigUInt64LE(optional + 24);
   assertClaim(imageBase === EXPECTED_BASE, 'expected static image base');
 
@@ -207,6 +213,8 @@ function imageMapper(bytes) {
 
   return {
     imageBase,
+    importDirectoryRva,
+    importDirectorySize,
     sectionFor,
     virtualSectionFor,
     slice(rva, length) {
@@ -733,6 +741,29 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0x74c875, '4c8d05', 0x74d5e0); // _beginthreadex start routine pointer
   ripReference(0x74c888, 'ff15', 0x25f0460); // imported CRT _beginthreadex IAT slot
 
+  // Pin the PE import contract as well as the call's RIP target. Descriptor #21
+  // points to CRT lookup/IAT tables; entry #20 resolves to _beginthreadex by name.
+  // This checks original file metadata, NOT loader binding or a successful thread start.
+  assertClaim(pe.importDirectoryRva === 0x2f4ebbc &&
+    pe.importDirectorySize >= 22 * 20 &&
+    pe.importDirectoryRva + 21 * 20 === 0x2f4ed60,
+    'thread creator CRT descriptor belongs to PE import directory');
+  const crtImportDescriptor = pe.slice(0x2f4ed60, 20);
+  assertClaim(crtImportDescriptor.readUInt32LE(0) === 0x2f50210 &&
+    crtImportDescriptor.readUInt32LE(12) === 0x2f54cce &&
+    crtImportDescriptor.readUInt32LE(16) === 0x25f03c0,
+    'thread creator CRT import descriptor lookup/name/IAT');
+  assertClaim(pe.slice(0x2f54cce, 34).toString('ascii') === 'api-ms-win-crt-runtime-l1-1-0.dll\0',
+    'source CRT import DLL name');
+  const crtThreadThunkIndex = 20;
+  const crtThreadImportNameRva = 0x2f542f0;
+  assertClaim(0x25f03c0 + crtThreadThunkIndex * 8 === 0x25f0460 &&
+    pe.qword(0x2f50210 + crtThreadThunkIndex * 8) === BigInt(crtThreadImportNameRva) &&
+    pe.qword(0x25f0460) === BigInt(crtThreadImportNameRva) &&
+    pe.slice(crtThreadImportNameRva, 2).readUInt16LE(0) === 20 &&
+    pe.slice(crtThreadImportNameRva + 2, 15).toString('ascii') === '_beginthreadex\0',
+    'thread creator CRT _beginthreadex lookup/IAT name contract');
+
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
     hasBytes(at, opcode);
@@ -967,6 +998,11 @@ export function verifyRoot001Bytes(bytes) {
     // This does not establish the owner's vptr when an async callback later runs.
     staticPublishedOwnerRefcountRetainSourcePathQualified: true,
     staticThreadEntrypointForwardsUnprovenRdiReceiverQualified: true,
+    // Contiguous SHA-pinned source, independently decoded: no RDI overwrite on
+    // spawner paths before R9=RDI. Intervening calls rely on Win64 nonvolatile RDI.
+    staticSpawnerRdiPreservedToCrtR9Qualified: true,
+    // Original PE descriptor/ILT/IAT/hint/name, not a resolved runtime import.
+    staticThreadCreatorCrtImportNameQualified: true,
     staticThreadReceiverViaHost6a8SlotQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
     staticProducerProcessorFieldLayoutBridgeQualified: true,
