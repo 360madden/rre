@@ -14,11 +14,11 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 96);
-  assert.equal(result.opcodeAnchorsVerified, 303);
-  assert.equal(result.directCallsVerified, 71);
+  assert.equal(result.sourceWindowsVerified, 102);
+  assert.equal(result.opcodeAnchorsVerified, 319);
+  assert.equal(result.directCallsVerified, 72);
   assert.equal(result.directJumpsVerified, 3);
-  assert.equal(result.ripTargetsVerified, 40);
+  assert.equal(result.ripTargetsVerified, 42);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
@@ -47,6 +47,8 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticAppendOwnerVptrConstructionQualified, true);
   assert.equal(result.staticAppendOwnerVectorLifecycleQualified, true);
   assert.equal(result.staticInitializerOwnerField6a8StoreQualified, true);
+  assert.equal(result.staticAppendOwnerConditionalPublicationQualified, true);
+  assert.equal(result.staticThreadEntrypointForwardsUnprovenRdiReceiverQualified, true);
   assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
   assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);
   assert.equal(result.staticInitializerSameReceiverCallbackRegistrationQualified, true);
@@ -78,6 +80,8 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.producerProcessorReceiverTypeMatchProven, false);
   assert.equal(result.dispatchVectorElementProducerProven, false);
   assert.equal(result.dispatchVectorProducerOwnerIdentityProven, false);
+  assert.equal(result.threadReceiverAppendOwnerVptrIdentityProven, false);
+  assert.equal(result.threadStartedAtRuntimeProven, false);
   assert.equal(result.liveExecutionProven, false);
   assert.equal(result.playerIdentityProven, false);
   assert.equal(result.dispatchBranchesVerified, 2);
@@ -88,7 +92,8 @@ test('fails closed on a truncated source image', () => {
   assert.throws(() => verifyRoot001Bytes(original.subarray(0, original.length - 1)), /size mismatch/);
 });
 
-// Resolve exact file offsets so each negative case mutates the stated source field.
+// Mutations target stated source fields; the whole-image SHA must reject first.
+// Original-image window/opcode/call/RIP checks independently pin the named source relationships.
 function rawOffsetForRva(rva) {
   const pe = original.readUInt32LE(0x3c);
   const count = original.readUInt16LE(pe + 6);
@@ -198,6 +203,15 @@ for (const [name, rva] of [
   ['published host getter', 0x766014],
   ['host owner reset receiver', 0x7639ce],
   ['conditional owner vector reset', 0x74b756],
+  // Static host owner publication and CRT thread-argument flow (NOT runtime execution).
+  ['append owner constructed vptr', 0x74aab0],
+  ['constructed owner written into host slot', 0x772555],
+  ['thread entry callback pointer', 0x74c875],
+  ['thread receiver passed in R9', 0x74c87c],
+  ['indirect CRT thread-start call', 0x74c888],
+  ['thread callback saves incoming receiver', 0x74d5f2],
+  ['thread parameter forwarded to virtual receiver', 0x74d6d7],
+  ['virtual receiver retains incoming argument', 0x74d730],
   ['owner vector end reset', 0x74b827],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],

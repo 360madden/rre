@@ -81,6 +81,13 @@ const WINDOWS = [
   ['append_owner_constructor', 0x74aa90, 0x16c, '55acc370174457a7b63734b921f5a8cef90f85334ce910b7059503d80abf1062'],
   ['append_owner_destructor', 0x74ac00, 0x16b, '109111704f1df2772eec7897665ca43e181decb359074a66e4db590b2ba6c9b2'],
   ['append_owner_host_field_store', 0x7724b4, 0xa4, '4bc7236c3ea0e32738e0ff647eefbd0bc3e917c9594e46ca450d6c40ff1ec75a'],
+  // Owner publication and thread callback are separate SOURCE paths; receiver type is unknown.
+  ['append_owner_conditional_publication', 0x772512, 0x131, 'ff63d9d2da1a47ce1c78e671228c962faf2200794ab938e5f96f901b1e5c0f15'],
+  ['callback_thread_start_callsite', 0x74c830, 0xa0, '4bef08650df6b9176136efa9f507afb200b3bc13524e241d14ad0beb6aa5ab1f'],
+  ['callback_thread_entry_wrapper', 0x74d5e0, 0x48, 'ee343e3774367fb4872619dfd0a60266503587d8d65fa8f89dbc1bc57544e874'],
+  ['callback_thread_wrapper_tail', 0x74d6c0, 0x30, '714999dbebce80cf440926dd53a6afcd10bbeb862ad417ec4f7e6c8080f10db7'],
+  ['callback_receiver_entry', 0x74d700, 0x5a, 'd114365b678620390e7eee1e524531f04ac489619c6d817f92c7494ae2390c60'],
+  ['callback_receiver_virtual_sites', 0x74dab0, 0x27, '49c4ddfcf52933f5e2aed26a65b5b5ec1c638051d863b3f6f2f8eaf94381ac41'],
   ['append_owner_receiver_initializer', 0x76f010, 0x36d4, '257bbfb8b8a01445c427d5b4215a5652ce02bfd972fbefd77483289ec70f5a1a'],
   ['initializer_rax_preserving_stack_probe', 0x24e1160, 0x4e, '24ba2f8e6f97e3f8dec9771f775f11294b7da43ba09efabbb1bd3c079ac25b6e'],
   // One SOURCE-only host receiver: +0x240 callbacks, +0x6A8 vector owner;
@@ -483,6 +490,24 @@ export function verifyRoot001Bytes(bytes) {
     [0x74b756, '83b9e003000000'], // owner+0x3E0 gate, must not assume true
     [0x74b760, '0f8453010000'], // skip reset when gate false
     [0x74b827, '48898688000000'], // set owner vector end to beginning
+    // Conditional append-owner publication; not identity with the thread receiver.
+    [0x74aab0, '488903'], // constructed object's first vptr is 0x26BE378
+    [0x7724de, '4889842470020000'], // save constructed owner pointer
+    [0x7724fc, '4805a8060000'], // form host+0x6A8 slot
+    [0x772515, '4839842470020000'], // compare existing slot and new candidate
+    [0x77254d, '488b8c2470020000'], // reload possibly-null candidate
+    [0x772555, '488908'], // conditional owner publication into host+0x6A8
+    // CRT _beginthreadex start callback and argument, source only.
+    [0x74c875, '4c8d05'], // load thread-start routine RVA 0x74D5E0 into R8
+    [0x74c87c, '4c8bcf'], // pass caller's RDI as _beginthreadex argument R9
+    [0x74c888, 'ff15'], // indirect CRT import call (IAT RVA 0x25F0460)
+    [0x74c891, '48894730'], // store return in caller RDI+0x30
+    [0x74d5f2, '4c8bf1'], // thread entry saves incoming RCX to R14
+    [0x74d6d4, '498bce'], // restore thread argument to RCX
+    [0x74d6d7, 'e8'], // direct call to 0x74D700
+    [0x74d730, '488bf9'], // new function preserves same RCX in RDI
+    [0x74dabf, 'ff5030'], // conditional virtual method on current RDI
+    [0x74dad1, 'ff5030'], // second virtual path on current RDI
     // Host registry uses a masked hash bucket, then resolves collisions by length and byte comparison.
     [0x4ef44f, '488b4108'], // head sentinel for empty bucket
     [0x4ef45d, '4923d1'], // hash value masked by bucket mask
@@ -622,6 +647,7 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x7639d7, 0x58b20); // fetch object at host+0x6A8
   directCall(0x7639df, 0x74b750); // owner-local conditional vector reset
   directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
+  directCall(0x74d6d7, 0x74d700); // thread callback forwards original RCX to virtual receiver
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
   assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
@@ -677,6 +703,8 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0xfcf5d2, '488d15', 0x26a79d0); // InGame long-string branch
   ripReference(0x766014, '488d0d', 0x33724f0); // already-published host global
   ripReference(0x25047c7, 'ff25', 0x25efe60); // IAT referenced by comparison thunk
+  ripReference(0x74c875, '4c8d05', 0x74d5e0); // _beginthreadex start routine pointer
+  ripReference(0x74c888, 'ff15', 0x25f0460); // imported CRT _beginthreadex IAT slot
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -893,6 +921,8 @@ export function verifyRoot001Bytes(bytes) {
     staticAppendOwnerVptrConstructionQualified: true,
     staticAppendOwnerVectorLifecycleQualified: true,
     staticInitializerOwnerField6a8StoreQualified: true,
+    staticAppendOwnerConditionalPublicationQualified: true,
+    staticThreadEntrypointForwardsUnprovenRdiReceiverQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
     staticProducerProcessorFieldLayoutBridgeQualified: true,
     staticInitializerSameReceiverCallbackRegistrationQualified: true,
@@ -923,6 +953,8 @@ export function verifyRoot001Bytes(bytes) {
     producerProcessorReceiverTypeMatchProven: false,
     dispatchVectorElementProducerProven: false,
     dispatchVectorProducerOwnerIdentityProven: false,
+    threadReceiverAppendOwnerVptrIdentityProven: false,
+    threadStartedAtRuntimeProven: false,
     liveExecutionProven: false,
     playerIdentityProven: false,
     negativeMutationRejected: true,
