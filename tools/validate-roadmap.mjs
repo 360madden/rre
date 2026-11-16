@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Manager-owned, read-only consistency check for ROADMAP.md + docs/roadmap-tasks.json.
 // Run: node tools/validate-roadmap.mjs from any directory.
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -152,6 +153,48 @@ if (board.navigationPivot) {
         'Roadmap does not expose the active navigation pivot.');
 }
 
+// WA-006's current artifact pins are live references, unlike the separately
+// preserved historical test-version hashes/job IDs in its receipt objects.
+// Resolve only repo-relative paths; a stale SHA or missing file must fail closed.
+function matchesCurrentSourcePin(relative, expected) {
+  if (typeof relative !== 'string' || !relative || path.isAbsolute(relative) ||
+      typeof expected !== 'string' || !/^[a-f0-9]{64}$/.test(expected)) return false;
+  const absolute = path.resolve(root, relative);
+  if (!absolute.startsWith(root + path.sep)) return false;
+  try {
+    return createHash('sha256').update(fs.readFileSync(absolute)).digest('hex') === expected;
+  } catch {
+    return false;
+  }
+}
+const wa006 = tasks.get('WA-006');
+check(Boolean(wa006), 'Missing WA-006 task; current evidence source pins cannot be bypassed.');
+let checkedWa006CurrentSourcePins = 0;
+let wa006PinNegativeControlPassed = false;
+if (wa006) {
+  check(wa006.status === 'blocked', 'WA-006 cannot be promoted by an offline source-pin check.');
+  const pins = [
+    ['WA-006 recorded-evidence plan', wa006.offlineEvidencePlan, wa006.offlineEvidencePlanSha256],
+    ['WA-006 evidence matrix', wa006.offlineEvidenceMatrix, wa006.offlineEvidenceMatrixSha256],
+    ['WA-006 current static verifier', wa006.currentBuildStaticSpatialQuery?.verifier,
+      wa006.currentBuildStaticSpatialQuery?.currentVerifierSha256],
+  ];
+  for (const [label, relative, expected] of pins) {
+    check(matchesCurrentSourcePin(relative, expected), 'Source SHA mismatch: ' + label);
+    checkedWa006CurrentSourcePins++;
+  }
+  // Test the same checker with an in-memory changed expected SHA, without
+  // mutating the board, evidence, PE, or any on-disk artifact.
+  const [label, relative, expected] = pins[0];
+  if (typeof expected === 'string' && expected.length === 64) {
+    const altered = (expected[0] === '0' ? '1' : '0') + expected.slice(1);
+    wa006PinNegativeControlPassed = !matchesCurrentSourcePin(relative, altered);
+    check(wa006PinNegativeControlPassed, 'In-memory WA-006 source-pin corruption was accepted.');
+  } else {
+    check(false, 'WA-006 source-pin corruption control missing baseline.');
+  }
+}
+
 const statusCounts = {};
 for (const t of tasks.values()) statusCounts[t.status] = (statusCounts[t.status] || 0) + 1;
 const result = {
@@ -162,6 +205,8 @@ const result = {
   tasks: tasks.size,
   activeRecordedAgentJobs: running.length,
   statusCounts,
+  checkedWa006CurrentSourcePins,
+  wa006PinNegativeControlPassed,
   failures
 };
 process.stdout.write(JSON.stringify(result, null, 2) + '\n');
