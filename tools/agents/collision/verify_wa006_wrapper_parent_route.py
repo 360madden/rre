@@ -20,6 +20,10 @@ WINDOWS = {
     "wrapper": (0xF7CD20, 551, "ae78a6ae1c6bed37d01a2173c43a265a91c0d8c3c0bc28fd6f585e65c8d33564"),
     "base_ctor": (0x13E9A60, 154, "7b34a14cc98573af4d0382f5486178081cf70c2990d5bcab1b72134e0bcabeaf"),
     "helper": (0x13E9FE0, 32, "290c957c8f9d99db42d880dd69f6d5cb3750f1ba6a5b01d385ef0d3486cace21"),
+    "projection_a": (0x13EA010, 67, "795ed0774017d43101c5145c6466a60a0d1b6c8b0fdc13f26b73ac937a037b9c"),
+    "projection_b": (0x13EA060, 67, "f61ff24636763b2d41a08acfaa395f9cd58b8abfaa0cf9dc93fa59dd66eaeaab"),
+    "projection_helper": (0x13EA0B0, 527, "305ca293f882dc55390d552579b2b6ba7c003d5e3904994e7202ce6bfe5640cb"),
+    "adapter_table": (0x2793F58, 160, "2dfc91e5709f35b7cca3ec7afa86a18b117f342286a2c620b091f5c1c4ff85a2"),
 }
 # Original instruction anchors (RVA -> exact bytes); no disassembler dependency.
 ANCHORS = {
@@ -40,11 +44,23 @@ ANCHORS = {
     0x78B93: "eb 40",           # WorldManager call skips fallback to common join
     0x78B95: "4c 8b 8b c8 00 00 00",  # fallback input from parent+0xC8
     0x78BBC: "48 8b 93 80 00 00 00", # fallback receiver from parent+0x80
+    0x13E9AB2: "48 89 58 08", # first adapter stores wrapper backreference
+    0x13E9AB6: "48 89 08", # first adapter vptr
+    0x13E9AC3: "48 89 43 50", # wrapper keeps first adapter at +0x50
+    0x13E9AD8: "48 89 58 08", # second adapter stores wrapper backreference
+    0x13E9ADC: "48 89 08", # second adapter vptr
+    0x13E9AE4: "48 89 43 58", # wrapper keeps second adapter at +0x58
+    0x13EA025: "48 8b 49 08", # adapter A reads its wrapper pointer
+    0x13EA075: "48 8b 49 08", # adapter B reads its wrapper pointer
+    0x13EA16E: "49 8b 4e 08", # shared helper consumes wrapper+0x08
+    0x13EA1BA: "4c 8b 81 c0 00 00 00", # dereferences subobject +0xC0
 }
 CALLS = {
     0x6A6489: 0x78E110, 0x6A6496: 0xF7CC50, 0x6A64EC: 0xF7CD20,
     0xF7CC59: 0x13E9A60, 0xF7CDFE: 0x13E9FE0,
     0x13E9FED: 0x78B1C, 0x78B8E: 0x8E744, 0x78BD0: 0x9FD68,
+    0x13EA037: 0x13EA0B0, 0x13EA087: 0x13EA0B0,
+    0x13EA1C1: 0x7D3E4,
 }
 BRANCHES = {
     0x78B7A: (0x74, 0x78B95),  # null-parent JE
@@ -54,7 +70,11 @@ BRANCHES = {
 MUTATIONS = (0x6A649B, 0x6A64BC, 0xF7CD57, 0xF7CD9C, 0x13E9A7E, 0x13E9FE9,
              0x78B2E, 0x78B71, 0x6A64ED, 0xF7CDFF, 0x13E9FEE,
              0x78B7A, 0x78B7B, 0x78B7F, 0x78B80, 0x78B93, 0x78B94,
-             0x78BD1, 0x78B95, 0x78BBC)
+             0x78BD1, 0x78B95, 0x78BBC,
+    0x13E9AB5, 0x13E9AC6, 0x13E9ADB, 0x13E9AE7,
+    0x13EA028, 0x13EA078, 0x13EA16F, 0x13EA1BD,
+    0x13EA038, 0x13EA088, 0x13EA1C2,
+    0x2793FE8, 0x2793FF0)
 
 
 def insist(value, message):
@@ -81,6 +101,17 @@ def semantic_check(windows):
         insn = rva_bytes(windows, site, 2)
         insist(insn[0] == opcode and site + 2 + struct.unpack_from("<b", insn, 1)[0] == expected,
                f"bad conditional/fallback branch {site:#x}")
+    for site, opcode, target in (
+        (0x13E9A74, bytes.fromhex("48 8d 05"), 0x2793F58),
+        (0x13E9AAB, bytes.fromhex("48 8d 0d"), 0x2793FE8),
+        (0x13E9AD1, bytes.fromhex("48 8d 0d"), 0x2793FF0),
+    ):
+        insn = rva_bytes(windows, site, 7)
+        insist(insn[:3] == opcode and site + 7 + struct.unpack_from("<i", insn, 3)[0] == target,
+               f"bad adapter vptr LEA {site:#x}")
+    for site, target in ((0x2793FE8, 0x13EA010), (0x2793FF0, 0x13EA060)):
+        insist(struct.unpack("<Q", rva_bytes(windows, site, 8))[0] == 0x140000000 + target,
+               f"bad adapter callback pointer {site:#x}")
 
 
 def read_windows(raw):
@@ -129,13 +160,14 @@ def main():
             continue
         raise ValueError(f"RAM-only mutation accepted: {rva:#x}")
     print(json.dumps({
-        "task": "WA-006", "evidence": "static-wrapper-parent-route-only",
+        "task": "WA-006", "evidence": "static-wrapper-parent-and-adapter-backrefs-only",
         "sourceSha256": SHA, "windows": len(WINDOWS),
         "opcodeAnchors": len(ANCHORS), "directCalls": len(CALLS),
         "checkedBranches": len(BRANCHES),
         "ramNegativeControls": len(MUTATIONS), "wa006Accepted": False,
         "unproven": ["nonzero wrapper+8 setter", "same runtime parent",
-                     "WorldManager virtual dispatch", "physics/gameplay owner"]
+                     "adapter invocation", "WorldManager virtual dispatch",
+                     "physics/gameplay owner"]
     }, sort_keys=True, indent=2))
 
 
