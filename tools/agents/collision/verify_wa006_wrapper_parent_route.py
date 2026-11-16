@@ -34,6 +34,7 @@ ANCHORS = {
     0xF7CD9C: "48 8b ce",        # restore RCX=RSI
     0x13E9A6A: "33 ff",          # zero EDI
     0x13E9A7B: "48 89 79 08",  # [wrapper+8]=zero
+    0x13E9A82: "48 8b d9",     # preserve actual wrapper RCX in RBX for adapters
     0x13E9FE6: "48 8b 49 08",  # RCX=[wrapper+8]
     0x78B2E: "48 8b d9",        # save parent query receiver RCX in RBX
     0x78B6E: "48 8b 8b 88 00 00 00",  # RCX=[parent+0x88]
@@ -52,6 +53,7 @@ ANCHORS = {
     0x13E9AE4: "48 89 43 58", # wrapper keeps second adapter at +0x58
     0x13EA025: "48 8b 49 08", # adapter A reads its wrapper pointer
     0x13EA075: "48 8b 49 08", # adapter B reads its wrapper pointer
+    0x13EA0D0: "4c 8b f1",    # preserve wrapper helper RCX in R14
     0x13EA16E: "49 8b 4e 08", # shared helper consumes wrapper+0x08
     0x13EA1BA: "4c 8b 81 c0 00 00 00", # dereferences subobject +0xC0
 }
@@ -71,8 +73,8 @@ MUTATIONS = (0x6A649B, 0x6A64BC, 0xF7CD57, 0xF7CD9C, 0x13E9A7E, 0x13E9FE9,
              0x78B2E, 0x78B71, 0x6A64ED, 0xF7CDFF, 0x13E9FEE,
              0x78B7A, 0x78B7B, 0x78B7F, 0x78B80, 0x78B93, 0x78B94,
              0x78BD1, 0x78B95, 0x78BBC,
-    0x13E9AB5, 0x13E9AC6, 0x13E9ADB, 0x13E9AE7,
-    0x13EA028, 0x13EA078, 0x13EA16F, 0x13EA1BD,
+    0x13E9A84, 0x13E9AB5, 0x13E9AC6, 0x13E9ADB, 0x13E9AE7,
+    0x13EA028, 0x13EA078, 0x13EA0D2, 0x13EA16F, 0x13EA1BD,
     0x13EA038, 0x13EA088, 0x13EA1C2,
     0x2793FE8, 0x2793FF0)
 
