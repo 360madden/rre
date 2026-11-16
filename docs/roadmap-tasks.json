@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "RRE native navigation",
-  "asOfLocalDate": "2026-10-21",
+  "asOfLocalDate": "2026-11-15",
   "latestHandoff": {
     "path": "docs/HANDOFF-2026-10-20-1353-EDT.md",
     "asOfLocal": "2026-10-20T13:53:39-04:00",
@@ -63,6 +63,17 @@
     "releaseVerificationExitCode": 0,
     "releaseArtifact": "artifacts/wa3-release-verification-20261020-01.json",
     "priorReportsByteIdentical": true
+  },
+  "inspectorQaCurrent": {
+    "asOfLocalDate": "2026-11-15",
+    "host": "AMD-DESKTOP",
+    "inspectorVersion": "1.1.2",
+    "sourceSha256": "fdbc066c2da4a929fc8219a839ba8c02d72aad741f8157c8584cac5933347eb6",
+    "report": "docs/RRE-WA005-INDEPENDENT-QA-2026-11-15.md",
+    "independentStaticReviewsAccepted": ["WA-005A", "WA-005B", "WA-005C"],
+    "overallWa005Status": "blocked-exact-historical-executable-sha-mismatch",
+    "implementationCommit": "88b7fa84b28bfbcee509ab49a56f96715662c65d",
+    "liveRiftActions": false
   },
   "timezone": "America/New_York",
   "repo": "C:/work/rre",
@@ -776,7 +787,7 @@
       "milestone": "WA",
       "lane": "c2m",
       "title": "Independent parsing and identity review",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "WA-004"
       ],
@@ -787,10 +798,19 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "blockers": [
+      "integratedCommit": "88b7fa84b28bfbcee509ab49a56f96715662c65d",
+      "historicalBlockers": [
         "Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Inspector 1.1.1 still lacks acceptable independent parsing review; preserve earlier failed reviews and do not repeat unchanged launches."
       ],
+      "acceptedIndependentReview": {
+        "reviewerAgentPath": "/root/wa005a_no_tool_review",
+        "sourceSha256": "fdbc066c2da4a929fc8219a839ba8c02d72aad741f8157c8584cac5933347eb6",
+        "method": "separate ChatGPT no-tool static source and final-delta reviews",
+        "runtimeModelSessionId": null,
+        "rawToolEventTraceAvailable": false,
+        "managerDisposition": "Unicode Cc and dotted group/raid ambiguity fixed; typed-coordinate distinction documented",
+        "evidence": "docs/RRE-WA005-INDEPENDENT-QA-2026-11-15.md"
+      },
       "previousReview": "artifacts/wa2-final-WA-005A-20261020-01/result.json",
       "latestReview": "artifacts/wa3-review-WA-005A-20261020-01/result.json",
       "lastReviewJob": "rre-wa3-20261020-review-A-01",
@@ -805,7 +825,7 @@
       "milestone": "WA",
       "lane": "follow",
       "title": "Independent numerical and projection review",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "WA-004"
       ],
@@ -816,10 +836,19 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "blockers": [
+      "integratedCommit": "88b7fa84b28bfbcee509ab49a56f96715662c65d",
+      "historicalBlockers": [
         "Latest Nemotron response attempted a tool; its four alleged defects were checked and rejected as public-path defects. No acceptable independent final-source numerical review. Tests and a process exit do not satisfy this gate."
       ],
+      "acceptedIndependentReview": {
+        "reviewerAgentPath": "/root/wa005b_no_tool_review",
+        "sourceSha256": "fdbc066c2da4a929fc8219a839ba8c02d72aad741f8157c8584cac5933347eb6",
+        "method": "separate ChatGPT no-tool static source and final-delta reviews",
+        "runtimeModelSessionId": null,
+        "rawToolEventTraceAvailable": false,
+        "managerDisposition": "No actionable numerical/projection defects; prior B1-B4 rejected",
+        "evidence": "docs/RRE-WA005-INDEPENDENT-QA-2026-11-15.md"
+      },
       "previousReview": "artifacts/wa2-final-WA-005B-20261020-01/result.json",
       "latestReview": "artifacts/wa3-review-WA-005B-20261020-01/result.json",
       "lastReviewJob": "rre-wa3-20261020-review-B-01",
@@ -833,7 +862,7 @@
       "milestone": "WA",
       "lane": "validation",
       "title": "Independent presentation and IO review",
-      "status": "blocked",
+      "status": "integrated",
       "dependsOn": [
         "WA-004"
       ],
@@ -844,10 +873,19 @@
       ],
       "assignedAgentId": null,
       "jobId": null,
-      "integratedCommit": null,
-      "blockers": [
+      "integratedCommit": "88b7fa84b28bfbcee509ab49a56f96715662c65d",
+      "historicalBlockers": [
         "Latest refreshed MiniMax review reached its 180-second deadline without a completed response. Version 1.1.1 publication/Unicode changes lack independent final-source review. The proposed Codex launcher was tool-blocked before creation and was not retried."
       ],
+      "acceptedIndependentReview": {
+        "reviewerAgentPath": "/root/wa005c_no_tool_review",
+        "sourceSha256": "fdbc066c2da4a929fc8219a839ba8c02d72aad741f8157c8584cac5933347eb6",
+        "method": "separate ChatGPT no-tool static source and final-delta reviews",
+        "runtimeModelSessionId": null,
+        "rawToolEventTraceAvailable": false,
+        "managerDisposition": "No actionable HTML/publication/receipt/CLI defects",
+        "evidence": "docs/RRE-WA005-INDEPENDENT-QA-2026-11-15.md"
+      },
       "priorSourceReview": "artifacts/wa2-final-WA-005C-20261020-01/result.json",
       "latestReview": "artifacts/wa3-review-WA-005C-20261020-01/result.json",
       "lastReviewJob": "rre-wa3-20261020-review-C-01",
@@ -1003,9 +1041,29 @@
       "jobId": null,
       "integratedCommit": null,
       "partialTestCommit": "5478207f1d85db1793179d0d95a5cd7926ddc1ba",
-      "blockers": [
+      "historicalBlockers": [
         "Inspector 1.1.1 fixes passed 66 inspector tests and the 377-test unified gate, but independent final-source QA remains incomplete. Latest A/C attempts timed out, B attempted tools and contained rejected claims, and the Codex launcher was tool-blocked before creation. Do not repeat these blocked/unchanged attempts or mark this gate complete from test counts."
       ],
+      "blockers": [
+        "WA-005A/B/C independent no-tool final-source static reviews are accepted. Inspector 1.1.2 passes 67/67 targeted tests, and Node passes 358/358, but full research validation exited 1: legacy collision/pathfinding suites require executable SHA 7c356c9d... while the actual AMD-DESKTOP installed PE is SHA 1935a05c.... Preserve exact-build checks and blocked WA-005 status until a qualified matching offline historical PE fixture is available."
+      ],
+      "latestIndependentReview": "docs/RRE-WA005-INDEPENDENT-QA-2026-11-15.md",
+      "latestInspectorVersion": "1.1.2",
+      "latestInspectorSourceSha256": "fdbc066c2da4a929fc8219a839ba8c02d72aad741f8157c8584cac5933347eb6",
+      "latestInspectorTestJob": "rre_20261116_0552_wa_inspector_final_01",
+      "latestInspectorTestsPassed": 67,
+      "latestNodeTestsPassed": 358,
+      "latestResearchGate": {
+        "job": "rre_20261116_0552_wa_full_research_final_01",
+        "exitCode": 1,
+        "testsRun": 514,
+        "passedGroups": 7,
+        "failedGroups": ["collision", "pathfinding"],
+        "sourceHashesUnchanged": true,
+        "currentExecutableSha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
+        "legacyRequiredExecutableSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
+        "artifact": "artifacts/research-gate-wa005-20261116-0439/validation.json"
+      },
       "previousValidation": {
         "job": "rre-wa-20261020-final-validation-reports-02",
         "exitCode": 0,
