@@ -14,11 +14,11 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 60);
-  assert.equal(result.opcodeAnchorsVerified, 172);
-  assert.equal(result.directCallsVerified, 42);
+  assert.equal(result.sourceWindowsVerified, 71);
+  assert.equal(result.opcodeAnchorsVerified, 209);
+  assert.equal(result.directCallsVerified, 50);
   assert.equal(result.directJumpsVerified, 1);
-  assert.equal(result.ripTargetsVerified, 27);
+  assert.equal(result.ripTargetsVerified, 30);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
@@ -49,6 +49,9 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticInitializerOwnerField6a8StoreQualified, true);
   assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
   assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);
+  assert.equal(result.staticInitializerSameReceiverCallbackRegistrationQualified, true);
+  assert.equal(result.staticRegisteredProcessorAdapterVptrQualified, true);
+  assert.equal(result.callbackProcessorArgumentMatchesRegisteredHostProven, false);
   assert.equal(result.producerProcessorReceiverTypeMatchProven, false);
   assert.equal(result.dispatchVectorElementProducerProven, false);
   assert.equal(result.dispatchVectorProducerOwnerIdentityProven, false);
@@ -120,9 +123,27 @@ for (const [name, rva] of [
   ['append owner constructor initializes vector', 0x74aae3],
   ['append owner destructor resets vptr', 0x74ac0a],
   ['append initializer saves incoming receiver', 0x76f015],
+  ['initializer calls RAX-preserving stack probe', 0x76f01f],
+  ['stack probe preserves the RAX allocation size', 0x24e1160],
   ['append owner constructor callsite', 0x7724d9],
   ['append initializer host field +0x6A8', 0x7724fc],
+  ['append initializer restores field address after cleanup', 0x772545],
   ['append initializer stores owner pointer', 0x772555],
+  // Same initializer receiver registers a separate callback adapter under +0x240.
+  // Whether delivered callback RDX points back to that host remains UNPROVEN.
+  ['host singleton object allocation', 0x761f14],
+  ['host constructor installs primary vptr', 0x75ba04],
+  ['host initialized global reference', 0x761f4a],
+  ['host virtual initializer pointer', 0x26be9f8],
+  ['host callback lookup method', 0x766050],
+  ['same initializer receiver calls callback builder', 0x771f36],
+  ['callback builder saves incoming host receiver', 0x777ce0],
+  ['adapter installs its distinct vptr', 0x7781bf],
+  ['adapter vptr links processor forwarding wrapper', 0x26beb40],
+  ['adapter callback registered under host collection', 0x778210],
+  ['callback wrapper preserves incoming RDX as processor receiver', 0xfba026],
+  ['adapter reference committed to host collection slot', 0x77822e],
+  ['host callback registration slot accessor', 0x75d9f4],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],
   ['C2M reference pair first-key match branch', 0x5807f8],

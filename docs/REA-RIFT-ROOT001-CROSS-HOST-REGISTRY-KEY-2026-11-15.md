@@ -2,6 +2,34 @@
 
 **Status:** independently reverified **exact-build static evidence** from AMD-DESKTOP and LEGION, including an 850-node registration chain, metadata traversal, keyed handler storage, and a conditional registered-handler dispatch mechanism; **not** proof of live handler execution, current-player identity, or a callable game API. **Owner:** RRE single manager; independent read-only ROOT upstream and helper workers. No RIFT, RR2, REA, installed addon, SavedVariables or LEGION operations in this AMD-DESKTOP continuation.
 
+## New common-host callback registration and vector-owner linkage (~20:15 EST November 15)
+
+**New source-proven result, original PE only:** The same entry receiver of initializer `0x76F010` owns the callback-registration collection at **`+0x240`** and the constructed append-owner pointer at **`+0x6A8`**. This is a stronger, positively traced **common initializer receiver**, not proof that any later callback's argument identifies that receiver.
+
+1. `0x761F10–0x761F68` allocates a **0xA50-byte** host, calls constructor `0x75B9D0` at `0x761F30`, then publishes the returned pointer through generic store `0x6A3E60` into independent global **`0x33724F0`** at `0x761F4A/51`. Constructor `0x75BA04/0x75BA0B` installs vptr **`0x26BE9F0`**; `[vptr+0x08]→0x76F010` and `[vptr+0xB8]→0x766050`. That latter method reads host `+0x240` and **returns a callback pointer**, without dispatching `0xFBA020`. This global is **not** the C2M root global `0x33623E0` and is not an identified player object.
+2. `0x76F015` saves the incoming host `RCX`; `0x771F36` reloads the same value from `[RSP+0xE00]`, and `0x771F3E` calls builder **`0x777CE0`** with it. The builder saves entry `RCX` at old `[RSP+8]` and, after `push rdi` and `sub rsp,0x3E0`, retrieves that receiver from `[RSP+0x3F0]`. At `0x777D4A/52/63/70`, it uses **receiver+0x240** to obtain and populate a callback slot through `0x75D9E0`.
+3. A specific separately allocated callback adapter is built at `0x77818B` onward: `0x7781BF/0x7781C6` installs its **own** vptr `0x26BEB28`, whose `+0x18` entry is **`0xFBA020`**. At `0x778208/210/221/22E`, the same saved original host receives this adapter through its `+0x240` collection. Do **not** conflate the adapter's vptr/identity with the host's vptr/identity.
+4. In the same initializer, `0x7724D9` constructs the `0x74AA90` append-capable owner. `0x7724F4/FC/502` stages its original receiver's **`+0x6A8`** field address; **`0x772545` reloads that address after a conditional cleanup call**, and `0x772555` conditionally stores the owner. The `0x76F01F→0x24E1160` **RAX-preserving stack probe**, exact-hashed through its `RET`, secures the old-spill-to-new-stack `0xDF8` displacement claim.
+5. On separate callback entry, **`0xFBA026` forwards its *incoming `RDX`* as processor `RCX`** to `0x787470` at `0xFBA02C`. Source has **not** established `RDX == original registering host`. The processor's `[RCX+0x6A8]` load and the adapter's registration are source-connected to host initialization, but invocation argument provenance, writer/processor same-instance ownership, populated live vector, and runtime delivery remain **unverified**.
+
+### Exact original-source pins added to the verifier
+
+| Source window (RVA + size) | SHA-256 |
+| --- | --- |
+| `0x761F10+0x58` host publisher | `af9c721ca1bf5cfff77012fa795095a195440ad730fbe779c0a059f8f85cbe87` |
+| `0x75B9D0+0x60` host constructor | `6326f0c763d4e5ef74f09987121334518e730f75d6c0124a188f7c0a811fff71` |
+| `0x26BE9F0+0xC8` host method table | `3e758e1edcc229ddf131a4fd91f2d7019d9893ed11e61fd0f448b7ca8605c1a8` |
+| `0x771F36+0x15` original host forwarded | `62029fe6dd0b143e36e5d3bf35b976492746c3bea98e8179ca5553e206c2a5df` |
+| `0x777CE0+0xBDC` callback builder | `ebea03f510c1f415575a3fd592725a93e6fa58dbb4f5bec9a3610eced7db9760` |
+| `0x77818B+0xB4` registered adapter | `e7c23673b2b102b9980c3a2717833bdd71565bb5c7aa1e4f54557c197d0cc827` |
+| `0x26BEB28+0x38` adapter method table | `8f3fbc80d06c36941a5e0ac7e325cce0512f0688bcb09a8d052a09bec78128c4` |
+| `0xFBA020+0x21` callback wrapper | `90812a8e57da7e0cb14e853f79a571dae50563546ef829f44dc1f8f8dc6b2458` |
+| `0x24E1160+0x4E` stack-probe helper | `24ba2f8e6f97e3f8dec9771f775f11294b7da43ba09efabbb1bd3c079ac25b6e` |
+
+**Validation:** AMD-DESKTOP `C:\work\rre` original 60,493,640-byte PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. `node tools/verify-root001-registry.mjs --self-test` exit0: **71** exact SHA windows, **209** opcode anchors, **50** direct E8 calls, **30** RIP references, 850 static descriptors. Focused **62/62** and canonical full Node runner **312/312** pass; roadmap validator **47 tasks / 11 milestones**, no failures. New verifier flags `staticInitializerSameReceiverCallbackRegistrationQualified=true`, `staticRegisteredProcessorAdapterVptrQualified=true`; `callbackProcessorArgumentMatchesRegisteredHostProven=false`, `producerProcessorReceiverTypeMatchProven=false`, and all runtime/player flags false. Multiple independent read-only source and architecture reviewers concurred. No game, VM, LEGION, RR2 repo, addon, process or network publish touched; RC-30 and SC live gates remain stopped.
+
+**Next discriminator:** trace **incoming callback `RDX`** to one established vptr `+0x18` wrapper (e.g. `0xFBA020`) from an actual source-qualified call path. Neither nearby method pointers nor an adapter registration by themselves prove same-host *delivery*.
+
 ## Source identity and positive verification
 
 - AMD-DESKTOP archive: `artifacts/lab2-live-20261107-0922/guest-rift_x64.exe`, **60,493,640 bytes**, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`. LEGION's [RC-82/83 report](RRE-RC82-ELIGIBILITY-KEY-AND-REGISTRY-LEGION-2026-11-11.md) and [machine-readable record](RRE-RC82-ELIGIBILITY-KEY-AND-REGISTRY-LEGION-2026-11-11.json) independently pin the **identical** physical executable SHA and 25 source windows.
