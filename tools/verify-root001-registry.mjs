@@ -70,11 +70,18 @@ const WINDOWS = [
   ['c2m_vptr_interior_owner_a', 0x5da680, 0x85f, 'b1729ca6f7f137d66b5eed3933d9a72fd718c33c5c23ce7240fc5be874bb6126'],
   ['c2m_vptr_interior_owner_b', 0x5db344, 0x3ce, '412c845e22e6a36e2624fc69db4cc6e8c94955b9a689399d83ace847490fdadf'],
   ['c2m_vptr_context', 0x601900, 0x157e, 'dd373abcdacfd22dd3bf8cdca8fd40abb4601903eea6630b2c33b72d6a8b2823'],
-  // Object-local append routines, not yet linked to the registered-handler vector owner.
+  // Two virtual appenders and a source-compatible receiver+0x6A8 field linkage;
+  // the initializer/processor runtime receiver identity is still unobserved.
   ['object_vector_append_parent_a', 0x74bbe0, 0xa0, '6c0e24b80c3aa616aacb6954b94631e85a416deb201bdb72e8ed943f531f7625'],
   ['object_vector_append_parent_b', 0x74bee0, 0xa0, '739c187b9b486a9ab5dd33dd97d4beb2936e087829b8622b810386a97d1a5c71'],
   ['object_vector_append_writer_a', 0x74bd57, 0xb5, '7ebbbc976781c3a80bffdcecac070d1a9e53b0680fcadacb215488e4e01f4bee'],
   ['object_vector_append_writer_b', 0x74c04a, 0xb5, 'e3d670e6ec493ca4663b0cb942d79e1906dec0795c037e4179be7c493cd59f13'],
+  // The table installed by the append-owner constructor contains both append entrypoints.
+  ['append_owner_vptr_table', 0x26be378, 0x70, 'bcad62380f20f0ba3056f71ae36ed13e700b5998ed3df5e699c6e89c34e09d89'],
+  ['append_owner_constructor', 0x74aa90, 0x16c, '55acc370174457a7b63734b921f5a8cef90f85334ce910b7059503d80abf1062'],
+  ['append_owner_destructor', 0x74ac00, 0x16b, '109111704f1df2772eec7897665ca43e181decb359074a66e4db590b2ba6c9b2'],
+  ['append_owner_host_field_store', 0x7724b4, 0xa4, '4bc7236c3ea0e32738e0ff647eefbd0bc3e917c9594e46ca450d6c40ff1ec75a'],
+  ['append_owner_receiver_initializer', 0x76f010, 0x36d4, '257bbfb8b8a01445c427d5b4215a5652ce02bfd972fbefd77483289ec70f5a1a'],
   ['c2m_first_key_pair_update', 0x5807d0, 0x7b, '3c1e9d159e93e25adeb29e041511de7b55d0960d96419d5fa023f357f4dab6d8'],
   ['c2m_reference_release_prefix', 0x4a02d0, 0x78, 'b60cb2e4db49aedbb49748a38d832955e115af78283a9aa46c59b9d7c3911bc4'],
   ['c2m_transient_pair_cleanup_prefix', 0x49ac00, 0x78, 'abae0ea33271d8082429d95b1bd3413723683b6597a9487580fa919bbb66b9f6'],
@@ -284,6 +291,31 @@ export function verifyRoot001Bytes(bytes) {
     [0x5da89c, '48898398010000'], // assignment [RBX+0x198]
     [0x5db354, '488d0545480d02'], // distinct interior vptr 0x26afba0
     [0x5db35b, '488901'], // assignment [RCX]
+    // A constructed object has a vptr containing both appenders, initializes
+    // its +0x80 vector triple, and is conditionally stored at receiver+0x6A8.
+    [0x74aa9f, '488bd9'], // receiver RCX retained
+    [0x74aaa9, '488d05c838f701'], // source-installed vptr 0x26be378
+    [0x74aab0, '488903'], // install at [RBX]
+    [0x74aab7, '488d052a39f701'], // separate secondary vptr 0x26be3e8
+    [0x74aac2, '48894310'], // install at [RBX+0x10]
+    [0x74aae3, '4889b380000000'], // initialize vector begin at +0x80
+    [0x74aaec, '4889b388000000'], // initialize used-end +0x88
+    [0x74aaf3, '4889b390000000'], // initialize capacity-end +0x90
+    [0x74ac0a, '488d056737f701'], // destructor vptr reset
+    [0x74ac14, '488901'],
+    [0x74ac17, '488d05ca37f701'], // secondary vptr reset
+    [0x74ac1e, '48894110'],
+    [0x76f015, '48894c2408'], // initializer saves incoming receiver RCX
+    [0x76f01a, 'b8f80d0000'], // 0xDF8 stack allocation
+    [0x76f024, '482be0'], // RSP -= RAX
+    [0x7724b4, 'b920050000'], // allocate 0x520-byte owner
+    [0x7724d9, 'e8b285fdff'], // construct append-capable owner
+    [0x7724de, '4889842470020000'], // save returned owner
+    [0x7724f4, '488b8424000e0000'], // initializer receiver spill at +0xE00
+    [0x7724fc, '4805a8060000'], // receiver+0x6A8
+    [0x772502, '4889842440020000'], // save owner-field address
+    [0x77254d, '488b8c2470020000'], // retrieve constructed owner
+    [0x772555, '488908'], // [receiver+0x6A8] = constructed owner
     // Two independent source functions retain incoming owner RCX in R14.
     [0x74bc1f, '4c8bf1'],
     [0x74bd5f, '498d7e40'], // owner+0x40 lock
@@ -377,6 +409,9 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x74c05e, 0x3c310);
   directCall(0x74c0a7, 0x74e040);
   directCall(0x74c0fa, 0x3c320);
+  directCall(0x7724b9, 0x78e110); // allocate append-owner object
+  directCall(0x7724d9, 0x74aa90); // construct append-owner object
+  directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
   assertClaim(0x580846 + 5 + pe.int32(0x580847) === 0x49ac00,
@@ -415,6 +450,10 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0x5da87e, '488d05', 0x26afb70); // interior vptr
   ripReference(0x5da895, '488d05', 0x26afb90); // interior vptr
   ripReference(0x5db354, '488d05', 0x26afba0); // interior vptr
+  ripReference(0x74aaa9, '488d05', 0x26be378); // append-owner primary vptr
+  ripReference(0x74aab7, '488d05', 0x26be3e8); // append-owner secondary vptr
+  ripReference(0x74ac0a, '488d05', 0x26be378); // destructor resets primary vptr
+  ripReference(0x74ac17, '488d05', 0x26be3e8); // destructor resets secondary vptr
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -473,6 +512,21 @@ export function verifyRoot001Bytes(bytes) {
   assertClaim(0x26afc00 - 0x26afb40 === 0xc0,
     'C2M method pointer positional offset only, not virtual slot index');
 
+  // Unlike the adjacent C2M code-pointer region, THIS observed vptr start
+  // is installed by 0x74AA90 and has two literal append-method entries.
+  const appendOwnerVptrRva = 0x26be378;
+  const appendEntryPointers = [[0x30, 0x14074bbe0n], [0x38, 0x14074bee0n]];
+  for (const [offset, target] of appendEntryPointers) {
+    assertClaim(pe.qword(appendOwnerVptrRva + offset) === target,
+      'source-installed append vptr method at offset 0x' + offset.toString(16));
+    assertClaim(pe.virtualSectionFor(Number(target - EXPECTED_BASE), 1).name === '.text',
+      'append owner method points to original text');
+  }
+  // Source saves initial RCX at old RSP+8, then subtracts 0xDF8. Conditional
+  // [new RSP+0xE00] -> RCX+0x6A8 store matches processor receiver+0x6A8
+  // loads; receiver class/instance equality across call paths remains unknown.
+  assertClaim(0xe00 - 0xdf8 === 8, 'initializer receiver spill stack delta');
+
   // Named singleton and formatted-name buffer are distinct globals, 0x3ff8 bytes apart.
   // The 16-bit ROOT tag is source-derived only for the successful new-record path.
   const singletonRva = 0x35199f0;
@@ -522,6 +576,7 @@ export function verifyRoot001Bytes(bytes) {
     c2mVtableDeleteBranchesVerified: 1,
     c2mConsecutiveCodePointersVerified,
     vectorAppendPathsVerified: 2,
+    appendOwnerVirtualMethodsVerified: appendEntryPointers.length,
     vectorUpstreamDirectCallersVerified: 9,
     trampolineRva: '0x7068c0',
     handlerEntryOffset: '+0x18',
@@ -543,6 +598,12 @@ export function verifyRoot001Bytes(bytes) {
     staticC2mTransientReferenceCleanupQualified: true,
     staticVectorProcessorCallersQualified: true,
     objectLocalVectorElementWritersProven: true,
+    staticAppendOwnerVptrConstructionQualified: true,
+    staticAppendOwnerVectorLifecycleQualified: true,
+    staticInitializerOwnerField6a8StoreQualified: true,
+    staticProcessorOwnerField6a8ReadQualified: true,
+    staticProducerProcessorFieldLayoutBridgeQualified: true,
+    producerProcessorReceiverTypeMatchProven: false,
     dispatchVectorElementProducerProven: false,
     dispatchVectorProducerOwnerIdentityProven: false,
     liveExecutionProven: false,

@@ -14,14 +14,15 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 55);
-  assert.equal(result.opcodeAnchorsVerified, 149);
-  assert.equal(result.directCallsVerified, 39);
+  assert.equal(result.sourceWindowsVerified, 60);
+  assert.equal(result.opcodeAnchorsVerified, 172);
+  assert.equal(result.directCallsVerified, 42);
   assert.equal(result.directJumpsVerified, 1);
-  assert.equal(result.ripTargetsVerified, 23);
+  assert.equal(result.ripTargetsVerified, 27);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
+  assert.equal(result.appendOwnerVirtualMethodsVerified, 2);
   assert.equal(result.rootInternalTagHex, '0xdd3c');
   assert.equal(result.rootTagNameRegistrationConditional, true);
   assert.equal(result.namedSingletonRva, '0x35199f0');
@@ -43,6 +44,12 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.c2mFirstKeyEqualityBranchesVerified, 1);
   assert.equal(result.c2mVtableDeleteBranchesVerified, 1);
   assert.equal(result.objectLocalVectorElementWritersProven, true);
+  assert.equal(result.staticAppendOwnerVptrConstructionQualified, true);
+  assert.equal(result.staticAppendOwnerVectorLifecycleQualified, true);
+  assert.equal(result.staticInitializerOwnerField6a8StoreQualified, true);
+  assert.equal(result.staticProcessorOwnerField6a8ReadQualified, true);
+  assert.equal(result.staticProducerProcessorFieldLayoutBridgeQualified, true);
+  assert.equal(result.producerProcessorReceiverTypeMatchProven, false);
   assert.equal(result.dispatchVectorElementProducerProven, false);
   assert.equal(result.dispatchVectorProducerOwnerIdentityProven, false);
   assert.equal(result.liveExecutionProven, false);
@@ -106,6 +113,16 @@ for (const [name, rva] of [
   ['append writer B capacity guard', 0x74c085],
   ['append writer B element pointer store', 0x74c0b8],
   ['append writer B lock release', 0x74c0fa],
+  // New source-qualified owner class/vector lifecycle and receiver-relative field link.
+  ['append owner virtual method A pointer', 0x26be3a8],
+  ['append owner virtual method B pointer', 0x26be3b0],
+  ['append owner constructor installs vptr', 0x74aaa9],
+  ['append owner constructor initializes vector', 0x74aae3],
+  ['append owner destructor resets vptr', 0x74ac0a],
+  ['append initializer saves incoming receiver', 0x76f015],
+  ['append owner constructor callsite', 0x7724d9],
+  ['append initializer host field +0x6A8', 0x7724fc],
+  ['append initializer stores owner pointer', 0x772555],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],
   ['C2M reference pair first-key match branch', 0x5807f8],
