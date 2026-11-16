@@ -14,11 +14,11 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.ok, true);
   assert.equal(result.registrationRecordsVerified, 850);
   assert.equal(result.rootRecordIndex, 575);
-  assert.equal(result.sourceWindowsVerified, 77);
-  assert.equal(result.opcodeAnchorsVerified, 254);
-  assert.equal(result.directCallsVerified, 55);
-  assert.equal(result.directJumpsVerified, 1);
-  assert.equal(result.ripTargetsVerified, 32);
+  assert.equal(result.sourceWindowsVerified, 93);
+  assert.equal(result.opcodeAnchorsVerified, 291);
+  assert.equal(result.directCallsVerified, 69);
+  assert.equal(result.directJumpsVerified, 3);
+  assert.equal(result.ripTargetsVerified, 39);
   assert.equal(result.vectorUpstreamDirectCallersVerified, 9);
   assert.equal(result.c2mConsecutiveCodePointersVerified, 40);
   assert.equal(result.vectorAppendPathsVerified, 2);
@@ -56,6 +56,18 @@ test('qualifies only the pinned static dispatch path, never live player identity
   assert.equal(result.staticHostSelectedCallbackSameReceiverRdxDispatchQualified, true);
   assert.equal(result.staticAdapterAllocationConditionalQualified, true);
   assert.equal(result.staticCallbackSecondConsumerQualified, true);
+  assert.equal(result.staticDistinctRegisteredEventKeysQualified, true);
+  assert.equal(result.staticLoginFailedKeySetterPathQualified, true);
+  assert.equal(result.staticInGameLiteralReachesSetterProven, true);
+  assert.equal(result.staticInGameSetterUsesPublishedHostGlobalQualified, true);
+  assert.equal(result.staticHostTransientStringSetterQualified, true);
+  assert.equal(result.staticHostSelectorDefaultEmptyQualified, true);
+  assert.equal(result.staticHostSelectorEmptyGuardQualified, true);
+  assert.equal(result.staticHostSelectorPostlookupEmptyAssignmentQualified, true);
+  assert.equal(result.staticHostSelectorExistingCallbackPrelookupMethodQualified, true);
+  assert.equal(result.staticHostLookupMissBypassesCallbackStageQualified, true);
+  assert.equal(result.staticHostRegistryFNV1a64Qualified, true);
+  assert.equal(result.staticHostOwnerConditionalVectorResetQualified, true);
   assert.equal(result.specificFba020AdapterSelectedProven, false);
   // Generic callback dispatch preserves its own host; particular adapter
   // selection and equality with a previous initializer instance stay unproven.
@@ -163,6 +175,22 @@ for (const [name, rva] of [
   ['A callback literal LoginFailed registration key', 0x26bf9b0],
   ['A callback second consumer', 0xfba034],
   ['host callback registration slot accessor', 0x75d9f4],
+  // The new source-only key/setter/cleanup proof must fail closed on edits.
+  ['host string initial empty state', 0x75b2e9],
+  ['host transient string key setter', 0x77d761],
+  ['host non-reentrant key guard', 0x77d775],
+  ['host empty key selector skip', 0x776199],
+  ['host existing callback virtual cleanup', 0x7761da],
+  ['null registry result skips staging', 0x776275],
+  ['host FNV key hash', 0x783aa0],
+  ['registered InGame literal', 0x26a79d0],
+  ['LoginFailed key to setter', 0x765edc],
+  ['InGame literal to setter caller', 0xfcf553],
+  ['InGame getter to setter tail', 0xfcf5ff],
+  ['published host getter', 0x766014],
+  ['host owner reset receiver', 0x7639ce],
+  ['conditional owner vector reset', 0x74b756],
+  ['owner vector end reset', 0x74b827],
   // Only the first QWORD is compared before the reference pair is replaced.
   ['C2M reference pair first-key comparison', 0x5807f1],
   ['C2M reference pair first-key match branch', 0x5807f8],

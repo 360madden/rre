@@ -105,6 +105,24 @@ const WINDOWS = [
   ['secondary_processor_adapter_vptr', 0x2712f08, 0x70, 'd089c12e1a943c9c2a764c9c4def012b298d5703363338d82f6bb79546b2ed62'],
   // FBA020 also invokes 778C30 with the same incoming callback RDX.
   ['registered_processor_callback_secondary_consumer', 0x778c30, 0x1e7, '4e4726cb3d31595617d7b8876f18c49b88809546a5428e2fc03a93417ec2f0b1'],
+  // Two distinct source keys, transient host string selector and source-only setter.
+  ['registered_ingame_key_literal', 0x26a79d0, 0x30, '52625f45a69f6bb0eb1e0ad891074ff713e06e6d20d5e45b7f00f74dd22dcd44'],
+  ['host_default_string_constructor_context', 0x75bb90, 0x50, 'a021261624f8de680b8aca2fa7ee37f552c8d82dd629bc660d1cd2c4623176dc'],
+  ['host_default_empty_string_constructor', 0x75b2e0, 0x1d, 'e645a3f7543dc1d118c7c7657dd00f377422fce60099f9c2bc819b0291830420'],
+  ['host_transient_string_key_setter', 0x77d740, 0x60, '6448e5a09989718fd6ce533400686cd7203b611299d255a36b6a158d684de654'],
+  ['host_key_string_copy', 0x4ade40, 0x30, 'c66d78f93057ccd50383b3384ab5bb7c11a4acb5e463e6f8e8c374fb9a0899b3'],
+  ['host_selector_empty_guard', 0x7835f0, 0x09, '1214c9defc2b1bb0c088e446b3029c1677775a312095115607b8f6ac075a5923'],
+  ['host_selector_empty_assignment', 0x4f4030, 0x30, '00f63051b9cffcde84bee4cc3d800eaf05891d7d56783604c964691e4a87f1e2'],
+  ['host_selector_empty_literal', 0x26a10b0, 0x10, '374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb'],
+  ['host_registry_fnv1a64_hash', 0x783aa0, 0xb8, '97488a694482f430eb88005da2262479adc81057d1e5a6d8538fe38c57e5e5fa'],
+  ['source_loginfailed_key_setter_caller', 0x765ebe, 0x2d, '4094296b5996aa0dd4952a300e81bd92bd934f947601e562cad88733f847285b'],
+  ['source_ingame_literal_to_setter_caller', 0xfcf539, 0x126, 'a29cb830f7641658aa22010a721368d7cd7f0f521d0d35e3f4c28c7dcd3f5754'],
+  ['source_ingame_host_global_getter', 0x766010, 0x40, 'c9691951076a7a1f4c12ff9495f6a6d5dbefbe92bee09c1bc7c0e6bc7e3c9423'],
+  ['source_ingame_global_getter_thunk', 0x6a3ee0, 0x10, '220b6f8abbac8ab9456d1b8c9617f99c6c58c81979999ad0a516b4c38e275407'],
+  // A host method reaches an owner-local vector reset through +0x6A8; not an append invocation.
+  ['host_append_owner_reset_method', 0x7639c0, 0x2a, '194d86e7e71fff7aa9e2f95b93608d4fec49e6bc864d9495fdbc9a6dec30815c'],
+  ['host_owner_pointer_accessor', 0x58b20, 0x04, '92ca7142687bd5513bea360e328ca1c00c3c3a9b71ffdda7bfc2407de7693978'],
+  ['host_owner_conditional_vector_reset', 0x74b750, 0x170, 'c989014bbc956e2c811ea6b419bdae78f6fad19d934a45721210e85e296908c3'],
   ['c2m_first_key_pair_update', 0x5807d0, 0x7b, '3c1e9d159e93e25adeb29e041511de7b55d0960d96419d5fa023f357f4dab6d8'],
   ['c2m_reference_release_prefix', 0x4a02d0, 0x78, 'b60cb2e4db49aedbb49748a38d832955e115af78283a9aa46c59b9d7c3911bc4'],
   ['c2m_transient_pair_cleanup_prefix', 0x49ac00, 0x78, 'abae0ea33271d8082429d95b1bd3413723683b6597a9487580fa919bbb66b9f6'],
@@ -424,6 +442,44 @@ export function verifyRoot001Bytes(bytes) {
     [0x779c72, 'ff5018'], // selected callback vptr+0x18 invoke
     [0x75d9f1, '488b00'], // slot accessor follows saved container pointer
     [0x75d9f4, '4883c030'], // returns +0x30 destination slot
+    // The host's event key starts empty; a guarded setter may process a new key.
+    [0x75bbad, '4805f8010000'], // original host +0x1F8 string
+    [0x75bbb6, 'e825f7ffff'], // initialize it as a zero-length string
+    [0x75bbc3, '48c7801802000000000000'], // staged callback +0x218 begins null
+    [0x75b2e9, '48c7411000000000'], // string length zero
+    [0x75b2f1, '48c741180f000000'], // local capacity 15
+    [0x75b2f9, 'c60100'], // terminating NUL
+    [0x77d740, '4889542410'], // incoming key argument RDX
+    [0x77d745, '48894c2408'], // incoming host RCX
+    [0x77d753, '4805f8010000'], // host string destination
+    [0x77d759, '488b542438'], // incoming key source
+    [0x77d76c, '0fb680f0010000'], // +0x1F0 reentrant guard
+    [0x77d775, '7522'], // nonzero guard skips selector
+    [0x77d77c, 'c680f001000001'], // guard set to 1
+    [0x77d792, 'c680f001000000'], // guard reset to 0 after selector call
+    [0x776186, '4805f8010000'], // original host+0x1F8
+    [0x776199, '0f8595070000'], // EMPTY key branches to epilogue
+    [0x7761a7, '4883b81802000000'], // pre-lookup existing callback check
+    [0x7761af, '742d'], // if null skip virtual +0x20 callback
+    [0x7761da, 'ff5020'], // non-null existing callback virtual cleanup may mutate slot
+    [0x77624c, '488d155daef201'], // empty literal for post-lookup assignment
+    [0x776275, 'e9ba060000'], // null map result skips stage and goes to epilogue
+    [0x778719, '488d15b0f2f201'], // second adapter's literal InGame key
+    [0x765ebe, '488d15eb9af501'], // LoginFailed key passed to setter after construction
+    [0xfcf553, '488d0d76846d01'], // short-string source literal InGame
+    [0xfcf55a, '0f11442430'], // initialize local string buffer
+    [0xfcf588, '488d1541846d01'], // same literal passed to short-string copy
+    [0xfcf59d, 'e807525301'], // import thunk, do not guess its API identity
+    [0xfcf5a7, 'eb49'], // short-string path joins common setter tail
+    [0xfcf5d2, '488d15f7836d01'], // long-string path also uses InGame literal
+    [0xfcf5fa, '488d542430'], // both branches supply same local string
+    [0x766014, '488d0dd5c4c002'], // getter references published host slot
+    [0x7639ce, '4805a8060000'], // host+0x6A8 owner field
+    [0x7639d7, 'e844518fff'], // owner pointer accessor
+    [0x7639df, 'e86c7dfeff'], // conditional owner vector reset
+    [0x74b756, '83b9e003000000'], // owner+0x3E0 gate, must not assume true
+    [0x74b760, '0f8453010000'], // skip reset when gate false
+    [0x74b827, '48898688000000'], // set owner vector end to beginning
     // Two independent source functions retain incoming owner RCX in R14.
     [0x74bc1f, '4c8bf1'],
     [0x74bd5f, '498d7e40'], // owner+0x40 lock
@@ -532,6 +588,20 @@ export function verifyRoot001Bytes(bytes) {
   directCall(0x7786fe, 0xfc91a0); // initialize B adapter's distinct vptr
   directCall(0x778746, 0x75d9e0); // insert B into original host+0x240
   directCall(0x779c39, 0x776160); // host method calls conditional registry selector
+  directCall(0x75bbb6, 0x75b2e0); // initialize host selector key as empty
+  directCall(0x77d761, 0x4ade40); // copy incoming string key to host+0x1F8
+  directCall(0x77d788, 0x776160); // if +0x1F0 guard allows, process key
+  directCall(0x77618f, 0x7835f0); // empty key check
+  directCall(0x776256, 0x4f4030); // assign empty string after reached nonempty lookup
+  directCall(0x778728, 0x4d5fb0); // registered InGame string constructor
+  directCall(0x76607f, 0x783aa0); // hash string key during registry lookup
+  directCall(0x765eca, 0x4d5fb0); // caller builds literal LoginFailed string
+  directCall(0x765edc, 0x77d740); // caller supplies key to setter
+  directCall(0xfcf5f2, 0x766010); // InGame caller obtains host via global getter
+  directCall(0xfcf5ff, 0x77d740); // pass local InGame string to same setter
+  directCall(0x76601b, 0x6a3ee0); // dereference original host global
+  directCall(0x7639d7, 0x58b20); // fetch object at host+0x6A8
+  directCall(0x7639df, 0x74b750); // owner-local conditional vector reset
   directCall(0x74b1af, 0x74ac00); // virtual deleting destructor reaches cleanup
   let directJumpsVerified = 0;
   hasBytes(0x580846, 'e9');
@@ -580,6 +650,13 @@ export function verifyRoot001Bytes(bytes) {
   ripReference(0x7781bf, '488d0d', 0x26beb28); // constructed processor adapter vptr
   ripReference(0xfc91ba, '488d05', 0x2712f08); // distinct B adapter vptr
   ripReference(0x7781f4, '488d15', 0x26bf9b0); // A adapter literal LoginFailed key
+  ripReference(0x778719, '488d15', 0x26a79d0); // B adapter literal InGame key
+  ripReference(0x77624c, '488d15', 0x26a10b0); // selector clears dynamic string to empty
+  ripReference(0x765ebe, '488d15', 0x26bf9b0); // caller supplies LoginFailed key
+  ripReference(0xfcf553, '488d0d', 0x26a79d0); // InGame short-string branch
+  ripReference(0xfcf588, '488d15', 0x26a79d0); // same literal in copy
+  ripReference(0xfcf5d2, '488d15', 0x26a79d0); // InGame long-string branch
+  ripReference(0x766014, '488d0d', 0x33724f0); // already-published host global
 
   // A matched keyed entry takes the short jump into the shared call tail.
   function shortBranch(at, opcode, target) {
@@ -598,6 +675,26 @@ export function verifyRoot001Bytes(bytes) {
   shortBranch(0x7786f4, '74', 0x77870d); // null B adapter constructor path
   shortBranch(0x776265, '75', 0x77627a); // only stage non-null registry result
   shortBranch(0x779c50, '74', 0x779c79); // only invoke non-null callback slot
+  shortBranch(0x77d775, '75', 0x77d799); // guard already active skips reentrant dispatch
+  shortBranch(0x7761af, '74', 0x7761de); // no cached callback to call before lookup
+  shortBranch(0x7660af, '74', 0x7660c4); // failed map lookup returns null
+  shortBranch(0xfcf5a7, 'eb', 0xfcf5f2); // short InGame string joins host-getter tail
+  hasBytes(0x6a3ee0, 'e9');
+  assertClaim(0x6a3ee0 + 5 + pe.int32(0x6a3ee1) === 0x58b20,
+    'InGame host getter dereferences same published slot');
+  directJumpsVerified++;
+  function nearBranch(at, opcodeHex, target) {
+    hasBytes(at, opcodeHex);
+    const opcodeBytes = opcodeHex.length / 2;
+    assertClaim(at + opcodeBytes + 4 + pe.int32(at + opcodeBytes) === target,
+      'near conditional branch at RVA 0x' + at.toString(16));
+  }
+  nearBranch(0x776199, '0f85', 0x776934); // empty input skips entire registry lookup
+  nearBranch(0x74b760, '0f84', 0x74b8b9); // false owner+0x3E0 gate skips reset
+  hasBytes(0x776275, 'e9');
+  assertClaim(0x776275 + 5 + pe.int32(0x776276) === 0x776934,
+    'null registry result bypasses callback staging');
+  directJumpsVerified++;
 
   let recordsVerified = 0;
   let rootRecord;
@@ -670,6 +767,18 @@ export function verifyRoot001Bytes(bytes) {
     'original host vptr has conditional selected-callback caller');
   assertClaim(pe.slice(0x26bf9b0, 12).toString('hex') === '4c6f67696e4661696c656400',
     'registered adapter A literal LoginFailed key');
+  assertClaim(pe.slice(0x26a79d0, 7).toString('hex') === '496e47616d6500',
+    'registered adapter B literal InGame key');
+  assertClaim(pe.slice(0x26a10b0, 16).every(byte => byte === 0),
+    'selector postlookup empty literal');
+  assertClaim(pe.qword(0x26bea68) === 0x1407639c0n,
+    'source-installed host +0x78 method for owner vector reset');
+  assertClaim(pe.slice(0x58b20, 4).toString('hex') === '488b01c3',
+    'owner pointer accessor dereferences, not an owner constructor');
+  const fnvBytes = pe.slice(0x783aa0, 0xb8);
+  assertClaim(fnvBytes.includes(Buffer.from('25232284e49cf2cb', 'hex')) &&
+    fnvBytes.includes(Buffer.from('b301000000010000', 'hex')),
+    'FNV-1a64 offset basis and multiplier in key hash');
 
   // Source saves initial RCX at old RSP+8. An exact-hashed stack probe preserves
   // RAX=0xDF8 before the subtraction, so new RSP+0xE00 recovers that receiver.
@@ -768,6 +877,19 @@ export function verifyRoot001Bytes(bytes) {
     staticHostSelectedCallbackSameReceiverRdxDispatchQualified: true,
     staticAdapterAllocationConditionalQualified: true,
     staticCallbackSecondConsumerQualified: true,
+    staticDistinctRegisteredEventKeysQualified: true,
+    staticLoginFailedKeySetterPathQualified: true,
+    staticHostTransientStringSetterQualified: true,
+    staticHostSelectorDefaultEmptyQualified: true,
+    staticHostSelectorEmptyGuardQualified: true,
+    staticHostSelectorPostlookupEmptyAssignmentQualified: true,
+    staticHostSelectorExistingCallbackPrelookupMethodQualified: true,
+    staticHostLookupMissBypassesCallbackStageQualified: true,
+    staticHostRegistryFNV1a64Qualified: true,
+    staticHostOwnerConditionalVectorResetQualified: true,
+    // Source path exists; no confirmed dynamic selection or live host instance.
+    staticInGameLiteralReachesSetterProven: true,
+    staticInGameSetterUsesPublishedHostGlobalQualified: true,
     specificFba020AdapterSelectedProven: false,
     callbackProcessorArgumentMatchesRegisteredHostProven: false,
     producerProcessorReceiverTypeMatchProven: false,
