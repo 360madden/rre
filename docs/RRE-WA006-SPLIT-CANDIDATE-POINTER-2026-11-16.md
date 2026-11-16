@@ -37,3 +37,14 @@ The other `R9 != 0` branch uses `[rax+0x48]` at `0xA2656` and follows the status
 ## Next bounded decision
 
 Investigate whether an **existing exact-build** constructor, assignment or local vptr source proves the concrete object reached via `[R8]` and the `+0x40` callee. Prefer narrowly source-hashed candidate record producers/consumers; do **not** repeat broad PE imports/scans or promote this into `docs/RR2-DISCOVERY-HANDOFF.md` as ROOT-001. Only a *new, independently qualified current-player owner chain* should alter that feed. Preserve RC-30/RC-88 and all game-input stops.
+
+## 05:16 EST continuation — upstream wrapper receiver, source-bound
+
+The same **installed exact-build** PE shows a new upstream field chain: the SHA-pinned query wrapper `0x8E744..0x8E7ED` (169 bytes, SHA `84493c16cc018b254698dd8a1d37406f6e7ee3150d1e407bc232cd5608014274`) executes `0x8E7C5: 48 8B 51 28` (`mov rdx,[rcx+0x28]`), then `0x8E7E0: E8 5F 21 04 00` (direct `call 0xD0944`). The producer reads `0xD09A6: 4C 8B 7A 20` (`mov r15,[rdx+0x20]`). Original-byte disassembly shows no intermediate modification of RDX along these bounded spans. The candidate-buffer access path is therefore **`[[wrapper incoming RCX+0x28]+0x20]`**, not an identified class/scene/owner.
+
+A distinct nearby function `0x8EBA8..0x8EC21` independently reads receiver `+0x28` at `0x8EC0B` and calls a **different** function `0xA27A8` at `0x8EC14`; this is evidence of a reused field access only. The bounded local `.pdata` function neighborhood did **not** reveal a constructor/store or direct caller for `0x8E744`. No allocation source or writes to candidate-record `+0x08` / `+0x14` were proven.
+
+- Read-only worker jobs `rre_20261116_kdorigin_wrapper_probe_01` and `rre_20261116_kdorigin_local_pdata_probe_02`: **exit 0**. Independent manager source checks `rre_20261116_manager_independent_wrapper_source_01` and `rre_20261116_manager_wrapper_arg_preservation_02`: **exit 0**, original executable/window hashes.
+- The existing persistent candidate-pointer verifier now also binds this wrapper: SHA `8f44d0d993b4841fab906c86e5fbd93267f43c3c9a50f5fa9f5750b27a77c005`, **24** opcode/semantic anchors, **3** independent in-memory mutation rejections. Job `rre_20261116_manager_upstream_24anchors_3mutations_test_01`: **exit 0**. Its former 21-anchor/2-control count above remains the historical checkpoint.
+- Independent QA `rre_20261116_qa_extra_stack_02`: exit 0, **85 instructions** after high-half store without an RSP write or RSP-based memory write. This is instruction-local evidence only; it does not validate runtime pointer lifetimes or aliasing.
+- Concrete receiver class, candidate-object `+0x40` method target, gameplay owner and physical same-scene hit remain **unverified**. Next bounded static discriminator must be an actual receiver `+0x28` assignment/constructor or candidate-record `+0x08/+0x14` writer from a pre-existing source reference; no repeated whole-image scan.

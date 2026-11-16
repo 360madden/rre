@@ -58,3 +58,24 @@ Run from `C:\work\rre`:
 3. **P2 (separate authority):** Only after P1, collect one actual hit/miss vs obstacle with independent shape/owner and camera landmarks plus scene/restart invalidation. No acceptance of WA-006/WA-007 until their respective gates pass.
 
 **Preservation:** no Workbridge files outside RRE edited, no VMware even read-only, no RIFT process/UI, no x64dbg attach, no imports, no FreeBuff/Ollama, no push. This is an accepted **static RTTI identification** only.
+
+## 5. 05:16 EST independent QA hardening — inheritance and false-vptr prevention
+
+A fresh read-only QA lane found that the initial 5-window verifier emitted the `hkKdTreeCastCollector` inheritance name without itself checking its original base-descriptor bytes. The manager independently inspected the exact-source PE (`rre_20261116_manager_rtti_base_descriptors_03` and minimal name `rre_20261116_manager_rtti_base_name_minimal_04`, both exit **0**) and extended that same verifier, rather than creating another disposable scan.
+
+New SHA-pinned static windows now include:
+
+| RVA / size | Exact SHA-256 | Meaning |
+| --- | --- | --- |
+| `0x2DF1B50` / 8 | `0e26c371e1003883a23a75825b5b59d0acbe6601f9f9db729623f9c56ae80fda` | MSVC class-hierarchy base array: `[0x2DF1B68,0x2DF1AE8]` |
+| `0x2DF1B68` / 28 | `62d9f3397726503004f702bd8d66fd04127bfc0f4fb5c79c212eda4754fe1796` | Raycaster self BaseClassDescriptor, type `0x2F993C8`, contained bases 1 |
+| `0x2DF1AE8` / 28 | `02684a6e507258f6894e73d60da8c6937346156b4866b4329187445bfd6a6225` | Collector base BaseClassDescriptor, type `0x2F99398`, contained bases 0 |
+| `0x2F99398` / 44 | `f1fec0515dad5d06f7413b0da2f89003ae90244eab3c053d409c5096e093b4b2` | Original type name `.?AVhkKdTreeCastCollector@@` |
+
+The persistent `verify_wa006_rtti.py` now checks **9 original RTTI windows**, both descriptor structures (including PMD and attributes), base array and type names, with **7 RAM-only semantic mutation rejections**. Test `rre_20261116_manager_rtti_9windows_7mutations_test_01` exit **0**. Independent QA `rre_20261116_qa_extra_rtti_base_03` also exit0 and independently confirms the visitor vtable assignment is to stack-local `[rsp+0x30]`.
+
+**Important negative owner result:** bounded adjacent RTTI probes `rre_20261116_c40class_probe1_adjacentrtti_0517` and `rre_20261116_c40class_probe2_postvisitor_0523` both exit0 but find **no source binding** from any nearby Havok class to the dynamic candidate `[R8]` vptr. `hkKdTreeCastCollector` table at `0x278C958` ends before the **next** COL at `0x278C978`; a naive collector `+0x40` read crosses into the visitor's table. `hkpKdTreeWorldManager` subobject tables do not have demonstrated `+0x40` slots; `hkpKdTreeWorldLinearCaster` apparent `+0x40` is non-code ASCII-like data. **Do not identify the candidate class from neighboring virtual-table addresses.** The separate query verifier's diagnostic now explicitly says *stack visitor vtable*, with a clarifying role field; its 9-window/1,036-instruction gate still passes (`rre_20261116_manager_query_verifier_vptr_label_test_01`, exit0).
+
+**REA/Ghidra reuse check:** existing full-import sessions `navigation-20261018-01` and `-02` timed out after ~450.7s on the *older* executable SHA `7c356c9d...`, with empty analysis snapshots. Saved Ghidra project search (bounded locations) found no current-build persistent `.gpr/.rep` project (`rre_20261116_ghidrareuse_bounded_projectscan_01`, exit0). Synthetic PE provider analysis uses ephemeral projects and may reimport the original binary on the next query. REA `analyze_function` is **not** safe for the current full PE under `AGENTS.md`; no such import was initiated.
+
+**Gate remains blocked:** these improve exact-source reproducibility and prevent a false collision-owner assignment. They do not prove dynamic `+0x40` callee, hit/miss, shape, two independent same-epoch nonself IDs, camera calibration or scene/restart invalidation.

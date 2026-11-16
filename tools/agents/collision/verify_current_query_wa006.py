@@ -72,10 +72,10 @@ def verify(blob, *, run_negative_controls=True):
         check(len(ins) == count and ins[0].address == begin and
               ins[-1].address + ins[-1].size == end, "instruction boundary: " + name)
     vtable = region(VTABLE_RVA, 64)
-    check(digest(vtable) == VTABLE_SHA, "candidate vtable hash changed")
+    check(digest(vtable) == VTABLE_SHA, "stack visitor vtable hash changed")
     for slot, callee in ((0x08, 0xA2514), (0x10, 0xA24F4)):
         check(int.from_bytes(vtable[slot:slot + 8], "little") ==
-              pe.OPTIONAL_HEADER.ImageBase + callee, "candidate vtable target mismatch")
+              pe.OPTIONAL_HEADER.ImageBase + callee, "stack visitor vtable target mismatch")
     for rva, expected in ANCHORS:
         check(region(rva, len(expected)//2).hex() == expected, "opcode mismatch")
     for rva, target in CALLS:
@@ -111,6 +111,7 @@ def verify(blob, *, run_negative_controls=True):
             "indirectVirtualDispatchRva": "0x9FE36",
             "candidateRecordStride": "0x20",
             "candidateSelectorVtableRva": "0x278C980",
+            "candidateSelectorVtableRole": "stack-local visitor, not dynamic candidate-object vptr",
             "candidateSelectorRva": "0xA2514",
             "candidateBooleanReaderRva": "0xA24F4",
             "candidateScratchFieldOffset": "0x50",

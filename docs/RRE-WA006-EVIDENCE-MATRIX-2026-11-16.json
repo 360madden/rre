@@ -162,8 +162,20 @@
     {
       "id": "rre-current-query-verifier",
       "path": "C:/work/rre/tools/agents/collision/verify_current_query_wa006.py",
-      "sha256": "97075d583660708ce49fc99ab2a4a6df542476d32fbba2c647215a6c000d4fc3",
-      "evidenceKind": "offline-exact-build-fail-closed-validator"
+      "sha256": "3bda938d3abae729e15d6778b80209bc25c86bb669da61fd72b19c865bd698ca",
+      "evidenceKind": "offline-exact-build-fail-closed-validator-with-visitor-role"
+    },
+    {
+      "id": "rre-current-candidate-pointer-verifier",
+      "path": "C:/work/rre/tools/agents/collision/verify_wa006_candidate_pointer.py",
+      "sha256": "8f44d0d993b4841fab906c86e5fbd93267f43c3c9a50f5fa9f5750b27a77c005",
+      "evidenceKind": "current-executable-wrapper-producer-selector-source-replay"
+    },
+    {
+      "id": "rre-current-visitor-rtti-verifier",
+      "path": "C:/work/rre/tools/agents/collision/verify_wa006_rtti.py",
+      "sha256": "679644e494b2a6ef22adfd6c303b95ae8e049cb4be2c82430bd520b5a3f0cbc4",
+      "evidenceKind": "current-executable-havok-rtti-inheritance-source-replay-not-candidate-owner"
     }
   ],
   "recordedSelfCorrelation": {
