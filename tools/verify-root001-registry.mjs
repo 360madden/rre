@@ -525,7 +525,9 @@ export function verifyRoot001Bytes(bytes) {
     [0x74c875, '4c8d05'], // load thread-start routine RVA 0x74D5E0 into R8
     [0x74c87c, '4c8bcf'], // pass caller's RDI as _beginthreadex argument R9
     [0x74c888, 'ff15'], // indirect CRT import call (IAT RVA 0x25F0460)
-    [0x74c891, '48894730'], // store return in caller RDI+0x30
+    [0x74c88e, '4885c0'], // source checks whether the returned handle is zero
+    [0x74c891, '48894730'], // store raw CRT return, including zero, in receiver+0x30
+    [0x74c895, '0f95c0'], // AL only: 1 if nonzero handle, else 0; not full RAX
     [0x74d5f2, '4c8bf1'], // thread entry saves incoming RCX to R14
     [0x74d6d4, '498bce'], // restore thread argument to RCX
     [0x74d6d7, 'e8'], // direct call to 0x74D700
@@ -1003,6 +1005,9 @@ export function verifyRoot001Bytes(bytes) {
     staticSpawnerRdiPreservedToCrtR9Qualified: true,
     // Original PE descriptor/ILT/IAT/hint/name, not a resolved runtime import.
     staticThreadCreatorCrtImportNameQualified: true,
+    // Source stores the CRT result at receiver+0x30 and sets AL to !!result.
+    // Not proof of successful execution, receiver type, or handle cleanup.
+    staticCrtThreadHandleStoredAndStatusByteQualified: true,
     staticThreadReceiverViaHost6a8SlotQualified: true,
     staticProcessorOwnerField6a8ReadQualified: true,
     staticProducerProcessorFieldLayoutBridgeQualified: true,
