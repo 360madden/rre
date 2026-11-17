@@ -6,8 +6,10 @@ dofile(root .. "/addons/RRECollector/wire.lua")
 local f = assert(io.open(root .. "/addons/RRECollector/main.lua", "rb"))
 local source = f:read("*a"); f:close()
 local section = assert(source:match("%-%- RC27%-CAPTURE%-BEGIN(.-)%-%- RC27%-CAPTURE%-END"))
+local savedHelper = assert(source:match("(local function savedSnapshotComplete.-)local function nextSequence%("))
 local prefix = [==[
 local wire = RRECollectorRuntime.wire
+local finite = RRECollectorRuntime.core.finite
 local checks, notes, refreshes = 0, {}, 0
 local function check(v, why) assert(v, why); checks = checks + 1 end
 local function say(v) notes[#notes + 1] = v end
@@ -59,4 +61,4 @@ check(notes[#notes]=="Wire not published: utf8","wire failure receipt")
 check(refreshes==4,"UI refresh only accepted API capture")
 print("SC622_CAPTURE_WIRE_LIFECYCLE_PASS "..checks)
 ]==]
-assert((loadstring or load)(prefix .. section .. suffix, "SC622 manual Capture wire lifecycle"))()
+assert((loadstring or load)(prefix .. savedHelper .. section .. suffix, "SC622 manual Capture wire lifecycle"))()

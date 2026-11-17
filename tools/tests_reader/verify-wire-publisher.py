@@ -15,6 +15,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import run_sc103_lua53_offline as lua_runtime
 
+# Keep the retagged historical fixture's wire-schema versions in one place.
+# These are offline compatibility profiles, not physical RIFT load approvals.
+EXPERIENCE_CAPABLE_VERSIONS = frozenset(f'0.4.{patch}' for patch in range(14, 22))
+
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -113,7 +117,7 @@ def main():
     assert exported['sourceSha256'] == sha(args.saved)
     record = dict(exported['context'], addonVersion=version, sequence=exported['sequence'],
                   captureComplete=True, abilityList=exported['counts'], abilities=exported['abilities'])
-    if version in ('0.4.14', '0.4.15', '0.4.16', '0.4.17', '0.4.18', '0.4.19', '0.4.20'):
+    if version in EXPERIENCE_CAPABLE_VERSIONS:
         # Retagged historical .13 data is a synthetic fixture, not a new
         # Experience API observation. Do not invent archived values.
         record['capabilities'] = dict(record['capabilities'], experience=False)
@@ -148,7 +152,7 @@ def main():
             # an empty array. Wire context uses object maps; normalize only that
             # documented empty-table ambiguity, retaining every actual value.
             expected_context = {k: ({} if v == [] else v) for k, v in exported['context'].items()}
-            if version in ('0.4.14', '0.4.15', '0.4.16', '0.4.17', '0.4.18', '0.4.19', '0.4.20'):
+            if version in EXPERIENCE_CAPABLE_VERSIONS:
                 expected_context['capabilities'] = dict(expected_context['capabilities'],experience=False)
             assert result['document']['context'] == expected_context and result['document']['counts'] == exported['counts']
         else:
@@ -157,7 +161,7 @@ def main():
             assert result['document']['context']['player']['power'] == 0 and result['document']['context']['player']['combat'] is False
             assert {k:result['document']['context']['player'][k] for k in ['race','raceName','zone']} == {'race':'mathosian','raceName':'Mathosian','zone':'zFIXTURE'}
             assert 'decoration' not in result['document']['context']['player']
-            if version in ('0.4.14', '0.4.15', '0.4.16', '0.4.17', '0.4.18', '0.4.19', '0.4.20'):
+            if version in EXPERIENCE_CAPABLE_VERSIONS:
                 assert result['document']['context']['capabilities']['experience'] is True
                 assert result['document']['context']['experience'] == {'accumulated': 0, 'needed': 5000, 'rested': 0}
         receipts.append(dict(case=label, session=result['session'], sequence=result['sequence'], parts=len(result['frames']),
