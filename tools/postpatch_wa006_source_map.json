@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "project": "RRE",
+  "classification": "archived SHA-pinned WA-006 static source/call evidence only",
+  "buildSha256": "df954b798331e18359be62a31cc74b49fc3f50b87385ebb080a5448256322c01",
+  "buildBytes": 60574536,
+  "runtimeQualified": false,
+  "ownerQualified": false,
+  "windows": [
+    {
+      "id": "callback",
+      "rva": "0x6A67A1",
+      "length": 637,
+      "sha256": "c0f122fa4dbc2f913bf2122774e3dab910075766dcbbe5a966a7001042d0d459"
+    },
+    {
+      "id": "wrapper_ctor",
+      "rva": "0xF7CC20",
+      "length": 160,
+      "sha256": "46a977f8b898f29854e575f89a76070b940866367efe47489737e7350fc5d54b"
+    },
+    {
+      "id": "wrapper",
+      "rva": "0xF7CCF0",
+      "length": 551,
+      "sha256": "e3b35ee28826e26cab3ae20c69eb2e7b300d83c25447487cadeeab8dfe337eac"
+    },
+    {
+      "id": "base_ctor",
+      "rva": "0x13E9A10",
+      "length": 154,
+      "sha256": "ce8d15a4c8da79057f84ddda275e237408b86382bbfa1a80e4fe51986710a27b"
+    },
+    {
+      "id": "helper",
+      "rva": "0x13E9F90",
+      "length": 32,
+      "sha256": "7d0edba6c599dcfcd1bee784bfeb6ba704ae6a72849b7d15b3edcfa8c811e073"
+    },
+    {
+      "id": "parent",
+      "rva": "0x78B1C",
+      "length": 261,
+      "sha256": "5783c1af60da88a06759a7abd513ad17798b4cf1f5c68708d7faaafa50543696"
+    },
+    {
+      "id": "virtual_adapter",
+      "rva": "0x9FD68",
+      "length": 180,
+      "sha256": "ed5bd9baca08a7727075b50b76bb290dfbc4e1bdb5a07d0acdc4279f6f98dc31"
+    }
+  ],
+  "directCalls": [
+    {
+      "id": "callback_to_wrapper_ctor",
+      "callRva": "0x6A6986",
+      "targetRva": "0xF7CC20"
+    },
+    {
+      "id": "callback_to_wrapper",
+      "callRva": "0x6A69DC",
+      "targetRva": "0xF7CCF0"
+    },
+    {
+      "id": "wrapper_ctor_to_base_ctor",
+      "callRva": "0xF7CC29",
+      "targetRva": "0x13E9A10"
+    },
+    {
+      "id": "wrapper_to_helper",
+      "callRva": "0xF7CDCE",
+      "targetRva": "0x13E9F90"
+    },
+    {
+      "id": "helper_to_parent",
+      "callRva": "0x13E9F9D",
+      "targetRva": "0x78B1C"
+    },
+    {
+      "id": "parent_to_query",
+      "callRva": "0x78B8E",
+      "targetRva": "0x8E744"
+    },
+    {
+      "id": "parent_to_virtual_adapter",
+      "callRva": "0x78BD0",
+      "targetRva": "0x9FD68"
+    }
+  ],
+  "limitations": [
+    "Hashes/calls qualify only specific archived new-build bytes, not runtime execution",
+    "Wrapper+8 nonzero writer, WorldManager dispatch, receiver/player identity remain unresolved"
+  ]
+}
