@@ -42,5 +42,26 @@ class CleanupTests(unittest.TestCase):
         self.assertFalse(result['fixtureExited']); self.assertIsNone(result['fixtureExitCode'])
         self.assertIn('kill-TimeoutExpired',result['cleanupErrors'])
 
+    def test_clean_zero_exit_qualifies(self):
+        result=probe.cleanup_fixture(Child())
+        self.assertIsNone(probe.fixture_cleanup_failure(result))
+
+    def test_already_exited_nonzero_does_not_qualify(self):
+        child=Child(already=True); child.returncode=17
+        result=probe.cleanup_fixture(child)
+        self.assertTrue(result['fixtureExited'])
+        self.assertEqual(probe.fixture_cleanup_failure(result),'fixture-exit-nonzero')
+
+    def test_forced_termination_does_not_qualify(self):
+        result=probe.cleanup_fixture(Child(exits_on='terminate'))
+        self.assertTrue(result['fixtureExited'])
+        self.assertIn('graceful-TimeoutExpired',result['cleanupErrors'])
+        self.assertEqual(probe.fixture_cleanup_failure(result),'fixture-cleanup-errors')
+
+    def test_incomplete_shutdown_does_not_qualify(self):
+        result=probe.cleanup_fixture(Child(exits_on='never'))
+        self.assertFalse(result['fixtureExited'])
+        self.assertEqual(probe.fixture_cleanup_failure(result),'fixture-cleanup-incomplete')
+
 
 if __name__ == '__main__': unittest.main()

@@ -93,6 +93,14 @@ def cleanup_fixture(child):
             errors.append((action or 'graceful') + '-' + type(error).__name__)
     return dict(fixtureExited=child.poll() is not None, fixtureExitCode=child.returncode, cleanupErrors=errors)
 
+def fixture_cleanup_failure(cleanup):
+    # A completed read is not a passing fixture trial if its publisher died,
+    # required forceful shutdown, or left unresolved cleanup errors.
+    if not cleanup['fixtureExited']: return 'fixture-cleanup-incomplete'
+    if cleanup['cleanupErrors']: return 'fixture-cleanup-errors'
+    if cleanup['fixtureExitCode'] != 0: return 'fixture-exit-nonzero'
+    return None
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -213,9 +221,10 @@ def main():
                        readerOutputSha256=sha(output), wholeProcessAbsenceProven=False, liveBridgeQualified=False)
     finally:
         receipt.update(cleanup_fixture(child))
-        if not receipt['fixtureExited']: receipt.update(status='failed', failure='fixture-cleanup-incomplete')
+        failure = fixture_cleanup_failure(receipt)
+        if failure: receipt.update(status='failed', failure=failure)
         write_json(out / 'receipt.json', receipt)
-    assert receipt['fixtureExited'], 'fixture-cleanup-incomplete'
+    if receipt['status'] != 'passed': raise RuntimeError(receipt.get('failure', 'fixture-validation-failed'))
     print(json.dumps(receipt)); return 0
 
 
