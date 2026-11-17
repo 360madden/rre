@@ -63,7 +63,9 @@ export function validatePacket(input) {
     rows++;
     const xyz = [x, y, z];
     const completeXYZ = xyz.every(v => numericPattern.test(v) && Number.isFinite(Number(v)));
-    if (xyz.some(v => v !== 'unknown' && !numericPattern.test(v))) fail('invalid-coordinate-token');
+    if (xyz.some(v => v !== 'unknown' &&
+        (!numericPattern.test(v) || !Number.isFinite(Number(v)))))
+      fail('invalid-coordinate-token');
     if (binding === 'matched' && completeXYZ) qualified++;
   }
   if (rows > 8) fail('row-cap-exceeded');

@@ -182,6 +182,14 @@ if (wa006) {
       wa006.g2OfflineCrossSourcePreflight?.sourceSha256],
     ['WA-006 G2 synthetic/CLI regression', wa006.g2OfflineCrossSourcePreflight?.test,
       wa006.g2OfflineCrossSourcePreflight?.testSha256],
+    ['WA-006 G2 Lua producer', wa006.g2OfflineCrossSourcePreflight?.luaProducer,
+      wa006.g2OfflineCrossSourcePreflight?.luaProducerSha256],
+    ['WA-006 G2 Lua mock regression', wa006.g2OfflineCrossSourcePreflight?.luaMockTest,
+      wa006.g2OfflineCrossSourcePreflight?.luaMockTestSha256],
+    ['WA-006 G2 imported packet validator', wa006.g2OfflineCrossSourcePreflight?.packetValidator,
+      wa006.g2OfflineCrossSourcePreflight?.packetValidatorSha256],
+    ['WA-006 G2 packet regression', wa006.g2OfflineCrossSourcePreflight?.packetTest,
+      wa006.g2OfflineCrossSourcePreflight?.packetTestSha256],
   ];
   check(wa006.g2OfflineCrossSourcePreflight?.nativeCorrelationDone === false &&
         wa006.g2OfflineCrossSourcePreflight?.wa006Accepted === false &&

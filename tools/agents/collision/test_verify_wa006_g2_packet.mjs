@@ -63,6 +63,15 @@ test('negative-infinite-BEGIN-real', original.replace('real=13.500000',
 test('specifier-78-UTF8-byte-boundary', original.replace('target.one', '界'.repeat(26)), true);
 test('specifier-81-UTF8-byte-overflow', original.replace('target.one', '界'.repeat(27)),
   false, 'oversize-specifier');
+const thirdRow = row2.replace('id=' + b, 'id=u035400012FA2D20A')
+  .replace('specifier=target.two', 'specifier=target.three')
+  .replace('x=111.000000', 'x=unknown');
+const threeRows = [begin, row1, row2, thirdRow,
+  end.replace('examined=3', 'examined=4').replace('details=2', 'details=3')]
+  .join('\n') + '\n';
+test('third-unknown-coordinate-valid', threeRows, true);
+test('third-nonfinite-coordinate-rejected', threeRows.replace('x=unknown',
+  'x=' + '9'.repeat(400) + '.000000'), false, 'invalid-coordinate-token');
 process.stdout.write(JSON.stringify({task:'WA-006',tests:count,passed:count,
   scope:'offline-LuaPad-transcript-structure-only',nativeCorrelationDone:false,wa006Accepted:false}) + '\n');
 

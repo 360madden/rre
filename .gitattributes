@@ -6,3 +6,7 @@ tools/rre_lab2_acquire.py text eol=lf
 # Keep SHA-pinned WA-006 G2 sources byte-stable across Windows checkouts.
 tools/agents/collision/verify_wa006_g2_cross_source_preflight.mjs text eol=lf
 tools/agents/collision/test_verify_wa006_g2_cross_source_preflight.mjs text eol=lf
+tools/agents/collision/wa006_g2_one_shot.lua text eol=lf
+tools/agents/collision/test_wa006_g2_one_shot.mjs text eol=lf
+tools/agents/collision/verify_wa006_g2_packet.mjs text eol=lf
+tools/agents/collision/test_verify_wa006_g2_packet.mjs text eol=lf
