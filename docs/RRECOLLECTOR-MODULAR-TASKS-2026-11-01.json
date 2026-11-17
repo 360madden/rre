@@ -6,7 +6,7 @@
   "createdDate": "2026-11-01",
   "roadmap": "docs/RRECOLLECTOR-MODULAR-ROADMAP-2026-11-01.md",
   "parentCastingRegister": "docs/REA-RIFT-SPELLCASTING-TASKS-2026-10-27.json",
-  "status": "Stopped by user 2026-11-11T23:48:58-05:00. No activegoal. RC88source0.4.21/reader0.2.7 reviewed/offline-tested, notdeployed; installed0.4.20 boundedactualreceipt remains. Resume onlyonnewuserrequest; noWorkbridge/LEGIONVM.",
+  "status": "RC-88 remains user-stopped since 2026-11-11T23:48:58-05:00; no active RC-88 goal or game-input authorization. The separately authorized SC-629 physical AMD-DESKTOP installation now matches RRECollector v0.4.21 source 11/11 (independently reverified 2026-11-17), with a verified v0.4.20 rollback. Last directly observed game toolbar and persisted character SavedVariables were still v0.4.20; v0.4.21 loaded UI, manual Capture, active RREC2 and same-trial save remain unverified. The RC-88 task currentResult below is historical November 11 predeployment evidence, not present install status. RC-30 and RC-88 remain stopped; no VMware.",
   "baseline": {
     "version": "0.1.0",
     "schema": 1,
