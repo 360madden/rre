@@ -60,6 +60,9 @@ test('negative-infinite-BEGIN-frame', original.replace('frame=12.500000',
   'frame=-' + '9'.repeat(400) + '.000000'), false, 'invalid-begin-clock');
 test('negative-infinite-BEGIN-real', original.replace('real=13.500000',
   'real=-' + '9'.repeat(400) + '.000000'), false, 'invalid-begin-clock');
+test('specifier-78-UTF8-byte-boundary', original.replace('target.one', '界'.repeat(26)), true);
+test('specifier-81-UTF8-byte-overflow', original.replace('target.one', '界'.repeat(27)),
+  false, 'oversize-specifier');
 process.stdout.write(JSON.stringify({task:'WA-006',tests:count,passed:count,
   scope:'offline-LuaPad-transcript-structure-only',nativeCorrelationDone:false,wa006Accepted:false}) + '\n');
 

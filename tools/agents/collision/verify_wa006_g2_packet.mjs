@@ -54,6 +54,7 @@ export function validatePacket(input) {
     if (!m) { fail('malformed-or-duplicate-record'); continue; }
     const [ , id, spec, x, y, z, binding ] = m;
     if (/[\x00-\x1f\x7f]/.test(spec)) fail('invalid-specifier');
+    if (Buffer.byteLength(spec, 'utf8') > 80) fail('oversize-specifier');
     // Hexadecimal unit IDs identify the same key regardless of letter case.
     const canonicalId = id.toLowerCase();
     if (self && canonicalId === self.toLowerCase()) fail('self-listed-as-nonself');
