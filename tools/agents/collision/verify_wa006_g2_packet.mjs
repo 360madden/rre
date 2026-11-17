@@ -79,6 +79,9 @@ export function validatePacket(input) {
     if (!Number.isFinite(Number(end[6])) || !Number.isFinite(Number(end[7])))
       fail('invalid-end-clock');
   }
+  if (begin && (!Number.isFinite(Number(begin[2])) ||
+                !Number.isFinite(Number(begin[3]))))
+    fail('invalid-begin-clock');
   if (begin && end) {
     if (Number(end[6]) < Number(begin[2]) || Number(end[7]) < Number(begin[3]))
       fail('regressing-clock');
