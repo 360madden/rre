@@ -24,6 +24,10 @@ export function validatePacket(input) {
   const raw = Buffer.isBuffer(input) ? input : Buffer.from(input);
   const reasons = [];
   const fail = msg => { if (!reasons.includes(msg)) reasons.push(msg); };
+  // LuaPad's canonical report starts with WA006_G2_V1, never a UTF-8 BOM.
+  // TextDecoder would otherwise silently strip EF BB BF and falsely qualify the copy.
+  if (raw[0] === 0xef && raw[1] === 0xbb && raw[2] === 0xbf)
+    fail('UTF8-BOM-prefix');
   const sha256 = createHash('sha256').update(raw).digest('hex');
   if (raw.length >= 12000) fail('size-at-or-over-LuaPad-tail-limit');
   let transcript;

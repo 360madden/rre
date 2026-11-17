@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
+import {validatePacket} from './verify_wa006_g2_packet.mjs';
 import {spawnSync} from 'node:child_process';
 
 const root = process.cwd();
@@ -75,6 +76,12 @@ scenario('two-independent-nonself', coreMock, report => {
   assert.match(report, /ROW\|id=u035400012FA2D209\|specifier=target.two\|x=111.000000/);
   assert.doesNotMatch(report, /ROW\|id=u035400012FA2D207/);
   assert.match(report, /END\|examined=3\|details=2\|validXYZ=2\|errors=0\|capped=false/);
+  const packet = validatePacket(Buffer.from(report, 'utf8'));
+  assert.equal(packet.packetStructurallyReady, true,
+    'actual Lua-produced nonself transcript must pass the imported packet gate');
+  assert.equal(packet.qualified, 2);
+  assert.equal(packet.wa006Accepted, false);
+  assert.equal(packet.nativeCorrelationDone, false);
 });
 scenario('list-error', String.raw`
 Inspect = {Unit = {
@@ -108,7 +115,9 @@ Inspect = {Unit = {
   assert.match(report, /details=1\|validXYZ=0/);
 });
 scenario('strict-output-caps', String.raw`
-Inspect = {Unit = {
+Inspect = {
+  Time = {Frame = function() return 12.5 end, Real = function() return 13.5 end},
+  Unit = {
   Lookup = function() return 'u035400012FA2D207' end,
   List = function()
     local t = {}
@@ -119,6 +128,10 @@ Inspect = {Unit = {
 }}`, report => {
   assert.match(report, /END\|examined=128\|details=8\|validXYZ=8\|errors=0\|capped=true/);
   assert.equal((report.match(/ROW\|/g) || []).length, 8);
+  const packet = validatePacket(Buffer.from(report, 'utf8'));
+  assert.equal(packet.packetStructurallyReady, false,
+    'actual capped Lua-produced transcript must remain rejected');
+  assert.ok(packet.reasons.includes('partial-enumeration'));
 });
 scenario('malformed-self-id', String.raw`
 Inspect = {Unit = {
@@ -153,7 +166,9 @@ Inspect = {Unit = {
   assert.match(report, /validXYZ=0\|errors=0/);
 });
 scenario('detail-id-mismatch-rejected', String.raw`
-Inspect = {Unit = {
+Inspect = {
+  Time = {Frame = function() return 12.5 end, Real = function() return 13.5 end},
+  Unit = {
   Lookup = function() return 'u035400012FA2D207' end,
   List = function() return {['u035400012FA2D208']='candidate'} end,
   Detail = function() return {
@@ -163,6 +178,10 @@ Inspect = {Unit = {
   assert.match(report, /ERROR\|detail-id-mismatch\|id=u035400012FA2D208/);
   assert.doesNotMatch(report, /ROW\|/);
   assert.match(report, /validXYZ=0\|errors=1/);
+  const packet = validatePacket(Buffer.from(report, 'utf8'));
+  assert.equal(packet.packetStructurallyReady, false,
+    'actual Lua Detail ID mismatch must remain rejected by the packet gate');
+  assert.ok(packet.reasons.includes('ERROR-record'));
 });
 assert.equal(sha(probePath), beforeSource, 'probe file changed during test');
 assert.ok(fs.statSync(probePath).size < 8192, 'probe source too large');

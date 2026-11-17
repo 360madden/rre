@@ -1,5 +1,10 @@
 # RRE manager session handoff — 2026-11-16 ~00:51 EST
 
+## Newest G2 offline QA integration — 2026-11-16 ~22:50 EST
+
+- **WA-006 G2 source-only fixes:** Independent read-only agents reproduced BOM-prefix false-ready, endpoint-only/row-disjoint UTC false-ready, and native float32/Lua six-decimal half-even false-reject. Manager reproduced RED tests and integrated source guards: exact BOM refusal; strictly positive source and per-joined-row 100-ns overlap; exact IEEE-754 binary32 fixed6 via BigInt and lexical signed-zero parity. GREEN **40/40 packet, 65/65 cross-source**, Lua **10/10 under each pinned Windows 5.1.4/5.3** including three direct producer→packet round-trip cases per runtime. All five G2 source/test SHA pins were refreshed in the nine-pin board; see updated `docs/RRE-WA006-G2-ONE-SHOT-API-PROBE-2026-11-16.md` and `docs/RRE-WA006-G2-CROSS-SOURCE-FIELD-INVENTORY-2026-11-16.md`.
+- **Recovery and authority:** Starting HEAD `85b7a4dd4977ac33aa57622a3ec508bfd6399b60` was independently verified on AMD-DESKTOP `main`, clean tracked tree; nine inherited untracked backup/probe entries preserved. Final commit/push should be independently rechecked on resumption. WA-006 G1–G5/WA-007 still blocked, `nativeCorrelationDone=false` and `wa006Accepted=false`; no live RIFT, VM, input, UI reload, process memory, addon deployment, other-repo edit, or local-model provider action. Next: fresh physical-only owner/scene/runtime and independently timed two-nonself Lua/native receipts, task-specific approval required.
+
 ## Newest offline WA-006 G2 checkpoint — 2026-11-16 ~22:37 EST
 
 - **Two red-to-green structural fixes:** Canonical Lua numeric spelling now rejects zero-padded clocks, counters and coordinates; Windows Lua 5.1.4 formatting was independently executed. Packet RED `rre_20261116_g2_numeric_red_2244_v1` (expected exit 1), GREEN `rre_20261116_g2_packet_regreen_2249_v1` **39/39**. Cross-source receipt now rejects host Lua execution before exact native .NET process epoch, including a 100-ns negative; RED `rre_20261116_g2_cross_epoch_red_2248_v1`, GREEN `rre_20261116_g2_cross_epoch_green_2249_v1` **55/55**.

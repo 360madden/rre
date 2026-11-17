@@ -30,6 +30,13 @@ function f32bits(n) {
   b.writeFloatLE(n, 0);
   return b.readUInt32LE(0);
 }
+function setFirstNativeX(x, value) {
+  const r = x.native.observation.rows[0];
+  r.positionCandidate.x = value;
+  r.rawBits[0] = f32bits(value);
+  r.horizontalDistanceCandidate = Math.hypot(Math.fround(value) - selfXYZ[0],
+    Math.fround(r.positionCandidate.z) - selfXYZ[2]);
+}
 function row(id, xyz, t1, t2) {
   return {unitKey:decimal(id), unitIdCandidate:id, entityAddressDecimal:'2624201508368',
     positionCandidate:{x:xyz[0], y:xyz[1], z:xyz[2]},
@@ -111,6 +118,27 @@ check('large-coordinate-discrepancy', x => {
   x.native.observation.rows[0].horizontalDistanceCandidate=
     Math.hypot(999999-selfXYZ[0],300.5-selfXYZ[2]);
 }, false,'uncalibrated-coordinate-mismatch');
+check('canonical-Lua51-positive-half-even-f32', x => {
+  x.packet=x.packet.replace('x=100.125000','x=100.007812');
+  setFirstNativeX(x, 100.0078125);
+}, true);
+check('canonical-Lua51-negative-half-even-f32', x => {
+  x.packet=x.packet.replace('x=100.125000','x=-100.007812');
+  setFirstNativeX(x, -100.0078125);
+}, true);
+check('canonical-Lua51-negative-f32-zero-spelling', x => {
+  x.packet=x.packet.replace('x=100.125000','x=-0.000000');
+  setFirstNativeX(x, -0);
+}, true);
+check('noncanonical-Lua51-positive-spelling-for-negative-f32-zero', x => {
+  x.packet=x.packet.replace('x=100.125000','x=0.000000');
+  setFirstNativeX(x, -0);
+}, false,'uncalibrated-coordinate-mismatch');
+check('canonical-Lua51-large-f32-fixed-digits', x => {
+  x.packet=x.packet.replace('x=100.125000',
+    'x=1000000015047466219876688855040.000000');
+  setFirstNativeX(x, Math.fround(1e30));
+}, true);
 check('native-epoch-decimal-not-rounded', x => {x.receipt.process.processStartUtcTicks =
   String(Number(startTicks));}, false,'process-epoch-or-build-mismatch');
 check('lossless-token-decoy-not-identity', x => {
@@ -144,6 +172,22 @@ check('nonoverlapping-Lua-native-within-window', x => {
   x.receipt.lua.startedAtUtc=time('00.1000000');
   x.receipt.lua.completedAtUtc=time('00.5000000');
 }, false,'disjoint-cross-source-UTC');
+check('touching-UTC-windows-not-overlap', x => {
+  x.receipt.lua.completedAtUtc=time('01.0000000');
+}, false,'disjoint-cross-source-UTC');
+check('native-end-touches-Lua-start-not-overlap', x => {
+  x.receipt.lua.startedAtUtc=time('01.0300000');
+}, false,'disjoint-cross-source-UTC');
+check('each-joined-row-100ns-UTC-overlap-candidate-only', x => {
+  x.receipt.lua.startedAtUtc=time('01.0110000');
+  x.receipt.lua.completedAtUtc=time('01.0200002');
+}, true);
+check('native-joined-rows-after-Lua-execution', x => {
+  x.receipt.lua.completedAtUtc=time('01.0050000');
+}, false,'disjoint-nonself-row-UTC');
+check('second-joined-row-after-Lua-execution', x => {
+  x.receipt.lua.completedAtUtc=time('01.0150000');
+}, false,'disjoint-nonself-row-UTC');
 check('seventh-digit-UTC-row-order', x => {
   x.native.observation.rows[0].completedAtUtc=time('01.0200002');
   x.native.observation.rows[1].startedAtUtc=time('01.0200001');

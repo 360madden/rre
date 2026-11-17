@@ -38,6 +38,9 @@ test('embedded-source-error', original.replace(row2 + '\n',
   row2 + '\n' + marker + '|ERROR|detail-id-mismatch|id=' + b + '\n'), false, 'ERROR-record');
 test('LuaPad-tail-limit', original + 'X'.repeat(12000), false, 'size-at-or-over-LuaPad-tail-limit');
 test('non-UTF8-clipboard', Buffer.from([0xff, 0xfe, 0x00]), false, 'non-UTF8-copy');
+test('UTF8-BOM-prefix-not-from-Lua',
+  Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(original)]),
+  false, 'UTF8-BOM-prefix');
 test('unrelated-prefix', 'output:\n' + original, false, 'missing-or-malformed-BEGIN');
 test('case-folded-duplicate-unit', original.replace('id=' + b, 'id=' + a.toLowerCase()), false,
   'duplicate-unit-ID');

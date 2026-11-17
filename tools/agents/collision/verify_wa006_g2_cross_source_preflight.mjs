@@ -158,6 +158,28 @@ function floatBitsMatch(pos, bits) {
   return pos && typeof pos === 'object' &&
     arrayBitsMatch(AXES.map(axis => pos[axis]), bits, 3);
 }
+// Match Windows Lua 5.1 string.format("%.6f") on exact native binary32 bits.
+// Convert IEEE-754 significand to integer micro-units with nearest-even ties;
+// JS toFixed rounds halfway values differently and loses large fixed digits.
+function luaFixed6FromFloat32Bits(bits) {
+  if (!Number.isInteger(bits) || bits < 0 || bits > 0xffffffff)
+    throw Error('invalid-native-float32-bits');
+  const sign = bits >= 0x80000000 ? '-' : '';
+  const exponent = (bits >>> 23) & 0xff;
+  if (exponent === 0xff) throw Error('nonfinite-native-float32-bits');
+  const significand = BigInt((exponent ? 0x800000 : 0) + (bits & 0x7fffff));
+  const power = exponent === 0 ? -149 : exponent - 150;
+  let micros = significand * 1000000n;
+  if (power >= 0) micros <<= BigInt(power);
+  else {
+    const divisor = 1n << BigInt(-power);
+    const whole = micros / divisor, remainder = micros % divisor;
+    micros = whole + (2n * remainder > divisor ||
+      (2n * remainder === divisor && (whole & 1n) === 1n) ? 1n : 0n);
+  }
+  return sign + (micros / 1000000n).toString() + '.' +
+    (micros % 1000000n).toString().padStart(6, '0');
+}
 function cameraValid(camera) {
   if (camera === null) return true;
   if (!camera || typeof camera !== 'object' || camera.cameraYawQualified !== false ||
@@ -282,7 +304,11 @@ function luaRows(raw) {
   const rows = [];
   for (const line of lines.slice(1, -1)) {
     const m = /^WA006_G2_V1\|ROW\|id=(u[0-9a-fA-F]{16})\|specifier=[^|]+\|x=(-?[0-9]+\.[0-9]{6})\|y=(-?[0-9]+\.[0-9]{6})\|z=(-?[0-9]+\.[0-9]{6})\|idBinding=matched$/.exec(line);
-    if (m) rows.push({id:m[1], key:BigInt('0x' + m[1].slice(1)), xyz:m.slice(2, 5).map(Number)});
+    if (m) {
+      const xyzText = m.slice(2, 5);
+      rows.push({id:m[1], key:BigInt('0x' + m[1].slice(1)),
+        xyz:xyzText.map(Number), xyzText});
+    }
   }
   return {selfKey:BigInt('0x' + self[1].slice(1)), rows};
 }
@@ -353,7 +379,8 @@ export function preflightG2Sources(luaInput, nativeInput, receipt) {
     if (!inRange(ls, le, start, end) || !inRange(ns, ne, start, end))
       fail('stale-cross-source-window');
     // Without calibrated skew, distinct serial intervals cannot be labeled coherent.
-    if (le < ns || ne < ls) fail('disjoint-cross-source-UTC');
+    // Endpoint contact has zero overlap; require a positive time interval.
+    if (le <= ns || ne <= ls) fail('disjoint-cross-source-UTC');
     if (!Array.isArray(observation.rows)) throw Error('missing-rows');
     let previous = ns;
     for (const row of observation.rows) {
@@ -366,6 +393,7 @@ export function preflightG2Sources(luaInput, nativeInput, receipt) {
   if (rows && nativeKeys && !reasons.includes('invalid-native-unit-key-or-position')) {
     try {
       if (rows.selfKey !== decimal64(observation.selfKey)) fail('self-native-key-mismatch');
+      const luaStart = utc100ns(lua.startedAtUtc), luaEnd = utc100ns(lua.completedAtUtc);
       for (const row of rows.rows) {
         const native = nativeKeys.get(row.key);
         if (!native || row.key === rows.selfKey) {
@@ -373,14 +401,19 @@ export function preflightG2Sources(luaInput, nativeInput, receipt) {
           continue;
         }
         candidateKeyJoins++;
+        // Overall observation overlap cannot substitute for each matched native row.
+        if (luaEnd <= utc100ns(native.startedAtUtc) ||
+            utc100ns(native.completedAtUtc) <= luaStart)
+          fail('disjoint-nonself-row-UTC');
         const delta = Math.max(...AXES.map((axis, i) =>
           Math.abs(row.xyz[i] - native.positionCandidate[axis])));
         maxAxisDeltaCandidate = Math.max(maxAxisDeltaCandidate ?? 0, delta);
         // Strict source-format coherence only, not a spatial tolerance or live match.
-        // If Lua's six-decimal value differs from native rounded to six decimals,
-        // reject until a source-calibrated non-atomic/skew policy is available.
+        // Compare actual Lua text with exact native float32 fixed-decimal text,
+        // including the sign of rounded zero; do not use JS toFixed/Number here.
+        // A separately calibrated time/skew policy is still needed for live correlation.
         if (AXES.some((axis, i) =>
-          row.xyz[i] !== Number(native.positionCandidate[axis].toFixed(6))))
+          row.xyzText[i] !== luaFixed6FromFloat32Bits(native.rawBits[i])))
           fail('uncalibrated-coordinate-mismatch');
       }
       if (candidateKeyJoins < 2) fail('fewer-than-two-cross-source-ID-candidates');

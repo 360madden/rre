@@ -2,6 +2,8 @@
 
 **Host/repository:** named AMD-DESKTOP Workbridge 0.16.5-dev; `C:\work\rre` on `main`. **Scope:** source-verified offline experiment design only. **WA-006 G1–G5, WA-007 and ROOT-001 remain BLOCKED.** No physical RIFT invocation, process-memory read, desktop action, VMware, addon installation or RR2 mutation was performed for this inventory.
 
+**Latest synthetic qualification — ~22:49 EST, November 16:** The rejection-only G2 source gate now refuses BOM-prefixed Lua copies and zero-width UTC endpoint contact; both matched native nonself row intervals must individually overlap the independent Lua execution bracket. Native float32 raw bits are converted to canonical six-decimal, half-even Lua 5.1 text with lossless `BigInt` arithmetic and compared lexically; JavaScript `toFixed` and locale/ICU shortcuts are not sufficient for halfway or large finite inputs. Packet **40/40**, synthetic cross-source **65/65**, mock Lua **10/10 each under pinned 5.1.4 and 5.3.0** including actual Lua-producer→packet-verifier round trips. This only qualifies offline source formatting and rejection logic; runtime RIFT embedded Lua, actual contemporaneous owner/scene/process and independent nonself acquisition remain unverified; `nativeCorrelationDone=false` and `wa006Accepted=false`. See the [dated G2 probe report](RRE-WA006-G2-ONE-SHOT-API-PROBE-2026-11-16.md) for red/green receipts.
+
 ## Original producer contracts — distinct evidence channels
 
 | Original source / field | Actual meaning and verification | Does **not** establish |
