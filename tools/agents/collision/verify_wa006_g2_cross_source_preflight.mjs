@@ -346,6 +346,10 @@ export function preflightG2Sources(luaInput, nativeInput, receipt) {
     const start = utc100ns(window.startedAtUtc), end = utc100ns(window.completedAtUtc);
     const ls = utc100ns(lua.startedAtUtc), le = utc100ns(lua.completedAtUtc);
     const ns = utc100ns(observation.startedAtUtc), ne = utc100ns(observation.completedAtUtc);
+    // .NET DateTime ticks are exact 100-ns intervals since year 0001; UTC is Unix 100-ns.
+    // A Lua execution cannot have begun before its claimed physical RIFT process existed.
+    const processStart = decimal64(proc.processStartUtcTicks) - 621355968000000000n;
+    if (ls < processStart) fail('lua-before-process-epoch');
     if (!inRange(ls, le, start, end) || !inRange(ns, ne, start, end))
       fail('stale-cross-source-window');
     // Without calibrated skew, distinct serial intervals cannot be labeled coherent.

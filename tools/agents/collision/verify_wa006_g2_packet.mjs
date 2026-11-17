@@ -7,12 +7,12 @@ import {fileURLToPath} from 'node:url';
 
 const MARK = 'WA006_G2_V1';
 const UNIT_ID = 'u[0-9a-fA-F]{16}';
-const NUM = '-?[0-9]+\\.[0-9]{6}';
+const NUM = '-?(?:0|[1-9][0-9]*)\\.[0-9]{6}';
 const startPattern = new RegExp('^' + MARK + '\\|BEGIN\\|self=(' + UNIT_ID +
   ')\\|frame=(' + NUM + ')\\|real=(' + NUM + ')$');
 const endPattern = new RegExp('^' + MARK +
-  '\\|END\\|examined=([0-9]+)\\|details=([0-9]+)\\|validXYZ=([0-9]+)' +
-  '\\|errors=([0-9]+)\\|capped=(true|false)' +
+  '\\|END\\|examined=((?:0|[1-9][0-9]*))\\|details=((?:0|[1-9][0-9]*))\\|validXYZ=((?:0|[1-9][0-9]*))' +
+  '\\|errors=((?:0|[1-9][0-9]*))\\|capped=(true|false)' +
   '\\|frameEnd=(' + NUM + ')\\|realEnd=(' + NUM + ')' +
   '\\|status=exploratory-only$');
 const rowPattern = new RegExp('^' + MARK + '\\|ROW\\|id=(' + UNIT_ID +

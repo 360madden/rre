@@ -14,6 +14,12 @@ const idA = 'u80000001C0001EEC';
 const idB = 'u8000000215000A32';
 const luaSourceSha = '990c91a06cb0398cbc3e495c59169b43b11bd0c29d132319c30607d39f448b5e';
 const startTicks = '639304372516074064';
+const ticksFromUnixUtc = utc =>
+  (BigInt(Date.parse(utc)) * 10000n + 621355968000000000n).toString();
+function setProcessStart(x, ticks) {
+  x.receipt.process.processStartUtcTicks = ticks;
+  x.nativeRawRewrite = raw => raw.replace(startTicks, ticks);
+}
 const buildSha = '1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8';
 const time = tail => '2026-11-16T21:00:' + tail + '+00:00';
 const hash = buf => createHash('sha256').update(buf).digest('hex');
@@ -111,6 +117,15 @@ check('lossless-token-decoy-not-identity', x => {
   x.native.observation.identity.processStartUtcTicks=startTicks;
   x.native.decoy={processStartUtcTicks:'TICKS_LITERAL'};
 }, false,'invalid-or-lossy-native-JSON');
+check('lua-cannot-predate-process-epoch', x => {
+  setProcessStart(x, ticksFromUnixUtc(time('00.7500000')));
+}, false,'lua-before-process-epoch');
+check('lua-process-epoch-equality-allowed', x => {
+  setProcessStart(x, ticksFromUnixUtc(time('00.5000000')));
+}, true);
+check('lua-100ns-before-process-epoch-rejected', x => {
+  setProcessStart(x, (BigInt(ticksFromUnixUtc(time('00.5000000'))) + 1n).toString());
+}, false,'lua-before-process-epoch');
 check('different-process', x => {x.receipt.process.processId=77705;},
   false,'process-epoch-or-build-mismatch');
 check('different-executable', x => {x.receipt.process.executableSha256='b'.repeat(64);},

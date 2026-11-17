@@ -72,6 +72,27 @@ const threeRows = [begin, row1, row2, thirdRow,
 test('third-unknown-coordinate-valid', threeRows, true);
 test('third-nonfinite-coordinate-rejected', threeRows.replace('x=unknown',
   'x=' + '9'.repeat(400) + '.000000'), false, 'invalid-coordinate-token');
+test('noncanonical-leading-zero-examined', original.replace('examined=3', 'examined=03'),
+  false, 'missing-or-malformed-END');
+test('noncanonical-leading-zero-details', original.replace('details=2', 'details=02'),
+  false, 'missing-or-malformed-END');
+test('noncanonical-leading-zero-validXYZ', original.replace('validXYZ=2', 'validXYZ=02'),
+  false, 'missing-or-malformed-END');
+test('noncanonical-leading-zero-errors', original.replace('errors=0', 'errors=00'),
+  false, 'missing-or-malformed-END');
+test('noncanonical-leading-zero-BEGIN-clock',
+  original.replace('frame=12.500000', 'frame=012.500000'),
+  false, 'missing-or-malformed-BEGIN');
+test('noncanonical-leading-zero-END-clock',
+  original.replace('frameEnd=13.500000', 'frameEnd=013.500000'),
+  false, 'missing-or-malformed-END');
+test('noncanonical-leading-zero-ROW-coordinate',
+  original.replace('x=100.125000', 'x=0100.125000'),
+  false, 'invalid-coordinate-token');
+test('canonical-zero-ROW-coordinate', original.replace('x=100.125000', 'x=0.000000'),
+  true);
+test('canonical-negative-rounded-zero', original.replace('y=200.250000', 'y=-0.000000'),
+  true);
 process.stdout.write(JSON.stringify({task:'WA-006',tests:count,passed:count,
   scope:'offline-LuaPad-transcript-structure-only',nativeCorrelationDone:false,wa006Accepted:false}) + '\n');
 

@@ -1,5 +1,10 @@
 # RRE manager session handoff — 2026-11-16 ~00:51 EST
 
+## Newest offline WA-006 G2 checkpoint — 2026-11-16 ~22:37 EST
+
+- **Two red-to-green structural fixes:** Canonical Lua numeric spelling now rejects zero-padded clocks, counters and coordinates; Windows Lua 5.1.4 formatting was independently executed. Packet RED `rre_20261116_g2_numeric_red_2244_v1` (expected exit 1), GREEN `rre_20261116_g2_packet_regreen_2249_v1` **39/39**. Cross-source receipt now rejects host Lua execution before exact native .NET process epoch, including a 100-ns negative; RED `rre_20261116_g2_cross_epoch_red_2248_v1`, GREEN `rre_20261116_g2_cross_epoch_green_2249_v1` **55/55**.
+- **Status and guards:** Both are synthetic/offline rejection-only; `nativeCorrelationDone=false`, `wa006Accepted=false`. All nine source SHA pins were updated in `docs/roadmap-tasks.json`. The newest evidence is at the top of `docs/RRE-WA006-G2-ONE-SHOT-API-PROBE-2026-11-16.md`. At the start of this slice AMD-DESKTOP `C:\work\rre` main was `8a9cf776cbdd4c494b9315f96489ab6b93cf2157`; inspect latest HEAD after integration. Preserve the nine inherited untracked paths. No live game, VM, UI, process memory, addon installation or other-repo action.
+
 ## Most recent recovery checkpoint — 2026-11-16 ~22:26 EST
 
 - **SC-629 legacy-report routing repaired:** Added a dated current-context notice to `docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.md`: its v0.4.14/Lab-2 experiments are historical, while current source TOC is v0.4.21. Manager strict package check passed 11 files (`rre_20261116_sc629_manager_package_verify_2230_v1`; installed parity and runtime UI both unverified); independent SavedVariables adapter 32/32 passed. Only fresh physical-host ownership, install/load, complete RREC2 and SavedVariables can qualify SC-629. No addon edits or live operations.
