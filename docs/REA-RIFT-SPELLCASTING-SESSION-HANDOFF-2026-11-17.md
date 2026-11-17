@@ -27,9 +27,19 @@
 - **Physical character SavedVariables (read-only):** canonical OneDrive `RIFT/Interface/Saved/[account]/Deepwood/Atank/SavedVariables/RRECollector.lua` SHA `1c72fc3497914f03c42fadf35d21f0ad4caf87fbc89aed1da51b6be62aaad559`, modified 2026-11-17 05:08:15.983 UTC (00:08:15 EST). Root `addonVersion` and `latest.addonVersion` both **0.4.20**, `latest.sequence=2`, `latest.capabilities.experience=true` with three finite numeric fields. `memoryPublication.status=not-published`, `reason=addon-load`. These are persisted bytes, **not** proof of currently loaded UI, active game, full RREC2 publication, or current task ownership.
 - **Current acceptance stop:** SC-629 register still `pending` with `gameInputAuthorized=false`. Source v0.4.21 **must not be marked installed or loaded**. No copy/deployment, game process/window inventory, in-game input, UI reload, reader memory acquisition, process/debugger action or VMware access was performed. No source files changed. Current reader supports offline replay sources; the retired `lab2` live acquisition command is disabled. A future approved physical trial requires (1) exact host/build/process/owner and separate deployment authority; (2) 11/11 installed SHA parity and loaded v0.4.21 UI proof; (3) operator-authorized manual Capture; (4) an independently authorized physical-client **active RREC2** extraction route and complete session/sequence; (5) same-trial SavedVariables root/latest v0.4.21 and cross-source parity. The SavedVariables file by itself is insufficient.
 
+## 2026-11-17 ~00:16 EST — SC-629 AMD-DESKTOP physical add-on deployment (installed-only)
+
+- **Narrow authorization:** Joey replied `keep working` directly to the manager's request to back up and update **only RRECollector** on physical AMD-DESKTOP. This was scoped to installing files; **no game input, `/reloadui`, game restart, debugger, memory acquisition, other-addon modification or VM operation** was authorized or performed.
+- **Independent target gates:** named AMD-DESKTOP Workbridge 0.16.5-dev and literal `hostname.exe` output confirmed `AMD-DESKTOP` (job `rre_20261117_sc629_deploy_hostname_0001`, exit 0). Read-only window inventory saw physical `rift_x64` PID **77704**, one `RIFT` window, hwnd **399711986** (foreground at observation); read-only process identity job `rre_20261117_sc629_physical_process_readonly_identity_0001` exited 0 with executable `C:\Program Files (x86)\Glyph\Games\RIFT\Live\rift_x64.exe`, **60,493,640 bytes**, SHA-256 `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`, start `2026-11-16T14:47:31.6074064Z`. RRE and RR2 Workbridge agent registers had **zero running** tasks; this is not an assertion of exclusive in-game control. No process control was exercised.
+- **Independent review:** a read-only reviewer confirmed source and installed folders each contained exactly the same 11 expected file *names* and 3/11 old byte matches. Existing `tools/deploy-rrecollector-onedrive.ps1` is intentionally **LEGION-only**; it was **not executed or weakened on AMD-DESKTOP**. An independently AMD-guarded, exact-path, bounded PowerShell operation reused its approved **backup → SHA-check → TOC-last copy → post-copy SHA-check → rollback-on-failure** procedure.
+- **Verified rollback:** backup job `rre_20261117_sc629_amddesktop_backup_v0420_0001` exited 0 after strict v0.4.21 source preflight, matching old/new TOC SHA pins and active physical process/build identity. All **11 installed v0.4.20 files** were copied and hash-verified in `artifacts/RRECollector-installed-v0420-AMD-DESKTOP-20261117-0015/`. Its `backup-receipt.json` SHA `5a7527a355be2fdb6999c108380b8fa1d57df0d8cd0523faba2fef34d5450642` records the exact 11 old/source hashes, original destination and physical process evidence; this ignored local artifact must be **preserved**, not garbage-collected.
+- **Installed gate passed:** deployment job `rre_20261117_sc629_amddesktop_deploy_v0421_0001` exited **0**. Revalidated all backup/current/source hashes before any overwrite; copied only the 11 RRECollector files, with `RiftAddon.toc` last. All 11 destination hashes matched the source. Embedded strict installed-package verifier passed, and PID 77704 was unchanged across deployment. `deployment-receipt.json` SHA `80339a56c7ce31dc2a3fb4fc47095f640d246378812aacf9830d1dd56b674381` records 11/11 installed hashes, backup, `runtimeUiVerified=false` and `gameInputPerformed=false`.
+- **Independent post-install proof:** 22 direct Workbridge SHA observations checked each source/installed file **11/11 equal**. Separate strict package verification job `rre_20261117_sc629_amddesktop_postdeploy_strict_gate_0001` exited 0 with `version=0.4.21`, `sources=11`, `installedShaMatches=11`, `runtimeUiVerified=false`. Installed TOC SHA is now `1753b250e82ec0af68d5593b6534d0d8e09e351e112f4713e24bcbfe37620f59`. No repository source file changed; nine inherited untracked paths remained unmodified.
+- **Do not promote live gate:** physical RIFT was already running. Nothing proves the current process has loaded the *new* Lua or that new SavedVariables/RREC2 have been emitted. The prior read-only saved receipt remains v0.4.20 and `memoryPublication=not-published` at its last observed epoch; **do not** treat on-disk v0.4.21 as functional acceptance. SC-629 remains pending, `gameInputAuthorized=false`. Next require separate owner/operator-approved UI load and one manual Capture, then full active RREC2 session/sequence and same-trial SavedVariables parity via an independently approved physical-client retrieval method; RC-30/RC-88 remain stopped.
+
 ## Next gates / recovery packet
 
-- **SC-629:** v0.4.21 collector remains source-only; physical installed/loaded RIFT, same-trial RREC2 and SavedVariables Experience receipts still need task-specific owner/host/process/build and separate approval. `gameInputAuthorized=false`.
+- **SC-629:** v0.4.21 is now source-verified **and installed 11/11 on physical AMD-DESKTOP** with a verified v0.4.20 rollback; **loaded/game/UI version, manual Capture, active RREC2 and same-trial SavedVariables remain unverified**, and require separate owner/game-input authority. `gameInputAuthorized=false`.
 - **WA-006/WA-007:** no verified same-scene two-nonself Lua/native identity; parked pending original evidence. Avoid parked Ghidra/REA breadth and repeated synthetic G2 cycles.
 - **RC-30 / RC-88:** explicitly user-stopped, do not resume on generic continuation.
 - **Resume:** Re-verify named AMD-DESKTOP host, `C:\work\rre` branch/HEAD/status, nine inherited untracked paths and running jobs. Check scoped five reader files plus this handoff; only manager commits/pushes after source-hash/diff/test review. Preserve original archived Lab2 files and old helper SHA. New physical RIFT input/deployment/reload needs a new specific authorized window.
@@ -50,10 +60,14 @@ checkpoint:
   physicalAcceptance: false
   gameInputAuthorized: false
   nextTask: SC-629
-  lastVerifiedHead: 90ff66cbba890d300faf9cf606258c15bc195ca0
+  lastVerifiedHead: c520edb59932e050d1d77fd3bd0e931ad9c1688d
   sourceCollectorVersion: 0.4.21
-  installedCollectorVersion: 0.4.20
-  installedSourceHashParity: 3/11
+  installedCollectorVersion: 0.4.21
+  installedSourceHashParity: 11/11
+  loadedCollectorVersion: unverified
   savedCollectorVersion: 0.4.20
   savedMemoryPublication: not-published
+  physicalProcessPid: 77704
+  physicalExeSha256: 1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8
+  physicalInstallBackup: artifacts/RRECollector-installed-v0420-AMD-DESKTOP-20261117-0015
 ```
