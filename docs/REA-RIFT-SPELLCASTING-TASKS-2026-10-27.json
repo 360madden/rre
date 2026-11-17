@@ -4,7 +4,7 @@
   "owner": "REA research; no RR2/Workbridge code ownership",
   "createdDate": "2026-10-27",
   "roadmap": "docs/REA-RIFT-SPELLCASTING-ROADMAP-2026-10-27.md",
-  "status": "2026-11-07 SC625 accepted bounded0.2.3 Lab2 live CLI seq10/fiveparts54records with cleanup/control return. SC628 v0.4.13 is latest accepted live collector. SC629 v0.4.14 manual Experience implementation passed offline Lua51, Node, .NET, wire/reader and source package gates; NOT installed/loaded/live accepted. No Ollama/FreeBuff.",
+  "status": "2026-11-16 current SC629: RRECollector v0.4.21 strict 11-source package, pinned Lua5.1.4/Lua5.3 producer-to-reader offline interop and .NET10 build passed. Physical-game source/install/loaded parity, current RREC2 and SavedVariables Experience receipts remain unverified; SC629 pending. Only independently verified host-local physical RIFT potentially eligible (AGENTS.md November10); RC30/RC88 stopped. Historical 2026-11-07 bounded SC625/SC628 Lab2 evidence remains dated only; no FreeBuff/Ollama.",
   "completedReviewPasses": 5,
   "nextTaskId": "SC-629",
   "gameInputAuthorized": false,
@@ -2044,8 +2044,8 @@
         "First reuse SC628 existing Inspect.Stat result for10ordinary/Unbuffed requestedfields; no duplicate statcall",
         "Verify matching-build primary API docs for Inspect.Experience exact three scalars and failure semantics",
         "Only after SC625 source integration: minimal optional experience capture, one existing manual path APIcall; absence/failure explicit, no new events/polling/gameplay",
-        "Keep 0.4.12/0.4.13 readers compatible, strict versioned0.4.14 contract and package/source gates before any deployment",
-        "Live changes only after concrete reviewedpackage and new peerwindow; Lab2only, existing externalmouse/F414/same modularreader, no otherrepo runtime dependency"
+        "Preserve 0.4.12/0.4.13 reader compatibility and the historical v0.4.14 receipt; verify current v0.4.21 strict source/package, Experience wire and SavedVariables gates before any proposed installation",
+        "CURRENT Nov10 physical-only override: only verified local AMD-DESKTOP or LEGION physical RIFT may be proposed for a new exclusive owner window; require exact process/build/scene, task-specific approval, installed-and-loaded v0.4.21 proof, manually observed Capture, and same-session full RREC2 and SavedVariables parity. The historical Lab2-only/external-mouse gate is superseded; never use VMware. No other-repo mutation."
       ],
       "gameInputAuthorized": false,
       "evidence": [
@@ -2056,9 +2056,26 @@
         "docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.json",
         "artifacts/sc629-v014-lua51-20261107-2246/receipt.json"
       ],
-      "progress": "SC628 ten existing stats reused. v0.4.14 source-only Experience opt-in manual Capture, strict wire/CSharp/SavedVariables version paths, focused Lua51(16+46), Node(12), .NET(79), 54-record offline wire interop and package gate passed. No Lab2 deployment, input or live Experience data; final live version-matched acceptance remains pending.",
+      "progress": "Historical Nov7 v0.4.14 Experience source-only work reused SC628 ten stats and passed its Lua51/Node/.NET/wire/package gates. Current Nov16 v0.4.21 strict package 11/11 sources, .NET10 Debug build 0 errors/warnings, actual pinned Lua5.1.4 and Lua5.3 synthetic + 54-ability historical producer-to-reader round trips passed (commit 461ea424). No physical v0.4.21 loaded-addon/UI, same-session full RREC2 or SavedVariables Experience proof; SC629 remains pending, no game actions authorized.",
       "researchGate": "Matching-build primary Experience reference and reviewed offline integration accepted; numeric member types remain documented-inference, not live observations. Legacy 0.4.12/0.4.13 decoding preserved.",
-      "offlineSourceGate": {"status":"passed-source-only-live-pending","collectorVersion":"0.4.14","report":"docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.json","wireInteropReceipt":"artifacts/sc629-v014-lua51-20261107-2246/receipt.json","gameInputAuthorized":false}
+      "offlineSourceGate": {"status":"passed-source-only-live-pending","collectorVersion":"0.4.14","report":"docs/REA-RIFT-SC629-EXPERIENCE-OFFLINE-2026-11-07.json","wireInteropReceipt":"artifacts/sc629-v014-lua51-20261107-2246/receipt.json","gameInputAuthorized":false},
+      "currentOfflineSourceGate": {
+        "asOf": "2026-11-16",
+        "status": "passed-source-only-live-pending",
+        "collectorVersion": "0.4.21",
+        "packageSources": 11,
+        "packageJob": "rre_20261116_newturn_sc629_source_package_2313_v1",
+        "interopLua51Job": "rre_20261116_sc629_harness_green_lua51_002",
+        "interopLua53Job": "rre_20261116_sc629_harness_green_lua53_002",
+        "readerBuildJob": "rre_20261116_sc629_current_reader_build_001",
+        "sourceInteropCommit": "461ea424c503175dedeae7c771f2a20752eb0da9",
+        "installedShaMatches": null,
+        "runtimeUiVerified": false,
+        "currentRrec2AndSavedVariablesQualified": false,
+        "liveExperienceObserved": false,
+        "liveTarget": "verified-host-local-physical-RIFT-only",
+        "gameInputAuthorized": false
+      }
     }
   ],
   "checkpointPolicy": {
