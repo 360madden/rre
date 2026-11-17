@@ -28,6 +28,17 @@ VTABLE_ASSIGNMENTS = (
     (0xFC939F, 0xFC93A9, "488901"),
 )
 
+# Postpatch host selector source chain (static only; active receiver not qualified).
+SELECTOR_VTABLE_RVA = 0x26CD000
+SELECTOR_VTABLE_CALL_OFFSET = 0xB8
+SELECTOR_IMPL_RVA = 0x7664D0
+SELECTOR_LEA_RVA = 0x75D4EE
+SELECTOR_OPCODES = (
+    ("host_vptr_store", 0x75D4F5, "488908"),
+    ("host_selector_virtual_slot_B8", 0x776740, "ff90b8000000"),
+    ("selector_add_registry_offset_240", 0x7664EC, "480540020000"),
+)
+
 # Strict bytes at each mapped RVA: static evidence only, never a live address.
 OPCODES = (
     ("dispatch_forwards_rdx_and_virtual_slot_18", 0x77A17D, "488b542450ff5018"),
@@ -62,7 +73,7 @@ def assert_bytes(read, rva: int, expected: bytes, label: str) -> None:
 
 
 def verify_source(read) -> dict:
-    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES:
+    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES:
         assert_bytes(read, rva, bytes.fromhex(opcode), label)
 
     vptr = read(VTABLE_RVA, 56)
@@ -81,6 +92,16 @@ def verify_source(read) -> dict:
             raise GateError(f"Vptr assignment LEA targets 0x{target:X}, not 0x{VTABLE_RVA:X}")
         assert_bytes(read, store_rva, bytes.fromhex(store_hex), "vptr store")
 
+    selector_lea = read(SELECTOR_LEA_RVA, 7)
+    if selector_lea is None or selector_lea[:3] != bytes.fromhex("488d0d"):
+        raise GateError("Expected host selector vptr RIP-relative LEA")
+    selector_table = SELECTOR_LEA_RVA + 7 + struct.unpack_from("<i", selector_lea, 3)[0]
+    if selector_table != SELECTOR_VTABLE_RVA:
+        raise GateError(f"Host selector LEA targets 0x{selector_table:X}, not 0x{SELECTOR_VTABLE_RVA:X}")
+    selector_slot = read(SELECTOR_VTABLE_RVA + SELECTOR_VTABLE_CALL_OFFSET, 8)
+    if selector_slot is None or struct.unpack("<Q", selector_slot)[0] != 0x140000000 + SELECTOR_IMPL_RVA:
+        raise GateError("Host selector vtable +0xB8 target changed or is unmapped")
+
     prefix = read(EXPECTED_B_ENTRY, PREFIX_END_RVA - EXPECTED_B_ENTRY)
     if prefix is None or hashlib.sha256(prefix).hexdigest() != EXPECTED_B_PREFIX_SHA:
         raise GateError("Adapter B source-prefix hash changed")
@@ -98,6 +119,10 @@ def verify_source(read) -> dict:
         "newBuildSha256": BUILD_SHA256,
         "checkedOpcodes": len(OPCODES),
         "checkedStateDeltaOpcodes": len(STATE_DELTA_OPCODES),
+        "checkedSelectorOpcodes": len(SELECTOR_OPCODES),
+        "selectorSourcePinned": True,
+        "selectorVtableRva": f"0x{SELECTOR_VTABLE_RVA:X}",
+        "selectorCandidateRva": f"0x{SELECTOR_IMPL_RVA:X}",
         "vtableAssignmentCandidates": len(VTABLE_ASSIGNMENTS),
         "vtableRva": f"0x{VTABLE_RVA:X}",
         "vtableVirtualSlot": "+0x18",

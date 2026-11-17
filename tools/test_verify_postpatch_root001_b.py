@@ -23,7 +23,7 @@ class SourceGateTests(unittest.TestCase):
         self.prefix = bytes([0x90]) * (gate.PREFIX_END_RVA - gate.EXPECTED_B_ENTRY)
         self.windows = {
             (rva, len(bytes.fromhex(opcode))): bytes.fromhex(opcode)
-            for _, rva, opcode in gate.OPCODES + gate.STATE_DELTA_OPCODES
+            for _, rva, opcode in gate.OPCODES + gate.STATE_DELTA_OPCODES + gate.SELECTOR_OPCODES
         }
         self.windows[(gate.VTABLE_RVA, 56)] = bytes(self.vptr)
         self.windows[(gate.EXPECTED_B_ENTRY, len(self.prefix))] = self.prefix
@@ -32,6 +32,9 @@ class SourceGateTests(unittest.TestCase):
         self.windows[(0xFC9199, 3)] = bytes.fromhex("488903")
         self.windows[(0xFC939F, 7)] = bytes.fromhex("488d0572817501")
         self.windows[(0xFC93A9, 3)] = bytes.fromhex("488901")
+        self.windows[(gate.SELECTOR_LEA_RVA, 7)] = bytes.fromhex("488d0d0bfbf601")
+        self.windows[(gate.SELECTOR_VTABLE_RVA + gate.SELECTOR_VTABLE_CALL_OFFSET, 8)] = struct.pack(
+            "<Q", 0x140000000 + gate.SELECTOR_IMPL_RVA)
 
     def verify(self):
         with patch.object(gate, "EXPECTED_VPTR_SHA", hashlib.sha256(self.windows[(gate.VTABLE_RVA, 56)]).hexdigest()), \
@@ -45,6 +48,9 @@ class SourceGateTests(unittest.TestCase):
         self.assertFalse(report["runtimeQualified"])
         self.assertFalse(report["functionIdentityQualified"])
         self.assertEqual(report["checkedStateDeltaOpcodes"], 6)
+        self.assertEqual(report["checkedSelectorOpcodes"], 3)
+        self.assertTrue(report["selectorSourcePinned"])
+        self.assertEqual(report["selectorCandidateRva"], "0x7664D0")
 
     def test_all_opcode_mutations_fail(self):
         for _, rva, opcode in gate.OPCODES:
@@ -64,6 +70,28 @@ class SourceGateTests(unittest.TestCase):
             with self.subTest(rva=hex(rva)), self.assertRaises(gate.GateError):
                 self.verify()
             self.windows[key] = original
+
+    def test_selector_opcode_mutations_fail(self):
+        for label, rva, opcode in gate.SELECTOR_OPCODES:
+            key = (rva, len(bytes.fromhex(opcode)))
+            original = self.windows[key]
+            self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
+            with self.subTest(anchor=label), self.assertRaises(gate.GateError):
+                self.verify()
+            self.windows[key] = original
+
+    def test_selector_vptr_lea_displacement_shift_rejected(self):
+        key = (gate.SELECTOR_LEA_RVA, 7)
+        original = self.windows[key]
+        self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
+        with self.assertRaisesRegex(gate.GateError, "Host selector LEA targets"):
+            self.verify()
+
+    def test_selector_slot_target_shift_rejected(self):
+        key = (gate.SELECTOR_VTABLE_RVA + gate.SELECTOR_VTABLE_CALL_OFFSET, 8)
+        self.windows[key] = struct.pack("<Q", 0x140000000 + gate.SELECTOR_IMPL_RVA + 8)
+        with self.assertRaisesRegex(gate.GateError, r"vtable \+0xB8 target"):
+            self.verify()
 
     def test_missing_opcode_fails(self):
         self.windows.pop(next(iter(self.windows)))
