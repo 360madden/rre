@@ -37,7 +37,13 @@
       "id": "rr2-physical-workflow",
       "path": "C:/work/riftreader2/docs/workflows/physical-world-screen.md",
       "sha256": "81d5abe2c10dc08ddf4d30a1bb86e54940983ab22ee188bfc17f5925d361a2bb",
-      "evidenceKind": "documented-prior-physical-validation"
+      "evidenceKind": "documented-prior-physical-validation",
+      "archivedGit": {
+        "repoPath": "C:/work/riftreader2",
+        "commit": "3c5287aa4c75500728207083dd0c33d8c0e8f536",
+        "gitPath": "docs/workflows/physical-world-screen.md",
+        "checkoutEol": "crlf"
+      }
     },
     {
       "id": "rr2-unit-validation",

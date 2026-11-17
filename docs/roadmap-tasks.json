@@ -1142,8 +1142,8 @@
       "offlineEvidencePlanSha256": "9af19046a48309e27aaedba9bf2d37e9c7cc529afda957c390c3f197b3ff1ab7",
       "offlineEvidencePlanPreviousSha256": "fbeebf0d4761cd9a116d033a7506cc16f3d6f84d12d45723e48531c47129dc9c",
       "offlineEvidenceMatrix": "docs/RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json",
-      "offlineEvidenceMatrixSha256": "e41f060ca713b8122050645cba3fbd466430334b2027b71ddd3a116e54dcfa78",
-      "offlineEvidenceMatrixPreviousSha256": "5c7b09401318b6e57c231476c131cb2308c0369d07c4d00d841923d6d8d62cd1",
+      "offlineEvidenceMatrixSha256": "32bf5cb2423f56f13b5f10a9009b37506d42c89c455a0c949187254b984a6988",
+      "offlineEvidenceMatrixPreviousSha256": "e41f060ca713b8122050645cba3fbd466430334b2027b71ddd3a116e54dcfa78",
       "reusedRecordedRR2Evidence": {
         "host": "AMD-DESKTOP",
         "physicalProcessId": 51524,

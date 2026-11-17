@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // WA-006 evidence matrix verifier: offline, read-only, fail closed.
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,9 +23,29 @@ function verify(matrix) {
     seen.add(item.id);
     requireTrue(/^C:\/work\//i.test(item.path), 'source path outside C:/work');
     requireTrue(/^[a-f0-9]{64}$/.test(item.sha256), 'malformed SHA for ' + item.id);
-    const onDisk = readFileSync(item.path);
-    requireTrue(sha(onDisk) === item.sha256, 'source changed: ' + item.id);
-    sourceBytes.set(item.id, onDisk);
+    // Historical RR2 prose can evolve in its working tree. Recover only the
+    // explicitly pinned Git revision, then reconstitute its original Windows
+    // checkout bytes before verifying the *unchanged* evidence SHA256.
+    let originalBytes;
+    if (item.archivedGit) {
+      const a = item.archivedGit;
+      requireTrue(item.id === 'rr2-physical-workflow'
+        && a.repoPath === 'C:/work/riftreader2'
+        && a.gitPath === 'docs/workflows/physical-world-screen.md'
+        && a.commit === '3c5287aa4c75500728207083dd0c33d8c0e8f536'
+        && a.checkoutEol === 'crlf'
+        && path.resolve(a.repoPath, a.gitPath).toLowerCase()
+          === path.resolve(item.path).toLowerCase(),
+      'invalid archived source locator: ' + item.id);
+      const blob = execFileSync('git', ['-C', a.repoPath, 'show', a.commit + ':' + a.gitPath],
+        {timeout: 5000, maxBuffer: 1000000, windowsHide: true});
+      requireTrue(!blob.includes(0x0d), 'archived Git source is not LF-only: ' + item.id);
+      originalBytes = Buffer.from(blob.toString('utf8').replace(/\n/g, '\r\n'), 'utf8');
+    } else {
+      originalBytes = readFileSync(item.path);
+    }
+    requireTrue(sha(originalBytes) === item.sha256, 'source changed: ' + item.id);
+    sourceBytes.set(item.id, originalBytes);
   }
   const self = matrix.recordedSelfCorrelation;
   const other = matrix.recordedObservation;
@@ -274,6 +295,25 @@ try {
   try { verify(wrongSelf); } catch { rejectedFalseSelf = true; }
   requireTrue(rejectedFalseSelf, 'original-source-binding negative control failed');
   receipt.inMemoryCoordinatedSelfIdCorruptionNegativeControl = 'passed';
+  // Three separate synthetic failures must not bypass the immutable Git
+  // document anchor, even when all historical Lua/native artifacts are valid.
+  const source = (m, id) => m.sources.find(item => item.id === id);
+  const archiveCases = [
+    ['wrong-commit', m => { source(m, 'rr2-physical-workflow').archivedGit.commit = '0'.repeat(40); }],
+    ['wrong-EOL', m => { source(m, 'rr2-physical-workflow').archivedGit.checkoutEol = 'lf'; }],
+    ['unapproved-archive', m => {
+      source(m, 'rre-contract').archivedGit =
+        structuredClone(source(m, 'rr2-physical-workflow').archivedGit);
+    }],
+  ];
+  for (const [name, mutate] of archiveCases) {
+    const mutated = structuredClone(original);
+    mutate(mutated);
+    let refused = false;
+    try { verify(mutated); } catch { refused = true; }
+    requireTrue(refused, 'archive negative control failed: ' + name);
+  }
+  receipt.inMemoryArchivedSourceNegativeControls = archiveCases.map(([name]) => name);
   process.stdout.write(JSON.stringify(receipt, null, 2) + '\n');
 } catch (error) {
   process.stderr.write(String(error) + '\n');
