@@ -51,6 +51,25 @@ The RR2-produced before/after manifests report **7 modified, 2 removed temporary
 
 Do **not** rehash all ~25.27 GiB of game assets for this RRE checkpoint. Do **not** edit or commit in Update Helper: its comparison source/tests currently include active owner changes. Update Helper owns file-level patch evidence; RRE owns RRE-specific behavior and native compatibility qualification.
 
+## Bounded offline relocation scout — provisional evidence, 09:28 EST
+
+Two independent read-only scoping lanes examined the **SHA-verified archived binaries**, not the game process. These are **candidate source positions**, not qualified runtime addresses.
+
+ROOT001 exact-context relocation (24-byte old-build windows searched for unique hits in the new executable's `.text` section; context count and matching 512-byte nearby bytes shown):
+
+| Site | Historical RVA | Candidate new-build RVA | Delta | Unique 24-byte windows | Matching bytes / 512 |
+|---|---|---|---|---|---|
+| Dispatch forwarding | `0x779C6D` | `0x77A17D` | +`0x510` | 10 | 478 |
+| Adapter B save host | `0xFCA11F` | `0xFCA0EF` | -`0x30` | 3 | 436 |
+| Adapter B restore host | `0xFCA4AD` | `0xFCA47D` | -`0x30` | 1 | 431 |
+| Adapter B processor call | `0xFCA4B0` | `0xFCA480` | -`0x30` | 1 | 429 |
+
+The dispatch/save/restore opcode canaries match at these **candidate** new RVAs. The call's rel32 operand changes from `E8 2B E1 7B FF` to `E8 7B E6 7B FF`; its computed target shifts from old `0x7885E0` to new `0x788B00` (+`0x520`). The callsite and target shifts support relocation, but do not establish same control flow or receiver. Overlapping windows around restore/call are not independent functional proofs. Jobs: `rre-root001-shift-context-scout-1117-1`, `rre-root001-shift-anchor-validate-1117-1`, `rre-root001-call-rel32-validate-1117-1`, `rre-root001-call-target-byteproof-1117-1` (all exit 0).
+
+WA-006 exact 32-byte-context scout (three sampled windows/site, offsets +0, +16 and +48): unique same-RVA matches in **all three** for `producer 0xD0944`, `selector 0xA2514`, `selector_bool 0xA24F4`; `query 0xF7CD20` matches one sampled window (+48), `query_adapter 0x8E744` one (+16). No exact 32-byte hit in those sampled windows for `callback 0x6A62B1`, `helper 0x13E9FE0`, `parent 0x78B1C`, `virtual_adapter 0x9FD68`. A negative result means **no exact sampled context**, not that the function is absent. Job `rre-postupdate-wa006-exact32-scout-1117-2` passed exit 0 in a bounded offline scan (0.63 s). Original SHA guards on installed-client WA-006 verifiers remain intentionally unchanged.
+
+**Acceptance still missing:** independently inspect new-build callsites, surrounding control flow, receiver/vtable identity, dependent functions and SHA-scoped evidence before marking any candidate requalified; then coordinate a separately authorized physical runtime check only if required.
+
 ## Fail-closed recovery tasks
 
 1. **P0 — Rebuild ROOT001/WA-006 static identities against the new archived executable.** Use bounded offline binary/REA/Ghidra analysis and independent matching of control flow and callsites. Store new-build-specific candidate RVAs, source windows, section hashes, provenance, and confidence; avoid large default Ghidra reimports. Do not rewrite historical SHA pins to make old tests pass.
