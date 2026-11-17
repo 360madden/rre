@@ -1,6 +1,23 @@
--- RC-32 pre-gate RED fixture for real abilities.collect(), with fake RIFT API.
--- --expect-red documents four frozen v0.4.10 defects. Later use --require-fixed.
+-- RC-32 source-executed abilities.collect() fixture, using a fake RIFT API.
+-- --expect-red --source FILE is exclusively for an independently SHA-verified
+-- frozen v0.4.10 abilities.lua; current source must pass --require-fixed.
+-- No game execution or live class proof.
+local mode=type(arg)=="table" and arg[1] or "--require-fixed"
+assert(mode=="--require-fixed" or mode=="--expect-red",
+  "usage: [--require-fixed] | --expect-red --source FROZEN_ABILITIES.lua")
+local expectRed=mode=="--expect-red"
+local sourcePath="addons/RRECollector/abilities.lua"
+if expectRed then
+  assert(type(arg)=="table" and arg[2]=="--source"
+    and type(arg[3])=="string" and #arg[3]>0 and arg[4]==nil,
+    "--expect-red requires --source with independently SHA-verified frozen abilities.lua")
+  sourcePath=arg[3]
+else
+  assert(type(arg)~="table" or arg[2]==nil,
+    "--require-fixed must exercise current RRECollector source")
+end
 local calls = {batch=0, scalar=0, batchArg=nil, scalarIds={}}
+local activeCalling = "warrior"
 local currentList
 local function detail(arg)
   if type(arg) == "table" then
@@ -24,9 +41,13 @@ Inspect = {Ability={New={
 }}}
 RRECollectorData = {sequence=1}
 RRECollectorRuntime = {
-  SCHEMA=1, VERSION="0.4.10",
+  SCHEMA=1, VERSION="0.4.21",
   core={
     call=function(fn, ...) return pcall(fn, ...) end,
+    finite=function(value)
+      return type(value)=="number" and value==value
+        and value~=math.huge and value~=-math.huge
+    end,
     fieldCopy=function(source, fields)
       local result={}
       for _, name in ipairs(fields) do if source[name]~=nil then result[name]=source[name] end end
@@ -34,11 +55,12 @@ RRECollectorRuntime = {
     end
   },
   context={snapshot=function()
-    return {capabilities={player=true}, frameTime=1, realTime=2,
-      player={calling="warrior"}, target={}, roleNames={}, stats={}}
+    return {capabilities={player=true,experience=false}, frameTime=1, realTime=2,
+      player={id="u0000000000000001",name="RC32 Mock",calling=activeCalling,level=43},
+      roleSlot=1, target={}, roleNames={}, stats={}}
   end}
 }
-assert(loadfile("addons/RRECollector/abilities.lua"))()
+assert(loadfile(sourcePath))()
 local function id(i) return string.format("A%016X", i) end
 local function map(n)
   local t={}
@@ -145,7 +167,23 @@ mixed[id(3)]=true
 record, used=capture(mixed)
 check("clean mixed numeric/map keys retain data", batchExactlyMatches(record,used,mixed,3)
   and record.captureComplete==true)
-local expectRed=type(arg)=="table" and arg[1]=="--expect-red"
+-- These five cases run the *actual* source collect() function in each calling
+-- context. They establish class-neutral handling of the mocked API list only;
+-- they do not assert a live spellbook for any class.
+if not expectRed then
+  for _, calling in ipairs({"warrior","rogue","mage","cleric","primalist"}) do
+    activeCalling=calling
+    local listed=map(2)
+    record,used=capture(listed)
+    check("complete two-ID batch for "..calling,
+      batchExactlyMatches(record,used,listed,2)
+      and record.captureComplete==true and record.addonVersion=="0.4.21"
+      and record.player.id=="u0000000000000001"
+      and record.player.name=="RC32 Mock" and record.player.calling==calling
+      and record.player.level==43 and record.roleSlot==1
+      and record.capabilities.player==true)
+  end
+end
 if expectRed then
   local wanted={
     ["duplicate list skips raw batch"]=true,
