@@ -2068,6 +2068,16 @@
         "interopLua51Job": "rre_20261116_sc629_harness_green_lua51_002",
         "interopLua53Job": "rre_20261116_sc629_harness_green_lua53_002",
         "readerBuildJob": "rre_20261116_sc629_current_reader_build_001",
+        "fullModuleStartup": {
+          "fixture": "tools/verify-rrecollector-full-module-startup.lua",
+          "fixtureSha256": "f228c6a5fc23a765411b6c98f62ff9b372ffd8d3c4a180734175c63a13b2206d",
+          "runtime": "pinned-native-Windows-Lua-5.1.4",
+          "job": "rre_20261116_fullstartup_hardened_green_2326_001",
+          "checksPassed": 16,
+          "nineRealSourceModules": true,
+          "mockOnly": true,
+          "liveAcceptance": false
+        },
         "sourceInteropCommit": "461ea424c503175dedeae7c771f2a20752eb0da9",
         "installedShaMatches": null,
         "runtimeUiVerified": false,
