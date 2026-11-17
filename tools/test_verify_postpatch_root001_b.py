@@ -23,7 +23,7 @@ class SourceGateTests(unittest.TestCase):
         self.prefix = bytes([0x90]) * (gate.PREFIX_END_RVA - gate.EXPECTED_B_ENTRY)
         self.windows = {
             (rva, len(bytes.fromhex(opcode))): bytes.fromhex(opcode)
-            for _, rva, opcode in gate.OPCODES
+            for _, rva, opcode in gate.OPCODES + gate.STATE_DELTA_OPCODES
         }
         self.windows[(gate.VTABLE_RVA, 56)] = bytes(self.vptr)
         self.windows[(gate.EXPECTED_B_ENTRY, len(self.prefix))] = self.prefix
@@ -44,12 +44,23 @@ class SourceGateTests(unittest.TestCase):
         self.assertEqual(report["status"], "SOURCE_PINNED_ONLY")
         self.assertFalse(report["runtimeQualified"])
         self.assertFalse(report["functionIdentityQualified"])
+        self.assertEqual(report["checkedStateDeltaOpcodes"], 6)
 
     def test_all_opcode_mutations_fail(self):
         for _, rva, opcode in gate.OPCODES:
             key = (rva, len(bytes.fromhex(opcode)))
             original = self.windows[key]
             self.windows[key] = bytes([original[0] ^ 1]) + original[1:]
+            with self.subTest(rva=hex(rva)), self.assertRaises(gate.GateError):
+                self.verify()
+            self.windows[key] = original
+
+    def test_all_state_delta_opcode_mutations_fail(self):
+        for _, rva, opcode in gate.STATE_DELTA_OPCODES:
+            key = (rva, len(bytes.fromhex(opcode)))
+            original = self.windows[key]
+            # The mutated bytes are in the operand/flag (not only the opcode).
+            self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
             with self.subTest(rva=hex(rva)), self.assertRaises(gate.GateError):
                 self.verify()
             self.windows[key] = original

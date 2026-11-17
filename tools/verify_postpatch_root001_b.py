@@ -38,6 +38,18 @@ OPCODES = (
 )
 
 
+# Postpatch state-transition operand drift, independently compared to old build.
+# These are exact NEW-build bytes, not a qualified object layout or gameplay meaning.
+STATE_DELTA_OPCODES = (
+    ("state_one_compare_field_18", 0xFCAA3F, "83781801"),
+    ("state_one_mark_flag_80", 0xFCAA45, "81481080000000"),
+    ("state_one_write_field_18", 0xFCAA4C, "c7401801000000"),
+    ("state_zero_compare_field_18", 0xFCAA7B, "83781800"),
+    ("state_zero_mark_flag_80", 0xFCAA81, "81481080000000"),
+    ("state_zero_write_field_18", 0xFCAA88, "895818"),
+)
+
+
 class GateError(Exception):
     pass
 
@@ -50,7 +62,7 @@ def assert_bytes(read, rva: int, expected: bytes, label: str) -> None:
 
 
 def verify_source(read) -> dict:
-    for label, rva, opcode in OPCODES:
+    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES:
         assert_bytes(read, rva, bytes.fromhex(opcode), label)
 
     vptr = read(VTABLE_RVA, 56)
@@ -85,6 +97,7 @@ def verify_source(read) -> dict:
         "status": "SOURCE_PINNED_ONLY",
         "newBuildSha256": BUILD_SHA256,
         "checkedOpcodes": len(OPCODES),
+        "checkedStateDeltaOpcodes": len(STATE_DELTA_OPCODES),
         "vtableAssignmentCandidates": len(VTABLE_ASSIGNMENTS),
         "vtableRva": f"0x{VTABLE_RVA:X}",
         "vtableVirtualSlot": "+0x18",
