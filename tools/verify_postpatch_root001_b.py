@@ -73,6 +73,23 @@ INGAME_A_GUARD_CALL_TARGETS = (
     ("ingame_A_context_predicate", 0xFCEF56, 0x81BFF0),
 )
 
+# Path A state source: mutator called with 1 can take a guarded state-1
+# branch whose helper writes 2. This is a source-only conditional path.
+INGAME_A_STATE12_OPCODES = (
+    ("ingame_A_mutator_receives_one", 0xFCEA3B, "488bc8ba01000000"),
+    ("ingame_A_mutator_reads_prior_state", 0x9D57D7, "8b01"),
+    ("ingame_A_prior_state_one_branch", 0x9D5818, "83f8017512"),
+    ("ingame_A_helper_checks_state_one", 0x9D58C5, "833901"),
+    ("ingame_A_helper_checks_pointer_8_null", 0x9D58D1, "48837908007519"),
+    ("ingame_A_helper_writes_state_two", 0x9D58D8, "c70102000000"),
+)
+INGAME_A_STATE12_CALL_TARGETS = (
+    ("ingame_A_prior_state_getter", 0xFCEA2F, 0x4C4180),
+    ("ingame_A_mutator_target_getter", 0xFCEA36, 0x4C4180),
+    ("ingame_A_state_mutator", 0xFCEA43, 0x9D57D0),
+    ("ingame_A_state_one_helper", 0x9D5823, 0x9D58B0),
+)
+
 HOST_RIP_LEA_TARGETS = (
     ("host_constructor_vtable", 0x75BE84, "488d0d", SELECTOR_VTABLE_RVA),
     ("ingame_A_literal", 0xFCEF8F, "488d15", 0x26B5FD0),
@@ -121,7 +138,8 @@ def assert_bytes(read, rva: int, expected: bytes, label: str) -> None:
 
 def verify_source(read) -> dict:
     for label, rva, opcode in (OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES
-                               + HOST_STATE_OPCODES + INGAME_A_GUARD_OPCODES):
+                               + HOST_STATE_OPCODES + INGAME_A_GUARD_OPCODES
+                               + INGAME_A_STATE12_OPCODES):
         assert_bytes(read, rva, bytes.fromhex(opcode), label)
 
     vptr = read(VTABLE_RVA, 56)
@@ -158,7 +176,8 @@ def verify_source(read) -> dict:
         if target != expected_target:
             raise GateError(f"{label}: LEA targets 0x{target:X}, expected 0x{expected_target:X}")
     assert_bytes(read, 0x26B5FD0, b"InGame\x00", "InGame state-key literal")
-    for label, rva, expected_target in HOST_CALL_TARGETS + INGAME_A_GUARD_CALL_TARGETS:
+    for label, rva, expected_target in (HOST_CALL_TARGETS + INGAME_A_GUARD_CALL_TARGETS
+                                               + INGAME_A_STATE12_CALL_TARGETS):
         call = read(rva, 5)
         if call is None or call[0] != 0xE8:
             raise GateError(f"{label}: expected direct call at 0x{rva:X}")
@@ -190,6 +209,9 @@ def verify_source(read) -> dict:
         "checkedInGameAGuardOpcodes": len(INGAME_A_GUARD_OPCODES),
         "checkedInGameAGuardCallTargets": len(INGAME_A_GUARD_CALL_TARGETS),
         "inGameAGuardsSourcePinned": True,
+        "checkedInGameAState12Opcodes": len(INGAME_A_STATE12_OPCODES),
+        "checkedInGameAState12CallTargets": len(INGAME_A_STATE12_CALL_TARGETS),
+        "inGameAState12SourcePinned": True,
         "hostConstructionSourcePinned": True,
         "inGameTransitionsSourcePinned": True,
         "selectorSourcePinned": True,
