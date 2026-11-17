@@ -19,6 +19,14 @@
 6. **Historical all-checks limitation (not GREEN):** `rre_20261116_lab2_policy_full_reader_checks_0001` exited 1 after 173 earlier checks at `lab2-source-hash` because archived trial2 expected current helper bytes. The narrow historical test-pin fix reaches beyond this failure, but `rre_20261116_lab2_policy_full_reader_replay_green_0001` still exited **1** after the 173 earlier checks at `dependency-pin-changed` when a November 9 Python helper's `execution_hashes` inspected current installed legacy VMware/RR2 helper dependency hashes. This is obsolete host-dependency drift under physical-only policy; do **not** weaken/update those source pins or call VMware to make it pass. Preserve exact job output and historical evidence; active `--production-only` gate is green.
 7. **Generated test artifacts:** `artifacts/reader-checks-cf955e4d973c492db187b209b33e000a` and `artifacts/reader-checks-e97b28e4e1ee4ebbb0bf80020c2bea11` are this slice's synthetic failure-output directories, separately inventoried. Both were inventoried as generated flat fixture directories and removed by an explicit two-path PowerShell cleanup, job `rre_20261117_scoped_reader_fixture_gc_windowsps_0001` exit 0. Workbridge retains failure/output job receipts; no historical source artifacts or inherited untracked paths were touched.
 
+## 2026-11-17 ~00:10 EST — SC-629 physical readiness preflight (read-only)
+
+- **Fresh host/ownership:** named AMD-DESKTOP Workbridge 0.16.5-dev, project `C:\work\rre`, `main` HEAD `90ff66cbba890d300faf9cf606258c15bc195ca0`, tracked tree clean; nine inherited untracked backup/probe entries preserved. No Workbridge-coordinated worker tasks or active RRE command jobs at entry. One independent ChatGPT read-only SC-629 acceptance audit found no new actionable offline code defect.
+- **Source:** `addons/RRECollector/RiftAddon.toc` declares v0.4.21, SHA `1753b250e82ec0af68d5593b6534d0d8e09e351e112f4713e24bcbfe37620f59`; strict source package verifier job `rre_20261117_sc629_source_package_readiness_0001` exited **0**, 11 source files and strict manifest, no installed or runtime qualification.
+- **Installed physical-addon files (read-only):** canonical OneDrive `RIFT/Interface/AddOns/RRECollector/RiftAddon.toc` still declares **v0.4.20** (SHA `0721255c6967c6f94a2e0e0a9f6da29e10aa7156ee2610aea9f4e6a624e0fba0`, modified 2026-11-12 02:23 UTC). Exact SHA comparison of all 11 source/installed files: **3/11 match** (`abilities.lua`, `candidates.lua`, `ui.lua`); **8/11 differ** (`core.lua`, `context.lua`, `capabilities.lua`, `candidate_catalog.lua`, `wire.lua`, `main.lua`, `README.md`, `RiftAddon.toc`). Installed parity verifier job `rre_20261117_sc629_installed_parity_expected_red_0001` exited expected **1** at the first `core.lua` mismatch. This is a real deployment **readiness failure**, not a failed v0.4.21 source test.
+- **Physical character SavedVariables (read-only):** canonical OneDrive `RIFT/Interface/Saved/[account]/Deepwood/Atank/SavedVariables/RRECollector.lua` SHA `1c72fc3497914f03c42fadf35d21f0ad4caf87fbc89aed1da51b6be62aaad559`, modified 2026-11-17 05:08:15.983 UTC (00:08:15 EST). Root `addonVersion` and `latest.addonVersion` both **0.4.20**, `latest.sequence=2`, `latest.capabilities.experience=true` with three finite numeric fields. `memoryPublication.status=not-published`, `reason=addon-load`. These are persisted bytes, **not** proof of currently loaded UI, active game, full RREC2 publication, or current task ownership.
+- **Current acceptance stop:** SC-629 register still `pending` with `gameInputAuthorized=false`. Source v0.4.21 **must not be marked installed or loaded**. No copy/deployment, game process/window inventory, in-game input, UI reload, reader memory acquisition, process/debugger action or VMware access was performed. No source files changed. Current reader supports offline replay sources; the retired `lab2` live acquisition command is disabled. A future approved physical trial requires (1) exact host/build/process/owner and separate deployment authority; (2) 11/11 installed SHA parity and loaded v0.4.21 UI proof; (3) operator-authorized manual Capture; (4) an independently authorized physical-client **active RREC2** extraction route and complete session/sequence; (5) same-trial SavedVariables root/latest v0.4.21 and cross-source parity. The SavedVariables file by itself is insufficient.
+
 ## Next gates / recovery packet
 
 - **SC-629:** v0.4.21 collector remains source-only; physical installed/loaded RIFT, same-trial RREC2 and SavedVariables Experience receipts still need task-specific owner/host/process/build and separate approval. `gameInputAuthorized=false`.
@@ -42,4 +50,10 @@ checkpoint:
   physicalAcceptance: false
   gameInputAuthorized: false
   nextTask: SC-629
+  lastVerifiedHead: 90ff66cbba890d300faf9cf606258c15bc195ca0
+  sourceCollectorVersion: 0.4.21
+  installedCollectorVersion: 0.4.20
+  installedSourceHashParity: 3/11
+  savedCollectorVersion: 0.4.20
+  savedMemoryPublication: not-published
 ```
