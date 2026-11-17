@@ -80,9 +80,10 @@ class SourceGateTests(unittest.TestCase):
         self.assertEqual(report["checkedContextPredicateOpcodes"], 3)
         self.assertEqual(report["checkedContextPredicateCallTargets"], 1)
         self.assertTrue(report["contextPredicateSourcePinned"])
-        self.assertEqual(report["checkedStateManagerOpcodes"], 4)
-        self.assertEqual(report["checkedStateManagerCallTargets"], 1)
+        self.assertEqual(report["checkedStateManagerOpcodes"], 12)
+        self.assertEqual(report["checkedStateManagerCallTargets"], 2)
         self.assertTrue(report["stateManagerSourcePinned"])
+        self.assertTrue(report["stateThreeToZeroSourcePinned"])
 
     def test_all_opcode_mutations_fail(self):
         for _, rva, opcode in gate.OPCODES:

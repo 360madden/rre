@@ -105,9 +105,18 @@ INGAME_STATE_MANAGER_OPCODES = (
     ("state_zero_to_one_write", 0x9D5CAD, "48c70101000000"),
     ("state_one_to_two_alternative_write", 0x9D5C14, "c70702000000"),
     ("state_two_to_three_write", 0x9D5839, "48c70303000000"),
+    ("state_three_manager_guard", 0x9D5883, "83f803"),
+    ("state_three_manager_receiver", 0x9D5888, "488bcb"),
+    ("state_three_manager_postcall_zero", 0x9D5890, "833b00"),
+    ("state_three_manager_retry_nonzero", 0x9D5893, "75f3"),
+    ("state_three_helper_guard", 0x9D6FDE, "833903"),
+    ("state_three_helper_saved_receiver", 0x9D6FE1, "488bf9"),
+    ("state_three_helper_zero_esi", 0x9D76F9, "33f6"),
+    ("state_three_helper_state_zero_write", 0x9D77C4, "8937"),
 )
 INGAME_STATE_MANAGER_CALL_TARGETS = (
     ("state_zero_initialization_helper", 0x9D580E, 0x9D5C60),
+    ("state_three_cleanup_helper", 0x9D588B, 0x9D6FC0),
 )
 
 HOST_RIP_LEA_TARGETS = (
@@ -241,6 +250,7 @@ def verify_source(read) -> dict:
         "checkedStateManagerOpcodes": len(INGAME_STATE_MANAGER_OPCODES),
         "checkedStateManagerCallTargets": len(INGAME_STATE_MANAGER_CALL_TARGETS),
         "stateManagerSourcePinned": True,
+        "stateThreeToZeroSourcePinned": True,
         "hostConstructionSourcePinned": True,
         "inGameTransitionsSourcePinned": True,
         "selectorSourcePinned": True,
