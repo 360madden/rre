@@ -25,12 +25,15 @@ Exact old/new bytes for first OR `83481001` → `81481080000000`, first state MO
 
 P2 jobs exit 0: `rre-postpatch-p2-six-window-structure-venv-1117-1`, `rre-postpatch-p2-b-adapter-diff-1117-1`, `rre-postpatch-p2-operand-structural-diff-1117-1`, `rre-postpatch-p2-opcode-confirm-1117-1`; independent check `rre-child-bdiff-opcode-crosscheck-1117-1`, `rre-child-bdiff-branchcontext-1117-1` (exit 0).
 
+**Further bounded P1 provenance:** In both changed B branches, `0xFCAA30/0xFCAA6C` pass `&[rsp+0x58]` to helper `0x1C1AE90`; `0xFCAA3A/0xFCAA76` load RAX from that output. The helper releases prior slot, allocates **0xA0 bytes** through `0x126EB58`, invokes constructor `0x1C10390`, publishes object through the output slot and increments its refcount at +8. Constructor vptr RVA `0x2A293E8` initializes +8 reference count and **+0x10 flags to zero**, and initializes a 0x18-byte region beginning at **+0x18** from zero-filled template RVA `0x3116A68` through `0x2511EF9`. This supports these exact field accesses on a fresh 0xA0-byte state object, but does **not** establish its named type, flag `0x80` semantics or runtime effect. Jobs `rre-p1-flag80-context-disasm-1117-1`, `rre-p1-flag80-slotproducer-disasm-1117-1`, `rre-p1-flag80-a0-ctor-disasm-1117-1`, `rre-p1-flag80-state-template-1117-1`, exit 0.
+
 ## ROOT001 B: state registry key discovery and remaining selector gap
 
 - Exact RIP-relative LEA `0x778C29` bytes `48 8D 15 A0 D3 F3 01` resolves to RVA `0x26B5FD0`, exact ASCII `InGame\0` (`49 6E 47 61 6D 65 00`). The new-build constructor at `0x778C0E` creates B; `0x778C63` bytes `48 89 08` stores B to the keyed host+0x240 registry node+0x30. Previous registration at `0x778B9E` resolves to distinct `ConnectedToGame\0` RVA `0x26CE028`.
 - Generic map insertion `0x75AB30` hashes SSO string keys using FNV-1a 64-bit constants (basis at `0x75AB60`, prime at `0x75AB72`). Separate state setter `0x77DC50` copies an incoming SSO string into `host+0x1F8` via `0x4AE4B0` at `0x77DC71`. Selection at `0x776740`, bytes `ff90b8000000`, calls `host_vptr+0xB8` and stores its nonnull return to `host+0x218`; dispatcher then invokes selected virtual +0x18.
 - **Still not proven:** the concrete host +0xB8 method; whether the current state string equals `InGame`; whether it maps through the registry to the same B pointer and becomes the live selected receiver. Registration by name is not enough to accept identity.
 - Bounded jobs (exit 0): `rre-agent-selector-branches-1117-b`, `rre-agent-selector-caller-key-1117-a`, `rre-agent-selector-registry-keys-1117-a`, `rre-agent-selector-pdata-bound-1117-a`, `rre-agent-selector-keyupdate-disasm-1117-a`, `rre-agent-selector-key-raw-independent-1117-a`, `rre-agent-selector-init-callers-1117-a`.
+- Follow-up xref/constructor-boundary check identified `0x7781F0` as **adapter-registration routine**, called by `0x77244E` with the host pointer already passed from caller, not a host constructor. State setter `0x77DC50` writes the SSO state at host+0x1F8 and triggers reselection `0x776670` at `0x77DC98` when its guard allows. A targeted `.rdata` exact pointer scan found no direct entries for several investigated registration/selector helpers; **this is not evidence the host vtable is absent**. The concrete host +0xB8 implementation remains unresolved. Bounded jobs `rre-child-selector-impl-ctor-windows-1117-1`, `rre-child-selector-host-init-window-1117-1`, `rre-child-selector-host-vptr-rdata-xrefs-1117-1`, exit 0.
 
 ## WA-006: source structure and owner-negative refinement
 
@@ -59,7 +62,7 @@ Do not upgrade SOURCE_PINNED results to runtime acceptance.
 ## Next bounded work
 
 1. **P0 ROOT001 selector:** resolve host virtual `+0xB8` concrete implementation and prove which keyed registry entry is selected. Acceptance: exact source-to-selection object identity or a documented gap, independent second-method verification; offline/coordinator authorized.
-2. **P1 B state delta:** trace type/provenance of RAX and other consumers of `0x80` flag; acceptance: source-hashed field/bit interpretation or explicit unknown. Offline/coordinator authorized.
+2. **P1 B state delta:** RAX's 0xA0-byte allocation provenance is now traced; resolve constructor vtable `0x2A293E8` and other consumers of `0x80`. Acceptance: named type and flag meaning or explicitly scoped unknown. Offline/coordinator authorized.
 3. **P1 WA006 owner:** find true same-instance `wrapper+8` nonzero writer, not adjacent-vtable or adapter writes; acceptance: exact writer + allocation lineage or bounded negative. Offline/coordinator authorized.
 4. **P2 future guard:** B state anchors are now guarded; consider analogous exact WA006 constructor-tag regression only if useful after source/semantic interpretation. Acceptance: real-pass, deliberate mutation-fail tests without guessing gameplay semantics. Offline/coordinator authorized.
 
