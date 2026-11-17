@@ -401,9 +401,11 @@ export function preflightG2Sources(luaInput, nativeInput, receipt) {
           continue;
         }
         candidateKeyJoins++;
-        // Overall observation overlap cannot substitute for each matched native row.
-        if (luaEnd <= utc100ns(native.startedAtUtc) ||
-            utc100ns(native.completedAtUtc) <= luaStart)
+        // A same-tick row is allowed by the source contract, but cannot provide
+        // positive time overlap as a joined cross-source witness.
+        const nativeStart = utc100ns(native.startedAtUtc);
+        const nativeEnd = utc100ns(native.completedAtUtc);
+        if (nativeEnd <= nativeStart || luaEnd <= nativeStart || nativeEnd <= luaStart)
           fail('disjoint-nonself-row-UTC');
         const delta = Math.max(...AXES.map((axis, i) =>
           Math.abs(row.xyz[i] - native.positionCandidate[axis])));

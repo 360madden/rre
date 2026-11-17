@@ -182,6 +182,16 @@ check('each-joined-row-100ns-UTC-overlap-candidate-only', x => {
   x.receipt.lua.startedAtUtc=time('01.0110000');
   x.receipt.lua.completedAtUtc=time('01.0200002');
 }, true);
+// A same-tick native row is valid as a source observation but has zero positive
+// overlap with Lua; it cannot serve as one of the two cross-source witnesses.
+check('first-joined-native-row-zero-duration', x => {
+  const row=x.native.observation.rows[0];
+  row.completedAtUtc=row.startedAtUtc;
+}, false,'disjoint-nonself-row-UTC','invalid-native-unit-positions-contract');
+check('second-joined-native-row-zero-duration', x => {
+  const row=x.native.observation.rows[1];
+  row.completedAtUtc=row.startedAtUtc;
+}, false,'disjoint-nonself-row-UTC','invalid-native-unit-positions-contract');
 check('native-joined-rows-after-Lua-execution', x => {
   x.receipt.lua.completedAtUtc=time('01.0050000');
 }, false,'disjoint-nonself-row-UTC');
