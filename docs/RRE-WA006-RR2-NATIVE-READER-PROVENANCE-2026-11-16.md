@@ -29,7 +29,7 @@ A bounded original-file comparison checked document-row SHA-256 blobs against th
 | `RiftReader2.Live.pdb` | 107 | 106 | **106** | **0** |
 | `RiftReader2.Infrastructure.pdb` | 28 | 28 | **28** | **0** |
 
-The one unexamined Live document row is **not counted as a pass**, and the result is not a universal claim about every application component. The Infrastructure DLL's own RSDS GUID also independently matches its PDB (`f63dbe7c-ac59-43c9-8347-572aa9e295a9`).
+The sole unexamined Live document is **row 107 (one-based)**: compiler-generated `System.Text.RegularExpressions.Generator.RegexGenerator.g.cs` under `src\RiftReader2.Live\obj\Debug\net10.0-windows\win-x64\System.Text.RegularExpressions.Generator\System.Text.RegularExpressions.Generator.RegexGenerator\`. Its generated file is **absent from the current filesystem**, so its source checksum cannot be reverified, not because a checked hash mismatched. Independent bounded receipt `rre_wa006_pdb_unexamined_20261116_01` exit 0 (~0.3 s). This unverified generated file is not among the native reader's matching source files; the result is not a universal claim about every application component. The Infrastructure DLL's own RSDS GUID also independently matches its PDB (`f63dbe7c-ac59-43c9-8347-572aa9e295a9`).
 
 An independent read-only reviewer used a **separate Python standard-library ECMA metadata parser** to check `#~` Document rows, `#Blob` hash contents, `#GUID` hash-algorithm identities, and actual SHA-256 of two critical source files:
 

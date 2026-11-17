@@ -33,13 +33,28 @@ The canonical source is [`tools/agents/collision/wa006_g2_one_shot.lua`](../tool
 
 The offline mock harness is [`tools/agents/collision/test_wa006_g2_one_shot.mjs`](../tools/agents/collision/test_wa006_g2_one_shot.mjs). Using the already-installed, SHA-pinned Windows Lua 5.3 interpreter (not a RIFT Lua 5.1 runtime), job `rre_wa006_g2_mock_10cases_20261116_01` exited 0 with **10/10** scenarios, including invalid IDs/coordinates, API errors, 128/8 caps, missing `Detail.id` and explicit `Detail.id` mismatch rejection. `rre_wa006_g2_roadmap_10cases_20261116_01` also passed (47 tasks, 11 milestones, zero failures). Lua 5.1 runtime compatibility remains untested.
 
-**LuaPad integration (offline source proof):** Installed OneDrive LuaPadModern `v2.0.0-preview22` has a 31,498-byte `main.lua` byte-matching the repo source. Its Run action captures `print()` but ignores the chunk's return value; our probe explicitly calls `print(report)`. Copy Output copies the currently retained `lastOutput`, which `LuaPad.print` caps to the last 12,000 bytes. Our bounded output is expected to fit but **complete actual live copy and loaded-version proof are not yet verified**. Validate BEGIN, END, counters, no truncation notice and host SHA/time once a game owner approves a test window.
+**LuaPad integration (offline source proof):** Installed OneDrive LuaPadModern `v2.0.0-preview22` has a 31,498-byte `main.lua` byte-matching the repo source. Its Run action captures `print()` but ignores the chunk's return value; our probe explicitly calls `print(report)`. Copy Output copies the currently retained `lastOutput`, which `LuaPad.print` caps to the last 12,000 bytes. The offline source-derived **worst-case canonical packet is 10,284 bytes**, leaving **1,716 bytes** under the 12,000-byte retained-history cap (see detailed bound below). **Complete actual live copy and loaded-version proof are not yet verified**. Validate BEGIN, END, counters, no truncation notice and host SHA/time once a game owner approves a test window.
 
 **Offline transcript gate:** The dedicated parser [`verify_wa006_g2_packet.mjs`](../tools/agents/collision/verify_wa006_g2_packet.mjs) parses a copied report, computes its raw-byte SHA-256, checks complete BEGIN/END, strict counts, two distinct ID-bound finite XYZ rows, clocks, errors, enumeration caps and LuaPad's 12,000-byte tail limit; it returns `packetStructurallyReady` separately from **always-false** `nativeCorrelationDone` and `wa006Accepted`. Invoke as `node tools/agents/collision/verify_wa006_g2_packet.mjs <copied-report.txt>` from the RRE root. [`test_verify_wa006_g2_packet.mjs`](../tools/agents/collision/test_verify_wa006_g2_packet.mjs) job `rre_wa006_g2_packet_validator_24cases_20261116_01` passed **24/24** offline cases. A fabricated transcript can pass these structural checks; source/PID/time and independent native correlation remain mandatory. Installed PUC-Rio `luac32.exe -p` also accepted Lua syntax (Lua 5.3), but no actual Lua 5.1 interpreter was found in the bounded path inventory.
 
+## ~20:32 EST — exact LuaPad copy-output byte budget (independent offline QA)
+
+An independent AMD-DESKTOP reviewer checked original `LuaPadModern/main.lua` Run/Clear, `LuaPad.print` append/tail, Copy Output, and the canonical one-shot source's ID, specifier and finite-coordinate formatting. The probe prints a single report; at most eight `ROW` lines; unit IDs are 17 ASCII bytes; specifiers capped at 80 **bytes**; each finite coordinate uses `%.6f`. Under these actual source bounds:
+
+| Packet component | Calculated maximum bytes |
+|---|---:|
+| `BEGIN` | 687 |
+| 8 × `ROW` (1,105 bytes each) | 8,840 |
+| `END` | 748 |
+| 9 newline separators | 9 |
+| **Total** | **10,284** |
+| **Below 12,000-byte retained output cap** | **1,716** |
+
+LuaPad clears its output before Run and its Copy Output retrieves `lastOutput`, not the visually rendered preview; its 12,100-byte/300-newline *render* bound is distinct. The structural verifier rejects copied bytes >=12,000 and missing `BEGIN/END`. **No fragmentation or packet size-reduction code is justified**. The bound assumes finite ordinary Lua IEEE-754 values and a successful canonical one-shot; unrelated diagnostics/errors are a different output that must fail the validator unless separately validated. It is **not a live RIFT execution proof**. Three read-only bounded source checks; no file/game/UI mutation.
+
 ## Exact next micro-slices (ranked)
 
-1. **Offline QA:** parse/mock the Lua 5.1 candidate, test failure, nil, malicious-looking ID/specifier, 128-entry and eight-Detail caps, and full-output bounds. Verify installed LuaPadModern has a complete copyable output path, read-only first. Do not claim a successful RIFT API invocation yet.
+1. **Offline QA largely complete:** Lua 5.3 mock 10/10, packet structural negatives 24/24, installed LuaPad source copy path and 10,284-byte worst-case bound are verified. A true RIFT Lua 5.1 execution and actual loaded LuaPad version are **not** verified; no successful live RIFT API invocation may be claimed.
 2. **Physical observation only after owner coordination:** independently verify AMD-DESKTOP, current RIFT PID/start/window/executable SHA and actual playable scene plus current LuaPad loaded/version and an exclusive game-control window. One scripted `Inspect.Unit.List` invocation with no movement/click targeting and a complete source-hashed output/UTC bracket; abort on missing APIs, truncated output, mismatched build or ownership uncertainty.
 3. **Native correlation:** obtain bounded RR2 native `unit-positions` before/after through its owner. Compare **two genuine distinct nonself API IDs** and independently sourced XYZ to native decimal keys on one process epoch, with predeclared tolerance, scene proof and negative controls. Treat missing identity/clock/calibration as UNKNOWN. No G2 or ROOT-001 acceptance by assumption.
 
