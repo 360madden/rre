@@ -23,7 +23,8 @@ class SourceGateTests(unittest.TestCase):
         self.prefix = bytes([0x90]) * (gate.PREFIX_END_RVA - gate.EXPECTED_B_ENTRY)
         self.windows = {
             (rva, len(bytes.fromhex(opcode))): bytes.fromhex(opcode)
-            for _, rva, opcode in gate.OPCODES + gate.STATE_DELTA_OPCODES + gate.SELECTOR_OPCODES + gate.HOST_STATE_OPCODES
+            for _, rva, opcode in (gate.OPCODES + gate.STATE_DELTA_OPCODES + gate.SELECTOR_OPCODES
+                                   + gate.HOST_STATE_OPCODES + gate.INGAME_A_GUARD_OPCODES)
         }
         self.windows[(gate.VTABLE_RVA, 56)] = bytes(self.vptr)
         self.windows[(gate.EXPECTED_B_ENTRY, len(self.prefix))] = self.prefix
@@ -44,6 +45,8 @@ class SourceGateTests(unittest.TestCase):
         self.windows[(0xFCEFFE, 5)] = bytes.fromhex("e84dec7aff")
         self.windows[(0xFCF5C2, 5)] = bytes.fromhex("e8c96e79ff")
         self.windows[(0xFCF5CF, 5)] = bytes.fromhex("e87ce67aff")
+        for _, rva, target in gate.INGAME_A_GUARD_CALL_TARGETS:
+            self.windows[(rva, 5)] = b"\xe8" + struct.pack("<i", target - (rva + 5))
 
     def verify(self):
         with patch.object(gate, "EXPECTED_VPTR_SHA", hashlib.sha256(self.windows[(gate.VTABLE_RVA, 56)]).hexdigest()), \
@@ -65,6 +68,9 @@ class SourceGateTests(unittest.TestCase):
         self.assertEqual(report["checkedHostCallTargets"], 4)
         self.assertTrue(report["hostConstructionSourcePinned"])
         self.assertTrue(report["inGameTransitionsSourcePinned"])
+        self.assertEqual(report["checkedInGameAGuardOpcodes"], 12)
+        self.assertEqual(report["checkedInGameAGuardCallTargets"], 5)
+        self.assertTrue(report["inGameAGuardsSourcePinned"])
 
     def test_all_opcode_mutations_fail(self):
         for _, rva, opcode in gate.OPCODES:
@@ -120,6 +126,28 @@ class SourceGateTests(unittest.TestCase):
             with self.subTest(anchor=label), self.assertRaisesRegex(gate.GateError, "direct call targets"):
                 self.verify()
             self.windows[key] = original
+
+    def test_ingame_A_guard_operand_or_branch_mutations_fail(self):
+        for label, rva, opcode in gate.INGAME_A_GUARD_OPCODES:
+            key = (rva, len(bytes.fromhex(opcode)))
+            original = self.windows[key]
+            self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
+            try:
+                with self.subTest(anchor=label), self.assertRaises(gate.GateError):
+                    self.verify()
+            finally:
+                self.windows[key] = original
+
+    def test_ingame_A_guard_call_target_mutations_fail(self):
+        for label, rva, _ in gate.INGAME_A_GUARD_CALL_TARGETS:
+            key = (rva, 5)
+            original = self.windows[key]
+            self.windows[key] = original[:1] + bytes([original[1] ^ 1]) + original[2:]
+            try:
+                with self.subTest(anchor=label), self.assertRaisesRegex(gate.GateError, "direct call targets"):
+                    self.verify()
+            finally:
+                self.windows[key] = original
 
     def test_ingame_literal_mutation_fails(self):
         key = (0x26B5FD0, 7)

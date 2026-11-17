@@ -49,6 +49,30 @@ HOST_STATE_OPCODES = (
     ("ingame_B_getter_result_RCX", 0xFCF5C7, "488bc8"),
     ("ingame_B_local_SSO_RDX", 0xFCF5CA, "488d542430"),
 )
+# Path A InGame guard control-flow anchors in SHA-pinned archived source.
+# These pin observed native predicates/branches, not their gameplay meaning.
+INGAME_A_GUARD_OPCODES = (
+    ("ingame_A_entry_context_RSI", 0xFCE941, "488bf1"),
+    ("ingame_A_entry_host_R13", 0xFCE944, "4c8bea"),
+    ("ingame_A_r14_initial_zero", 0xFCEE87, "4532f6"),
+    ("ingame_A_r15_reloaded", 0xFCEE9E, "4c8b7dd7"),
+    ("ingame_A_r14_conditional_true", 0xFCEEED, "41b601"),
+    ("ingame_A_r14_bypass_or_fallback", 0xFCEF24, "4584f67516"),
+    ("ingame_A_r15_must_be_zero_in_fallback", 0xFCEF29, "4585ff0f8522010000"),
+    ("ingame_A_fallback_predicate_required", 0xFCEF37, "84c00f8415010000"),
+    ("ingame_A_state_value_two_required", 0xFCEF44, "8338020f8507010000"),
+    ("ingame_A_context_field_48_and_null", 0xFCEF4D, "488b4e484885c9"),
+    ("ingame_A_null_context_skips_predicate", 0xFCEF54, "740d"),
+    ("ingame_A_context_predicate_required", 0xFCEF5B, "84c00f84f1000000"),
+)
+INGAME_A_GUARD_CALL_TARGETS = (
+    ("ingame_A_r15_provider", 0xFCEA55, 0x1593510),
+    ("ingame_A_r15_value", 0xFCEA5D, 0x1593070),
+    ("ingame_A_fallback_predicate", 0xFCEF32, 0xFA3940),
+    ("ingame_A_state_value_provider", 0xFCEF3F, 0x4C4180),
+    ("ingame_A_context_predicate", 0xFCEF56, 0x81BFF0),
+)
+
 HOST_RIP_LEA_TARGETS = (
     ("host_constructor_vtable", 0x75BE84, "488d0d", SELECTOR_VTABLE_RVA),
     ("ingame_A_literal", 0xFCEF8F, "488d15", 0x26B5FD0),
@@ -96,7 +120,8 @@ def assert_bytes(read, rva: int, expected: bytes, label: str) -> None:
 
 
 def verify_source(read) -> dict:
-    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES + HOST_STATE_OPCODES:
+    for label, rva, opcode in (OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES
+                               + HOST_STATE_OPCODES + INGAME_A_GUARD_OPCODES):
         assert_bytes(read, rva, bytes.fromhex(opcode), label)
 
     vptr = read(VTABLE_RVA, 56)
@@ -133,7 +158,7 @@ def verify_source(read) -> dict:
         if target != expected_target:
             raise GateError(f"{label}: LEA targets 0x{target:X}, expected 0x{expected_target:X}")
     assert_bytes(read, 0x26B5FD0, b"InGame\x00", "InGame state-key literal")
-    for label, rva, expected_target in HOST_CALL_TARGETS:
+    for label, rva, expected_target in HOST_CALL_TARGETS + INGAME_A_GUARD_CALL_TARGETS:
         call = read(rva, 5)
         if call is None or call[0] != 0xE8:
             raise GateError(f"{label}: expected direct call at 0x{rva:X}")
@@ -162,6 +187,9 @@ def verify_source(read) -> dict:
         "checkedHostStateOpcodes": len(HOST_STATE_OPCODES),
         "checkedHostLeaTargets": len(HOST_RIP_LEA_TARGETS),
         "checkedHostCallTargets": len(HOST_CALL_TARGETS),
+        "checkedInGameAGuardOpcodes": len(INGAME_A_GUARD_OPCODES),
+        "checkedInGameAGuardCallTargets": len(INGAME_A_GUARD_CALL_TARGETS),
+        "inGameAGuardsSourcePinned": True,
         "hostConstructionSourcePinned": True,
         "inGameTransitionsSourcePinned": True,
         "selectorSourcePinned": True,
