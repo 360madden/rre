@@ -72,6 +72,40 @@ def unpack(path):
                 payloadSha256=hashlib.sha256(payload).hexdigest(), payloadBytes=len(payload), luaChecks=int(marker[1]))
 
 
+def simulated_native_pair(frames):
+    """Data-only F414-shaped replay fixture; never opens a process or runs the native tool."""
+    assert 1 <= len(frames) <= 16
+    target = dict(processId=123, processStartUtcTicks=639296711399704025,
+                  executableSha256='A' * 64)
+    ranges, chunks = [], []
+    for i, frame in enumerate(frames):
+        raw_frame = frame.encode('ascii')
+        assert len(raw_frame) <= 8192
+        start = 0x10000 + i * 0x10000
+        ranges.append(dict(addressKind='absolute-session-address', address=f'0x{start:X}', byteLength=8192))
+        padded = raw_frame.ljust(8192, bytes(1))
+        for half in range(2):
+            raw = padded[half * 4096:(half + 1) * 4096]
+            chunks.append(dict(address=f'0x{start + half * 4096:X}', requestedByteLength=4096,
+                               status='success', bytesRead=4096, bytesBase64=base64.b64encode(raw).decode('ascii'),
+                               bytesSha256=hashlib.sha256(raw).hexdigest(), win32ErrorCode=None, reason=None))
+    request = dict(schemaVersion=1, evidenceKind='native-memory-snapshot-request/1', target=target,
+                   maxDurationMilliseconds=5000, ranges=ranges)
+    request_bytes = json.dumps(request, separators=(',', ':')).encode('utf-8')
+    identity = dict(target, executablePath='C:/fixture.exe', moduleBaseAddress=0x140000000, moduleSize=4096)
+    snapshot = dict(schemaVersion=1, evidenceKind='native-memory-snapshot/1',
+                    source=dict(requestEvidenceKind='native-memory-snapshot-request/1',
+                                requestSha256=hashlib.sha256(request_bytes).hexdigest(),
+                                requestSha256Verification='producer-declared',
+                                implementation=dict(toolVersion='0.1.0.0', deploymentKind='single-file-bundle',
+                                    assemblySha256=None, bundleFileName='RiftReader2.Live.exe',
+                                    bundleSha256='F4148B838AF694EF95FD46DE76859CE9DF55194A9FE8BE1DF74FC2F8F0BCE80F')),
+                    identity=identity, startedAtUtc='2026-11-07T18:00:00Z',
+                    completedAtUtc='2026-11-07T18:00:00.001Z', status='complete',
+                    reason=None, chunks=chunks, limitations=[])
+    return request_bytes, json.dumps(snapshot, separators=(',', ':')).encode('utf-8')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', required=True, type=Path)
@@ -118,9 +152,18 @@ def main():
     record = dict(exported['context'], addonVersion=version, sequence=exported['sequence'],
                   captureComplete=True, abilityList=exported['counts'], abilities=exported['abilities'])
     if version in EXPERIENCE_CAPABLE_VERSIONS:
-        # Retagged historical .13 data is a synthetic fixture, not a new
-        # Experience API observation. Do not invent archived values.
-        record['capabilities'] = dict(record['capabilities'], experience=False)
+        # Preserve real finite Experience values in an already-capable saved
+        # source. Pre-Experience sources gain only a false capability flag.
+        # Retagging to today's version stays an OFFLINE fixture, not new API data.
+        source_has_experience_contract = exported['addonVersion'] in EXPERIENCE_CAPABLE_VERSIONS
+        original_capability = exported['context']['capabilities'].get('experience')
+        if source_has_experience_contract:
+            assert type(original_capability) is bool, 'historical Experience capability missing'
+            assert (original_capability is True) == isinstance(exported['context'].get('experience'), dict), 'historical Experience contradiction'
+        else:
+            assert original_capability is None and 'experience' not in exported['context'], 'pre-Experience source contains Experience'
+        record['capabilities'] = dict(record['capabilities'],
+                                      experience=original_capability if source_has_experience_contract else False)
     historical = out / 'historical.frames.txt'
     script = out / 'historical-fixture.lua'
     script.write_text('dofile(' + literal(str(ROOT / 'addons/RRECollector/core.lua')) + ')\n'
@@ -153,7 +196,8 @@ def main():
             # documented empty-table ambiguity, retaining every actual value.
             expected_context = {k: ({} if v == [] else v) for k, v in exported['context'].items()}
             if version in EXPERIENCE_CAPABLE_VERSIONS:
-                expected_context['capabilities'] = dict(expected_context['capabilities'],experience=False)
+                expected_context['capabilities'] = dict(expected_context['capabilities'],
+                    experience=record['capabilities']['experience'])
             assert result['document']['context'] == expected_context and result['document']['counts'] == exported['counts']
         else:
             row = result['document']['abilities'][0]
@@ -164,9 +208,57 @@ def main():
             if version in EXPERIENCE_CAPABLE_VERSIONS:
                 assert result['document']['context']['capabilities']['experience'] is True
                 assert result['document']['context']['experience'] == {'accumulated': 0, 'needed': 5000, 'rested': 0}
+        # Exercise the exact Lua-emitted frames through the file-only native adapter.
+        # The request, process identity and F414 bundle declaration are SYNTHETIC,
+        # not evidence that an F414 process reader or live RIFT capture ran.
+        native_request_bytes, native_snapshot_bytes = simulated_native_pair(result['frames'])
+        native_request = out / f'{label}.simulated-native.request.json'
+        native_snapshot = out / f'{label}.simulated-native.snapshot.json'
+        native_output = out / f'{label}.simulated-native.reader.json'
+        native_request.write_bytes(native_request_bytes)
+        native_snapshot.write_bytes(native_snapshot_bytes)
+        run(['dotnet', args.reader, 'capture', '--source', 'native-snapshot',
+             '--input', native_snapshot, '--request', native_request,
+             '--session', result['session'], '--sequence', result['sequence'],
+             '--output', native_output])
+        native_decoded = json.loads(native_output.read_text(encoding='utf-8'))
+        assert native_decoded['modules']['abilities']['records'] == decoded['modules']['abilities']['records']
+        assert native_decoded['modules']['context']['value'] == decoded['modules']['context']['value']
+        assert native_decoded['source']['counts'] == decoded['source']['counts']
+        assert native_decoded['source']['payloadSha256'] == decoded['source']['payloadSha256']
+        assert native_decoded['source']['producerVersion'] == version
+        assert not native_decoded['qualification']['fixture']
+        assert all(native_decoded['qualification'][k] is False for k in
+                   ['live', 'freshnessVerified', 'processBuildVerified', 'atomicSnapshotVerified',
+                    'restartQualified', 'runtimeProducerVerified', 'sourceAuthenticityVerified'])
+        stale = subprocess.run(['dotnet', str(args.reader), 'validate', '--source', 'native-snapshot',
+                               '--input', str(native_snapshot), '--request', str(native_request),
+                               '--session', result['session'], '--sequence', str(result['sequence'] + 1)],
+                              cwd=ROOT, stdin=subprocess.DEVNULL, capture_output=True, timeout=30,
+                              creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+        assert stale.returncode == 2 and b'production-frame-prefix' in stale.stderr, 'native stale sequence accepted'
+        missing_part_rejected = False
+        if len(result['frames']) > 1:
+            missing_request_bytes, missing_snapshot_bytes = simulated_native_pair(result['frames'][:-1])
+            missing_request = out / f'{label}.missing-part.request.json'
+            missing_snapshot = out / f'{label}.missing-part.snapshot.json'
+            missing_request.write_bytes(missing_request_bytes)
+            missing_snapshot.write_bytes(missing_snapshot_bytes)
+            missing = subprocess.run(['dotnet', str(args.reader), 'validate', '--source', 'native-snapshot',
+                                      '--input', str(missing_snapshot), '--request', str(missing_request),
+                                      '--session', result['session'], '--sequence', str(result['sequence'])],
+                                     cwd=ROOT, stdin=subprocess.DEVNULL, capture_output=True, timeout=30,
+                                     creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+            missing_part_rejected = missing.returncode == 2 and b'production-' in missing.stderr
+            assert missing_part_rejected, 'native missing part accepted'
+        native_receipt = dict(simulatedNativeArtifact=True, nativeToolExecuted=False,
+            nativeRequestSha256=sha(native_request), nativeSnapshotSha256=sha(native_snapshot),
+            nativeOutputSha256=sha(native_output), staleSequenceRejected=True,
+            missingPartRejected=missing_part_rejected)
         receipts.append(dict(case=label, session=result['session'], sequence=result['sequence'], parts=len(result['frames']),
             payloadBytes=result['payloadBytes'], payloadSha256=result['payloadSha256'], luaChecks=result['luaChecks'],
-            artifactSha256=sha(artifact), outputSha256=sha(output), abilities=len(result['document']['abilities'])))
+            artifactSha256=sha(artifact), outputSha256=sha(output), abilities=len(result['document']['abilities']),
+            nativeReplay=native_receipt))
     assert before == {str(p): sha(p) for p in paths}, 'source drift'
     assert runtime_before == runtime_hashes(), 'runtime drift'
     receipt = dict(status='passed', runtime=args.lua_runtime, runtimeHashes=runtime_before, sourceHashes=before, cases=receipts,
