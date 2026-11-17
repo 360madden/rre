@@ -1,5 +1,11 @@
 # RC-79 — quest objectives and map-location input for automation
 
+## Current-source offline requalification — November 16, 2026, AMD-DESKTOP
+
+- The original `tools/agents/quest_journal/verify_quest_capture.lua` was **executed** against the real v0.4.21 `core.lua` and `capabilities.lua` with pinned native Windows Lua 5.1.4, job `rre_20261116_quest_real_source_lua51_2330_002`: **72/72 assertions, exit 0**. The prior statement below that Lua was unavailable describes the November 11 historical milestone only.
+- The current quest JSON exporter passed **38/38**, job `rre_20261116_quest_export_test_2330_002`, exit 0. Independent source review confirmed `capabilities.lua` exports `runtime.quests.capture` before `main.lua` invokes it; no missing module or production code fix is required.
+- All API returns are synthetic; no physical RIFT journal, map-indicator shape, installed v0.4.21 addon, UI, SavedVariables flush, or live objective location was verified. RC-88 remains user-stopped; this is an isolated regression requalification, not a deployment or restart of that workstream.
+
 **November 11, 2026, LEGION. Source implementation and focused offline checks complete; Lua execution and physical-client validation pending.** RRECollector v0.4.20 adds manual `/rre quests` and an offline JSON exporter. It provides quest goals for later automation; it does not accept, complete, turn in or travel to a quest.
 
 ## Result and use

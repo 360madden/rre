@@ -2070,10 +2070,10 @@
         "readerBuildJob": "rre_20261116_sc629_current_reader_build_001",
         "fullModuleStartup": {
           "fixture": "tools/verify-rrecollector-full-module-startup.lua",
-          "fixtureSha256": "f228c6a5fc23a765411b6c98f62ff9b372ffd8d3c4a180734175c63a13b2206d",
+          "fixtureSha256": "03d114ca1ba55c9d3286c1a03fbc5de47a23c779fb6851298349bc0953c270a3",
           "runtime": "pinned-native-Windows-Lua-5.1.4",
-          "job": "rre_20261116_fullstartup_hardened_green_2326_001",
-          "checksPassed": 16,
+          "job": "rre_20261116_profession_fullsource_final_2342_001",
+          "checksPassed": 27,
           "nineRealSourceModules": true,
           "mockOnly": true,
           "liveAcceptance": false

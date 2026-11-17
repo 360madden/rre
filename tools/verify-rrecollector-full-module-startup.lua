@@ -1,4 +1,4 @@
--- RRECollector v0.4.21 exact-source, nine-module offline startup/capture smoke.
+-- RRECollector v0.4.21 exact-source, nine-module offline startup/capture/profession smoke.
 -- Run from the repository root with the pinned native Windows Lua 5.1.4 runtime.
 -- TOC order is independently enforced by verify-rrecollector-package.mjs.
 -- ALL RIFT APIs here are synthetic; no game, installed addon, or live UI proof.
@@ -6,6 +6,14 @@ local checks, events, eventTokens, lines = 0, {}, {}, {}
 local slashEvent = {}
 local listCalls, detailBatchCalls, detailScalarCalls = 0, 0, 0
 local abilityId = "A0000000000000001"
+-- All documentation responses below are synthetic; only the real producer runs.
+local professionMode, professionIndexCalls, professionCalls = "normal", 0, {}
+local professionIndex = {
+  ["Inspect.Craft.List"] = true, ["Inspect.Fishing.Detail"] = true,
+  ["Event.Profession.Updated"] = true, ["Inspect.Ability.New.List"] = true,
+  ["Other.Craft.List"] = true,
+}
+local oversizedProfessionIndex
 local function check(label, condition)
   checks = checks + 1
   assert(condition, "FAIL full startup: " .. label)
@@ -51,6 +59,27 @@ Inspect = {
   Role = {List = function() return {} end},
   Stat = function() return {} end,
   Experience = function() return {} end,
+  -- Candidate functions deliberately throw if called: only type inspection is safe.
+  Craft = {List = function() error("crafting API must not be called") end},
+  Fishing = {Detail = function() error("fishing API must not be called") end},
+  Documentation = function(name)
+    if name == nil then
+      professionIndexCalls = professionIndexCalls + 1
+      if professionMode == "index-error" then error("synthetic documentation index failure") end
+      if professionMode == "oversize" then
+        if not oversizedProfessionIndex then
+          oversizedProfessionIndex = {}
+          for i = 1, 2050 do oversizedProfessionIndex["Inspect.Craft.Mock" .. i] = true end
+        end
+        return oversizedProfessionIndex
+      end
+      return professionIndex
+    end
+    professionCalls[#professionCalls + 1] = name
+    if name == "Inspect.Craft.List" then return string.rep("D", 700) end
+    if name == "Inspect.Fishing.Detail" then error("synthetic description failure") end
+    return nil
+  end,
   Ability = {New = {
     List = function()
       listCalls = listCalls + 1
@@ -103,6 +132,11 @@ check("event-driven retries attached to exact events",
 runtime.command("capture")
 check("capture gated before saved-data load",
   RRECollectorData.latest == nil and listCalls == 0)
+runtime.command("professions")
+check("professions gated before saved-data load",
+  RRECollectorData.professionProbe == nil
+  and RRECollectorData.professionProbeSequence == nil
+  and professionIndexCalls == 0 and #professionCalls == 0)
 events["RRECollector.SavedVariables"](nil, "OtherAddon")
 check("foreign saved event ignored",
   RRECollectorData.addonVersion == nil and RRECollectorData.schemaVersion == nil)
@@ -143,6 +177,111 @@ if validFrames then
   end
 end
 check("all announced RREC2 frames have valid delimiters", validFrames)
+
+-- Exercise the real profession collector and slash path without game API effects.
+local priorLatest, priorPublication, priorSequence =
+  RRECollectorData.latest, RRECollectorData.memoryPublication, RRECollectorData.sequence
+-- A nonnil preexisting receipt is essential: checking nil would be false-ready.
+local priorGeneralProbe = {sentinel = "preserved-general-probe"}
+local priorCandidateLookup = {sentinel = "preserved-candidate-lookup"}
+RRECollectorData.probe = priorGeneralProbe
+RRECollectorData.candidateLookup = priorCandidateLookup
+events["RRECollector.Slash"](nil, "professions")
+local profession = RRECollectorData.professionProbe
+check("real profession slash publishes separately sequenced report",
+  type(profession) == "table" and profession.sequence == 1
+  and RRECollectorData.professionProbeSequence == 1
+  and profession.addonVersion == "0.4.21" and profession.player.calling == "rogue")
+check("profession index filters and sorts only supported API names",
+  profession.documentationStatus == "index-available"
+  and profession.index.scanned == 5 and profession.index.matched == 3
+  and profession.index.retained == 3 and profession.index.ignored == 2
+  and profession.index.names[1] == "Event.Profession.Updated"
+  and profession.index.names[2] == "Inspect.Craft.List"
+  and profession.index.names[3] == "Inspect.Fishing.Detail")
+local professionPathCount = 0
+for _ in pairs(profession.pathTypes) do professionPathCount = professionPathCount + 1 end
+local allowedProfessionPaths = {}
+for _, stem in ipairs({
+  "Craft", "Crafting", "Profession", "Tradeskill", "TradeSkill",
+  "Recipe", "Fishing", "Survival", "Skill",
+}) do
+  for _, suffix in ipairs({"List", "Detail"}) do
+    allowedProfessionPaths["Inspect." .. stem .. "." .. suffix] = true
+  end
+end
+local exactDocumentationCalls, seenDocumentationNames = true, {}
+for _, name in ipairs(professionCalls) do
+  if not allowedProfessionPaths[name] or seenDocumentationNames[name] then
+    exactDocumentationCalls = false
+  end
+  seenDocumentationNames[name] = true
+end
+for name in pairs(allowedProfessionPaths) do
+  if not seenDocumentationNames[name] or profession.pathTypes[name] == nil then
+    exactDocumentationCalls = false
+  end
+end
+check("profession inspects 18 exact path types without invoking them",
+  professionPathCount == 18
+  and profession.pathTypes["Inspect.Craft.List"] == "function"
+  and profession.pathTypes["Inspect.Fishing.Detail"] == "function"
+  and profession.pathTypes["Inspect.Profession.List"] == "nil")
+check("profession documentation uses only the 18 exact allowlisted paths",
+  exactDocumentationCalls and #professionCalls == 18)
+check("profession documentation is bounded, clipped and fault-isolated",
+  professionIndexCalls == 1 and #professionCalls == 18
+  and profession.documents["Inspect.Craft.List"].status == "returned"
+  and #profession.documents["Inspect.Craft.List"].text == 512
+  and profession.documents["Inspect.Craft.List"].textTruncated == true
+  and profession.documents["Inspect.Fishing.Detail"].status == "error"
+  and profession.documentErrors == 1)
+check("profession discovery leaves ability and general probe unchanged",
+  RRECollectorData.latest == priorLatest
+  and RRECollectorData.memoryPublication == priorPublication
+  and RRECollectorData.sequence == priorSequence
+  and RRECollectorData.probe == priorGeneralProbe
+  and RRECollectorData.candidateLookup == priorCandidateLookup)
+
+professionMode = "index-error"
+events["RRECollector.Slash"](nil, "professions")
+check("documentation index exception yields explicit bounded report",
+  RRECollectorData.professionProbeSequence == 2
+  and RRECollectorData.professionProbe.documentationStatus == "index-error"
+  and RRECollectorData.professionProbe.index.scanned == 0)
+local savedProfession = RRECollectorData.professionProbe
+local collectProfessions = runtime.capabilities.professions
+runtime.capabilities.professions = function() error("synthetic producer exception") end
+events["RRECollector.Slash"](nil, "professions")
+runtime.capabilities.professions = collectProfessions
+check("profession producer exception preserves previous receipt",
+  RRECollectorData.professionProbe == savedProfession
+  and RRECollectorData.professionProbeSequence == 2
+  and RRECollectorData.latest == priorLatest
+  and RRECollectorData.probe == priorGeneralProbe
+  and RRECollectorData.candidateLookup == priorCandidateLookup)
+
+professionMode = "oversize"
+events["RRECollector.Slash"](nil, "professions")
+local capped = RRECollectorData.professionProbe
+check("oversized profession index obeys both scan and match caps",
+  RRECollectorData.professionProbeSequence == 3
+  and capped.index.scanned == 2048 and capped.index.scanLimitReached == true
+  and capped.index.matched == 2048 and capped.index.retained == 96
+  and capped.index.truncated == 1952)
+
+local originalDocumentation = Inspect.Documentation
+Inspect.Documentation = nil
+events["RRECollector.Slash"](nil, "professions")
+Inspect.Documentation = originalDocumentation
+check("missing documentation produces explicit no-API report",
+  RRECollectorData.professionProbeSequence == 4
+  and RRECollectorData.professionProbe.documentationStatus == "missing"
+  and RRECollectorData.professionProbe.index.scanned == 0
+  and RRECollectorData.latest == priorLatest
+  and RRECollectorData.probe == priorGeneralProbe
+  and RRECollectorData.candidateLookup == priorCandidateLookup)
+
 local beforeSlash = #lines
 events["RRECollector.Slash"](nil, "status")
 local afterStatus = #lines
