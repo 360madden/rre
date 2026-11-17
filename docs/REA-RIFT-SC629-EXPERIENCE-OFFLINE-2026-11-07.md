@@ -1,5 +1,8 @@
 # SC-629 — RRECollector v0.4.14 Experience integration (offline source gate)
 
+> **CURRENT ROUTING / VERSION NOTICE — November 16, 2026, ~22:30 EST:** This document's v0.4.14 tests and Lab-2 admission discussion are historical research records. Joey's November 10 override in `AGENTS.md` makes only the verified host's own **physical RIFT** a potential live target; **do not access VMware labs, including read-only checks**. Do not execute the dated Lab-2 next-gate instructions below.
+> **Fresh source-only check:** `addons/RRECollector/RiftAddon.toc` now declares **v0.4.21**; strict package verifier `rre_20261116_sc629_manager_package_verify_2230_v1` passed **11 source files**, but reports `installedShaMatches=null` and `runtimeUiVerified=false`. Independent SavedVariables adapter tests passed **32/32** (`rre_sc629_child_saved_adapter_2233_v1`). The archived v0.4.14 result is not v0.4.21 in-game acceptance. SC-629 remains pending until independently qualified physical-client source/install/load, owner/scene/build, UI-bound Capture, complete current RREC2 generation and same-trial SavedVariables parity.
+
 **Status:** ✅ Offline source/test gate passed on November 7, 2026. ⚠️ **No v0.4.14 game deployment, loaded proof, live Experience data or acceptance**. Base RRE main commit was `5f284a1`. The 0.4.13 Lab-2 trial remains the latest live collector evidence.
 
 ## What changed
