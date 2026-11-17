@@ -37,6 +37,14 @@
 - **Independent post-install proof:** 22 direct Workbridge SHA observations checked each source/installed file **11/11 equal**. Separate strict package verification job `rre_20261117_sc629_amddesktop_postdeploy_strict_gate_0001` exited 0 with `version=0.4.21`, `sources=11`, `installedShaMatches=11`, `runtimeUiVerified=false`. Installed TOC SHA is now `1753b250e82ec0af68d5593b6534d0d8e09e351e112f4713e24bcbfe37620f59`. No repository source file changed; nine inherited untracked paths remained unmodified.
 - **Do not promote live gate:** physical RIFT was already running. Nothing proves the current process has loaded the *new* Lua or that new SavedVariables/RREC2 have been emitted. The prior read-only saved receipt remains v0.4.20 and `memoryPublication=not-published` at its last observed epoch; **do not** treat on-disk v0.4.21 as functional acceptance. SC-629 remains pending, `gameInputAuthorized=false`. Next require separate owner/operator-approved UI load and one manual Capture, then full active RREC2 session/sequence and same-trial SavedVariables parity via an independently approved physical-client retrieval method; RC-30/RC-88 remain stopped.
 
+## 2026-11-17 ~00:20 EST — SC-629 pre-reload visual witness and manual-input boundary
+
+- **Task-specific consent interpreted narrowly:** Joey replied `keep working` directly after the proposed **one** standard physical-RIFT `/reloadui` and **one** `/rre capture` on AMD-DESKTOP; no movement, spellcasting, gameplay, other addon, process control, restart, additional reload or RRECollector RC-30 UI-macro exercise was included. No operator/game command has actually been sent by RRE in this slice.
+- **Exact live target:** newly selected AMD-DESKTOP Workbridge 0.16.5-dev; one read-only Microsoft.WinAppCli `RIFT` window, `rift_x64` PID **77704**, HWND **399711986**, class `TWNClientFramework`, dimensions **2576×1408**, foreground at observation. This preserves the prior read-only physical PE SHA `1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8`; no VMware inventory.
+- **New direct visual proof:** Workbridge `desktop_capture_window` request `rre_20261117_sc629_physical_before_reload_screenshot_0001` returned success `inputInjected=false`, capture UTC `2026-11-17T05:19:40.778Z`, original PNG `C:\work\workbridge-mcp\.tools\desktop-evidence\capture-rre_20261117_sc629_physical_before_reload_screenshot_0001.png`, verified **2560×1392**, **5,978,194 bytes**, SHA-256 `ed00f3b0ca59f3a9ab773f1ab393507568e84c259fb1e7743de5b3b9f606f2a2`. Visually legible RRE toolbar bottom-right explicitly reads **`RRE v0.4.20 research`**, with Atank in Sanctum Watch. Therefore installed v0.4.21 **has not been proved loaded** and the observed toolbar still presents old v0.4.20. The screenshot itself is the direct evidence; this is not a saved-state inference.
+- **Input path:** named AMD Workbridge exposes only read-only desktop window list, inspect and screenshot tools, and two RRE developer command profiles (`roadmap_validate`, `review_adapter_test`); it exposes **no sanctioned desktop keyboard/mouse/text input**. Independent reviewer confirmed older desktop-lease quarantine guidance forbids using terminal/PowerShell SendKeys/SendInput/UIAutomation as a bypass. Current quarantine state itself was **not re-proved** by diagnostics; lack of supported input suffices. No attempt to bypass, clear lease, click RRE's RC-30 `Reload UI` button or use separate RiftReader control tools. **Next step requires Joey manually typing** standard `/reloadui`, then RRE observes a fresh UI screenshot and only after v0.4.21 load proof Joey manually types exactly one `/rre capture`.
+- **Persistence caveat:** RRECollector normally persists character SavedVariables upon UI reload/logout, and `/rre capture` records in memory until such a save boundary. The specifically approved order of **one** initial `/reloadui` followed by **one** capture does **not automatically yield a persisted same-trial v0.4.21 `RRECollector.lua` receipt**. Do not add a second reload/logout without separate operator approval; keep SC-629 `pending` until actual full active RREC2 and same-trial saved-source parity. No source, installed-addon, RIFT settings, game process or VM files changed in this visual-witness slice.
+
 ## Next gates / recovery packet
 
 - **SC-629:** v0.4.21 is now source-verified **and installed 11/11 on physical AMD-DESKTOP** with a verified v0.4.20 rollback; **loaded/game/UI version, manual Capture, active RREC2 and same-trial SavedVariables remain unverified**, and require separate owner/game-input authority. `gameInputAuthorized=false`.
@@ -60,11 +68,14 @@ checkpoint:
   physicalAcceptance: false
   gameInputAuthorized: false
   nextTask: SC-629
-  lastVerifiedHead: c520edb59932e050d1d77fd3bd0e931ad9c1688d
+  lastVerifiedHead: 26186bb935cbdc1b807bf183a603e19327ab8db3
   sourceCollectorVersion: 0.4.21
   installedCollectorVersion: 0.4.21
   installedSourceHashParity: 11/11
-  loadedCollectorVersion: unverified
+  observedLoadedCollectorVersion: 0.4.20
+  observedLoadedScreenshotSha256: ed00f3b0ca59f3a9ab773f1ab393507568e84c259fb1e7743de5b3b9f606f2a2
+  operatorReloadPerformed: false
+  operatorCapturePerformed: false
   savedCollectorVersion: 0.4.20
   savedMemoryPublication: not-published
   physicalProcessPid: 77704
