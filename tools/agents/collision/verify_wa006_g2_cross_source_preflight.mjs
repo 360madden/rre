@@ -2,7 +2,7 @@
 // A supplied receipt is a claim, NOT independent proof of execution, owner, UTC or scene.
 // No positive native-correlation or WA-006 acceptance path exists in this module.
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {openSync, fstatSync, readSync, closeSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {validatePacket} from './verify_wa006_g2_packet.mjs';
@@ -38,6 +38,28 @@ function bytes(input, limit) {
   const raw = Buffer.isBuffer(input) ? input : Buffer.from(input);
   if (raw.length === 0 || raw.length > limit) throw Error('source-size-invalid');
   return raw;
+}
+// Read at most the declared regular-file size. Check again after reading, so
+// even a concurrent growth cannot be silently interpreted as a complete source.
+function boundedFile(path, limit) {
+  const fd = openSync(path, 'r');
+  try {
+    const st = fstatSync(fd);
+    if (!st.isFile() || !Number.isSafeInteger(st.size) || st.size < 1 ||
+        st.size > limit) throw Error('source-size-invalid');
+    const raw = Buffer.alloc(st.size);
+    let offset = 0;
+    while (offset < raw.length) {
+      const count = readSync(fd, raw, offset, raw.length - offset, offset);
+      if (count <= 0) throw Error('source-short-read');
+      offset += count;
+    }
+    const probe = Buffer.alloc(1);
+    if (readSync(fd, probe, 0, 1, offset) !== 0) throw Error('source-size-changed');
+    return raw;
+  } finally {
+    closeSync(fd);
+  }
 }
 function noDuplicateObjectKeys(source) {
   // A string-aware lexical pass over the JSON itself; arrays may repeat row key names,
@@ -83,6 +105,15 @@ function noDuplicateObjectKeys(source) {
     }
   }
   if (stack.length) throw Error('unclosed-JSON-scope');
+}
+function parseExternalReceipt(raw) {
+  const source = new TextDecoder('utf-8', {fatal:true}).decode(raw);
+  noDuplicateObjectKeys(source);
+  return JSON.parse(source, (_key, value) => {
+    if (typeof value === 'number' && !Number.isFinite(value))
+      throw Error('nonfinite-receipt-number');
+    return value;
+  });
 }
 function nativeWithLosslessStart(raw) {
   const source = new TextDecoder('utf-8', {fatal:true}).decode(raw);
@@ -363,8 +394,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     process.exitCode = 2;
   } else {
     try {
-      const result = preflightG2Sources(readFileSync(process.argv[2]), readFileSync(process.argv[3]),
-        JSON.parse(readFileSync(process.argv[4], 'utf8')));
+      const result = preflightG2Sources(boundedFile(process.argv[2], 12000),
+        boundedFile(process.argv[3], 4 * 1024 * 1024),
+        parseExternalReceipt(boundedFile(process.argv[4], 32 * 1024)));
       process.stdout.write(JSON.stringify(result) + '\n');
       if (!result.sourceFieldsConsistent) process.exitCode = 1;
     } catch (error) {

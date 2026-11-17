@@ -1224,6 +1224,21 @@
         "independentRawLuaSnapshotTamperRejectionJob": "rre_wa006_child_readonly_snapshot_tamper_04",
         "independentVtableStaticVerificationJob": "rre_wa006_child_readonly_vtable_static_06"
       },
+      "g2OfflineCrossSourcePreflight": {
+        "scope": "synthetic-rejection-only",
+        "source": "tools/agents/collision/verify_wa006_g2_cross_source_preflight.mjs",
+        "sourceSha256": "a4273788ae2019bb607fa3615b2f13aa7d64993b1f4ed0bd93695be1d9190748",
+        "test": "tools/agents/collision/test_verify_wa006_g2_cross_source_preflight.mjs",
+        "testSha256": "e0e2849003da08623071a2f9644dcbbe0b7459b1b4a06eac0dee469fe7747d8c",
+        "testJob": "rre_20261116_g2_cli_tests52_first_v1",
+        "testExitCode": 0,
+        "syntheticTestsPassed": 52,
+        "historicalNativeRowsValidated": 158,
+        "realIndependentNonselfLuaIdsObserved": 0,
+        "nativeCorrelationDone": false,
+        "wa006Accepted": false,
+        "report": "docs/RRE-WA006-G2-CROSS-SOURCE-FIELD-INVENTORY-2026-11-16.md"
+      },
       "blockers": [
         "18 recorded physical RR2 nonself native XYZ candidates remain without independently correlated RIFT addon/API gameplay IDs; a separate earlier PID proves self-only candidate correlation; no simultaneous screen or world-instance proof",
         "Current-build physical hit/shape/owner-to-gameplay-ID association, independent camera landmark calibration and scene/restart invalidation are not established",

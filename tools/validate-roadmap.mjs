@@ -178,7 +178,15 @@ if (wa006) {
     ['WA-006 evidence matrix', wa006.offlineEvidenceMatrix, wa006.offlineEvidenceMatrixSha256],
     ['WA-006 current static verifier', wa006.currentBuildStaticSpatialQuery?.verifier,
       wa006.currentBuildStaticSpatialQuery?.currentVerifierSha256],
+    ['WA-006 G2 offline preflight', wa006.g2OfflineCrossSourcePreflight?.source,
+      wa006.g2OfflineCrossSourcePreflight?.sourceSha256],
+    ['WA-006 G2 synthetic/CLI regression', wa006.g2OfflineCrossSourcePreflight?.test,
+      wa006.g2OfflineCrossSourcePreflight?.testSha256],
   ];
+  check(wa006.g2OfflineCrossSourcePreflight?.nativeCorrelationDone === false &&
+        wa006.g2OfflineCrossSourcePreflight?.wa006Accepted === false &&
+        wa006.g2OfflineCrossSourcePreflight?.realIndependentNonselfLuaIdsObserved === 0,
+        'WA-006 offline G2 preflight cannot promote missing live evidence.');
   for (const [label, relative, expected] of pins) {
     check(matchesCurrentSourcePin(relative, expected), 'Source SHA mismatch: ' + label);
     checkedWa006CurrentSourcePins++;

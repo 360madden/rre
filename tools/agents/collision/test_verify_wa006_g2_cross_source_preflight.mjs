@@ -1,6 +1,11 @@
-// WA-006 G2 cross-source preflight: synthetic memory-only negative controls, NO game.
+// WA-006 G2 cross-source preflight: synthetic in-memory + temp-file CLI controls, NO game.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {mkdtempSync, writeFileSync, readFileSync, unlinkSync, rmdirSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {preflightG2Sources} from './verify_wa006_g2_cross_source_preflight.mjs';
 
 const marker = 'WA006_G2_V1';
@@ -235,6 +240,72 @@ check('nonorthonormal-available-camera', x => {
   x.native.observation.opticalCameraAfterCandidate=structuredClone(camera);
   x.native.observation.cameraStableCandidate=true;
 },false,'invalid-native-unit-positions-contract');
+
+// Exercise the actual bounded-file CLI, including its 0/1/2 exit-code contract.
+// All inputs are synthetic, written only to an isolated OS temporary directory.
+const cliScript = fileURLToPath(new URL('./verify_wa006_g2_cross_source_preflight.mjs', import.meta.url));
+const tmp = mkdtempSync(join(tmpdir(), 'wa006-g2-cli-'));
+const luaPath = join(tmp, 'LuaPad synthetic copy.txt');
+const nativePath = join(tmp, 'units-native synthetic.json');
+const receiptPath = join(tmp, 'external synthetic receipt.json');
+const runCli = args => spawnSync(process.execPath, [cliScript, ...args],
+  {encoding:'utf8', timeout:10000, maxBuffer:256 * 1024});
+function cliCheck(name, args, exitCode, expected) {
+  const result = runCli(args);
+  assert.equal(result.error, undefined, name + ': spawn error');
+  assert.equal(result.status, exitCode, name + ': stdout=' + result.stdout +
+    ', stderr=' + result.stderr);
+  if (exitCode === 2) {
+    assert.equal(result.stdout, '', name + ': invalid invocation must not claim a result');
+    if (expected) assert.match(result.stderr, expected, name);
+  } else {
+    const body = JSON.parse(result.stdout.trim());
+    assert.equal(body.wa006Accepted, false, name + ': never accept WA-006');
+    assert.equal(body.nativeCorrelationDone, false, name + ': never claim live correlation');
+    assert.equal(body.sourceFieldsConsistent, exitCode === 0, name);
+    if (expected) assert.ok(body.reasons.includes(expected), name +
+      ': missing rejection ' + expected);
+  }
+  tests++;
+}
+try {
+  const x = fixture();
+  const luaRaw = Buffer.from(x.packet);
+  const nativeRaw = serializeNative(x.native);
+  x.receipt.lua.transcriptSha256 = hash(luaRaw);
+  x.receipt.nativeSourceSha256 = hash(nativeRaw);
+  writeFileSync(luaPath, luaRaw);
+  writeFileSync(nativePath, nativeRaw);
+  writeFileSync(receiptPath, JSON.stringify(x.receipt));
+  const paths = [luaPath, nativePath, receiptPath];
+  cliCheck('cli-source-consistent-unqualified', paths, 0);
+  assert.equal(hash(readFileSync(luaPath)), hash(luaRaw), 'CLI must not change Lua original');
+  assert.equal(hash(readFileSync(nativePath)), hash(nativeRaw), 'CLI must not change native original');
+
+  x.receipt.process.processId++;
+  writeFileSync(receiptPath, JSON.stringify(x.receipt));
+  cliCheck('cli-source-rejected', paths, 1, 'process-epoch-or-build-mismatch');
+
+  const goodReceipt = JSON.stringify(x.receipt);
+  const duplicateReceipt = goodReceipt.replace('"hostName":"AMD-DESKTOP"',
+    '"hostName":"AMD-DESKTOP","hostName":"LEGION"');
+  assert.notEqual(duplicateReceipt, goodReceipt, 'duplicate key mutation required');
+  writeFileSync(receiptPath, duplicateReceipt);
+  cliCheck('cli-duplicate-receipt-key', paths, 2, /duplicate.*JSON-key/);
+
+  writeFileSync(receiptPath, ' '.repeat(32 * 1024 + 1));
+  cliCheck('cli-oversized-receipt-before-load', paths, 2, /source-size-invalid/);
+
+  cliCheck('cli-missing-receipt-file', [luaPath, nativePath,
+    join(tmp, 'missing receipt.json')], 2, /ENOENT/);
+  cliCheck('cli-usage-no-args', [], 2, /Usage:/);
+} finally {
+  for (const path of [luaPath, nativePath, receiptPath]) {
+    try { unlinkSync(path); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+  }
+  rmdirSync(tmp);
+}
 
 process.stdout.write(JSON.stringify({task:'WA-006',tests,passed:tests,
   scope:'synthetic-rejection-only-offline-cross-source-preflight',nativeCorrelationDone:false,

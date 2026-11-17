@@ -3,3 +3,6 @@
 *.ps1 text eol=crlf
 *.sh text eol=lf
 tools/rre_lab2_acquire.py text eol=lf
+# Keep SHA-pinned WA-006 G2 sources byte-stable across Windows checkouts.
+tools/agents/collision/verify_wa006_g2_cross_source_preflight.mjs text eol=lf
+tools/agents/collision/test_verify_wa006_g2_cross_source_preflight.mjs text eol=lf
