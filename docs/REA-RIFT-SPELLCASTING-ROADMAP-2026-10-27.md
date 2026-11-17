@@ -1,6 +1,8 @@
 # REA / RIFT Spellcasting Reverse-Engineering Roadmap
 
-**Current live-target policy — November 7, 2026:** [VMware RIFT-Lab-2 ONLY](REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md), independently qualified by VM, guest process, executable SHA and scene. Physical-PC/Lab-1 live work and physical-host deployment instructions below are historical. The switch grants no additional game-input or guest-installation authority; reuse the existing Lab-2 guarded inspection/controller route. SC-103/SC-306 remain blocked and SC-604 remains interim.
+**Current live-target policy — November 10, 2026 (supersedes November 7):** On both AMD-DESKTOP and LEGION, only that host's own physical RIFT client is potentially eligible. Do not access VMware RIFT labs, including read-only inventory/capture. Historical Lab-2 evidence remains valid only for its original dated scope. Independently verify the host, executable/build hash, process/start, playable scene, current controller owner and task-specific authority before any game-facing operation. Target eligibility grants no input, reload, deployment, process/memory action or other new permission. [Governing override](../AGENTS.md).
+
+**Historical live-target policy — November 7, 2026:** [VMware RIFT-Lab-2 ONLY](REA-RIFT-LAB2-LIVE-TARGET-2026-11-07.md), independently qualified by VM, guest process, executable SHA and scene. Physical-PC/Lab-1 live work and physical-host deployment instructions below are historical. The switch grants no additional game-input or guest-installation authority; reuse the existing Lab-2 guarded inspection/controller route. SC-103/SC-306 remain blocked and SC-604 remains interim.
 
 **Created:** 2026-10-27  
 **Status:** research plan, not live execution  

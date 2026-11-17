@@ -10,7 +10,8 @@
   "gameInputAuthorized": false,
   "binaryTarget": {
     "referenceSha256": "7c356c9dde9e12fcbff3c08d953b0630b48b1510a0ffb36e4ec164606e7b17bd",
-    "currentSessionProof": true,
+    "currentSessionProof": false,
+    "historicalLab2CurrentSessionProof20261107": true,
     "observedPhysicalHost20261027": {
       "sha256": "1935a05c9db6d468e34e0055014a4a99c1b5afceb1695884e24600f5c20a4be8",
       "length": 60493640,
@@ -20,6 +21,18 @@
       "nativeOldOffsetsQualified": false
     },
     "researchTarget": {
+      "kind": "physical-host-local-RIFT",
+      "eligibleHosts": ["AMD-DESKTOP", "LEGION"],
+      "scope": "Only that host's own physical RIFT client is potentially eligible; verify current host, executable SHA, process/start, scene, owner and task authority before any game-facing operation",
+      "vmwareRequired": false,
+      "currentExecutableSha256": null,
+      "currentProcessId": null,
+      "currentProcessStartUtcTicks": null,
+      "currentOwner": null,
+      "nativeCodeSemanticsQualified": false,
+      "policy": "AGENTS.md (2026-11-10 physical-only override)"
+    },
+    "historicalLab2ResearchTarget20261107": {
       "kind": "vmware-lab2-RIFT",
       "machineName": "RIFT-LAB-2",
       "vmx": "C:\\rift modding\\VMs\\RIFT-Lab-2\\RIFT-Lab.vmx",
@@ -52,7 +65,8 @@
       "nativeCodeSemanticsQualified": false,
       "policy": "docs/REA-RIFT-LOCAL-PC-TARGET-2026-10-27.md"
     },
-    "currentSessionProofScope": "Bounded November 7 Lab-2 VM/game/disk-byte identity only; refresh before reuse, no gameplay or mapped-memory attestation."
+    "currentSessionProofScope": "No qualified current physical-host session; independent host, PE, PID/start, scene and owner proof required before any live operation.",
+    "historicalLab2CurrentSessionProofScope20261107": "Bounded November 7 Lab-2 VM/game/disk-byte identity only; refresh before reuse, no gameplay or mapped-memory attestation."
   },
   "milestones": [
     {
