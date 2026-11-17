@@ -14,6 +14,8 @@ local professionIndex = {
   ["Other.Craft.List"] = true,
 }
 local oversizedProfessionIndex
+local questMode, questListCalls, questDetailCalls = "normal", 0, 0
+local questId = "q-synthetic-1"
 local function check(label, condition)
   checks = checks + 1
   assert(condition, "FAIL full startup: " .. label)
@@ -80,6 +82,21 @@ Inspect = {
     if name == "Inspect.Fishing.Detail" then error("synthetic description failure") end
     return nil
   end,
+  Quest = {
+    List = function()
+      questListCalls = questListCalls + 1
+      if questMode == "throw" then error("synthetic Quest.List failure") end
+      if questMode == "empty" then return {} end
+      return {[questId] = true}
+    end,
+    Detail = function(id)
+      questDetailCalls = questDetailCalls + 1
+      assert(id == questId, "unexpected quest ID")
+      return {id = id, name = "Synthetic Quest", complete = false,
+        objective = {{description = "Gather one", count = 1, countDone = 0,
+          complete = false, indicator = {}}}}
+    end,
+  },
   Ability = {New = {
     List = function()
       listCalls = listCalls + 1
@@ -137,6 +154,11 @@ check("professions gated before saved-data load",
   RRECollectorData.professionProbe == nil
   and RRECollectorData.professionProbeSequence == nil
   and professionIndexCalls == 0 and #professionCalls == 0)
+runtime.command("quests")
+check("quests gated before saved-data load without API calls",
+  RRECollectorData.questSnapshot == nil
+  and RRECollectorData.questAttempt == nil
+  and questListCalls == 0 and questDetailCalls == 0)
 events["RRECollector.SavedVariables"](nil, "OtherAddon")
 check("foreign saved event ignored",
   RRECollectorData.addonVersion == nil and RRECollectorData.schemaVersion == nil)
@@ -281,6 +303,59 @@ check("missing documentation produces explicit no-API report",
   and RRECollectorData.latest == priorLatest
   and RRECollectorData.probe == priorGeneralProbe
   and RRECollectorData.candidateLookup == priorCandidateLookup)
+
+-- Exercise the real quest producer through the registered slash and saved state.
+local priorProfession, priorAbility = RRECollectorData.professionProbe, RRECollectorData.latest
+local beforeQuestLines = #lines
+events["RRECollector.Slash"](nil, "quests")
+local journal = RRECollectorData.questSnapshot
+check("real quest slash publishes a recorded journal and diagnostic",
+  type(journal) == "table" and journal.status == "recorded"
+  and journal.complete == true and journal.sequence == 1
+  and RRECollectorData.questSnapshotSequence == 1
+  and #journal.quests == 1 and journal.quests[1].id == questId
+  and #journal.quests[1].objectives == 1
+  and journal.quests[1].objectives[1].countDone == 0
+  and RRECollectorData.questAttempt.status == "recorded"
+  and questListCalls == 1 and questDetailCalls == 1)
+check("quest slash emits new journal-specific output",
+  #lines > beforeQuestLines
+  and table.concat(lines, "\n", beforeQuestLines + 1):find("Quest journal #1 recorded", 1, true) ~= nil)
+check("quest capture preserves ability and other research receipts",
+  RRECollectorData.latest == priorAbility
+  and RRECollectorData.sequence == priorSequence
+  and RRECollectorData.memoryPublication == priorPublication
+  and RRECollectorData.professionProbe == priorProfession
+  and RRECollectorData.probe == priorGeneralProbe
+  and RRECollectorData.candidateLookup == priorCandidateLookup)
+
+questMode = "throw"
+events["RRECollector.Slash"](nil, "quests")
+check("throwing quest List preserves prior journal and records attempt",
+  questListCalls == 2 and questDetailCalls == 1
+  and RRECollectorData.questSnapshot == journal
+  and RRECollectorData.questSnapshotSequence == 1
+  and RRECollectorData.questAttempt.status == "error")
+local originalQuestApi = Inspect.Quest
+Inspect.Quest = nil
+events["RRECollector.Slash"](nil, "quests")
+Inspect.Quest = originalQuestApi
+check("missing quest API preserves prior journal with unavailable receipt",
+  RRECollectorData.questSnapshot == journal
+  and RRECollectorData.questSnapshotSequence == 1
+  and RRECollectorData.questAttempt.status == "unavailable"
+  and questListCalls == 2)
+local previousQuestAttempt = RRECollectorData.questAttempt
+local originalQuestCapture = runtime.quests.capture
+runtime.quests.capture = function() error("synthetic quest producer failure") end
+events["RRECollector.Slash"](nil, "quests")
+runtime.quests.capture = originalQuestCapture
+check("quest producer exception preserves journal and prior attempt",
+  RRECollectorData.questSnapshot == journal
+  and RRECollectorData.questSnapshotSequence == 1
+  and RRECollectorData.questAttempt == previousQuestAttempt
+  and RRECollectorData.questAttempt.status == "unavailable"
+  and RRECollectorData.latest == priorAbility)
 
 local beforeSlash = #lines
 events["RRECollector.Slash"](nil, "status")
