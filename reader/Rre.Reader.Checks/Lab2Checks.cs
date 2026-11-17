@@ -112,10 +112,17 @@ public static class Lab2Checks
             var trial=Path.Combine(repo,"artifacts","sc625-live-adapter-trial2-20261107-1655");
             var acquired=Path.Combine(trial,"acquisition");
             byte[] Raw(string path)=>File.ReadAllBytes(path);
-            var receipt=JsonNode.Parse(Raw(Path.Combine(acquired,"acquisition.json")))!.AsObject();
+            var acquisitionBytes=Raw(Path.Combine(acquired,"acquisition.json"));
+            const string trial2AcquisitionSha="69546e444fdd557bd7c8067dba31a7604cdcb858e5303e5a231f8a62007ea57f";
+            if(!DataRules.Sha(acquisitionBytes).Equals(trial2AcquisitionSha,StringComparison.OrdinalIgnoreCase))
+                throw new Exception("Archived trial2 acquisition bytes changed");
+            var receipt=JsonNode.Parse(acquisitionBytes)!.AsObject();
+            // The immutable November 7 trial used the earlier helper bytes.
+            // November 9 updated the current helper; never re-pin archived evidence to it.
+            const string trial2HistoricalHelperSha="4f3315324df204d9c40f0477a65578b3126ba5c8db74cfb159c9e9e739d95154";
             var pins=new Dictionary<string,string>(Lab2Source.Dependencies,StringComparer.Ordinal)
             {
-                [Path.Combine(repo,"tools","rre_lab2_acquire.py")]=Lab2Source.HelperSha,
+                [Path.Combine(repo,"tools","rre_lab2_acquire.py")]=trial2HistoricalHelperSha,
                 [Path.Combine(trial,"binding.json")]=DataRules.Sha(Raw(Path.Combine(trial,"binding.json"))),
                 [Path.Combine(trial,"window.json")]=DataRules.Sha(Raw(Path.Combine(trial,"window.json")))
             };

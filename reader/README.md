@@ -1,5 +1,7 @@
 # RRE modular host reader
 
+**CURRENT physical-only routing (November 10, 2026):** Both AMD-DESKTOP and LEGION may use only their respective physical RIFT clients as potential future live targets. The historical `capture --source lab2` acquisition command is **disabled on every host before file/path or helper preflight**. Its implementation and archived artifacts remain available for offline source checks and replay; `saved`, `memory-scan`, `native-snapshot`, and `publication` file adapters are unaffected. New physical-client actions still require verified host/process/build/owner and task-specific authority. This note supersedes the older Lab-2 routing passages retained below as history.
+
 **Reader0.2.6: compare retained quest captures and read RIFT shared tables.** Add `--previous` to the existing quest command:
 
 ```powershell
@@ -41,9 +43,9 @@ Focused adapter checks: `dotnet run --project reader/Rre.Reader.Checks -- --comb
 
 RRECollector v0.4.20 retains the existing ability/context/Experience wire contract and v0.4.19 compatibility. Its separate quest journal stays outside RREC2; use `tools/export-rrecollector-quests.mjs` for source-hashed offline quest goals. Package/reader checks do not establish current client load or gameplay results.
 
-**Host routing (November 9, 2026):** RRE is one cross-computer application: **LEGION → its physical local RIFT**, **AMD-DESKTOP → its authorized VMware RIFT labs**. Joey reports VMware is not installed on LEGION. All game-facing RRE work on LEGION targets only its physical local RIFT. `capture --source lab2` is now rejected on LEGION *before* any acquisition preflight, irrespective of supplied files. Offline `saved`, `memory-scan`, `native-snapshot`, and `publication` inputs remain supported; replaying an existing artifact is not live VM access. Do not contact VMware labs from LEGION.
+**Historical host routing (November 9; superseded November 10):** Earlier RRE policy assigned LEGION to its physical game and AMD-DESKTOP to VMware. That authorization has ended. The current physical-only rule applies to both machines, and `capture --source lab2` now fails closed on every host. Existing source and retained Lab-2 evidence remain available for **offline** analysis only.
 
-One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.3 includes file adapters plus an explicit bounded read-only Lab2 acquisition source. File sources remain offline; only `capture --source lab2` invokes existing guest memory-read tools. The reader issues no game input, starts no controller/service, deploys no addon and changes no other repository.
+One C# entry point normalizes RRECollector data for physical-host PowerShell, C# and other JSON consumers. Version0.2.3 historically introduced a bounded read-only Lab2 acquisition source; that source remains in the tree for offline provenance and tests. The `capture --source lab2` CLI now rejects before launching any guest memory-read helper. File-backed sources remain offline, and the reader issues no game input, controller/service start or addon deployment.
 
 ## Build and use
 
@@ -100,14 +102,17 @@ The saved path caps input at2,000,000bytes, uses the existing literal-only parse
 
 The memory replay contract is the exact SC618 experimental frame: ASCII `RREC1|<32lowerhex>|<8uppercasehex payload bytes>|<JSON>|ENDRREC1`, total≤8192bytes. JSON has exactly schemaVersion=1, producer=`RRE-feasibility-fixture`, session, sequence, part, parts and records. Parts≤16, aggregate IDs≤512, sequence positive and≤2^53−1. Unknown/duplicate JSON fields, nonfinite numbers, wrong identity/sequence, malformed/cross-publication/duplicate/missing parts and duplicate IDs fail. No highest-sequence guessing occurs. Original Reader scan contexts must use canonical uppercase hex byte pairs, exact window length and a matched address within that window. A saturated hit budget is ambiguous and rejected. Trailing context bytes are allowed only at the scan-context boundary; a standalone frame rejects trailing data.
 
-SC622 accepted a manually triggered0.4.12 Lab2 publication acquired through existing tools and decoded by this host reader. No supported live acquisition adapter or passive freshness is established. Further acceptance requires a new coordinated Lab2 window and current version/source/install/load, process/build/player/session receipts. The user explicitly allowed only RRECollector addon files to synchronize through the observed OneDrive root; other files and sync settings remain outside that exception. Advancing observations, stale/GC/relocation handling, restart qualification and full transfer latency remain open. SavedVariables remains the durable fallback.
+SC622 accepted a manually triggered0.4.12 Lab2 publication acquired through existing tools and decoded by this host reader. No supported live acquisition adapter or passive freshness is established. Future SC-629 acceptance requires a separately authorized local **physical** RIFT session with current version/source/install/load, process/build/player/session receipts; no Lab-2 session is eligible. The user explicitly allowed only RRECollector addon files to synchronize through the observed OneDrive root; other files and sync settings remain outside that exception. Advancing observations, stale/GC/relocation handling, restart qualification and full transfer latency remain open. SavedVariables remains the durable fallback.
 
 ## Verification
 
+Under the current physical-only policy, use `dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- --production-only` for the active, no-VM reader contract/host-routing gate. The historical all-checks mode also probes pinned **installed Lab-2 helper dependencies**; these can drift after the original trials and are not a physical-client acceptance gate. Do not rebaseline an old receipt, access a VM, or weaken the hash checks to force that legacy mode green.
+
 ```powershell
-dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- C:\work\rre
-# Isolated RREC2 contract checks (no Lab2 child tests):
+# Current physical-only source/reader checks:
 dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- --production-only
+# Historical full suite (includes archived Lab2 host dependency checks; may be blocked):
+dotnet run --project reader/Rre.Reader.Checks/Rre.Reader.Checks.csproj -- C:\work\rre
 node --test tools/tests_reader/test_saved_adapter.mjs tools/verify-rrecollector-saved.mjs
 ```
 
@@ -116,17 +121,17 @@ The package-free C# check executable covers both contracts' frame/assembly failu
 `tools/tests_reader/verify-wire-publisher.py --output NEW_DIR --saved SAVED_LUA --reader READER_DLL` additionally runs the existing SHA-pinned host Lua5.3 runtime (or `--lua-runtime lua51` for the retained Lua5.1 runtime) (no install), synthetic malformed/lifecycle cases and prior-good capture preservation, then an independently audited Python Base64/zlib roundtrip through the C# reader. The retained0.4.11 capture is safely literal-parsed, converted to byte-escaped Lua fixture data, and explicitly retagged to the current source version only offline. Empty Lua context tables are normalized to object maps for comparison; no populated values are changed. These are host interoperability checks, not RIFT runtime acceptance. Retagging is not proof of exact historical0.4.12 carrier compatibility; the separate SC628 regression replays the original SC622 snapshot/request. The historical repository gate remains separate and has older-build-pinned failures; do not change those pins for this reader.
 
 
-## Lab2 acquisition on supported hosts (SC625; never from LEGION)
+## Historical Lab2 acquisition (SC625; disabled on every host)
 
-First coordinate a new exclusive Lab2 window with its current owner and manually Capture a fresh collector generation using the existing reviewed external mouse setup. Create exact binding/window JSON under the [contract](contract-lab2-acquisition.md); they record context, not permission. Then use the same entry point:
+The following November 7 procedure is retained **only for historical provenance**. It is superseded by the November 10 physical-only directive and must not be executed against VMware. The current CLI rejects the command before any input/path preflight. The archived binding/window JSON under the [contract](contract-lab2-acquisition.md) records old context, not current permission:
 
 ```powershell
 dotnet $reader capture --source lab2 --input C:\work\rre\artifacts\binding.json --window C:\work\rre\artifacts\window.json --evidence C:\work\rre\artifacts\new-lab2-trial --repo C:\work\rre --output C:\work\rre\artifacts\observation.json
 ```
 
-The evidence directory and observation file must not exist; the output file must be outside the evidence directory. `--module context` or `abilities` selects the same canonical modules. `validate --source lab2` is deliberately rejected. The helper pins the fixed Lab2/1935build/F414/native/runtime dependencies and performs at most three bounded scouts plus one complete frame snapshot. C# reuses its strict decoder and publishes `acceptance.json` only after hash/identity/version/parts/bytes, source/image, native-exit journals and guest cleanup pass. Unknown process/data state quarantines the run; inspect `failure.json`/`guest-scope.json`, never auto-retry or assume cleanup. A parent timeout cannot clean the guest by itself. See the [source gate](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md). The adapter passed one bounded live CLI trial as recorded below; all publication qualification flags remain false even when an active read is recorded.
+The evidence directory and observation file must not exist; the output file must be outside the evidence directory. `--module context` or `abilities` selects the same canonical modules. `validate --source lab2` is deliberately rejected. The helper pins the fixed Lab2/1935build/F414/native/runtime dependencies and performs at most three bounded scouts plus one complete frame snapshot. C# reuses its strict decoder and publishes `acceptance.json` only after hash/identity/version/parts/bytes, source/image, native-exit journals and guest cleanup pass. Unknown process/data state quarantines the run; inspect `failure.json`/`guest-scope.json`, never auto-retry or assume cleanup. A parent timeout cannot clean the guest by itself. See the [source gate](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md). The archived adapter passed one bounded live CLI trial as recorded below; no current Lab2 acquisition path is authorized and all historical publication qualification flags remain false.
 
 Historical first0.2.1 live trial failed a prelaunch identity/output filename collision and was independently recovered/returned. Fixed0.2.2 separates namespaces and binds native timestamps to the acquisition interval. The second0.2.2 trial acquired/cleaned but failed on journal BOM parsing; the third0.2.3 trial passed below. See the source report for preserved failure/recovery evidence.
 
 
-**November7 live CLI acceptance:** reader0.2.3 completed one fresh Lab2 acquisition at17:15:34–17:16:15EST, exit0/40.476s, seq10/fiveparts54records, acceptance and canonical observation published. Independent scoped cleanup and explicit return17:16:50EST passed. This accepts one bounded manual generation, while continuous freshness/authenticity/atomicity/inbound/restart remain unqualified. Prior failure narratives above are historical. A new coordinated owner grant is required for another run. See the [SC625 report](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md).
+**November7 live CLI acceptance:** reader0.2.3 completed one fresh Lab2 acquisition at17:15:34–17:16:15EST, exit0/40.476s, seq10/fiveparts54records, acceptance and canonical observation published. Independent scoped cleanup and explicit return17:16:50EST passed. This accepts one bounded manual generation, while continuous freshness/authenticity/atomicity/inbound/restart remain unqualified. Prior failure narratives above are historical. This historical result grants no new Lab2 run; current work permits only a separately approved physical-client target. See the [SC625 report](../docs/REA-RIFT-LAB2-READER-ADAPTER-2026-11-07.md).

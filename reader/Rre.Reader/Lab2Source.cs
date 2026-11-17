@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Rre.Reader;
 
-/// <summary>Explicit bounded read-only acquisition; RREC2 semantics stay in NativeSnapshotSource.</summary>
+/// <summary>Historical bounded Lab2 acquisition (disabled on all hosts); offline decoding remains available.</summary>
 public sealed class Lab2Source(string input, string windowPath, string evidenceDirectory, string repository) : IObservationSource
 {
     public const string Root = @"C:\work\rre";
@@ -38,6 +38,8 @@ public sealed class Lab2Source(string input, string windowPath, string evidenceD
     }
     public async Task<SourceCapture> ReadAsync(CancellationToken cancellationToken=default)
     {
+        // The public adapter path must honor physical-only routing, not just CLI dispatch.
+        Program.RequireSourceHost("lab2", Environment.MachineName);
         Preflight(repository,evidenceDirectory,null);
         var bindingBytes=await DataRules.ReadFileAsync(input,8192,cancellationToken);
         var windowBytes=await DataRules.ReadFileAsync(windowPath,8192,cancellationToken);

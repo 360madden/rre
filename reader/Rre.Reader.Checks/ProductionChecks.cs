@@ -22,21 +22,28 @@ public static class ProductionChecks
         ProductionPublication Decode(JsonObject doc) => ProductionFrameCodec.Assemble(Frames(Bytes(doc),DataRules.Text(doc["addonVersion"],"fixture-version")).Select(b => ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2)).ToList());
         void BadDoc(string name, Action<JsonObject> mutate) { Reject(name, () => { var d = Document(); mutate(d); Decode(d); }); }
         void BadBody(string name, Action<JsonObject> mutate) { Reject(name, () => { var b = Frames(Bytes(Document()))[0]; mutate(b); ProductionFrameCodec.DecodeFrame(Wire(b), Session, 2); }); }
-        Accept("LEGION rejects Lab2 before acquisition", () =>
+        Accept("all hosts reject historical Lab2 acquisition before path preflight", () =>
         {
-            foreach (var host in new[] { "LEGION", "legion", "Legion" })
+            foreach (var host in new[] { "AMD-DESKTOP", "amd-desktop", "LEGION", "legion", "RIFT-LAB-2" })
             {
                 try { Program.RequireSourceHost("lab2", host); }
-                catch (ReaderFailure e) when (e.Message == "legion-physical-only") { continue; }
-                throw new Exception("LEGION Lab2 source was not rejected: " + host);
+                catch (ReaderFailure e) when (e.Message == "lab2-acquisition-disabled") { continue; }
+                throw new Exception("Historical Lab2 source was not rejected: " + host);
             }
         });
-        Accept("LEGION offline sources stay available", () =>
+        Accept("both physical hosts retain all offline source adapters", () =>
         {
-            foreach (var source in new[] { "saved", "memory-scan", "native-snapshot", "publication" })
-                Program.RequireSourceHost(source, "LEGION");
+            foreach (var host in new[] { "AMD-DESKTOP", "LEGION" })
+                foreach (var source in new[] { "saved", "memory-scan", "native-snapshot", "publication" })
+                    Program.RequireSourceHost(source, host);
         });
-        Accept("other host retains explicitly scoped Lab2 route", () => Program.RequireSourceHost("lab2", "AMD-DESKTOP"));
+        Accept("direct Lab2Source acquisition rejects before repository preflight", () =>
+        {
+            var adapter=new Lab2Source("missing-binding.json","missing-window.json","missing-evidence","not-a-repository");
+            try { adapter.ReadAsync().GetAwaiter().GetResult(); }
+            catch (ReaderFailure e) when (e.Message=="lab2-acquisition-disabled") { return; }
+            throw new Exception("Direct Lab2Source acquisition was not disabled");
+        });
         Accept("doctor tolerates absent Node executable", () =>
         {
             var repo = Environment.CurrentDirectory;

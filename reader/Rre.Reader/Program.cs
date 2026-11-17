@@ -12,14 +12,14 @@ public static class Program
         {
             if (args.Length == 0 || args is ["--help"] or ["help"])
             {
-                Console.WriteLine($"RRE host reader {ReaderVersion} (offline file adapters; Lab2 acquisition blocked on LEGION)\n"
+                Console.WriteLine($"RRE host reader {ReaderVersion} (offline file adapters; legacy Lab2 acquisition disabled on every host)\n"
                     + "combat --input RiftReader2Casting.lua --repo RRE_ROOT [--output NEW_FILE]\n"
                     + "quests --input RRECollector.lua --repo RRE_ROOT [--previous RRECollector.lua] [--output NEW_FILE]\n"
                     + "capture|validate --source saved --input FILE --repo RRE_ROOT [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source memory-scan --input SCAN_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source native-snapshot --input SNAPSHOT_JSON --request REQUEST_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
                     + "capture|validate --source publication --input FRAME_ARTIFACT_JSON --session HEX32 --sequence N [--module all|abilities|context] [--output NEW_FILE]\n"
-                    + "capture --source lab2 --input BINDING_JSON --window WINDOW_JSON --evidence NEW_ARTIFACT_DIR --repo C:\\work\\rre [--module all|abilities|context] [--output NEW_FILE]\n"
+                    + "capture --source lab2 (disabled under physical-only routing; historical offline fixtures remain readable)\n"
                     + "doctor --repo RRE_ROOT\nOutputs one JSON document per invocation; diagnostics go to stderr. Existing files are never overwritten.");
                 return 0;
             }
@@ -48,9 +48,9 @@ public static class Program
                     ["nodeAvailable"] = node.Available, ["nodeVersion"] = node.Version,
                     ["savedHelperPresent"] = File.Exists(Path.Combine(repo, "tools", "rre-reader-saved-snapshot.mjs")),
                     ["literalParserPresent"] = File.Exists(Path.Combine(repo, "tools", "read-rrecollector-saved.mjs")),
-                    ["adapters"] = new JsonArray("saved", "casting-evidence-offline", "quest-journal-offline", "memory-scan-replay", "native-snapshot-replay", "publication-replay", "lab2-bounded-acquisition"),
+                    ["adapters"] = new JsonArray("saved", "casting-evidence-offline", "quest-journal-offline", "memory-scan-replay", "native-snapshot-replay", "publication-replay"),
                     ["lab2AcquisitionImplemented"] = true,
-                    ["lab2AcquisitionAllowedThisHost"] = !string.Equals(Environment.MachineName, "LEGION", StringComparison.OrdinalIgnoreCase),
+                    ["lab2AcquisitionAllowedThisHost"] = false,
                     ["liveAcceptanceRequiresCurrentEvidence"] = true,
                     ["gameInputImplemented"] = false
                 };
@@ -145,12 +145,13 @@ public static class Program
         => options.GetValueOrDefault(name) ?? throw new ReaderFailure("missing-option:" + name);
     private static void Only(Dictionary<string, string> options, params string[] allowed)
         => DataRules.Require(options.Keys.All(allowed.Contains), "unknown-option");
-    // Host-specific guard precedes path resolution and any acquisition preflight.
-    // Offline file adapters remain usable on LEGION; the Lab2 live route does not.
+    // Physical-only routing guard precedes path resolution and acquisition preflight.
+    // Keep the host parameter for existing callers; deny Lab2 acquisition on every host.
+    // Saved, memory-scan, native-snapshot and publication offline adapters remain usable.
     public static void RequireSourceHost(string source, string host)
     {
-        if (source == "lab2" && string.Equals(host, "LEGION", StringComparison.OrdinalIgnoreCase))
-            throw new ReaderFailure("legion-physical-only");
+        if (source == "lab2")
+            throw new ReaderFailure("lab2-acquisition-disabled");
     }
     public static void Publish(string destination, string json)
     {
