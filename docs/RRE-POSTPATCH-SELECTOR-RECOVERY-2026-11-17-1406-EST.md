@@ -1,6 +1,6 @@
 # RRE postpatch selector chain: concrete static resolution
 
-**Tuesday, November 17, 2026 | ~14:02–14:21 EST | AMD-DESKTOP | RRE main.**
+**Tuesday, November 17, 2026 | ~14:02–14:30 EST | AMD-DESKTOP | RRE main.**
 
 ## Scope and source
 
@@ -34,6 +34,12 @@ Six bounded specialist jobs exited 0: `rre-sel-table-01-20261117` … `rre-sel-t
 The `!91b4eae3` key is copied/assigned, **not hashed by `0x52DD00`**. The wrapper constructor obtains manager `0x893FC0` and invokes `0x1274D64`; `0x1294AAC` derives C-string length and `0x52DD00` stores key bytes with allocation/SSO and NUL handling. `0x1274DA5–0x1274DAC` increments manager `+0x48`, with first-use conditional calls at `0x1274DD4`, `0x1274DFF`, `0x1274E6C`. Paired wrapper destructor `0xF7CC89` calls cleanup `0x1274968`, which decrements the count and follows a final-release branch when zero. **Exact manager service, meaning of key and wrapper+8 owner remain unproven.**
 
 Independent bounded jobs: `rre-child-wa006-manager-deps-1117-02`, `rre-child-wa006-manager-dasm-1117-03`, `rre-child-wa006-manager-lifetime-1117-04` all exit0. First command `rre-child-wa006-manager-small-1117-01` exit1 due system Python lacking `pefile`; the already-installed repo `.venv` solved this without installation. The corresponding phrase in the prior report was corrected in place.
+
+### WA006 singleton root, without a premature owner claim
+
+Four additional SHA-pinned archived-PE read-only jobs (`rre-child-wa006-sameinstance-xrefs-1117-01`, `-callers-1117-02`, `-globalxrefs-1117-03`, `-manager-writers-1117-04`) exited0. Eight PDATA-aligned callers of wrapper constructor `0xF7CC20` (`0x4A298A`, `0x6A6986`, `0x751CFA`, `0x82E0B2`, `0xF7DD78`, `0xF7F0F9`, `0xF8431B`, `0xFD9ED2`) allocate **0x68 bytes**, then place the returned wrapper into the same RIP-global singleton at VA `0x143373C58` (RVA `0x3373C58`). Some callers store it twice. The scan confirmed 68 direct RIP-relative references to that singleton; this is a concrete root for bounded member-write tracing, **not proof of wrapper+8 owner**.
+
+The manager increments `[rsi+0x48]` at `0x1274DA5`, compares its first-use transition at `0x1274DA8`, and conditionally calls `0x127647C`, `0x128F81C`, and `0x129347C`. Cleanup decrements `[rcx+0x48]` at `0x1274971`, with a zero-count callback to `0x129359C` at `0x12749DB`. Their domain/service identities remain unknown because these manager helpers are widely shared. Crucial alias distinction: `0x13E9A2B` clears **`[wrapper+8]`**, whereas `0x13E9A62` writes **`[child+8]=wrapper`** (a child backpointer). Both `0x13EA600` and `0x13E9F10` read `[wrapper+8]`; none of these demonstrates its missing nonzero writer. **Same-instance ownership remains unresolved.**
 
 ## P0 host normal construction now source-qualified
 
@@ -73,12 +79,14 @@ Both constructors clear refcount at `+0x08` and mask at `+0x10`. In both builds,
 
 The coordinator independently re-ran **46/46 unit tests** after the normal-host and `InGame` checks: ROOT001 B **20/20**, WA006 **13/13**, analyzer **13/13**. Jobs `rre-1117-host-ingame-final-b-unit-1421`, `-wa-unit-1421`, `-an-unit-1421` exited0. Real archived PE jobs `rre-1117-host-ingame-final-b-real-1421` and `-wa-real-1421` also exited0: respectively **`SOURCE_PINNED_ONLY`** and **`SOURCE_MAP_PINNED_ONLY`**. The B gate checks the earlier selector opcodes/vptr/+0xB8/registry and now the normal factory allocation, ctor vptr, four RIP-relative LEA targets (including `InGame`), four direct-call targets, six host-state opcodes and literal bytes. Seven added mutation-test methods across the two increments reject altered anchors. Source outputs `selectorSourcePinned=true`, `hostConstructionSourcePinned=true`, `inGameTransitionsSourcePinned=true`, but **`functionIdentityQualified=false`** and **`runtimeQualified=false`**. This source-chain proof does **not** upgrade runtime compatibility.
 
+New standalone **`tools/verify_prepost_root001_layout.py`** compares both SHA-256/size-pinned archived PEs, five opcode anchors, three rel32 calls, one vtable LEA and four vtable slots **per build**. On direct coordinator rerun, archived-PE gate `rre-coord-1117-1430-cross-real` exited0 with `SOURCE_PINNED_ONLY`, the **0xA8→0xA0**, **+0x20→+0x18**, and **0x01→0x80** differences; 10 synthetic/optional-real regression tests in `tools/test_verify_prepost_root001_layout.py` passed (`rre-coord-1117-1430-cross-test`, exit0, 0.168s). `git diff --check` exited0 (`rre-coord-1117-1430-diff-check`). The gate reports `layoutCompatible=false`, **`functionIdentityQualified=false`**, and **`runtimeQualified=false`**. Invocation from `C:\work\rre`: `.venv\Scripts\python.exe tools\verify_prepost_root001_layout.py`; no live client attachment.
+
 ## Next work, ranked
 
 | Priority | Action | Reason | Expected result | Execution |
 | --- | --- | --- | --- | --- |
 | **P0** | Qualify the active adapter/receiver against the physical postpatch client only after fresh task-specific authority and exact build/process/owner gates | Static selector and `InGame` transitions now pass source gates; gameplay behavior is still unknown | Verified live receiver identity and compatibility result or safely recorded failed gate | Requires Joey approval before live observation |
-| **P1** | Extend the source regression evidence to preserve the qualified old/new B object-layout and mask change | A real 0xA8→0xA0 layout and bit0→bit7 change could regress unnoticed | Pinned old/new archival opcodes in a bounded comparison test, runtime flag unchanged | Autonomous, offline |
-| **P1** | Trace the registration manager's first-use/last-release callbacks and wrapper same-instance `+8` ownership | WA006 domain and runtime owner still unknown | Confirmed service/owner link or documented bounded negative | Autonomous, offline |
+| **P1** | Qualify the remaining `InGame` Path A activation-guard meaning using archived source and existing trace | Both `InGame` setter paths are pinned, but guard predicates are not yet understood | Function-boundary proof of guarded activation conditions without asserting live behavior | Autonomous, offline |
+| **P1** | Trace same-instance `[wrapper+8]` writes from the 68 singleton references, then examine helper `0x078538`/`0x0786CC` if needed | Manager first/last callbacks and singleton roots are source-verified, but nonzero member writer and service meaning remain unknown | Source-qualified member writer or bounded negative without confusing child backpointer | Autonomous, offline |
 
 **Stop line:** static registry/call-path qualification is not proof of current running RIFT behavior. Preserve other sessions' nine untracked entries and all current controller/game state.
