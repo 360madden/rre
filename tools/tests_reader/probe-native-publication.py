@@ -101,18 +101,24 @@ def main():
     parser.add_argument('--native', type=Path)
     parser.add_argument('--reader', type=Path)
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--expected-reader-sha256', default=READER_SHA)
+    parser.add_argument('--expected-sequence', type=int, default=4)
+    parser.add_argument('--expected-producer-version')
     args = parser.parse_args()
     if args.fixture: return fixture(args.fixture)
     assert all([args.publication, args.native, args.reader, args.output])
     assert sha(args.native) == NATIVE_SHA
-    assert sha(args.reader) == READER_SHA, 'reader-not-accepted-0.1.2'
+    assert len(args.expected_reader_sha256) == 64 and all(c in '0123456789abcdefABCDEF' for c in args.expected_reader_sha256)
+    assert sha(args.reader) == args.expected_reader_sha256.lower(), 'reader-sha-mismatch'
     dotnet = Path(shutil.which('dotnet') or '').resolve()
     assert dotnet.is_file(), 'dotnet-host-missing'
     publication = read_json(args.publication); frames = publication['frames']
     assert len(frames) == 5
     session = frames[0].split('|')[1]; sequence = int(frames[0].split('|')[2], 16)
     prefix = f'RREC2|{session}|{sequence:016X}|'.encode('ascii')
-    assert sequence == 4 and all(f.startswith(prefix.decode('ascii')) for f in frames)
+    assert sequence == args.expected_sequence and all(f.startswith(prefix.decode('ascii')) for f in frames)
+    if args.expected_producer_version:
+        assert all(json.loads(f.split('|', 4)[4][:-9])['addonVersion'] == args.expected_producer_version for f in frames), 'producer-version-mismatch'
     out = args.output.resolve(); out.mkdir(parents=True, exist_ok=False)
     # A Windows venv redirector can have a different PID from its interpreter.
     # Launch the already installed base interpreter directly so its OS handle,
@@ -123,7 +129,9 @@ def main():
                              cwd=ROOT, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              text=True, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     receipt = dict(status='failed', scope='controlled-host-fixture-only', gameProcessRead=False, guestOperations=0,
-                   nativeSha256=NATIVE_SHA, sourceHashes=inputs, runs=[])
+                   nativeSha256=NATIVE_SHA, expectedReaderSha256=args.expected_reader_sha256.lower(),
+                    expectedSequence=args.expected_sequence, expectedProducerVersion=args.expected_producer_version,
+                    sourceHashes=inputs, runs=[])
     try:
         meta = line_with_timeout(child.stdout); assert meta['pid'] == child.pid
         target = target_for(child, fixture_exe); write_json(out / 'fixture-identity.json', dict(metadata=meta, target=target, session=session, sequence=sequence))
