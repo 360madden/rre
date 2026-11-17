@@ -30,6 +30,12 @@ class PostpatchWa006Tests(unittest.TestCase):
             rva = gate.parse_rva(call["callRva"])
             target = gate.parse_rva(call["targetRva"])
             self.windows[(rva, 5)] = b"\xe8" + struct.pack("<i", target - (rva + 5))
+        self.windows[(gate.DERIVED_VTABLE_LEA_RVA, 7)] = bytes.fromhex("488d0533187a01")
+        self.windows[(gate.DERIVED_VPTR_STORE_RVA, 3)] = bytes.fromhex("488903")
+        for slot in gate.DERIVED_METHOD_SLOTS:
+            self.windows[(gate.DERIVED_VTABLE_RVA + slot, 8)] = struct.pack(
+                "<Q", 0x140000000 + gate.DERIVED_METHOD_RVA)
+        self.windows[(gate.DERIVED_METHOD_RVA, len(gate.DERIVED_METHOD_BYTES))] = gate.DERIVED_METHOD_BYTES
 
     def check(self):
         return gate.verify_source(lambda rva, n: self.windows.get((rva, n)), self.manifest)
@@ -39,6 +45,8 @@ class PostpatchWa006Tests(unittest.TestCase):
         self.assertEqual((result["sourceWindowsChecked"], result["directCallsChecked"]), (7, 7))
         self.assertFalse(result["ownerQualified"])
         self.assertFalse(result["runtimeQualified"])
+        self.assertEqual(result["derivedVtableSlotsChecked"], 3)
+        self.assertTrue(result["derivedField8SentinelStoreSourcePinned"])
 
     def test_all_window_mutations_rejected(self):
         for entry in self.manifest["windows"]:
@@ -66,6 +74,25 @@ class PostpatchWa006Tests(unittest.TestCase):
             with self.subTest(id=edge["id"]), self.assertRaisesRegex(gate.GateError, "opcode"):
                 self.check()
             self.windows[key] = original
+
+    def test_derived_wrapper_constructor_and_slots_mutations_fail(self):
+        for key in [(gate.DERIVED_VTABLE_LEA_RVA, 7), (gate.DERIVED_VPTR_STORE_RVA, 3)] + [
+            (gate.DERIVED_VTABLE_RVA + slot, 8) for slot in gate.DERIVED_METHOD_SLOTS
+        ]:
+            original = self.windows[key]
+            self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
+            try:
+                with self.subTest(key=hex(key[0])), self.assertRaises(gate.GateError):
+                    self.check()
+            finally:
+                self.windows[key] = original
+
+    def test_derived_virtual_setter_nonzero_field8_mutation_fails(self):
+        key = (gate.DERIVED_METHOD_RVA, len(gate.DERIVED_METHOD_BYTES))
+        original = self.windows[key]
+        self.windows[key] = original[:-2] + bytes([original[-2] ^ 1]) + original[-1:]
+        with self.assertRaisesRegex(gate.GateError, "virtual source setter"):
+            self.check()
 
     def test_missing_window_fails(self):
         entry = self.manifest["windows"][0]

@@ -27,6 +27,16 @@ REQUIRED_CALLS = frozenset(("callback_to_wrapper_ctor", "callback_to_wrapper",
                             "parent_to_virtual_adapter"))
 
 
+# SHA-pinned derived-wrapper virtual entry and source-only +8 DWORD store.
+# A valid virtual entry does not establish a live receiver or service identity.
+DERIVED_VTABLE_RVA = 0x271E468
+DERIVED_VTABLE_LEA_RVA = 0xF7CC2E
+DERIVED_VPTR_STORE_RVA = 0xF7CC3F
+DERIVED_METHOD_RVA = 0x78D920
+DERIVED_METHOD_SLOTS = (0x18, 0x30, 0x58)
+DERIVED_METHOD_BYTES = bytes.fromhex("c7411800000000c74108eeff7f7fc3")
+
+
 class GateError(Exception):
     pass
 
@@ -83,8 +93,25 @@ def verify_source(read, manifest: dict) -> dict:
         if target != expected_target:
             raise GateError(f"Direct CALL {edge['id']} target 0x{target:X}, expected 0x{expected_target:X}")
 
+    derived_lea = read(DERIVED_VTABLE_LEA_RVA, 7)
+    if derived_lea is None or derived_lea[:3] != bytes.fromhex("488d05"):
+        raise GateError("Derived-wrapper constructor vtable LEA absent")
+    table = DERIVED_VTABLE_LEA_RVA + 7 + struct.unpack_from("<i", derived_lea, 3)[0]
+    if table != DERIVED_VTABLE_RVA:
+        raise GateError(f"Derived-wrapper constructor vtable target differs: 0x{table:X}")
+    if read(DERIVED_VPTR_STORE_RVA, 3) != bytes.fromhex("488903"):
+        raise GateError("Derived-wrapper constructor vptr store differs")
+    for slot in DERIVED_METHOD_SLOTS:
+        entry = read(DERIVED_VTABLE_RVA + slot, 8)
+        if entry is None or struct.unpack("<Q", entry)[0] != 0x140000000 + DERIVED_METHOD_RVA:
+            raise GateError(f"Derived-wrapper virtual slot +0x{slot:X} differs")
+    if read(DERIVED_METHOD_RVA, len(DERIVED_METHOD_BYTES)) != DERIVED_METHOD_BYTES:
+        raise GateError("Derived-wrapper virtual source setter differs")
+
     return {"status": "SOURCE_MAP_PINNED_ONLY", "newBuildSha256": BUILD_SHA256,
             "sourceWindowsChecked": len(windows), "directCallsChecked": len(calls),
+            "derivedVtableSlotsChecked": len(DERIVED_METHOD_SLOTS),
+            "derivedField8SentinelStoreSourcePinned": True,
             "ownerQualified": False, "runtimeQualified": False}
 
 

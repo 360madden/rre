@@ -25,7 +25,8 @@ class SourceGateTests(unittest.TestCase):
             (rva, len(bytes.fromhex(opcode))): bytes.fromhex(opcode)
             for _, rva, opcode in (gate.OPCODES + gate.STATE_DELTA_OPCODES + gate.SELECTOR_OPCODES
                                    + gate.HOST_STATE_OPCODES + gate.INGAME_A_GUARD_OPCODES
-                                   + gate.INGAME_A_STATE12_OPCODES)
+                                   + gate.INGAME_A_STATE12_OPCODES + gate.INGAME_CONTEXT_PREDICATE_OPCODES
+                                    + gate.INGAME_STATE_MANAGER_OPCODES)
         }
         self.windows[(gate.VTABLE_RVA, 56)] = bytes(self.vptr)
         self.windows[(gate.EXPECTED_B_ENTRY, len(self.prefix))] = self.prefix
@@ -46,7 +47,8 @@ class SourceGateTests(unittest.TestCase):
         self.windows[(0xFCEFFE, 5)] = bytes.fromhex("e84dec7aff")
         self.windows[(0xFCF5C2, 5)] = bytes.fromhex("e8c96e79ff")
         self.windows[(0xFCF5CF, 5)] = bytes.fromhex("e87ce67aff")
-        for _, rva, target in gate.INGAME_A_GUARD_CALL_TARGETS + gate.INGAME_A_STATE12_CALL_TARGETS:
+        for _, rva, target in (gate.INGAME_A_GUARD_CALL_TARGETS + gate.INGAME_A_STATE12_CALL_TARGETS
+                               + gate.INGAME_CONTEXT_PREDICATE_CALL_TARGETS + gate.INGAME_STATE_MANAGER_CALL_TARGETS):
             self.windows[(rva, 5)] = b"\xe8" + struct.pack("<i", target - (rva + 5))
 
     def verify(self):
@@ -75,6 +77,12 @@ class SourceGateTests(unittest.TestCase):
         self.assertEqual(report["checkedInGameAState12Opcodes"], 6)
         self.assertEqual(report["checkedInGameAState12CallTargets"], 4)
         self.assertTrue(report["inGameAState12SourcePinned"])
+        self.assertEqual(report["checkedContextPredicateOpcodes"], 3)
+        self.assertEqual(report["checkedContextPredicateCallTargets"], 1)
+        self.assertTrue(report["contextPredicateSourcePinned"])
+        self.assertEqual(report["checkedStateManagerOpcodes"], 4)
+        self.assertEqual(report["checkedStateManagerCallTargets"], 1)
+        self.assertTrue(report["stateManagerSourcePinned"])
 
     def test_all_opcode_mutations_fail(self):
         for _, rva, opcode in gate.OPCODES:
@@ -171,6 +179,30 @@ class SourceGateTests(unittest.TestCase):
             self.windows[key] = original[:1] + bytes([original[1] ^ 1]) + original[2:]
             try:
                 with self.subTest(anchor=label), self.assertRaisesRegex(gate.GateError, "direct call targets"):
+                    self.verify()
+            finally:
+                self.windows[key] = original
+
+    def test_context_predicate_and_state_manager_mutations_fail(self):
+        for _, rva, opcode in (gate.INGAME_CONTEXT_PREDICATE_OPCODES
+                               + gate.INGAME_STATE_MANAGER_OPCODES):
+            key = (rva, len(bytes.fromhex(opcode)))
+            original = self.windows[key]
+            self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
+            try:
+                with self.subTest(rva=hex(rva)), self.assertRaises(gate.GateError):
+                    self.verify()
+            finally:
+                self.windows[key] = original
+
+    def test_context_and_state_manager_call_mutations_fail(self):
+        for _, rva, _ in (gate.INGAME_CONTEXT_PREDICATE_CALL_TARGETS
+                          + gate.INGAME_STATE_MANAGER_CALL_TARGETS):
+            key = (rva, 5)
+            original = self.windows[key]
+            self.windows[key] = original[:1] + bytes([original[1] ^ 1]) + original[2:]
+            try:
+                with self.subTest(rva=hex(rva)), self.assertRaises(gate.GateError):
                     self.verify()
             finally:
                 self.windows[key] = original
