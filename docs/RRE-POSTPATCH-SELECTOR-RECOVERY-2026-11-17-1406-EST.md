@@ -1,6 +1,6 @@
 # RRE postpatch selector chain: concrete static resolution
 
-**Tuesday, November 17, 2026 | ~14:02–14:07 EST | AMD-DESKTOP | RRE main.**
+**Tuesday, November 17, 2026 | ~14:02–14:21 EST | AMD-DESKTOP | RRE main.**
 
 ## Scope and source
 
@@ -27,7 +27,7 @@ Independent coordinator's PE-header/raw-byte check `rre-1117-independent-selecto
 - vptr LEA/write `488d0d0bfbf601488908`, selector `ff90b8000000`;
 - archived SHA-256 matches exactly.
 
-Six bounded specialist jobs exited 0: `rre-sel-table-01-20261117` … `rre-sel-table-04-20261117`, plus two bounded follow-up jobs documenting registry selection. Coordinator additionally ran independent disassembly and decoded `InGame\\0` directly from `.rdata` in `rre-1117-selector-reg-independent-1409` (exit0). No live game interaction.
+Six bounded specialist jobs exited 0: `rre-sel-table-01-20261117` … `rre-sel-table-04-20261117`, plus two bounded follow-up jobs documenting registry selection. Coordinator additionally ran independent disassembly and decoded the NUL-terminated `InGame` literal directly from `.rdata` in `rre-1117-selector-reg-independent-1409` (exit0). No live game interaction.
 
 ## P1 WA006: corrected key-manager classification
 
@@ -35,21 +35,50 @@ The `!91b4eae3` key is copied/assigned, **not hashed by `0x52DD00`**. The wrappe
 
 Independent bounded jobs: `rre-child-wa006-manager-deps-1117-02`, `rre-child-wa006-manager-dasm-1117-03`, `rre-child-wa006-manager-lifetime-1117-04` all exit0. First command `rre-child-wa006-manager-small-1117-01` exit1 due system Python lacking `pefile`; the already-installed repo `.venv` solved this without installation. The corresponding phrase in the prior report was corrected in place.
 
-## P1 bit7: cross-build homolog **not** established
+## P0 host normal construction now source-qualified
 
-Current state-object constructor `0x1C10390` installs vtable `0x2A293E8`; the `0xA0`-byte reference-counted object's `+0x10` flag mask is set by `OR ...,0x80`, meaning **bit7**. In the older archived executable, the same RVA contains a *different* function. An exact generic constructor-family byte pattern occurs 14 times; old RVAs `0x23BAB50` and `0x1B19BF0` resemble the new constructor but **are not identity qualified**. Do not assert patch changed this object's layout until tracing old B's allocator/constructor directly. Four short comparison jobs passed; an initial invalid executable path was retried without modification. No source files or game touched by that lane.
+An additional bounded caller trace established the **normal factory** rather than relying on the teardown/reset vptr assignment:
+- At `0x762394`, factory `0x762390` allocates a **0xA50-byte host**; `0x7623B0` directly calls constructor `0x75BE50`.
+- Constructor calls base init `0x12602F8` at `0x75BE77`, then `0x75BE84 lea rcx,[rip+0x1F71175]` and `0x75BE8B mov [rax],rcx` install **the same vtable RVA `0x26CD000`**.
+- `0x75C02D–0x75C036` initializes state key at host `+0x1F8`; `0x75C043` clears selected adapter `+0x218`; `0x75C06C–0x75C075` initializes registry `+0x240`.
+- Factory calls `0x6A4350` at `0x7623D1` with the new host and a global address (precise ownership still unknown). The separate `0x76234D` state setter call constructs **`ConnectToGameFailed\0`** only on a false predicate; that path is **not** the normal `InGame` activation.
+
+The archived executable and opcodes were independently checked by coordinator job `rre-1117-independent-host-ctor-1418` (exit0). Four specialist jobs `rre-host-ctor-01-function-windows-1117` through `rre-host-ctor-04-factory-call-window-1117` exited0. This **proves source-level normal construction and registry initialization**, but no currently running process or active receiver was sampled.
+
+### Two `InGame` state transitions independently source-qualified
+
+Aligned, function-boundary-aware Capstone disassembly (not raw opcode-proximity scanning) identifies two actual calls that construct `InGame` and pass it to setter `0x77DC50`:
+
+- **Path A, call `0xFCEFFE`:** Literal `InGame` at RVA `0x26B5FD0` is loaded at `0xFCEF8F` (short-buffer branch) or `0xFCEFD8` (heap branch). The local SSO object is copied and NUL terminated; `0xFCEFF7 lea rdx,[rbp-0x21]`, `0xFCEFFB mov rcx,r13` (host), then `0xFCEFFE call 0x77DC50`. Guards at `0xFCEF24–0xFCEF5D` examine `r14b`, `r15d`, predicate `0xFA3940`, result of `0x4C4180 == 2`, and optionally `0x81BFF0`. **Their gameplay meanings are unknown**.
+- **Path B, call `0xFCF5CF`:** The same `InGame` literal appears at `0xFCF523`, `0xFCF558`, or `0xFCF5A2` across string-size branches; the local string is NUL terminated. At `0xFCF5C2`, host getter `0x766490` is called, then `0xFCF5C7 mov rcx,rax`, `0xFCF5CA lea rdx,[rsp+0x30]`, and `0xFCF5CF call 0x77DC50`. Getter `0x766490` uses global-holder RVA `0x3383CB0` and calls `0x6A43D0`, the **same getter** the host factory calls at `0x7623DE`. This connects a normal host-factory holder with a concrete `InGame` activation path.
+
+All five state-key specialist jobs passed: `rre-host-statekey-01-ssosource-1117` through `rre-host-statekey-05-guard-hostgetter-1117`. These establish **static reachability and argument flow**, not that the current game process executed either path, populated registry, or selected B.
+
+## P1 bit7: genuine old/new B-path layout and mask change **qualified**
+
+The earlier generic constructor search was inconclusive; a subsequent **actual B-helper call-chain comparison** resolved the homolog without guessing an RVA:
+
+| Evidence | Old `STABLE-1-1177-a-1256632` | New `STABLE-1-1179-a-1256672` |
+| --- | --- | --- |
+| B helper | `0xFCAA65 → 0x1C162C0` | `0xFCAA35 → 0x1C1AE90` |
+| Object allocation | `0x1C162F3`, **0xA8 bytes** | `0x1C1AEC3`, **0xA0 bytes** |
+| Object constructor | `0x1C0BC80` | `0x1C10390` |
+| Constructor vtable | `0x2A1CFB0` | `0x2A293E8` |
+| B state field | `+0x20` | `+0x18` |
+| B mask set | `OR [object+0x10],0x01` (**bit0**) | `OR [object+0x10],0x80` (**bit7**) |
+
+Both constructors clear refcount at `+0x08` and mask at `+0x10`. In both builds, matching virtual slots `+0x08` (bit test), `+0x18` (bit set/clear), `+0x20` (four-byte mask serialization), and `+0x28` (flag reconstruction retaining bit31) establish a **corresponding functional object family**. Four cross-build jobs `rre-oldb-homolog1-1117` through `rre-oldb-homolog4-1117` exited0 against SHA-verified archives. **This is a verified change to allocation size, state-field offset and flag bit, not a mere RVA relocation.** The class name, bit meaning and runtime consequences remain unknown.
 
 ## Regression and acceptance gates
 
-The coordinator independently re-ran **42/42 unit tests** after adding the selector source checks: ROOT001 B **16/16**, WA006 **13/13**, analyzer **13/13**. Jobs `rre-1117-postpatch-integration-b-unit-1412`, `-wa-unit-1412`, `-an-unit-1412` exited 0. Real archived PE jobs `rre-1117-postpatch-integration-b-real-1412` and `-wa-real-1412` also exited 0: respectively **`SOURCE_PINNED_ONLY`** and **`SOURCE_MAP_PINNED_ONLY`**. The B gate now checks three selector opcodes, host vptr target, vtable `+0xB8` target, and the registry offset; three new mutation-test methods ensure corruption is rejected. `selectorSourcePinned=true`, but **`functionIdentityQualified=false`** and **`runtimeQualified=false`**. This source-chain proof does **not** upgrade runtime compatibility.
+The coordinator independently re-ran **46/46 unit tests** after the normal-host and `InGame` checks: ROOT001 B **20/20**, WA006 **13/13**, analyzer **13/13**. Jobs `rre-1117-host-ingame-final-b-unit-1421`, `-wa-unit-1421`, `-an-unit-1421` exited0. Real archived PE jobs `rre-1117-host-ingame-final-b-real-1421` and `-wa-real-1421` also exited0: respectively **`SOURCE_PINNED_ONLY`** and **`SOURCE_MAP_PINNED_ONLY`**. The B gate checks the earlier selector opcodes/vptr/+0xB8/registry and now the normal factory allocation, ctor vptr, four RIP-relative LEA targets (including `InGame`), four direct-call targets, six host-state opcodes and literal bytes. Seven added mutation-test methods across the two increments reject altered anchors. Source outputs `selectorSourcePinned=true`, `hostConstructionSourcePinned=true`, `inGameTransitionsSourcePinned=true`, but **`functionIdentityQualified=false`** and **`runtimeQualified=false`**. This source-chain proof does **not** upgrade runtime compatibility.
 
 ## Next work, ranked
 
 | Priority | Action | Reason | Expected result | Execution |
 | --- | --- | --- | --- | --- |
-| **P0** | Trace host object's construction/activation path, distinguishing the proven vptr write from reset/destruction | Current vtable slot is concrete, but active instance identity is not | Prove constructor-side vptr assignment and state-key activation, or bounded negative with exact paths | Coordinator autonomous, offline |
-| **P1** | Follow old B's allocator call to qualify the prepatch state-object constructor | 14 generic constructor hits cannot establish identity | Proven cross-build homolog and field/flag comparison or bounded negative | Autonomous, offline |
+| **P0** | Qualify the active adapter/receiver against the physical postpatch client only after fresh task-specific authority and exact build/process/owner gates | Static selector and `InGame` transitions now pass source gates; gameplay behavior is still unknown | Verified live receiver identity and compatibility result or safely recorded failed gate | Requires Joey approval before live observation |
+| **P1** | Extend the source regression evidence to preserve the qualified old/new B object-layout and mask change | A real 0xA8→0xA0 layout and bit0→bit7 change could regress unnoticed | Pinned old/new archival opcodes in a bounded comparison test, runtime flag unchanged | Autonomous, offline |
 | **P1** | Trace the registration manager's first-use/last-release callbacks and wrapper same-instance `+8` ownership | WA006 domain and runtime owner still unknown | Confirmed service/owner link or documented bounded negative | Autonomous, offline |
-| **P2** | Seek new, task-specific authority for physical RIFT read-only selection observation once static gates are stable | Executable code alone cannot prove current active in-game receiver | Source-and-runtime receiver identity with exact build/process/owner gates | Joey involvement required before any live operation |
 
 **Stop line:** static registry/call-path qualification is not proof of current running RIFT behavior. Preserve other sessions' nine untracked entries and all current controller/game state.

@@ -39,6 +39,29 @@ SELECTOR_OPCODES = (
     ("selector_add_registry_offset_240", 0x7664EC, "480540020000"),
 )
 
+# Normal host construction and two InGame activation paths. These are source-only
+# anchors: even exact matches do not prove a currently running instance selected B.
+HOST_STATE_OPCODES = (
+    ("host_factory_allocation_0xA50", 0x762394, "b9500a0000"),
+    ("host_constructor_vptr_store", 0x75BE8B, "488908"),
+    ("ingame_A_local_SSO_RDX", 0xFCEFF7, "488d55df"),
+    ("ingame_A_host_R13_RCX", 0xFCEFFB, "498bcd"),
+    ("ingame_B_getter_result_RCX", 0xFCF5C7, "488bc8"),
+    ("ingame_B_local_SSO_RDX", 0xFCF5CA, "488d542430"),
+)
+HOST_RIP_LEA_TARGETS = (
+    ("host_constructor_vtable", 0x75BE84, "488d0d", SELECTOR_VTABLE_RVA),
+    ("ingame_A_literal", 0xFCEF8F, "488d15", 0x26B5FD0),
+    ("ingame_B_literal", 0xFCF558, "488d15", 0x26B5FD0),
+    ("host_global_getter", 0x766494, "488d0d", 0x3383CB0),
+)
+HOST_CALL_TARGETS = (
+    ("host_factory_constructor", 0x7623B0, 0x75BE50),
+    ("ingame_A_state_setter", 0xFCEFFE, 0x77DC50),
+    ("ingame_B_host_getter", 0xFCF5C2, 0x766490),
+    ("ingame_B_state_setter", 0xFCF5CF, 0x77DC50),
+)
+
 # Strict bytes at each mapped RVA: static evidence only, never a live address.
 OPCODES = (
     ("dispatch_forwards_rdx_and_virtual_slot_18", 0x77A17D, "488b542450ff5018"),
@@ -73,7 +96,7 @@ def assert_bytes(read, rva: int, expected: bytes, label: str) -> None:
 
 
 def verify_source(read) -> dict:
-    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES:
+    for label, rva, opcode in OPCODES + STATE_DELTA_OPCODES + SELECTOR_OPCODES + HOST_STATE_OPCODES:
         assert_bytes(read, rva, bytes.fromhex(opcode), label)
 
     vptr = read(VTABLE_RVA, 56)
@@ -102,6 +125,22 @@ def verify_source(read) -> dict:
     if selector_slot is None or struct.unpack("<Q", selector_slot)[0] != 0x140000000 + SELECTOR_IMPL_RVA:
         raise GateError("Host selector vtable +0xB8 target changed or is unmapped")
 
+    for label, rva, lea_prefix, expected_target in HOST_RIP_LEA_TARGETS:
+        lea = read(rva, 7)
+        if lea is None or lea[:3] != bytes.fromhex(lea_prefix):
+            raise GateError(f"{label}: expected RIP-relative LEA at 0x{rva:X}")
+        target = rva + 7 + struct.unpack_from("<i", lea, 3)[0]
+        if target != expected_target:
+            raise GateError(f"{label}: LEA targets 0x{target:X}, expected 0x{expected_target:X}")
+    assert_bytes(read, 0x26B5FD0, b"InGame\x00", "InGame state-key literal")
+    for label, rva, expected_target in HOST_CALL_TARGETS:
+        call = read(rva, 5)
+        if call is None or call[0] != 0xE8:
+            raise GateError(f"{label}: expected direct call at 0x{rva:X}")
+        target = rva + 5 + struct.unpack_from("<i", call, 1)[0]
+        if target != expected_target:
+            raise GateError(f"{label}: direct call targets 0x{target:X}, expected 0x{expected_target:X}")
+
     prefix = read(EXPECTED_B_ENTRY, PREFIX_END_RVA - EXPECTED_B_ENTRY)
     if prefix is None or hashlib.sha256(prefix).hexdigest() != EXPECTED_B_PREFIX_SHA:
         raise GateError("Adapter B source-prefix hash changed")
@@ -120,6 +159,11 @@ def verify_source(read) -> dict:
         "checkedOpcodes": len(OPCODES),
         "checkedStateDeltaOpcodes": len(STATE_DELTA_OPCODES),
         "checkedSelectorOpcodes": len(SELECTOR_OPCODES),
+        "checkedHostStateOpcodes": len(HOST_STATE_OPCODES),
+        "checkedHostLeaTargets": len(HOST_RIP_LEA_TARGETS),
+        "checkedHostCallTargets": len(HOST_CALL_TARGETS),
+        "hostConstructionSourcePinned": True,
+        "inGameTransitionsSourcePinned": True,
         "selectorSourcePinned": True,
         "selectorVtableRva": f"0x{SELECTOR_VTABLE_RVA:X}",
         "selectorCandidateRva": f"0x{SELECTOR_IMPL_RVA:X}",
