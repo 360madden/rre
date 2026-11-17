@@ -79,6 +79,23 @@ class AnalyzerTests(unittest.TestCase):
         self.assertFalse(data["nativeOffsetsQualified"])
         self.assertTrue(all(s["status"] == "identical" for s in data["sections"]))
 
+    def test_section_write_permission_change_is_not_identical(self):
+        changed = bytearray(self.orig)
+        first_characteristics = 0x98 + 0xF0 + 36
+        old_flags = struct.unpack_from("<I", changed, first_characteristics)[0]
+        struct.pack_into("<I", changed, first_characteristics, old_flags | 0x80000000)
+        self.after.write_bytes(changed)
+        proc, report = self.run_compare()
+        self.assertEqual(proc.returncode, 2, proc.stderr)
+        data = json.loads((report / "report.json").read_text(encoding="utf8"))
+        self.assertEqual(data["status"], "CHANGED")
+        self.assertEqual(data["sections"][0]["status"], "bytes_same_layout_changed")
+        self.assertEqual(data["sections"][0]["before"]["characteristics"], old_flags)
+        self.assertEqual(data["sections"][0]["after"]["characteristics"], old_flags | 0x80000000)
+        self.assertEqual(data["sections"][1]["status"], "identical")
+        self.assertTrue(data["rawSectionsUnchangedButFileChanged"])
+        self.assertFalse(data["nativeOffsetsQualified"])
+
     def test_text_byte_change_fails_closed_with_rva(self):
         changed = bytearray(self.orig)
         changed[0x217] ^= 1

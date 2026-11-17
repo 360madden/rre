@@ -30,7 +30,7 @@ Override --expected-before-sha only for a separately verified *different* baseli
 
 1. Whole-file SHA-256 and size, plus rehash and restat at completion to detect possible updater races.
 2. Strict PE32+ AMD64 header, file-backed/virtual section table and overlap validation.
-3. Per-section old/new RVA, file offset, sizes, executable flag and SHA-256. Changed mapped sections include bounded changed-byte-block ranges with old and new RVAs. This is **not** automatic function/semantic matching.
+3. Per-section old/new RVA, file offset, sizes, full PE section characteristics (including read/write/execute flags), and SHA-256. Metadata-only permission changes now count as changed sections even if raw bytes match. `rawSectionsUnchangedButFileChanged` still means raw section bytes are identical, not that section metadata is unchanged. Changed mapped section bytes include bounded changed-byte-block ranges with old and new RVAs. This is **not** automatic function/semantic matching.
 4. Four SHA-bound ROOT-001 instruction-byte canaries from tools/rift_update_anchors.json. The original must match its expected bytes. Identical bytes at the same RVA in the new file do not prove callback reachability, player identity or live validity.
 5. JSON schemaVersion 1 and a Markdown summary. Changed whole-file SHA always returns CHANGED, even when section bytes match (e.g. header/overlay edits).
 

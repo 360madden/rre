@@ -106,7 +106,7 @@ def inspect_pe(path: Path, size: int) -> dict:
             sections.append({
                 "id": key, "name": name, "index": index, "rva": rva,
                 "virtualSize": virtual_size, "rawOffset": raw_offset, "rawSize": raw_size,
-                "executable": bool(characteristics & 0x20000000),
+                "characteristics": characteristics, "executable": bool(characteristics & 0x20000000),
                 "sha256": sha_range(path, raw_offset, raw_size),
             })
         for group, description in ((raw_intervals, "raw"), (virtual_intervals, "virtual")):
@@ -174,8 +174,8 @@ def compare_sections(before: Path, after: Path, old_pe: dict, new_pe: dict, bloc
                             "before": old, "after": new})
             continue
         same_bytes = old["sha256"] == new["sha256"] and old["rawSize"] == new["rawSize"]
-        same_layout = (old["rva"], old["rawOffset"], old["virtualSize"], old["executable"]) == (
-            new["rva"], new["rawOffset"], new["virtualSize"], new["executable"])
+        same_layout = (old["rva"], old["rawOffset"], old["virtualSize"], old["characteristics"]) == (
+            new["rva"], new["rawOffset"], new["virtualSize"], new["characteristics"])
         verdict = "identical" if same_bytes and same_layout else (
             "bytes_same_layout_changed" if same_bytes else "bytes_changed")
         record = {"id": key, "status": verdict, "before": old, "after": new}
@@ -299,7 +299,10 @@ def execute(args: argparse.Namespace) -> int:
         "anchors": anchors,
         "blockBytes": args.block_bytes,
         "maxRecordedBlocksPerSection": args.max_blocks,
-        "rawSectionsUnchangedButFileChanged": before_sha != after_sha and all(s["status"] == "identical" for s in sections),
+        "rawSectionsUnchangedButFileChanged": before_sha != after_sha and all(
+            s["before"] is not None and s["after"] is not None and
+            s["before"]["rawSize"] == s["after"]["rawSize"] and
+            s["before"]["sha256"] == s["after"]["sha256"] for s in sections),
         "readOnlyInputs": True,
     }
     out.mkdir(parents=True, exist_ok=False)
