@@ -26,6 +26,8 @@ function verify(matrix) {
     // Historical RR2 prose can evolve in its working tree. Recover only the
     // explicitly pinned Git revision, then reconstitute its original Windows
     // checkout bytes before verifying the *unchanged* evidence SHA256.
+    if (item.id === 'rr2-physical-workflow')
+      requireTrue(Boolean(item.archivedGit), 'historical archive locator missing');
     let originalBytes;
     if (item.archivedGit) {
       const a = item.archivedGit;
@@ -295,12 +297,13 @@ try {
   try { verify(wrongSelf); } catch { rejectedFalseSelf = true; }
   requireTrue(rejectedFalseSelf, 'original-source-binding negative control failed');
   receipt.inMemoryCoordinatedSelfIdCorruptionNegativeControl = 'passed';
-  // Three separate synthetic failures must not bypass the immutable Git
+  // Four separate synthetic failures must not bypass the immutable Git
   // document anchor, even when all historical Lua/native artifacts are valid.
   const source = (m, id) => m.sources.find(item => item.id === id);
   const archiveCases = [
     ['wrong-commit', m => { source(m, 'rr2-physical-workflow').archivedGit.commit = '0'.repeat(40); }],
     ['wrong-EOL', m => { source(m, 'rr2-physical-workflow').archivedGit.checkoutEol = 'lf'; }],
+    ['removed-archive', m => { delete source(m, 'rr2-physical-workflow').archivedGit; }],
     ['unapproved-archive', m => {
       source(m, 'rre-contract').archivedGit =
         structuredClone(source(m, 'rr2-physical-workflow').archivedGit);

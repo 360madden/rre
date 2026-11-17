@@ -1,4 +1,4 @@
-// WA-006 offline mock tests using the already installed, SHA-pinned Windows Lua 5.3.
+// WA-006 offline mock tests using pinned Windows Lua 5.3 (default) or 5.1 (--lua51).
 // No dependency installation, RIFT process, input, game addon, or external writes.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -8,11 +8,26 @@ import {spawnSync} from 'node:child_process';
 
 const root = process.cwd();
 const probePath = path.join(root, 'tools/agents/collision/wa006_g2_one_shot.lua');
-const exe = 'C:\\work\\tools\\cheat-engine-master\\Cheat Engine\\bin\\lua_extra\\lua.exe';
-const dll = 'C:\\work\\tools\\cheat-engine-master\\Cheat Engine\\bin\\lua53-32.dll';
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-assert.equal(sha(exe), '702502820320538d06409d7818754ce529087ef8ff608a723f49b1ccffdc2d6f');
-assert.equal(sha(dll), '58b206ab9a3d84fdafb537b419f721ecdeade489707dbab227b043d5343db369');
+const mode = process.argv[2] || '--lua53';
+assert.ok(process.argv.length <= 3 && (mode === '--lua53' || mode === '--lua51'),
+  'Usage: node test_wa006_g2_one_shot.mjs [--lua53|--lua51]');
+const lua51Root = path.join(root, 'artifacts/sc103-lua51-msvc-20261104-1925-v1');
+const runtime = mode === '--lua51' ? {
+  label: 'Windows Lua 5.1.4/hash-pinned',
+  exe: path.join(lua51Root, 'lua.exe'),
+  dll: path.join(lua51Root, 'lua51.dll'),
+  exeSha256: '6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67',
+  dllSha256: '9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096',
+} : {
+  label: 'Windows Lua 5.3.0/hash-pinned',
+  exe: 'C:\\work\\tools\\cheat-engine-master\\Cheat Engine\\bin\\lua_extra\\lua.exe',
+  dll: 'C:\\work\\tools\\cheat-engine-master\\Cheat Engine\\bin\\lua53-32.dll',
+  exeSha256: '702502820320538d06409d7818754ce529087ef8ff608a723f49b1ccffdc2d6f',
+  dllSha256: '58b206ab9a3d84fdafb537b419f721ecdeade489707dbab227b043d5343db369',
+};
+assert.equal(sha(runtime.exe), runtime.exeSha256, 'interpreter source integrity mismatch');
+assert.equal(sha(runtime.dll), runtime.dllSha256, 'runtime DLL integrity mismatch');
 const beforeSource = sha(probePath);
 const scenarios = [];
 function scenario(name, mock, verify) {
@@ -22,8 +37,9 @@ function scenario(name, mock, verify) {
     "local report = dofile('tools/agents/collision/wa006_g2_one_shot.lua')",
     "io.write(report, '\\n')",
   ].join('\n');
-  const env = {...process.env, PATH:path.dirname(dll) + path.delimiter + (process.env.PATH || '')};
-  const r = spawnSync(exe, ['-e', code], {cwd:root, env, timeout:5000, encoding:'utf8',
+  const env = {...process.env,
+    PATH:path.dirname(runtime.dll) + path.delimiter + (process.env.PATH || '')};
+  const r = spawnSync(runtime.exe, ['-e', code], {cwd:root, env, timeout:5000, encoding:'utf8',
     windowsHide:true, shell:false, maxBuffer:8192});
   if (r.error) throw r.error;
   assert.equal(r.status, 0, name + ': Lua failed: ' + (r.stderr || ''));
@@ -150,7 +166,7 @@ Inspect = {Unit = {
 });
 assert.equal(sha(probePath), beforeSource, 'probe file changed during test');
 assert.ok(fs.statSync(probePath).size < 8192, 'probe source too large');
-process.stdout.write(JSON.stringify({task:'WA-006',runtime:'Windows Lua 5.3.0/hash-pinned',
+process.stdout.write(JSON.stringify({task:'WA-006',runtime:runtime.label,
   scope:'mocked-offline-only',tests:scenarios.length,scenarios,sourceSha256:beforeSource,
   liveQualified:false})+'\n');
 
