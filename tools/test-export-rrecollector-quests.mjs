@@ -84,6 +84,20 @@ test('v22 retains v21 indicator diagnostics without promoting candidate coordina
   assert.equal(result.indicatorDiagnostics.samples[0].candidateLookups[0].coordinateFrameVerified, false);
   assert.deepEqual(result.nextObjectives[0].locations, []);
 });
+test('v23 retains prior journal version separately from new root', () => {
+  const x = fixture(); x.addonVersion = '0.4.23';
+  x.questAttempt = {addonVersion: '0.4.23', status: 'error'};
+  const result = summarizeQuestReceipt(x);
+  assert.equal(result.savedAddonVersion, '0.4.23'); assert.equal(result.producerVersion, '0.4.20');
+  assert.equal(result.indicatorDiagnostics, null);
+});
+test('v23 retains separately produced diagnostic shape without claiming destination', () => {
+  const x = diagnosticFixture(); x.addonVersion = x.questSnapshot.addonVersion = '0.4.23';
+  const result = summarizeQuestReceipt(x);
+  assert.equal(result.producerVersion, '0.4.23');
+  assert.equal(result.indicatorDiagnostics.samples[0].candidateLookups[0].coordX, 0);
+  assert.deepEqual(result.nextObjectives[0].locations, []);
+});
 test('v21 source-bound candidate diagnostics preserve zero/false without producing destinations', () => {
   const result = summarizeQuestReceipt(diagnosticFixture());
   const sample = result.indicatorDiagnostics.samples[0], candidate = sample.candidateLookups[0];

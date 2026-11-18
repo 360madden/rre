@@ -1,10 +1,11 @@
--- RRECollector v0.4.22 exact-source, nine-module offline startup/capture/profession smoke.
+-- RRECollector v0.4.23 exact-source, ten-module offline startup/capture/profession/unit smoke.
 -- Run from the repository root with the pinned native Windows Lua 5.1.4 runtime.
 -- TOC order is independently enforced by verify-rrecollector-package.mjs.
 -- ALL RIFT APIs here are synthetic; no game, installed addon, or live UI proof.
 local checks, events, eventTokens, lines = 0, {}, {}, {}
 local slashEvent = {}
 local listCalls, detailBatchCalls, detailScalarCalls = 0, 0, 0
+local unitListCalls, unitDetailCalls = 0, 0
 local abilityId = "A0000000000000001"
 -- All documentation responses below are synthetic; only the real producer runs.
 local professionMode, professionIndexCalls, professionCalls = "normal", 0, {}
@@ -52,9 +53,17 @@ Inspect = {
         return {id = "u0000000000000001", name = "Synthetic Rogue",
           calling = "rogue", level = 43}
       end
+      if which == "u0000000000000002" then
+        unitDetailCalls = unitDetailCalls + 1
+        return {id = which, coordX = 0, coordY = -3, coordZ = 5}
+      end
     end,
     Lookup = function(which)
       if which == "player" then return "u0000000000000001" end
+    end,
+    List = function()
+      unitListCalls = unitListCalls + 1
+      return {u0000000000000001 = "player", u0000000000000002 = "group01"}
     end
   },
   TEMPORARY = {Role = function() return 1 end},
@@ -117,7 +126,7 @@ Inspect = {
 RRECollectorData = {sequence = 0}
 local order = {
   "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-  "candidate_catalog.lua", "candidates.lua", "wire.lua", "ui.lua", "main.lua"
+  "candidate_catalog.lua", "candidates.lua", "wire.lua", "units.lua", "ui.lua", "main.lua"
 }
 for _, name in ipairs(order) do
   local path = "addons/RRECollector/" .. name
@@ -125,15 +134,16 @@ for _, name in ipairs(order) do
   assert(chunk, "missing/invalid real source " .. path .. ": " .. tostring(err))
   chunk()
 end
-check("nine exact modules load in approved order", #order == 9)
+check("ten exact modules load in approved order", #order == 10)
 local runtime = RRECollectorRuntime
-check("shared version and schema", runtime.VERSION == "0.4.22" and runtime.SCHEMA == 1)
+check("shared version and schema", runtime.VERSION == "0.4.23" and runtime.SCHEMA == 1)
 check("real source exports registered",
   type(runtime.context.snapshot) == "function"
   and type(runtime.abilities.collect) == "function"
   and type(runtime.capabilities.probe) == "function"
   and type(runtime.candidates.lookup) == "function"
   and type(runtime.wire.publish) == "function"
+  and type(runtime.units.capture) == "function"
   and type(runtime.ui.start) == "function"
   and type(runtime.command) == "function")
 check("slash and saved handlers attached to exact events",
@@ -149,6 +159,9 @@ check("event-driven retries attached to exact events",
 runtime.command("capture")
 check("capture gated before saved-data load",
   RRECollectorData.latest == nil and listCalls == 0)
+runtime.command("units")
+check("units gated before saved-data load", RRECollectorData.unitAttempt == nil
+  and RRECollectorData.unitSnapshotSequence == nil and unitListCalls == 0)
 runtime.command("professions")
 check("professions gated before saved-data load",
   RRECollectorData.professionProbe == nil
@@ -164,11 +177,11 @@ check("foreign saved event ignored",
   RRECollectorData.addonVersion == nil and RRECollectorData.schemaVersion == nil)
 events["RRECollector.SavedVariables"](nil, "RRECollector")
 check("own saved event initializes current version",
-  RRECollectorData.addonVersion == "0.4.22"
+  RRECollectorData.addonVersion == "0.4.23"
   and RRECollectorData.schemaVersion == 1 and RRECollectorData.sequence == 0)
 events["RRECollector.SavedVariables"](nil, "RRECollector")
 check("duplicate own saved event is idempotent",
-  RRECollectorData.sequence == 0 and RRECollectorData.addonVersion == "0.4.22")
+  RRECollectorData.sequence == 0 and RRECollectorData.addonVersion == "0.4.23")
 check("missing UI handled without breaking slash commands",
   runtime.ui.start() == false and type(runtime.command) == "function")
 runtime.command("capture")
@@ -176,7 +189,7 @@ local record = RRECollectorData.latest
 check("complete real collector capture after saved load",
   type(record) == "table" and record.captureComplete == true
   and record.sequence == 1 and RRECollectorData.sequence == 1
-  and record.addonVersion == "0.4.22" and #record.abilities == 1)
+  and record.addonVersion == "0.4.23" and #record.abilities == 1)
 check("Rogue player and empty Experience table retained",
   record.player.calling == "rogue" and record.player.level == 43
   and record.capabilities.experience == true
@@ -199,6 +212,36 @@ if validFrames then
   end
 end
 check("all announced RREC2 frames have valid delimiters", validFrames)
+local previousLatest, previousPublication, previousFrames = RRECollectorData.latest,
+  RRECollectorData.memoryPublication, RRECollector_WireFrames
+runtime.command("units")
+local firstUnits = RRECollectorData.unitSnapshots and RRECollectorData.unitSnapshots[1]
+check("real slash unit witness is independently recorded",
+  firstUnits and firstUnits.sequence == 1 and firstUnits.status == "complete"
+  and firstUnits.counts.qualifiedXYZ == 1 and firstUnits.records[1].coordX == 0
+  and firstUnits.records[1].idBinding == "matched"
+  and unitListCalls == 1 and unitDetailCalls == 1)
+check("unit capture leaves ability and wire memory unchanged",
+  RRECollectorData.latest == previousLatest and RRECollectorData.memoryPublication == previousPublication
+  and RRECollector_WireFrames == previousFrames and RRECollectorData.sequence == 1)
+runtime.command("units")
+check("second unit capture advances sequence and retains only two snapshots",
+  RRECollectorData.unitSnapshotSequence == 2
+  and #RRECollectorData.unitSnapshots == 2
+  and RRECollectorData.unitSnapshots[1].sequence == 2
+  and RRECollectorData.unitSnapshots[2] == firstUnits
+  and RRECollectorData.unitAttempt.attemptSequence == 2)
+local oldList = Inspect.Unit.List
+Inspect.Unit.List = function() error("synthetic unit list failure") end
+runtime.command("units")
+Inspect.Unit.List = oldList
+check("failed unit attempt preserves two previous snapshots",
+  RRECollectorData.unitSnapshotSequence == 2
+  and RRECollectorData.unitSnapshots[2] == firstUnits
+  and RRECollectorData.unitAttempt.attemptSequence == 3
+  and RRECollectorData.unitAttempt.status == "error"
+  and RRECollectorData.unitAttempt.resultSequence == nil
+  and RRECollectorData.latest == previousLatest)
 
 -- Exercise the real profession collector and slash path without game API effects.
 local priorLatest, priorPublication, priorSequence =
@@ -213,7 +256,7 @@ local profession = RRECollectorData.professionProbe
 check("real profession slash publishes separately sequenced report",
   type(profession) == "table" and profession.sequence == 1
   and RRECollectorData.professionProbeSequence == 1
-  and profession.addonVersion == "0.4.22" and profession.player.calling == "rogue")
+  and profession.addonVersion == "0.4.23" and profession.player.calling == "rogue")
 check("profession index filters and sorts only supported API names",
   profession.documentationStatus == "index-available"
   and profession.index.scanned == 5 and profession.index.matched == 3

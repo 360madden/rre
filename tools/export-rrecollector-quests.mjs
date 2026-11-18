@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {parseSavedLuaBytes} from './read-rrecollector-saved.mjs';
 import {readStableOriginalWithMetadata} from './read-stable-original.mjs';
 
-const VERSIONS = new Set(['0.4.20', '0.4.21', '0.4.22']);
+const VERSIONS = new Set(['0.4.20', '0.4.21', '0.4.22', '0.4.23']);
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const integer = x => Number.isSafeInteger(x) && x >= 0;
 const id = x => typeof x === 'string'
@@ -39,7 +39,7 @@ function dense(value, max) {
 }
 
 function indicatorDiagnostics(snapshot, journal) {
-  if (snapshot.addonVersion !== '0.4.21' && snapshot.addonVersion !== '0.4.22') return null;
+  if (snapshot.addonVersion !== '0.4.21' && snapshot.addonVersion !== '0.4.22' && snapshot.addonVersion !== '0.4.23') return null;
   const raw = snapshot.indicatorShapes;
   requireValue(object(raw) && raw.schemaVersion === 1
     && raw.scope === 'unsupported-indicator-diagnostics' && raw.coverage === 'bounded-sample', 'QUEST_SHAPE_CONTRACT');
