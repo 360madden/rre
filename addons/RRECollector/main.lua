@@ -1,4 +1,4 @@
--- RRECollector v0.4.22: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.23: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -90,6 +90,13 @@ local function status()
       .. tostring(attempt.publicationStatus or "unknown")
       .. " / " .. tostring(attempt.publicationReason or "none") .. ".")
   end
+  local unitAttempt = RRECollectorData.unitAttempt
+  if type(unitAttempt) == "table" then
+    say("Last unit witness #" .. tostring(unitAttempt.attemptSequence or "?")
+      .. " " .. tostring(unitAttempt.status or "?")
+      .. " (" .. tostring(unitAttempt.reason or "?") .. "); snapshot "
+      .. tostring(unitAttempt.resultSequence or "none") .. ".")
+  end
   local latest = RRECollectorData.latest
   if type(latest) ~= "table" then
     say("v" .. VERSION .. " ready; no snapshot. Use /rre capture.")
@@ -157,7 +164,7 @@ local function showPage(page)
 end
 
 local function help()
-  say("v" .. VERSION .. " commands: /rre status | capture | probe | professions | navigation | quests | candidates | ui | page N | export | help")
+  say("v" .. VERSION .. " commands: /rre status | capture | units | probe | professions | navigation | quests | candidates | ui | page N | export | help")
   say("Current abilities in latest; explicit static-ID queries in candidateLookup. No casting.")
 end
 
@@ -513,6 +520,54 @@ local function onSlash(_, raw)
       end
     elseif action == "capture" then
       recordCapture()
+    elseif action == "units" then
+      if not savedLoaded then
+        say("SavedVariables not ready; retry after initialization.")
+        return
+      end
+      local attemptSequence = nextSequence(type(RRECollectorData.unitAttempt) == "table"
+        and RRECollectorData.unitAttempt.attemptSequence or nil)
+      local unitModule = RRECollectorRuntime.units
+      local ok, report = false, nil
+      if type(unitModule) == "table" and type(unitModule.capture) == "function" then
+        ok, report = pcall(unitModule.capture)
+      end
+      if not ok or type(report) ~= "table" or type(report.counts) ~= "table"
+        or type(report.records) ~= "table" then
+        lastMessage = "unit-witness-error"
+        RRECollectorData.unitAttempt = {
+          schemaVersion = SCHEMA, addonVersion = VERSION,
+          attemptSequence = attemptSequence, status = "error",
+          reason = "unit-capture-exception"
+        }
+        say("Unit witness failed safely; previous bounded snapshots preserved.")
+        return
+      end
+      RRECollectorData.unitAttempt = {
+        schemaVersion = SCHEMA, addonVersion = VERSION,
+        attemptSequence = attemptSequence, status = report.status,
+        reason = report.reason
+      }
+      if report.status == "error" or report.status == "unavailable" then
+        lastMessage = "unit-witness-" .. report.status
+        say("Unit witness " .. report.status .. ": " .. tostring(report.reason)
+          .. "; previous snapshots preserved.")
+        return
+      end
+      local sequence = nextSequence(RRECollectorData.unitSnapshotSequence)
+      report.sequence = sequence
+      local prior = type(RRECollectorData.unitSnapshots) == "table"
+        and RRECollectorData.unitSnapshots[1] or nil
+      RRECollectorData.unitSnapshots = {report}
+      if type(prior) == "table" then RRECollectorData.unitSnapshots[2] = prior end
+      RRECollectorData.unitSnapshotSequence = sequence
+      RRECollectorData.unitAttempt.resultSequence = sequence
+      lastMessage = "unit-witness-" .. tostring(report.status)
+      say("Unit witness #" .. tostring(sequence) .. " " .. tostring(report.status)
+        .. ": " .. tostring(report.counts.examined) .. " listed, "
+        .. tostring(report.counts.detailsCalled) .. " Detail, "
+        .. tostring(report.counts.qualifiedXYZ) .. " ID-bound XYZ; /reloadui to save.")
+      say("Bounded API research only; native identity, coordinate frame, and atomicity unverified.")
     elseif action == "page" then
       showPage(tonumber(argument))
     elseif action == "export" then
@@ -534,7 +589,7 @@ local function onSlash(_, raw)
         and latest.addonVersion or "unknown"
       say("Complete v" .. captureVersion .. " capture #" .. tostring(latest.sequence or "?")
         .. " held in RRECollectorData.latest (loaded addon v" .. VERSION .. ").")
-      say("Separate research receipts: .probe, .professionProbe, .navigationProbe, .questSnapshot and .candidateLookup.")
+      say("Separate research receipts: .captureAttempt, .unitSnapshots/.unitAttempt, .probe, .professionProbe, .navigationProbe, .questSnapshot and .candidateLookup.")
       say("Use a normal /reloadui or logout to save; /rre page N previews 8 names.")
     else
       say("Unknown command. Use /rre help.")
