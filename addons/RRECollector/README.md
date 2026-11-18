@@ -33,6 +33,16 @@ A standalone RIFT addon. When working on **LEGION**, the **physical local RIFT c
 - **v0.4.1:** after a startup deferral specifically caused by missing Warrior player context, attempts at most two guarded, event-driven retries on addon startup completion and player full availability. Records the automatic retry count; never polls every frame or overwrites earlier successful snapshots. Swaps flat command rectangles for RIFT-native buttons with built-in hover/pressed/disabled styling; ability rows and icon slots gain subtle hover, press and selection accents.
 - The static source inventory is preserved as `docs/REA-RIFT-SPELLCASTING-SC103-WARRIOR-STATIC-ABILITIES-2026-11-02.json`, with per-file SHA-256 provenance.
 
+## Offline unit-witness export
+
+After a **separately authorized manual** `/rre units` and normal SavedVariables persistence, use:
+
+```powershell
+node tools/export-rrecollector-units.mjs "FULL_PATH_TO_RRECollector.lua" --output "NEW_unit_witness.json"
+```
+
+The exporter parses the original Lua text without executing it, checks v0.4.23 producer/version and bounded ID-to-XYZ/counter contracts, and includes source SHA-256/byte count. It fails closed on malformed versions, sequence contradictions and invalid snapshots and creates output exclusively (no overwrite). A failed new unit attempt is reported separately from the last two retained snapshots. All live, atomicity, coordinate-frame, world coverage and native-identity qualifications remain false. An offline report is **not** live current-client proof.
+
 ## Installation and loading
 
 On LEGION, the verified OneDrive destination is `C:\Users\mrkoo\OneDrive\Documents\Rift\Interface\AddOns\RRECollector` (current installed version must be checked independently; v0.4.17 was previously verified 11/11, in-game load unverified; v0.4.16 backup preserved); propagate **only** RRECollector through this root. Do not use either VMware lab on LEGION. Preserve complete TOC metadata **including Email**. Backup and hash-check the exact installed files before any new deployment; a separate in-game UI load and runtime evidence are required to prove visibility. No automatic RIFT reload, mouse/keyboard input or game restart is part of deployment. The TOC loads: `core.lua`, `context.lua`, `abilities.lua`, `capabilities.lua`, `candidate_catalog.lua`, `candidates.lua`, `wire.lua`, `units.lua`, `ui.lua`, `main.lua`, in that order.
