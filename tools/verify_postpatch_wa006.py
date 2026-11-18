@@ -27,14 +27,17 @@ REQUIRED_CALLS = frozenset(("callback_to_wrapper_ctor", "callback_to_wrapper",
                             "parent_to_virtual_adapter"))
 
 
-# SHA-pinned derived-wrapper virtual entry and source-only +8 DWORD store.
-# A valid virtual entry does not establish a live receiver or service identity.
-DERIVED_VTABLE_RVA = 0x271E468
-DERIVED_VTABLE_LEA_RVA = 0xF7CC2E
-DERIVED_VPTR_STORE_RVA = 0xF7CC3F
-DERIVED_METHOD_RVA = 0x78D920
-DERIVED_METHOD_SLOTS = (0x18, 0x30, 0x58)
-DERIVED_METHOD_BYTES = bytes.fromhex("c7411800000000c74108eeff7f7fc3")
+# The wrapper constructor points at 0x271E468. Five distinct constructor
+# LEAs point eight bytes later, at 0x271E470. Method pointers in this shared
+# region cannot establish which object dispatches through the method.
+WRAPPER_VPTR_RVA = 0x271E468
+WRAPPER_VPTR_LEA_RVA = 0xF7CC2E
+WRAPPER_VPTR_STORE_RVA = 0xF7CC3F
+ADJACENT_VPTR_RVA = 0x271E470
+ADJACENT_CTOR_LEA_RVAS = (0xF7D735, 0xF7D9EC, 0xF7DACA, 0xF7DBAA, 0xF835A4)
+OVERLAPPING_METHOD_POINTER_RVAS = (0x271E480, 0x271E498, 0x271E4C0)
+CANDIDATE_METHOD_RVA = 0x78D920
+CANDIDATE_METHOD_BYTES = bytes.fromhex("c7411800000000c74108eeff7f7fc3")
 
 
 class GateError(Exception):
@@ -93,25 +96,32 @@ def verify_source(read, manifest: dict) -> dict:
         if target != expected_target:
             raise GateError(f"Direct CALL {edge['id']} target 0x{target:X}, expected 0x{expected_target:X}")
 
-    derived_lea = read(DERIVED_VTABLE_LEA_RVA, 7)
-    if derived_lea is None or derived_lea[:3] != bytes.fromhex("488d05"):
-        raise GateError("Derived-wrapper constructor vtable LEA absent")
-    table = DERIVED_VTABLE_LEA_RVA + 7 + struct.unpack_from("<i", derived_lea, 3)[0]
-    if table != DERIVED_VTABLE_RVA:
-        raise GateError(f"Derived-wrapper constructor vtable target differs: 0x{table:X}")
-    if read(DERIVED_VPTR_STORE_RVA, 3) != bytes.fromhex("488903"):
-        raise GateError("Derived-wrapper constructor vptr store differs")
-    for slot in DERIVED_METHOD_SLOTS:
-        entry = read(DERIVED_VTABLE_RVA + slot, 8)
-        if entry is None or struct.unpack("<Q", entry)[0] != 0x140000000 + DERIVED_METHOD_RVA:
-            raise GateError(f"Derived-wrapper virtual slot +0x{slot:X} differs")
-    if read(DERIVED_METHOD_RVA, len(DERIVED_METHOD_BYTES)) != DERIVED_METHOD_BYTES:
-        raise GateError("Derived-wrapper virtual source setter differs")
+    def require_vptr_lea(source_rva: int, expected_target: int, label: str) -> None:
+        lea = read(source_rva, 7)
+        if lea is None or len(lea) != 7 or lea[:3] != bytes.fromhex("488d05"):
+            raise GateError(f"{label} constructor vtable LEA absent")
+        target = source_rva + 7 + struct.unpack_from("<i", lea, 3)[0]
+        if target != expected_target:
+            raise GateError(f"{label} constructor vtable target differs: 0x{target:X}")
+
+    require_vptr_lea(WRAPPER_VPTR_LEA_RVA, WRAPPER_VPTR_RVA, "Wrapper")
+    if read(WRAPPER_VPTR_STORE_RVA, 3) != bytes.fromhex("488903"):
+        raise GateError("Wrapper constructor vptr store differs")
+    for source_rva in ADJACENT_CTOR_LEA_RVAS:
+        require_vptr_lea(source_rva, ADJACENT_VPTR_RVA, "Adjacent")
+    for pointer_rva in OVERLAPPING_METHOD_POINTER_RVAS:
+        entry = read(pointer_rva, 8)
+        if entry is None or len(entry) != 8 or struct.unpack("<Q", entry)[0] != 0x140000000 + CANDIDATE_METHOD_RVA:
+            raise GateError(f"Overlapping method pointer differs at 0x{pointer_rva:X}")
+    if read(CANDIDATE_METHOD_RVA, len(CANDIDATE_METHOD_BYTES)) != CANDIDATE_METHOD_BYTES:
+        raise GateError("Candidate virtual method source bytes differ")
 
     return {"status": "SOURCE_MAP_PINNED_ONLY", "newBuildSha256": BUILD_SHA256,
             "sourceWindowsChecked": len(windows), "directCallsChecked": len(calls),
-            "derivedVtableSlotsChecked": len(DERIVED_METHOD_SLOTS),
-            "derivedField8SentinelStoreSourcePinned": True,
+            "adjacentConstructorLeasChecked": len(ADJACENT_CTOR_LEA_RVAS),
+            "overlappingMethodPointersChecked": len(OVERLAPPING_METHOD_POINTER_RVAS),
+            "candidateMethodBytesPinned": True,
+            "sameWrapperField8WriterQualified": False,
             "ownerQualified": False, "runtimeQualified": False}
 
 

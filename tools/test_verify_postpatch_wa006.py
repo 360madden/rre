@@ -30,12 +30,13 @@ class PostpatchWa006Tests(unittest.TestCase):
             rva = gate.parse_rva(call["callRva"])
             target = gate.parse_rva(call["targetRva"])
             self.windows[(rva, 5)] = b"\xe8" + struct.pack("<i", target - (rva + 5))
-        self.windows[(gate.DERIVED_VTABLE_LEA_RVA, 7)] = bytes.fromhex("488d0533187a01")
-        self.windows[(gate.DERIVED_VPTR_STORE_RVA, 3)] = bytes.fromhex("488903")
-        for slot in gate.DERIVED_METHOD_SLOTS:
-            self.windows[(gate.DERIVED_VTABLE_RVA + slot, 8)] = struct.pack(
-                "<Q", 0x140000000 + gate.DERIVED_METHOD_RVA)
-        self.windows[(gate.DERIVED_METHOD_RVA, len(gate.DERIVED_METHOD_BYTES))] = gate.DERIVED_METHOD_BYTES
+        self.windows[(gate.WRAPPER_VPTR_LEA_RVA, 7)] = bytes.fromhex("488d0533187a01")
+        self.windows[(gate.WRAPPER_VPTR_STORE_RVA, 3)] = bytes.fromhex("488903")
+        for rva in gate.ADJACENT_CTOR_LEA_RVAS:
+            self.windows[(rva, 7)] = b"\x48\x8d\x05" + struct.pack("<i", gate.ADJACENT_VPTR_RVA - (rva + 7))
+        for rva in gate.OVERLAPPING_METHOD_POINTER_RVAS:
+            self.windows[(rva, 8)] = struct.pack("<Q", 0x140000000 + gate.CANDIDATE_METHOD_RVA)
+        self.windows[(gate.CANDIDATE_METHOD_RVA, len(gate.CANDIDATE_METHOD_BYTES))] = gate.CANDIDATE_METHOD_BYTES
 
     def check(self):
         return gate.verify_source(lambda rva, n: self.windows.get((rva, n)), self.manifest)
@@ -45,8 +46,17 @@ class PostpatchWa006Tests(unittest.TestCase):
         self.assertEqual((result["sourceWindowsChecked"], result["directCallsChecked"]), (7, 7))
         self.assertFalse(result["ownerQualified"])
         self.assertFalse(result["runtimeQualified"])
-        self.assertEqual(result["derivedVtableSlotsChecked"], 3)
-        self.assertTrue(result["derivedField8SentinelStoreSourcePinned"])
+        self.assertEqual(result["adjacentConstructorLeasChecked"], 5)
+        self.assertEqual(result["overlappingMethodPointersChecked"], 3)
+        self.assertTrue(result["candidateMethodBytesPinned"])
+        self.assertFalse(result["sameWrapperField8WriterQualified"])
+
+    def test_matching_method_pointers_do_not_prove_wrapper_receiver(self):
+        # Six source LEAs demonstrate overlapping vptr ranges. Equal pointer
+        # bytes alone must not promote a same-wrapper +8 writer.
+        result = self.check()
+        self.assertFalse(result["sameWrapperField8WriterQualified"])
+        self.assertFalse(result["ownerQualified"])
 
     def test_all_window_mutations_rejected(self):
         for entry in self.manifest["windows"]:
@@ -75,10 +85,10 @@ class PostpatchWa006Tests(unittest.TestCase):
                 self.check()
             self.windows[key] = original
 
-    def test_derived_wrapper_constructor_and_slots_mutations_fail(self):
-        for key in [(gate.DERIVED_VTABLE_LEA_RVA, 7), (gate.DERIVED_VPTR_STORE_RVA, 3)] + [
-            (gate.DERIVED_VTABLE_RVA + slot, 8) for slot in gate.DERIVED_METHOD_SLOTS
-        ]:
+    def test_wrapper_adjacent_ctor_and_pointer_mutations_fail(self):
+        for key in [(gate.WRAPPER_VPTR_LEA_RVA, 7), (gate.WRAPPER_VPTR_STORE_RVA, 3)] + [
+            (rva, 7) for rva in gate.ADJACENT_CTOR_LEA_RVAS
+        ] + [(rva, 8) for rva in gate.OVERLAPPING_METHOD_POINTER_RVAS]:
             original = self.windows[key]
             self.windows[key] = original[:-1] + bytes([original[-1] ^ 1])
             try:
@@ -87,11 +97,11 @@ class PostpatchWa006Tests(unittest.TestCase):
             finally:
                 self.windows[key] = original
 
-    def test_derived_virtual_setter_nonzero_field8_mutation_fails(self):
-        key = (gate.DERIVED_METHOD_RVA, len(gate.DERIVED_METHOD_BYTES))
+    def test_candidate_method_field8_mutation_fails(self):
+        key = (gate.CANDIDATE_METHOD_RVA, len(gate.CANDIDATE_METHOD_BYTES))
         original = self.windows[key]
         self.windows[key] = original[:-2] + bytes([original[-2] ^ 1]) + original[-1:]
-        with self.assertRaisesRegex(gate.GateError, "virtual source setter"):
+        with self.assertRaisesRegex(gate.GateError, "Candidate virtual method"):
             self.check()
 
     def test_missing_window_fails(self):
