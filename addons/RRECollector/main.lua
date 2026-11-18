@@ -1,4 +1,4 @@
--- RRECollector v0.4.20: manual commands, SavedVariables, diagnostics and UI bootstrap.
+-- RRECollector v0.4.22: manual commands, SavedVariables, diagnostics and UI bootstrap.
 -- No polling, game actions, process access, or dependencies on other addons.
 local ADDON = "RRECollector"
 local VERSION, SCHEMA = RRECollectorRuntime.VERSION, RRECollectorRuntime.SCHEMA
@@ -81,6 +81,14 @@ local function status()
   if not savedLoaded then
     say("v" .. VERSION .. " saved data not loaded; capture unavailable.")
     return
+  end
+  local attempt = RRECollectorData.captureAttempt
+  if type(attempt) == "table" then
+    say("Last recorded capture attempt #" .. tostring(attempt.attemptSequence or "?")
+      .. " " .. tostring(attempt.status or "?")
+      .. " (" .. tostring(attempt.reason or "?") .. "); wire "
+      .. tostring(attempt.publicationStatus or "unknown")
+      .. " / " .. tostring(attempt.publicationReason or "none") .. ".")
   end
   local latest = RRECollectorData.latest
   if type(latest) ~= "table" then
@@ -271,6 +279,50 @@ local function retryDeferredCandidateLookup(trigger)
 end
 
 -- RC27-CAPTURE-BEGIN
+-- A SavedVariables attempt receipt is independent of accepted capture and RREC2 sequences.
+local function captureNumber(value, integerOnly, maximum)
+  if not finite(value) or value < 0 or value > maximum
+    or (integerOnly and value ~= math.floor(value)) then return nil end
+  return value
+end
+local function recordCaptureAttempt(status, reason, priorSequence, resultSequence, record, preserved, publication)
+  local previous = RRECollectorData.captureAttempt
+  local priorAttempt = type(previous) == "table"
+    and captureNumber(previous.attemptSequence, true, 9007199254740990) or nil
+  local receipt = {
+    schemaVersion = RRECollectorRuntime.SCHEMA,
+    addonVersion = RRECollectorRuntime.VERSION,
+    attemptSequence = (priorAttempt or 0) + 1,
+    status = status, reason = reason, preservedPrior = preserved == true
+  }
+  receipt.priorSequence = captureNumber(priorSequence, true, 9007199254740991)
+  receipt.resultSequence = captureNumber(resultSequence, true, 9007199254740991)
+  if type(record) == "table" then
+    receipt.frameTime = captureNumber(record.frameTime, false, 1000000000000)
+    receipt.realTime = captureNumber(record.realTime, false, 1000000000000)
+    local abilityList = record.abilityList
+    if type(abilityList) == "table" then
+      local counts = {}
+      for _, key in ipairs({"uniqueCount", "detailCount", "detailFailures"}) do
+        local count = captureNumber(abilityList[key], true, 1048576)
+        if count ~= nil then counts[key] = count end
+      end
+      if next(counts) ~= nil then receipt.counts = counts end
+    end
+  end
+  if type(publication) == "table" then
+    local publicationStatus, publicationReason = publication.status, publication.reason
+    if type(publicationStatus) == "string" and #publicationStatus <= 40
+      and publicationStatus:match("^[%w%-]+$") then
+      receipt.publicationStatus = publicationStatus
+    end
+    if type(publicationReason) == "string" and #publicationReason <= 80
+      and publicationReason:match("^[%w%-]+$") then
+      receipt.publicationReason = publicationReason
+    end
+  end
+  RRECollectorData.captureAttempt = receipt
+end
 -- Transient API/context failures must never replace a complete prior catalog.
 local function recordCapture()
   if type(wire) == "table" then wire.beginAttempt() end
@@ -279,19 +331,32 @@ local function recordCapture()
     say("SavedVariables not ready; retry after initialization.")
     return
   end
+  local priorSequence = RRECollectorData.sequence
   local captureOk, record = pcall(collect)
   if not captureOk or type(record) ~= "table"
     or type(record.abilityList) ~= "table"
     or record.abilityList.apiAvailable ~= true then
     lastMessage = "capture-error"
-    if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("api-capture-error") end
+    local publication
+    if type(wire) == "table" then
+      publication = wire.abort("api-capture-error")
+      RRECollectorData.memoryPublication = publication
+    end
+    recordCaptureAttempt("failed", "api-capture-error", priorSequence, nil,
+      captureOk and record or nil, true, publication)
     say("Capture unavailable; prior ability snapshot preserved.")
     return
   end
   local prior = RRECollectorData.latest
   if savedSnapshotComplete(prior) and record.captureComplete ~= true then
     lastMessage = "capture-incomplete-preserved"
-    if type(wire) == "table" then RRECollectorData.memoryPublication = wire.abort("capture-incomplete") end
+    local publication
+    if type(wire) == "table" then
+      publication = wire.abort("capture-incomplete")
+      RRECollectorData.memoryPublication = publication
+    end
+    recordCaptureAttempt("incomplete-preserved", "capture-incomplete", priorSequence,
+      nil, record, true, publication)
     say("Capture incomplete; previous complete ability snapshot preserved.")
     return
   end
@@ -302,14 +367,17 @@ local function recordCapture()
     tostring(record.abilityList.uniqueCount) .. " IDs, " ..
     tostring(record.abilityList.detailCount) ..
     " details. /rre status; /reloadui to save.")
+  local publication
   if type(wire) == "table" then
-    local publication = wire.publish(record)
+    publication = wire.publish(record)
     RRECollectorData.memoryPublication = publication
     if publication.status == "complete" then
       say("Wire RREC2 session=" .. publication.session .. " seq=" .. tostring(publication.sequence)
         .. " parts=" .. tostring(publication.parts) .. " bytes=" .. tostring(publication.payloadBytes))
     else say("Wire not published: " .. tostring(publication.reason or "unknown")) end
   end
+  recordCaptureAttempt(record.captureComplete == true and "complete" or "partial",
+    "none", priorSequence, record.sequence, record, false, publication)
   refreshUI(true)
 end
 -- RC27-CAPTURE-END

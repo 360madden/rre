@@ -1,4 +1,4 @@
--- RRECollector v0.4.21 exact-source, nine-module offline startup/capture/profession smoke.
+-- RRECollector v0.4.22 exact-source, nine-module offline startup/capture/profession smoke.
 -- Run from the repository root with the pinned native Windows Lua 5.1.4 runtime.
 -- TOC order is independently enforced by verify-rrecollector-package.mjs.
 -- ALL RIFT APIs here are synthetic; no game, installed addon, or live UI proof.
@@ -127,7 +127,7 @@ for _, name in ipairs(order) do
 end
 check("nine exact modules load in approved order", #order == 9)
 local runtime = RRECollectorRuntime
-check("shared version and schema", runtime.VERSION == "0.4.21" and runtime.SCHEMA == 1)
+check("shared version and schema", runtime.VERSION == "0.4.22" and runtime.SCHEMA == 1)
 check("real source exports registered",
   type(runtime.context.snapshot) == "function"
   and type(runtime.abilities.collect) == "function"
@@ -164,11 +164,11 @@ check("foreign saved event ignored",
   RRECollectorData.addonVersion == nil and RRECollectorData.schemaVersion == nil)
 events["RRECollector.SavedVariables"](nil, "RRECollector")
 check("own saved event initializes current version",
-  RRECollectorData.addonVersion == "0.4.21"
+  RRECollectorData.addonVersion == "0.4.22"
   and RRECollectorData.schemaVersion == 1 and RRECollectorData.sequence == 0)
 events["RRECollector.SavedVariables"](nil, "RRECollector")
 check("duplicate own saved event is idempotent",
-  RRECollectorData.sequence == 0 and RRECollectorData.addonVersion == "0.4.21")
+  RRECollectorData.sequence == 0 and RRECollectorData.addonVersion == "0.4.22")
 check("missing UI handled without breaking slash commands",
   runtime.ui.start() == false and type(runtime.command) == "function")
 runtime.command("capture")
@@ -176,7 +176,7 @@ local record = RRECollectorData.latest
 check("complete real collector capture after saved load",
   type(record) == "table" and record.captureComplete == true
   and record.sequence == 1 and RRECollectorData.sequence == 1
-  and record.addonVersion == "0.4.21" and #record.abilities == 1)
+  and record.addonVersion == "0.4.22" and #record.abilities == 1)
 check("Rogue player and empty Experience table retained",
   record.player.calling == "rogue" and record.player.level == 43
   and record.capabilities.experience == true
@@ -213,7 +213,7 @@ local profession = RRECollectorData.professionProbe
 check("real profession slash publishes separately sequenced report",
   type(profession) == "table" and profession.sequence == 1
   and RRECollectorData.professionProbeSequence == 1
-  and profession.addonVersion == "0.4.21" and profession.player.calling == "rogue")
+  and profession.addonVersion == "0.4.22" and profession.player.calling == "rogue")
 check("profession index filters and sorts only supported API names",
   profession.documentationStatus == "index-available"
   and profession.index.scanned == 5 and profession.index.matched == 3

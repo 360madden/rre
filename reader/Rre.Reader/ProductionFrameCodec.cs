@@ -18,10 +18,11 @@ public static class ProductionFrameCodec
     public const string FormerRecentAddonVersion = "0.4.18";
     public const string NavigationAddonVersion = "0.4.19";
     public const string QuestAddonVersion = "0.4.20";
-    public const string LatestAddonVersion = "0.4.21";
-    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
-    private static bool HasUnitMetadata(string version) => version is MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
-    private static bool HasExperience(string version) => version is ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or LatestAddonVersion;
+    public const string DiagnosticAddonVersion = "0.4.21";
+    public const string LatestAddonVersion = "0.4.22";
+    private static bool SupportedVersion(string version) => version is AddonVersion or MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or DiagnosticAddonVersion or LatestAddonVersion;
+    private static bool HasUnitMetadata(string version) => version is MetadataAddonVersion or ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or DiagnosticAddonVersion or LatestAddonVersion;
+    private static bool HasExperience(string version) => version is ExperienceAddonVersion or PreviousAddonVersion or RecentAddonVersion or FormerLatestAddonVersion or FormerRecentAddonVersion or NavigationAddonVersion or QuestAddonVersion or DiagnosticAddonVersion or LatestAddonVersion;
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
     public static JsonObject DecodeFrame(ReadOnlySpan<byte> bytes, string session, long sequence, bool allowContextTail = false)
     {
