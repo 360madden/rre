@@ -81,6 +81,18 @@ public static class ProductionChecks
         Reject("production mixed supported frame versions rejected",()=>{var d=Document();d["abilities"]![0]!["description"]=new string('x',4096);var b=Frames(Bytes(d));b[1]["addonVersion"]="0.4.13";ProductionFrameCodec.Assemble(b);});
         Reject("production0413 undocumented decoration rejected",()=>{var d=Document("0.4.13");d["context"]!["player"]!["decoration"]=1704;Decode(d);});
         Accept("production0413 native carrier reports actual producer version",()=>{var b=Frames(Bytes(Document("0.4.13")),"0.4.13")[0];var(r,s)=NativeChecks.Fixture(Wire(b));var c=NativeSnapshotSource.Decode(Bytes(s),Bytes(r),Session,2);if(c.Evidence["producerVersion"]!.GetValue<string>()!="0.4.13")throw new Exception("wrong version");});
+        Accept("production0423 unit witness release keeps RREC2 ability and Experience wire unchanged", () =>
+        {
+            var d=Document("0.4.23");
+            d["context"]!["capabilities"]!["experience"]=true;
+            d["context"]!["experience"]=new JsonObject{["accumulated"]=0,["needed"]=78};
+            var p=Decode(d);
+            if(p.AddonVersion!="0.4.23" || p.Abilities.Count!=1
+                || p.Context["experience"]!["needed"]!.GetValue<int>()!=78)
+                throw new Exception("v23 ability/Experience regression");
+        });
+        BadDoc("production0423 rejects missing Experience capability",
+            d=>d["addonVersion"]="0.4.23");
         Accept("production0422 attempt receipt release keeps original RREC2 ability and Experience wire contract", () =>
         {
             var d=Document("0.4.22");
