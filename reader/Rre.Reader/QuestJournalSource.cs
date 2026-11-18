@@ -35,7 +35,7 @@ public static class QuestJournalSource
                 "quest-helper-source-changed");
         var root = DataRules.Object(DataRules.Parse(Encoding.UTF8.GetBytes(result.Stdout)), "quest-adapter-object");
         DataRules.Require(DataRules.Integer(root["schemaVersion"], "quest-schema") == 1
-            && DataRules.Text(root["producerVersion"], "quest-version") is "0.4.20" or "0.4.21" or "0.4.22", "quest-contract");
+            && DataRules.Text(root["producerVersion"], "quest-version") is "0.4.20" or "0.4.21" or "0.4.22" or "0.4.23", "quest-contract");
         DataRules.Require(DataRules.Text(root["sourceSha256"], "quest-sha") == sourceSha
             && DataRules.Integer(root["sourceBytes"], "quest-bytes") == bytes.Length, "quest-input-changed");
         var sequence = DataRules.Integer(root["sequence"], "quest-sequence");
