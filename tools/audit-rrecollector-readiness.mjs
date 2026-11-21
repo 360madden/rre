@@ -6,6 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {parseSavedLuaBytes} from './read-rrecollector-saved.mjs';
 import {readStableOriginalWithMetadata} from './read-stable-original.mjs';
+import {summarizeUnitWitness} from './export-rrecollector-units.mjs';
 
 const repo=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const sourceDir=path.join(repo,'addons','RRECollector');
@@ -49,6 +50,20 @@ export function inspectCollectorReadiness(installedDir,savedFile){
   const abilityCount=Array.isArray(latest?.abilities)?latest.abilities.length:null;
   const capture=data.captureAttempt&&typeof data.captureAttempt==='object'?data.captureAttempt:null;
   const units=data.unitAttempt&&typeof data.unitAttempt==='object'?data.unitAttempt:null;
+  const hasUnitRecord=Object.hasOwn(data,'unitSnapshotSequence')
+    || Object.hasOwn(data,'unitSnapshots') || Object.hasOwn(data,'unitAttempt');
+  let unitValidation={status:'absent',reason:null,latestStatus:null,retainedCount:0};
+  if(hasUnitRecord){
+    try{
+      const witness=summarizeUnitWitness(data);
+      unitValidation={status:'validated',reason:null,
+        latestStatus:witness.snapshots[0].status,retainedCount:witness.snapshots.length};
+    }catch(error){
+      const message=String(error?.message??'UNIT_INVALID');
+      unitValidation={status:'rejected',reason:/^UNIT_[A-Z0-9_]+$/.test(message)
+        ? message : 'UNIT_INVALID',latestStatus:null,retainedCount:0};
+    }
+  }
   const instParity=missing.length===0&&changed.length===0;
   return {
     schemaVersion:1,evidenceKind:'rrecollector-readiness-audit/1',
@@ -67,6 +82,7 @@ export function inspectCollectorReadiness(installedDir,savedFile){
       lastUnitAttemptVersion:units?.addonVersion??null,
       lastUnitAttemptStatus:units?.status??null,
       acceptedUnitSequence:data.unitSnapshotSequence??null,
+      unitValidation,
       sourceBytes:original.bytes.length,
       sourceSha256:createHash('sha256').update(original.bytes).digest('hex'),
       sourceModifiedAtUtc:original.modifiedAtUtc},
@@ -75,7 +91,9 @@ export function inspectCollectorReadiness(installedDir,savedFile){
       savedRootMatchesSource:data.addonVersion===sourceVersion,
       acceptedAbilityMatchesSource:latest?.addonVersion===sourceVersion,
       acceptedAbilityComplete:latest?.captureComplete===true,
-      acceptedUnitsPresent:Number.isSafeInteger(data.unitSnapshotSequence)&&data.unitSnapshotSequence>0},
+      acceptedUnitsPresent:unitValidation.status==='validated',
+      acceptedUnitsComplete:unitValidation.status==='validated'
+        && unitValidation.latestStatus==='complete'},
     limits:{activeLuaLoadVerified:false,gameUiVerified:false,
       sameProcessEpochVerified:false,liveRrec2TransferVerified:false,
       nativeCorrelationDone:false,wa006Accepted:false}

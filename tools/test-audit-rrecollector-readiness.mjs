@@ -20,11 +20,22 @@ function fixture() {
   fs.mkdirSync(path.dirname(saved),{recursive:true});
   for(const name of allFiles)fs.copyFileSync(path.join(source,name),path.join(installed,name));
   function setSaved(rootVersion='0.4.23',latest='0.4.23',units=true){
+    const witness=units ? 'unitSnapshotSequence=1,unitSnapshots={{schemaVersion=1,'+
+      'addonVersion="0.4.23",scope="manual-bounded-unit-api-witness",'+
+      'status="empty",reason="no-nonself-listed",sequence=1,'+
+      'limits={listEntries=128,detailCalls=8},'+
+      'counts={examined=0,invalidEntries=0,selfEntries=0,nonselfEligible=0,'+
+      'detailsCalled=0,detailErrors=0,idMismatches=0,idMissing=0,qualifiedXYZ=0},'+
+      'records={},listEnumerationComplete=true,detailSampleComplete=true,'+
+      'coordinateFrameVerified=false,nativeIdentityVerified=false,atomicSnapshot=false,'+
+      'selfId="u0000000000000001"}},'+
+      'unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,'+
+      'status="empty",reason="no-nonself-listed",resultSequence=1},' : '';
     const value='RRECollectorData = {addonVersion='+JSON.stringify(rootVersion)+
       ',latest={addonVersion='+JSON.stringify(latest)+
       ',sequence=3,captureComplete=true,abilities={{lookupId="A0000000000000001"}}},'+
       'memoryPublication={status="complete"},captureAttempt={addonVersion="0.4.23",status="accepted"},'+
-      (units?'unitSnapshotSequence=1,unitAttempt={addonVersion="0.4.23",status="complete"},':'')+
+      witness+
       'sequence=3}';
     fs.writeFileSync(saved,value);
   }
@@ -41,6 +52,9 @@ test('same source/install bytes and persisted producer version are not runtime l
     assert.deepEqual(result.install.missing,[]);
     assert.equal(result.checks.sourceInstalledByteIdentical,true);
     assert.equal(result.checks.acceptedUnitsPresent,true);
+    assert.equal(result.checks.acceptedUnitsComplete,false);
+    assert.equal(result.saved.unitValidation.latestStatus,'empty');
+    assert.equal(result.saved.unitValidation.status,'validated');
     assert.equal(result.limits.activeLuaLoadVerified,false);
     assert.equal(result.limits.liveRrec2TransferVerified,false);
     assert.equal(result.limits.wa006Accepted,false);
@@ -65,6 +79,33 @@ test('older installed package and older accepted capture remain distinct',()=>{
     assert.ok(result.install.missing.includes('units.lua'));
     assert.ok(result.install.changed.includes('RiftAddon.toc'));
     assert.equal(result.checks.acceptedUnitsPresent,false);
+  }finally{f.cleanup();}
+});
+test('new root version with older good ability capture is not a fresh capture',()=>{
+  const f=fixture();
+  try{
+    f.setSaved('0.4.23','0.4.20',false);
+    const result=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(result.checks.sourceInstalledByteIdentical,true);
+    assert.equal(result.checks.savedRootMatchesSource,true);
+    assert.equal(result.checks.acceptedAbilityMatchesSource,false);
+    assert.equal(result.checks.acceptedUnitsPresent,false);
+    assert.equal(result.saved.unitValidation.status,'absent');
+    assert.equal(result.limits.activeLuaLoadVerified,false);
+  }finally{f.cleanup();}
+});
+test('positive unit sequence alone is not a validated snapshot',()=>{
+  const f=fixture();
+  try{
+    f.setSaved('0.4.23','0.4.20',false);
+    fs.writeFileSync(f.saved,fs.readFileSync(f.saved,'utf8')
+      .replace(/}$/,',unitSnapshotSequence=7}'));
+    const result=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(result.saved.acceptedUnitSequence,7);
+    assert.equal(result.saved.unitValidation.status,'rejected');
+    assert.equal(result.saved.unitValidation.reason,'UNIT_SNAPSHOT_ARRAY');
+    assert.equal(result.checks.acceptedUnitsPresent,false);
+    assert.equal(result.checks.acceptedUnitsComplete,false);
   }finally{f.cleanup();}
 });
 test('TOC and core version contradiction fails closed',()=>{
