@@ -1,0 +1,153 @@
+// Real pinned Lua 5.1 producer -> literal SavedVariables -> strict Node exporter.
+// Offline only. No RIFT instance, installed addon, gameplay inputs, or new dependencies.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {readUnitWitness} from './export-rrecollector-units.mjs';
+
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const luaDir=path.join(root,'artifacts','sc103-lua51-msvc-20261104-1925-v1');
+const exe=path.join(luaDir,'lua.exe');
+const dll=path.join(luaDir,'lua51.dll');
+const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const PIN_EXE='6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67';
+const PIN_DLL='9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096';
+const env={...process.env,PATH:luaDir+path.delimiter+(process.env.PATH||'')};
+const SELF='u0000000000000001';
+const id=n=>'u'+n.toString(16).toUpperCase().padStart(16,'0');
+
+function runLua(mode){
+  const code=String.raw`
+local mode = "${mode}"
+dofile("addons/RRECollector/core.lua")
+dofile("addons/RRECollector/units.lua")
+local function id(n) return "u"..string.format("%016X",n) end
+local selfId = id(1)
+Inspect = {Time = {Frame=function() return 12.5 end, Real=function() return 17.25 end},
+  Unit = {Lookup=function(spec) assert(spec=="player"); return selfId end,
+    List=function()
+      local values={[selfId]="player"}
+      local maximum=(mode=="cap129" and 130) or (mode=="cap9" and 10) or
+        (mode=="empty" and 1) or 3
+      for n=2,maximum do values[id(n)]="group"..tostring(n) end
+      return values
+    end,
+    Detail=function(key)
+      if mode=="error" and key==id(2) then error("synthetic Detail exception") end
+      if mode=="identity" and key==id(2) then return {id=id(9),coordX=0,coordY=-2,coordZ=3} end
+      return {id=key,coordX=0,coordY=-2,coordZ=3}
+    end}}
+local report=RRECollectorRuntime.units.capture()
+assert(type(report)=="table")
+assert(report.addonVersion=="0.4.23")
+assert(report.counts.detailsCalled<=8 and report.counts.examined<=128)
+report.sequence=1
+local saved={addonVersion="0.4.23",unitSnapshotSequence=1,unitSnapshots={report},
+  unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,
+    status=report.status,reason=report.reason,resultSequence=1}}
+local function encode(value)
+  local kind=type(value)
+  if kind=="string" then return string.format("%q",value) end
+  if kind=="number" then assert(value==value and value~=math.huge and value~=-math.huge)
+    return string.format("%.17g",value) end
+  if kind=="boolean" then return tostring(value) end
+  assert(kind=="table", "unexpected value type")
+  local num,txt={},{}
+  for key in pairs(value) do
+    if type(key)=="number" then num[#num+1]=key
+    elseif type(key)=="string" then txt[#txt+1]=key
+    else error("invalid fixture table key") end
+  end
+  table.sort(num); table.sort(txt)
+  local pairsOut={}
+  for _,key in ipairs(num) do
+    pairsOut[#pairsOut+1]="["..tostring(key).."]="..encode(value[key])
+  end
+  for _,key in ipairs(txt) do
+    pairsOut[#pairsOut+1]="["..string.format("%q",key).."]="..encode(value[key])
+  end
+  return "{"..table.concat(pairsOut,",").."}"
+end
+io.write("RRECollectorData=",encode(saved),"\n")
+`;
+  const proc=spawnSync(exe,['-e',code],{cwd:root,env,encoding:'utf8',
+    windowsHide:true,shell:false,timeout:5000,maxBuffer:65536});
+  if(proc.error)throw proc.error;
+  assert.equal(proc.status,0,mode+': '+proc.stderr);
+  assert.equal(proc.stderr,'',mode+': Lua unexpectedly wrote stderr');
+  assert.ok(proc.stdout.startsWith('RRECollectorData='),mode+': missing assignment');
+  assert.ok(Buffer.byteLength(proc.stdout)<30000,mode+': output exceeded fixture bound');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rre-unit-roundtrip-'));
+  const file=path.join(dir,'RRECollector.lua');
+  try {
+    fs.writeFileSync(file,proc.stdout,'utf8');
+    const report=readUnitWitness(file);
+    assert.equal(report.sourceSha256,
+      crypto.createHash('sha256').update(Buffer.from(proc.stdout)).digest('hex'));
+    assert.equal(report.savedAddonVersion,'0.4.23');
+    assert.equal(report.snapshots[0].sequence,1);
+    assert.equal(report.lastAttempt.resultSequence,1);
+    assert.equal(report.qualification.nativeIdentityVerified,false);
+    assert.equal(report.qualification.live,false);
+    return report;
+  } finally {
+    fs.unlinkSync(file);fs.rmdirSync(dir);
+  }
+}
+test('pinned Lua runtime and DLL match original independent SHA receipts',()=>{
+  assert.equal(sha(exe),PIN_EXE);
+  assert.equal(sha(dll),PIN_DLL);
+});
+test('real Lua complete witness survives SavedVariables parsing and strict exporter',()=>{
+  const out=runLua('complete');
+  assert.equal(out.snapshots[0].status,'complete');
+  assert.equal(out.snapshots[0].reason,'bounded-sample-complete');
+  assert.equal(out.snapshots[0].counts.qualifiedXYZ,2);
+  assert.deepEqual(out.snapshots[0].records.map(r=>r.id),[id(2),id(3)]);
+  assert.equal(out.snapshots[0].records[0].coordX,0);
+  assert.equal(out.snapshots[0].records[0].coordY,-2);
+});
+test('real Lua empty witness remains distinct from API unavailability',()=>{
+  const out=runLua('empty');
+  assert.equal(out.snapshots[0].status,'empty');
+  assert.equal(out.snapshots[0].reason,'no-nonself-listed');
+  assert.equal(out.snapshots[0].records.length,0);
+});
+test('real Lua missing/mismatched identity never retains unbound XYZ',()=>{
+  const out=runLua('identity');
+  assert.equal(out.snapshots[0].status,'partial');
+  assert.equal(out.snapshots[0].reason,'detail-identity-unqualified');
+  assert.equal(out.snapshots[0].counts.idMismatches,1);
+  const row=out.snapshots[0].records[0];
+  assert.equal(row.idBinding,'mismatch');
+  assert.equal(row.xyzComplete,false);
+  assert.equal(Object.hasOwn(row,'coordX'),false);
+});
+test('real Lua partial Detail error is preserved as partial error receipt',()=>{
+  const out=runLua('error');
+  assert.equal(out.snapshots[0].status,'partial');
+  assert.equal(out.snapshots[0].reason,'detail-errors');
+  assert.equal(out.snapshots[0].counts.detailErrors,1);
+  assert.equal(out.snapshots[0].records[0].detailStatus,'error');
+});
+test('real Lua 9-to-8 detail limit remains an incomplete sample',()=>{
+  const out=runLua('cap9');
+  assert.equal(out.snapshots[0].status,'partial');
+  assert.equal(out.snapshots[0].reason,'detail-sample-cap');
+  assert.equal(out.snapshots[0].counts.detailsCalled,8);
+  assert.equal(out.snapshots[0].records.length,8);
+  assert.equal(out.snapshots[0].coverage.detailSampleComplete,false);
+});
+test('real Lua 129+ list entries cannot claim complete enumeration',()=>{
+  const out=runLua('cap129');
+  assert.equal(out.snapshots[0].status,'capped');
+  assert.equal(out.snapshots[0].reason,'list-cap-reached');
+  assert.equal(out.snapshots[0].counts.examined,128);
+  assert.equal(out.snapshots[0].coverage.listEnumerationComplete,false);
+  assert.equal(out.snapshots[0].counts.detailsCalled,8);
+});
