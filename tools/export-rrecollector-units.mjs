@@ -69,17 +69,24 @@ function snapshot(value, expectedVersion) {
   requireValue(id(value.selfId),'UNIT_SELF_ID');
   for(const name of ['frameStart','realStart','frameEnd','realEnd'])
     if(Object.hasOwn(value,name)) requireValue(finite(value[name]),'UNIT_CLOCK');
+  for(const [start,end] of [['frameStart','frameEnd'],['realStart','realEnd']])
+    if(Object.hasOwn(value,start) && Object.hasOwn(value,end))
+      requireValue(value[end]>=value[start],'UNIT_CLOCK_ORDER');
   const records = dense(value.records,8,'UNIT_RECORD_ARRAY');
   requireValue(records.length===value.counts.detailsCalled
     && records.length===Math.min(value.counts.nonselfEligible,8),'UNIT_RECORD_COUNT');
   const seen=new Set();
   let errors=0,mismatches=0,missing=0,qualified=0;
+  let previousId=null;
   const rows=records.map((record)=>{
     exact(record,['id','specifier','idBinding','detailStatus','xyzComplete',
       'coordX','coordY','coordZ'],'UNIT_RECORD_FIELDS');
-    requireValue(id(record.id) && record.id!==value.selfId
-      && !seen.has(record.id) && specifier(record.specifier),'UNIT_RECORD_ID');
-    seen.add(record.id);
+    const canonical=typeof record.id==='string' ? record.id.toLowerCase() : null;
+    requireValue(id(record.id) && canonical!==value.selfId.toLowerCase()
+      && !seen.has(canonical) && specifier(record.specifier),'UNIT_RECORD_ID');
+    requireValue(previousId===null || previousId<record.id,'UNIT_RECORD_ORDER');
+    previousId=record.id;
+    seen.add(canonical);
     requireValue(['matched','missing','mismatch'].includes(record.idBinding)
       && ['returned','missing','error'].includes(record.detailStatus)
       && typeof record.xyzComplete==='boolean','UNIT_RECORD_STATUS');
@@ -109,19 +116,20 @@ function snapshot(value, expectedVersion) {
     && mismatches===value.counts.idMismatches
     && missing===value.counts.idMissing
     && qualified===value.counts.qualifiedXYZ,'UNIT_COUNT_COHERENCE');
-  if(value.status==='complete')
-    requireValue(value.reason==='bounded-sample-complete'
-      && value.counts.nonselfEligible>0 && value.counts.nonselfEligible<=8
-      && value.counts.invalidEntries===0 && errors===0 && missing===0
-      && mismatches===0 && qualified===records.length,'UNIT_COMPLETE_CONTRADICTION');
-  if(value.status==='empty')
-    requireValue(value.reason==='no-nonself-listed' && value.counts.nonselfEligible===0
-      && value.counts.invalidEntries===0,'UNIT_EMPTY_CONTRADICTION');
-  if(value.status==='capped')requireValue(value.reason==='list-cap-reached'
-    && value.counts.examined===128,'UNIT_CAP_CONTRADICTION');
-  if(value.status==='partial') requireValue(value.reason!=='bounded-sample-complete'
-    && value.reason!=='list-cap-reached' && value.reason!=='no-nonself-listed',
-    'UNIT_PARTIAL_CONTRADICTION');
+  requireValue(value.counts.selfEntries<=1,'UNIT_SELF_COUNT');
+  const count=value.counts;
+  const expected= !value.listEnumerationComplete ? ['capped','list-cap-reached']
+    : count.nonselfEligible===0 ? (count.invalidEntries>0
+      ? ['partial','invalid-list-entries'] : ['empty','no-nonself-listed'])
+    : count.nonselfEligible>8 ? ['partial','detail-sample-cap']
+    : count.invalidEntries>0 ? ['partial','invalid-list-entries']
+    : errors>0 ? ['partial','detail-errors']
+    : mismatches>0 || missing>0 ? ['partial','detail-identity-unqualified']
+    : qualified<count.nonselfEligible ? ['partial','xyz-incomplete']
+    : ['complete','bounded-sample-complete'];
+  requireValue(value.status===expected[0] && value.reason===expected[1],
+    'UNIT_STATUS_REASON_BINDING');
+  if(value.status==='capped') requireValue(count.examined===128,'UNIT_CAP_CONTRADICTION');
   return {sequence:value.sequence,status:value.status,reason:value.reason,
     selfId:value.selfId,counts:{...value.counts},
     coverage:{listEnumerationComplete:value.listEnumerationComplete,

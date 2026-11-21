@@ -84,7 +84,34 @@ test('counter, cap, and exact-ID contradictions rejected',()=>{
   reject(x=>{x.unitSnapshots[0].records[0].id=uid(1)},'UNIT_RECORD_ID');
   reject(x=>{x.unitSnapshots[0].records[0].specifier='\n'},'UNIT_RECORD_ID');
   reject(x=>{x.unitSnapshots[0].status='capped'},'UNIT_COVERAGE');
-  reject(x=>{x.unitSnapshots[0].status='empty'},'UNIT_EMPTY_CONTRADICTION');
+  reject(x=>{x.unitSnapshots[0].status='empty'},'UNIT_STATUS_REASON_BINDING');
+});
+test('producer-specific partial reasons cannot be fabricated',()=>{
+  reject(x=>{x.unitSnapshots[0].status='partial';
+    x.unitSnapshots[0].reason='xyz-incomplete'},'UNIT_STATUS_REASON_BINDING');
+  reject(x=>{x.unitSnapshots[0].status='partial';
+    x.unitSnapshots[0].reason='detail-sample-cap'},'UNIT_STATUS_REASON_BINDING');
+  reject(x=>{x.unitSnapshots[0].reason='detail-errors'},'UNIT_STATUS_REASON_BINDING');
+  reject(x=>{x.unitSnapshots[0].reason='invalid-list-entries'},'UNIT_STATUS_REASON_BINDING');
+});
+test('per-capture clock regressions and duplicate self entries fail',()=>{
+  reject(x=>{x.unitSnapshots[0].frameEnd=0.5},'UNIT_CLOCK_ORDER');
+  reject(x=>{x.unitSnapshots[0].realEnd=1795029999},'UNIT_CLOCK_ORDER');
+  reject(x=>{const c=x.unitSnapshots[0].counts;
+    c.examined=3;c.selfEntries=2},'UNIT_SELF_COUNT');
+});
+test('row order and case-folded duplicate native keys are rejected',()=>{
+  const two=x=>{
+    const s=x.unitSnapshots[0];
+    s.counts.examined=3;s.counts.nonselfEligible=2;
+    s.counts.detailsCalled=2;s.counts.qualifiedXYZ=2;
+    s.records.push({...structuredClone(s.records[0]),id:uid(3)});
+  };
+  reject(x=>{two(x);x.unitSnapshots[0].records.reverse()},'UNIT_RECORD_ORDER');
+  reject(x=>{two(x);x.unitSnapshots[0].records[0].id=uid(10);
+    x.unitSnapshots[0].records[1].id=uid(10).toLowerCase()},'UNIT_RECORD_ID');
+  reject(x=>{x.unitSnapshots[0].selfId=uid(10);
+    x.unitSnapshots[0].records[0].id=uid(10).toLowerCase()},'UNIT_RECORD_ID');
 });
 test('unrecognized source fields rejected',()=>{
   reject(x=>{x.unitSnapshots[0].spell='cast'},'UNIT_SNAPSHOT_SHAPE');
