@@ -140,14 +140,23 @@ function snapshot(value, expectedVersion) {
 
 export function summarizeUnitWitness(saved, source={}) {
   requireValue(isObject(saved) && saved.addonVersion===VERSION,'UNIT_ROOT_VERSION');
-  requireValue(integer(saved.unitSnapshotSequence) && saved.unitSnapshotSequence>0,
-    'UNIT_SEQUENCE');
-  const items=dense(saved.unitSnapshots,2,'UNIT_SNAPSHOT_ARRAY');
-  requireValue(items.length>0 && items.length<=2,'UNIT_SNAPSHOT_COUNT');
-  const snapshots=items.map(row=>snapshot(row,VERSION));
-  requireValue(snapshots[0].sequence===saved.unitSnapshotSequence
-    && (snapshots.length===1 || snapshots[1].sequence<snapshots[0].sequence),
-    'UNIT_SEQUENCE_COHERENCE');
+  // The first manual /rre units can fail before any successful snapshot exists.
+  // Main.lua then persists only unitAttempt: error/unavailable with no resultSequence.
+  const hasSequence=Object.hasOwn(saved,'unitSnapshotSequence');
+  const hasSnapshots=Object.hasOwn(saved,'unitSnapshots');
+  requireValue(hasSequence===hasSnapshots,'UNIT_SEQUENCE_FIELDS');
+  const attemptOnly=!hasSequence;
+  let snapshots=[];
+  if(!attemptOnly){
+    requireValue(integer(saved.unitSnapshotSequence) && saved.unitSnapshotSequence>0,
+      'UNIT_SEQUENCE');
+    const items=dense(saved.unitSnapshots,2,'UNIT_SNAPSHOT_ARRAY');
+    requireValue(items.length>0 && items.length<=2,'UNIT_SNAPSHOT_COUNT');
+    snapshots=items.map(row=>snapshot(row,VERSION));
+    requireValue(snapshots[0].sequence===saved.unitSnapshotSequence
+      && (snapshots.length===1 || snapshots[1].sequence<snapshots[0].sequence),
+      'UNIT_SEQUENCE_COHERENCE');
+  }
   let lastAttempt=null;
   if(Object.hasOwn(saved,'unitAttempt')) {
     const a=saved.unitAttempt;
@@ -157,7 +166,8 @@ export function summarizeUnitWitness(saved, source={}) {
       && integer(a.attemptSequence) && a.attemptSequence>0
       && ATTEMPT_STATUSES.has(a.status) && ATTEMPT_REASONS.has(a.reason)
       && (!Object.hasOwn(a,'resultSequence')
-        || integer(a.resultSequence) && a.resultSequence===snapshots[0].sequence),
+        || !attemptOnly && integer(a.resultSequence)
+          && a.resultSequence===snapshots[0].sequence),
       'UNIT_ATTEMPT_CONTRACT');
     requireValue((a.status==='error'||a.status==='unavailable')
       ===!Object.hasOwn(a,'resultSequence'),'UNIT_ATTEMPT_PRESERVATION');
@@ -171,7 +181,11 @@ export function summarizeUnitWitness(saved, source={}) {
     lastAttempt={attemptSequence:a.attemptSequence,status:a.status,reason:a.reason,
       resultSequence:a.resultSequence??null};
   }
+  if(attemptOnly) requireValue(lastAttempt
+    && (lastAttempt.status==='error'||lastAttempt.status==='unavailable'),
+    'UNIT_ATTEMPT_ONLY_CONTRACT');
   return {schemaVersion:1,evidenceKind:'rre-unit-witness/1',producerVersion:VERSION,
+    snapshotState:attemptOnly?'attempt-only':'retained-snapshots',
     savedAddonVersion:saved.addonVersion,sourceSha256:source.sha256??null,
     sourceBytes:source.bytes??null,sourceModifiedAtUtc:source.modifiedAtUtc??null,
     lastAttempt,qualification:{live:false,sourceAuthenticityVerified:false,

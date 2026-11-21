@@ -94,6 +94,43 @@ test('new root version with older good ability capture is not a fresh capture',(
     assert.equal(result.limits.activeLuaLoadVerified,false);
   }finally{f.cleanup();}
 });
+test('first unavailable unit attempt is a valid failure, not a corrupt snapshot',()=>{
+  const f=fixture();
+  try{
+    f.setSaved('0.4.23','0.4.20',false);
+    const original=fs.readFileSync(f.saved,'utf8');
+    fs.writeFileSync(f.saved,original.replace('sequence=3}',
+      'unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,'+
+      'status="unavailable",reason="missing-unit-api"},sequence=3}'));
+    const result=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(result.saved.unitValidation.status,'attempt-only');
+    assert.equal(result.saved.unitValidation.lastAttemptStatus,'unavailable');
+    assert.equal(result.saved.unitValidation.reason,'missing-unit-api');
+    assert.equal(result.saved.unitValidation.retainedCount,0);
+    assert.equal(result.checks.acceptedUnitsPresent,false);
+    assert.equal(result.checks.acceptedUnitsComplete,false);
+    assert.equal(result.checks.savedRootMatchesSource,true);
+  }finally{f.cleanup();}
+});
+test('first exception attempt is retained, but forged positive attempt is rejected',()=>{
+  const f=fixture();
+  try{
+    f.setSaved('0.4.23','0.4.20',false);
+    const original=fs.readFileSync(f.saved,'utf8');
+    const error=original.replace('sequence=3}',
+      'unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=3,'+
+      'status="error",reason="unit-capture-exception"},sequence=3}');
+    fs.writeFileSync(f.saved,error);
+    const accepted=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(accepted.saved.unitValidation.status,'attempt-only');
+    assert.equal(accepted.saved.unitValidation.lastAttemptStatus,'error');
+    assert.equal(accepted.checks.acceptedUnitsPresent,false);
+    fs.writeFileSync(f.saved,error.replace('status="error"','status="complete"'));
+    const forged=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(forged.saved.unitValidation.status,'rejected');
+    assert.equal(forged.checks.acceptedUnitsPresent,false);
+  }finally{f.cleanup();}
+});
 test('positive unit sequence alone is not a validated snapshot',()=>{
   const f=fixture();
   try{
@@ -103,7 +140,7 @@ test('positive unit sequence alone is not a validated snapshot',()=>{
     const result=inspectCollectorReadiness(f.installed,f.saved);
     assert.equal(result.saved.acceptedUnitSequence,7);
     assert.equal(result.saved.unitValidation.status,'rejected');
-    assert.equal(result.saved.unitValidation.reason,'UNIT_SNAPSHOT_ARRAY');
+    assert.equal(result.saved.unitValidation.reason,'UNIT_SEQUENCE_FIELDS');
     assert.equal(result.checks.acceptedUnitsPresent,false);
     assert.equal(result.checks.acceptedUnitsComplete,false);
   }finally{f.cleanup();}

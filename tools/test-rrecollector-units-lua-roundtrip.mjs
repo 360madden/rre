@@ -31,6 +31,7 @@ local selfId = id(1)
 Inspect = {Time = {Frame=function() return 12.5 end, Real=function() return 17.25 end},
   Unit = {Lookup=function(spec) assert(spec=="player"); return selfId end,
     List=function()
+      if mode=="list-error" then error("synthetic first List exception") end
       local values={[selfId]="player"}
       local maximum=(mode=="cap129" and 130) or (mode=="cap9" and 10) or
         (mode=="empty" and 1) or 3
@@ -42,14 +43,23 @@ Inspect = {Time = {Frame=function() return 12.5 end, Real=function() return 17.2
       if mode=="identity" and key==id(2) then return {id=id(9),coordX=0,coordY=-2,coordZ=3} end
       return {id=key,coordX=0,coordY=-2,coordZ=3}
     end}}
+if mode=="no-api" then Inspect.Unit.List=nil end
 local report=RRECollectorRuntime.units.capture()
 assert(type(report)=="table")
 assert(report.addonVersion=="0.4.23")
 assert(report.counts.detailsCalled<=8 and report.counts.examined<=128)
-report.sequence=1
-local saved={addonVersion="0.4.23",unitSnapshotSequence=1,unitSnapshots={report},
-  unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,
-    status=report.status,reason=report.reason,resultSequence=1}}
+local saved
+if report.status=="error" or report.status=="unavailable" then
+  -- main.lua records this attempt but leaves all successful snapshot keys absent.
+  saved={addonVersion="0.4.23",
+    unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,
+      status=report.status,reason=report.reason}}
+else
+  report.sequence=1
+  saved={addonVersion="0.4.23",unitSnapshotSequence=1,unitSnapshots={report},
+    unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,
+      status=report.status,reason=report.reason,resultSequence=1}}
+end
 local function encode(value)
   local kind=type(value)
   if kind=="string" then return string.format("%q",value) end
@@ -90,8 +100,15 @@ io.write("RRECollectorData=",encode(saved),"\n")
     assert.equal(report.sourceSha256,
       crypto.createHash('sha256').update(Buffer.from(proc.stdout)).digest('hex'));
     assert.equal(report.savedAddonVersion,'0.4.23');
-    assert.equal(report.snapshots[0].sequence,1);
-    assert.equal(report.lastAttempt.resultSequence,1);
+    if(mode==='no-api'||mode==='list-error'){
+      assert.equal(report.snapshotState,'attempt-only');
+      assert.equal(report.snapshots.length,0);
+      assert.equal(report.lastAttempt.resultSequence,null);
+    }else{
+      assert.equal(report.snapshotState,'retained-snapshots');
+      assert.equal(report.snapshots[0].sequence,1);
+      assert.equal(report.lastAttempt.resultSequence,1);
+    }
     assert.equal(report.qualification.nativeIdentityVerified,false);
     assert.equal(report.qualification.live,false);
     return report;
@@ -102,6 +119,20 @@ io.write("RRECollectorData=",encode(saved),"\n")
 test('pinned Lua runtime and DLL match original independent SHA receipts',()=>{
   assert.equal(sha(exe),PIN_EXE);
   assert.equal(sha(dll),PIN_DLL);
+});
+test('real Lua missing API yields only a retained unavailable attempt',()=>{
+  const out=runLua('no-api');
+  assert.equal(out.snapshotState,'attempt-only');
+  assert.equal(out.lastAttempt.status,'unavailable');
+  assert.equal(out.lastAttempt.reason,'missing-unit-api');
+  assert.equal(out.snapshots.length,0);
+});
+test('real Lua first List exception yields only an error attempt',()=>{
+  const out=runLua('list-error');
+  assert.equal(out.snapshotState,'attempt-only');
+  assert.equal(out.lastAttempt.status,'error');
+  assert.equal(out.lastAttempt.reason,'unit-list-error');
+  assert.equal(out.snapshots.length,0);
 });
 test('real Lua complete witness survives SavedVariables parsing and strict exporter',()=>{
   const out=runLua('complete');

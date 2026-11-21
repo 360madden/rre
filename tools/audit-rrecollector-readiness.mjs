@@ -56,8 +56,14 @@ export function inspectCollectorReadiness(installedDir,savedFile){
   if(hasUnitRecord){
     try{
       const witness=summarizeUnitWitness(data);
-      unitValidation={status:'validated',reason:null,
-        latestStatus:witness.snapshots[0].status,retainedCount:witness.snapshots.length};
+      if(witness.snapshotState==='attempt-only'){
+        unitValidation={status:'attempt-only',reason:witness.lastAttempt.reason,
+          latestStatus:null,retainedCount:0,
+          lastAttemptStatus:witness.lastAttempt.status};
+      }else{
+        unitValidation={status:'validated',reason:null,
+          latestStatus:witness.snapshots[0].status,retainedCount:witness.snapshots.length};
+      }
     }catch(error){
       const message=String(error?.message??'UNIT_INVALID');
       unitValidation={status:'rejected',reason:/^UNIT_[A-Z0-9_]+$/.test(message)
