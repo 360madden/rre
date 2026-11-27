@@ -15,6 +15,7 @@ const cases=[
   'tools/test-pinned-lua51.mjs',
   'tools/test-export-rrecollector-units.mjs',
   'tools/test-audit-rrecollector-readiness.mjs',
+  'tools/test-compare-rrecollector-captures.mjs',
   'tools/verify-rrecollector-saved.mjs',
   'tools/test-plan-pab-static-candidates.mjs',
   'tools/test-inventory-pab-static-abilities.mjs',
