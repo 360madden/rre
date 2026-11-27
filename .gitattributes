@@ -16,3 +16,6 @@ docs/RRECOLLECTOR-ALL-CALLINGS-STATIC-CANDIDATES-LOSSLESS-2026-11-21.json text e
 # Keep the remaining roadmap evidence pins byte-stable.
 docs/RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json text eol=lf
 tools/agents/collision/verify_current_query_wa006.py text eol=lf
+# Reproducible release bytes for the strict RRECollector install gate.
+addons/RRECollector/*.lua text eol=lf
+addons/RRECollector/RiftAddon.toc text eol=lf
