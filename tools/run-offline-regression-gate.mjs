@@ -13,6 +13,7 @@ if(args.length>1||!['--portable','--local-source'].includes(mode)){
 const env={...process.env,RRE_PAB_TEST_MODE:mode==='--portable'?'fixtures-only':'source-required'};
 const cases=[
   'tools/test-pinned-lua51.mjs',
+  'tools/test-lua51-roundtrip-runtime.mjs',
   'tools/test-export-rrecollector-units.mjs',
   'tools/test-audit-rrecollector-readiness.mjs',
   'tools/test-compare-rrecollector-captures.mjs',

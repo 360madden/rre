@@ -22,3 +22,34 @@ jobs:
           node-version: '24'
       - name: Validate repository evidence and offline regressions
         run: node tools/run-offline-regression-gate.mjs --portable
+  lua-compat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build checksum-pinned official Lua 5.1.5 (CI-only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          build=$(mktemp -d "$RUNNER_TEMP/rre-lua51.XXXXXX")
+          curl --fail --silent --show-error --location --proto '=https' --max-time 60 \
+            https://www.lua.org/ftp/lua-5.1.5.tar.gz -o "$build/lua-5.1.5.tar.gz"
+          echo "2640fc56a795f29d28ef15e13c34a47e223960b0240e8cb0a82d9b073869e5333  $build/lua-5.1.5.tar.gz" | sha256sum --check --strict
+          tar -xzf "$build/lua-5.1.5.tar.gz" -C "$build"
+          make -C "$build/lua-5.1.5" generic
+          exe="$build/lua-5.1.5/src/lua"
+          pin=$(sha256sum "$exe" | cut -d ' ' -f 1)
+          "$exe" -v
+          printf 'Lua compatibility executable SHA-256: %s\n' "$pin"
+          {
+            printf 'RRE_LUA51_ROUNDTRIP_PROFILE=compat-5.1.5\n'
+            printf 'RRE_LUA51_COMPAT_EXE=%s\n' "$exe"
+            printf 'RRE_LUA51_COMPAT_SHA256=%s\n' "$pin"
+          } >> "$GITHUB_ENV"
+      - name: Execute Lua producer to SavedVariables to Node round-trip
+        run: node --test tools/test-rrecollector-units-lua-roundtrip.mjs

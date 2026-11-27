@@ -8,11 +8,11 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {readUnitWitness} from './export-rrecollector-units.mjs';
-import {resolvePinnedLua51, runPinnedLua51} from './pinned-lua51.mjs';
+import {validateRoundtripRuntime,runRoundtripLua51} from './lua51-roundtrip-runtime.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 // Fail the suite once, before registering any runtime-dependent cases.
-resolvePinnedLua51(root);
+const runtime=validateRoundtripRuntime(root);
 
 const SELF='u0000000000000001';
 const id=n=>'u'+n.toString(16).toUpperCase().padStart(16,'0');
@@ -81,7 +81,7 @@ local function encode(value)
 end
 io.write("RRECollectorData=",encode(saved),"\n")
 `;
-  const proc=runPinnedLua51(['-e',code],{root});
+  const proc=runRoundtripLua51(['-e',code],{root});
   if(proc.error)throw proc.error;
   assert.equal(proc.status,0,mode+': '+proc.stderr);
   assert.equal(proc.stderr,'',mode+': Lua unexpectedly wrote stderr');
@@ -111,10 +111,15 @@ io.write("RRECollectorData=",encode(saved),"\n")
     fs.unlinkSync(file);fs.rmdirSync(dir);
   }
 }
-test('pinned Lua runtime and DLL match original independent SHA receipts',()=>{
-  const runtime=resolvePinnedLua51(root);
-  assert.equal(runtime.exeSha256,'6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67');
-  assert.equal(runtime.dllSha256,'9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096');
+test('explicit Lua runtime profile satisfies its own qualification contract',()=>{
+  if(runtime.profile==='historical-windows-5.1.4'){
+    assert.equal(runtime.exeSha256,'6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67');
+    assert.equal(runtime.dllSha256,'9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096');
+  }else{
+    assert.equal(runtime.profile,'compat-5.1.5');
+    assert.equal(runtime.exeSha256,process.env.RRE_LUA51_COMPAT_SHA256);
+    assert.equal(runtime.dllSha256,null);
+  }
 });
 test('real Lua missing API yields only a retained unavailable attempt',()=>{
   const out=runLua('no-api');
