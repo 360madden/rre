@@ -10,3 +10,9 @@ tools/agents/collision/wa006_g2_one_shot.lua text eol=lf
 tools/agents/collision/test_wa006_g2_one_shot.mjs text eol=lf
 tools/agents/collision/verify_wa006_g2_packet.mjs text eol=lf
 tools/agents/collision/test_verify_wa006_g2_packet.mjs text eol=lf
+# Keep published static catalog byte pins stable across Windows checkouts.
+docs/RRECOLLECTOR-ALL-CALLINGS-STATIC-CANDIDATES-2026-11-21.json text eol=lf
+docs/RRECOLLECTOR-ALL-CALLINGS-STATIC-CANDIDATES-LOSSLESS-2026-11-21.json text eol=lf
+# Keep the remaining roadmap evidence pins byte-stable.
+docs/RRE-WA006-EVIDENCE-MATRIX-2026-11-16.json text eol=lf
+tools/agents/collision/verify_current_query_wa006.py text eol=lf

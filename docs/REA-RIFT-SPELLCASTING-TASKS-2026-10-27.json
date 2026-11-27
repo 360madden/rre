@@ -216,7 +216,8 @@
         "docs/REA-RIFT-SPELLCASTING-SC103-LUAPAD-HOVER-PROBE-2026-11-03.md (operator-run probe staged only; source-hash-gated Windows Lua 5.1.4 and 5.3 offline synthetic fixtures each passed 474/474, Python runner contract 22/22 after stop-call normalization; historical 119/454 checkpoints superseded; independent FreeBuff approval incomplete; physical RIFT/LuaPad execution and Legendary identity unverified)",
         "docs/REA-RIFT-SPELLCASTING-FREEBUFF-REVIEW-2026-11-03.md (two real FreeBuff ConPTY code reviews; accepted SC-103 transient-fault correction; RC-30 edge cases source-only and parked)",
         "docs/REA-RIFT-SPELLCASTING-LOCAL-REASONING-WORKER-PILOT-2026-11-03.md (two completed local Gemma 4 reasoning reviewers with read-only tools; one missing negative fixture accepted, two false positives rejected)",
-        "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json (redacted G1 saved snapshot, 0.4.10, 69 Known/96 candidates, eight-slot fingerprint; no SC-103 rank/Legendary identity or event/process proof)"
+        "docs/RRECOLLECTOR-RC30-POSTRELOAD-SAVED-2026-11-05.json (redacted G1 saved snapshot, 0.4.10, 69 Known/96 candidates, eight-slot fingerprint; no SC-103 rank/Legendary identity or event/process proof)",
+        "docs/REA-RIFT-SPELLCASTING-SESSION-HANDOFF-2026-11-26.md (P1 bounded all-calling static candidate plan; 15/15 tests; Windows catalog byte pins restored; runtime qualification remains blocked)"
       ],
       "deliverable": "Rank/modern-vs-legacy ID mapping with unresolved duplicates preserved",
       "acceptance": [
