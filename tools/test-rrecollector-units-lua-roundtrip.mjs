@@ -6,18 +6,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {readUnitWitness} from './export-rrecollector-units.mjs';
+import {resolvePinnedLua51, runPinnedLua51} from './pinned-lua51.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const luaDir=path.join(root,'artifacts','sc103-lua51-msvc-20261104-1925-v1');
-const exe=path.join(luaDir,'lua.exe');
-const dll=path.join(luaDir,'lua51.dll');
-const sha=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-const PIN_EXE='6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67';
-const PIN_DLL='9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096';
-const env={...process.env,PATH:luaDir+path.delimiter+(process.env.PATH||'')};
+// Fail the suite once, before registering any runtime-dependent cases.
+resolvePinnedLua51(root);
+
 const SELF='u0000000000000001';
 const id=n=>'u'+n.toString(16).toUpperCase().padStart(16,'0');
 
@@ -85,8 +81,7 @@ local function encode(value)
 end
 io.write("RRECollectorData=",encode(saved),"\n")
 `;
-  const proc=spawnSync(exe,['-e',code],{cwd:root,env,encoding:'utf8',
-    windowsHide:true,shell:false,timeout:5000,maxBuffer:65536});
+  const proc=runPinnedLua51(['-e',code],{root});
   if(proc.error)throw proc.error;
   assert.equal(proc.status,0,mode+': '+proc.stderr);
   assert.equal(proc.stderr,'',mode+': Lua unexpectedly wrote stderr');
@@ -117,8 +112,9 @@ io.write("RRECollectorData=",encode(saved),"\n")
   }
 }
 test('pinned Lua runtime and DLL match original independent SHA receipts',()=>{
-  assert.equal(sha(exe),PIN_EXE);
-  assert.equal(sha(dll),PIN_DLL);
+  const runtime=resolvePinnedLua51(root);
+  assert.equal(runtime.exeSha256,'6675a1c46671d8bbdfea2b94704c495a2cb9e7accaffbb309f85c025752c2c67');
+  assert.equal(runtime.dllSha256,'9224c9f2929cff5a0a10ce1d795a9d83112eead52b93ce625e31a24fa6f31096');
 });
 test('real Lua missing API yields only a retained unavailable attempt',()=>{
   const out=runLua('no-api');

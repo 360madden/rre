@@ -124,8 +124,14 @@ test('CLI usage fails without printing an invented partial catalog',()=>{
 });
 const liveRoot=process.env.RRE_PAB_ROOT||path.join(process.env.USERPROFILE||'',
   'OneDrive','Documents','RIFT','Interface','AddOns','projectabilitybook.disabled');
+const sourceMode=process.env.RRE_PAB_TEST_MODE??'auto';
+assert.ok(['auto','fixtures-only','source-required'].includes(sourceMode),'invalid PAB test mode');
+// CI must not read an installed addon; local-source mode must not silently skip.
+const sourceSkip=sourceMode==='fixtures-only'?'portable fixtures only':
+  sourceMode==='auto'&&!fs.existsSync(liveRoot)?'original local source unavailable':false;
+
 test('actual disabled source counts and preserved Warrior 96/96 exact IDs',
-  {skip:!fs.existsSync(liveRoot)},()=>{
+  {skip:sourceSkip},()=>{
   const out=inventoryStaticCandidates(liveRoot);
   assert.deepEqual(out.totals,{sourceFiles:56,parsedFiles:56,quarantinedFiles:0,
     abilityEntries:1434,uniqueIds:1433,duplicateIds:1,duplicateNameGroups:1});
@@ -182,7 +188,7 @@ test('actual disabled source counts and preserved Warrior 96/96 exact IDs',
   assert.equal(compared,55);
 });
 test('generated v2 artifact exactly reproduces all original source rows and provenance',
-  {skip:!fs.existsSync(liveRoot)},()=>{
+  {skip:sourceSkip},()=>{
   const saved=JSON.parse(fs.readFileSync(path.join(root,
     'docs/RRECOLLECTOR-ALL-CALLINGS-STATIC-CANDIDATES-LOSSLESS-2026-11-21.json')));
   const live=inventoryStaticCandidates(liveRoot);
