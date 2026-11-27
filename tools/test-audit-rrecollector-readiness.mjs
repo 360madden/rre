@@ -284,6 +284,71 @@ test('package member retries only one invalid metadata read',()=>{
   const stable=readPackageMember('fixture',()=>({bytes:Buffer.from('stable')}));
   assert.equal(stable.retried,false);
 });
+test('complete ability attempt binds to the retained result without claiming freshness',()=>{
+  const f=fixture();
+  try{
+    const original=fs.readFileSync(f.saved,'utf8');
+    const attempt='captureAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=4,status="complete",reason="none",preservedPrior=false,priorSequence=2,resultSequence=3,frameTime=10,realTime=20,counts={uniqueCount=1,detailCount=1,detailFailures=0},publicationStatus="complete"}';
+    const valid=original.replace('captureAttempt={addonVersion="0.4.23",status="accepted"}',attempt);
+    fs.writeFileSync(f.saved,valid);
+    let r=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(r.saved.captureAttemptValidation.status,'validated');
+    assert.equal(r.saved.captureAttemptValidation.resultSequence,3);
+    assert.equal(r.checks.completeAbilityAttemptBound,true);
+    assert.equal(r.limits.activeLuaLoadVerified,false);
+    for(const [from,to,reason] of [
+      ['priorSequence=2','priorSequence=1','CAPTURE_ATTEMPT_PRIOR_BINDING'],
+      ['resultSequence=3','resultSequence=4','CAPTURE_ATTEMPT_RESULT_BINDING'],
+      ['preservedPrior=false','preservedPrior=true','CAPTURE_ATTEMPT_PRESERVATION'],
+      ['publicationStatus="complete"','publicationStatus="not-published"','CAPTURE_ATTEMPT_PUBLICATION'],
+      ['resultSequence=3,frameTime=10','resultSequence=3,frameTime=11','CAPTURE_ATTEMPT_CLOCK_BINDING'],
+      ['counts={uniqueCount=1','counts={uniqueCount=2','CAPTURE_ATTEMPT_COUNT_BINDING'],
+    ]){
+      fs.writeFileSync(f.saved,valid.replace(from,to));
+      r=inspectCollectorReadiness(f.installed,f.saved);
+      assert.equal(r.saved.captureAttemptValidation.status,'rejected',reason);
+      assert.deepEqual(r.saved.captureAttemptValidation.reasons,[reason]);
+      assert.equal(r.checks.completeAbilityAttemptBound,false,reason);
+      assert.equal(r.checks.acceptedAbilityComplete,true,reason);
+    }
+  }finally{f.cleanup();}
+});
+test('failed ability attempt preserves historical result without qualifying a new one',()=>{
+  const f=fixture();
+  try{
+    const original=fs.readFileSync(f.saved,'utf8');
+    const failed='captureAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=4,status="failed",reason="api-capture-error",preservedPrior=true,priorSequence=3}';
+    fs.writeFileSync(f.saved,original.replace('captureAttempt={addonVersion="0.4.23",status="accepted"}',failed));
+    const r=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(r.saved.captureAttemptValidation.outcome,'failed');
+    assert.equal(r.saved.captureAttemptValidation.status,'validated');
+    assert.equal(r.saved.captureAttemptValidation.resultBound,false);
+    assert.equal(r.checks.completeAbilityAttemptBound,false);
+    assert.equal(r.checks.acceptedAbilityComplete,true);
+    fs.writeFileSync(f.saved,original.replace(/,captureAttempt=\{addonVersion="0.4.23",status="accepted"\}/,''));
+    assert.equal(inspectCollectorReadiness(f.installed,f.saved).saved.captureAttemptValidation.status,'absent');
+  }finally{f.cleanup();}
+});
+test('later failed unit attempt cannot qualify an older complete unit result as current attempt',()=>{
+  const f=fixture();
+  try{
+    const original=fs.readFileSync(f.saved,'utf8')
+      .replaceAll('status="empty",reason="no-nonself-listed"','status="complete",reason="bounded-sample-complete"')
+      .replace('examined=0,invalidEntries=0,selfEntries=0,nonselfEligible=0','examined=2,invalidEntries=0,selfEntries=1,nonselfEligible=1')
+      .replace('detailsCalled=0,detailErrors=0,idMismatches=0,idMissing=0,qualifiedXYZ=0','detailsCalled=1,detailErrors=0,idMismatches=0,idMissing=0,qualifiedXYZ=1')
+      .replace('records={},listEnumerationComplete=true','records={{id="u0000000000000002",specifier="group01",idBinding="matched",detailStatus="returned",xyzComplete=true,coordX=0,coordY=-2,coordZ=3}},listEnumerationComplete=true');
+    fs.writeFileSync(f.saved,original);
+    let r=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(r.checks.acceptedUnitsComplete,true);
+    assert.equal(r.checks.completeUnitAttemptBound,true);
+    fs.writeFileSync(f.saved,original.replace('unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=1,status="complete",reason="bounded-sample-complete",resultSequence=1}','unitAttempt={schemaVersion=1,addonVersion="0.4.23",attemptSequence=2,status="error",reason="unit-list-error"}'));
+    r=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(r.checks.acceptedUnitsComplete,true);
+    assert.equal(r.saved.unitValidation.lastAttemptStatus,'error');
+    assert.equal(r.checks.completeUnitAttemptBound,false);
+    assert.equal(r.limits.activeLuaLoadVerified,false);
+  }finally{f.cleanup();}
+});
 test('CLI reports usage failure without reading game or modifying files',()=>{
   const file=fileURLToPath(new URL('./audit-rrecollector-readiness.mjs',import.meta.url));
   const p=spawnSync(process.execPath,[file],{encoding:'utf8',timeout:5000});
