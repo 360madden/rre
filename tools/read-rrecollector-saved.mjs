@@ -284,7 +284,7 @@ export function assessSnapshotForComparison(saved) {
   const keys = rawRecords && typeof rawRecords === "object" ? Object.keys(rawRecords) : [];
   // Keep the historical crosswalk's permissive asArray(); strict evidence is a separate gate.
   const recordShapeValid = Array.isArray(rawRecords)
-    ? keys.length === rawRecords.length && keys.every((key, i) => key === String(i))
+    ? rawRecords.length > 0 && keys.length === rawRecords.length && keys.every((key, i) => key === String(i))
     : rawRecords && typeof rawRecords === "object" && keys.length > 0
       && keys.every((key, i) => key === String(i + 1));
   const records = asArray(rawRecords);

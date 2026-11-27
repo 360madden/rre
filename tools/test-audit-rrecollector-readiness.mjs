@@ -33,7 +33,10 @@ function fixture() {
       'status="empty",reason="no-nonself-listed",resultSequence=1},' : '';
     const value='RRECollectorData = {addonVersion='+JSON.stringify(rootVersion)+
       ',latest={addonVersion='+JSON.stringify(latest)+
-      ',sequence=3,captureComplete=true,abilities={{lookupId="A0000000000000001"}}},'+
+      ',sequence=3,captureComplete=true,frameTime=10,realTime=20,roleSlot=1,'+
+      'player={id="uFIXTURE",name="Fixture"},abilityList={apiAvailable=true,'+
+      'enumerationComplete=true,detailFailures=0,ignored=0,truncated=0,uniqueCount=1,detailCount=1,rawEntries=1},'+
+      'abilities={{lookupId="A0000000000000001"}}},'+
       'memoryPublication={status="complete"},captureAttempt={addonVersion="0.4.23",status="accepted"},'+
       witness+
       'sequence=3}';
@@ -51,6 +54,9 @@ test('same source/install bytes and persisted producer version are not runtime l
     assert.deepEqual(result.install.changed,[]);
     assert.deepEqual(result.install.missing,[]);
     assert.equal(result.checks.sourceInstalledByteIdentical,true);
+    assert.equal(result.saved.abilityValidation.status,'validated');
+    assert.equal(result.checks.acceptedAbilityComplete,true);
+    assert.equal(result.checks.acceptedAbilityMatchesSource,true);
     assert.equal(result.checks.acceptedUnitsPresent,true);
     assert.equal(result.checks.acceptedUnitsComplete,false);
     assert.equal(result.saved.unitValidation.latestStatus,'empty');
@@ -89,6 +95,8 @@ test('new root version with older good ability capture is not a fresh capture',(
     assert.equal(result.checks.sourceInstalledByteIdentical,true);
     assert.equal(result.checks.savedRootMatchesSource,true);
     assert.equal(result.checks.acceptedAbilityMatchesSource,false);
+    assert.equal(result.checks.acceptedAbilityComplete,true);
+    assert.equal(result.saved.abilityValidation.status,'validated');
     assert.equal(result.checks.acceptedUnitsPresent,false);
     assert.equal(result.saved.unitValidation.status,'absent');
     assert.equal(result.limits.activeLuaLoadVerified,false);
@@ -159,6 +167,53 @@ test('paths cannot silently point to another installed addon or saved-data name'
     assert.throws(()=>inspectCollectorReadiness(f.tmp,f.saved),/INSTALL_DIRECTORY_CONTRACT/);
     assert.throws(()=>inspectCollectorReadiness(f.installed,path.join(f.tmp,'other.lua')),
       /SAVED_FILENAME_CONTRACT/);
+  }finally{f.cleanup();}
+});
+test('reported completion cannot qualify an incoherent saved ability snapshot',()=>{
+  const f=fixture();
+  try{
+    const original=fs.readFileSync(f.saved,'utf8');
+    const cases=[
+      ['uniqueCount=1','uniqueCount=2','RECORD_COUNT_MISMATCH'],
+      ['lookupId="A0000000000000001"','lookupId="invalid"','ABILITY_IDS_UNQUALIFIED'],
+      ['frameTime=10','frameTime=-1','CAPTURE_CLOCK_UNBOUND'],
+      ['sequence=3,captureComplete','sequence=2,captureComplete','SEQUENCE_UNBOUND'],
+      ['abilities={{lookupId="A0000000000000001"}}','abilities={}','ABILITY_RECORDS_MALFORMED'],
+      ['enumerationComplete=true','enumerationComplete=false','LIST_NOT_COMPLETE'],
+    ];
+    for(const [before,after,reason] of cases){
+      assert.ok(original.includes(before),reason);
+      fs.writeFileSync(f.saved,original.replace(before,after));
+      const result=inspectCollectorReadiness(f.installed,f.saved);
+      assert.equal(result.saved.abilityValidation.reportedComplete,true,reason);
+      assert.equal(result.saved.abilityValidation.status,'rejected',reason);
+      assert.ok(result.saved.abilityValidation.reasons.includes(reason),reason);
+      assert.equal(result.checks.abilityProducerVersionMatchesSource,true,reason);
+      assert.equal(result.checks.acceptedAbilityComplete,false,reason);
+      assert.equal(result.saved.acceptedAbilityCount,null,reason);
+      assert.equal(result.checks.acceptedAbilityMatchesSource,false,reason);
+      assert.equal(result.limits.activeLuaLoadVerified,false,reason);
+    }
+  }finally{f.cleanup();}
+});
+test('qualified one-based Lua ability table retains its validated count',()=>{
+  const f=fixture();
+  try{
+    const original=fs.readFileSync(f.saved,'utf8');
+    fs.writeFileSync(f.saved,original.replace(
+      'abilities={{lookupId="A0000000000000001"}}',
+      'abilities={[1]={lookupId="A0000000000000001"}}'));
+    const result=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(result.saved.abilityValidation.status,'validated');
+    assert.equal(result.saved.acceptedAbilityCount,1);
+  }finally{f.cleanup();}
+});
+test('missing latest snapshot stays absent, not complete',()=>{
+  const f=fixture();
+  try{fs.writeFileSync(f.saved,'RRECollectorData={addonVersion="0.4.23",sequence=0}');
+    const r=inspectCollectorReadiness(f.installed,f.saved);
+    assert.equal(r.saved.abilityValidation.status,'absent');
+    assert.equal(r.checks.acceptedAbilityComplete,false);
   }finally{f.cleanup();}
 });
 test('CLI reports usage failure without reading game or modifying files',()=>{

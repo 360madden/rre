@@ -234,6 +234,11 @@ test("missing, zero-based, gapped and extra-key ability rows never qualify", () 
       saved.latest.abilityList.uniqueCount = 0;
       saved.latest.abilityList.detailCount = 0;
     }],
+    ["empty-array", saved => {
+      saved.latest.abilities = [];
+      saved.latest.abilityList.uniqueCount = 0;
+      saved.latest.abilityList.detailCount = 0;
+    }],
     ["zero-based", saved => {
       saved.latest.abilities = {"0":saved.latest.abilities[0]};
     }],

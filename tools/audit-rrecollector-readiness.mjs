@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {parseSavedLuaBytes} from './read-rrecollector-saved.mjs';
+import {parseSavedLuaBytes, assessSnapshotForComparison} from './read-rrecollector-saved.mjs';
 import {readStableOriginalWithMetadata} from './read-stable-original.mjs';
 import {summarizeUnitWitness} from './export-rrecollector-units.mjs';
 
@@ -47,7 +47,19 @@ export function inspectCollectorReadiness(installedDir,savedFile){
   const original=readStableOriginalWithMetadata(savedFile);
   const data=parseSavedLuaBytes(original.bytes);
   const latest=data.latest&&typeof data.latest==='object'?data.latest:null;
-  const abilityCount=Array.isArray(latest?.abilities)?latest.abilities.length:null;
+  // A producer's complete flag is descriptive, not proof of a coherent snapshot.
+  // Reuse the saved-reader's existing structure gate; never infer freshness from it.
+  const abilityStructure=assessSnapshotForComparison(data);
+  const abilityQualified=abilityStructure.offlineStructureQualified===true;
+  // The gate binds uniqueCount to the actual rows, including explicit Lua
+  // one-based table keys. Rejected snapshots must not report accepted counts.
+  const abilityCount=abilityQualified?latest.abilityList.uniqueCount:null;
+  const abilityValidation={
+    status:latest===null?'absent':abilityQualified?'validated':'rejected',
+    reportedComplete:latest?.captureComplete===true,
+    reasons:latest===null?[]:abilityStructure.reasons,
+  };
+  const abilityVersionMatches=latest?.addonVersion===sourceVersion;
   const capture=data.captureAttempt&&typeof data.captureAttempt==='object'?data.captureAttempt:null;
   const units=data.unitAttempt&&typeof data.unitAttempt==='object'?data.unitAttempt:null;
   const hasUnitRecord=Object.hasOwn(data,'unitSnapshotSequence')
@@ -80,7 +92,8 @@ export function inspectCollectorReadiness(installedDir,savedFile){
     saved:{rootVersion:typeof data.addonVersion==='string'?data.addonVersion:null,
       acceptedAbilityVersion:latest?.addonVersion??null,
       acceptedAbilitySequence:latest?.sequence??null,
-      acceptedAbilityComplete:latest?.captureComplete===true,
+      acceptedAbilityComplete:abilityQualified,
+      abilityValidation,
       acceptedAbilityCount:abilityCount,
       publicationStatus:data.memoryPublication?.status??null,
       lastCaptureAttemptVersion:capture?.addonVersion??null,
@@ -95,8 +108,9 @@ export function inspectCollectorReadiness(installedDir,savedFile){
     checks:{sourceInstalledByteIdentical:instParity,
       installedVersionMatchesSource:installedVersion===sourceVersion,
       savedRootMatchesSource:data.addonVersion===sourceVersion,
-      acceptedAbilityMatchesSource:latest?.addonVersion===sourceVersion,
-      acceptedAbilityComplete:latest?.captureComplete===true,
+      abilityProducerVersionMatchesSource:abilityVersionMatches,
+      acceptedAbilityMatchesSource:abilityQualified&&abilityVersionMatches,
+      acceptedAbilityComplete:abilityQualified,
       acceptedUnitsPresent:unitValidation.status==='validated',
       acceptedUnitsComplete:unitValidation.status==='validated'
         && unitValidation.latestStatus==='complete'},
