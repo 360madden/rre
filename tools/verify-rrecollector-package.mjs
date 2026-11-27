@@ -1,10 +1,9 @@
 // RRECollector release gate: strict TOC structure, ordered scripts, and optional installed-byte parity.
 // Source/host parity is not an in-game UI-load claim. No writes, dependencies, or game input.
 import assert from "node:assert/strict";
-import {createHash} from "node:crypto";
-import fs from "node:fs";
 import path from "node:path";
 import {fileURLToPath} from "node:url";
+import {COLLECTOR_MODULES, COLLECTOR_FILES, readCollectorPackage, requireExactPackage, packageText} from './read-rrecollector-package.mjs';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const addon = path.join(project, "addons", "RRECollector");
@@ -13,10 +12,7 @@ const requiredStrings = [
   "Author", "Email", "Version", "Environment"
 ];
 const requiredTables = ["SavedVariables", "RunOnStartup"];
-const expectedScripts = [
-  "core.lua", "context.lua", "abilities.lua", "capabilities.lua",
-  "candidate_catalog.lua", "candidates.lua", "wire.lua", "units.lua", "ui.lua", "main.lua"
-];
+const expectedScripts = COLLECTOR_MODULES;
 
 function parseToc(input) {
   assert.equal(input.charCodeAt(0) === 0xfeff, false, "TOC must not have a UTF-8 BOM");
@@ -69,49 +65,44 @@ function parseToc(input) {
   return {version:scalars.get("Version"), scripts:tables.get("RunOnStartup")};
 }
 
-function sha(file) {
-  return createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-}
-
 function verifySource() {
-  const toc = parseToc(fs.readFileSync(path.join(addon, "RiftAddon.toc"), "utf8"));
-  const core = fs.readFileSync(path.join(addon, "core.lua"), "utf8");
-  const readme = fs.readFileSync(path.join(addon, "README.md"), "utf8");
+  const pkg=readCollectorPackage(addon);
+  requireExactPackage(pkg);
+  const toc = parseToc(packageText(pkg,"RiftAddon.toc"));
+  const core = packageText(pkg,"core.lua");
+  const readme = packageText(pkg,"README.md");
   const m = core.match(/\bVERSION\s*=\s*"([0-9]+\.[0-9]+\.[0-9]+)"/);
   assert.ok(m, "core.lua version not found");
   assert.equal(toc.version, m[1], "TOC/core version mismatch");
   assert.ok(readme.includes(`RRECollector v${toc.version}`), "TOC/README version mismatch");
   // Future releases must show the shared VERSION in the window title and
   // startup chat; otherwise the operator can mistake old UI for a new build.
-  const ui = fs.readFileSync(path.join(addon, "ui.lua"), "utf8");
-  const main = fs.readFileSync(path.join(addon, "main.lua"), "utf8");
+  const ui = packageText(pkg,"ui.lua");
+  const main = packageText(pkg,"main.lua");
   assert.match(ui, /title:SetText\("RRE v"\s*\.\.\s*runtime\.VERSION\b/,
     "toolbar title must display the current shared addon version");
   assert.match(main, /local VERSION,\s*SCHEMA\s*=\s*RRECollectorRuntime\.VERSION\b/,
     "startup version must originate from the shared addon version");
   assert.match(main, /say\("v"\s*\.\.\s*VERSION\s*\.\.\s*" ready\. \/rre status"\)/,
     "startup chat must display the current shared addon version");
-  for (const name of toc.scripts) {
-    assert.ok(fs.statSync(path.join(addon, name)).isFile(), `missing module ${name}`);
-  }
-  return {version:toc.version, files:[...toc.scripts, "README.md", "RiftAddon.toc"]};
+  return {version:toc.version, files:COLLECTOR_FILES, pkg};
 }
 
-function verifyInstalled(installRoot, names) {
+function verifyInstalled(installRoot, source) {
   const resolved = path.resolve(installRoot);
   assert.equal(path.basename(resolved).toLowerCase(), "rrecollector",
     "install directory must be RRECollector");
   assert.equal(path.basename(path.dirname(resolved)).toLowerCase(), "addons",
     "install parent must be AddOns");
+  const installed=readCollectorPackage(resolved);
+  requireExactPackage(installed);
   let matched=0;
-  for (const name of names) {
-    const src = path.join(addon,name);
-    const dest = path.join(resolved,name);
-    assert.ok(fs.statSync(dest).isFile(), `installed file missing: ${name}`);
-    assert.equal(sha(src),sha(dest), `installed file differs: ${name}`);
+  for (const name of source.files) {
+    assert.equal(source.pkg.records.get(name).sha256,installed.records.get(name).sha256,
+      `installed file differs: ${name}`);
     matched++;
   }
-  return matched;
+  return {matched,retried:installed.retried};
 }
 
 try {
@@ -119,10 +110,11 @@ try {
   assert.ok(args.length===0 || (args.length===2 && args[0]==="--installed"),
     "usage: node tools/verify-rrecollector-package.mjs [--installed <AddOns/RRECollector>]");
   const source=verifySource();
-  const installed=args.length===2 ? verifyInstalled(args[1],source.files) : null;
+  const installed=args.length===2 ? verifyInstalled(args[1],source) : null;
   console.log(JSON.stringify({
     package:"RRECollector", version:source.version, manifest:"strict-pass",
-    sources:source.files.length, installedShaMatches:installed,
+    sources:source.files.length, installedShaMatches:installed?.matched??null,
+    stableReadRetries:{source:source.pkg.retried,installed:installed?.retried??[]},
     runtimeUiVerified:false, note:"Runtime requires a normal RIFT addon load and observed toolbar/save."
   }));
 } catch (error) {

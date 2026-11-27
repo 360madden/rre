@@ -7,6 +7,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {inspectCollectorReadiness} from './audit-rrecollector-readiness.mjs';
+import {readPackageMember} from './read-rrecollector-package.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const source=path.join(root,'addons','RRECollector');
 const allFiles=['core.lua','context.lua','abilities.lua','capabilities.lua',
@@ -215,6 +216,73 @@ test('missing latest snapshot stays absent, not complete',()=>{
     assert.equal(r.saved.abilityValidation.status,'absent');
     assert.equal(r.checks.acceptedAbilityComplete,false);
   }finally{f.cleanup();}
+});
+test('strict verifier and readiness reject unexpected package entries',()=>{
+  const f=fixture();
+  try{
+    const verifier=path.join(root,'tools','verify-rrecollector-package.mjs');
+    const verify=()=>spawnSync(process.execPath,[verifier,'--installed',f.installed],
+      {encoding:'utf8',timeout:5000});
+    const clean=verify();
+    assert.equal(clean.status,0,clean.stderr);
+    assert.equal(JSON.parse(clean.stdout).installedShaMatches,12);
+    fs.writeFileSync(path.join(f.installed,'unexpected.lua'),'-- fixture only');
+    const result=inspectCollectorReadiness(f.installed,f.saved);
+    assert.deepEqual(result.install.unexpected,['unexpected.lua']);
+    assert.equal(result.install.matchedCount,12);
+    assert.equal(result.checks.sourceInstalledByteIdentical,false);
+    const extra=verify();
+    assert.equal(extra.status,1);
+    assert.match(extra.stderr,/PACKAGE_FILE_SET_MISMATCH/);
+    fs.unlinkSync(path.join(f.installed,'unexpected.lua'));
+    fs.unlinkSync(path.join(f.installed,'units.lua'));
+    const missing=verify();
+    assert.equal(missing.status,1);
+    assert.match(missing.stderr,/PACKAGE_FILE_SET_MISMATCH/);
+  }finally{f.cleanup();}
+});
+test('expected package entry cannot be a directory',()=>{
+  const f=fixture();
+  try{
+    const entry=path.join(f.installed,'units.lua');
+    fs.unlinkSync(entry);
+    fs.mkdirSync(entry);
+    assert.throws(()=>inspectCollectorReadiness(f.installed,f.saved),
+      /PACKAGE_FILE_UNREADABLE:units\.lua/);
+  }finally{f.cleanup();}
+});
+test('linked package directory cannot qualify as original installed bytes',()=>{
+  const f=fixture();
+  try{
+    const real=path.join(f.tmp,'original-package');
+    fs.renameSync(f.installed,real);
+    fs.symlinkSync(real,f.installed,process.platform==='win32'?'junction':'dir');
+    assert.throws(()=>inspectCollectorReadiness(f.installed,f.saved),
+      /PACKAGE_DIRECTORY_NOT_PLAIN/);
+  }finally{f.cleanup();}
+});
+test('package member retries only one invalid metadata read',()=>{
+  for(const reason of ['saved-source-changed-before-read','saved-source-changed-during-read']){
+    let calls=0;
+    const result=readPackageMember('fixture',()=>{
+      if(++calls===1)throw Error(reason);
+      return {bytes:Buffer.from('stable')};
+    });
+    assert.equal(calls,2);
+    assert.equal(result.retried,true);
+    assert.equal(result.bytes.toString(),'stable');
+    calls=0;
+    assert.throws(()=>readPackageMember('fixture',()=>{calls++;throw Error(reason);}),
+      new RegExp(reason));
+    assert.equal(calls,2);
+  }
+  let calls=0;
+  assert.throws(()=>readPackageMember('fixture',()=>{
+    calls++;throw Error('saved-source-not-plain-file');
+  }),/saved-source-not-plain-file/);
+  assert.equal(calls,1);
+  const stable=readPackageMember('fixture',()=>({bytes:Buffer.from('stable')}));
+  assert.equal(stable.retried,false);
 });
 test('CLI reports usage failure without reading game or modifying files',()=>{
   const file=fileURLToPath(new URL('./audit-rrecollector-readiness.mjs',import.meta.url));
